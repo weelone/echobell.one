@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+fix-navbar {
+  @apply md:hidden;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
