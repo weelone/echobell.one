@@ -42,6 +42,7 @@ export default function Page(): React.ReactElement {
                 <p className="mt-5 line-clamp-3 text-sm/6 text-gray-600">{post.data.description}</p>
               </div>
               <div className="relative mt-8 flex items-center gap-x-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img alt="" src={post.data.authorAvatarLink} className="size-10 rounded-full bg-gray-50" />
                 <div className="text-sm/6">
                   <p className="font-semibold text-gray-900">
