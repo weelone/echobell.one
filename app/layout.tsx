@@ -4,8 +4,19 @@ import type { ReactNode } from 'react';
 
 import "./globals.css";
 import { RootProvider } from 'fumadocs-ui/provider';
+import { baseUrl, createMetadata } from '@/lib/metadata';
 
 export const runtime = 'edge';
+
+export const metadata = createMetadata({
+  title: {
+    template: '%s | Echobell',
+    default: 'Echobell',
+  },
+  description: 'Instant alerts for different scenarios.',
+  metadataBase: baseUrl,
+});
+
 
 const inter = Inter({
   subsets: ['latin'],
