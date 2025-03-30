@@ -12,8 +12,8 @@ export function NavLinks({
     href: string;
   }[];
 }) {
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  let timeoutRef = useRef<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   return (
     links.map(({ label, href }, index) => (
