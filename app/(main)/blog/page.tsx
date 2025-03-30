@@ -19,7 +19,7 @@ export default function Page(): React.ReactElement {
           className="mx-auto aspect-1155/678 w-[72.1875rem] bg-linear-to-tr from-[#ff80b5] to-orange-400 opacity-30"
         />
       </div>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">Echobell Blog</h2>
           <p className="mt-2 text-lg/8 text-gray-600">Explore our latest insights and stories.</p>
