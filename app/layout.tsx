@@ -1,4 +1,3 @@
-import { RootProvider } from 'fumadocs-ui/provider';
 import 'fumadocs-ui/style.css';
 import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
@@ -21,7 +20,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           minHeight: '100vh',
         }}
       >
-        <RootProvider>{children}</RootProvider>
+        {children}
       </body>
     </html>
   );

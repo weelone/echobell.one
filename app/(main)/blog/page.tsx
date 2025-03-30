@@ -9,28 +9,53 @@ export default function Page(): React.ReactElement {
   );
 
   return (
-    <main className="container max-sm:px-0 md:py-12">
-      <h1 className="mb-4 pb-2 text-4xl font-bold md:text-5xl">
-        Echobell Blog
-      </h1>
-      <div className="flex flex-col gap-4">
-        {posts.map((post) => (
-          <Link
-            key={post.url}
-            href={post.url}
-            className="flex flex-col bg-fd-card p-4 transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-          >
-            <p className="font-medium">{post.data.title}</p>
-            <p className="text-sm text-fd-muted-foreground">
-              {post.data.description}
-            </p>
-
-            <p className="mt-auto pt-4 text-xs text-fd-muted-foreground">
-              {new Date(post.data.date ?? post.file.name).toDateString()}
-            </p>
-          </Link>
-        ))}
+    <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
+      <div aria-hidden="true" className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl">
+        <div
+          style={{
+            clipPath:
+              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+          }}
+          className="mx-auto aspect-1155/678 w-[72.1875rem] bg-linear-to-tr from-[#ff80b5] to-orange-400 opacity-30"
+        />
       </div>
-    </main>
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:mx-0">
+          <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">Echobell Blog</h2>
+          <p className="mt-2 text-lg/8 text-gray-600">Explore our latest insights and stories.</p>
+        </div>
+        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          {posts.map((post) => (
+            <article key={post.url} className="flex max-w-xl flex-col items-start justify-between">
+              <div className="flex items-center gap-x-4 text-xs">
+                <time dateTime={post.data.date.toDateString()} className="text-gray-500">
+                  {post.data.date.toDateString()}
+                </time>
+              </div>
+              <div className="group relative">
+                <h3 className="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
+                  <Link href={post.url}>
+                    <span className="absolute inset-0" />
+                    {post.data.title}
+                  </Link>
+                </h3>
+                <p className="mt-5 line-clamp-3 text-sm/6 text-gray-600">{post.data.description}</p>
+              </div>
+              <div className="relative mt-8 flex items-center gap-x-4">
+                <img alt="" src={post.data.authorAvatarLink} className="size-10 rounded-full bg-gray-50" />
+                <div className="text-sm/6">
+                  <p className="font-semibold text-gray-900">
+                    <a href={post.data.authorLink}>
+                      <span className="absolute inset-0" />
+                      {post.data.author}
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

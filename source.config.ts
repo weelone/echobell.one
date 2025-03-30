@@ -10,7 +10,9 @@ export const blog = defineCollections({
   dir: 'content/blog',
   schema: frontmatterSchema.extend({
     author: z.string(),
-    date: z.string().date().or(z.date()).optional(),
+    authorAvatarLink: z.string().url().or(z.string()),
+    authorLink: z.string().url(),
+    date: z.date(),
   }),
 });
 

@@ -18,41 +18,41 @@ export default async function Page(props: {
   const toc = page.data.toc;
 
   return (
-    <>
-      <div className='container'>
-        <h1 className="mb-2 text-3xl font-bold">
-          {page.data.title}
-        </h1>
-        <p className="mb-4">{page.data.description}</p>
+    <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl lg:mx-0">
+          <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">{page.data.title}</h2>
+          <p className="mt-2 text-lg/8 text-gray-600">{page.data.description}</p>
+        </div>
+        <article className="container flex flex-col px-0 py-8 lg:flex-row">
+          <div className="prose min-w-0 flex-1 lg:pr-8">
+            <InlineTOC className='mb-8' items={toc} />
+            <Mdx
+              components={{
+                ...defaultMdxComponents,
+                File,
+                Files,
+                Folder,
+                Tabs,
+                Tab,
+              }}
+            />
+          </div>
+          <div className="flex flex-col gap-4 border-l p-4 text-sm lg:w-[250px]">
+            <div>
+              <p className="mb-1 text-fd-muted-foreground">Written by</p>
+              <p className="font-medium">{page.data.author}</p>
+            </div>
+            <div>
+              <p className="mb-1 text-sm text-fd-muted-foreground">At</p>
+              <p className="font-medium">
+                {new Date(page.data.date ?? page.file.name).toDateString()}
+              </p>
+            </div>
+          </div>
+        </article>
       </div>
-      <article className="container flex flex-col px-0 py-8 lg:flex-row lg:px-4">
-        <div className="prose min-w-0 flex-1 p-4">
-          <InlineTOC items={toc} />
-          <Mdx
-            components={{
-              ...defaultMdxComponents,
-              File,
-              Files,
-              Folder,
-              Tabs,
-              Tab,
-            }}
-          />
-        </div>
-        <div className="flex flex-col gap-4 border-l p-4 text-sm lg:w-[250px]">
-          <div>
-            <p className="mb-1 text-fd-muted-foreground">Written by</p>
-            <p className="font-medium">{page.data.author}</p>
-          </div>
-          <div>
-            <p className="mb-1 text-sm text-fd-muted-foreground">At</p>
-            <p className="font-medium">
-              {new Date(page.data.date ?? page.file.name).toDateString()}
-            </p>
-          </div>
-        </div>
-      </article>
-    </>
+    </div>
   );
 }
 

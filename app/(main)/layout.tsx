@@ -1,10 +1,14 @@
-import { HomeLayout } from "fumadocs-ui/layouts/home";
-import { baseOptions } from "../layout.config";
+import { Footer } from "@/components/Footer";
+import Nav from "@/components/Nav";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <HomeLayout {...baseOptions}>{children}</HomeLayout>;
+  return <div>
+    <Nav />
+    {children}
+    <Footer />
+  </div>;
 }
