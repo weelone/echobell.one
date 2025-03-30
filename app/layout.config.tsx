@@ -1,4 +1,5 @@
 import { Logo } from '@/components/Logo';
+import { SiAppstore } from '@icons-pack/react-simple-icons';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 
 /**
@@ -20,5 +21,25 @@ export const baseOptions: BaseLayoutProps = {
     ),
     transparentMode: 'top',
   },
+  links: [
+    {
+      text: 'Documentations',
+      url: '/docs',
+    },
+    {
+      text: "Blog",
+      url: '/blog',
+    },
+    {
+      text: "Pricing",
+      url: '/#pricing',
+    },
+    {
+      type: 'icon',
+      icon: <SiAppstore />,
+      text: 'App Store',
+      url: '/',
+    }
+  ],
   githubUrl: 'https://github.com/weelone/echobell.one',
 };
