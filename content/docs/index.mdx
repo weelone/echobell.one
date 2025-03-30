@@ -1,6 +1,147 @@
 ---
-title: Get Started
+title: Quick Start
 description: Get started with Echobell
 ---
 
-Welcome to Echobell docs, you can learn what Echobell is and how to use it.
+# Quick Start Guide
+
+Welcome to Echobell, the instant alert app that helps you stay on top of important notifications. This guide will walk you through setting up and using Echobell effectively.
+
+## What is Echobell?
+
+Echobell is a powerful notification management tool that:
+- Handles webhooks and emails as triggers
+- Sends customized notifications to subscribers
+- Allows you to create and share notification channels
+- Keeps your notification data private on your device
+
+![Echobell Overview](/images/docs/screenshot-overview.en.png)
+
+## Core Concepts
+
+Before diving in, let's understand some key concepts:
+
+### Channels
+
+A **Channel** is the core unit in Echobell for organizing and distributing notifications:
+- Each channel has a unique **Name** and **Color** for easy identification
+- Channels contain **Notification Templates** that determine what information is sent
+- Channels are triggered through webhooks or emails
+- You can create your own channels or subscribe to others
+
+### Triggers
+
+A **Trigger** is what activates a channel to send notifications:
+- **Webhook**: A URL endpoint that, when called, activates the channel
+- **Email**: An email address linked to the channel that, when messaged, activates the channel
+
+### Notification Types
+
+When subscribing to a channel, you can choose from different notification styles:
+- **Normal**: Standard app notification
+- **Time Sensitive**: High-priority notification that can break through focus modes
+- **Calling**: Call-like alert for the most urgent matters
+
+## Getting Started
+
+### 1. Setting Up Your Account
+
+1. Download Echobell from the App Store
+2. Open the app and sign in with your email or sign in with Apple
+
+![Account Setup](/images/docs/screenshot-sign-in.en.png)
+
+### 2. Creating Your First Channel
+
+1. From the main view, tap the button on the bottom right corner to navigate to the **Channels** view
+2. Tap the **+** button to create a new channel
+2. Enter a name for your channel (e.g., "Server Alerts")
+3. Select a color to identify your channel
+4. Configure your notification templates:
+   - **Title template**: What appears as the notification headline
+   - **Body template**: The detailed content of the notification
+7. Optionally, toggle whether to subscribe the channel to yourself
+8. Choose a **Notification Type** for your channel (Normal, Time Sensitive, or Calling)
+9. Save your new channel
+
+![Create Channel](/images/docs/screenshot-create-channel.en.png)
+
+### 3. Setting Up a Trigger
+
+Once your channel is created, there are two ways to trigger notifications: via webhooks or emails. Tap the channel you just created to access its settings. In the channel settings, you can find the **Triggers** section.
+
+![Channel Settings](/images/docs/screenshot-channel-settings.en.png)
+
+#### Webhook Trigger
+
+1. Tap the **webhook** button to copy the generated webhook URL
+2. Integrate this URL into your systems (e.g., server monitoring, CI/CD pipeline)
+3. When the URL is called, your channel will be triggered
+
+You can provide variables to your notification templates in two ways:
+
+```bash
+# Example webhook call with query parameters
+curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=CPU%20usage%20at%2095%25"
+
+# OR with JSON body
+curl -X POST https://hook.echobell.one/t/your-unique-id \
+  -H "Content-Type: application/json" \
+  -d '{"server": "production", "status": "critical", "message": "CPU usage at 95%"}'
+```
+
+These variables will be used to populate your notification templates. For example, if your title template is `{{server}} - {{status}}`, it would render as "production - critical".
+
+#### Email Trigger
+
+1. Tap the **email** button to copy the generated email address for your channel
+2. When an email is sent to this address, your channel will be triggered
+
+With email triggers, Echobell automatically extracts these variables from the email:
+- `from`: The sender's email address
+- `to`: The recipient's email address (your channel's email)
+- `subject`: The email subject line
+- `text`: The plain text content of the email
+- `html`: The HTML content of the email
+
+You can use these variables in your templates, such as `{{subject}}` or `{{text}}`.
+
+### 4. Customizing Notification Templates
+
+Templates use variables that are filled from the trigger data:
+
+1. In your channel settings, go to **Notification Templates**
+2. For the title template, you might use: `{{server}} - {{status}}`
+3. For the body template, you could use: `{{message}} Detected at {{timestamp}}`
+4. Variables are enclosed in double curly braces: `{{variable_name}}`
+5. Test your template with sample data
+
+### 5. Subscribing to Channels
+
+1. You can share the subscription link of your channels to others
+2. Or you can use subscription links shared by others to subscribe to the channels
+3. Tap **Subscribe** on the channels view
+4. Enter the subscription link
+4. Choose your preferred **Notification Type**:
+   - Normal for standard alerts
+   - Time Sensitive for important alerts
+   - Calling for critical situations
+5. Confirm your subscription
+
+## Privacy and Data Storage
+
+Echobell prioritizes your privacy:
+- Only user accounts, channels, and subscription data are stored on our servers
+- Notification content and history are stored locally on your device
+- Your alert data never leaves your control
+
+## Next Steps
+
+Now that you've set up your first channel:
+- Explore advanced template options
+- Share your channels with team members
+- Set up notification schedules and quiet hours
+
+For more detailed information on each feature, check out our [Feature Guides](/docs/features) section.
+
+Need help? Visit our [Support Center](/docs/support) or email echobell@weelone.com.
