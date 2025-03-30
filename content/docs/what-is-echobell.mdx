@@ -1,0 +1,95 @@
+---
+title: What is Echobell?
+description: Learn about Echobell, the instant alert app that simplifies notifications management.
+---
+
+# What is Echobell?
+
+Echobell is an instant alert application designed to simplify notifications management. It handles webhooks and emails to trigger customized notifications or calls, ensuring you never miss important alerts.
+
+## Core Features
+
+- **Instant Alerts**: Receive notifications in real-time when your channels are triggered
+- **Multiple Trigger Methods**: Set up webhooks or email-based triggers
+- **Customizable Notifications**: Configure templates with dynamic variables
+- **Subscription System**: Create channels and let others subscribe to them
+- **Privacy-Focused**: Only essential data is stored on our servers, while notification history stays on your device
+
+## How Echobell Works
+
+When a webhook is called or an email is received, Echobell processes the incoming data and sends notifications to all channel subscribers. The notification content is dynamically generated based on your templates and variables provided in the trigger.
+
+## Key Concepts
+
+### Channels
+
+A channel is the core entity in Echobell. Each channel:
+
+- Has a distinct name and color for easy identification
+- Contains notification templates for title and body content
+- Can be triggered via webhook or email
+- Can be shared with others using subscription links
+
+### Notification Types
+
+When subscribing to a channel, you can choose from three notification types:
+
+- **Normal**: Standard app notifications
+- **Time Sensitive**: Notifications that can break through certain focus modes
+- **Calling**: Call-like alerts for critical notifications
+
+### Template Variables
+
+Make your notifications dynamic by using variables in your templates:
+
+```
+Title: Server {{server_name}} is down!
+Body: CPU usage reached {{cpu_usage}}%
+```
+
+When triggered with the appropriate variables, these templates generate personalized notifications.
+
+### Triggering Methods
+
+#### Webhook Triggers
+
+Trigger channels via HTTP requests with variables in query strings or JSON bodies:
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+
+# OR
+
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+#### Email Triggers
+
+Send emails to channel-specific addresses. Echobell automatically extracts variables like:
+- `from`: Sender's email address
+- `subject`: Email subject line
+- `text`: Plain text content
+- `html`: HTML content
+
+## Privacy and Data Storage
+
+Echobell is designed with privacy in mind:
+- Only user data, channel configurations, and subscription information are stored on our servers
+- Notification history and records remain exclusively on your local device
+
+## Getting Started
+
+To start using Echobell, you'll need to:
+1. Download Echobell app from App Store
+2. Sign in using email or your Apple ID
+3. Create a channel and customize its settings
+4. Integrate your webhook or email trigger
+5. Start receiving notifications
+
+<Callout type="warn">Echobell requires notification permission to function properly, as all features are notification-based.</Callout>
