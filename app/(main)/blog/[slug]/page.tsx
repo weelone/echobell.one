@@ -21,8 +21,8 @@ export default async function Page(props: {
     <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">{page.data.title}</h2>
-          <p className="mt-2 text-lg/8 text-gray-600">{page.data.description}</p>
+          <h2 className="text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl">{page.data.title}</h2>
+          <p className="mt-2 text-lg/8 opacity-60">{page.data.description}</p>
         </div>
         <article className="container flex flex-col px-0 py-8 lg:flex-row">
           <div className="prose min-w-0 flex-1 lg:pr-8">

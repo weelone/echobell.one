@@ -36,20 +36,20 @@ export default function FeatureSection() {
           <div className="lg:pt-4 lg:pr-8">
             <div className="lg:max-w-lg">
               <h2 className="text-base/7 font-semibold text-orange-600">Instant alerts</h2>
-              <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
+              <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl">
                 Stay on top of important notifications
               </p>
-              <p className="mt-6 text-lg/8 text-gray-600">
+              <p className="mt-6 text-lg/8 opacity-60">
                 Welcome to Echobell, the instant alert app that helps you stay on top of important notifications. 
               </p>
-              <dl className="mt-10 max-w-xl space-y-8 text-base/7 text-gray-600 lg:max-w-none">
+              <dl className="mt-10 max-w-xl space-y-8 text-base/7 lg:max-w-none">
                 {features.map((feature) => (
                   <div key={feature.name} className="relative pl-9">
-                    <dt className="inline font-semibold text-gray-900">
+                    <dt className="inline font-semibold opacity-90">
                       <feature.icon aria-hidden="true" className="absolute top-1 left-1 size-5 text-orange-600" />
                       {feature.name}
                     </dt>{' '}
-                    <dd className="inline">{feature.description}</dd>
+                    <dd className="inline opacity-60">{feature.description}</dd>
                   </div>
                 ))}
               </dl>
@@ -60,7 +60,7 @@ export default function FeatureSection() {
             src="/images/docs/screenshot-overview.en.png"
             width={2432}
             height={1442}
-            className="w-[32rem] max-w-none rounded-xl ring-1 shadow-xl ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0"
+            className="w-[32rem] max-w-none rounded-xl ring-1 shadow-xl ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 dark:brightness-85"
           />
         </div>
       </div>

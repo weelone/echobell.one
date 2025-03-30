@@ -4,23 +4,76 @@ import { AppStoreQRCode } from "./QRCode";
 import { Logo } from "./Logo";
 import { NavLinks } from "./NavLinks";
 
-const links = [
+const linkGroups = [
+  {
+    label: "Products",
+    links: [
+      {
+        label: "Spark Memos",
+        href: "https://sparkmemos.com",
+      },
+      {
+        label: "CassetteOne",
+        href: "https://cassette.one",
+      },
+      {
+        label: "Weelone",
+        href: "https://weelone.com",
+      }
+    ]
+  },
+  {
+    label: "Communities",
+    links: [
+      {
+
+        label: "Discord",
+        href: "https://discord.gg/s4JqfrgccJ",
+      },
+      {
+        label: "Telegram",
+        href: "https://t.me/EchobellGroup",
+      },
+      {
+        label: "X (Twitter)",
+        href: "https://x.com/EchobellApp",
+      }
+    ]
+  },
   {
     label: "Documentation",
-    href: "/docs",
+    links: [
+      {
+        label: "Quick Start",
+        href: "/docs",
+      },
+      {
+        label: "Introduction",
+        href: "/docs/what-is-echobell",
+      },
+      {
+        label: "Blog",
+        href: "/blog",
+      }
+    ]
   },
   {
-    label: "Blog",
-    href: "/blog",
-  },
-  {
-    label: "Privacy",
-    href: "/privacy",
-  },
-  {
-    label: "Pricing",
-    href: "/#pricing",
-  },
+    label: "Support",
+    links: [
+      {
+        label: "Contact Us",
+        href: "mailto:echobell@weelone.com",
+      },
+      {
+        label: "Privacy Policy",
+        href: "/privacy",
+      },
+      {
+        label: "Terms of Service",
+        href: "/terms",
+      }
+    ]
+  }
 ]
 
 function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
@@ -37,44 +90,53 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
 
 export function Footer() {
   return (
-    <footer className="border-t border-stone-200">
-      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className="flex flex-col items-start justify-between gap-y-12 pb-6 pt-16 lg:flex-row lg:items-center lg:py-16">
+    <footer className="border-t border-gray-500/30 overflow-hidden relative isolate p-6 lg:p-8">
+      <div className='mx-auto max-w-7xl'>
+        <div className="flex flex-col items-start justify-between gap-y-12 pb-6 pt-16 lg:flex-row lg:py-16">
           <div>
-            <div className="flex items-center text-stone-900">
+            <div className="flex items-center opacity-90">
               <Logo className="h-10 w-10 flex-none text-orange-500" />
               <div className="ml-4">
                 <p className="text-base font-semibold">Echobell</p>
-                <p className="mt-1 text-sm">Instant alerts for different scenarios.</p>
+                <p className="mt-1 text-sm opacity-60">Instant alerts for different scenarios.</p>
               </div>
             </div>
-            <nav className="mt-11 flex gap-8">
-              <NavLinks links={links} />
-            </nav>
-          </div>
-          <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors hover:bg-stone-100 sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
-            <div className="relative flex h-24 w-24 flex-none items-center justify-center">
-              <QrCodeBorder className="absolute inset-0 h-full w-full stroke-stone-300 transition-colors group-hover:stroke-orange-500" />
-              <AppStoreQRCode />
-            </div>
-            <div className="ml-8 lg:w-64">
-              <p className="text-base font-semibold text-stone-900">
-                <Link href="#" target="_blank">
-                  <span className="absolute inset-0 sm:rounded-2xl" />
-                  Download from App Store
-                </Link>
-              </p>
-              <p className="mt-1 text-sm text-stone-700">
-                Scan the QR code to download the app.
-              </p>
+            <div className="group relative mt-8 flex items-center self-stretch transition-colors sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto">
+              <div className="relative flex h-24 w-24 flex-none items-center justify-center">
+                <QrCodeBorder className="absolute inset-0 h-full w-full stroke-gray-300 transition-colors group-hover:stroke-orange-500" />
+                <AppStoreQRCode />
+              </div>
+              <div className="ml-8 lg:w-64">
+                <p className="text-base font-semibold opacity-90">
+                  <Link href="#" target="_blank">
+                    <span className="absolute inset-0 sm:rounded-2xl" />
+                    Download from App Store
+                  </Link>
+                </p>
+                <p className="mt-1 text-sm opacity-60">
+                  Scan the QR code to download the app.
+                </p>
+              </div>
             </div>
           </div>
+          <div>
+          </div>
+          <nav className="w-full grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-16 sm:ml-16">
+            {linkGroups.map((group) => (
+              <div key={group.label} className="flex flex-col">
+                <h4 className="text-sm font-semibold opacity-90">{group.label}</h4>
+                <ul className="mt-2 space-y-2 flex flex-col gap-2">
+                  <NavLinks links={group.links} />
+                </ul>
+              </div>
+            ))}
+          </nav>
         </div>
-        <div className="flex flex-col items-center border-t border-stone-200 pb-12 pt-8 md:flex-row-reverse md:justify-between md:pt-6">
-          <p className="mt-6 text-sm text-stone-500 md:mt-0">
+        <div className="flex flex-col items-center border-t border-gray-500/30 pb-12 pt-8 md:flex-row-reverse md:justify-between md:pt-6">
+          <p className="mt-6 text-sm opacity-60 md:mt-0">
             echobell@weelone.com
           </p>
-          <p className="mt-6 text-sm text-stone-500 md:mt-0">
+          <p className="mt-6 text-sm opacity-60 md:mt-0">
             &copy; Copyright {new Date().getFullYear()}. All rights reserved.
           </p>
         </div>

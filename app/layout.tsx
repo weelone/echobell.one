@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import "./globals.css";
+import { RootProvider } from 'fumadocs-ui/provider';
 
 export const runtime = 'edge';
 
@@ -20,7 +21,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           minHeight: '100vh',
         }}
       >
-        {children}
+        <RootProvider>
+          {children}
+        </RootProvider>
       </body>
     </html>
   );
