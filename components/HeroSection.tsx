@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import AppStore from '@/public/app-store.en.svg';
+import AppStore from '@/public/images/app-store.en.svg';
 
 export default function HeroSection() {
   return (

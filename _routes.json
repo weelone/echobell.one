@@ -1,0 +1,4 @@
+{
+	"version": 1,
+	"exclude": ["/images/*", "/favicon.ico", "/apple-icon.png", "/icon.png"]
+}
