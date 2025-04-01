@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "48F5QMQ7SW.one.echobell.Echobell"
+        ],
+        "components": [
+          {
+            "/": "/subscription/*",
+            "comment": "Matches channel subscription urls."
+          }
+        ]
+      }
+    ]
+  }
+}
