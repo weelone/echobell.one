@@ -1,0 +1,1 @@
+export const APP_STORE_LINK = "https://apps.apple.com/app/id6743597198";

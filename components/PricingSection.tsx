@@ -1,3 +1,4 @@
+import { APP_STORE_LINK } from "@/constants"
 import { CheckIcon } from "lucide-react"
 
 const tiers = [
@@ -105,7 +106,8 @@ export default function PricingSection() {
               ))}
             </ul>
             <a
-              href="#"
+              href={APP_STORE_LINK}
+              target="_blank"
               aria-describedby={tier.id}
               className={classNames(
                 tier.featured

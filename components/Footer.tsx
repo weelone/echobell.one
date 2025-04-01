@@ -1,8 +1,7 @@
-import Link from "next/link";
-
 import { AppStoreQRCode } from "./QRCode";
 import { Logo } from "./Logo";
 import { NavLinks } from "./NavLinks";
+import { APP_STORE_LINK } from "@/constants";
 
 const linkGroups = [
   {
@@ -108,10 +107,10 @@ export function Footer() {
               </div>
               <div className="ml-8 lg:w-64">
                 <p className="text-base font-semibold opacity-90">
-                  <Link href="#" target="_blank">
+                  <a href={APP_STORE_LINK} target="_blank">
                     <span className="absolute inset-0 sm:rounded-2xl" />
                     Download from App Store
-                  </Link>
+                  </a>
                 </p>
                 <p className="mt-1 text-sm opacity-60">
                   Scan the QR code to download the app.

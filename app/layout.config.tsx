@@ -1,4 +1,5 @@
 import { Logo } from '@/components/Logo';
+import { APP_STORE_LINK } from '@/constants';
 import { SiAppstore } from '@icons-pack/react-simple-icons';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 
@@ -38,7 +39,7 @@ export const baseOptions: BaseLayoutProps = {
       type: 'icon',
       icon: <SiAppstore />,
       text: 'App Store',
-      url: '/',
+      url: APP_STORE_LINK,
     }
   ],
   githubUrl: 'https://github.com/weelone/echobell.one',

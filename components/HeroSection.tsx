@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import AppStore from '@/public/images/app-store.en.svg';
+import { APP_STORE_LINK } from "@/constants";
 
 export default function HeroSection() {
   return (
@@ -37,7 +38,8 @@ export default function HeroSection() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a
-                href="#"
+                href={APP_STORE_LINK}
+                target="_blank"
               >
                 <Image src={AppStore} alt="App Store" />
               </a>
