@@ -6,12 +6,16 @@ import Image from 'next/image';
 
 import AppStore from '@/public/images/app-store.en.svg';
 
+interface SubscriptionPageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
 export default async function SubscriptionPage({
   params,
-}: {
-  params: { slug: string };
-}) {
-  const { slug: subscriptionToken } = params;
+}: SubscriptionPageProps) {
+  const { slug: subscriptionToken } = await params;
   const channel = await fetchChannelBySubscriptionToken(subscriptionToken);
 
   if (!channel) {
