@@ -7,10 +7,10 @@ import { File, Files, Folder } from 'fumadocs-ui/components/files';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 export default async function Page(props: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ lang: string;slug: string }>;
 }) {
   const params = await props.params;
-  const page = blog.getPage([params.slug]);
+  const page = blog.getPage([params.slug], params.lang);
 
   if (!page) notFound();
 
