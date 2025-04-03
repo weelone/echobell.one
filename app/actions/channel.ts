@@ -9,6 +9,7 @@ export async function fetchChannelBySubscriptionToken(token: string) {
   
   return channel ? {
     id: channel.id as number,
+    color: channel.color as string,
     name: channel.name as string,
     titleTemplate: channel.title_template as string,
     bodyTemplate: channel.body_template as string,

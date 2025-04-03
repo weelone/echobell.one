@@ -40,6 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Wrangler
+.wrangler
+
 # generated content
 .contentlayer
 .content-collections
