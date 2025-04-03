@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           minHeight: '100vh',
         }}
       >
-        <RootProvider>
+        <RootProvider search={{enabled: false}}>
           {children}
         </RootProvider>
       </body>
