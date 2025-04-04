@@ -9,7 +9,7 @@ import { LanguageToggle, LanguageToggleText } from 'fumadocs-ui/components/layou
 import { ThemeToggle } from 'fumadocs-ui/components/layout/theme-toggle'
 import { uiDictionary } from '@/lib/i18n'
 
-export default function Nav({lang}: { lang: string }) {
+export default function Nav({ lang }: { lang: string }) {
   const t = uiDictionary[lang as keyof typeof uiDictionary].nav
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -67,6 +67,13 @@ export default function Nav({lang}: { lang: string }) {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
+                <div className='flex justify-between'>
+                  <ThemeToggle className="p-0" />
+                  <LanguageToggle className="me-1.5">
+                    <LanguagesIcon className="size-4.5" />
+                    <LanguageToggleText className="md:hidden" />
+                  </LanguageToggle>
+                </div>
                 {t.navigation.map((item) => (
                   <Link
                     key={item.name}
