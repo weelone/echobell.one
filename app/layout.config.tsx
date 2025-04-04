@@ -12,6 +12,7 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  * Docs Layout: app/(docs)/docs/layout.tsx
  */
 export function baseOptions(locale: string): BaseLayoutProps {
+  console.log('baseOptions', locale);
   return {
     i18n,
     nav: {
@@ -28,15 +29,15 @@ export function baseOptions(locale: string): BaseLayoutProps {
     links: [
       {
         text: 'Documentations',
-        url: `${locale}/docs`,
+        url: `/${locale}/docs`,
       },
       {
         text: "Blog",
-        url: `${locale}/blog`,
+        url: `/${locale}/blog`,
       },
       {
         text: "Pricing",
-        url: `${locale}/#pricing`,
+        url: `/${locale}/#pricing`,
       },
       {
         type: 'icon',
