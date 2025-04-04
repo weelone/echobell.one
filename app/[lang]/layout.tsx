@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import "./globals.css";
 import { RootProvider } from 'fumadocs-ui/provider';
 import { baseUrl, createMetadata } from '@/lib/metadata';
-import { I18nProvider, Translations } from 'fumadocs-ui/contexts/i18n';
+import { Translations } from 'fumadocs-ui/contexts/i18n';
 
 export const runtime = 'edge';
 
@@ -53,23 +53,24 @@ export default async function Layout({ params, children }: { params: Promise<{ l
 
   return (
     <html lang={lang} className={inter.className} suppressHydrationWarning>
-      <I18nProvider
-        locale={lang}
-        locales={locales}
-        translations={{ zh }[lang]}
+      <body
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}
       >
-        <RootProvider search={{ enabled: false }}>
-          <body
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: '100vh',
-            }}
-          >
-            {children}
-          </body>
+        <RootProvider
+          i18n={{
+            locale: lang,
+            locales,
+            translations: { zh }[lang],
+          }}
+          search={{ enabled: false }}
+        >
+          {children}
         </RootProvider>
-      </I18nProvider>
+      </body>
     </html>
   );
 }
