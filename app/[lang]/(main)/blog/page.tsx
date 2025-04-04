@@ -1,8 +1,12 @@
 import Link from 'next/link';
 import { blog } from '@/lib/source';
 
-export default function Page(): React.ReactElement {
-  const posts = [...blog.getPages()].sort(
+export default async function Page({params}: {
+  params: Promise<{ lang: string }>,
+}) {
+  const { lang } = await params;
+
+  const posts = [...blog.getPages(lang)].sort(
     (a, b) =>
       new Date(b.data.date ?? b.file.name).getTime() -
       new Date(a.data.date ?? a.file.name).getTime(),

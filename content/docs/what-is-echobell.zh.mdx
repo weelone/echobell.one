@@ -1,64 +1,64 @@
 ---
-title: What is Echobell?
-description: Learn about Echobell, the instant alert app that simplifies notifications management.
+title: 什么是 Echobell？
+description: 了解 Echobell，一款简化通知管理的即时提醒应用。
 ---
 
-# What is Echobell?
+# 什么是 Echobell？
 
-Echobell is an instant alert application designed to simplify notifications management. It handles webhooks and emails to trigger customized notifications or calls, ensuring you never miss important alerts.
+Echobell 是一款专为简化通知管理而设计的即时提醒应用。它通过处理 webhook 和电子邮件来触发自定义通知或来电提醒，确保您不会错过重要提醒。
 
-## Core Features
+## 核心功能
 
-- **Instant Alerts**: Receive notifications in real-time when your channels are triggered
-- **Multiple Trigger Methods**: Set up webhooks or email-based triggers
-- **Customizable Notifications**: Configure templates with dynamic variables
-- **Subscription System**: Create channels and let others subscribe to them
-- **Privacy-Focused**: Only essential data is stored on our servers, while notification history stays on your device
+- **即时提醒**：当您的频道被触发时，实时接收通知
+- **多种触发方式**：支持设置 webhook 或基于电子邮件的触发器
+- **自定义通知**：使用动态变量配置通知模板
+- **订阅系统**：创建频道并允许他人订阅
+- **注重隐私**：我们的服务器仅存储必要数据，通知历史保存在您的设备上
 
-## How Echobell Works
+## Echobell 如何工作
 
-When a webhook is called or an email is received, Echobell processes the incoming data and sends notifications to all channel subscribers. The notification content is dynamically generated based on your templates and variables provided in the trigger.
+当 webhook 被调用或收到电子邮件时，Echobell 会处理传入的数据，并向所有频道订阅者发送通知。通知内容根据您的模板和触发时提供的变量动态生成。
 
-## Key Concepts
+## 核心概念
 
-### Channels
+### 频道
 
-A channel is the core entity in Echobell. Each channel:
+频道是 Echobell 的核心实体。每个频道：
 
-- Has a distinct name and color for easy identification
-- Contains notification templates for title and body content
-- Can be triggered via webhook or email
-- Can be shared with others using subscription links
+- 具有独特的名称和颜色，便于识别
+- 包含用于标题和内容的通知模板
+- 可通过 webhook 或电子邮件触发
+- 可使用订阅链接与他人共享
 
-### Notification Types
+### 通知类型
 
-When subscribing to a channel, you can choose from three notification types:
+订阅频道时，您可以选择以下三种通知类型：
 
-- **Normal**: Standard app notifications
-- **Time Sensitive**: Notifications that can break through certain focus modes
-- **Calling**: Call-like alerts for critical notifications
+- **普通**：标准应用通知
+- **时效性**：可以突破某些专注模式的通知
+- **来电**：用于重要通知的类电话提醒
 
-### Template Variables
+### 模板变量
 
-Make your notifications dynamic by using variables in your templates:
+使用模板中的变量使您的通知更加灵活：
 
 ```
-Title: Server {{server_name}} is down!
-Body: CPU usage reached {{cpu_usage}}%
+标题：服务器 {{server_name}} 已宕机！
+内容：CPU 使用率达到 {{cpu_usage}}%
 ```
 
-When triggered with the appropriate variables, these templates generate personalized notifications.
+当使用适当的变量触发时，这些模板会生成个性化的通知。
 
-### Triggering Methods
+### 触发方式
 
-#### Webhook Triggers
+#### Webhook 触发
 
-Trigger channels via HTTP requests with variables in query strings or JSON bodies:
+通过 HTTP 请求触发频道，变量可以在查询字符串或 JSON 正文中传递：
 
 ```http
 GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
 
-# OR
+# 或者
 
 POST https://hook.echobell.one/t/xxx
 Content-Type: application/json
@@ -69,27 +69,27 @@ Content-Type: application/json
 }
 ```
 
-#### Email Triggers
+#### 电子邮件触发
 
-Send emails to channel-specific addresses. Echobell automatically extracts variables like:
-- `from`: Sender's email address
-- `subject`: Email subject line
-- `text`: Plain text content
-- `html`: HTML content
+发送邮件到频道特定地址。Echobell 会自动提取以下变量：
+- `from`：发件人邮箱地址
+- `subject`：邮件主题
+- `text`：纯文本内容
+- `html`：HTML 内容
 
-## Privacy and Data Storage
+## 隐私和数据存储
 
-Echobell is designed with privacy in mind:
-- Only user data, channel configurations, and subscription information are stored on our servers
-- Notification history and records remain exclusively on your local device
+Echobell 在设计时特别注重隐私：
+- 我们的服务器仅存储用户数据、频道配置和订阅信息
+- 通知历史和记录完全保存在您的本地设备上
 
-## Getting Started
+## 开始使用
 
-To start using Echobell, you'll need to:
-1. Download Echobell app from [App Store](https://apps.apple.com/app/id6743597198)
-2. Sign in using email or your Apple ID
-3. Create a channel and customize its settings
-4. Integrate your webhook or email trigger
-5. Start receiving notifications
+要开始使用 Echobell，您需要：
+1. 从 [App Store](https://apps.apple.com/app/id6743597198) 下载 Echobell 应用
+2. 使用电子邮件或 Apple ID 登录
+3. 创建频道并自定义设置
+4. 集成您的 webhook 或电子邮件触发器
+5. 开始接收通知
 
-<Callout type="warn">Echobell requires notification permission to function properly, as all features are notification-based.</Callout>
+<Callout type="warn">Echobell 需要通知权限才能正常运行，因为所有功能都是基于通知的。</Callout>
