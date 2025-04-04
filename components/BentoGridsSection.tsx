@@ -2,14 +2,17 @@ import recordsImage from '@/public/images/screenshots/records.en.png'
 import privacyImage from '@/public/images/privacy.png'
 import speedImage from '@/public/images/speed.png'
 import Image from 'next/image'
+import { uiDictionary } from '@/lib/i18n'
 
-export default function BentoGridsSection() {
+export default function BentoGridsSection({ lang }: { lang: string }) {
+  const t = uiDictionary[lang as keyof typeof uiDictionary].features
+
   return (
     <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-        <h2 className="text-center text-base/7 font-semibold text-orange-600">Powerful Features</h2>
+        <h2 className="text-center text-base/7 font-semibold text-orange-600">{t.title}</h2>
         <p className="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance opacity-90 sm:text-5xl">
-          Everything you need for instant alerts
+          {t.subtitle}
         </p>
         <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
           <div className="relative lg:row-span-2">
@@ -17,10 +20,10 @@ export default function BentoGridsSection() {
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
               <div className="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
                 <p className="mt-2 text-lg font-medium tracking-tight opacity-90 max-lg:text-center">
-                  Multiple Notification Types
+                  {t.multipleNotifications.title}
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 opacity-60 max-lg:text-center">
-                  Choose from normal notifications, time-sensitive alerts that break through focus modes, or call-like alerts for critical situations.
+                  {t.multipleNotifications.description}
                 </p>
               </div>
               <div className="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
@@ -35,9 +38,9 @@ export default function BentoGridsSection() {
             <div className="absolute inset-px rounded-lg bg-white dark:bg-black max-lg:rounded-t-[2rem]"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
               <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight opacity-90 max-lg:text-center">Flexible Channels</p>
+                <p className="mt-2 text-lg font-medium tracking-tight opacity-90 max-lg:text-center">{t.flexibleChannels.title}</p>
                 <p className="mt-2 max-w-lg text-sm/6 opacity-60 max-lg:text-center">
-                  Create customizable notification channels with unique names and colors. Share subscription links with your team.
+                  {t.flexibleChannels.description}
                 </p>
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
@@ -54,9 +57,9 @@ export default function BentoGridsSection() {
             <div className="absolute inset-px rounded-lg bg-white dark:bg-black"></div>
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)]">
               <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                <p className="mt-2 text-lg font-medium tracking-tight opacity-90 max-lg:text-center">Privacy First</p>
+                <p className="mt-2 text-lg font-medium tracking-tight opacity-90 max-lg:text-center">{t.privacy.title}</p>
                 <p className="mt-2 max-w-lg text-sm/6 opacity-60 max-lg:text-center">
-                  Your notification content and history stay private on your device. Only account and channel data are stored on our servers.
+                  {t.privacy.description}
                 </p>
               </div>
               <div className="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
@@ -74,10 +77,10 @@ export default function BentoGridsSection() {
             <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
               <div className="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
                 <p className="mt-2 text-lg font-medium tracking-tight opacity-90 max-lg:text-center">
-                  Multiple Triggers
+                  {t.multipleTriggers.title}
                 </p>
                 <p className="mt-2 max-w-lg text-sm/6 opacity-60 max-lg:text-center">
-                  Trigger notifications via webhooks or email. Use dynamic templates with variables for personalized alerts.
+                  {t.multipleTriggers.description}
                 </p>
               </div>
               <div className="relative min-h-[30rem] w-full grow">

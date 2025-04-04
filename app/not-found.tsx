@@ -1,4 +1,3 @@
-import { Footer } from '@/components/Footer';
 import { APP_STORE_LINK } from '@/constants';
 import Link from 'next/link'
 import Image from 'next/image';
@@ -65,7 +64,6 @@ export default function NotFound() {
               />
             </div>
           </div>
-          <Footer />
         </div>
       </body>
     </html>

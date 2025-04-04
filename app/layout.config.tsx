@@ -1,6 +1,6 @@
 import { Logo } from '@/components/Logo';
 import { APP_STORE_LINK } from '@/constants';
-import { i18n } from '@/lib/i18n';
+import { i18n, uiDictionary } from '@/lib/i18n';
 import { SiAppstore } from '@icons-pack/react-simple-icons';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 
@@ -12,7 +12,7 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  * Docs Layout: app/(docs)/docs/layout.tsx
  */
 export function baseOptions(locale: string): BaseLayoutProps {
-  console.log('baseOptions', locale);
+  const navLinks = uiDictionary[locale as keyof typeof uiDictionary].nav.navigation
   return {
     i18n,
     nav: {
@@ -24,21 +24,14 @@ export function baseOptions(locale: string): BaseLayoutProps {
           </span>
         </>
       ),
+      url: `/${locale}`,
       transparentMode: 'top',
     },
     links: [
-      {
-        text: 'Documentations',
-        url: `/${locale}/docs`,
-      },
-      {
-        text: "Blog",
-        url: `/${locale}/blog`,
-      },
-      {
-        text: "Pricing",
-        url: `/${locale}/#pricing`,
-      },
+      ...navLinks.map((link) => ({
+        text: link.name,
+        url: link.href,
+      })),
       {
         type: 'icon',
         icon: <SiAppstore />,

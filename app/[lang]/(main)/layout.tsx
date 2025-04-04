@@ -1,14 +1,18 @@
 import { Footer } from "@/components/Footer";
 import Nav from "@/components/Nav";
 
-export default function RootLayout({
+export default async function RootLayout({
+  params,
   children,
 }: Readonly<{
+  params: Promise<{ lang: string }>;
   children: React.ReactNode;
 }>) {
+  const {lang} = await params;
+
   return <div>
-    <Nav />
+    <Nav lang={lang} />
     {children}
-    <Footer />
+    <Footer lang={lang} />
   </div>;
 }
