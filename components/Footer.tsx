@@ -2,78 +2,7 @@ import { AppStoreQRCode } from "./QRCode";
 import { Logo } from "./Logo";
 import { NavLinks } from "./NavLinks";
 import { APP_STORE_LINK } from "@/constants";
-
-const linkGroups = [
-  {
-    label: "Products",
-    links: [
-      {
-        label: "Spark Memos",
-        href: "https://sparkmemos.com",
-      },
-      {
-        label: "CassetteOne",
-        href: "https://cassette.one",
-      },
-      {
-        label: "Weelone",
-        href: "https://weelone.com",
-      }
-    ]
-  },
-  {
-    label: "Communities",
-    links: [
-      {
-
-        label: "Discord",
-        href: "https://discord.gg/s4JqfrgccJ",
-      },
-      {
-        label: "Telegram",
-        href: "https://t.me/EchobellGroup",
-      },
-      {
-        label: "X (Twitter)",
-        href: "https://x.com/EchobellApp",
-      }
-    ]
-  },
-  {
-    label: "Documentation",
-    links: [
-      {
-        label: "Quick Start",
-        href: "/docs",
-      },
-      {
-        label: "Introduction",
-        href: "/docs/what-is-echobell",
-      },
-      {
-        label: "Blog",
-        href: "/blog",
-      }
-    ]
-  },
-  {
-    label: "Support",
-    links: [
-      {
-        label: "Contact Us",
-        href: "mailto:echobell@weelone.com",
-      },
-      {
-        label: "Privacy Policy",
-        href: "/privacy",
-      },
-      {
-        label: "Terms of Service",
-        href: "/terms",
-      }
-    ]
-  }
-]
+import { uiDictionary } from "@/lib/i18n";
 
 function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
@@ -87,7 +16,9 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-export function Footer() {
+export function Footer({ lang }: { lang: string }) {
+  const t = uiDictionary[lang as keyof typeof uiDictionary].footer;
+  
   return (
     <footer className="border-t border-gray-500/30 overflow-hidden relative isolate p-6 lg:p-8">
       <div className='mx-auto max-w-7xl'>
@@ -97,7 +28,7 @@ export function Footer() {
               <Logo className="h-10 w-10 flex-none text-orange-500" />
               <div className="ml-4">
                 <p className="text-base font-semibold">Echobell</p>
-                <p className="mt-1 text-sm opacity-60">Instant alerts for different scenarios.</p>
+                <p className="mt-1 text-sm opacity-60">{t.subtitle}</p>
               </div>
             </div>
             <div className="group relative mt-8 flex items-center self-stretch transition-colors sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto">
@@ -109,11 +40,11 @@ export function Footer() {
                 <p className="text-base font-semibold opacity-90">
                   <a href={APP_STORE_LINK} target="_blank">
                     <span className="absolute inset-0 sm:rounded-2xl" />
-                    Download from App Store
+                    {t.downloadFromAppStore}
                   </a>
                 </p>
                 <p className="mt-1 text-sm opacity-60">
-                  Scan the QR code to download the app.
+                  {t.scanQRCode}
                 </p>
               </div>
             </div>
@@ -121,7 +52,7 @@ export function Footer() {
           <div>
           </div>
           <nav className="w-full grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-16 sm:ml-16">
-            {linkGroups.map((group) => (
+            {t.linkGroups.map((group) => (
               <div key={group.label} className="flex flex-col">
                 <h4 className="text-sm font-semibold opacity-90">{group.label}</h4>
                 <ul className="mt-2 space-y-2 flex flex-col gap-2">

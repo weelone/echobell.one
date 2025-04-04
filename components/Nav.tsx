@@ -7,14 +7,10 @@ import { Logo } from './Logo'
 import Link from 'next/link'
 import { LanguageToggle, LanguageToggleText } from 'fumadocs-ui/components/layout/language-toggle'
 import { ThemeToggle } from 'fumadocs-ui/components/layout/theme-toggle'
+import { uiDictionary } from '@/lib/i18n'
 
-const navigation = [
-  { name: 'Pricing', href: '/#pricing' },
-  { name: 'Documentation', href: '/docs' },
-  { name: 'Blog', href: '/blog' },
-]
-
-export default function Nav() {
+export default function Nav({lang}: { lang: string }) {
+  const t = uiDictionary[lang as keyof typeof uiDictionary].nav
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -37,7 +33,7 @@ export default function Nav() {
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
+          {t.navigation.map((item) => (
             <Link key={item.name} href={item.href} className="text-sm/6 font-semibold opacity-60 hover:opacity-100">
               {item.name}
             </Link>
@@ -71,7 +67,7 @@ export default function Nav() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                {navigation.map((item) => (
+                {t.navigation.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
