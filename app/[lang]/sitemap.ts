@@ -3,6 +3,8 @@ import { baseUrl } from '@/lib/metadata';
 import { source, blog } from '@/lib/source';
 import { languages } from '@/lib/i18n';
 
+export const runtime = 'edge';
+
 export const revalidate = false;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
