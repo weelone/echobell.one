@@ -1,10 +1,10 @@
-import { APP_STORE_LINK } from '@/constants';
-import Link from 'next/link'
-import Image from 'next/image';
+import { APP_STORE_LINK } from "@/constants";
+import Link from "next/link";
+import Image from "next/image";
 
-import AppStore from '@/public/images/app-store.en.svg';
+import AppStore from "@/public/images/app-store.en.svg";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export default function NotFound() {
   return (
@@ -17,7 +17,7 @@ export default function NotFound() {
           <div
             style={{
               clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
             }}
             className="dark:hidden relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-linear-to-tr from-[#ff80b5] to-orange-400 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           />
@@ -28,17 +28,15 @@ export default function NotFound() {
               Page not found
             </h1>
             <p className="mt-8 text-lg font-medium text-pretty opacity-60 sm:text-xl/8">
-              Sorry, we couldn&apos;t find the page you were looking for. It might have been removed or is temporarily unavailable.
+              Sorry, we couldn&apos;t find the page you were looking for. It
+              might have been removed or is temporarily unavailable.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href={APP_STORE_LINK}
-                target="_blank"
-              >
+              <a href={APP_STORE_LINK} target="_blank">
                 <Image src={AppStore} alt="App Store" />
               </a>
               <Link href="/docs" className="text-sm/6 font-semibold opacity-90">
-                Documentation <span aria-hidden="true">→</span>
+                Docs <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>
@@ -50,12 +48,12 @@ export default function NotFound() {
           <div
             style={{
               clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
             }}
             className="dark:hidden relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
           />
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -17,7 +17,7 @@ export const uiDictionary = {
     nav: {
       navigation: [
         { name: "Pricing", href: "/#pricing" },
-        { name: "Documentation", href: "/docs" },
+        { name: "Docs", href: "/docs" },
         { name: "Blog", href: "/blog" },
       ],
     },
@@ -198,7 +198,7 @@ export const uiDictionary = {
           ],
         },
         {
-          label: "Documentation",
+          label: "Docs",
           links: [
             {
               label: "Quick Start",
