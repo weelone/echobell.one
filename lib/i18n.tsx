@@ -31,8 +31,6 @@ export const uiDictionary = {
         "Echobell helps you stay notified with instant alerts from webhooks and emails. Create channels, share with your team, and never miss critical events from your applications and services.",
       downloadApp: "Download App",
       getStarted: "Get Started",
-      releaseNote: "Echobell has released now",
-      learnMore: "Learn more",
       appStoreImage: appStoreImageEn,
     },
     features: {
@@ -40,6 +38,7 @@ export const uiDictionary = {
       subtitle: "Stay on top of important notifications",
       description:
         "Welcome to Echobell, the instant alert app that helps you stay on top of important notifications.",
+      timeSensitive: "Time Sensitive",
       items: [
         {
           name: "Get notified with call",
@@ -82,6 +81,38 @@ export const uiDictionary = {
         description:
           "Trigger notifications via webhooks or email. Use dynamic templates with variables for personalized alerts.",
       },
+      notificationList: [
+        {
+          type: "call",
+          title: "BTC Tendency",
+          body: "BTC rose by 10% in the last 24 hours",
+        },
+        {
+          type: "standard",
+          title: "Echobell New Order",
+          body: "Echobell has a new order",
+        },
+        {
+          type: "time-sensitive",
+          title: "Server Status",
+          body: "Staging server is down",
+        },
+        {
+          type: "standard",
+          title: "New Email",
+          body: "You have a new email from nooc@example.com",
+        },
+        {
+          type: "call",
+          title: "Server Status",
+          body: "Production server is down",
+        },
+        {
+          type: "time-sensitive",
+          title: "CI Build Failed",
+          body: "CI build failed for commit 123456",
+        },
+      ],
     },
     pricing: {
       title: "Simple Pricing",
@@ -231,15 +262,14 @@ export const uiDictionary = {
         "回声铃帮助你通过 Webhook 和电子邮件的即时通知保持消息畅通。你可以创建频道，与团队共享，永不错过来自应用程序和服务的关键事件。",
       downloadApp: "下载应用",
       getStarted: "立即开始",
-      releaseNote: "Echobell 现已发布",
-      learnMore: "了解更多",
       appStoreImage: appStoreImageZh,
     },
     features: {
-      title: "即时通知",
+      title: "强大的功能",
       subtitle: "掌握重要通知的最新动态",
       description:
         "欢迎使用回声铃，这是一款即时提醒应用，帮助你随时掌握重要通知。",
+      timeSensitive: "即时通知",
       items: [
         {
           name: "来电提醒",
@@ -279,6 +309,38 @@ export const uiDictionary = {
         description:
           "通过webhook或邮件触发通知。使用带变量的动态模板实现个性化提醒。",
       },
+      notificationList: [
+        {
+          type: "call",
+          title: "BTC 走势",
+          body: "BTC在过去24小时内上涨了10%",
+        },
+        {
+          type: "standard",
+          title: "回声铃新订单",
+          body: "回声铃有一个新订单",
+        },
+        {
+          type: "time-sensitive",
+          title: "服务器状态",
+          body: "测试服务器已宕机",
+        },
+        {
+          type: "standard",
+          title: "新邮件",
+          body: "你有一封来自 nooc@example.com 的新邮件",
+        },
+        {
+          type: "call",
+          title: "服务器状态",
+          body: "生产服务器已宕机",
+        },
+        {
+          type: "time-sensitive",
+          title: "CI 构建失败",
+          body: "CI 构建失败，提交 ID 为 123456",
+        },
+      ],
     },
     pricing: {
       title: "简单定价",

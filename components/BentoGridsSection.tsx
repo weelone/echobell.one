@@ -1,8 +1,9 @@
-import recordsImage from "@/public/images/screenshots/records.en.png";
 import privacyImage from "@/public/images/privacy.png";
 import speedImage from "@/public/images/speed.png";
 import Image from "next/image";
 import { uiDictionary } from "@/lib/i18n";
+import BentoGridsSectionNotificationList from "./BentoGridsSectionNotificationList";
+import Iphone15Pro from "./magicui/iphone-15-pro";
 
 export default function BentoGridsSection({ lang }: { lang: string }) {
   const t = uiDictionary[lang as keyof typeof uiDictionary].features;
@@ -28,15 +29,12 @@ export default function BentoGridsSection({ lang }: { lang: string }) {
                   {t.multipleNotifications.description}
                 </p>
               </div>
-              <div className="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
-                <div className="absolute inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-neutral-700 bg-neutral-900 shadow-2xl">
-                  <Image
-                    src={recordsImage}
-                    alt="Echobell notification types overview"
-                    fill
-                    className="object-cover object-top dark:brightness-85"
-                  />
-                </div>
+              <div className="@container relative min-h-[30rem] max-h-[30rem] overflow-hidden w-full grow max-lg:mx-auto max-lg:max-w-sm">
+                <Iphone15Pro className="absolute top-10 px-2 w-full overflow-hidden"></Iphone15Pro>
+                <BentoGridsSectionNotificationList
+                  lang={lang}
+                  className="absolute top-30 left-10 right-10"
+                />
               </div>
             </div>
             <div className="pointer-events-none absolute inset-px rounded-lg ring-1 shadow-sm ring-black/5 lg:rounded-l-[2rem]"></div>
