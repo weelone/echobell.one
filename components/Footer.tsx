@@ -18,10 +18,10 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
 
 export function Footer({ lang }: { lang: string }) {
   const t = uiDictionary[lang as keyof typeof uiDictionary].footer;
-  
+
   return (
-    <footer className="border-t border-gray-500/30 overflow-hidden relative isolate p-6 lg:p-8">
-      <div className='mx-auto max-w-7xl'>
+    <footer className="border-t border-neutral-500/30 overflow-hidden relative isolate p-6 lg:p-8">
+      <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-start justify-between gap-y-12 pb-6 pt-16 lg:flex-row lg:py-16">
           <div>
             <div className="flex items-center opacity-90">
@@ -33,7 +33,7 @@ export function Footer({ lang }: { lang: string }) {
             </div>
             <div className="group relative mt-8 flex items-center self-stretch transition-colors sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto">
               <div className="relative flex h-24 w-24 flex-none items-center justify-center">
-                <QrCodeBorder className="absolute inset-0 h-full w-full stroke-gray-300 transition-colors group-hover:stroke-orange-500" />
+                <QrCodeBorder className="absolute inset-0 h-full w-full stroke-neutral-300 transition-colors group-hover:stroke-orange-500" />
                 <AppStoreQRCode />
               </div>
               <div className="ml-8 lg:w-64">
@@ -43,18 +43,17 @@ export function Footer({ lang }: { lang: string }) {
                     {t.downloadFromAppStore}
                   </a>
                 </p>
-                <p className="mt-1 text-sm opacity-60">
-                  {t.scanQRCode}
-                </p>
+                <p className="mt-1 text-sm opacity-60">{t.scanQRCode}</p>
               </div>
             </div>
           </div>
-          <div>
-          </div>
+          <div></div>
           <nav className="w-full grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-16 sm:ml-16">
             {t.linkGroups.map((group) => (
               <div key={group.label} className="flex flex-col">
-                <h4 className="text-sm font-semibold opacity-90">{group.label}</h4>
+                <h4 className="text-sm font-semibold opacity-90">
+                  {group.label}
+                </h4>
                 <ul className="mt-2 space-y-2 flex flex-col gap-2">
                   <NavLinks links={group.links} />
                 </ul>
@@ -62,7 +61,7 @@ export function Footer({ lang }: { lang: string }) {
             ))}
           </nav>
         </div>
-        <div className="flex flex-col items-center border-t border-gray-500/30 pb-12 pt-8 md:flex-row-reverse md:justify-between md:pt-6">
+        <div className="flex flex-col items-center border-t border-neutral-500/30 pb-12 pt-8 md:flex-row-reverse md:justify-between md:pt-6">
           <p className="mt-6 text-sm opacity-60 md:mt-0">
             echobell@weelone.com
           </p>

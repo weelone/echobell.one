@@ -36,7 +36,7 @@ export default async function SubscriptionPage({
       <div className="mx-auto max-w-2xl py-32 sm:py-42 lg:py-52">
         {channel ? (
           <>
-            <div className="flex flex-col bg-white dark:bg-gray-900 rounded-lg p-4 sm:p-8 border">
+            <div className="flex flex-col bg-white dark:bg-neutral-900 rounded-lg p-4 sm:p-8 border">
               <h1 className="flex gap-2 text-2xl font-semibold tracking-tight text-balance opacity-90">
                 <div
                   style={{

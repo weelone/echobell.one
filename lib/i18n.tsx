@@ -2,6 +2,7 @@ import type { I18nConfig } from "fumadocs-core/i18n";
 
 import appStoreImageEn from "@/public/images/app-store.en.svg";
 import appStoreImageZh from "@/public/images/app-store.zh.svg";
+import { Cover } from "@/components/ui/cover";
 
 export const languages = ["en", "zh"];
 
@@ -21,7 +22,11 @@ export const uiDictionary = {
       ],
     },
     hero: {
-      title: "Instant alerts for different scenarios.",
+      title: (
+        <>
+          <Cover>Instant alerts</Cover> for various scenarios.
+        </>
+      ),
       description:
         "Echobell helps you stay notified with instant alerts from webhooks and emails. Create channels, share with your team, and never miss critical events from your applications and services.",
       downloadApp: "Download App",
@@ -123,7 +128,7 @@ export const uiDictionary = {
       appStoreImage: appStoreImageEn,
     },
     footer: {
-      subtitle: "Instant alerts for different scenarios.",
+      subtitle: "Instant alerts for various scenarios.",
       downloadFromAppStore: "Download from App Store",
       scanQRCode: "Scan the QR code to download the app.",
       linkGroups: [
@@ -217,9 +222,13 @@ export const uiDictionary = {
       ],
     },
     hero: {
-      title: "适用于多种场景的即时通知。",
+      title: (
+        <>
+          适用于多种场景的<Cover>即时通知</Cover>。
+        </>
+      ),
       description:
-        "Echobell 帮助你通过 Webhook 和电子邮件的即时通知保持消息畅通。你可以创建频道，与团队共享，永不错过来自应用程序和服务的关键事件。",
+        "回声铃帮助你通过 Webhook 和电子邮件的即时通知保持消息畅通。你可以创建频道，与团队共享，永不错过来自应用程序和服务的关键事件。",
       downloadApp: "下载应用",
       getStarted: "立即开始",
       releaseNote: "Echobell 现已发布",
@@ -230,7 +239,7 @@ export const uiDictionary = {
       title: "即时通知",
       subtitle: "掌握重要通知的最新动态",
       description:
-        "欢迎使用 Echobell，这是一款即时提醒应用，帮助你随时掌握重要通知。",
+        "欢迎使用回声铃，这是一款即时提醒应用，帮助你随时掌握重要通知。",
       items: [
         {
           name: "来电提醒",
@@ -275,13 +284,13 @@ export const uiDictionary = {
       title: "简单定价",
       subtitle: "选择适合您的方案",
       callout:
-        "Echobell 提供功能有限的免费计划，您可以升级到付费计划以获得更多功能和支持。",
+        "回声铃提供功能有限的免费计划，您可以升级到付费计划以获得更多功能和支持。",
       monthly: {
         id: "monthly",
         featured: false,
         name: "按月订阅",
         price: "22",
-        description: "按月订阅 Echobell 高级版以获取所有特性。",
+        description: "按月订阅回声铃高级版以获取所有特性。",
         features: ["无限频道数量", "无限订阅数量", "来电通知"],
       },
       annual: {
@@ -289,7 +298,7 @@ export const uiDictionary = {
         featured: true,
         name: "按年订阅",
         price: "16.5",
-        description: "按年订阅 Echobell 高级版以获取最佳价值和专属支持。",
+        description: "按年订阅回声铃高级版以获取最佳价值和专属支持。",
         features: [
           "无限频道数量",
           "无限订阅数量",
@@ -387,7 +396,7 @@ export const uiDictionary = {
       subscribe: "订阅",
       channelNotFound: "频道未找到",
       subscriptionTips:
-        "在 Echobell 应用中打开链接以订阅频道，或复制链接并粘贴到回声铃应用中的订阅视图中。",
+        "在回声铃应用中打开链接以订阅频道，或复制链接并粘贴到回声铃应用中的订阅视图中。",
       downloadTips: "如果您还没有回声铃应用，可以从 App Store 下载。",
       learnMore: "了解更多",
       appStoreImage: appStoreImageZh,

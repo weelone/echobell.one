@@ -1,20 +1,19 @@
-import 'fumadocs-ui/style.css';
-import { Inter } from 'next/font/google';
-import type { ReactNode } from 'react';
+import "fumadocs-ui/style.css";
+import type { ReactNode } from "react";
 
 import "./globals.css";
-import { RootProvider } from 'fumadocs-ui/provider';
-import { baseUrl, createMetadata } from '@/lib/metadata';
-import { Translations } from 'fumadocs-ui/contexts/i18n';
+import { RootProvider } from "fumadocs-ui/provider";
+import { baseUrl, createMetadata } from "@/lib/metadata";
+import { Translations } from "fumadocs-ui/contexts/i18n";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export const metadata = createMetadata({
   title: {
-    template: '%s | Echobell',
-    default: 'Echobell',
+    template: "%s | Echobell",
+    default: "Echobell",
   },
-  description: 'Instant alerts for different scenarios.',
+  description: "Instant alerts for various scenarios.",
   metadataBase: baseUrl,
 });
 
@@ -35,29 +34,32 @@ const zh: Partial<Translations> = {
 // make sure `locale` is consistent with your i18n config
 const locales = [
   {
-    name: 'English',
-    locale: 'en',
+    name: "English",
+    locale: "en",
   },
   {
-    name: '中文',
-    locale: 'zh',
+    name: "中文",
+    locale: "zh",
   },
 ];
 
-const inter = Inter({
-  subsets: ['latin'],
-});
-
-export default async function Layout({ params, children }: { params: Promise<{ lang: string }>; children: ReactNode }) {
+export default async function Layout({
+  params,
+  children,
+}: {
+  params: Promise<{ lang: string }>;
+  children: ReactNode;
+}) {
   const lang = (await params).lang;
 
   return (
-    <html lang={lang} className={inter.className} suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <body
+        className="bg-neutral-100 dark:bg-neutral-950"
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
         }}
       >
         <RootProvider
