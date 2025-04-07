@@ -136,7 +136,7 @@ export const uiDictionary = {
         id: "annual",
         featured: true,
         name: "Annual",
-        price: "24.99",
+        price: "2.49",
         description:
           "Subscribe to our annual plan for the best value and dedicated support.",
         features: [
