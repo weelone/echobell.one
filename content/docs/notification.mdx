@@ -1,0 +1,82 @@
+---
+title: Notifications in Echobell
+description: Understanding how notifications work in Echobell and the different types available.
+---
+
+# Notifications in Echobell
+
+Notifications are at the core of Echobell's functionality. This guide explains how notifications work, the different types available, and how to customize them for your needs.
+
+## Notification Types
+
+When subscribing to a channel, you can choose from three notification types based on urgency:
+
+- **Normal**: Standard app notifications for routine alerts. These follow your device's normal notification settings.
+- **Time Sensitive**: High-priority notifications that can break through certain focus modes. Use these for important alerts that shouldn't be missed.
+- **Calling**: Call-like alerts for critical situations that demand immediate attention. These notifications appear as incoming calls on your device.
+
+## Notification Templates
+
+Each channel uses customizable templates for notification content:
+
+- **Title Template**: Determines what appears in the notification header
+- **Body Template**: Controls the main content of the notification
+
+Templates support dynamic variables using the `{{variableName}}` syntax. For example:
+
+```
+Title: {{server}} status alert
+Body: {{message}} detected at {{timestamp}}
+```
+
+## Variables in Notifications
+
+### Webhook Variables
+
+When triggering notifications via webhook, you can provide variables through:
+
+- Query parameters: `https://hook.echobell.one/t/xxx?server=production&status=critical`
+- JSON body:
+
+```json
+{
+  "server": "production",
+  "status": "critical"
+}
+```
+
+Special Variables:
+
+- `externalLink`: When included, creates a clickable link in the notification records view
+
+### Email Variables
+
+When triggering via email, these variables are automatically available:
+
+- `from`: Sender's email address
+- `to`: Recipient's email address
+- `subject`: Email subject line
+- `text`: Plain text content
+- `html`: HTML content of the email
+
+## Privacy and Storage
+
+Echobell takes a privacy-first approach to notification handling:
+
+- Notification content and history are stored exclusively on your local device
+- Only essential data (user accounts, channel configurations, and subscriptions) is stored on servers
+- Your notification data never leaves your control
+
+## App Settings
+
+Configure how notifications behave through these settings:
+
+- **Repeat Voice Content**: For call notifications, enables repeating the notification content
+- **Retry Failed Call**: Automatically retries call notifications that failed due to Focus Mode or other reasons
+
+## Important Notes
+
+- The app requires notification permission to function properly
+- Notifications are delivered in real-time when channels are triggered
+- You can receive notifications from both channels you create and channels you subscribe to
+- Different notification types can be used for different levels of urgency

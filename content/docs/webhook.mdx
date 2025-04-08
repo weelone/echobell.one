@@ -1,0 +1,119 @@
+---
+title: Webhook Integration
+description: Learn how to integrate Echobell webhooks into your applications and services
+---
+
+# Webhook Integration
+
+## What's webhook
+
+A webhook is a way for one application to provide real-time information to other applications. It's like a phone number that you give to someone - when they call that number, your phone rings. In the digital world, when something happens in one system, it sends an HTTP request to a URL (the webhook) that you provided, triggering an action in your system.
+
+For example, when your server's CPU usage goes too high, your monitoring system can call Echobell's webhook URL, which then triggers a notification to alert you. This happens automatically and in real-time, without you having to constantly check the CPU usage yourself.
+
+## Overview
+
+Each Echobell channel can be configured with a unique webhook URL. When this URL is called, the channel sends notifications to all its subscribers based on the configured notification templates and provided variables.
+
+## Webhook URL Format
+
+```
+https://hook.echobell.one/t/{channel-token}
+```
+
+You can find your channel's webhook URL in the channel details view of the Echobell app.
+
+## Making Webhook Requests
+
+Echobell webhooks support both GET and POST methods:
+
+### GET Request
+
+You can pass variables through query parameters:
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+```
+
+### POST Request
+
+For POST requests, send variables in a JSON body:
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+## Special Variables
+
+Echobell supports a special variable that adds functionality to your notifications:
+
+- `externalLink`: When included in the request, this creates a clickable link in the notification records view. Useful for linking to detailed information or related resources.
+
+Example with external link:
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95,
+  "externalLink": "https://dashboard.example.com/alerts/123"
+}
+```
+
+## Template Variables
+
+Variables passed through webhooks can be used in your notification templates using the `{{variableName}}` syntax:
+
+```
+Title: Server {{server_name}} Alert
+Body: CPU usage has reached {{cpu_usage}}%
+```
+
+When triggered, these templates will be populated with the values provided in your webhook request.
+
+## Common Use Cases
+
+Webhooks are particularly useful for:
+
+- Server monitoring and alerts
+- CI/CD pipeline notifications
+- IoT device status updates
+- Application error tracking
+- E-commerce order notifications
+- Automated system alerts
+
+## Best Practices
+
+1. **Error Handling**: Always check the HTTP response status from webhook calls to ensure successful delivery
+2. **Rate Limiting**: Implement reasonable delays between webhook calls to avoid overwhelming your notification system
+3. **Data Security**: Only share webhook URLs with trusted systems and services
+4. **Testing**: Test your webhook integration with minimal data before implementing in production
+
+## Privacy and Security
+
+Remember that:
+
+- Webhook URLs should be treated as secrets
+- Only send necessary data in webhook requests
+- All notification content is stored locally on subscribers' devices
+- Our servers only process the webhook request and route notifications
+
+## Troubleshooting
+
+If your webhooks aren't working as expected:
+
+1. Verify the webhook URL is correct
+2. Check if the channel is active
+3. Ensure your JSON payload is properly formatted (for POST requests)
+4. Confirm that all required variables in your templates are being provided
+5. Check if the channel has active subscribers
+
+Need help? Visit our [Support Center](/docs/support) or contact us at echobell@weelone.com.

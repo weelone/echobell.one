@@ -1,0 +1,119 @@
+---
+title: Webhook 集成
+description: 了解如何将 Echobell webhooks 集成到您的应用程序和服务中
+---
+
+# Webhook 集成
+
+## 什么是 Webhook
+
+Webhook 是一种应用程序为其他应用程序提供实时信息的方式。这就像您给某人一个电话号码 - 当他们拨打该号码时，您的电话就会响起。在数字世界中，当一个系统中发生某事时，它会向您提供的 URL（webhook）发送 HTTP 请求，从而触发您系统中的操作。
+
+例如，当服务器的 CPU 使用率过高时，您的监控系统可以调用 Echobell 的 webhook URL，然后触发通知来提醒您。这个过程是自动且实时的，无需您自己不断检查 CPU 使用率。
+
+## 概述
+
+每个 Echobell 频道都可以配置一个唯一的 webhook URL。当这个 URL 被调用时，频道会根据配置的通知模板和提供的变量向所有订阅者发送通知。
+
+## Webhook URL 格式
+
+```
+https://hook.echobell.one/t/{channel-token}
+```
+
+您可以在 Echobell 应用的频道详细信息视图中找到您的频道的 webhook URL。
+
+## 发送 Webhook 请求
+
+Echobell webhooks 支持 GET 和 POST 两种请求方法：
+
+### GET 请求
+
+您可以通过查询参数传递变量：
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+```
+
+### POST 请求
+
+对于 POST 请求，在 JSON 主体中发送变量：
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+## 特殊变量
+
+Echobell 支持一个为通知添加功能的特殊变量：
+
+- `externalLink`：当在请求中包含此变量时，会在通知记录视图中创建一个可点击的链接。适用于链接到详细信息或相关资源。
+
+包含外部链接的示例：
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95,
+  "externalLink": "https://dashboard.example.com/alerts/123"
+}
+```
+
+## 模板变量
+
+通过 webhook 传递的变量可以在通知模板中使用 `{{variableName}}` 语法：
+
+```
+标题：服务器 {{server_name}} 警报
+内容：CPU 使用率已达到 {{cpu_usage}}%
+```
+
+触发时，这些模板将使用您的 webhook 请求中提供的值填充。
+
+## 常见用例
+
+Webhook 特别适用于：
+
+- 服务器监控和警报
+- CI/CD 流程通知
+- 物联网设备状态更新
+- 应用程序错误跟踪
+- 电子商务订单通知
+- 自动化系统警报
+
+## 最佳实践
+
+1. **错误处理**：始终检查 webhook 调用的 HTTP 响应状态以确保成功投递
+2. **速率限制**：在 webhook 调用之间实施合理的延迟，以避免使通知系统过载
+3. **数据安全**：仅与受信任的系统和服务共享 webhook URL
+4. **测试**：在生产环境实施之前，先用最少的数据测试您的 webhook 集成
+
+## 隐私和安全
+
+请记住：
+
+- Webhook URL 应被视为机密
+- 在 webhook 请求中仅发送必要的数据
+- 所有通知内容都存储在订阅者的设备上
+- 我们的服务器仅处理 webhook 请求并路由通知
+
+## 故障排除
+
+如果您的 webhook 未按预期工作：
+
+1. 验证 webhook URL 是否正确
+2. 检查频道是否处于活动状态
+3. 确保您的 JSON 负载格式正确（对于 POST 请求）
+4. 确认您的模板中所需的所有变量都已提供
+5. 检查频道是否有活跃的订阅者
+
+需要帮助？访问我们的[支持中心](/zh/docs/support)或通过 echobell@weelone.com 联系我们。

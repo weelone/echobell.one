@@ -1,10 +1,15 @@
 {
-    "root": true,
-    "pages": [
-      "---介绍---",
-      "index",
-      "what-is-echobell",
-      "---支持---",
-      "support"
-    ]
-  }
+  "root": true,
+  "pages": [
+    "---介绍---",
+    "index",
+    "what-is-echobell",
+    "---功能---",
+    "features",
+    "webhook",
+    "email-trigger",
+    "notification",
+    "---支持---",
+    "support"
+  ]
+}

@@ -1,0 +1,75 @@
+---
+title: Email Triggers
+description: Learn how to use email triggers to send notifications in Echobell
+---
+
+# Email Triggers
+
+Email triggers provide a simple way to send notifications through Echobell without requiring any programming knowledge. Each channel can have a dedicated email address, and when an email is sent to this address, it automatically triggers notifications to all subscribers of that channel.
+
+## How Email Triggers Work
+
+When you set up an email trigger for a channel:
+
+1. A unique email address is assigned to your channel
+2. Any email sent to this address will trigger the channel
+3. The email's content is automatically parsed into variables
+4. These variables can be used in your notification templates
+
+## Available Email Variables
+
+When an email triggers your channel, Echobell automatically extracts the following variables that you can use in your notification templates:
+
+- `from`: The sender's email address
+- `to`: The recipient's email address (your channel's email address)
+- `subject`: The subject line of the email
+- `text`: The plain text content of the email
+- `html`: The HTML content of the email (if available)
+
+## Using Email Variables in Templates
+
+You can use these variables in your notification templates using the `{{variableName}}` syntax. For example:
+
+```
+Title template: New email from {{from}}
+Body template: Subject: {{subject}}
+
+{{text}}
+```
+
+## Use Cases
+
+Email triggers are particularly useful for:
+
+- Forwarding important emails as notifications
+- Creating notification workflows without coding
+- Integrating with legacy systems that support email but not webhooks
+- Setting up alerts from email-based monitoring systems
+- Converting email newsletters into mobile notifications
+
+## Privacy and Data Storage
+
+Like all features in Echobell:
+
+- Only channel configuration data is stored on our servers
+- The content of notifications and email triggers is stored locally on your device
+- Your email data never leaves your control
+
+## Best Practices
+
+1. Use clear and specific email addresses for different channels
+2. Set up appropriate notification templates that match your email content
+3. Consider using Time Sensitive or Calling notification types for urgent emails
+4. Test your email trigger setup with a sample email before relying on it
+
+## Setting Up Email Triggers
+
+1. Create or select a channel in Echobell
+2. Navigate to the channel settings
+3. Find the Email Trigger section
+4. Copy the provided email address
+5. Use this email address wherever you want to trigger notifications
+
+<Callout type="warn">
+  Keep your channel's email address private to prevent unauthorized triggers.
+</Callout>

@@ -1,0 +1,158 @@
+---
+title: Features Overview
+description: A comprehensive guide to Echobell's core features and capabilities
+---
+
+# Echobell Features
+
+Echobell is a powerful notification management platform that offers a range of features to help you stay on top of important alerts. This guide covers all major features and capabilities of Echobell.
+
+<Cards>
+  <Card
+    href="/docs/webhook"
+    title="Webhook Integration"
+    description="Learn how to integrate Echobell webhooks into your applications and services"
+  />
+  <Card
+    href="/docs/email-trigger"
+    title="Email Triggers"
+    description="Learn how to use email triggers to send notifications in Echobell"
+  />
+  <Card
+    href="/docs/notification"
+    title="Notifications"
+    description="Understanding how notifications work in Echobell and the different types available."
+  />
+</Cards>
+
+## Core Features
+
+### Notification Channels
+
+At the heart of Echobell are channels - customizable notification pipelines that you can create for different purposes. Each channel has:
+
+- A unique name and color for easy identification
+- Customizable notification templates
+- Flexible triggering options (webhook or email)
+- Shareable subscription links
+
+### Triggering Methods
+
+#### Webhook Triggers
+
+Integrate with virtually any system using webhook URLs. When these URLs are called, your channel sends notifications to all subscribers. Perfect for:
+
+- Server monitoring alerts
+- CI/CD pipeline notifications
+- IoT device status updates
+- E-commerce order notifications
+
+You can provide variables through query parameters or JSON body:
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+
+# OR
+
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+Special Variables:
+
+- `externalLink`: When included, creates a clickable link in the notification records
+
+#### Email Triggers
+
+Each channel can have a dedicated email address. When an email is sent to this address, the channel is triggered. This enables:
+
+- Forward important emails as notifications
+- Create notification flows without coding
+- Integrate with legacy systems that support email but not webhooks
+
+Available email variables:
+
+- `from`: Sender's email address
+- `subject`: Email subject line
+- `text`: Plain text content
+- `html`: HTML content
+
+### Notification Types
+
+Subscribers can choose from three notification types based on urgency:
+
+1. **Normal**
+
+   - Standard app notifications for routine alerts
+   - Follows your device's normal notification settings
+
+2. **Time Sensitive**
+
+   - High-priority notifications
+   - Can break through certain focus modes
+   - Use for important alerts that shouldn't be missed
+
+3. **Calling**
+   - Call-like alerts for critical situations
+   - Demands immediate attention
+   - Appears as incoming calls on your device
+
+### Template System
+
+Make your notifications dynamic using customizable templates with variables:
+
+- **Title Template**: Determines what appears in the notification header
+- **Body Template**: Controls the main content of the notification
+
+Example template:
+
+```
+Title: Server {{server_name}} is down!
+Body: CPU usage reached {{cpu_usage}}%
+```
+
+Variables are enclosed in double curly braces `{{variableName}}` and are populated from trigger data.
+
+### Privacy Features
+
+Echobell is built with privacy at its core:
+
+- Only user accounts, channels, and subscription data stored on servers
+- Notification content and history stay exclusively on your device
+- Your sensitive alert data never leaves your control
+
+### App Settings
+
+Customize how notifications behave:
+
+- **Repeat Voice Content**: For call notifications, enables repeating the notification content
+- **Retry Failed Call**: Automatically retries call notifications that failed due to Focus Mode
+
+## Use Cases
+
+### For Developers
+
+- Monitor server health and receive instant alerts
+- Get notifications for build completions or test failures
+- Receive alerts for critical production errors
+
+### For Teams
+
+- Create channels for different projects or systems
+- Let team members subscribe with preferred notification urgency
+- Ensure critical alerts are never missed
+
+### For Personal Use
+
+- Get alerts when your website goes down
+- Receive notifications for important emails
+- Create custom alerts for anything important
+
+## Getting Started
+
+For detailed setup instructions, check out our [Getting Started Guide](/docs/index). Need help? Visit our [Support Center](/docs/support) or email echobell@weelone.com.

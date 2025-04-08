@@ -1,10 +1,15 @@
 {
-    "root": true,
-    "pages": [
-      "---Introduction---",
-      "index",
-      "what-is-echobell",
-      "---Support---",
-      "support"
-    ]
-  }
+  "root": true,
+  "pages": [
+    "---Introduction---",
+    "index",
+    "what-is-echobell",
+    "---Features---",
+    "features",
+    "webhook",
+    "email-trigger",
+    "notification",
+    "---Support---",
+    "support"
+  ]
+}
