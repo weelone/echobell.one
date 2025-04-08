@@ -10,6 +10,7 @@ Welcome to Echobell, the instant alert app that helps you stay on top of importa
 ## What is Echobell?
 
 Echobell is a powerful notification management tool that:
+
 - Handles webhooks and emails as triggers
 - Sends customized notifications to subscribers
 - Allows you to create and share notification channels
@@ -24,6 +25,7 @@ Before diving in, let's understand some key concepts:
 ### Channels
 
 A **Channel** is the core unit in Echobell for organizing and distributing notifications:
+
 - Each channel has a unique **Name** and **Color** for easy identification
 - Channels contain **Notification Templates** that determine what information is sent
 - Channels are triggered through webhooks or emails
@@ -32,12 +34,14 @@ A **Channel** is the core unit in Echobell for organizing and distributing notif
 ### Triggers
 
 A **Trigger** is what activates a channel to send notifications:
+
 - **Webhook**: A URL endpoint that, when called, activates the channel
 - **Email**: An email address linked to the channel that, when messaged, activates the channel
 
 ### Notification Types
 
 When subscribing to a channel, you can choose from different notification styles:
+
 - **Normal**: Standard app notification
 - **Time Sensitive**: High-priority notification that can break through focus modes
 - **Calling**: Call-like alert for the most urgent matters
@@ -55,14 +59,14 @@ When subscribing to a channel, you can choose from different notification styles
 
 1. From the main view, tap the button on the bottom right corner to navigate to the **Channels** view
 2. Tap the **+** button to create a new channel
-2. Enter a name for your channel (e.g., "Server Alerts")
-3. Select a color to identify your channel
-4. Configure your notification templates:
+3. Enter a name for your channel (e.g., "Server Alerts")
+4. Select a color to identify your channel
+5. Configure your notification templates:
    - **Title template**: What appears as the notification headline
    - **Body template**: The detailed content of the notification
-7. Optionally, toggle whether to subscribe the channel to yourself
-8. Choose a **Notification Type** for your channel (Normal, Time Sensitive, or Calling)
-9. Save your new channel
+6. Optionally, toggle whether to subscribe the channel to yourself
+7. Choose a **Notification Type** for your channel (Normal, Time Sensitive, or Calling)
+8. Save your new channel
 
 ![Create Channel](/images/docs/screenshot-create-channel.en.png)
 
@@ -92,12 +96,17 @@ curl -X POST https://hook.echobell.one/t/your-unique-id \
 
 These variables will be used to populate your notification templates. For example, if your title template is `{{server}} - {{status}}`, it would render as "production - critical".
 
+**Special Variables:**
+
+- `externalLink`: If you include this variable, it will be displayed as a clickable link in the notification records
+
 #### Email Trigger
 
 1. Tap the **email** button to copy the generated email address for your channel
 2. When an email is sent to this address, your channel will be triggered
 
 With email triggers, Echobell automatically extracts these variables from the email:
+
 - `from`: The sender's email address
 - `to`: The recipient's email address (your channel's email)
 - `subject`: The email subject line
@@ -122,15 +131,23 @@ Templates use variables that are filled from the trigger data:
 2. Or you can use subscription links shared by others to subscribe to the channels
 3. Tap **Subscribe** on the channels view
 4. Enter the subscription link
-4. Choose your preferred **Notification Type**:
+5. Choose your preferred **Notification Type**:
    - Normal for standard alerts
    - Time Sensitive for important alerts
    - Calling for critical situations
-5. Confirm your subscription
+6. Confirm your subscription
+
+## App Settings
+
+You can customize how Echobell handles notifications through these settings:
+
+- **Repeat Voice Content**: When using call notifications, this setting will make the notification content repeat
+- **Retry Failed Call**: Automatically retry call notifications that failed due to Focus Mode or other reasons
 
 ## Privacy and Data Storage
 
 Echobell prioritizes your privacy:
+
 - Only user accounts, channels, and subscription data are stored on our servers
 - Notification content and history are stored locally on your device
 - Your alert data never leaves your control
@@ -138,6 +155,7 @@ Echobell prioritizes your privacy:
 ## Next Steps
 
 Now that you've set up your first channel:
+
 - Explore advanced template options
 - Share your channels with team members
 - Set up notification schedules and quiet hours

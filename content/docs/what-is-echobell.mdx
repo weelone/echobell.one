@@ -69,9 +69,14 @@ Content-Type: application/json
 }
 ```
 
+**Special Variables**
+
+- `externalLink`: When included in the request, this variable will create a clickable link in the notification records view
+
 #### Email Triggers
 
 Send emails to channel-specific addresses. Echobell automatically extracts variables like:
+
 - `from`: Sender's email address
 - `subject`: Email subject line
 - `text`: Plain text content
@@ -80,16 +85,21 @@ Send emails to channel-specific addresses. Echobell automatically extracts varia
 ## Privacy and Data Storage
 
 Echobell is designed with privacy in mind:
+
 - Only user data, channel configurations, and subscription information are stored on our servers
 - Notification history and records remain exclusively on your local device
 
 ## Getting Started
 
 To start using Echobell, you'll need to:
+
 1. Download Echobell app from [App Store](https://apps.apple.com/app/id6743597198)
 2. Sign in using email or your Apple ID
 3. Create a channel and customize its settings
 4. Integrate your webhook or email trigger
 5. Start receiving notifications
 
-<Callout type="warn">Echobell requires notification permission to function properly, as all features are notification-based.</Callout>
+<Callout type="warn">
+  Echobell requires notification permission to function properly, as all
+  features are notification-based.
+</Callout>

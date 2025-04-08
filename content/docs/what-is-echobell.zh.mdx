@@ -69,9 +69,14 @@ Content-Type: application/json
 }
 ```
 
+#### 特殊变量
+
+- `externalLink`：当在请求中包含此变量时，将在通知记录视图中创建一个可点击的链接
+
 #### 电子邮件触发
 
 发送邮件到频道特定地址。Echobell 会自动提取以下变量：
+
 - `from`：发件人邮箱地址
 - `subject`：邮件主题
 - `text`：纯文本内容
@@ -80,16 +85,20 @@ Content-Type: application/json
 ## 隐私和数据存储
 
 Echobell 在设计时特别注重隐私：
+
 - 我们的服务器仅存储用户数据、频道配置和订阅信息
 - 通知历史和记录完全保存在您的本地设备上
 
 ## 开始使用
 
 要开始使用 Echobell，您需要：
+
 1. 从 [App Store](https://apps.apple.com/app/id6743597198) 下载 Echobell 应用
 2. 使用电子邮件或 Apple ID 登录
 3. 创建频道并自定义设置
 4. 集成您的 webhook 或电子邮件触发器
 5. 开始接收通知
 
-<Callout type="warn">Echobell 需要通知权限才能正常运行，因为所有功能都是基于通知的。</Callout>
+<Callout type="warn">
+  Echobell 需要通知权限才能正常运行，因为所有功能都是基于通知的。
+</Callout>

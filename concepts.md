@@ -18,8 +18,17 @@ A notification channel that, once triggered, will send a notification to all sub
 
 ### Trigger
 
-- `Webhook`, a link to trigger a channel. Once it is called, the channel will be triggered.
-- `Email`, once you send an email to an address bonded with a channel, the channel will be triggered.
+#### Webhook
+
+A link to trigger a channel. Once it is called, the channel will be triggered.
+
+You can pass variables to the [templates](#templates) through Json Body or Query String. And there is a special variable:
+
+- `externalLink`: If you pass a link with this variable name, it will be displayed as a link on the records.
+
+#### Email
+
+Once you send an email to an address bonded with a channel, the channel will be triggered.
 
 ### Notification Type
 
@@ -48,6 +57,8 @@ Content-Type: application/json
 }
 ```
 
+You can pass a special variable `externalLink` to display a clickable link on the records.
+
 - `Email`, when trigger a channel with email, we will providing some variables automatically:
 
   - `from`: The address where the email send from
@@ -55,6 +66,13 @@ Content-Type: application/json
   - `subject`: The Subject of the email
   - `text`: The text-form body of the email content
   - `html`: The html-form body of the email content
+
+## App Settings
+
+There are some app settings to can config:
+
+- `Repeat Voice Content`: When notifying via call, repeat the notification content.
+- `Retry Failed Call`: Retry call notifications that failed due to Focus Mode or other reasons.
 
 ## Be aware
 
