@@ -123,7 +123,7 @@ export const uiDictionary = {
         id: "monthly",
         featured: false,
         name: "Monthly",
-        price: "2.99",
+        price: "1.99",
         description:
           "Subscribe to our monthly plan and get access to all features.",
         features: [
@@ -136,7 +136,7 @@ export const uiDictionary = {
         id: "annual",
         featured: true,
         name: "Annual",
-        price: "2.49",
+        price: "1.66",
         description:
           "Subscribe to our annual plan for the best value and dedicated support.",
         features: [
@@ -351,7 +351,7 @@ export const uiDictionary = {
         id: "monthly",
         featured: false,
         name: "按月订阅",
-        price: "22",
+        price: "15",
         description: "按月订阅回声铃高级版以获取所有特性。",
         features: ["无限频道数量", "无限订阅数量", "来电通知"],
       },
@@ -359,7 +359,7 @@ export const uiDictionary = {
         id: "annual",
         featured: true,
         name: "按年订阅",
-        price: "16.5",
+        price: "12.3",
         description: "按年订阅回声铃高级版以获取最佳价值和专属支持。",
         features: [
           "无限频道数量",
