@@ -21,7 +21,7 @@ export default function HeroSection({ lang }: { lang: string }) {
             </p>
           </BackgroundLines>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a href={APP_STORE_LINK} target="_blank">
+            <a className=" z-10" href={APP_STORE_LINK} target="_blank">
               <Image src={t.appStoreImage} alt="App Store" />
             </a>
             <Link
