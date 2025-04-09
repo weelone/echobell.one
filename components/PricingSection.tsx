@@ -1,10 +1,10 @@
 import { APP_STORE_LINK } from "@/constants";
-import { uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary } from "@/lib/i18n";
 import { CheckIcon } from "lucide-react";
 import { BorderBeam } from "./magicui/border-beam";
 
-export default function PricingSection({ lang }: { lang: string }) {
-  const t = uiDictionary[lang as keyof typeof uiDictionary].pricing;
+export default function PricingSection({ lang }: { lang: Language }) {
+  const t = uiDictionary[lang].pricing;
 
   return (
     <div id="pricing" className="py-24 sm:py-32">

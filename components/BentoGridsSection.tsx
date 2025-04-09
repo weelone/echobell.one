@@ -1,12 +1,12 @@
-import { uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary } from "@/lib/i18n";
 import BentoGridsSectionNotificationList from "./BentoGridsSectionNotificationList";
 import Iphone15Pro from "./magicui/iphone-15-pro";
 import { Globe } from "./magicui/globe";
 import { BentoGridsSectionForwardingFigure } from "./BentoGridsSectionForwardingFigure";
 import { BentoGridsSectionPrivacyFigure } from "./BentoGridsSectionPrivacyFigure";
 
-export default function BentoGridsSection({ lang }: { lang: string }) {
-  const t = uiDictionary[lang as keyof typeof uiDictionary].features;
+export default function BentoGridsSection({ lang }: { lang: Language }) {
+  const t = uiDictionary[lang].features;
 
   return (
     <div className="py-24 sm:py-32">

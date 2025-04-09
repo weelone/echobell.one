@@ -5,7 +5,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import Image from "next/image";
-import { uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary } from "@/lib/i18n";
 import overviewScreenshot from "@/public/images/docs/screenshot-overview.en.png";
 import { BorderBeam } from "./magicui/border-beam";
 
@@ -16,8 +16,8 @@ const icons = {
   subscription: UsersIcon,
 };
 
-export default function FeatureSection({ lang }: { lang: string }) {
-  const t = uiDictionary[lang as keyof typeof uiDictionary].features;
+export default function FeatureSection({ lang }: { lang: Language }) {
+  const t = uiDictionary[lang].features;
   const featureIcons = [
     icons.call,
     icons.webhook,
