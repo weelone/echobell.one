@@ -13,6 +13,10 @@ export const i18n: I18nConfig = {
   hideLocale: "default-locale",
 };
 
+export function localizeUrl(url: string, lang: Language): string {
+  return lang === i18n.defaultLanguage ? url : `/${lang}${url}`;
+}
+
 export const uiDictionary = {
   en: {
     metadata: {

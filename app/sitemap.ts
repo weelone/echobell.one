@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { baseUrl } from "@/lib/metadata";
 import { source, blog } from "@/lib/source";
-import { i18n, languages } from "@/lib/i18n";
+import { languages, localizeUrl } from "@/lib/i18n";
 
 export const runtime = "edge";
 
@@ -61,7 +61,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 }
 
 function getLocalizedUrls(url: string): string[] {
-  return languages.map((lang) =>
-    lang == i18n.defaultLanguage ? url : `/${lang}${url}`
-  );
+  return languages.map((lang) => localizeUrl(url, lang));
 }

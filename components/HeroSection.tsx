@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { uiDictionary } from "@/lib/i18n";
+import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
 
 import { APP_STORE_LINK } from "@/constants";
 import { BackgroundLines } from "./ui/background-lines";
 
-export default function HeroSection({ lang }: { lang: string }) {
-  const t = uiDictionary[lang as keyof typeof uiDictionary].hero;
+export default function HeroSection({ lang }: { lang: Language }) {
+  const t = uiDictionary[lang].hero;
 
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -25,7 +25,7 @@ export default function HeroSection({ lang }: { lang: string }) {
               <Image src={t.appStoreImage} alt="App Store" />
             </a>
             <Link
-              href={`/${lang}/docs`}
+              href={localizeUrl("/docs", lang)}
               className="text-sm/6 font-semibold opacity-90"
             >
               {t.getStarted} <span aria-hidden="true">→</span>

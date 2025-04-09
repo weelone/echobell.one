@@ -1,6 +1,6 @@
 import { Logo } from "@/components/Logo";
 import { APP_STORE_LINK } from "@/constants";
-import { i18n, uiDictionary } from "@/lib/i18n";
+import { i18n, Language, localizeUrl, uiDictionary } from "@/lib/i18n";
 import { SiAppstore } from "@icons-pack/react-simple-icons";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
@@ -11,7 +11,7 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
  * Home Layout: app/(home)/layout.tsx
  * Docs Layout: app/(docs)/docs/layout.tsx
  */
-export function baseOptions(locale: string): BaseLayoutProps {
+export function baseOptions(locale: Language): BaseLayoutProps {
   const navLinks =
     uiDictionary[locale as keyof typeof uiDictionary].nav.navigation;
   return {
@@ -23,7 +23,7 @@ export function baseOptions(locale: string): BaseLayoutProps {
           <span className="font-medium">Echobell</span>
         </>
       ),
-      url: `/${locale}`,
+      url: localizeUrl("/", locale),
       transparentMode: "top",
     },
     links: [

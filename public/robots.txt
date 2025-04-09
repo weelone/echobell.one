@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /subscription/
+Disallow: /*/subscription/*
+
+Sitemap: https://echobell.one/sitemap.xm

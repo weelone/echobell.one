@@ -10,10 +10,10 @@ import {
   LanguageToggleText,
 } from "fumadocs-ui/components/layout/language-toggle";
 import { ThemeToggle } from "fumadocs-ui/components/layout/theme-toggle";
-import { i18n, uiDictionary } from "@/lib/i18n";
+import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
 
-export default function Nav({ lang }: { lang: string }) {
-  const t = uiDictionary[lang as keyof typeof uiDictionary].nav;
+export default function Nav({ lang }: { lang: Language }) {
+  const t = uiDictionary[lang].nav;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -23,10 +23,7 @@ export default function Nav({ lang }: { lang: string }) {
         className="flex items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <Link
-            href={lang == i18n.defaultLanguage ? "/" : `/${lang}`}
-            className="-m-1.5 p-1.5"
-          >
+          <Link href={localizeUrl("/", lang)} className="-m-1.5 p-1.5">
             <span className="sr-only">Echobell</span>
             <Logo className="h-8 w-8 text-orange-500" />
           </Link>
