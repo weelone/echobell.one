@@ -1,6 +1,7 @@
 import { APP_STORE_LINK } from "@/constants";
 import { uiDictionary } from "@/lib/i18n";
 import { CheckIcon } from "lucide-react";
+import { BorderBeam } from "./magicui/border-beam";
 
 export default function PricingSection({ lang }: { lang: string }) {
   const t = uiDictionary[lang as keyof typeof uiDictionary].pricing;
@@ -23,7 +24,7 @@ export default function PricingSection({ lang }: { lang: string }) {
               key={tier.id}
               className={classNames(
                 tier.featured
-                  ? "relative bg-neutral-900 shadow-2xl"
+                  ? "relative bg-neutral-800 shadow-2xl"
                   : "bg-white/60 dark:bg-black/50 sm:mx-8 lg:mx-0",
                 tier.featured
                   ? ""
@@ -104,6 +105,13 @@ export default function PricingSection({ lang }: { lang: string }) {
               >
                 {t.startTrial}
               </a>
+              {tier.featured && (
+                <BorderBeam
+                  duration={10}
+                  size={500}
+                  className="from-transparent via-orange-600 to-transparent"
+                />
+              )}
             </div>
           ))}
         </div>

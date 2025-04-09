@@ -101,7 +101,7 @@ export default async function Layout({
   return (
     <html lang={lang} suppressHydrationWarning>
       <body
-        className="bg-neutral-100 dark:bg-neutral-950"
+        className="bg-neutral-100 dark:bg-neutral-900"
         style={{
           display: "flex",
           flexDirection: "column",

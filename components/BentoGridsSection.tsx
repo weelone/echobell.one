@@ -1,9 +1,9 @@
-import privacyImage from "@/public/images/privacy.png";
-import speedImage from "@/public/images/speed.png";
-import Image from "next/image";
 import { uiDictionary } from "@/lib/i18n";
 import BentoGridsSectionNotificationList from "./BentoGridsSectionNotificationList";
 import Iphone15Pro from "./magicui/iphone-15-pro";
+import { Globe } from "./magicui/globe";
+import { BentoGridsSectionForwardingFigure } from "./BentoGridsSectionForwardingFigure";
+import { BentoGridsSectionPrivacyFigure } from "./BentoGridsSectionPrivacyFigure";
 
 export default function BentoGridsSection({ lang }: { lang: string }) {
   const t = uiDictionary[lang as keyof typeof uiDictionary].features;
@@ -51,11 +51,7 @@ export default function BentoGridsSection({ lang }: { lang: string }) {
                 </p>
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
-                <Image
-                  className="w-full max-lg:max-w-xs"
-                  src={speedImage}
-                  alt="Speed illustration"
-                />
+                <BentoGridsSectionForwardingFigure />
               </div>
             </div>
             <div className="pointer-events-none absolute inset-px rounded-lg ring-1 shadow-sm ring-black/5 max-lg:rounded-t-[2rem]"></div>
@@ -71,12 +67,8 @@ export default function BentoGridsSection({ lang }: { lang: string }) {
                   {t.privacy.description}
                 </p>
               </div>
-              <div className="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
-                <Image
-                  className="h-[min(152px,40cqw)] object-cover"
-                  src={privacyImage}
-                  alt="Privacy illustration"
-                />
+              <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
+                <BentoGridsSectionPrivacyFigure />
               </div>
             </div>
             <div className="pointer-events-none absolute inset-px rounded-lg ring-1 shadow-sm ring-black/5"></div>
@@ -92,21 +84,8 @@ export default function BentoGridsSection({ lang }: { lang: string }) {
                   {t.multipleTriggers.description}
                 </p>
               </div>
-              <div className="relative min-h-[30rem] w-full grow">
-                <div className="absolute top-10 right-0 bottom-0 left-10 overflow-hidden rounded-tl-xl bg-neutral-900 shadow-2xl">
-                  <div className="flex bg-neutral-800/40 ring-1 ring-white/5">
-                    <div className="-mb-px flex text-sm/6 font-medium text-neutral-400">
-                      <div className="border-r border-b border-r-white/10 border-b-white/20 bg-white/5 px-4 py-2 text-white">
-                        Webhook Example
-                      </div>
-                    </div>
-                  </div>
-                  <div className="px-6 pt-6 pb-14">
-                    <pre className="text-sm text-neutral-300">
-                      <code>{`POST https://hook.echobell.one/t/trigger-token\nContent-Type: application/json\n\n{\n    "environment":"product",\n    "event":"your_event_here"\n}`}</code>
-                    </pre>
-                  </div>
-                </div>
+              <div className="relative mt-auto flex flex-col justify-end min-h-[20rem] w-full grow">
+                <Globe className="lg:mt-auto" />
               </div>
             </div>
             <div className="pointer-events-none absolute inset-px rounded-lg ring-1 shadow-sm ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>

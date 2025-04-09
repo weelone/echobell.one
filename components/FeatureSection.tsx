@@ -7,6 +7,7 @@ import {
 import Image from "next/image";
 import { uiDictionary } from "@/lib/i18n";
 import overviewScreenshot from "@/public/images/docs/screenshot-overview.en.png";
+import { BorderBeam } from "./magicui/border-beam";
 
 const icons = {
   call: PhoneIncomingIcon,
@@ -58,11 +59,18 @@ export default function FeatureSection({ lang }: { lang: string }) {
               </dl>
             </div>
           </div>
-          <Image
-            alt="Product screenshot"
-            src={overviewScreenshot}
-            className="w-[32rem] max-w-none rounded-xl ring-1 shadow-xl ring-neutral-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 dark:brightness-85"
-          />
+          <div className="relative p-0 w-[32rem] overflow-hidden max-w-none rounded-xl ring-1 shadow-xl ring-neutral-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 dark:brightness-85">
+            <Image
+              alt="Product screenshot"
+              src={overviewScreenshot}
+              className="h-full w-full object-cover"
+            />
+            <BorderBeam
+              duration={10}
+              size={500}
+              className="from-transparent via-orange-500 to-transparent"
+            />
+          </div>
         </div>
       </div>
     </div>
