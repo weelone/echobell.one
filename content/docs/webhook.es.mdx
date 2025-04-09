@@ -1,0 +1,119 @@
+---
+title: Integración Webhook
+description: Aprende cómo integrar webhooks de Echobell en tus aplicaciones y servicios
+---
+
+# Integración Webhook
+
+## Qué es un webhook
+
+Un webhook es una forma en que una aplicación proporciona información en tiempo real a otras aplicaciones. Es como un número de teléfono que das a alguien - cuando llaman a ese número, tu teléfono suena. En el mundo digital, cuando algo sucede en un sistema, envía una petición HTTP a una URL (el webhook) que proporcionaste, activando una acción en tu sistema.
+
+Por ejemplo, cuando el uso de CPU de tu servidor es demasiado alto, tu sistema de monitoreo puede llamar a la URL webhook de Echobell, que luego activa una notificación para alertarte. Esto sucede automáticamente y en tiempo real, sin que tengas que comprobar constantemente el uso de CPU por ti mismo.
+
+## Resumen
+
+Cada canal de Echobell puede configurarse con una URL webhook única. Cuando se llama a esta URL, el canal envía notificaciones a todos sus suscriptores según las plantillas de notificación configuradas y las variables proporcionadas.
+
+## Formato de URL Webhook
+
+```
+https://hook.echobell.one/t/{token-del-canal}
+```
+
+Puedes encontrar la URL webhook de tu canal en la vista de detalles del canal en la aplicación Echobell.
+
+## Realizando peticiones Webhook
+
+Los webhooks de Echobell soportan tanto métodos GET como POST:
+
+### Petición GET
+
+Puedes pasar variables a través de parámetros de consulta:
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Produccion&cpu_usage=95
+```
+
+### Petición POST
+
+Para peticiones POST, envía variables en un cuerpo JSON:
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Produccion",
+  "cpu_usage": 95
+}
+```
+
+## Variables especiales
+
+Echobell soporta una variable especial que añade funcionalidad a tus notificaciones:
+
+- `externalLink`: Cuando se incluye en la petición, esto crea un enlace clickeable en la vista de registros de notificación. Útil para enlazar a información detallada o recursos relacionados.
+
+Ejemplo con enlace externo:
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Produccion",
+  "cpu_usage": 95,
+  "externalLink": "https://dashboard.example.com/alerts/123"
+}
+```
+
+## Variables de plantilla
+
+Las variables pasadas a través de webhooks pueden usarse en tus plantillas de notificación usando la sintaxis `{{nombreVariable}}`:
+
+```
+Título: Alerta del servidor {{server_name}}
+Cuerpo: El uso de CPU ha alcanzado {{cpu_usage}}%
+```
+
+Cuando se activa, estas plantillas se completarán con los valores proporcionados en tu petición webhook.
+
+## Casos de uso comunes
+
+Los webhooks son particularmente útiles para:
+
+- Monitoreo y alertas de servidor
+- Notificaciones de pipeline CI/CD
+- Actualizaciones de estado de dispositivos IoT
+- Seguimiento de errores de aplicación
+- Notificaciones de pedidos de comercio electrónico
+- Alertas de sistema automatizadas
+
+## Mejores prácticas
+
+1. **Manejo de errores**: Siempre verifica el estado de respuesta HTTP de las llamadas webhook para asegurar una entrega exitosa
+2. **Límite de tasa**: Implementa retrasos razonables entre llamadas webhook para evitar sobrecargar tu sistema de notificaciones
+3. **Seguridad de datos**: Solo comparte URLs webhook con sistemas y servicios confiables
+4. **Pruebas**: Prueba tu integración webhook con datos mínimos antes de implementar en producción
+
+## Privacidad y seguridad
+
+Recuerda que:
+
+- Las URLs webhook deben tratarse como secretos
+- Solo envía datos necesarios en peticiones webhook
+- Todo el contenido de notificación se almacena localmente en los dispositivos de los suscriptores
+- Nuestros servidores solo procesan la petición webhook y enrutan notificaciones
+
+## Solución de problemas
+
+Si tus webhooks no funcionan como se espera:
+
+1. Verifica que la URL webhook sea correcta
+2. Comprueba si el canal está activo
+3. Asegúrate de que tu payload JSON esté correctamente formateado (para peticiones POST)
+4. Confirma que todas las variables requeridas en tus plantillas están siendo proporcionadas
+5. Comprueba si el canal tiene suscriptores activos
+
+¿Necesitas ayuda? Visita nuestro [Centro de soporte](/es/docs/support) o contáctanos en echobell@weelone.com.

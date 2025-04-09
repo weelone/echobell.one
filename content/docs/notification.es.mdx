@@ -1,0 +1,82 @@
+---
+title: Notificaciones en Echobell
+description: Comprende cómo funcionan las notificaciones en Echobell y los diferentes tipos disponibles.
+---
+
+# Notificaciones en Echobell
+
+Las notificaciones son el núcleo de la funcionalidad de Echobell. Esta guía explica cómo funcionan las notificaciones, los diferentes tipos disponibles y cómo personalizarlas según tus necesidades.
+
+## Tipos de notificación
+
+Al suscribirte a un canal, puedes elegir entre tres tipos de notificación según la urgencia:
+
+- **Normal**: Notificaciones estándar de la aplicación para alertas rutinarias. Estas siguen la configuración normal de notificaciones de tu dispositivo.
+- **Urgente**: Notificaciones de alta prioridad que pueden atravesar ciertos modos de concentración. Úsalas para alertas importantes que no deben perderse.
+- **Llamada**: Alertas tipo llamada para situaciones críticas que exigen atención inmediata. Estas notificaciones aparecen como llamadas entrantes en tu dispositivo.
+
+## Plantillas de notificación
+
+Cada canal usa plantillas personalizables para el contenido de la notificación:
+
+- **Plantilla de título**: Determina qué aparece en el encabezado de la notificación
+- **Plantilla de cuerpo**: Controla el contenido principal de la notificación
+
+Las plantillas admiten variables dinámicas usando la sintaxis `{{nombreVariable}}`. Por ejemplo:
+
+```
+Título: Alerta de estado de {{server}}
+Cuerpo: {{message}} detectado en {{timestamp}}
+```
+
+## Variables en notificaciones
+
+### Variables de Webhook
+
+Al activar notificaciones vía webhook, puedes proporcionar variables a través de:
+
+- Parámetros de consulta: `https://hook.echobell.one/t/xxx?server=produccion&status=critico`
+- Cuerpo JSON:
+
+```json
+{
+  "server": "produccion",
+  "status": "critico"
+}
+```
+
+Variables especiales:
+
+- `externalLink`: Cuando se incluye, crea un enlace clickeable en la vista de registros de notificación
+
+### Variables de correo
+
+Al activar vía correo, estas variables están disponibles automáticamente:
+
+- `from`: Dirección de correo del remitente
+- `to`: Dirección de correo del destinatario
+- `subject`: Línea de asunto del correo
+- `text`: Contenido de texto plano
+- `html`: Contenido HTML del correo
+
+## Privacidad y almacenamiento
+
+Echobell adopta un enfoque de privacidad primero en el manejo de notificaciones:
+
+- El contenido e historial de notificaciones se almacena exclusivamente en tu dispositivo local
+- Solo los datos esenciales (cuentas de usuario, configuraciones de canal y suscripciones) se almacenan en servidores
+- Tus datos de notificación nunca salen de tu control
+
+## Configuración de la aplicación
+
+Configura cómo se comportan las notificaciones a través de estos ajustes:
+
+- **Repetir contenido de voz**: Para notificaciones de llamada, permite repetir el contenido de la notificación
+- **Reintentar llamada fallida**: Reintenta automáticamente las notificaciones de llamada que fallaron debido al Modo de Concentración u otras razones
+
+## Notas importantes
+
+- La aplicación requiere permiso de notificaciones para funcionar correctamente
+- Las notificaciones se entregan en tiempo real cuando se activan los canales
+- Puedes recibir notificaciones tanto de canales que creas como de canales a los que te suscribes
+- Se pueden usar diferentes tipos de notificación para diferentes niveles de urgencia

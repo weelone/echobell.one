@@ -1,0 +1,76 @@
+---
+title: Déclencheurs Email
+description: Apprenez à utiliser les déclencheurs email pour envoyer des notifications dans Echobell
+---
+
+# Déclencheurs Email
+
+Les déclencheurs email offrent un moyen simple d'envoyer des notifications via Echobell sans nécessiter de connaissances en programmation. Chaque canal peut avoir une adresse email dédiée, et lorsqu'un email est envoyé à cette adresse, il déclenche automatiquement des notifications pour tous les abonnés de ce canal.
+
+## Comment fonctionnent les déclencheurs email
+
+Lorsque vous configurez un déclencheur email pour un canal :
+
+1. Une adresse email unique est attribuée à votre canal
+2. Tout email envoyé à cette adresse déclenchera le canal
+3. Le contenu de l'email est automatiquement analysé en variables
+4. Ces variables peuvent être utilisées dans vos modèles de notification
+
+## Variables email disponibles
+
+Lorsqu'un email déclenche votre canal, Echobell extrait automatiquement les variables suivantes que vous pouvez utiliser dans vos modèles de notification :
+
+- `from` : L'adresse email de l'expéditeur
+- `to` : L'adresse email du destinataire (l'adresse email de votre canal)
+- `subject` : La ligne d'objet de l'email
+- `text` : Le contenu en texte brut de l'email
+- `html` : Le contenu HTML de l'email (si disponible)
+
+## Utilisation des variables email dans les modèles
+
+Vous pouvez utiliser ces variables dans vos modèles de notification en utilisant la syntaxe `{{nomVariable}}`. Par exemple :
+
+```
+Modèle de titre : Nouvel email de {{from}}
+Modèle de corps : Objet : {{subject}}
+
+{{text}}
+```
+
+## Cas d'utilisation
+
+Les déclencheurs email sont particulièrement utiles pour :
+
+- Transférer des emails importants en tant que notifications
+- Créer des flux de notification sans programmation
+- S'intégrer avec des systèmes hérités qui supportent l'email mais pas les webhooks
+- Configurer des alertes depuis des systèmes de surveillance basés sur email
+- Convertir des newsletters en notifications mobiles
+
+## Confidentialité et stockage des données
+
+Comme toutes les fonctionnalités d'Echobell :
+
+- Seules les données de configuration du canal sont stockées sur nos serveurs
+- Le contenu des notifications et des déclencheurs email est stocké localement sur votre appareil
+- Vos données email ne quittent jamais votre contrôle
+
+## Meilleures pratiques
+
+1. Utilisez des adresses email claires et spécifiques pour différents canaux
+2. Configurez des modèles de notification appropriés qui correspondent à votre contenu email
+3. Envisagez d'utiliser des types de notification Urgent ou Appel pour les emails urgents
+4. Testez votre configuration de déclencheur email avec un email test avant de vous y fier
+
+## Configuration des déclencheurs email
+
+1. Créez ou sélectionnez un canal dans Echobell
+2. Accédez aux paramètres du canal
+3. Trouvez la section Déclencheur email
+4. Copiez l'adresse email fournie
+5. Utilisez cette adresse email là où vous souhaitez déclencher des notifications
+
+<Callout type="warn">
+  Gardez l'adresse email de votre canal privée pour éviter les déclenchements
+  non autorisés.
+</Callout>

@@ -1,0 +1,165 @@
+---
+title: Primeros pasos
+description: Introducción a Echobell, una potente herramienta de gestión de notificaciones
+---
+
+# Primeros pasos con Echobell
+
+Bienvenido a Echobell, la aplicación de alertas instantáneas que te ayuda a mantenerte al día con las notificaciones importantes. Esta guía te ayudará a configurar y usar Echobell de manera efectiva.
+
+## ¿Qué es Echobell?
+
+Echobell es una potente herramienta de gestión de notificaciones que:
+
+- Maneja webhooks y correos electrónicos como disparadores
+- Envía notificaciones personalizadas a los suscriptores
+- Permite crear y compartir canales de notificación
+- Mantiene tus datos de notificación privados en tu dispositivo
+
+![Vista general de Echobell](/images/docs/screenshot-overview.en.png)
+
+## Conceptos básicos
+
+Antes de empezar, entendamos algunos conceptos clave:
+
+### Canales
+
+Un **Canal** es la unidad central en Echobell para organizar y distribuir notificaciones:
+
+- Cada canal tiene un **Nombre** y **Color** único para una fácil identificación
+- Los canales contienen **Plantillas de Notificación** que determinan qué información se envía
+- Los canales se activan a través de webhooks o correos electrónicos
+- Puedes crear tus propios canales o suscribirte a otros
+
+### Disparadores
+
+Un **Disparador** es lo que activa un canal para enviar notificaciones:
+
+- **Webhook**: Un endpoint URL que, cuando se llama, activa el canal
+- **Correo electrónico**: Una dirección de correo vinculada al canal que, cuando recibe un mensaje, activa el canal
+
+### Tipos de Notificación
+
+Al suscribirte a un canal, puedes elegir entre diferentes estilos de notificación:
+
+- **Normal**: Notificación estándar de la aplicación
+- **Urgente**: Notificación de alta prioridad que puede interrumpir los modos de concentración
+- **Llamada**: Alerta tipo llamada para los asuntos más urgentes
+
+## Comenzando
+
+### 1. Configuración de tu cuenta
+
+1. Descarga Echobell desde la [App Store](https://apps.apple.com/app/id6743597198)
+2. Abre la aplicación e inicia sesión con tu correo electrónico o con Apple
+
+![Configuración de cuenta](/images/docs/screenshot-sign-in.en.png)
+
+### 2. Creando tu primer canal
+
+1. Desde la vista principal, toca el botón en la esquina inferior derecha para navegar a la vista de **Canales**
+2. Toca el botón **+** para crear un nuevo canal
+3. Ingresa un nombre para tu canal (por ejemplo, "Alertas del Servidor")
+4. Selecciona un color para identificar tu canal
+5. Configura tus plantillas de notificación:
+   - **Plantilla de título**: Lo que aparece como encabezado de la notificación
+   - **Plantilla de cuerpo**: El contenido detallado de la notificación
+6. Opcionalmente, activa la suscripción del canal para ti mismo
+7. Elige un **Tipo de Notificación** para tu canal (Normal, Urgente o Llamada)
+8. Guarda tu nuevo canal
+
+![Crear Canal](/images/docs/screenshot-create-channel.en.png)
+
+### 3. Configuración de un disparador
+
+Una vez creado tu canal, hay dos formas de activar notificaciones: mediante webhooks o correos electrónicos. Toca el canal que acabas de crear para acceder a su configuración. En la configuración del canal, encontrarás la sección de **Disparadores**.
+
+![Configuración del Canal](/images/docs/screenshot-channel-settings.en.png)
+
+#### Disparador Webhook
+
+1. Toca el botón **webhook** para copiar la URL generada
+2. Integra esta URL en tus sistemas (por ejemplo, monitoreo de servidor, pipeline CI/CD)
+3. Cuando se llame a la URL, tu canal se activará
+
+Puedes proporcionar variables a tus plantillas de notificación de dos maneras:
+
+```bash
+# Ejemplo de llamada webhook con parámetros de consulta
+curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=Uso%20de%20CPU%20al%2095%25"
+
+# O con cuerpo JSON
+curl -X POST https://hook.echobell.one/t/your-unique-id \
+  -H "Content-Type: application/json" \
+  -d '{"server": "production", "status": "critical", "message": "Uso de CPU al 95%"}'
+```
+
+Estas variables se usarán para completar tus plantillas de notificación. Por ejemplo, si tu plantilla de título es `{{server}} - {{status}}`, se mostraría como "production - critical".
+
+**Variables especiales:**
+
+- `externalLink`: Si incluyes esta variable, se mostrará como un enlace clickeable en los registros de notificación
+
+#### Disparador de correo electrónico
+
+1. Toca el botón de **correo** para copiar la dirección de correo electrónico generada para tu canal
+2. Cuando se envíe un correo a esta dirección, tu canal se activará
+
+Con los disparadores de correo electrónico, Echobell extrae automáticamente estas variables del correo:
+
+- `from`: La dirección de correo del remitente
+- `to`: La dirección de correo del destinatario (el correo de tu canal)
+- `subject`: El asunto del correo
+- `text`: El contenido de texto plano del correo
+- `html`: El contenido HTML del correo
+
+Puedes usar estas variables en tus plantillas, como `{{subject}}` o `{{text}}`.
+
+### 4. Personalización de plantillas de notificación
+
+Las plantillas usan variables que se completan con los datos del disparador:
+
+1. En la configuración de tu canal, ve a **Plantillas de Notificación**
+2. Para la plantilla de título, podrías usar: `{{server}} - {{status}}`
+3. Para la plantilla de cuerpo, podrías usar: `{{message}} Detectado en {{timestamp}}`
+4. Las variables se encierran entre llaves dobles: `{{nombre_variable}}`
+5. Prueba tu plantilla con datos de ejemplo
+
+### 5. Suscripción a canales
+
+1. Puedes compartir el enlace de suscripción de tus canales con otros
+2. O puedes usar enlaces de suscripción compartidos por otros para suscribirte a los canales
+3. Toca **Suscribirse** en la vista de canales
+4. Ingresa el enlace de suscripción
+5. Elige tu **Tipo de Notificación** preferido:
+   - Normal para alertas estándar
+   - Urgente para alertas importantes
+   - Llamada para situaciones críticas
+6. Confirma tu suscripción
+
+## Configuración de la aplicación
+
+Puedes personalizar cómo Echobell maneja las notificaciones a través de estas configuraciones:
+
+- **Repetir contenido de voz**: Cuando uses notificaciones de llamada, esta configuración hará que el contenido de la notificación se repita
+- **Reintentar llamada fallida**: Reintenta automáticamente las notificaciones de llamada que fallaron debido al Modo de Concentración u otras razones
+
+## Privacidad y almacenamiento de datos
+
+Echobell prioriza tu privacidad:
+
+- Solo las cuentas de usuario, canales y datos de suscripción se almacenan en nuestros servidores
+- El contenido y el historial de notificaciones se almacenan localmente en tu dispositivo
+- Tus datos de alerta nunca salen de tu control
+
+## Próximos pasos
+
+Ahora que has configurado tu primer canal:
+
+- Explora opciones avanzadas de plantillas
+- Comparte tus canales con miembros del equipo
+- Configura horarios de notificación y horas de silencio
+
+Para información más detallada sobre cada función, consulta nuestra sección de [Guías de funciones](/es/docs/features).
+
+¿Necesitas ayuda? Visita nuestro [Centro de soporte](/es/docs/support) o envía un correo a echobell@weelone.com.

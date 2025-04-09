@@ -1,8 +1,8 @@
-import { Logo } from '@/components/Logo';
-import { APP_STORE_LINK } from '@/constants';
-import { i18n, uiDictionary } from '@/lib/i18n';
-import { SiAppstore } from '@icons-pack/react-simple-icons';
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import { Logo } from "@/components/Logo";
+import { APP_STORE_LINK } from "@/constants";
+import { i18n, uiDictionary } from "@/lib/i18n";
+import { SiAppstore } from "@icons-pack/react-simple-icons";
+import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 
 /**
  * Shared layout configurations
@@ -12,20 +12,19 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  * Docs Layout: app/(docs)/docs/layout.tsx
  */
 export function baseOptions(locale: string): BaseLayoutProps {
-  const navLinks = uiDictionary[locale as keyof typeof uiDictionary].nav.navigation
+  const navLinks =
+    uiDictionary[locale as keyof typeof uiDictionary].nav.navigation;
   return {
     i18n,
     nav: {
       title: (
         <>
-          <Logo className='h-6 text-orange-500' />
-          <span className="font-medium">
-            Echobell
-          </span>
+          <Logo className="h-6 text-orange-500" />
+          <span className="font-medium">Echobell</span>
         </>
       ),
       url: `/${locale}`,
-      transparentMode: 'top',
+      transparentMode: "top",
     },
     links: [
       ...navLinks.map((link) => ({
@@ -33,12 +32,12 @@ export function baseOptions(locale: string): BaseLayoutProps {
         url: link.href,
       })),
       {
-        type: 'icon',
+        type: "icon",
         icon: <SiAppstore />,
-        text: 'App Store',
+        text: "App Store",
         url: APP_STORE_LINK,
-      }
+      },
     ],
-    githubUrl: 'https://github.com/weelone/echobell.one',
+    githubUrl: "https://github.com/weelone/echobell.one",
   };
 }

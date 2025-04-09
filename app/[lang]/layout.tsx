@@ -42,6 +42,32 @@ const zh: Partial<Translations> = {
   editOnGithub: "在GitHub上编辑",
 };
 
+const es: Partial<Translations> = {
+  search: "Buscar",
+  searchNoResult: "No se encontraron resultados",
+  toc: "Índice",
+  tocNoHeadings: "No hay encabezados",
+  lastUpdate: "Última actualización",
+  chooseLanguage: "Elegir idioma",
+  nextPage: "Siguiente página",
+  previousPage: "Página anterior",
+  chooseTheme: "Elegir tema",
+  editOnGithub: "Editar en GitHub",
+};
+
+const fr: Partial<Translations> = {
+  search: "Rechercher",
+  searchNoResult: "Aucun résultat trouvé",
+  toc: "Table des matières",
+  tocNoHeadings: "Pas de titres",
+  lastUpdate: "Dernière mise à jour",
+  chooseLanguage: "Choisir la langue",
+  nextPage: "Page suivante",
+  previousPage: "Page précédente",
+  chooseTheme: "Choisir le thème",
+  editOnGithub: "Éditer sur GitHub",
+};
+
 // available languages that will be displayed on UI
 // make sure `locale` is consistent with your i18n config
 const locales = [
@@ -52,6 +78,14 @@ const locales = [
   {
     name: "中文",
     locale: "zh",
+  },
+  {
+    name: "Español",
+    locale: "es",
+  },
+  {
+    name: "Français",
+    locale: "fr",
   },
 ];
 
@@ -78,7 +112,7 @@ export default async function Layout({
           i18n={{
             locale: lang,
             locales,
-            translations: { zh }[lang],
+            translations: { zh, es, fr }[lang],
           }}
           search={{ enabled: false }}
         >

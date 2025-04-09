@@ -1,0 +1,119 @@
+---
+title: Intégration Webhook
+description: Apprenez à intégrer les webhooks d'Echobell dans vos applications et services
+---
+
+# Intégration Webhook
+
+## Qu'est-ce qu'un webhook
+
+Un webhook est une façon pour une application de fournir des informations en temps réel à d'autres applications. C'est comme un numéro de téléphone que vous donnez à quelqu'un - quand ils appellent ce numéro, votre téléphone sonne. Dans le monde numérique, quand quelque chose se produit dans un système, il envoie une requête HTTP à une URL (le webhook) que vous avez fournie, déclenchant une action dans votre système.
+
+Par exemple, lorsque l'utilisation du CPU de votre serveur devient trop élevée, votre système de surveillance peut appeler l'URL webhook d'Echobell, qui déclenche alors une notification pour vous alerter. Cela se produit automatiquement et en temps réel, sans que vous ayez à vérifier constamment l'utilisation du CPU vous-même.
+
+## Vue d'ensemble
+
+Chaque canal Echobell peut être configuré avec une URL webhook unique. Lorsque cette URL est appelée, le canal envoie des notifications à tous ses abonnés en fonction des modèles de notification configurés et des variables fournies.
+
+## Format d'URL Webhook
+
+```
+https://hook.echobell.one/t/{token-du-canal}
+```
+
+Vous pouvez trouver l'URL webhook de votre canal dans la vue des détails du canal dans l'application Echobell.
+
+## Effectuer des requêtes Webhook
+
+Les webhooks Echobell prennent en charge les méthodes GET et POST :
+
+### Requête GET
+
+Vous pouvez passer des variables via des paramètres de requête :
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+```
+
+### Requête POST
+
+Pour les requêtes POST, envoyez les variables dans un corps JSON :
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+## Variables spéciales
+
+Echobell prend en charge une variable spéciale qui ajoute des fonctionnalités à vos notifications :
+
+- `externalLink` : Lorsqu'incluse dans la requête, cela crée un lien cliquable dans la vue des enregistrements de notification. Utile pour lier vers des informations détaillées ou des ressources connexes.
+
+Exemple avec lien externe :
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95,
+  "externalLink": "https://dashboard.example.com/alerts/123"
+}
+```
+
+## Variables de modèle
+
+Les variables transmises via webhooks peuvent être utilisées dans vos modèles de notification en utilisant la syntaxe `{{nomVariable}}` :
+
+```
+Titre : Alerte serveur {{server_name}}
+Corps : L'utilisation du CPU a atteint {{cpu_usage}}%
+```
+
+Lorsqu'elles sont déclenchées, ces modèles seront remplis avec les valeurs fournies dans votre requête webhook.
+
+## Cas d'utilisation courants
+
+Les webhooks sont particulièrement utiles pour :
+
+- La surveillance et les alertes serveur
+- Les notifications de pipeline CI/CD
+- Les mises à jour d'état des appareils IoT
+- Le suivi des erreurs d'application
+- Les notifications de commandes e-commerce
+- Les alertes système automatisées
+
+## Meilleures pratiques
+
+1. **Gestion des erreurs** : Vérifiez toujours le statut de réponse HTTP des appels webhook pour assurer une livraison réussie
+2. **Limitation de débit** : Implémentez des délais raisonnables entre les appels webhook pour éviter de surcharger votre système de notifications
+3. **Sécurité des données** : Ne partagez les URLs webhook qu'avec des systèmes et services de confiance
+4. **Tests** : Testez votre intégration webhook avec des données minimales avant de l'implémenter en production
+
+## Confidentialité et sécurité
+
+Rappelez-vous que :
+
+- Les URLs webhook doivent être traitées comme des secrets
+- N'envoyez que les données nécessaires dans les requêtes webhook
+- Tout le contenu des notifications est stocké localement sur les appareils des abonnés
+- Nos serveurs ne font que traiter la requête webhook et router les notifications
+
+## Dépannage
+
+Si vos webhooks ne fonctionnent pas comme prévu :
+
+1. Vérifiez que l'URL webhook est correcte
+2. Vérifiez si le canal est actif
+3. Assurez-vous que votre payload JSON est correctement formaté (pour les requêtes POST)
+4. Confirmez que toutes les variables requises dans vos modèles sont fournies
+5. Vérifiez si le canal a des abonnés actifs
+
+Besoin d'aide ? Visitez notre [Centre de support](/fr/docs/support) ou contactez-nous à echobell@weelone.com.

@@ -1,0 +1,105 @@
+---
+title: ¿Qué es Echobell?
+description: Conoce Echobell, la aplicación de alertas instantáneas que simplifica la gestión de notificaciones.
+---
+
+# ¿Qué es Echobell?
+
+Echobell es una aplicación de alertas instantáneas diseñada para simplificar la gestión de notificaciones. Maneja webhooks y correos electrónicos para activar notificaciones o llamadas personalizadas, asegurando que nunca te pierdas alertas importantes.
+
+## Características principales
+
+- **Alertas instantáneas**: Recibe notificaciones en tiempo real cuando se activan tus canales
+- **Múltiples métodos de activación**: Configura webhooks o activadores basados en correo electrónico
+- **Notificaciones personalizables**: Configura plantillas con variables dinámicas
+- **Sistema de suscripción**: Crea canales y permite que otros se suscriban a ellos
+- **Enfocado en la privacidad**: Solo los datos esenciales se almacenan en nuestros servidores, mientras que el historial de notificaciones permanece en tu dispositivo
+
+## Cómo funciona Echobell
+
+Cuando se llama a un webhook o se recibe un correo electrónico, Echobell procesa los datos entrantes y envía notificaciones a todos los suscriptores del canal. El contenido de la notificación se genera dinámicamente según tus plantillas y las variables proporcionadas en el activador.
+
+## Conceptos clave
+
+### Canales
+
+Un canal es la entidad central en Echobell. Cada canal:
+
+- Tiene un nombre y color distintivos para una fácil identificación
+- Contiene plantillas de notificación para el título y el contenido del cuerpo
+- Puede activarse mediante webhook o correo electrónico
+- Puede compartirse con otros usando enlaces de suscripción
+
+### Tipos de notificación
+
+Al suscribirte a un canal, puedes elegir entre tres tipos de notificación:
+
+- **Normal**: Notificaciones estándar de la aplicación
+- **Urgente**: Notificaciones que pueden atravesar ciertos modos de concentración
+- **Llamada**: Alertas tipo llamada para notificaciones críticas
+
+### Variables de plantilla
+
+Haz que tus notificaciones sean dinámicas usando variables en tus plantillas:
+
+```
+Título: ¡El servidor {{server_name}} está caído!
+Cuerpo: El uso de CPU alcanzó {{cpu_usage}}%
+```
+
+Cuando se activa con las variables apropiadas, estas plantillas generan notificaciones personalizadas.
+
+### Métodos de activación
+
+#### Activadores Webhook
+
+Activa canales mediante peticiones HTTP con variables en cadenas de consulta o cuerpos JSON:
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Produccion&cpu_usage=95
+
+# O
+
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Produccion",
+  "cpu_usage": 95
+}
+```
+
+**Variables especiales**
+
+- `externalLink`: Cuando se incluye en la solicitud, esta variable creará un enlace clickeable en la vista de registros de notificación
+
+#### Activadores de correo electrónico
+
+Envía correos a direcciones específicas del canal. Echobell extrae automáticamente variables como:
+
+- `from`: Dirección de correo del remitente
+- `subject`: Línea de asunto del correo
+- `text`: Contenido de texto plano
+- `html`: Contenido HTML
+
+## Privacidad y almacenamiento de datos
+
+Echobell está diseñado pensando en la privacidad:
+
+- Solo los datos de usuario, configuraciones de canal e información de suscripción se almacenan en nuestros servidores
+- El historial y registros de notificaciones permanecen exclusivamente en tu dispositivo local
+
+## Primeros pasos
+
+Para empezar a usar Echobell, necesitarás:
+
+1. Descargar la aplicación Echobell desde la [App Store](https://apps.apple.com/app/id6743597198)
+2. Iniciar sesión usando correo electrónico o tu ID de Apple
+3. Crear un canal y personalizar su configuración
+4. Integrar tu webhook o activador de correo electrónico
+5. Comenzar a recibir notificaciones
+
+<Callout type="warn">
+  Echobell requiere permiso de notificaciones para funcionar correctamente, ya
+  que todas las funciones están basadas en notificaciones.
+</Callout>

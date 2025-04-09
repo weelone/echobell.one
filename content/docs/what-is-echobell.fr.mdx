@@ -1,0 +1,106 @@
+---
+title: Qu'est-ce qu'Echobell ?
+description: Découvrez Echobell, l'application d'alertes instantanées qui simplifie la gestion des notifications.
+---
+
+# Qu'est-ce qu'Echobell ?
+
+Echobell est une application d'alertes instantanées conçue pour simplifier la gestion des notifications. Elle gère les webhooks et les emails pour déclencher des notifications ou des appels personnalisés, vous assurant de ne jamais manquer d'alertes importantes.
+
+## Fonctionnalités principales
+
+- **Alertes instantanées** : Recevez des notifications en temps réel lorsque vos canaux sont déclenchés
+- **Méthodes de déclenchement multiples** : Configurez des webhooks ou des déclencheurs basés sur email
+- **Notifications personnalisables** : Configurez des modèles avec des variables dynamiques
+- **Système d'abonnement** : Créez des canaux et laissez d'autres s'y abonner
+- **Axé sur la confidentialité** : Seules les données essentielles sont stockées sur nos serveurs, tandis que l'historique des notifications reste sur votre appareil
+
+## Comment fonctionne Echobell
+
+Lorsqu'un webhook est appelé ou qu'un email est reçu, Echobell traite les données entrantes et envoie des notifications à tous les abonnés du canal. Le contenu de la notification est généré dynamiquement en fonction de vos modèles et des variables fournies dans le déclencheur.
+
+## Concepts clés
+
+### Canaux
+
+Un canal est l'entité centrale dans Echobell. Chaque canal :
+
+- Possède un nom et une couleur distincts pour une identification facile
+- Contient des modèles de notification pour le titre et le contenu
+- Peut être déclenché via webhook ou email
+- Peut être partagé avec d'autres via des liens d'abonnement
+
+### Types de notification
+
+Lors de l'abonnement à un canal, vous pouvez choisir parmi trois types de notification :
+
+- **Normal** : Notifications standard de l'application
+- **Urgent** : Notifications qui peuvent passer outre certains modes de concentration
+- **Appel** : Alertes de type appel pour les notifications critiques
+
+### Variables de modèle
+
+Rendez vos notifications dynamiques en utilisant des variables dans vos modèles :
+
+```
+Titre : Le serveur {{server_name}} est hors service !
+Corps : L'utilisation du CPU a atteint {{cpu_usage}}%
+```
+
+Lorsqu'elles sont déclenchées avec les variables appropriées, ces modèles génèrent des notifications personnalisées.
+
+### Méthodes de déclenchement
+
+#### Déclencheurs Webhook
+
+Déclenchez des canaux via des requêtes HTTP avec des variables dans les chaînes de requête ou les corps JSON :
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+
+# OU
+
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+**Variables spéciales**
+
+- `externalLink` : Lorsqu'incluse dans la requête, cette variable créera un lien cliquable dans la vue des enregistrements de notification
+
+#### Déclencheurs Email
+
+Envoyez des emails à des adresses spécifiques au canal. Echobell extrait automatiquement des variables comme :
+
+- `from` : Adresse email de l'expéditeur
+- `subject` : Ligne d'objet de l'email
+- `text` : Contenu en texte brut
+- `html` : Contenu HTML
+
+## Confidentialité et stockage des données
+
+Echobell est conçu en pensant à la confidentialité :
+
+- Seules les données utilisateur, les configurations de canal et les informations d'abonnement sont stockées sur nos serveurs
+- L'historique et les enregistrements des notifications restent exclusivement sur votre appareil local
+
+## Pour commencer
+
+Pour commencer à utiliser Echobell, vous devrez :
+
+1. Télécharger l'application Echobell depuis l'[App Store](https://apps.apple.com/app/id6743597198)
+2. Vous connecter avec votre email ou votre identifiant Apple
+3. Créer un canal et personnaliser ses paramètres
+4. Intégrer votre webhook ou déclencheur email
+5. Commencer à recevoir des notifications
+
+<Callout type="warn">
+  Echobell nécessite l'autorisation des notifications pour fonctionner
+  correctement, car toutes les fonctionnalités sont basées sur les
+  notifications.
+</Callout>

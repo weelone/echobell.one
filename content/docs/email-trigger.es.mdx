@@ -1,0 +1,76 @@
+---
+title: Activadores de correo
+description: Aprende a usar activadores de correo para enviar notificaciones en Echobell
+---
+
+# Activadores de correo
+
+Los activadores de correo proporcionan una forma simple de enviar notificaciones a través de Echobell sin requerir conocimientos de programación. Cada canal puede tener una dirección de correo dedicada, y cuando se envía un correo a esta dirección, automáticamente activa notificaciones para todos los suscriptores de ese canal.
+
+## Cómo funcionan los activadores de correo
+
+Cuando configuras un activador de correo para un canal:
+
+1. Se asigna una dirección de correo única a tu canal
+2. Cualquier correo enviado a esta dirección activará el canal
+3. El contenido del correo se analiza automáticamente en variables
+4. Estas variables se pueden usar en tus plantillas de notificación
+
+## Variables de correo disponibles
+
+Cuando un correo activa tu canal, Echobell extrae automáticamente las siguientes variables que puedes usar en tus plantillas de notificación:
+
+- `from`: La dirección de correo del remitente
+- `to`: La dirección de correo del destinatario (la dirección de correo de tu canal)
+- `subject`: La línea de asunto del correo
+- `text`: El contenido de texto plano del correo
+- `html`: El contenido HTML del correo (si está disponible)
+
+## Usando variables de correo en plantillas
+
+Puedes usar estas variables en tus plantillas de notificación usando la sintaxis `{{nombreVariable}}`. Por ejemplo:
+
+```
+Plantilla de título: Nuevo correo de {{from}}
+Plantilla de cuerpo: Asunto: {{subject}}
+
+{{text}}
+```
+
+## Casos de uso
+
+Los activadores de correo son particularmente útiles para:
+
+- Reenviar correos importantes como notificaciones
+- Crear flujos de trabajo de notificación sin programación
+- Integrarse con sistemas heredados que admiten correo pero no webhooks
+- Configurar alertas desde sistemas de monitoreo basados en correo
+- Convertir boletines de correo en notificaciones móviles
+
+## Privacidad y almacenamiento de datos
+
+Como todas las funciones en Echobell:
+
+- Solo los datos de configuración del canal se almacenan en nuestros servidores
+- El contenido de las notificaciones y activadores de correo se almacena localmente en tu dispositivo
+- Tus datos de correo nunca salen de tu control
+
+## Mejores prácticas
+
+1. Usa direcciones de correo claras y específicas para diferentes canales
+2. Configura plantillas de notificación apropiadas que coincidan con tu contenido de correo
+3. Considera usar tipos de notificación Urgente o Llamada para correos urgentes
+4. Prueba tu configuración de activador de correo con un correo de muestra antes de confiar en ella
+
+## Configuración de activadores de correo
+
+1. Crea o selecciona un canal en Echobell
+2. Navega a la configuración del canal
+3. Encuentra la sección de Activador de correo
+4. Copia la dirección de correo proporcionada
+5. Usa esta dirección de correo donde quieras activar notificaciones
+
+<Callout type="warn">
+  Mantén la dirección de correo de tu canal privada para prevenir activaciones
+  no autorizadas.
+</Callout>

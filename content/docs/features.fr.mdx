@@ -1,0 +1,158 @@
+---
+title: Aperçu des fonctionnalités
+description: Un guide complet des fonctionnalités et capacités principales d'Echobell
+---
+
+# Fonctionnalités d'Echobell
+
+Echobell est une puissante plateforme de gestion des notifications qui offre une gamme de fonctionnalités pour vous aider à rester au top des alertes importantes. Ce guide couvre toutes les fonctionnalités et capacités majeures d'Echobell.
+
+<Cards>
+  <Card
+    href="/fr/docs/webhook"
+    title="Intégration Webhook"
+    description="Apprenez à intégrer les webhooks d'Echobell dans vos applications et services"
+  />
+  <Card
+    href="/fr/docs/email-trigger"
+    title="Déclencheurs Email"
+    description="Apprenez à utiliser les déclencheurs email pour envoyer des notifications dans Echobell"
+  />
+  <Card
+    href="/fr/docs/notification"
+    title="Notifications"
+    description="Comprendre comment fonctionnent les notifications dans Echobell et les différents types disponibles."
+  />
+</Cards>
+
+## Fonctionnalités principales
+
+### Canaux de notification
+
+Au cœur d'Echobell se trouvent les canaux - des pipelines de notification personnalisables que vous pouvez créer pour différents usages. Chaque canal possède :
+
+- Un nom et une couleur uniques pour une identification facile
+- Des modèles de notification personnalisables
+- Des options de déclenchement flexibles (webhook ou email)
+- Des liens d'abonnement partageables
+
+### Méthodes de déclenchement
+
+#### Déclencheurs Webhook
+
+Intégrez-vous à pratiquement n'importe quel système en utilisant des URLs webhook. Lorsque ces URLs sont appelées, votre canal envoie des notifications à tous les abonnés. Parfait pour :
+
+- Les alertes de surveillance serveur
+- Les notifications de pipeline CI/CD
+- Les mises à jour d'état des appareils IoT
+- Les notifications de commandes e-commerce
+
+Vous pouvez fournir des variables via des paramètres de requête ou un corps JSON :
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+
+# OU
+
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+Variables spéciales :
+
+- `externalLink` : Lorsqu'incluse, crée un lien cliquable dans les enregistrements de notification
+
+#### Déclencheurs Email
+
+Chaque canal peut avoir une adresse email dédiée. Lorsqu'un email est envoyé à cette adresse, le canal est déclenché. Cela permet de :
+
+- Transférer des emails importants en tant que notifications
+- Créer des flux de notification sans programmation
+- S'intégrer avec des systèmes hérités qui supportent l'email mais pas les webhooks
+
+Variables email disponibles :
+
+- `from` : Adresse email de l'expéditeur
+- `subject` : Ligne d'objet de l'email
+- `text` : Contenu en texte brut
+- `html` : Contenu HTML
+
+### Types de notification
+
+Les abonnés peuvent choisir parmi trois types de notification selon l'urgence :
+
+1. **Normal**
+
+   - Notifications standard de l'application pour les alertes routinières
+   - Suit les paramètres normaux de notification de votre appareil
+
+2. **Urgent**
+
+   - Notifications haute priorité
+   - Peut passer outre certains modes de concentration
+   - À utiliser pour les alertes importantes qui ne doivent pas être manquées
+
+3. **Appel**
+   - Alertes de type appel pour les situations critiques
+   - Exige une attention immédiate
+   - Apparaît comme des appels entrants sur votre appareil
+
+### Système de modèles
+
+Rendez vos notifications dynamiques en utilisant des modèles personnalisables avec variables :
+
+- **Modèle de titre** : Détermine ce qui apparaît dans l'en-tête de la notification
+- **Modèle de corps** : Contrôle le contenu principal de la notification
+
+Exemple de modèle :
+
+```
+Titre : Le serveur {{server_name}} est hors service !
+Corps : L'utilisation du CPU a atteint {{cpu_usage}}%
+```
+
+Les variables sont encadrées par des accolades doubles `{{nomVariable}}` et sont remplies avec les données du déclencheur.
+
+### Fonctionnalités de confidentialité
+
+Echobell est construit avec la confidentialité au cœur :
+
+- Seuls les comptes utilisateurs, les canaux et les données d'abonnement sont stockés sur les serveurs
+- Le contenu et l'historique des notifications restent exclusivement sur votre appareil
+- Vos données d'alerte sensibles ne quittent jamais votre contrôle
+
+### Paramètres de l'application
+
+Personnalisez le comportement des notifications :
+
+- **Répéter le contenu vocal** : Pour les notifications d'appel, permet de répéter le contenu de la notification
+- **Réessayer l'appel échoué** : Réessaie automatiquement les notifications d'appel qui ont échoué à cause du Mode Concentration
+
+## Cas d'utilisation
+
+### Pour les développeurs
+
+- Surveillez la santé du serveur et recevez des alertes instantanées
+- Obtenez des notifications pour les fins de build ou les échecs de tests
+- Recevez des alertes pour les erreurs critiques en production
+
+### Pour les équipes
+
+- Créez des canaux pour différents projets ou systèmes
+- Laissez les membres de l'équipe s'abonner avec leur préférence d'urgence de notification
+- Assurez-vous que les alertes critiques ne sont jamais manquées
+
+### Pour un usage personnel
+
+- Recevez des alertes lorsque votre site web tombe en panne
+- Recevez des notifications pour les emails importants
+- Créez des alertes personnalisées pour tout ce qui est important
+
+## Pour commencer
+
+Pour des instructions détaillées de configuration, consultez notre [Guide de démarrage](/fr/docs/index). Besoin d'aide ? Visitez notre [Centre de support](/fr/docs/support) ou envoyez un email à echobell@weelone.com.
