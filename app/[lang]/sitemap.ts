@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { baseUrl } from "@/lib/metadata";
 import { source, blog } from "@/lib/source";
-import { languages } from "@/lib/i18n";
+import { i18n, languages } from "@/lib/i18n";
 
 export const runtime = "edge";
 
@@ -11,36 +11,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const url = (path: string): string => new URL(path, baseUrl).toString();
 
   return [
-    {
-      url: url("/"),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: url("/zh"),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: url("/docs"),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: url("zh/docs"),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: url("/blog"),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: url("zh/blog"),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
+    ...getLocalizedUrls("/").map(
+      (item) =>
+        ({
+          url: url(item),
+          changeFrequency: "monthly",
+          priority: 1,
+        } as const)
+    ),
+    ...getLocalizedUrls("/docs").map(
+      (item) =>
+        ({
+          url: url(item),
+          changeFrequency: "weekly",
+          priority: 0.8,
+        } as const)
+    ),
+    ...getLocalizedUrls("/blog").map(
+      (item) =>
+        ({
+          url: url(item),
+          changeFrequency: "weekly",
+          priority: 0.8,
+        } as const)
+    ),
     ...languages.flatMap((lang) => {
       return source.getPages(lang).map((page) => {
         const lastModified = page.data.lastModified;
@@ -64,4 +58,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }),
   ];
+}
+
+function getLocalizedUrls(url: string): string[] {
+  return languages.map((lang) =>
+    lang == i18n.defaultLanguage ? url : `/${lang}${url}`
+  );
 }
