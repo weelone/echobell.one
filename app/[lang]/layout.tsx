@@ -5,17 +5,29 @@ import "./globals.css";
 import { RootProvider } from "fumadocs-ui/provider";
 import { baseUrl, createMetadata } from "@/lib/metadata";
 import { Translations } from "fumadocs-ui/contexts/i18n";
+import { Language, uiDictionary } from "@/lib/i18n";
+import { Metadata } from "next";
 
 export const runtime = "edge";
 
-export const metadata = createMetadata({
-  title: {
-    template: "%s | Echobell",
-    default: "Echobell",
-  },
-  description: "Instant alerts for various scenarios.",
-  metadataBase: baseUrl,
-});
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: Language }>;
+}): Promise<Metadata> {
+  const lang = (await params).lang;
+  const t = uiDictionary[lang].metadata;
+
+  return createMetadata({
+    title: {
+      template: t.titleTemplate,
+      default: t.defaultTitle,
+    },
+    description: t.description,
+    metadataBase: baseUrl,
+    keywords: t.keywords,
+  });
+}
 
 const zh: Partial<Translations> = {
   search: "搜索",

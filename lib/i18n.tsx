@@ -4,16 +4,38 @@ import appStoreImageEn from "@/public/images/app-store.en.svg";
 import appStoreImageZh from "@/public/images/app-store.zh.svg";
 import { Cover } from "@/components/ui/cover";
 
-export const languages = ["en", "zh"];
+export const languages = ["en", "zh"] as const;
+export type Language = (typeof languages)[number];
 
 export const i18n: I18nConfig = {
   defaultLanguage: "en",
-  languages,
+  languages: [...languages],
   hideLocale: "default-locale",
 };
 
 export const uiDictionary = {
   en: {
+    metadata: {
+      titleTemplate: "%s | Echobell",
+      defaultTitle: "Echobell",
+      description:
+        "Instant alerts for various scenarios, with webhooks and emails, into notifications and calls.",
+      keywords: [
+        "Echobell",
+        "instant alerts",
+        "notifications",
+        "webhooks",
+        "emails",
+        "call notifications",
+        "alert app",
+        "notification channels",
+        "bark app",
+        "alerting",
+        "trading alerts",
+        "crypto alerts",
+        "team alerts",
+      ],
+    },
     nav: {
       navigation: [
         { name: "Pricing", href: "/#pricing" },
@@ -243,8 +265,35 @@ export const uiDictionary = {
       learnMore: "Learn more",
       appStoreImage: appStoreImageEn,
     },
+    blog: {
+      title: "Echobell Blog",
+      description: "Explore our latest insights and stories.",
+      writtenBy: "Written by",
+      at: "At",
+    },
   },
   zh: {
+    metadata: {
+      titleTemplate: "%s | 回声铃",
+      defaultTitle: "回声铃",
+      description:
+        "适用于多种场景的即时通知，通过 Webhook 和电子邮件，转化为通知和来电。",
+      keywords: [
+        "回声铃",
+        "即时通知",
+        "通知",
+        "Webhook",
+        "电子邮件",
+        "来电通知",
+        "提醒应用",
+        "通知频道",
+        "Bark 应用",
+        "提醒",
+        "交易提醒",
+        "加密货币提醒",
+        "团队提醒",
+      ],
+    },
     nav: {
       navigation: [
         { name: "定价", href: "/zh/#pricing" },
@@ -462,6 +511,12 @@ export const uiDictionary = {
       downloadTips: "如果您还没有回声铃应用，可以从 App Store 下载。",
       learnMore: "了解更多",
       appStoreImage: appStoreImageZh,
+    },
+    blog: {
+      title: "回声铃博客",
+      description: "探索我们的最新见解和故事。",
+      writtenBy: "作者",
+      at: "发布于",
     },
   },
 };
