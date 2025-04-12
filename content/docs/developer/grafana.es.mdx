@@ -1,0 +1,158 @@
+---
+title: Integración con Grafana
+description: Aprende cómo integrar las alertas de Grafana con Echobell para recibir notificaciones instantáneas
+---
+
+# Integración con Grafana
+
+Grafana es una solución popular de código abierto para análisis y monitoreo. Al integrar Grafana con Echobell, puedes recibir notificaciones instantáneas cuando tus métricas activen alertas. Esta guía te mostrará cómo configurar las alertas de Grafana con Echobell.
+
+## Requisitos previos
+
+- Una cuenta de Echobell con al menos un canal creado
+- Acceso a una instancia de Grafana (versión 8.0 o posterior)
+- Acceso administrativo para configurar notificaciones de alertas en Grafana
+
+## Descripción general de la configuración
+
+1. Crear un canal de Echobell
+2. Configurar las plantillas de notificación
+3. Obtener la URL del webhook
+4. Configurar el punto de contacto en Grafana
+5. Crear reglas de alerta en Grafana
+
+## Guía paso a paso
+
+### 1. Crear un canal de Echobell
+
+1. Abrir la aplicación Echobell
+2. Crear un nuevo canal (por ejemplo, "Alertas de Grafana")
+3. Elegir un color distintivo para facilitar la identificación
+
+### 2. Configurar plantillas de notificación
+
+Configura plantillas que formatearán tus alertas de Grafana de manera efectiva:
+
+**Plantilla de título:**
+
+```
+{{alertName}} - {{status}}
+```
+
+**Plantilla de contenido:**
+
+```
+🔔 Alerta: {{alertName}}
+📊 Métrica: {{metric}}
+📈 Valor: {{value}}
+⏰ Hora: {{time}}
+ℹ️ Mensaje: {{message}}
+```
+
+Estas plantillas funcionarán con la estructura de datos de alerta de Grafana.
+
+### 3. Obtener la URL del webhook
+
+1. En la configuración de tu canal, localiza la sección **Disparadores**
+2. Copia la URL del webhook proporcionada
+3. Mantén esta URL segura ya que se utilizará en la configuración de Grafana
+
+### 4. Configurar punto de contacto en Grafana
+
+1. En Grafana, ve a **Alertas** → **Puntos de contacto**
+2. Haz clic en **Nuevo punto de contacto**
+3. Configura lo siguiente:
+   - Nombre: "Echobell"
+   - Tipo: "Webhook"
+   - URL: Tu URL de webhook de Echobell
+   - Método HTTP: POST
+   - Tipo de contenido: application/json
+4. Configura la plantilla del mensaje:
+
+```json
+{
+  "alertName": "{{ .alertName }}",
+  "status": "{{ .status }}",
+  "metric": "{{ .metric }}",
+  "value": "{{ .value }}",
+  "time": "{{ .time }}",
+  "message": "{{ .message }}",
+  "externalLink": "{{ .dashboardURL }}"
+}
+```
+
+### 5. Crear reglas de alerta
+
+1. Navega a **Alertas** → **Reglas de alerta**
+2. Crea una nueva regla de alerta o edita una existente
+3. En la configuración de la regla:
+   - Establece condiciones apropiadas para tus métricas
+   - Selecciona el punto de contacto "Echobell"
+   - Configura criterios de evaluación de alertas
+
+## Probando la integración
+
+Para verificar tu configuración:
+
+1. Crea una regla de alerta de prueba con una condición que se active rápidamente
+2. Espera a que se cumpla la condición
+3. Revisa tu aplicación Echobell para ver la notificación de alerta
+4. Verifica que todas las variables de alerta se muestren correctamente
+5. Haz clic en la notificación para acceder al panel de control vinculado de Grafana
+
+## Tipos de notificación de alertas
+
+Al suscribirte al canal de alertas de Grafana, configura estos tipos críticos de notificación:
+
+- Usa **Sensible al tiempo** para alertas críticas del sistema y notificaciones de emergencia
+- Usa **Llamada** para cortes severos, infracciones de umbrales críticos o alertas de emergencia
+- Usa **Normal** para alertas informativas estándar y notificaciones rutinarias
+
+## Mejores prácticas para la gestión de alertas
+
+1. **Organización de plantillas de alerta**
+
+   - Mantén las plantillas de alerta claras y consistentes
+   - Incluye información crítica de métricas
+   - Usa formato apropiado para números y marcas de tiempo en las notificaciones
+   - Asegúrate de que las alertas de emergencia tengan un formato distintivo
+
+2. **Configuración de alertas críticas**
+
+   - Establece umbrales de alerta apropiados para evitar la fatiga de notificaciones
+   - Usa nombres significativos para las alertas de emergencia
+   - Incluye contexto suficiente en los mensajes de alerta críticos
+   - Configura niveles de prioridad para diferentes tipos de notificaciones
+
+3. **Seguridad de las alertas**
+
+   - Mantén segura tu URL de webhook
+   - Audita regularmente las configuraciones de alerta
+   - Monitorea el estado de entrega del webhook
+
+## Solución de problemas
+
+Si no estás recibiendo alertas:
+
+1. Verifica que la URL del webhook esté correctamente copiada
+2. Comprueba si el canal está activo
+3. Asegúrate de que haya suscriptores activos
+4. Verifica la configuración del punto de contacto en Grafana
+5. Revisa la configuración de reglas de alerta en Grafana
+6. Revisa el historial de alertas de Grafana
+
+## Privacidad y manejo de datos
+
+El enfoque de privacidad primero de Echobell significa:
+
+- El contenido de las alertas se almacena localmente en tu dispositivo
+- Solo se almacenan datos de configuración esenciales en los servidores
+- Las URLs de webhook deben tratarse como secretos
+- No se retienen datos de alertas en los servidores de Echobell
+
+## Recursos adicionales
+
+- [Documentación de alertas de Grafana](https://grafana.com/docs/grafana/latest/alerting/)
+- [Integración de webhook de Echobell](/es/docs/webhook)
+- [Guía de plantillas de notificación](/es/docs/notification)
+- [Centro de soporte](/es/docs/support)

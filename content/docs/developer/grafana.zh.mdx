@@ -1,0 +1,158 @@
+---
+title: Grafana 集成
+description: 了解如何将 Grafana 警报与 Echobell 集成以获取即时通知
+---
+
+# Grafana 集成
+
+Grafana 是一个流行的开源分析和监控解决方案。通过将 Grafana 与 Echobell 集成，您可以在指标触发警报时收到即时通知。本指南将指导您设置 Grafana 警报与 Echobell 的集成。
+
+## 前提条件
+
+- 一个已创建至少一个频道的 Echobell 账户
+- 可访问 Grafana 实例（8.0 或更高版本）
+- 具有在 Grafana 中配置警报通知的管理权限
+
+## 设置概述
+
+1. 创建 Echobell 频道
+2. 配置通知模板
+3. 获取 webhook URL
+4. 设置 Grafana 联系点
+5. 在 Grafana 中创建警报规则
+
+## 分步指南
+
+### 1. 创建 Echobell 频道
+
+1. 打开 Echobell 应用
+2. 创建新频道（例如，"Grafana 警报"）
+3. 选择醒目的颜色以便识别
+
+### 2. 配置通知模板
+
+设置能有效格式化 Grafana 警报的模板：
+
+**标题模板：**
+
+```
+{{alertName}} - {{status}}
+```
+
+**正文模板：**
+
+```
+🔔 警报：{{alertName}}
+📊 指标：{{metric}}
+📈 数值：{{value}}
+⏰ 时间：{{time}}
+ℹ️ 消息：{{message}}
+```
+
+这些模板将适用于 Grafana 的警报数据结构。
+
+### 3. 获取 Webhook URL
+
+1. 在频道设置中，找到 **触发器** 部分
+2. 复制提供的 webhook URL
+3. 确保安全保管此 URL，因为它将用于 Grafana 的配置
+
+### 4. 配置 Grafana 联系点
+
+1. 在 Grafana 中，进入 **警报** → **联系点**
+2. 点击 **新建联系点**
+3. 设置以下内容：
+   - 名称："Echobell"
+   - 类型："Webhook"
+   - URL：您的 Echobell webhook URL
+   - HTTP 方法：POST
+   - 内容类型：application/json
+4. 配置消息模板：
+
+```json
+{
+  "alertName": "{{ .alertName }}",
+  "status": "{{ .status }}",
+  "metric": "{{ .metric }}",
+  "value": "{{ .value }}",
+  "time": "{{ .time }}",
+  "message": "{{ .message }}",
+  "externalLink": "{{ .dashboardURL }}"
+}
+```
+
+### 5. 创建警报规则
+
+1. 导航至 **警报** → **警报规则**
+2. 创建新警报规则或编辑现有规则
+3. 在规则配置中：
+   - 为指标设置适当的条件
+   - 选择 "Echobell" 联系点
+   - 配置警报评估标准
+
+## 测试集成
+
+要验证您的设置：
+
+1. 创建一个能快速触发的测试警报规则
+2. 等待条件满足
+3. 检查 Echobell 应用中的警报通知
+4. 验证所有警报变量是否正确显示
+5. 点击通知以访问链接的 Grafana 仪表板
+
+## 警报通知类型
+
+在订阅 Grafana 警报频道时，配置这些关键通知类型：
+
+- 将 **时效性** 用于紧急关键系统警报和紧急通知
+- 将 **通话** 用于严重故障、临界值突破或紧急警报
+- 将 **普通** 用于标准信息警报和常规通知
+
+## 警报管理最佳实践
+
+1. **警报模板组织**
+
+   - 保持警报模板清晰一致
+   - 包含关键指标信息
+   - 在通知中使用适当的数字和时间戳格式
+   - 确保紧急警报格式独特
+
+2. **关键警报配置**
+
+   - 设置适当的警报阈值以避免通知疲劳
+   - 使用有意义的紧急警报名称
+   - 在关键警报消息中包含足够的上下文
+   - 为不同类型的通知配置优先级
+
+3. **警报安全**
+
+   - 确保 webhook URL 的安全
+   - 定期审核警报配置
+   - 监控 webhook 传递状态
+
+## 故障排除
+
+如果您没有收到警报：
+
+1. 验证 webhook URL 是否正确复制
+2. 检查频道是否处于活动状态
+3. 确保有活跃订阅者
+4. 验证 Grafana 联系点配置
+5. 检查 Grafana 警报规则配置
+6. 查看 Grafana 警报历史
+
+## 隐私和数据处理
+
+Echobell 的隐私优先方案意味着：
+
+- 警报内容本地存储在您的设备上
+- 仅在服务器上存储基本配置数据
+- Webhook URL 应被视为机密
+- Echobell 服务器不保留警报数据
+
+## 其他资源
+
+- [Grafana 警报文档](https://grafana.com/docs/grafana/latest/alerting/)
+- [Echobell Webhook 集成](/zh/docs/webhook)
+- [通知模板指南](/zh/docs/notification)
+- [支持中心](/zh/docs/support)
