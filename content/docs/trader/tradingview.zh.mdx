@@ -1,0 +1,126 @@
+# 将 Echobell 集成到 TradingView
+
+Echobell 可以与 TradingView 集成，以接收您的交易提醒通知。本指南将向您展示如何设置集成。
+
+## 前提条件
+
+- Echobell 账户
+- TradingView 账户（免费或高级版）
+
+## 设置步骤
+
+### 1. 在 Echobell 中创建 Webhook
+
+1. 登录到您的 Echobell 控制面板
+2. 导航到 Webhooks 部分
+3. 点击"创建新的 Webhook"
+4. 复制生成的 webhook URL - 您将需要它用于 TradingView
+
+### 2. 配置 TradingView 提醒
+
+1. 打开 TradingView 并进入您的图表
+2. 创建新提醒或编辑现有提醒
+3. 在提醒对话框中：
+   - 根据需要设置提醒条件
+   - 滚动到"提醒操作"
+   - 选择"Webhook URL"
+   - 粘贴您的 Echobell webhook URL
+   - 在"消息"字段中，自定义您的通知：
+
+```json
+{
+  "title": "TradingView 提醒",
+  "message": "{{ticker}} 达到 {{price}}",
+  "priority": "high"
+}
+```
+
+## 消息格式
+
+您可以使用 TradingView 的变量来自定义通知：
+
+- `{{ticker}}` - 交易对名称
+- `{{price}}` - 当前价格
+- `{{volume}}` - 当前成交量
+- `{{time}}` - 提醒触发时间
+- `{{exchange}}` - 交易所名称
+- `{{interval}}` - 图表时间间隔
+
+## 高级配置
+
+### 优先级等级
+
+您可以为通知设置不同的优先级：
+
+- `"priority": "low"` - 普通优先级
+- `"priority": "high"` - 高优先级（将发送推送通知）
+- `"priority": "critical"` - 紧急优先级（将发送带声音的推送通知）
+
+### 自定义声音
+
+您可以为通知指定自定义声音：
+
+```json
+{
+  "title": "价格提醒",
+  "message": "{{ticker}} 达到目标价格",
+  "priority": "critical",
+  "sound": "cash"
+}
+```
+
+## 示例提醒模板
+
+### 基本价格提醒
+
+```json
+{
+  "title": "价格提醒",
+  "message": "{{ticker}} 现在价格为 {{price}}",
+  "priority": "high"
+}
+```
+
+### 成交量突破提醒
+
+```json
+{
+  "title": "成交量提醒",
+  "message": "检测到 {{ticker}} 的高成交量\n成交量：{{volume}}\n价格：{{price}}",
+  "priority": "critical"
+}
+```
+
+### 交易信号提醒
+
+```json
+{
+  "title": "交易信号",
+  "message": "{{ticker}} 的{{strategy.order.action}}信号\n价格：{{price}}\n时间：{{time}}",
+  "priority": "high",
+  "sound": "alert"
+}
+```
+
+## 测试集成
+
+1. 设置提醒后，您可以通过点击 TradingView 提醒对话框中的"测试"按钮进行测试
+2. 您应该会在 Echobell 中收到测试通知
+3. 检查您的 Echobell 控制面板以确认 webhook 收到测试数据
+
+## 故障排除
+
+如果您没有收到通知：
+
+1. 验证您的 webhook URL 是否正确粘贴在 TradingView 中
+2. 检查您的提醒条件是否正确配置
+3. 确保您的 Echobell 账户处于活动状态且通知已启用
+4. 检查 Echobell 控制面板中的 webhook 日志是否有错误消息
+
+## 速率限制
+
+- TradingView 免费账户的 webhook 调用次数有限
+- 确保您的提醒条件足够具体，以避免过度触发
+- 考虑升级您的 TradingView 账户以获得更高的 webhook 限制
+
+有关 Echobell webhook 功能的更多信息，请参阅我们的 [webhook 文档](/docs/webhook)。

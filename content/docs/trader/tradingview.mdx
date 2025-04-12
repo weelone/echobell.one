@@ -1,0 +1,126 @@
+# Integrating Echobell with TradingView
+
+Echobell can be integrated with TradingView to receive notifications from your trading alerts. This guide will show you how to set up the integration.
+
+## Prerequisites
+
+- An Echobell account
+- A TradingView account (Free or Premium)
+
+## Setup Steps
+
+### 1. Create a Webhook in Echobell
+
+1. Log in to your Echobell dashboard
+2. Navigate to the Webhooks section
+3. Click "Create New Webhook"
+4. Copy the generated webhook URL - you'll need this for TradingView
+
+### 2. Configure TradingView Alert
+
+1. Open TradingView and go to your chart
+2. Create a new alert or edit an existing one
+3. In the alert dialog:
+   - Set up your alert conditions as needed
+   - Scroll down to "Alert Actions"
+   - Select "Webhook URL"
+   - Paste your Echobell webhook URL
+   - In the "Message" field, customize your notification:
+
+```json
+{
+  "title": "TradingView Alert",
+  "message": "{{ticker}} hit {{price}}",
+  "priority": "high"
+}
+```
+
+## Message Format
+
+You can customize your notification using TradingView's variables:
+
+- `{{ticker}}` - Symbol name
+- `{{price}}` - Current price
+- `{{volume}}` - Current volume
+- `{{time}}` - Alert trigger time
+- `{{exchange}}` - Exchange name
+- `{{interval}}` - Chart interval
+
+## Advanced Configuration
+
+### Priority Levels
+
+You can set different priority levels for your notifications:
+
+- `"priority": "low"` - Normal priority
+- `"priority": "high"` - High priority (will send push notifications)
+- `"priority": "critical"` - Critical priority (will send push notifications with sound)
+
+### Custom Sound
+
+You can specify a custom sound for your notifications:
+
+```json
+{
+  "title": "Price Alert",
+  "message": "{{ticker}} reached target price",
+  "priority": "critical",
+  "sound": "cash"
+}
+```
+
+## Example Alert Templates
+
+### Basic Price Alert
+
+```json
+{
+  "title": "Price Alert",
+  "message": "{{ticker}} is now at {{price}}",
+  "priority": "high"
+}
+```
+
+### Volume Spike Alert
+
+```json
+{
+  "title": "Volume Alert",
+  "message": "High volume detected for {{ticker}}\nVolume: {{volume}}\nPrice: {{price}}",
+  "priority": "critical"
+}
+```
+
+### Trading Signal Alert
+
+```json
+{
+  "title": "Trading Signal",
+  "message": "{{strategy.order.action}} signal for {{ticker}}\nPrice: {{price}}\nTime: {{time}}",
+  "priority": "high",
+  "sound": "alert"
+}
+```
+
+## Testing Your Integration
+
+1. After setting up your alert, you can test it by clicking the "Test" button in TradingView's alert dialog
+2. You should receive a test notification in Echobell
+3. Check your Echobell dashboard to confirm the webhook received the test payload
+
+## Troubleshooting
+
+If you're not receiving notifications:
+
+1. Verify your webhook URL is correctly pasted in TradingView
+2. Check if your alert conditions are properly configured
+3. Ensure your Echobell account is active and notifications are enabled
+4. Check your webhook logs in Echobell dashboard for any error messages
+
+## Rate Limits
+
+- TradingView free accounts have limited webhook calls
+- Ensure your alert conditions are specific enough to avoid excessive triggers
+- Consider upgrading your TradingView account for higher webhook limits
+
+For more information about Echobell's webhook features, see our [webhook documentation](/docs/webhook).
