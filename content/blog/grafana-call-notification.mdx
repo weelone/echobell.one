@@ -37,12 +37,7 @@ When monitoring critical systems, sometimes email notifications aren't enough. Y
 
 2. **Configure the Webhook**
 
-   - Set the URL to: `https://api.echobell.one/v1/grafana/call`
-   - Add your Echobell API key as a Custom Header:
-     ```
-     Header: X-API-Key
-     Value: your-echobell-api-key
-     ```
+   - Set the URL to: `https://hook.echobell.one/t/xxxx`, the webhook from your Echobell channel.
 
 3. **Test the Integration**
 
@@ -65,7 +60,7 @@ When monitoring critical systems, sometimes email notifications aren't enough. Y
 
 You can customize your call notifications by:
 
-- Setting up call cascades for team escalation
+- Share your channel with team members
 - Configuring retry attempts for unanswered calls
 - Customizing the voice message for different types of alerts
 - Setting quiet hours and backup contacts

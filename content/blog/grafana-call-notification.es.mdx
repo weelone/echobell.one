@@ -37,12 +37,7 @@ Cuando se monitorean sistemas críticos, a veces las notificaciones por correo e
 
 2. **Configurar el Webhook**
 
-   - Establece la URL como: `https://api.echobell.one/v1/grafana/call`
-   - Añade tu clave API de Echobell como un encabezado personalizado:
-     ```
-     Header: X-API-Key
-     Value: tu-clave-api-echobell
-     ```
+- Establece la URL como: `https://hook.echobell.one/t/xxxx`, el webhook de tu canal de Echobell.
 
 3. **Probar la integración**
 
@@ -65,12 +60,12 @@ Cuando se monitorean sistemas críticos, a veces las notificaciones por correo e
 
 Puedes personalizar tus notificaciones de llamada:
 
-- Configurando cascadas de llamadas para escalamiento de equipo
+- Compartiendo tu canal con miembros del equipo
 - Configurando reintentos para llamadas sin respuesta
 - Personalizando el mensaje de voz para diferentes tipos de alertas
 - Estableciendo horas silenciosas y contactos de respaldo
 
-Para opciones detalladas de configuración, visita nuestra [documentación para desarrolladores](/docs/developer/grafana).
+Para opciones detalladas de configuración, visita nuestra [documentación para desarrolladores](/es/docs/developer/grafana).
 
 ## Conclusión
 
