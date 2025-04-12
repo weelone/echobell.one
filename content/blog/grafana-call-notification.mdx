@@ -1,0 +1,79 @@
+---
+title: Enable Phone Call Notifications for Grafana Alerts
+description: Learn how to set up phone call notifications for your Grafana alerts using Echobell
+date: 2025-04-12
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Enable Phone Call Notifications for Grafana Alerts
+
+When monitoring critical systems, sometimes email notifications aren't enough. You need a more immediate and attention-grabbing way to be notified of critical alerts. That's where Echobell's phone call notifications come in.
+
+## Why Phone Call Notifications?
+
+- **Immediate Attention**: Unlike emails or push notifications that can be easily missed, phone calls are hard to ignore
+- **Critical Alert Awareness**: Perfect for critical system failures that require immediate action
+- **24/7 Alerting**: Ensure you never miss critical alerts, even during sleeping hours
+- **Team Escalation**: Set up call cascades to multiple team members if the primary contact doesn't respond
+
+## Setting Up Grafana Call Notifications
+
+### Prerequisites
+
+1. An Echobell account with an active subscription
+2. Access to your Grafana instance with admin privileges
+3. A configured alert rule in Grafana
+
+### Configuration Steps
+
+1. **Create a Webhook Contact Point**
+
+   - In Grafana, navigate to Alerting → Contact points
+   - Click "New contact point"
+   - Select "Webhook" as the contact point type
+   - Name it "Echobell Call Notifications"
+
+2. **Configure the Webhook**
+
+   - Set the URL to: `https://api.echobell.one/v1/grafana/call`
+   - Add your Echobell API key as a Custom Header:
+     ```
+     Header: X-API-Key
+     Value: your-echobell-api-key
+     ```
+
+3. **Test the Integration**
+
+   - Use the "Test" button in Grafana to send a test notification
+   - You should receive a phone call within seconds
+
+4. **Create a Notification Policy**
+   - Go to Alerting → Notification policies
+   - Create a new policy or modify existing ones
+   - Add the Echobell contact point to your desired alert rules
+
+## Best Practices
+
+- **Set Alert Thresholds Carefully**: Phone calls should be reserved for truly critical alerts
+- **Configure Call Timeouts**: Set appropriate timeout periods in Echobell to prevent alert fatigue
+- **Maintain Contact Lists**: Keep your emergency contact list up to date
+- **Document Response Procedures**: Ensure team members know what to do when they receive a call
+
+## Advanced Configuration
+
+You can customize your call notifications by:
+
+- Setting up call cascades for team escalation
+- Configuring retry attempts for unanswered calls
+- Customizing the voice message for different types of alerts
+- Setting quiet hours and backup contacts
+
+For detailed configuration options, visit our [developer documentation](/docs/developer/grafana).
+
+## Conclusion
+
+Phone call notifications add a crucial layer of alerting for critical systems. With Echobell's integration with Grafana, you can ensure that critical alerts are never missed and your team can respond quickly to incidents.
+
+Start using call notifications today to improve your incident response time and system reliability.

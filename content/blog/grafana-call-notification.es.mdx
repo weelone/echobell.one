@@ -1,0 +1,79 @@
+---
+title: Habilitar notificaciones de llamadas para alertas de Grafana
+description: Aprende a configurar notificaciones de llamadas telefónicas para tus alertas de Grafana usando Echobell
+date: 2025-04-12
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Habilitar notificaciones de llamadas para alertas de Grafana
+
+Cuando se monitorean sistemas críticos, a veces las notificaciones por correo electrónico no son suficientes. Necesitas una forma más inmediata y llamativa de ser notificado sobre alertas críticas. Aquí es donde entran las notificaciones por llamada telefónica de Echobell.
+
+## ¿Por qué notificaciones por llamada?
+
+- **Atención inmediata**: A diferencia de los correos electrónicos o notificaciones push que pueden perderse fácilmente, las llamadas telefónicas son difíciles de ignorar
+- **Conciencia de alertas críticas**: Perfecto para fallos críticos del sistema que requieren acción inmediata
+- **Alertas 24/7**: Asegúrate de nunca perder alertas críticas, incluso durante las horas de sueño
+- **Escalamiento de equipo**: Configura cascadas de llamadas a múltiples miembros del equipo si el contacto principal no responde
+
+## Configurando notificaciones de llamada en Grafana
+
+### Prerrequisitos
+
+1. Una cuenta de Echobell con una suscripción activa
+2. Acceso a tu instancia de Grafana con privilegios de administrador
+3. Una regla de alerta configurada en Grafana
+
+### Pasos de configuración
+
+1. **Crear un punto de contacto Webhook**
+
+   - En Grafana, navega a Alerting → Contact points
+   - Haz clic en "New contact point"
+   - Selecciona "Webhook" como tipo de punto de contacto
+   - Nómbralo "Notificaciones de llamada Echobell"
+
+2. **Configurar el Webhook**
+
+   - Establece la URL como: `https://api.echobell.one/v1/grafana/call`
+   - Añade tu clave API de Echobell como un encabezado personalizado:
+     ```
+     Header: X-API-Key
+     Value: tu-clave-api-echobell
+     ```
+
+3. **Probar la integración**
+
+   - Usa el botón "Test" en Grafana para enviar una notificación de prueba
+   - Deberías recibir una llamada telefónica en segundos
+
+4. **Crear una política de notificación**
+   - Ve a Alerting → Notification policies
+   - Crea una nueva política o modifica las existentes
+   - Añade el punto de contacto de Echobell a tus reglas de alerta deseadas
+
+## Mejores prácticas
+
+- **Configura los umbrales de alerta cuidadosamente**: Las llamadas telefónicas deben reservarse para alertas verdaderamente críticas
+- **Configura tiempos de espera de llamada**: Establece períodos de tiempo de espera apropiados en Echobell para prevenir la fatiga de alertas
+- **Mantén las listas de contactos**: Mantén actualizada tu lista de contactos de emergencia
+- **Documenta los procedimientos de respuesta**: Asegúrate de que los miembros del equipo sepan qué hacer cuando reciben una llamada
+
+## Configuración avanzada
+
+Puedes personalizar tus notificaciones de llamada:
+
+- Configurando cascadas de llamadas para escalamiento de equipo
+- Configurando reintentos para llamadas sin respuesta
+- Personalizando el mensaje de voz para diferentes tipos de alertas
+- Estableciendo horas silenciosas y contactos de respaldo
+
+Para opciones detalladas de configuración, visita nuestra [documentación para desarrolladores](/docs/developer/grafana).
+
+## Conclusión
+
+Las notificaciones por llamada añaden una capa crucial de alertas para sistemas críticos. Con la integración de Echobell con Grafana, puedes asegurarte de que las alertas críticas nunca se pierdan y tu equipo pueda responder rápidamente a los incidentes.
+
+Comienza a usar las notificaciones por llamada hoy para mejorar tu tiempo de respuesta a incidentes y la fiabilidad del sistema.
