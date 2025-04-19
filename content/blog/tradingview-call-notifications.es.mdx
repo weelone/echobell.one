@@ -1,0 +1,56 @@
+---
+title: Recibe Alertas de TradingView como Llamadas Telefónicas Urgentes
+description: Transforma tus alertas de TradingView en llamadas telefónicas inmediatas con Echobell.
+date: 2025-04-19
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# ¡Nunca Más Te Pierdas una Operación: Recibe Alertas de TradingView como Llamadas Telefónicas Urgentes con Echobell!
+
+¿Cansado de perderte movimientos críticos del mercado porque no estabas pegado a tu pantalla? ¡Imagina recibir una _llamada telefónica real_ en el segundo en que se active tu alerta crucial de TradingView! Con Echobell, esto no es un sueño – es tu nueva realidad. Deja de depender de notificaciones que se pueden perder fácilmente y comienza a recibir alertas que exigen tu atención.
+
+Así es como puedes cerrar la brecha entre las señales de TradingView y las potentes alertas de llamada de Echobell:
+
+## Prepárate: Lo Que Necesitas
+
+- Una cuenta de Echobell con la aplicación lista en tu teléfono.
+- Una cuenta de TradingView (Atención: la magia de los webhooks de TradingView generalmente requiere una suscripción Pro, Pro+ o Premium).
+
+## Paso 1: Forja Tu Canal de Alertas de Echobell
+
+1.  **Invoca un Nuevo Canal:** Sumérgete en la aplicación Echobell y presiona 'Crear Canal'. Dale un nombre épico como "Alertas TradingView ORO" y elige un color que grite "¡Acción!"
+2.  **Desata el Poder de la 'Llamada':** ¡Esto es clave! Al configurar (o suscribirte a) tu canal, selecciona el tipo de notificación **'Llamada'**. Olvídate de los sutiles pitidos; queremos una alerta de llamada completa que se imponga sobre el ruido.
+3.  **Crea Tu Mensaje de Alerta (Movimiento Ninja Opcional):** ¿Quieres que tu notificación de llamada te diga _exactamente_ lo que está sucediendo? Personaliza las plantillas de `Título` y `Cuerpo`. TradingView puede enviar datos como el símbolo del ticker o el precio. Imagina que suena tu teléfono y Echobell anuncia: "Alerta: ¡BTC/USD acaba de romper los $50,000!" Consulta la documentación de TradingView para conocer las variables de alerta utilizables (como `{{ticker}}`, `{{close}}`) y úsalas en las plantillas de Echobell como `{{nombreVariable}}`.
+4.  **Captura el Arma Secreta: Tu URL de Webhook:** Una vez que tu canal esté forjado, navega a sus detalles. Encuentra la URL de activación del **Webhook** – este enlace único es tu clave secreta. ¡Cópialo con cuidado y protégelo bien! TradingView usará esta URL exacta para disparar instantáneamente tus llamadas Echobell.
+
+## Paso 2: Configura TradingView
+
+1.  **Entra en la Arena: TradingView:** Abre TradingView y navega a tu gráfico elegido.
+2.  **Coloca Tu Trampa: Crea/Edita la Alerta:**
+    - Haz clic en el icono del reloj 'Alerta', o haz clic derecho directamente en tu gráfico, indicador o dibujo para invocar la configuración de alertas.
+3.  **Define el Disparador:** Establece con precisión las condiciones del mercado que gritan "¡Alerta!" – el precio rompiendo un nivel de resistencia, tu indicador favorito mostrando una señal, etc.
+4.  **Conecta los Cables: Configura las Notificaciones:**
+    - Busca la sección 'Notificaciones' o 'Acciones de Alerta'.
+    - Encuentra y marca la casilla etiquetada como **'URL de Webhook'**. Esto activa la conexión.
+    - Pega tu preciosa **URL de Activación de Webhook** de Echobell (del Paso 1) directamente en este campo.
+5.  **Potencia el Mensaje (Opcional pero Increíble):**
+    - El cuadro 'Mensaje' es donde le dices a TradingView _qué_ gritar a Echobell.
+    - Para hacer brillar tus plantillas de Echobell, formatea este mensaje usando JSON. ¡Esto te permite pasar datos dinámicos directamente desde el gráfico a tu llamada telefónica!
+    - Una estructura JSON típica podría verse así (verifica los marcadores de posición específicos de TradingView):
+      ```json
+      {
+        "ticker": "{{ticker}}",
+        "price": "{{close}}",
+        "action": "{{strategy.order.action}}"
+      }
+      ```
+    - Incluso un mensaje simple está bien, pero usar JSON desbloquea alertas de llamada verdaderamente informativas cuando se combina con las plantillas de Echobell.
+6.  **Arma la Alerta:** Presiona 'Crear' o 'Guardar' y tu alerta de TradingView ahora está bloqueada, cargada y lista para llamarte a través de Echobell!
+
+## Paso 3: El Momento de la Verdad - ¡Pruébalo!
+
+Haz que el mercado active tu condición de alerta (o usa una alerta de prueba). ¡Prepárate! Tu teléfono debería sonar con la distintiva notificación de llamada de Echobell casi instantáneamente. (¡Recuerda otorgar permisos de notificación a Echobell en tu teléfono!)
+
+**¡Felicidades!** Has transformado con éxito las notificaciones pasivas de TradingView en llamadas telefónicas imposibles de ignorar que captan tu atención. ¡Opera de manera más inteligente, reacciona más rápido y nunca dejes que un evento crítico del mercado pase desapercibido de nuevo!

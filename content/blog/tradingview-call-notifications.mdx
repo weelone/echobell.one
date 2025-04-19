@@ -1,0 +1,56 @@
+---
+title: Get TradingView Alerts as Urgent Phone Calls
+description: Transform your TradingView alerts into immediate phone calls with Echobell.
+date: 2025-04-19
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Never Miss a Trade Again: Get TradingView Alerts as Urgent Phone Calls with Echobell!
+
+Tired of missing critical market moves because you weren't glued to your screen? Imagine getting an _actual phone call_ the second your crucial TradingView alert triggers! With Echobell, this isn't a dream – it's your new reality. Stop relying on easily missed notifications and start getting alerts that demand your attention.
+
+Here’s how to bridge the gap between TradingView's signals and Echobell's powerful call alerts:
+
+## Gear Up: What You Need
+
+- An Echobell account with the app ready on your phone.
+- A TradingView account (Heads up: TradingView's webhook magic usually requires a Pro, Pro+, or Premium subscription).
+
+## Step 1: Forge Your Echobell Alert Channel
+
+1.  **Summon a New Channel:** Dive into the Echobell app and hit 'Create Channel'. Give it an epic name like "TradingView GOLD Alerts" and pick a color that screams "Action!"
+2.  **Unleash the 'Call' Power:** This is key! When setting up (or subscribing to) your channel, select the **'Call'** notification type. Forget subtle pings; we want a full-on call alert that cuts through the noise.
+3.  **Craft Your Alert Message (Optional Ninja Move):** Want your call notification to tell you _exactly_ what's happening? Customize the `Title` and `Body` templates. TradingView can send data like the ticker symbol or price. Imagine your phone ringing and Echobell announcing, "Alert: BTC/USD just broke $50,000!" Check TradingView's docs for usable alert variables (like `{{ticker}}`, `{{close}}`) and use them in Echobell's templates like `{{variableName}}`.
+4.  **Capture the Secret Weapon: Your Webhook URL:** Once your channel is forged, navigate to its details. Find the **Webhook** trigger URL – this unique link is your secret key. Copy it carefully and guard it well! TradingView will use this exact URL to instantly trigger your Echobell calls.
+
+## Step 2: Wire Up TradingView
+
+1.  **Enter the Arena: TradingView:** Fire up TradingView and navigate to your chosen chart.
+2.  **Set Your Trap: Create/Edit the Alert:**
+    - Click the 'Alert' clock icon, or right-click directly on your chart, indicator, or drawing to conjure the alert settings.
+3.  **Define the Trigger:** Precisely set the market conditions that scream "Alert!" – price smashing through a resistance level, your favorite indicator flashing a signal, etc.
+4.  **Connect the Wires: Configure Notifications:**
+    - Hunt down the 'Notifications' or 'Alert Actions' section.
+    - Find and check the box labeled **'Webhook URL'**. This activates the connection.
+    - Paste your precious Echobell **Webhook Trigger URL** (from Step 1) directly into this field.
+5.  **Supercharge the Message (Optional but Awesome):**
+    - The 'Message' box is where you tell TradingView _what_ to shout to Echobell.
+    - To make your Echobell templates shine, format this message using JSON. This lets you pass dynamic data straight from the chart to your phone call!
+    - A typical JSON structure might look like this (double-check TradingView's specific variable placeholders):
+      ```json
+      {
+        "ticker": "{{ticker}}",
+        "price": "{{close}}",
+        "action": "{{strategy.order.action}}"
+      }
+      ```
+    - Even a simple message is fine, but using JSON unlocks truly informative call alerts when paired with Echobell's templates.
+6.  **Arm the Alert:** Hit 'Create' or 'Save' and your TradingView alert is now locked, loaded, and ready to call you via Echobell!
+
+## Step 3: The Moment of Truth - Test It!
+
+Make the market trigger your alert condition (or use a test alert). Brace yourself! Your phone should ring with the distinctive Echobell call notification almost instantly. (Remember to grant Echobell notification permissions on your phone!)
+
+**Congratulations!** You've successfully transformed passive TradingView notifications into unmissable, attention-grabbing phone calls. Trade smarter, react faster, and never let a critical market event slip by unnoticed again!
