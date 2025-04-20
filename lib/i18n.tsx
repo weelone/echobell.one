@@ -21,23 +21,29 @@ export const uiDictionary = {
   en: {
     metadata: {
       titleTemplate: "%s | Echobell",
-      defaultTitle: "Echobell",
+      // SEO: More descriptive title focusing on core value
+      defaultTitle:
+        "Echobell: Instant Webhook & Email Alerts via Calls & Notifications | Privacy-Focused",
+      // SEO: Clearer value proposition, incorporating keywords naturally
       description:
-        "Instant alerts for various scenarios, with webhooks and emails, into notifications and calls.",
+        "Never miss critical alerts. Echobell instantly converts webhooks & emails into iOS notifications or phone calls. Privacy-first design, easy team sharing. Get reliable alerts now!",
+      // SEO: Added more potential search terms
       keywords: [
         "Echobell",
-        "instant alerts",
-        "notifications",
-        "webhooks",
-        "emails",
-        "call notifications",
-        "alert app",
-        "notification channels",
-        "bark app",
-        "alerting",
-        "trading alerts",
-        "crypto alerts",
-        "team alerts",
+        "webhook alert",
+        "email alert",
+        "call notification",
+        "iOS alert",
+        "instant notification",
+        "critical alert system",
+        "team notification",
+        "get notified",
+        "email to phone call",
+        "webhook to call",
+        "uptime monitoring alert",
+        "server down alert",
+        "API monitoring alert",
+        "privacy focused notification",
       ],
     },
     nav: {
@@ -48,254 +54,238 @@ export const uiDictionary = {
       ],
     },
     hero: {
+      // Smoothness: More impactful title
       title: (
         <>
-          <Cover>Instant alerts</Cover> for various scenarios.
+          <Cover>Instant Alerts</Cover> for Critical Events.
         </>
       ),
+      // Smoothness: Slightly stronger wording
       description:
-        "Echobell helps you stay notified with instant alerts from webhooks and emails. Create channels, share with your team, and never miss critical events from your applications and services.",
+        "Echobell ensures you receive instant alerts from webhooks and emails. Create notification channels, share with your team, and never miss crucial updates from your applications and services.",
       downloadApp: "Download App",
       getStarted: "Get Started",
       appStoreImage: appStoreImageEn,
     },
     features: {
-      title: "Powerful Features",
-      subtitle: "Stay on top of important notifications",
+      // Smoothness: Slightly more engaging title
+      title: "Key Features to Keep You Informed",
+      // Smoothness: Clearer subtitle
+      subtitle: "Reliable and flexible alerting options",
+      // Smoothness: More focused description
       description:
-        "Welcome to Echobell, the instant alert app that helps you stay on top of important notifications.",
-      timeSensitive: "Time Sensitive",
+        "Echobell provides flexible and reliable ways to receive the alerts that matter most to you and your team.",
+      timeSensitive: "Time-Sensitive", // Kept as is, assuming specific UI context
       items: [
         {
-          name: "Get notified with call",
+          // Smoothness & Clarity: More descriptive
+          name: "Get Notified by Phone Call",
           description:
-            "When you need to be notified instantly, you can set up a call alert.",
+            "Need immediate awareness? Configure critical alerts to trigger an actual phone call, ensuring you never miss urgent events.",
         },
         {
-          name: "Webhook",
+          // Clarity: Explains the 'how' more directly
+          name: "Webhook Integration",
           description:
-            "Webhook is a way to send data from one application to another. It is a simple HTTP callback that allows you to send data to a URL when an event occurs.",
+            "Seamlessly integrate Echobell by sending data from your applications or services to a unique webhook URL to trigger alerts.",
         },
         {
-          name: "Email",
+          // Clarity: More active description
+          name: "Email Triggers",
           description:
-            "You can trigger a notification with email. Just send a email to a specific address and you will be notified.",
+            "Trigger notifications simply by sending or forwarding an email to your dedicated Echobell channel address.",
         },
         {
-          name: "Subscriptions",
+          // Smoothness & Clarity: Focus on action/benefit
+          name: "Channel Subscriptions & Sharing",
           description:
-            "You can subscribe to a channel and get notified. You can also share the channel with your team.",
+            "Organize alerts into channels. Easily share subscription links with team members to keep everyone informed.",
         },
       ],
       multipleNotifications: {
         title: "Multiple Notification Types",
         description:
-          "Choose from normal notifications, time-sensitive alerts that break through focus modes, or call-like alerts for critical situations.",
+          "Choose from standard notifications, time-sensitive alerts designed to bypass focus modes, or urgent call-like alerts for critical situations.",
       },
       flexibleChannels: {
-        title: "Flexible Channels",
+        title: "Flexible Channel Management",
         description:
-          "Create customizable notification channels with unique names and colors. Share subscription links with your team.",
+          "Create customizable notification channels with unique names and colors. Easily share subscription links with your team.",
       },
       privacy: {
-        title: "Privacy First",
+        title: "Privacy First Design",
         description:
-          "Your notification content and history stay private on your device. Only account and channel data are stored on our servers.",
+          "Your notification content and history remain private on your device. Only essential account and channel metadata are stored on our servers.",
       },
       multipleTriggers: {
-        title: "Multiple Triggers",
+        title: "Versatile Trigger Options",
         description:
-          "Trigger notifications via webhooks or email. Use dynamic templates with variables for personalized alerts.",
+          "Trigger notifications via unique webhooks or dedicated email addresses. Utilize dynamic templates with variables for personalized alert content.",
       },
+      // Notification list seems fine - examples are clear
       notificationList: [
         {
           type: "call",
-          title: "BTC Tendency",
+          title: "BTC Trend Alert",
           body: "BTC rose by 10% in the last 24 hours",
         },
         {
           type: "standard",
-          title: "Echobell New Order",
-          body: "Echobell has a new order",
+          title: "Echobell: New Order Received",
+          body: "A new order has been placed on Echobell.",
         },
         {
           type: "time-sensitive",
-          title: "Server Status",
-          body: "Staging server is down",
+          title: "Server Status Warning",
+          body: "Staging server is unresponsive.",
         },
         {
           type: "standard",
-          title: "New Email",
-          body: "You have a new email from nooc@example.com",
+          title: "New Support Email",
+          body: "You have a new email from support@example.com",
         },
         {
           type: "call",
-          title: "Server Status",
-          body: "Production server is down",
+          title: "CRITICAL: Server Down",
+          body: "Production server is down!",
         },
         {
           type: "time-sensitive",
           title: "CI Build Failed",
-          body: "CI build failed for commit 123456",
+          body: "CI build failed for commit 123456 on main branch.",
         },
       ],
     },
     pricing: {
-      title: "Simple Pricing",
-      subtitle: "Choose the plan that works for you",
+      title: "Simple, Transparent Pricing",
+      subtitle: "Choose the plan that fits your needs",
+      // Smoothness: Slightly refined wording
       callout:
-        "Echobell offers a free plan with limited features. You can upgrade to a paid plan for more features and support.",
+        "Echobell offers a generous free plan with core features. Upgrade for unlimited usage and advanced capabilities.",
       monthly: {
         id: "monthly",
         featured: false,
         name: "Monthly",
         price: "1.99",
-        description:
-          "Subscribe to our monthly plan and get access to all features.",
+        description: "Unlock all features with our flexible monthly plan.",
         features: [
           "Unlimited channels",
           "Unlimited subscriptions",
-          "Call notifications",
+          "Phone call notifications",
+          "Standard support",
         ],
       },
       annual: {
         id: "annual",
         featured: true,
         name: "Annual",
-        price: "1.66",
+        price: "1.66", // Assuming this is price per month when billed annually
         description:
-          "Subscribe to our annual plan for the best value and dedicated support.",
+          "Get the best value and support our development with the annual plan.",
         features: [
           "Unlimited channels",
           "Unlimited subscriptions",
-          "Call notifications",
-          "Better price",
-          "Support us with love",
+          "Phone call notifications",
+          "Best value (Save ~17%)", // Clearer benefit
+          "Priority support", // More professional than 'love'
         ],
       },
       currency: "USD",
-      period: "/month",
-      startTrial: "Start free trial",
+      period: "/month", // Clarify if annual price is shown per month
+      startTrial: "Start Free Trial", // Consider changing if there's no trial, e.g., "Get Started Free"
     },
     cta: {
-      title: "Ready to get started?",
+      // Smoothness: More engaging title
+      title: "Ready to Never Miss an Alert?",
       description:
-        "Download the app and create your first notification channel in minutes.",
+        "Download the Echobell app and set up your first notification channel in minutes.",
       action: "Download Now",
       appStoreImage: appStoreImageEn,
     },
     footer: {
-      subtitle: "Instant alerts for various scenarios.",
-      downloadFromAppStore: "Download from App Store",
-      scanQRCode: "Scan the QR code to download the app.",
+      // Smoothness: Consistent with Hero
+      subtitle: "Instant Alerts for Critical Events.",
+      downloadFromAppStore: "Download on the App Store", // Standard iOS terminology
+      scanQRCode: "Scan QR code to download",
       linkGroups: [
         {
           label: "Products",
           links: [
-            {
-              label: "Spark Memos",
-              href: "https://sparkmemos.com",
-            },
-            {
-              label: "CassetteOne",
-              href: "https://cassette.one",
-            },
-            {
-              label: "Weelone",
-              href: "https://weelone.com",
-            },
+            { label: "Spark Memos", href: "https://sparkmemos.com" },
+            { label: "CassetteOne", href: "https://cassette.one" },
+            { label: "Weelone", href: "https://weelone.com" },
           ],
         },
         {
-          label: "Communities",
+          label: "Community", // Singular often reads better
           links: [
-            {
-              label: "Discord",
-              href: "https://discord.gg/s4JqfrgccJ",
-            },
-            {
-              label: "Telegram",
-              href: "https://t.me/EchobellGroup",
-            },
-            {
-              label: "X (Twitter)",
-              href: "https://x.com/EchobellApp",
-            },
+            { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
+            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
         {
-          label: "Docs",
+          label: "Resources", // Broader term
           links: [
-            {
-              label: "Quick Start",
-              href: "/docs",
-            },
-            {
-              label: "Introduction",
-              href: "/docs/what-is-echobell",
-            },
-            {
-              label: "Blog",
-              href: "/blog",
-            },
+            { label: "Quick Start Guide", href: "/docs" }, // More descriptive
+            { label: "Documentation", href: "/docs/what-is-echobell" }, // Keep specific link if needed
+            { label: "Blog", href: "/blog" },
           ],
         },
         {
-          label: "Support",
+          label: "Legal & Support", // Combined for brevity
           links: [
-            {
-              label: "Contact Us",
-              href: "mailto:echobell@weelone.com",
-            },
-            {
-              label: "Privacy Policy",
-              href: "/privacy",
-            },
-            {
-              label: "Terms of Service",
-              href: "/terms",
-            },
+            { label: "Contact Us", href: "mailto:echobell@weelone.com" },
+            { label: "Privacy Policy", href: "/privacy" },
+            { label: "Terms of Service", href: "/terms" },
           ],
         },
       ],
     },
     subscription: {
       subscribe: "Subscribe",
-      channelNotFound: "Channel not found",
+      channelNotFound: "Channel Not Found",
+      // Clarity: Slightly improved instructions
       subscriptionTips:
-        "Open the link in the Echobell app to subscribe to the channel, or copy the link and paste it in subscription view in the Echobell app.",
+        "Open this link in the Echobell app to subscribe, or copy the link and paste it into the 'Add Subscription' section within the app.",
       downloadTips:
-        "If you don&apos;t have the Echobell app yet, you can download it from the App Store.",
-      learnMore: "Learn more",
+        "Don't have Echobell yet? Download it free from the App Store.",
+      learnMore: "Learn More",
       appStoreImage: appStoreImageEn,
     },
     blog: {
       title: "Echobell Blog",
-      description: "Explore our latest insights and stories.",
-      writtenBy: "Written by",
-      at: "At",
+      description: "Explore the latest news, tips, and insights from Echobell.", // More specific
+      writtenBy: "By", // More standard
+      at: "on", // More standard date preposition
     },
   },
   zh: {
+    // Apply similar logic - improvements based on English changes
     metadata: {
       titleTemplate: "%s | 回声铃",
-      defaultTitle: "回声铃",
+      // SEO: More descriptive title
+      defaultTitle: "回声铃: Webhook与邮件即时警报 - 电话与通知 | 注重隐私",
+      // SEO: Clearer value prop
       description:
-        "适用于多种场景的即时通知，通过 Webhook 和电子邮件，转化为通知和来电。",
+        "绝不错过关键警报。回声铃能将 Webhook 和邮件即时转化为 iOS 通知或电话呼叫。注重隐私设计，易于团队共享。立即获取可靠警报！",
+      // SEO: Added terms
       keywords: [
         "回声铃",
-        "即时通知",
-        "通知",
-        "Webhook",
-        "电子邮件",
+        "Webhook提醒",
+        "邮件提醒",
         "来电通知",
-        "提醒应用",
-        "通知频道",
-        "Bark 应用",
-        "提醒",
-        "交易提醒",
-        "加密货币提醒",
-        "团队提醒",
+        "iOS提醒",
+        "即时通知",
+        "关键警报系统",
+        "团队通知",
+        "获取通知",
+        "邮件转电话",
+        "Webhook转电话",
+        "服务监控提醒",
+        "服务器宕机提醒",
+        "API监控提醒",
+        "隐私通知",
       ],
     },
     nav: {
@@ -306,203 +296,182 @@ export const uiDictionary = {
       ],
     },
     hero: {
+      // Smoothness: More impactful
       title: (
         <>
-          适用于多种场景的<Cover>即时通知</Cover>。
+          关键事件<Cover>即时警报</Cover>。
         </>
       ),
+      // Smoothness: Stronger wording
       description:
-        "回声铃帮助你通过 Webhook 和电子邮件的即时通知保持消息畅通。你可以创建频道，与团队共享，永不错过来自应用程序和服务的关键事件。",
-      downloadApp: "下载应用",
-      getStarted: "立即开始",
+        "回声铃确保您能收到来自 Webhook 和邮件的即时警报。创建通知频道，与团队共享，绝不错过来自应用和服务的关键更新。",
+      downloadApp: "下载 App",
+      getStarted: "开始使用",
       appStoreImage: appStoreImageZh,
     },
     features: {
-      title: "强大的功能",
-      subtitle: "掌握重要通知的最新动态",
+      // Smoothness: More engaging
+      title: "核心功能，助您保持信息畅通",
+      // Smoothness: Clearer subtitle
+      subtitle: "可靠且灵活的警报选项",
+      // Smoothness: More focused
       description:
-        "欢迎使用回声铃，这是一款即时提醒应用，帮助你随时掌握重要通知。",
-      timeSensitive: "即时通知",
+        "回声铃提供灵活可靠的方式，确保您和您的团队收到最重要的警报。",
+      timeSensitive: "时效性通知", // Assuming this translates well
       items: [
         {
-          name: "来电提醒",
-          description: "当您需要即时通知时，可以设置来电提醒。",
-        },
-        {
-          name: "Webhook",
+          // Clarity & Smoothness
+          name: "通过电话接收通知",
           description:
-            "Webhook是一种在应用程序之间发送数据的方式。它是一个简单的HTTP回调，允许您在事件发生时将数据发送到URL。",
+            "需要立即知晓？配置关键警报以触发真实的电话呼叫，确保您不会错过紧急事件。",
         },
         {
-          name: "邮件",
+          // Clarity
+          name: "Webhook 集成",
           description:
-            "您可以通过邮件触发通知。只需发送邮件到指定地址，就能收到通知。",
+            "通过将您的应用程序或服务的数据发送到专属的 Webhook URL，无缝集成回声铃以触发警报。",
         },
         {
-          name: "订阅",
-          description: "您可以订阅频道并接收通知。您还可以与团队分享频道。",
+          // Clarity
+          name: "邮件触发",
+          description:
+            "只需发送或转发邮件到您专属的回声铃频道地址，即可轻松触发通知。",
+        },
+        {
+          // Clarity & Smoothness
+          name: "频道订阅与共享",
+          description:
+            "将警报整理到不同频道中。轻松与团队成员共享订阅链接，让每个人都保持同步。",
         },
       ],
       multipleNotifications: {
         title: "多种通知类型",
         description:
-          "从普通通知、突破专注模式的时效性提醒，到关键情况下的通话式提醒，应有尽有。",
+          "可选择标准通知、旨在绕过“专注模式”的时效性提醒，或用于危急情况的紧急电话式警报。",
       },
       flexibleChannels: {
         title: "灵活的频道管理",
-        description: "创建可自定义名称和颜色的通知频道。与团队分享订阅链接。",
+        description:
+          "创建具有独特名称和颜色的可自定义通知频道。轻松与团队共享订阅链接。",
       },
       privacy: {
-        title: "隐私优先",
+        title: "隐私优先设计",
         description:
-          "您的通知内容和历史记录私密地存储在设备上。我们的服务器仅存储账户和频道数据。",
+          "您的通知内容和历史记录会私密地保留在您的设备上。我们仅在服务器上存储必要的账户和频道元数据。",
       },
       multipleTriggers: {
-        title: "多种触发方式",
+        title: "多样的触发方式",
         description:
-          "通过webhook或邮件触发通知。使用带变量的动态模板实现个性化提醒。",
+          "通过专属 Webhook 或专用电子邮件地址触发通知。利用带变量的动态模板，实现个性化警报内容。",
       },
       notificationList: [
+        // Titles slightly refined for clarity
         {
           type: "call",
-          title: "BTC 走势",
-          body: "BTC在过去24小时内上涨了10%",
+          title: "BTC 趋势警报",
+          body: "过去24小时BTC上涨10%",
         },
         {
           type: "standard",
-          title: "回声铃新订单",
-          body: "回声铃有一个新订单",
+          title: "回声铃：收到新订单",
+          body: "回声铃平台已收到一个新订单。",
         },
         {
           type: "time-sensitive",
-          title: "服务器状态",
-          body: "测试服务器已宕机",
+          title: "服务器状态警告",
+          body: "测试服务器无响应。",
         },
         {
           type: "standard",
-          title: "新邮件",
-          body: "你有一封来自 nooc@example.com 的新邮件",
+          title: "新支持邮件",
+          body: "您收到一封来自 support@example.com 的新邮件",
         },
         {
           type: "call",
-          title: "服务器状态",
-          body: "生产服务器已宕机",
+          title: "紧急：服务器宕机",
+          body: "生产服务器已宕机！",
         },
         {
           type: "time-sensitive",
           title: "CI 构建失败",
-          body: "CI 构建失败，提交 ID 为 123456",
+          body: "主分支 commit 123456 的 CI 构建失败。",
         },
       ],
     },
     pricing: {
-      title: "简单定价",
-      subtitle: "选择适合您的方案",
+      title: "简单透明的定价",
+      subtitle: "选择满足您需求的计划",
       callout:
-        "回声铃提供功能有限的免费计划，您可以升级到付费计划以获得更多功能和支持。",
+        "回声铃提供包含核心功能的免费计划。升级以获得无限用量和高级功能。",
       monthly: {
         id: "monthly",
         featured: false,
         name: "按月订阅",
-        price: "15",
-        description: "按月订阅回声铃高级版以获取所有特性。",
-        features: ["无限频道数量", "无限订阅数量", "来电通知"],
+        price: "15", // Keep original price
+        description: "通过我们灵活的月度计划解锁所有功能。",
+        features: ["无限频道", "无限订阅", "电话通知", "标准支持"],
       },
       annual: {
         id: "annual",
         featured: true,
         name: "按年订阅",
-        price: "12.3",
-        description: "按年订阅回声铃高级版以获取最佳价值和专属支持。",
+        price: "12.3", // Keep original price (assumed per month for annual plan)
+        description: "选择年度计划获取最佳价值并支持我们的发展。",
         features: [
-          "无限频道数量",
-          "无限订阅数量",
-          "来电通知",
-          "更优惠的价格",
-          "支持我们",
+          "无限频道",
+          "无限订阅",
+          "电话通知",
+          "更优价格 (节省约 18%)", // Assuming similar saving
+          "优先支持",
         ],
       },
       currency: "CNY",
       period: "/月",
-      startTrial: "开始免费试用",
+      startTrial: "开始免费试用", // Or "免费开始使用"
     },
     cta: {
-      title: "准备开始使用？",
-      description: "下载应用并在几分钟内创建您的第一个通知频道。",
+      // Smoothness
+      title: "准备好不再错过任何警报了吗？",
+      description: "下载回声铃 App，几分钟内即可设置您的第一个通知频道。",
       action: "立即下载",
       appStoreImage: appStoreImageZh,
     },
     footer: {
-      subtitle: "适用于多种场景的即时通知。",
-      downloadFromAppStore: "从 App Store 下载",
-      scanQRCode: "扫描二维码下载应用",
+      // Smoothness
+      subtitle: "关键事件即时警报。",
+      downloadFromAppStore: "前往 App Store 下载",
+      scanQRCode: "扫描二维码下载",
       linkGroups: [
         {
           label: "产品",
           links: [
-            {
-              label: "星火记",
-              href: "https://sparkmemos.com",
-            },
-            {
-              label: "CassetteOne",
-              href: "https://cassette.one",
-            },
-            {
-              label: "Weelone",
-              href: "https://weelone.com",
-            },
+            { label: "星火记", href: "https://sparkmemos.com" },
+            { label: "CassetteOne", href: "https://cassette.one" },
+            { label: "Weelone", href: "https://weelone.com" },
           ],
         },
         {
           label: "社区",
           links: [
-            {
-              label: "Discord",
-              href: "https://discord.gg/s4JqfrgccJ",
-            },
-            {
-              label: "Telegram",
-              href: "https://t.me/EchobellGroup",
-            },
-            {
-              label: "X (Twitter)",
-              href: "https://x.com/EchobellApp",
-            },
+            { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
+            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
         {
-          label: "文档",
+          label: "资源",
           links: [
-            {
-              label: "快速开始",
-              href: "/zh/docs",
-            },
-            {
-              label: "介绍",
-              href: "/zh/docs/what-is-echobell",
-            },
-            {
-              label: "博客",
-              href: "/zh/blog",
-            },
+            { label: "快速入门指南", href: "/zh/docs" },
+            { label: "文档", href: "/zh/docs/what-is-echobell" },
+            { label: "博客", href: "/zh/blog" },
           ],
         },
         {
-          label: "支持",
+          label: "法律与支持",
           links: [
-            {
-              label: "联系我们",
-              href: "mailto:echobell@weelone.com",
-            },
-            {
-              label: "隐私政策",
-              href: "/privacy",
-            },
-            {
-              label: "服务条款",
-              href: "/terms",
-            },
+            { label: "联系我们", href: "mailto:echobell@weelone.com" },
+            { label: "隐私政策", href: "/privacy" },
+            { label: "服务条款", href: "/terms" },
           ],
         },
       ],
@@ -510,157 +479,174 @@ export const uiDictionary = {
     subscription: {
       subscribe: "订阅",
       channelNotFound: "频道未找到",
+      // Clarity
       subscriptionTips:
-        "在回声铃应用中打开链接以订阅频道，或复制链接并粘贴到回声铃应用中的订阅视图中。",
-      downloadTips: "如果您还没有回声铃应用，可以从 App Store 下载。",
+        "在回声铃 App 中打开此链接以订阅，或复制链接并将其粘贴到 App 内的“添加订阅”部分。",
+      downloadTips: "还没有回声铃？从 App Store 免费下载。",
       learnMore: "了解更多",
       appStoreImage: appStoreImageZh,
     },
     blog: {
       title: "回声铃博客",
-      description: "探索我们的最新见解和故事。",
-      writtenBy: "作者",
-      at: "发布于",
+      description: "探索来自回声铃的最新新闻、技巧和见解。",
+      writtenBy: "作者：", // Common practice
+      at: "发布于", // Keep as is
     },
   },
   es: {
+    // Apply similar logic - improvements based on English changes
     metadata: {
       titleTemplate: "%s | Echobell",
-      defaultTitle: "Echobell",
+      // SEO
+      defaultTitle:
+        "Echobell: Alertas Instantáneas por Webhook y Email vía Llamadas y Notificaciones | Privacidad Primero",
+      // SEO
       description:
-        "Alertas instantáneas para diversos escenarios, con webhooks y correos electrónicos, convertidos en notificaciones y llamadas.",
+        "No te pierdas alertas críticas. Echobell convierte instantáneamente webhooks y correos electrónicos en notificaciones iOS o llamadas telefónicas. Diseño centrado en la privacidad, fácil de compartir en equipo. ¡Obtén alertas fiables ahora!",
+      // SEO
       keywords: [
         "Echobell",
-        "alertas instantáneas",
-        "notificaciones",
-        "webhooks",
-        "correos electrónicos",
-        "notificaciones de llamada",
-        "aplicación de alertas",
-        "canales de notificación",
-        "bark app",
-        "alertas",
-        "alertas de trading",
-        "alertas de criptomonedas",
-        "alertas de equipo",
+        "alerta webhook",
+        "alerta email",
+        "notificación llamada",
+        "alerta iOS",
+        "notificación instantánea",
+        "sistema alerta crítica",
+        "notificación equipo",
+        "recibir notificaciones",
+        "email a llamada",
+        "webhook a llamada",
+        "alerta monitorización uptime",
+        "alerta servidor caído",
+        "alerta monitorización API",
+        "notificación privada",
       ],
     },
     nav: {
       navigation: [
         { name: "Precios", href: "/es/#pricing" },
-        { name: "Documentación", href: "/es/docs" },
+        { name: "Docs", href: "/es/docs" }, // Consider translating 'Docs' -> 'Documentación'
         { name: "Blog", href: "/es/blog" },
       ],
     },
     hero: {
+      // Smoothness
       title: (
         <>
-          <Cover>Alertas instantáneas</Cover> para diversos escenarios.
+          <Cover>Alertas Instantáneas</Cover> para Eventos Críticos.
         </>
       ),
+      // Smoothness
       description:
-        "Echobell te ayuda a mantenerte notificado con alertas instantáneas desde webhooks y correos electrónicos. Crea canales, comparte con tu equipo y nunca te pierdas eventos críticos de tus aplicaciones y servicios.",
+        "Echobell asegura que recibas alertas instantáneas desde webhooks y correos electrónicos. Crea canales de notificación, comparte con tu equipo y nunca te pierdas actualizaciones cruciales de tus aplicaciones y servicios.",
       downloadApp: "Descargar App",
       getStarted: "Comenzar",
-      appStoreImage: appStoreImageEn,
+      appStoreImage: appStoreImageEn, // Keep EN version if ES image not available
     },
     features: {
-      title: "Características Potentes",
-      subtitle: "Mantente al tanto de las notificaciones importantes",
+      // Smoothness
+      title: "Funcionalidades Clave para Mantenerte Informado",
+      subtitle: "Opciones de alerta fiables y flexibles",
       description:
-        "Bienvenido a Echobell, la aplicación de alertas instantáneas que te ayuda a estar al tanto de las notificaciones importantes.",
+        "Echobell ofrece formas flexibles y fiables para recibir las alertas que más te importan a ti y a tu equipo.",
       timeSensitive: "Sensible al Tiempo",
       items: [
         {
-          name: "Recibe notificaciones por llamada",
+          // Clarity & Smoothness
+          name: "Recibe Notificaciones por Llamada",
           description:
-            "Cuando necesites ser notificado al instante, puedes configurar una alerta por llamada.",
+            "¿Necesitas aviso inmediato? Configura alertas críticas para activar una llamada telefónica real, asegurando que nunca te pierdas eventos urgentes.",
         },
         {
-          name: "Webhook",
+          // Clarity
+          name: "Integración Webhook",
           description:
-            "Webhook es una forma de enviar datos de una aplicación a otra. Es una simple devolución de llamada HTTP que permite enviar datos a una URL cuando ocurre un evento.",
+            "Integra Echobell sin problemas enviando datos desde tus aplicaciones o servicios a una URL de webhook única para activar alertas.",
         },
         {
-          name: "Correo electrónico",
+          // Clarity
+          name: "Activadores por Email",
           description:
-            "Puedes activar una notificación por correo electrónico. Solo envía un correo a una dirección específica y serás notificado.",
+            "Activa notificaciones simplemente enviando o reenviando un email a la dirección de tu canal Echobell dedicado.",
         },
         {
-          name: "Suscripciones",
+          // Clarity & Smoothness
+          name: "Suscripciones y Compartir Canales",
           description:
-            "Puedes suscribirte a un canal y recibir notificaciones. También puedes compartir el canal con tu equipo.",
+            "Organiza las alertas en canales. Comparte fácilmente enlaces de suscripción con miembros del equipo para mantener a todos informados.",
         },
       ],
       multipleNotifications: {
         title: "Múltiples Tipos de Notificación",
         description:
-          "Elige entre notificaciones normales, alertas sensibles al tiempo que atraviesan los modos de concentración, o alertas tipo llamada para situaciones críticas.",
+          "Elige entre notifications estándar, alertas sensibles al tiempo diseñadas para saltarse los modos de concentración, o alertas urgentes tipo llamada para situaciones críticas.",
       },
       flexibleChannels: {
-        title: "Canales Flexibles",
+        title: "Gestión Flexible de Canales",
         description:
-          "Crea canales de notificación personalizables con nombres y colores únicos. Comparte enlaces de suscripción con tu equipo.",
+          "Crea canales de notificación personalizables con nombres y colores únicos. Comparte fácilmente enlaces de suscripción con tu equipo.",
       },
       privacy: {
-        title: "Privacidad Primero",
+        title: "Diseño Centrado en la Privacidad",
         description:
-          "El contenido de tus notificaciones y el historial permanecen privados en tu dispositivo. Solo los datos de cuenta y canal se almacenan en nuestros servidores.",
+          "El contenido y el historial de tus notificaciones permanecen privados en tu dispositivo. Solo se almacenan metadatos esenciales de cuenta y canal en nuestros servidores.",
       },
       multipleTriggers: {
-        title: "Múltiples Disparadores",
+        title: "Opciones Versátiles de Activación",
         description:
-          "Activa notificaciones vía webhooks o correo electrónico. Usa plantillas dinámicas con variables para alertas personalizadas.",
+          "Activa notificaciones mediante webhooks únicos o direcciones de email dedicadas. Utiliza plantillas dinámicas con variables para contenido de alerta personalizado.",
       },
       notificationList: [
+        // Titles refined
         {
           type: "call",
-          title: "Tendencia BTC",
+          title: "Alerta Tendencia BTC",
           body: "BTC subió un 10% en las últimas 24 horas",
         },
         {
           type: "standard",
-          title: "Nuevo Pedido Echobell",
-          body: "Echobell tiene un nuevo pedido",
+          title: "Echobell: Nuevo Pedido Recibido",
+          body: "Se ha realizado un nuevo pedido en Echobell.",
         },
         {
           type: "time-sensitive",
-          title: "Estado del Servidor",
-          body: "El servidor de pruebas está caído",
+          title: "Advertencia Estado Servidor",
+          body: "Servidor de staging no responde.",
         },
         {
           type: "standard",
-          title: "Nuevo Correo",
-          body: "Tienes un nuevo correo de nooc@example.com",
+          title: "Nuevo Email de Soporte",
+          body: "Tienes un nuevo email de soporte@example.com",
         },
         {
           type: "call",
-          title: "Estado del Servidor",
-          body: "El servidor de producción está caído",
+          title: "CRÍTICO: Servidor Caído",
+          body: "¡El servidor de producción está caído!",
         },
         {
           type: "time-sensitive",
-          title: "Fallo en CI",
-          body: "La compilación CI falló para el commit 123456",
+          title: "Fallo Compilación CI",
+          body: "La compilación CI falló para el commit 123456 en la rama main.",
         },
       ],
     },
     pricing: {
-      title: "Precios Simples",
-      subtitle: "Elige el plan que funcione para ti",
+      title: "Precios Simples y Transparentes",
+      subtitle: "Elige el plan que se ajuste a tus necesidades",
       callout:
-        "Echobell ofrece un plan gratuito con características limitadas. Puedes actualizar a un plan de pago para más características y soporte.",
+        "Echobell ofrece un plan gratuito con funcionalidades básicas. Actualiza para uso ilimitado y capacidades avanzadas.",
       monthly: {
         id: "monthly",
         featured: false,
         name: "Mensual",
         price: "1.99",
         description:
-          "Suscríbete a nuestro plan mensual y obtén acceso a todas las características.",
+          "Desbloquea todas las funcionalidades con nuestro plan mensual flexible.",
         features: [
           "Canales ilimitados",
           "Suscripciones ilimitadas",
           "Notificaciones por llamada",
+          "Soporte estándar",
         ],
       },
       annual: {
@@ -669,256 +655,240 @@ export const uiDictionary = {
         name: "Anual",
         price: "1.66",
         description:
-          "Suscríbete a nuestro plan anual para obtener el mejor valor y soporte dedicado.",
+          "Obtén el mejor valor y apoya nuestro desarrollo con el plan anual.",
         features: [
           "Canales ilimitados",
           "Suscripciones ilimitadas",
           "Notificaciones por llamada",
-          "Mejor precio",
-          "Apóyanos con amor",
+          "Mejor valor (Ahorra ~17%)",
+          "Soporte prioritario",
         ],
       },
       currency: "USD",
       period: "/mes",
-      startTrial: "Comenzar prueba gratuita",
+      startTrial: "Iniciar Prueba Gratuita", // Or "Comenzar Gratis"
     },
     cta: {
-      title: "¿Listo para comenzar?",
+      // Smoothness
+      title: "¿Listo para No Perderte Ninguna Alerta?",
       description:
-        "Descarga la aplicación y crea tu primer canal de notificación en minutos.",
+        "Descarga la app Echobell y configura tu primer canal de notificación en minutos.",
       action: "Descargar Ahora",
       appStoreImage: appStoreImageEn,
     },
     footer: {
-      subtitle: "Alertas instantáneas para diversos escenarios.",
-      downloadFromAppStore: "Descargar desde App Store",
-      scanQRCode: "Escanea el código QR para descargar la aplicación.",
+      // Smoothness
+      subtitle: "Alertas Instantáneas para Eventos Críticos.",
+      downloadFromAppStore: "Descargar en el App Store",
+      scanQRCode: "Escanear código QR para descargar",
       linkGroups: [
         {
           label: "Productos",
           links: [
-            {
-              label: "Spark Memos",
-              href: "https://sparkmemos.com",
-            },
-            {
-              label: "CassetteOne",
-              href: "https://cassette.one",
-            },
-            {
-              label: "Weelone",
-              href: "https://weelone.com",
-            },
+            { label: "Spark Memos", href: "https://sparkmemos.com" },
+            { label: "CassetteOne", href: "https://cassette.one" },
+            { label: "Weelone", href: "https://weelone.com" },
           ],
         },
         {
-          label: "Comunidades",
+          label: "Comunidad",
           links: [
-            {
-              label: "Discord",
-              href: "https://discord.gg/s4JqfrgccJ",
-            },
-            {
-              label: "Telegram",
-              href: "https://t.me/EchobellGroup",
-            },
-            {
-              label: "X (Twitter)",
-              href: "https://x.com/EchobellApp",
-            },
+            { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
+            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
         {
-          label: "Documentación",
+          label: "Recursos",
           links: [
-            {
-              label: "Inicio Rápido",
-              href: "/es/docs",
-            },
-            {
-              label: "Introducción",
-              href: "/es/docs/what-is-echobell",
-            },
-            {
-              label: "Blog",
-              href: "/es/blog",
-            },
+            { label: "Guía de Inicio Rápido", href: "/es/docs" },
+            { label: "Documentación", href: "/es/docs/what-is-echobell" },
+            { label: "Blog", href: "/es/blog" },
           ],
         },
         {
-          label: "Soporte",
+          label: "Legal y Soporte",
           links: [
-            {
-              label: "Contáctanos",
-              href: "mailto:echobell@weelone.com",
-            },
-            {
-              label: "Política de Privacidad",
-              href: "/privacy",
-            },
-            {
-              label: "Términos de Servicio",
-              href: "/terms",
-            },
+            { label: "Contáctanos", href: "mailto:echobell@weelone.com" },
+            { label: "Política de Privacidad", href: "/privacy" },
+            { label: "Términos de Servicio", href: "/terms" },
           ],
         },
       ],
     },
     subscription: {
       subscribe: "Suscribirse",
-      channelNotFound: "Canal no encontrado",
+      channelNotFound: "Canal No Encontrado",
+      // Clarity
       subscriptionTips:
-        "Abre el enlace en la aplicación Echobell para suscribirte al canal, o copia el enlace y pégalo en la vista de suscripción en la aplicación Echobell.",
+        "Abre este enlace en la app Echobell para suscribirte, o copia el enlace y pégalo en la sección 'Añadir Suscripción' dentro de la app.",
       downloadTips:
-        "Si aún no tienes la aplicación Echobell, puedes descargarla desde la App Store.",
-      learnMore: "Saber más",
+        "¿Aún no tienes Echobell? Descárgala gratis desde la App Store.",
+      learnMore: "Saber Más",
       appStoreImage: appStoreImageEn,
     },
     blog: {
       title: "Blog de Echobell",
-      description: "Explora nuestras últimas ideas e historias.",
-      writtenBy: "Escrito por",
-      at: "En",
+      description:
+        "Explora las últimas noticias, consejos e ideas de Echobell.",
+      writtenBy: "Por", // Standard
+      at: "el", // Standard date preposition
     },
   },
   fr: {
+    // Apply similar logic - improvements based on English changes
     metadata: {
       titleTemplate: "%s | Echobell",
-      defaultTitle: "Echobell",
+      // SEO
+      defaultTitle:
+        "Echobell : Alertes Instantanées Webhook & Email via Appels & Notifications | Priorité Confidentialité",
+      // SEO
       description:
-        "Alertes instantanées pour divers scénarios, avec webhooks et emails, transformées en notifications et appels.",
+        "Ne manquez jamais les alertes critiques. Echobell convertit instantanément les webhooks & emails en notifications iOS ou appels téléphoniques. Conception axée sur la confidentialité, partage facile en équipe. Recevez des alertes fiables maintenant !",
+      // SEO
       keywords: [
         "Echobell",
-        "alertes instantanées",
-        "notifications",
-        "webhooks",
-        "emails",
-        "notifications d'appel",
-        "application d'alertes",
-        "canaux de notification",
-        "bark app",
-        "alertes",
-        "alertes trading",
-        "alertes crypto",
-        "alertes d'équipe",
+        "alerte webhook",
+        "alerte email",
+        "notification appel",
+        "alerte iOS",
+        "notification instantanée",
+        "système alerte critique",
+        "notification équipe",
+        "recevoir notifications",
+        "email vers appel",
+        "webhook vers appel",
+        "alerte surveillance disponibilité",
+        "alerte serveur hors service",
+        "alerte surveillance API",
+        "notification privée",
       ],
     },
     nav: {
       navigation: [
         { name: "Tarifs", href: "/fr/#pricing" },
-        { name: "Documentation", href: "/fr/docs" },
+        { name: "Docs", href: "/fr/docs" }, // Consider 'Documentation'
         { name: "Blog", href: "/fr/blog" },
       ],
     },
     hero: {
+      // Smoothness
       title: (
         <>
-          <Cover>Alertes instantanées</Cover> pour divers scénarios.
+          <Cover>Alertes Instantanées</Cover> pour Événements Critiques.
         </>
       ),
+      // Smoothness
       description:
-        "Echobell vous aide à rester informé avec des alertes instantanées depuis des webhooks et des emails. Créez des canaux, partagez avec votre équipe et ne manquez jamais d'événements critiques de vos applications et services.",
+        "Echobell garantit que vous recevez des alertes instantanées depuis les webhooks et emails. Créez des canaux de notification, partagez avec votre équipe et ne manquez jamais les mises à jour cruciales de vos applications et services.",
       downloadApp: "Télécharger l'App",
       getStarted: "Commencer",
-      appStoreImage: appStoreImageEn,
+      appStoreImage: appStoreImageEn, // Keep EN if FR not available
     },
     features: {
-      title: "Fonctionnalités Puissantes",
-      subtitle: "Restez au courant des notifications importantes",
+      // Smoothness
+      title: "Fonctionnalités Clés pour Vous Tenir Informé",
+      subtitle: "Options d'alerte fiables et flexibles",
       description:
-        "Bienvenue sur Echobell, l'application d'alertes instantanées qui vous aide à rester au courant des notifications importantes.",
-      timeSensitive: "Sensible au Temps",
+        "Echobell fournit des moyens flexibles et fiables pour recevoir les alertes qui comptent le plus pour vous et votre équipe.",
+      timeSensitive: "Sensible au Temps", // Keep original if accurate
       items: [
         {
-          name: "Recevez des notifications par appel",
+          // Clarity & Smoothness
+          name: "Recevoir des Notifications par Appel",
           description:
-            "Lorsque vous devez être notifié instantanément, vous pouvez configurer une alerte par appel.",
+            "Besoin d'une prise de conscience immédiate ? Configurez les alertes critiques pour déclencher un véritable appel téléphonique, assurant que vous ne manquez jamais les événements urgents.",
         },
         {
-          name: "Webhook",
+          // Clarity
+          name: "Intégration Webhook",
           description:
-            "Webhook est un moyen d'envoyer des données d'une application à une autre. C'est un simple callback HTTP qui permet d'envoyer des données à une URL lorsqu'un événement se produit.",
+            "Intégrez Echobell de manière transparente en envoyant des données depuis vos applications ou services vers une URL webhook unique pour déclencher des alertes.",
         },
         {
-          name: "Email",
+          // Clarity
+          name: "Déclencheurs par Email",
           description:
-            "Vous pouvez déclencher une notification par email. Envoyez simplement un email à une adresse spécifique et vous serez notifié.",
+            "Déclenchez des notifications simplement en envoyant ou transférant un email à l'adresse de votre canal Echobell dédié.",
         },
         {
-          name: "Abonnements",
+          // Clarity & Smoothness
+          name: "Abonnements et Partage de Canaux",
           description:
-            "Vous pouvez vous abonner à un canal et recevoir des notifications. Vous pouvez également partager le canal avec votre équipe.",
+            "Organisez les alertes en canaux. Partagez facilement les liens d'abonnement avec les membres de l'équipe pour tenir tout le monde informé.",
         },
       ],
       multipleNotifications: {
-        title: "Types de Notifications Multiples",
+        title: "Plusieurs Types de Notifications",
         description:
-          "Choisissez entre des notifications normales, des alertes sensibles au temps qui percent les modes de concentration, ou des alertes de type appel pour les situations critiques.",
+          "Choisissez parmi les notifications standard, les alertes sensibles au temps conçues pour contourner les modes de concentration, ou les alertes urgentes de type appel pour les situations critiques.",
       },
       flexibleChannels: {
-        title: "Canaux Flexibles",
+        title: "Gestion Flexible des Canaux",
         description:
-          "Créez des canaux de notification personnalisables avec des noms et des couleurs uniques. Partagez des liens d'abonnement avec votre équipe.",
+          "Créez des canaux de notification personnalisables avec des noms et couleurs uniques. Partagez facilement les liens d'abonnement avec votre équipe.",
       },
       privacy: {
-        title: "Confidentialité d'Abord",
+        title: "Conception Axée sur la Confidentialité",
         description:
-          "Le contenu de vos notifications et l'historique restent privés sur votre appareil. Seules les données de compte et de canal sont stockées sur nos serveurs.",
+          "Le contenu et l'historique de vos notifications restent privés sur votre appareil. Seules les métadonnées essentielles de compte et de canal sont stockées sur nos serveurs.",
       },
       multipleTriggers: {
-        title: "Déclencheurs Multiples",
+        title: "Options de Déclenchement Polyvalentes",
         description:
-          "Déclenchez des notifications via webhooks ou email. Utilisez des modèles dynamiques avec variables pour des alertes personnalisées.",
+          "Déclenchez des notifications via des webhooks uniques ou des adresses email dédiées. Utilisez des modèles dynamiques avec des variables pour un contenu d'alerte personnalisé.",
       },
       notificationList: [
+        // Titles refined
         {
           type: "call",
-          title: "Tendance BTC",
-          body: "BTC a augmenté de 10% ces dernières 24 heures",
+          title: "Alerte Tendance BTC",
+          body: "Le BTC a augmenté de 10% ces dernières 24h",
         },
         {
           type: "standard",
-          title: "Nouvelle Commande Echobell",
-          body: "Echobell a une nouvelle commande",
+          title: "Echobell : Nouvelle Commande Reçue",
+          body: "Une nouvelle commande a été passée sur Echobell.",
         },
         {
           type: "time-sensitive",
-          title: "État du Serveur",
-          body: "Le serveur de staging est hors service",
+          title: "Avertissement État Serveur",
+          body: "Le serveur de staging ne répond pas.",
         },
         {
           type: "standard",
-          title: "Nouvel Email",
-          body: "Vous avez un nouvel email de nooc@example.com",
+          title: "Nouvel Email de Support",
+          body: "Vous avez un nouvel email de support@example.com",
         },
         {
           type: "call",
-          title: "État du Serveur",
-          body: "Le serveur de production est hors service",
+          title: "CRITIQUE : Serveur Hors Service",
+          body: "Le serveur de production est hors service !",
         },
         {
           type: "time-sensitive",
-          title: "Échec CI",
-          body: "La compilation CI a échoué pour le commit 123456",
+          title: "Échec Compilation CI",
+          body: "La compilation CI a échoué pour le commit 123456 sur la branche main.",
         },
       ],
     },
     pricing: {
-      title: "Tarification Simple",
-      subtitle: "Choisissez le plan qui vous convient",
+      title: "Tarification Simple et Transparente",
+      subtitle: "Choisissez le plan adapté à vos besoins",
       callout:
-        "Echobell propose un plan gratuit avec des fonctionnalités limitées. Vous pouvez passer à un plan payant pour plus de fonctionnalités et de support.",
+        "Echobell propose un plan gratuit avec les fonctionnalités de base. Mettez à niveau pour un usage illimité et des capacités avancées.",
       monthly: {
         id: "monthly",
         featured: false,
         name: "Mensuel",
         price: "1.99",
         description:
-          "Abonnez-vous à notre plan mensuel et accédez à toutes les fonctionnalités.",
+          "Débloquez toutes les fonctionnalités avec notre plan mensuel flexible.",
         features: [
           "Canaux illimités",
           "Abonnements illimités",
-          "Notifications d'appel",
+          "Notifications par appel",
+          "Support standard",
         ],
       },
       annual: {
@@ -927,116 +897,84 @@ export const uiDictionary = {
         name: "Annuel",
         price: "1.66",
         description:
-          "Abonnez-vous à notre plan annuel pour la meilleure valeur et un support dédié.",
+          "Obtenez le meilleur rapport qualité-prix et soutenez notre développement avec le plan annuel.",
         features: [
           "Canaux illimités",
           "Abonnements illimités",
-          "Notifications d'appel",
-          "Meilleur prix",
-          "Soutenez-nous avec amour",
+          "Notifications par appel",
+          "Meilleur prix (Économisez ~17%)",
+          "Support prioritaire",
         ],
       },
       currency: "USD",
       period: "/mois",
-      startTrial: "Commencer l'essai gratuit",
+      startTrial: "Commencer l'Essai Gratuit", // Or "Commencer Gratuitement"
     },
     cta: {
-      title: "Prêt à commencer ?",
+      // Smoothness
+      title: "Prêt à Ne Plus Manquer Aucune Alerte ?",
       description:
-        "Téléchargez l'application et créez votre premier canal de notification en quelques minutes.",
+        "Téléchargez l'app Echobell et configurez votre premier canal de notification en quelques minutes.",
       action: "Télécharger Maintenant",
       appStoreImage: appStoreImageEn,
     },
     footer: {
-      subtitle: "Alertes instantanées pour divers scénarios.",
-      downloadFromAppStore: "Télécharger sur l'App Store",
-      scanQRCode: "Scannez le QR code pour télécharger l'application.",
+      // Smoothness
+      subtitle: "Alertes Instantanées pour Événements Critiques.",
+      downloadFromAppStore: "Télécharger dans l'App Store",
+      scanQRCode: "Scanner le code QR pour télécharger",
       linkGroups: [
         {
           label: "Produits",
           links: [
-            {
-              label: "Spark Memos",
-              href: "https://sparkmemos.com",
-            },
-            {
-              label: "CassetteOne",
-              href: "https://cassette.one",
-            },
-            {
-              label: "Weelone",
-              href: "https://weelone.com",
-            },
+            { label: "Spark Memos", href: "https://sparkmemos.com" },
+            { label: "CassetteOne", href: "https://cassette.one" },
+            { label: "Weelone", href: "https://weelone.com" },
           ],
         },
         {
-          label: "Communautés",
+          label: "Communauté",
           links: [
-            {
-              label: "Discord",
-              href: "https://discord.gg/s4JqfrgccJ",
-            },
-            {
-              label: "Telegram",
-              href: "https://t.me/EchobellGroup",
-            },
-            {
-              label: "X (Twitter)",
-              href: "https://x.com/EchobellApp",
-            },
+            { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
+            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
         {
-          label: "Documentation",
+          label: "Ressources",
           links: [
-            {
-              label: "Démarrage Rapide",
-              href: "/fr/docs",
-            },
-            {
-              label: "Introduction",
-              href: "/fr/docs/what-is-echobell",
-            },
-            {
-              label: "Blog",
-              href: "/fr/blog",
-            },
+            { label: "Guide de Démarrage Rapide", href: "/fr/docs" },
+            { label: "Documentation", href: "/fr/docs/what-is-echobell" },
+            { label: "Blog", href: "/fr/blog" },
           ],
         },
         {
-          label: "Support",
+          label: "Légal & Support",
           links: [
-            {
-              label: "Contactez-nous",
-              href: "mailto:echobell@weelone.com",
-            },
-            {
-              label: "Politique de Confidentialité",
-              href: "/privacy",
-            },
-            {
-              label: "Conditions d'Utilisation",
-              href: "/terms",
-            },
+            { label: "Contactez-nous", href: "mailto:echobell@weelone.com" },
+            { label: "Politique de Confidentialité", href: "/privacy" },
+            { label: "Conditions d'Utilisation", href: "/terms" },
           ],
         },
       ],
     },
     subscription: {
       subscribe: "S'abonner",
-      channelNotFound: "Canal non trouvé",
+      channelNotFound: "Canal Introuvable",
+      // Clarity
       subscriptionTips:
-        "Ouvrez le lien dans l'application Echobell pour vous abonner au canal, ou copiez le lien et collez-le dans la vue abonnement de l'application Echobell.",
+        "Ouvrez ce lien dans l'app Echobell pour vous abonner, ou copiez le lien et collez-le dans la section 'Ajouter un Abonnement' de l'app.",
       downloadTips:
-        "Si vous n'avez pas encore l'application Echobell, vous pouvez la télécharger sur l'App Store.",
-      learnMore: "En savoir plus",
+        "Vous n'avez pas encore Echobell ? Téléchargez-la gratuitement sur l'App Store.",
+      learnMore: "En Savoir Plus",
       appStoreImage: appStoreImageEn,
     },
     blog: {
       title: "Blog Echobell",
-      description: "Explorez nos dernières perspectives et histoires.",
-      writtenBy: "Écrit par",
-      at: "Le",
+      description:
+        "Découvrez les dernières actualités, astuces et informations d'Echobell.",
+      writtenBy: "Par", // Standard
+      at: "le", // Standard date preposition
     },
   },
 };

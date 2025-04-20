@@ -2,6 +2,7 @@ import Link from "next/link";
 import { blog } from "@/lib/source";
 import { Language, uiDictionary } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
+import { Metadata } from "next";
 
 export default async function Page({
   params,
@@ -73,4 +74,18 @@ export default async function Page({
       </div>
     </div>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: Language }>;
+}): Promise<Metadata> {
+  const lang = (await params).lang;
+  const t = uiDictionary[lang].blog;
+
+  return {
+    title: t.title,
+    description: t.description,
+  };
 }
