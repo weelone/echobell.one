@@ -1,0 +1,86 @@
+---
+title: Benachrichtigungen in Echobell
+description: Verstehen Sie, wie Benachrichtigungen in Echobell funktionieren und welche verschiedenen Typen verfügbar sind.
+---
+
+# Benachrichtigungen in Echobell
+
+Benachrichtigungen stehen im Zentrum der Funktionalität von Echobell. Dieser Leitfaden erklärt, wie Benachrichtigungen funktionieren, welche verschiedenen Typen verfügbar sind und wie Sie sie an Ihre Bedürfnisse anpassen können.
+
+## Benachrichtigungstypen
+
+Beim Abonnieren eines Kanals können Sie aus drei Benachrichtigungstypen basierend auf der Dringlichkeit wählen:
+
+- **Normal**: Standard-App-Benachrichtigungen für Routinealarme. Diese folgen den normalen Benachrichtigungseinstellungen Ihres Geräts.
+- **Zeitkritisch**: Hochprioritäts-Benachrichtigungen, die bestimmte Fokusmodi durchbrechen können. Verwenden Sie diese für wichtige Alarme, die nicht verpasst werden sollten.
+- **Anruf**: Anruf-ähnliche Alarme für kritische Situationen, die sofortige Aufmerksamkeit erfordern. Diese Benachrichtigungen erscheinen als eingehende Anrufe auf Ihrem Gerät.
+
+## Benachrichtigungsvorlagen
+
+Jeder Kanal verwendet anpassbare Vorlagen für den Benachrichtigungsinhalt:
+
+- **Titelvorlage**: Bestimmt, was in der Benachrichtigungskopfzeile erscheint
+- **Textvorlage**: Steuert den Hauptinhalt der Benachrichtigung
+
+Vorlagen unterstützen dynamische Variablen mit der `{{variablenname}}`-Syntax. Zum Beispiel:
+
+```
+Titel: {{server}} Statusalarm
+Text: {{message}} erkannt um {{timestamp}}
+```
+
+### Variablentypen
+
+Folgende Variablentypen werden unterstützt:
+
+- **Text**: Servernamen, Nachrichten, etc.
+- **Zahlen**: Metrikwerte, Prozentsätze, etc.
+- **Datum/Zeit**: Zeitstempel, Zeiträume, etc.
+
+### Benachrichtigungsbeispiel
+
+Wenn eine Vorlage ausgelöst wird, werden die Variablen durch tatsächliche Werte ersetzt:
+
+```json
+{
+  "title": "api-server - Kritisch",
+  "message": "CPU-Auslastung erreicht 95%",
+  "timestamp": "2025-04-20 15:30:00"
+}
+```
+
+Dies erzeugt eine Benachrichtigung wie:
+
+```
+Titel: api-server - Kritisch
+Text: CPU-Auslastung erreicht 95% erkannt um 2025-04-20 15:30:00
+```
+
+## Datenschutz und Speicherung
+
+Echobell priorisiert Ihren Datenschutz:
+
+- Benachrichtigungsinhalte werden nur auf dem lokalen Gerät gespeichert
+- Server speichern nur Trigger-Verarbeitung und Kanal-Metadaten
+- Benachrichtigungsverlauf wird bis zur Löschung auf dem Gerät aufbewahrt
+
+## App-Einstellungen
+
+Passen Sie das Benachrichtigungsverhalten mit diesen Einstellungen an:
+
+### Spracheinstellungen
+
+- **Sprachinhalt wiederholen**: Wiederholt Benachrichtigungen mehrmals für bessere Hörbarkeit
+- **Benutzerdefinierte Benachrichtigungstöne**: Verschiedene Töne pro Kanal möglich
+
+### Systemintegration
+
+- **App-Benachrichtigungseinstellungen**: Integration mit nativen Betriebssystem-Benachrichtigungseinstellungen
+- **Fokusmodus**: Konfiguration für zeitkritische und Anrufbenachrichtigungen
+
+## Wichtige Hinweise
+
+1. Fokusmodi des Telefons können weniger dringende Benachrichtigungen verzögern
+2. Verwenden Sie zeitkritische oder Anruftypen für wichtige Benachrichtigungen
+3. Benachrichtigungsvorlagen gelten nur für neue Auslöser, nicht für bestehende Benachrichtigungen
+4. Erlauben Sie der App den Hintergrundbetrieb für zuverlässige Benachrichtigungszustellung

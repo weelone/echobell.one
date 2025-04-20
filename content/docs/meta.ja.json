@@ -1,0 +1,18 @@
+{
+  "root": true,
+  "pages": [
+    "---はじめに---",
+    "index",
+    "what-is-echobell",
+    "---機能---",
+    "features",
+    "webhook",
+    "email-trigger",
+    "notification",
+    "---ユースケース---",
+    "developer",
+    "trader",
+    "---サポート---",
+    "support"
+  ]
+}

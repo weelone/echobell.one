@@ -1,0 +1,157 @@
+---
+title: Echobell-Funktionen
+description: Ein umfassender Leitfaden zu allen wichtigen Funktionen und Fähigkeiten von Echobell
+---
+
+# Echobell-Funktionen
+
+Echobell ist eine leistungsstarke Benachrichtigungsverwaltungsplattform, die Ihnen hilft, wichtige Warnungen im Blick zu behalten. Dieser Leitfaden deckt alle wichtigen Funktionen und Fähigkeiten von Echobell ab.
+
+<Cards>
+  <Card
+    href="/de/docs/webhook"
+    title="Webhook-Integration"
+    description="Lernen Sie, wie Sie Echobell-Webhooks in Ihre Anwendungen und Dienste integrieren"
+  />
+  <Card
+    href="/de/docs/email-trigger"
+    title="E-Mail-Auslöser"
+    description="Lernen Sie, wie Sie E-Mail-Auslöser in Echobell verwenden, um Benachrichtigungen zu senden"
+  />
+  <Card
+    href="/de/docs/notification"
+    title="Benachrichtigungen"
+    description="Verstehen Sie, wie Benachrichtigungen in Echobell funktionieren und welche Arten verfügbar sind"
+  />
+</Cards>
+
+## Kernfunktionen
+
+### Benachrichtigungskanäle
+
+Im Zentrum von Echobell stehen Kanäle - anpassbare Benachrichtigungspipelines, die Sie für verschiedene Zwecke erstellen können. Jeder Kanal hat:
+
+- Einen eindeutigen Namen und Farbe zur einfachen Identifikation
+- Anpassbare Benachrichtigungsvorlagen
+- Flexible Auslöseoptionen (Webhook oder E-Mail)
+- Teilbare Abonnement-Links
+
+### Auslösemethoden
+
+#### Webhook-Auslöser
+
+Integrieren Sie sich mit praktisch jedem System über Webhook-URLs. Wenn diese URLs aufgerufen werden, sendet Ihr Kanal Benachrichtigungen an alle Abonnenten. Perfekt für:
+
+- Server-Überwachungsalarme
+- CI/CD-Pipeline-Benachrichtigungen
+- IoT-Gerätestatus-Updates
+- E-Commerce-Bestellbenachrichtigungen
+
+Sie können Variablen über Abfrageparameter oder JSON-Body bereitstellen:
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+
+# ODER
+
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+Spezielle Variablen:
+
+- `externalLink`: Erstellt einen klickbaren Link in den Benachrichtigungsaufzeichnungen, wenn enthalten
+
+#### E-Mail-Auslöser
+
+Jeder Kanal kann eine dedizierte E-Mail-Adresse haben. Wenn eine E-Mail an diese Adresse gesendet wird, wird der Kanal ausgelöst. Dies ermöglicht:
+
+- Wichtige E-Mails als Benachrichtigungen weiterleiten
+- Benachrichtigungsabläufe ohne Programmierung erstellen
+- Integration mit Legacy-Systemen, die E-Mail, aber keine Webhooks unterstützen
+
+Verfügbare E-Mail-Variablen:
+
+- `from`: Absender-E-Mail-Adresse
+- `subject`: E-Mail-Betreffzeile
+- `text`: Nur-Text-Inhalt
+- `html`: HTML-Inhalt
+
+### Benachrichtigungstypen
+
+Abonnenten können aus drei Benachrichtigungsstilen wählen:
+
+- **Normal**: Standard-App-Benachrichtigung für routinemäßige Alarme
+- **Zeitkritisch**: Hochprioritäts-Benachrichtigungen, die Fokusmodi durchbrechen können
+- **Anruf**: Anruf-ähnliche Alarme für die dringendsten Angelegenheiten
+
+### Vorlagensystem
+
+Machen Sie Ihre Benachrichtigungen dynamisch mit anpassbaren Vorlagen mit Variablen:
+
+- **Titelvorlage**: Bestimmt, was in der Benachrichtigungskopfzeile erscheint
+- **Textvorlage**: Steuert den Hauptinhalt der Benachrichtigung
+
+Vorlagenbeispiel:
+
+```
+Titel: Server {{server_name}} ist ausgefallen!
+Text: CPU-Auslastung hat {{cpu_usage}}% erreicht
+```
+
+Variablen werden in doppelte geschweifte Klammern `{{variablenName}}` eingeschlossen und mit Auslösedaten gefüllt.
+
+### Datenschutzfunktionen
+
+Mit Datenschutz im Fokus entwickelt:
+
+- Benachrichtigungen im lokalen App-Speicher behalten
+- Nur wesentliche Daten auf Servern speichern
+- Alle Benachrichtigungsinhalte nur auf Benutzergeräten speichern
+- Ende-zu-Ende verschlüsselte Benachrichtigungszustellung
+
+### App-Einstellungen
+
+Optionen zum Anpassen des Benachrichtigungsverhaltens:
+
+- **Sprachinhalt wiederholen**: Anruf-Benachrichtigungsinhalte wiederholen
+- **Fehlgeschlagene Anrufe wiederholen**: Automatisch Anrufe wiederholen, die durch Fokusmodi fehlschlagen
+- **Ton-Einstellungen**: Benutzerdefinierte Benachrichtigungstöne pro Kanal möglich
+- **Ruhezeiten**: Benachrichtigungen zu bestimmten Zeiten steuern
+
+## Anwendungsfälle
+
+### Für Entwickler
+
+- Server-Gesundheit überwachen und sofortige Warnungen erhalten
+- Benachrichtigungen über Build-Abschlüsse oder Test-Fehlschläge erhalten
+- Warnungen für kritische Fehler in der Produktion erhalten
+
+### Für Teams
+
+- Kanäle für verschiedene Projekte oder Systeme erstellen
+- Teammitglieder können mit ihrer bevorzugten Benachrichtigungsdringlichkeit abonnieren
+- Sicherstellen, dass kritische Warnungen nie verpasst werden
+
+### Für persönliche Nutzung
+
+- Warnungen erhalten, wenn Ihre Website ausfällt
+- Benachrichtigungen für wichtige E-Mails erhalten
+- Benutzerdefinierte Warnungen für alles Wichtige erstellen
+
+## Erste Schritte
+
+Der Einstieg in Echobell ist einfach:
+
+1. Echobell aus dem [App Store](https://apps.apple.com/app/id6743597198) herunterladen
+2. Mit E-Mail oder Apple-Konto anmelden
+3. Ersten Kanal erstellen
+4. Webhook oder E-Mail-Auslöser einrichten
+5. Optional Kanal mit Team teilen
+
+Weitere Konfigurationsoptionen und detaillierte Informationen finden Sie in der [Dokumentation](/de/docs).

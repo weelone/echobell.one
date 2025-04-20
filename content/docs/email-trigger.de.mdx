@@ -1,0 +1,88 @@
+---
+title: E-Mail-Auslöser
+description: Lernen Sie, wie Sie E-Mail-Auslöser in Echobell verwenden, um Benachrichtigungen zu senden
+---
+
+# E-Mail-Auslöser
+
+E-Mail-Auslöser bieten eine einfache Möglichkeit, Benachrichtigungen über Echobell zu senden, ohne dass Programmierkenntnisse erforderlich sind. Jeder Kanal kann eine dedizierte E-Mail-Adresse haben, und wenn eine E-Mail an diese Adresse gesendet wird, löst sie automatisch Benachrichtigungen für alle Abonnenten dieses Kanals aus.
+
+## Wie E-Mail-Auslöser funktionieren
+
+Wenn Sie einen E-Mail-Auslöser für einen Kanal einrichten:
+
+1. Wird Ihrem Kanal eine eindeutige E-Mail-Adresse zugewiesen
+2. Jede E-Mail an diese Adresse löst den Kanal aus
+3. Der E-Mail-Inhalt wird automatisch in Variablen analysiert
+4. Diese Variablen können in Ihren Benachrichtigungsvorlagen verwendet werden
+
+## Verfügbare E-Mail-Variablen
+
+Wenn eine E-Mail Ihren Kanal auslöst, extrahiert Echobell automatisch die folgenden Variablen, die Sie in Ihren Benachrichtigungsvorlagen verwenden können:
+
+- `from`: Die E-Mail-Adresse des Absenders
+- `to`: Die E-Mail-Adresse des Empfängers (die E-Mail-Adresse Ihres Kanals)
+- `subject`: Die Betreffzeile der E-Mail
+- `text`: Der Nur-Text-Inhalt der E-Mail
+- `html`: Der HTML-Inhalt der E-Mail (falls verfügbar)
+
+## E-Mail-Variablen in Vorlagen verwenden
+
+Sie können diese Variablen in Ihren Vorlagen mit der `{{variablenName}}`-Syntax verwenden. Zum Beispiel:
+
+```
+Titel: Neue E-Mail von {{from}}
+Text: Betreff: {{subject}}
+
+{{text}}
+```
+
+## Anwendungsfälle
+
+E-Mail-Auslöser sind besonders nützlich für:
+
+- Wichtige E-Mails als Benachrichtigungen weiterleiten
+- Benachrichtigungsabläufe ohne Programmierung erstellen
+- Integration mit Legacy-Systemen, die E-Mail, aber keine Webhooks unterstützen
+- Alarme von E-Mail-basierten Überwachungssystemen einrichten
+- Newsletter in mobile Benachrichtigungen umwandeln
+
+## E-Mail-Integration einrichten
+
+1. Gehen Sie zu den Kanaleinstellungen
+2. Aktivieren Sie den E-Mail-Auslöser
+3. Kopieren Sie die generierte E-Mail-Adresse
+4. Richten Sie E-Mail-Weiterleitung ein oder integrieren Sie die E-Mail-Adresse in Ihre Systeme
+
+## Datenschutz und Datenspeicherung
+
+Wie bei allen Echobell-Funktionen:
+
+- Nur Kanalkonfigurationsdaten werden auf unseren Servern gespeichert
+- Benachrichtigungsinhalte und E-Mail-Auslöserinhalte werden lokal auf Ihrem Gerät gespeichert
+- Ihre E-Mail-Daten verlassen nie Ihre Kontrolle
+
+## Beste Praktiken
+
+1. Verwenden Sie klare, spezifische E-Mail-Adressen für verschiedene Kanäle
+2. Konfigurieren Sie geeignete Benachrichtigungsvorlagen, die zu Ihren E-Mail-Inhalten passen
+3. Erwägen Sie zeitkritische oder Anruftypen für dringende E-Mails
+4. Testen Sie Ihre E-Mail-Auslöser-Konfiguration mit einer Test-E-Mail, bevor Sie sich darauf verlassen
+
+## Fehlerbehebung
+
+Wenn Ihre E-Mail-Auslöser nicht wie erwartet funktionieren, überprüfen Sie:
+
+1. Ob die E-Mail-Adresse korrekt kopiert wurde
+2. Ob die E-Mail-Weiterleitungsregeln korrekt eingerichtet sind
+3. Ob der Kanal aktiv ist
+4. Ob die Vorlagen die E-Mail-Variablen korrekt verwenden
+5. Ob es aktive Abonnenten gibt, die Benachrichtigungen empfangen können
+
+## Nächste Schritte
+
+- Erkunden Sie erweiterte Vorlagenoptionen im [Benachrichtigungsleitfaden](/de/docs/notification)
+- Kombinieren Sie E-Mail-Auslöser mit [Webhooks](/de/docs/webhook) für flexible Benachrichtigungsabläufe
+- Teilen Sie Kanäle mit Teammitgliedern für effizientes Benachrichtigungsmanagement
+
+Brauchen Sie Hilfe? Besuchen Sie unser [Support-Center](/de/docs/support) oder kontaktieren Sie uns unter echobell@weelone.com.

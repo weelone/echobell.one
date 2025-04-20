@@ -1,0 +1,79 @@
+---
+title: Was ist Echobell?
+description: Lernen Sie Echobell kennen, die Instant-Alert-App, die das Benachrichtigungsmanagement vereinfacht.
+---
+
+# Was ist Echobell?
+
+Echobell ist eine Instant-Alert-Anwendung, die entwickelt wurde, um das Benachrichtigungsmanagement zu vereinfachen. Sie verarbeitet Webhooks und E-Mails, um angepasste Benachrichtigungen zu senden und sicherzustellen, dass Sie keine wichtigen Alarme verpassen.
+
+## Kernfunktionen
+
+- **Sofortige Alarme**: Empfangen Sie Benachrichtigungen in Echtzeit, wenn Ihre Kanäle ausgelöst werden
+- **Mehrere Auslösemethoden**: Richten Sie Webhook- oder E-Mail-basierte Auslöser ein
+- **Anpassbare Benachrichtigungen**: Konfigurieren Sie Vorlagen mit dynamischen Variablen
+- **Abonnementsystem**: Erstellen Sie Kanäle und lassen Sie andere diese abonnieren
+- **Datenschutzorientiert**: Nur essenzielle Daten werden auf unseren Servern gespeichert, während der Benachrichtigungsverlauf auf Ihrem Gerät bleibt
+
+## Wie Echobell funktioniert
+
+Wenn ein Webhook aufgerufen oder eine E-Mail empfangen wird, verarbeitet Echobell die eingehenden Daten und sendet Benachrichtigungen an alle Kanalabonnenten. Der Benachrichtigungsinhalt wird dynamisch basierend auf Ihren Vorlagen und den im Auslöser bereitgestellten Variablen generiert.
+
+## Schlüsselkonzepte
+
+### Kanäle
+
+Ein Kanal ist die Kerneinheit in Echobell. Jeder Kanal:
+
+- Hat einen eindeutigen Namen und eine Farbe zur einfachen Identifizierung
+- Enthält Benachrichtigungsvorlagen für Titel- und Textinhalt
+- Kann über Webhook oder E-Mail ausgelöst werden
+- Kann mit anderen über Abonnement-Links geteilt werden
+
+### Benachrichtigungstypen
+
+Beim Abonnieren eines Kanals können Sie aus drei Benachrichtigungstypen wählen:
+
+- **Normal**: Standard-App-Benachrichtigungen
+- **Zeitkritisch**: Benachrichtigungen, die bestimmte Fokusmodi durchbrechen können
+- **Anruf**: Anruf-ähnliche Alarme für kritische Benachrichtigungen
+
+### Vorlagenvariablen
+
+Machen Sie Ihre Benachrichtigungen dynamisch, indem Sie Variablen in Ihren Vorlagen verwenden:
+
+```
+Titel: Server {{server_name}} ist ausgefallen!
+Text: CPU-Auslastung erreichte {{cpu_usage}}%
+```
+
+Wenn diese Vorlagen mit den entsprechenden Variablen ausgelöst werden, generieren sie personalisierte Benachrichtigungen.
+
+### Auslösemethoden
+
+Echobell unterstützt zwei Hauptauslösemethoden:
+
+- **Webhook**: HTTP-Endpunkte zur Systemintegration
+- **E-Mail**: Dedizierte E-Mail-Adressen zum Auslösen von Benachrichtigungen
+
+## Datenschutz und Datenspeicherung
+
+Echobell wurde mit Datenschutz im Fokus entwickelt:
+
+- Nur Benutzerdaten, Kanaleinstellungen und Abonnementinformationen werden auf unseren Servern gespeichert
+- Benachrichtigungsverlauf und -aufzeichnungen bleiben ausschließlich auf Ihrem lokalen Gerät
+
+## Erste Schritte
+
+Um Echobell zu nutzen, müssen Sie:
+
+1. Echobell-App aus dem [App Store](https://apps.apple.com/app/id6743597198) herunterladen
+2. Mit E-Mail oder Ihrer Apple-ID anmelden
+3. Einen Kanal erstellen und seine Einstellungen anpassen
+4. Ihren Webhook oder E-Mail-Auslöser integrieren
+5. Beginnen Sie mit dem Empfang von Benachrichtigungen
+
+<Callout type="warn">
+  Echobell benötigt Benachrichtigungsberechtigungen, um ordnungsgemäß zu
+  funktionieren, da alle Funktionen benachrichtigungsbasiert sind.
+</Callout>

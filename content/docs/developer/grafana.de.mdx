@@ -1,0 +1,158 @@
+---
+title: Grafana Integration
+description: Erfahren Sie, wie Sie Grafana-Warnungen mit Echobell für sofortige Benachrichtigungen integrieren
+---
+
+# Grafana Integration
+
+Grafana ist eine beliebte Open-Source-Analyse- und Überwachungslösung. Durch die Integration von Grafana mit Echobell können Sie sofortige Benachrichtigungen erhalten, wenn Ihre Metriken Warnungen auslösen. Diese Anleitung führt Sie durch die Einrichtung von Grafana-Warnungen mit Echobell.
+
+## Voraussetzungen
+
+- Ein Echobell-Konto mit mindestens einem erstellten Kanal
+- Zugriff auf eine Grafana-Instanz (Version 8.0 oder höher)
+- Administratorzugriff zur Konfiguration von Warnungsbenachrichtigungen in Grafana
+
+## Einrichtungsübersicht
+
+1. Echobell-Kanal erstellen
+2. Benachrichtigungsvorlagen konfigurieren
+3. Webhook-URL abrufen
+4. Grafana-Kontaktpunkt einrichten
+5. Warnungsregeln in Grafana erstellen
+
+## Schritt-für-Schritt-Anleitung
+
+### 1. Echobell-Kanal erstellen
+
+1. Öffnen Sie die Echobell-App
+2. Erstellen Sie einen neuen Kanal (z.B. "Grafana-Warnungen")
+3. Wählen Sie eine markante Farbe zur einfachen Identifizierung
+
+### 2. Benachrichtigungsvorlagen konfigurieren
+
+Richten Sie Vorlagen ein, die Ihre Grafana-Warnungen effektiv formatieren:
+
+**Titelvorlage:**
+
+```
+{{alertName}} - {{status}}
+```
+
+**Nachrichtenvorlage:**
+
+```
+🔔 Warnung: {{alertName}}
+📊 Metrik: {{metric}}
+📈 Wert: {{value}}
+⏰ Zeit: {{time}}
+ℹ️ Nachricht: {{message}}
+```
+
+Diese Vorlagen funktionieren mit der Warnungs-Payload-Struktur von Grafana.
+
+### 3. Webhook-URL abrufen
+
+1. Suchen Sie in Ihren Kanaleinstellungen den Abschnitt **Trigger**
+2. Kopieren Sie die bereitgestellte Webhook-URL
+3. Bewahren Sie diese URL sicher auf, da sie in der Grafana-Konfiguration verwendet wird
+
+### 4. Grafana-Kontaktpunkt konfigurieren
+
+1. Gehen Sie in Grafana zu **Alerting** → **Contact points**
+2. Klicken Sie auf **New contact point**
+3. Stellen Sie Folgendes ein:
+   - Name: "Echobell"
+   - Typ: "Webhook"
+   - URL: Ihre Echobell-Webhook-URL
+   - HTTP-Methode: POST
+   - Inhaltstyp: application/json
+4. Konfigurieren Sie die Nachrichtenvorlage:
+
+```json
+{
+  "alertName": "{{ .alertName }}",
+  "status": "{{ .status }}",
+  "metric": "{{ .metric }}",
+  "value": "{{ .value }}",
+  "time": "{{ .time }}",
+  "message": "{{ .message }}",
+  "externalLink": "{{ .dashboardURL }}"
+}
+```
+
+### 5. Warnungsregeln erstellen
+
+1. Navigieren Sie zu **Alerting** → **Alert rules**
+2. Erstellen Sie eine neue Warnungsregel oder bearbeiten Sie eine bestehende
+3. In der Regelkonfiguration:
+   - Legen Sie geeignete Bedingungen für Ihre Metriken fest
+   - Wählen Sie den "Echobell" Kontaktpunkt
+   - Konfigurieren Sie die Warnungsauswertungskriterien
+
+## Integration testen
+
+So überprüfen Sie Ihre Einrichtung:
+
+1. Erstellen Sie eine Test-Warnungsregel mit einer Bedingung, die schnell ausgelöst wird
+2. Warten Sie, bis die Bedingung erfüllt ist
+3. Überprüfen Sie Ihre Echobell-App auf die Warnungsbenachrichtigung
+4. Stellen Sie sicher, dass alle Warnungsvariablen korrekt angezeigt werden
+5. Klicken Sie auf die Benachrichtigung, um auf das verlinkte Grafana-Dashboard zuzugreifen
+
+## Arten von Warnungsbenachrichtigungen
+
+Bei der Anmeldung für den Grafana-Warnungskanal konfigurieren Sie diese wichtigen Benachrichtigungstypen:
+
+- Verwenden Sie **Zeitkritisch** für dringende kritische Systemwarnungen und Notfallbenachrichtigungen
+- Verwenden Sie **Anruf** für schwere Ausfälle, kritische Schwellenwertüberschreitungen oder Notfallwarnungen
+- Verwenden Sie **Normal** für Standard-Informationswarnungen und routinemäßige Benachrichtigungen
+
+## Best Practices für das Warnungsmanagement
+
+1. **Organisation der Warnungsvorlagen**
+
+   - Halten Sie Warnungsvorlagen klar und konsistent
+   - Fügen Sie kritische Metrikinformationen hinzu
+   - Verwenden Sie geeignete Formatierung für Zahlen und Zeitstempel in Benachrichtigungen
+   - Stellen Sie sicher, dass Notfallwarnungen deutlich formatiert sind
+
+2. **Konfiguration kritischer Warnungen**
+
+   - Legen Sie geeignete Warnungsschwellen fest, um Benachrichtigungsmüdigkeit zu vermeiden
+   - Verwenden Sie aussagekräftige Namen für Notfallwarnungen
+   - Fügen Sie ausreichend Kontext in kritische Warnungsnachrichten ein
+   - Konfigurieren Sie Prioritätsstufen für verschiedene Arten von Benachrichtigungen
+
+3. **Warnungssicherheit**
+
+   - Halten Sie Ihre Webhook-URL sicher
+   - Überprüfen Sie regelmäßig die Warnungskonfigurationen
+   - Überwachen Sie den Webhook-Zustellungsstatus
+
+## Fehlerbehebung
+
+Wenn Sie keine Warnungen erhalten:
+
+1. Überprüfen Sie, ob die Webhook-URL korrekt kopiert wurde
+2. Prüfen Sie, ob der Kanal aktiv ist
+3. Stellen Sie sicher, dass es aktive Abonnenten gibt
+4. Überprüfen Sie die Konfiguration des Grafana-Kontaktpunkts
+5. Überprüfen Sie die Grafana-Warnungsregelkonfiguration
+6. Überprüfen Sie den Grafana-Warnungsverlauf
+
+## Datenschutz und Datenverarbeitung
+
+Der Datenschutz-First-Ansatz von Echobell bedeutet:
+
+- Warnungsinhalte werden lokal auf Ihrem Gerät gespeichert
+- Nur wesentliche Konfigurationsdaten werden auf Servern gespeichert
+- Webhook-URLs sollten als Geheimnisse behandelt werden
+- Keine Warnungsdaten werden auf Echobell-Servern gespeichert
+
+## Zusätzliche Ressourcen
+
+- [Grafana Alerting Dokumentation](https://grafana.com/docs/grafana/latest/alerting/)
+- [Echobell Webhook Integration](/de/docs/webhook)
+- [Benachrichtigungsvorlagen-Leitfaden](/de/docs/notification)
+- [Support-Center](/de/docs/support)

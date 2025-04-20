@@ -1,0 +1,121 @@
+---
+title: Erste Schritte
+description: Einführung in Echobell, ein leistungsstarkes Benachrichtigungsmanagement-Tool
+---
+
+# Erste Schritte mit Echobell
+
+Willkommen bei Echobell, der Instant-Alert-App, die Ihnen hilft, wichtige Benachrichtigungen im Blick zu behalten. Diese Anleitung führt Sie durch die effektive Einrichtung und Nutzung von Echobell.
+
+## Was ist Echobell?
+
+Echobell ist ein leistungsstarkes Benachrichtigungsmanagement-Tool, das:
+
+- Webhooks und E-Mails als Auslöser verarbeitet
+- Angepasste Benachrichtigungen an Abonnenten sendet
+- Ihnen ermöglicht, Benachrichtigungskanäle zu erstellen und zu teilen
+- Ihre Benachrichtigungsdaten privat auf Ihrem Gerät hält
+
+![Echobell Übersicht](/images/docs/screenshot-overview.en.webp)
+
+## Kernkonzepte
+
+Bevor wir eintauchen, lassen Sie uns einige wichtige Konzepte verstehen:
+
+### Kanäle
+
+Ein **Kanal** ist die Grundeinheit in Echobell für die Organisation und Verteilung von Benachrichtigungen:
+
+- Jeder Kanal hat einen eindeutigen **Namen** und eine **Farbe** zur einfachen Identifizierung
+- Kanäle enthalten **Benachrichtigungsvorlagen**, die bestimmen, welche Informationen gesendet werden
+- Kanäle werden durch Webhooks oder E-Mails ausgelöst
+- Sie können eigene Kanäle erstellen oder andere abonnieren
+
+### Auslöser
+
+Ein **Auslöser** aktiviert einen Kanal, um Benachrichtigungen zu senden:
+
+- **Webhook**: Ein URL-Endpunkt, der bei Aufruf den Kanal aktiviert
+- **E-Mail**: Eine mit dem Kanal verknüpfte E-Mail-Adresse, die bei Empfang einer Nachricht den Kanal aktiviert
+
+### Benachrichtigungstypen
+
+Beim Abonnieren eines Kanals können Sie aus verschiedenen Benachrichtigungsstilen wählen:
+
+- **Normal**: Standard-App-Benachrichtigung
+- **Zeitkritisch**: Hochprioritäts-Benachrichtigung, die Fokusmodi durchbrechen kann
+- **Anruf**: Anruf-ähnlicher Alarm für dringendste Angelegenheiten
+
+## Erste Schritte
+
+### 1. Konto einrichten
+
+1. Laden Sie Echobell aus dem [App Store](https://apps.apple.com/app/id6743597198) herunter
+2. Öffnen Sie die App und melden Sie sich mit E-Mail oder Apple an
+
+![Konto-Einrichtung](/images/docs/screenshot-sign-in.en.webp)
+
+### 2. Ihren ersten Kanal erstellen
+
+1. Tippen Sie auf dem Startbildschirm auf 'Kanal erstellen'
+2. Geben Sie einen Kanalnamen ein (z.B. "Server-Überwachung")
+3. Wählen Sie eine eindeutige Farbe für Ihren Kanal
+4. Der Kanal wird erstellt und Sie sehen die Einstellungen
+
+![Kanal erstellen](/images/docs/screenshot-create-channel.en.webp)
+
+### 3. Auslöser einrichten
+
+1. Navigieren Sie in den Kanaleinstellungen zu 'Auslöser'
+2. Wählen Sie **Webhook** oder **E-Mail** Auslöser:
+   - **Webhook**: Kopieren Sie die URL zur Integration in Ihr System
+   - **E-Mail**: Kopieren Sie die E-Mail-Adresse für Weiterleitungsregeln
+
+### 4. Benachrichtigungsvorlagen anpassen
+
+Vorlagen verwenden Variablen, die aus den Auslöserdaten gefüllt werden:
+
+1. Gehen Sie in Ihren Kanaleinstellungen zu **Benachrichtigungsvorlagen**
+2. Für die Titelvorlage könnten Sie verwenden: `{{server}} - {{status}}`
+3. Für die Textvorlage könnten Sie verwenden: `{{message}} Erkannt um {{timestamp}}`
+4. Variablen werden in doppelte geschweifte Klammern eingeschlossen: `{{variablenname}}`
+5. Testen Sie Ihre Vorlage mit Beispieldaten
+
+### 5. Kanäle abonnieren
+
+1. Sie können den Abonnement-Link Ihrer Kanäle mit anderen teilen
+2. Oder Sie können von anderen geteilte Abonnement-Links verwenden
+3. Tippen Sie auf **Abonnieren** in der Kanalansicht
+4. Geben Sie den Abonnement-Link ein
+5. Wählen Sie Ihren bevorzugten **Benachrichtigungstyp**:
+   - Normal für Standardalarme
+   - Zeitkritisch für wichtige Alarme
+   - Anruf für kritische Situationen
+6. Bestätigen Sie Ihr Abonnement
+
+## App-Einstellungen
+
+Sie können anpassen, wie Echobell Benachrichtigungen handhabt:
+
+- **Sprachinhalt wiederholen**: Bei Anrufbenachrichtigungen wird der Benachrichtigungsinhalt wiederholt
+- **Fehlgeschlagenen Anruf wiederholen**: Automatische Wiederholung von Anrufbenachrichtigungen, die aufgrund des Fokusmodus fehlgeschlagen sind
+
+## Datenschutz und Datenspeicherung
+
+Echobell priorisiert Ihren Datenschutz:
+
+- Nur Benutzerkonten, Kanäle und Abonnementdaten werden auf unseren Servern gespeichert
+- Benachrichtigungsinhalte und -verlauf werden lokal auf Ihrem Gerät gespeichert
+- Ihre Alarmdaten bleiben unter Ihrer Kontrolle
+
+## Nächste Schritte
+
+Nachdem Sie Ihren ersten Kanal eingerichtet haben:
+
+- Erkunden Sie erweiterte Vorlagenoptionen
+- Teilen Sie Ihre Kanäle mit Teammitgliedern
+- Richten Sie Benachrichtigungszeitpläne und Ruhezeiten ein
+
+Für detailliertere Informationen zu jeder Funktion besuchen Sie unseren [Funktionsführer](/de/docs/features).
+
+Brauchen Sie Hilfe? Besuchen Sie unser [Support-Center](/de/docs/support) oder senden Sie eine E-Mail an echobell@weelone.com.

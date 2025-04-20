@@ -1,0 +1,119 @@
+---
+title: Webhook-Integration
+description: Lernen Sie, wie Sie Echobell-Webhooks in Ihre Anwendungen und Dienste integrieren
+---
+
+# Webhook-Integration
+
+## Was ist ein Webhook?
+
+Ein Webhook ist eine Möglichkeit für eine Anwendung, anderen Anwendungen Echtzeitinformationen bereitzustellen. Es ist wie eine Telefonnummer, die Sie jemandem geben - wenn diese Person die Nummer anruft, klingelt Ihr Telefon. In der digitalen Welt sendet ein System, wenn etwas passiert, eine HTTP-Anfrage an eine URL (den Webhook), die Sie bereitgestellt haben, und löst damit eine Aktion in Ihrem System aus.
+
+Wenn zum Beispiel die CPU-Auslastung Ihres Servers zu hoch wird, kann Ihr Überwachungssystem die Webhook-URL von Echobell aufrufen, die dann eine Benachrichtigung auslöst, um Sie zu alarmieren. Dies geschieht automatisch und in Echtzeit, ohne dass Sie die CPU-Auslastung selbst ständig überprüfen müssen.
+
+## Übersicht
+
+Jeder Echobell-Kanal kann mit einer eindeutigen Webhook-URL konfiguriert werden. Wenn diese URL aufgerufen wird, sendet der Kanal Benachrichtigungen an alle seine Abonnenten basierend auf den konfigurierten Benachrichtigungsvorlagen und bereitgestellten Variablen.
+
+## Webhook-URL-Format
+
+```
+https://hook.echobell.one/t/{kanal-token}
+```
+
+Sie finden die Webhook-URL Ihres Kanals in der Kanaldetailansicht der Echobell-App.
+
+## Webhook-Anfragen ausführen
+
+Echobell-Webhooks unterstützen sowohl GET- als auch POST-Methoden:
+
+### GET-Anfrage
+
+Sie können Variablen über Abfrageparameter übergeben:
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+```
+
+### POST-Anfrage
+
+Für POST-Anfragen senden Sie Variablen in einem JSON-Body:
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+## Spezielle Variablen
+
+Echobell unterstützt eine spezielle Variable, die Ihren Benachrichtigungen Funktionalität hinzufügt:
+
+- `externalLink`: Wenn in der Anfrage enthalten, erstellt dies einen klickbaren Link in der Benachrichtigungsprotokollansicht. Nützlich für Links zu detaillierten Informationen oder verwandten Ressourcen.
+
+Beispiel mit externem Link:
+
+```http
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95,
+  "externalLink": "https://dashboard.example.com/alerts/123"
+}
+```
+
+## Vorlagenvariablen
+
+Über Webhooks übergebene Variablen können in Ihren Benachrichtigungsvorlagen mit der `{{variablenName}}`-Syntax verwendet werden:
+
+```
+Titel: Server {{server_name}} Alarm
+Text: CPU-Auslastung hat {{cpu_usage}}% erreicht
+```
+
+Bei Auslösung werden diese Vorlagen mit den in Ihrer Webhook-Anfrage bereitgestellten Werten gefüllt.
+
+## Häufige Anwendungsfälle
+
+Webhooks sind besonders nützlich für:
+
+- Server-Überwachung und Alarme
+- CI/CD-Pipeline-Benachrichtigungen
+- IoT-Gerätestatus-Updates
+- Anwendungsfehler-Tracking
+- E-Commerce-Bestellbenachrichtigungen
+- Automatisierte Systemalarme
+
+## Beste Praktiken
+
+1. **Fehlerbehandlung**: Überprüfen Sie immer den HTTP-Antwortstatus von Webhook-Aufrufen, um eine erfolgreiche Zustellung sicherzustellen
+2. **Ratenbegrenzung**: Implementieren Sie angemessene Verzögerungen zwischen Webhook-Aufrufen, um eine Überlastung Ihres Benachrichtigungssystems zu vermeiden
+3. **Datensicherheit**: Teilen Sie Webhook-URLs nur mit vertrauenswürdigen Systemen und Diensten
+4. **Tests**: Testen Sie Ihre Webhook-Integration mit minimalen Daten, bevor Sie sie in der Produktion implementieren
+
+## Datenschutz und Sicherheit
+
+Beachten Sie, dass:
+
+- Webhook-URLs als Geheimnisse behandelt werden sollten
+- Nur notwendige Daten in Webhook-Anfragen gesendet werden sollten
+- Alle Benachrichtigungsinhalte lokal auf den Geräten der Abonnenten gespeichert werden
+- Unsere Server nur die Webhook-Anfrage verarbeiten und Benachrichtigungen weiterleiten
+
+## Fehlerbehebung
+
+Wenn Ihre Webhooks nicht wie erwartet funktionieren:
+
+1. Überprüfen Sie, ob die Webhook-URL korrekt ist
+2. Prüfen Sie, ob der Kanal aktiv ist
+3. Stellen Sie sicher, dass Ihr JSON-Payload korrekt formatiert ist (für POST-Anfragen)
+4. Bestätigen Sie, dass alle erforderlichen Variablen in Ihren Vorlagen bereitgestellt werden
+5. Überprüfen Sie, ob der Kanal aktive Abonnenten hat
+
+Brauchen Sie Hilfe? Besuchen Sie unser [Support-Center](/de/docs/support) oder kontaktieren Sie uns unter echobell@weelone.com.
