@@ -10,7 +10,7 @@ import { Language, localizeUrl } from "@/lib/i18n";
 const integrations = [
   {
     name: "GitHub",
-    docUrl: "",
+    docUrl: "/docs/developer/github",
     logo: (
       <Image
         className="h-5 md:h-10 w-auto dark:invert"
