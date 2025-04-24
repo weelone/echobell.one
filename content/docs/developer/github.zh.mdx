@@ -1,0 +1,108 @@
+---
+title: GitHub Webhook 集成
+description: 学习如何将 GitHub webhooks 与 Echobell 集成以获取即时通知
+---
+
+# 获取 GitHub 事件通知
+
+GitHub 是一个版本控制和协作平台，让开发者能够在任何地方共同开发项目。它为仓库提供 webhook 配置，可以将实时更新发送到其他应用程序。
+
+<Callout type="info">
+  如果您需要从 GitHub Action 获取即时通知，可以使用 [Echobell Notification
+  Action](https://github.com/marketplace/actions/echobell-notification) 直接从
+  GitHub Actions 发送通知。
+</Callout>
+
+## 前提条件
+
+1. 拥有活跃频道的 Echobell 账户
+2. 要监控的 GitHub 仓库的管理员权限
+3. 您的 Echobell webhook URL（在频道详情页面可以找到）
+
+## 设置 GitHub Webhooks
+
+### 1. 创建 Echobell 频道
+
+1. 打开 Echobell 应用
+2. 创建新频道（例如："GitHub 通知"）
+3. 配置通知模板：
+
+**标题模板：**
+
+```
+[{{repository.name}}] {{sender.login}} 进行了 {{action}}
+```
+
+**内容模板：**
+
+```
+🔔 事件：{{action}}
+👤 操作者：{{sender.login}}
+📦 仓库：{{repository.full_name}}
+```
+
+### 2. 获取 Webhook URL
+
+1. 在您的频道设置中，找到**触发器**部分
+2. 复制提供的 webhook URL
+3. 请妥善保管此 URL，因为它将用于 GitHub 配置
+
+### 3. 配置 GitHub Webhook
+
+![GitHub Webhooks 设置截图](/images/docs/github-webhook-settings.png)
+
+1. 转到您的 GitHub 仓库
+2. 导航至 **Settings** → **Webhooks**
+3. 点击 **Add webhook**
+4. 配置 webhook：
+   - Payload URL：您的 Echobell webhook URL
+   - Content type：`application/json`
+   - Secret：（可选）添加密钥令牌以增加安全性
+   - 启用 SSL 验证
+5. 选择触发 webhook 的事件：
+   - 选择 "Let me select individual events"
+   - 常见选择：
+     - Pull requests
+     - Push 事件
+     - Issues
+     - 讨论
+     - 发布
+6. 点击 **Add webhook** 保存
+
+## 测试集成
+
+1. 配置 webhook 后，GitHub 将发送一个 ping 事件
+2. 检查您的 Echobell 通知以确认接收
+3. 创建测试 issue 或 pull request 以验证集成
+
+## 最佳实践
+
+1. **安全性**：
+   - 保持 webhook URL 的机密性
+   - 使用 webhook 密钥进行验证请求
+   - 启用 SSL 验证
+2. **事件选择**：
+   - 仅订阅所需的事件
+   - 选择事件时考虑仓库大小和活动情况
+3. **错误处理**：
+   - 在 GitHub 中监控 webhook 传递状态
+   - 检查 Echobell 的通知历史以确认成功传递
+
+## 故障排除
+
+如果您没有收到通知：
+
+1. 验证 webhook URL 是否正确
+2. 检查 GitHub 中的 webhook 传递历史记录是否有错误
+3. 确保您的 Echobell 频道处于活动状态
+4. 验证您的频道中是否有活跃订阅者
+5. 检查所选事件是否被触发
+
+## 隐私和安全
+
+- webhook URL 应被视为机密信息
+- 仅发送必要的事件数据
+- 所有通知内容都本地存储在订阅者的设备上
+- 我们的服务器仅处理 webhook 请求并路由通知
+
+需要帮助？访问我们的[支持中心](/zh/docs/support)或通过 echobell@weelone.com 联系我们。

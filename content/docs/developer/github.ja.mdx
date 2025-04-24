@@ -1,0 +1,108 @@
+---
+title: GitHub Webhook 連携
+description: GitHub webhookとEchobellを連携してインスタント通知を受け取る方法を学ぶ
+---
+
+# GitHub のイベントを通知で受け取る
+
+GitHub はバージョン管理と協業のためのプラットフォームで、開発者が世界中どこからでもプロジェクトで協力できるようにします。リポジトリの webhook 設定により、リアルタイムの更新を他のアプリケーションに送信できます。
+
+<Callout type="info">
+  GitHub Actionからのインスタント通知が必要な場合は、 [Echobell Notification
+  Action](https://github.com/marketplace/actions/echobell-notification)を使用して
+  GitHub Actionsから直接通知を送信できます。
+</Callout>
+
+## 前提条件
+
+1. アクティブなチャンネルを持つ Echobell アカウント
+2. 監視したい GitHub リポジトリの管理者権限
+3. Echobell の webhook URL（チャンネルの詳細ビューで確認可能）
+
+## GitHub Webhook の設定
+
+### 1. Echobell チャンネルの作成
+
+1. Echobell アプリを開く
+2. 新しいチャンネルを作成（例：「GitHub 通知」）
+3. 通知テンプレートを設定：
+
+**タイトルテンプレート：**
+
+```
+[{{repository.name}}] {{sender.login}}による{{action}}
+```
+
+**本文テンプレート：**
+
+```
+🔔 イベント：{{action}}
+👤 実行者：{{sender.login}}
+📦 リポジトリ：{{repository.full_name}}
+```
+
+### 2. Webhook URL の取得
+
+1. チャンネル設定で**トリガー**セクションを見つける
+2. 提供された Webhook URL をコピー
+3. この URL は GitHub の設定で使用するため、安全に保管してください
+
+### 3. GitHub Webhook の設定
+
+![GitHub Webhooks設定のスクリーンショット](/images/docs/github-webhook-settings.png)
+
+1. GitHub リポジトリに移動
+2. **Settings** → **Webhooks**に移動
+3. **Add webhook**をクリック
+4. Webhook を設定：
+   - Payload URL：Echobell の Webhook URL
+   - Content type：`application/json`
+   - Secret：（オプション）追加のセキュリティのための秘密トークン
+   - SSL 検証を有効化
+5. Webhook をトリガーするイベントを選択：
+   - "Let me select individual events"を選択
+   - 一般的な選択：
+     - プルリクエスト
+     - プッシュイベント
+     - Issue
+     - ディスカッション
+     - リリース
+6. **Add webhook**をクリックして保存
+
+## 連携のテスト
+
+1. Webhook 設定後、GitHub は ping イベントを送信
+2. Echobell の通知を確認して受信を確認
+3. テスト Issue またはプルリクエストを作成して連携を確認
+
+## ベストプラクティス
+
+1. **セキュリティ**：
+   - Webhook URL は機密として扱う
+   - 検証済みリクエストには Webhook シークレットを使用
+   - SSL 検証を有効化
+2. **イベント選択**：
+   - 必要なイベントのみを購読
+   - イベント選択時にリポジトリのサイズとアクティビティを考慮
+3. **エラー処理**：
+   - GitHub で Webhook 配信状況を監視
+   - Echobell の通知履歴で配信成功を確認
+
+## トラブルシューティング
+
+通知が届かない場合：
+
+1. Webhook URL が正しいか確認
+2. GitHub の Webhook 配信履歴でエラーを確認
+3. Echobell チャンネルがアクティブか確認
+4. チャンネルにアクティブな購読者がいるか確認
+5. 選択したイベントが実際にトリガーされているか確認
+
+## プライバシーとセキュリティ
+
+- Webhook URL はシークレットとして扱う必要があります
+- 必要なイベントデータのみを送信
+- すべての通知内容は購読者のデバイスにローカルに保存
+- サーバーは Webhook リクエストの処理と通知のルーティングのみを行います
+
+ヘルプが必要ですか？[サポートセンター](/ja/docs/support)にアクセスするか、echobell@weelone.comまでお問い合わせください。

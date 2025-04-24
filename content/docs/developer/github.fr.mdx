@@ -1,0 +1,109 @@
+---
+title: Intégration Webhook GitHub
+description: Apprenez à intégrer les webhooks GitHub avec Echobell pour des notifications instantanées
+---
+
+# Recevez des notifications lors d'un événement GitHub
+
+GitHub est une plateforme de contrôle de version et de collaboration permettant aux développeurs de travailler ensemble sur des projets depuis n'importe où. Elle fournit une configuration webhook pour les dépôts afin d'envoyer des mises à jour en temps réel à d'autres applications.
+
+<Callout type="info">
+  Si vous recherchez des notifications instantanées depuis GitHub Actions, vous
+  pouvez utiliser [Echobell Notification
+  Action](https://github.com/marketplace/actions/echobell-notification) pour
+  envoyer des notifications directement depuis GitHub Actions.
+</Callout>
+
+## Prérequis
+
+1. Un compte Echobell avec un canal actif
+2. Accès administrateur au dépôt GitHub que vous souhaitez surveiller
+3. Votre URL webhook Echobell (disponible dans la vue détaillée de votre canal)
+
+## Configuration des Webhooks GitHub
+
+### 1. Créer un Canal Echobell
+
+1. Ouvrez l'application Echobell
+2. Créez un nouveau canal (par exemple, "Notifications GitHub")
+3. Configurez les modèles de notification :
+
+**Modèle de Titre :**
+
+```
+[{{repository.name}}] {{action}} par {{sender.login}}
+```
+
+**Modèle de Corps :**
+
+```
+🔔 Événement : {{action}}
+👤 Acteur : {{sender.login}}
+📦 Dépôt : {{repository.full_name}}
+```
+
+### 2. Obtenir votre URL Webhook
+
+1. Dans les paramètres de votre canal, localisez la section **Triggers**
+2. Copiez l'URL webhook fournie
+3. Conservez cette URL en sécurité car elle sera utilisée dans la configuration GitHub
+
+### 3. Configurer le Webhook GitHub
+
+![Capture d'écran des paramètres Webhooks GitHub](/images/docs/github-webhook-settings.png)
+
+1. Accédez à votre dépôt GitHub
+2. Naviguez vers **Settings** → **Webhooks**
+3. Cliquez sur **Add webhook**
+4. Configurez le webhook :
+   - Payload URL : Votre URL webhook Echobell
+   - Content type : `application/json`
+   - Secret : (Optionnel) Ajoutez un jeton secret pour plus de sécurité
+   - Activez la vérification SSL
+5. Choisissez les événements qui déclencheront le webhook :
+   - Sélectionnez "Let me select individual events"
+   - Choix courants :
+     - Pull requests
+     - Événements push
+     - Issues
+     - Discussions
+     - Releases
+6. Cliquez sur **Add webhook** pour sauvegarder
+
+## Tester votre Intégration
+
+1. Après la configuration du webhook, GitHub enverra un événement ping
+2. Vérifiez vos notifications Echobell pour confirmer la réception
+3. Créez un test d'issue ou de pull request pour vérifier l'intégration
+
+## Bonnes Pratiques
+
+1. **Sécurité** :
+   - Gardez votre URL webhook confidentielle
+   - Utilisez un secret webhook pour les requêtes vérifiées
+   - Activez la vérification SSL
+2. **Sélection des Événements** :
+   - Abonnez-vous uniquement aux événements nécessaires
+   - Tenez compte de la taille et de l'activité du dépôt lors de la sélection des événements
+3. **Gestion des Erreurs** :
+   - Surveillez l'état de livraison du webhook dans GitHub
+   - Vérifiez l'historique des notifications d'Echobell pour confirmer la livraison réussie
+
+## Résolution des Problèmes
+
+Si vous ne recevez pas de notifications :
+
+1. Vérifiez que l'URL du webhook est correcte
+2. Consultez l'historique des livraisons webhook GitHub pour les erreurs
+3. Assurez-vous que votre canal Echobell est actif
+4. Vérifiez que vous avez des abonnés actifs dans votre canal
+5. Vérifiez si les événements sélectionnés sont déclenchés
+
+## Confidentialité et Sécurité
+
+- Les URLs webhook doivent être traitées comme des secrets
+- N'envoyez que les données d'événements nécessaires
+- Tout le contenu des notifications est stocké localement sur les appareils des abonnés
+- Nos serveurs ne font que traiter la requête webhook et acheminer les notifications
+
+Besoin d'aide ? Visitez notre [Centre de Support](/fr/docs/support) ou contactez-nous à echobell@weelone.com.
