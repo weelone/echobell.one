@@ -3,14 +3,17 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export function NavLinks({
   links,
+  className,
 }: {
   links: {
     label: string;
     href: string;
   }[];
+  className?: string;
 }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const timeoutRef = useRef<number | null>(null);
@@ -19,7 +22,10 @@ export function NavLinks({
     <Link
       key={label}
       href={href}
-      className="relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm opacity-70 transition-colors delay-150 hover:opacity-90 hover:delay-0"
+      className={cn(
+        "relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm opacity-70 transition-colors delay-150 hover:opacity-90 hover:delay-0",
+        className
+      )}
       onMouseEnter={() => {
         if (timeoutRef.current) {
           window.clearTimeout(timeoutRef.current);

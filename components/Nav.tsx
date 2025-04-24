@@ -11,6 +11,7 @@ import {
 } from "fumadocs-ui/components/layout/language-toggle";
 import { ThemeToggle } from "fumadocs-ui/components/layout/theme-toggle";
 import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
+import { NavLinks } from "./NavLinks";
 
 export default function Nav({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].nav;
@@ -38,16 +39,14 @@ export default function Nav({ lang }: { lang: Language }) {
             <MenuIcon aria-hidden="true" className="size-6" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
-          {t.navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm/6 font-semibold opacity-60 hover:opacity-100"
-            >
-              {item.name}
-            </Link>
-          ))}
+        <div className="hidden lg:flex lg:gap-x-12 lg:items-center">
+          <NavLinks
+            className="text-md font-semibold"
+            links={t.navigation.map((navItem) => ({
+              label: navItem.name,
+              href: navItem.href,
+            }))}
+          />
           <div className="flex gap-4">
             <LanguageToggle className="me-1.5">
               <LanguagesIcon className="size-4.5" />
