@@ -66,6 +66,7 @@ export const uiDictionary = {
       downloadApp: "Download App",
       getStarted: "Get Started",
       appStoreImage: appStoreImageEn,
+      canBeIntegratedInto: "Can be integrated into:",
     },
     features: {
       // Smoothness: Slightly more engaging title
@@ -308,6 +309,7 @@ export const uiDictionary = {
       downloadApp: "下载 App",
       getStarted: "开始使用",
       appStoreImage: appStoreImageZh,
+      canBeIntegratedInto: "可集成到：",
     },
     features: {
       // Smoothness: More engaging
@@ -542,6 +544,7 @@ export const uiDictionary = {
       downloadApp: "Descargar App",
       getStarted: "Comenzar",
       appStoreImage: appStoreImageEn, // Keep EN version if ES image not available
+      canBeIntegratedInto: "Se puede integrar en:",
     },
     features: {
       // Smoothness
@@ -784,6 +787,7 @@ export const uiDictionary = {
       downloadApp: "Télécharger l'App",
       getStarted: "Commencer",
       appStoreImage: appStoreImageEn, // Keep EN if FR not available
+      canBeIntegratedInto: "Peut s'intégrer dans :",
     },
     features: {
       // Smoothness
@@ -1021,6 +1025,7 @@ export const uiDictionary = {
       downloadApp: "アプリをダウンロード",
       getStarted: "始める",
       appStoreImage: appStoreImageEn, // Use EN image if JA not available
+      canBeIntegratedInto: "〜と統合できます",
     },
     features: {
       title: "最新情報を得るための主要機能",
@@ -1247,6 +1252,7 @@ export const uiDictionary = {
       downloadApp: "App herunterladen",
       getStarted: "Loslegen",
       appStoreImage: appStoreImageEn, // Use EN image if DE not available
+      canBeIntegratedInto: "Kann integriert werden in:",
     },
     features: {
       title: "Hauptfunktionen, um Sie auf dem Laufenden zu halten",

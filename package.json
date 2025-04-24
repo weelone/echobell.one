@@ -12,7 +12,7 @@
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
     "@headlessui/react": "^2.2.0",
-    "@icons-pack/react-simple-icons": "^12.3.0",
+    "@icons-pack/react-simple-icons": "^12.7.0",
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "@tsparticles/engine": "^3.8.1",
