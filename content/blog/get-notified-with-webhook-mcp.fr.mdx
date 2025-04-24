@@ -1,0 +1,92 @@
+---
+title: Recevez des notifications lorsque vos tâches IA sont terminées avec WebhookMCP
+date: 2025-04-24
+description: Apprenez à configurer WebhookMCP pour recevoir des notifications lorsque vos tâches IA sont terminées.
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+Lorsque vous travaillez avec des assistants IA sur des tâches de longue durée, il est souvent peu pratique de rester devant l'écran en attendant les résultats. WebhookMCP résout ce problème en envoyant des notifications lorsque vos tâches IA sont terminées, vous permettant de vous concentrer sur d'autres travaux entre-temps.
+
+Dans ce guide, nous verrons comment configurer WebhookMCP avec Echobell pour recevoir des notifications lorsque vos tâches IA sont terminées.
+
+## Qu'est-ce que WebhookMCP ?
+
+WebhookMCP est un serveur Model Context Protocol (MCP) qui envoie des notifications webhook. Il s'intègre parfaitement avec divers environnements de développement IA, notamment VS Code, Claude, Cursor et Windsurf. Une fois configuré avec une URL webhook Echobell, il peut vous notifier via différents canaux lorsque vos tâches IA sont terminées.
+
+## Configuration de WebhookMCP
+
+### Étape 1 : Obtenir votre URL webhook Echobell
+
+1. Connectez-vous à votre tableau de bord Echobell
+2. Créez un nouveau canal ou sélectionnez un canal existant
+3. Accédez aux paramètres du canal et copiez l'URL webhook
+
+### Étape 2 : Configurer votre environnement de développement
+
+#### Pour les utilisateurs de VS Code
+
+Ajoutez ce qui suit à votre `settings.json` de VS Code :
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "notification": {
+        "command": "npx",
+        "args": ["-y", "webhook-mcp"],
+        "env": {
+          "WEBHOOK_URL": "votre-url-webhook-echobell"
+        }
+      }
+    }
+  }
+}
+```
+
+#### Pour les utilisateurs de Claude, Cursor ou Windsurf
+
+Ajoutez cette configuration à votre environnement :
+
+```json
+{
+  "mcpServers": {
+    "notification": {
+      "command": "npx",
+      "args": ["-y", "webhook-mcp"],
+      "env": {
+        "WEBHOOK_URL": "votre-url-webhook-echobell"
+      }
+    }
+  }
+}
+```
+
+### Étape 3 : Utilisation des notifications dans votre flux de travail
+
+Une fois configuré, vous pouvez demander à votre assistant IA de vous notifier lorsqu'une tâche est terminée en incluant des phrases comme "envoyez-moi une notification une fois terminé" dans vos prompts. Le serveur WebhookMCP enverra automatiquement une notification à votre canal Echobell configuré.
+
+## Cas d'utilisation
+
+1. **Génération de code longue durée** : Soyez notifié lorsque votre assistant IA termine la génération d'une base de code complexe
+2. **Tâches d'analyse de données** : Recevez des alertes lorsque votre IA termine l'analyse de grands ensembles de données
+3. **Création de contenu** : Sachez quand votre IA termine la rédaction d'articles ou de documentation
+4. **Formation et ajustement** : Recevez des notifications lorsque les tâches d'entraînement ou d'ajustement de modèle sont terminées
+
+## Avantages
+
+- **Efficacité temporelle** : Plus besoin de vérifier constamment l'avancement des tâches
+- **Multitâche** : Travaillez sur d'autres tâches en attendant la fin du traitement IA
+- **Flexibilité** : Recevez des notifications via divers canaux Echobell (email, Slack, Discord, etc.)
+- **Configuration simple** : Intégration facile avec les environnements de développement populaires
+
+## Installation rapide
+
+Pour les utilisateurs de VS Code, vous pouvez rapidement installer le serveur WebhookMCP en cliquant sur le bouton "Install in VS Code" depuis le [dépôt GitHub](https://github.com/noobnooc/webhook-mcp). L'assistant d'installation vous guidera dans la configuration de votre URL webhook Echobell.
+
+## Conclusion
+
+La combinaison de WebhookMCP et Echobell offre un puissant système de notification pour les flux de travail de développement IA. En configurant ces notifications, vous pouvez rendre votre processus de développement IA plus efficace et rester informé de l'achèvement des tâches sans vérification manuelle constante.
+
+Essayez-le et faites-nous savoir comment cela améliore votre flux de travail de développement IA !

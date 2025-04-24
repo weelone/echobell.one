@@ -1,0 +1,92 @@
+---
+title: Erhalten Sie Benachrichtigungen über abgeschlossene KI-Aufgaben mit WebhookMCP
+date: 2025-04-24
+description: Lernen Sie, wie Sie WebhookMCP einrichten, um Benachrichtigungen zu erhalten, wenn Ihre KI-Aufgaben abgeschlossen sind.
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+Wenn Sie mit KI-Assistenten an lang laufenden Aufgaben arbeiten, ist es oft unpraktisch, ständig auf den Bildschirm zu schauen und auf Ergebnisse zu warten. WebhookMCP löst dieses Problem, indem es Benachrichtigungen sendet, wenn Ihre KI-Aufgaben abgeschlossen sind, sodass Sie sich in der Zwischenzeit auf andere Arbeiten konzentrieren können.
+
+In diesem Leitfaden zeigen wir Ihnen, wie Sie WebhookMCP mit Echobell einrichten, um Benachrichtigungen zu erhalten, wenn Ihre KI-Aufgaben abgeschlossen sind.
+
+## Was ist WebhookMCP?
+
+WebhookMCP ist ein Model Context Protocol (MCP) Server, der Webhook-Benachrichtigungen sendet. Er lässt sich nahtlos in verschiedene KI-Entwicklungsumgebungen wie VS Code, Claude, Cursor und Windsurf integrieren. Wenn er mit einer Echobell Webhook-URL konfiguriert ist, kann er Sie über verschiedene Kanäle benachrichtigen, wenn Ihre KI-Aufgaben abgeschlossen sind.
+
+## WebhookMCP Einrichtung
+
+### Schritt 1: Echobell Webhook-URL erhalten
+
+1. Melden Sie sich bei Ihrem Echobell Dashboard an
+2. Erstellen Sie einen neuen Kanal oder wählen Sie einen bestehenden aus
+3. Gehen Sie zu den Kanaleinstellungen und kopieren Sie die Webhook-URL
+
+### Schritt 2: Entwicklungsumgebung konfigurieren
+
+#### Für VS Code Benutzer
+
+Fügen Sie Folgendes zu Ihrer VS Code `settings.json` hinzu:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "notification": {
+        "command": "npx",
+        "args": ["-y", "webhook-mcp"],
+        "env": {
+          "WEBHOOK_URL": "ihre-echobell-webhook-url"
+        }
+      }
+    }
+  }
+}
+```
+
+#### Für Claude, Cursor oder Windsurf Benutzer
+
+Fügen Sie diese Konfiguration zu Ihrer Umgebung hinzu:
+
+```json
+{
+  "mcpServers": {
+    "notification": {
+      "command": "npx",
+      "args": ["-y", "webhook-mcp"],
+      "env": {
+        "WEBHOOK_URL": "ihre-echobell-webhook-url"
+      }
+    }
+  }
+}
+```
+
+### Schritt 3: Benachrichtigungen in Ihrem Workflow verwenden
+
+Nach der Konfiguration können Sie Ihren KI-Assistenten anweisen, Sie zu benachrichtigen, wenn eine Aufgabe abgeschlossen ist, indem Sie Phrasen wie "sende mir eine Benachrichtigung, wenn es fertig ist" in Ihre Prompts einbauen. Der WebhookMCP Server sendet dann automatisch eine Benachrichtigung an Ihren konfigurierten Echobell-Kanal.
+
+## Anwendungsfälle
+
+1. **Langwierige Code-Generierung**: Erhalten Sie Benachrichtigungen, wenn Ihr KI-Assistent die Generierung einer komplexen Codebasis abgeschlossen hat
+2. **Datenanalyse-Aufgaben**: Bekommen Sie Alerts, wenn Ihre KI die Analyse großer Datensätze abgeschlossen hat
+3. **Content-Erstellung**: Erfahren Sie, wenn Ihre KI mit dem Verfassen von Artikeln oder Dokumentation fertig ist
+4. **Training und Feinabstimmung**: Erhalten Sie Benachrichtigungen, wenn Modell-Training oder Feinabstimmungs-Aufgaben abgeschlossen sind
+
+## Vorteile
+
+- **Zeiteffizienz**: Keine Notwendigkeit, ständig den Aufgabenfortschritt zu überprüfen
+- **Multitasking**: Arbeiten Sie an anderen Aufgaben, während Sie auf den KI-Abschluss warten
+- **Flexibilität**: Empfangen Sie Benachrichtigungen über verschiedene Echobell-Kanäle (E-Mail, Slack, Discord, etc.)
+- **Einfaches Setup**: Leichte Integration in gängige Entwicklungsumgebungen
+
+## Schnellinstallation
+
+Für VS Code Benutzer können Sie den WebhookMCP Server schnell installieren, indem Sie auf die Schaltfläche "Install in VS Code" im [GitHub Repository](https://github.com/noobnooc/webhook-mcp) klicken. Der Installationsassistent führt Sie durch die Einrichtung Ihrer Echobell Webhook-URL.
+
+## Fazit
+
+Die Kombination von WebhookMCP und Echobell bietet ein leistungsstarkes Benachrichtigungssystem für KI-Entwicklungs-Workflows. Durch die Einrichtung dieser Benachrichtigungen können Sie Ihren KI-Entwicklungsprozess effizienter gestalten und über Aufgabenabschlüsse informiert bleiben, ohne manuelle Überprüfungen durchführen zu müssen.
+
+Probieren Sie es aus und lassen Sie uns wissen, wie es Ihren KI-Entwicklungs-Workflow verbessert!

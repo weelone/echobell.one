@@ -1,0 +1,92 @@
+---
+title: Get notified when your AI tasks are completed with WebhookMCP
+date: 2025-04-24
+description: Learn how to set up WebhookMCP to receive notifications when your AI tasks finish processing.
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+When working with AI assistants on long-running tasks, it's often inconvenient to keep watching the screen waiting for results. WebhookMCP solves this problem by sending notifications when your AI tasks complete, allowing you to focus on other work in the meantime.
+
+In this guide, we'll walk through setting up WebhookMCP with Echobell to receive notifications when your AI tasks finish processing.
+
+## What is WebhookMCP?
+
+WebhookMCP is a Model Context Protocol (MCP) server that sends webhook notifications. It integrates seamlessly with various AI development environments including VS Code, Claude, Cursor, and Windsurf. When configured with an Echobell webhook URL, it can notify you through various channels when your AI tasks complete.
+
+## Setting Up WebhookMCP
+
+### Step 1: Get Your Echobell Webhook URL
+
+1. Log in to your Echobell dashboard
+2. Create a new channel or select an existing one
+3. Go to the channel settings and copy your webhook URL
+
+### Step 2: Configure Your Development Environment
+
+#### For VS Code Users
+
+Add the following to your VS Code `settings.json`:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "notification": {
+        "command": "npx",
+        "args": ["-y", "webhook-mcp"],
+        "env": {
+          "WEBHOOK_URL": "your-echobell-webhook-url"
+        }
+      }
+    }
+  }
+}
+```
+
+#### For Claude, Cursor, or Windsurf Users
+
+Add this configuration to your environment:
+
+```json
+{
+  "mcpServers": {
+    "notification": {
+      "command": "npx",
+      "args": ["-y", "webhook-mcp"],
+      "env": {
+        "WEBHOOK_URL": "your-echobell-webhook-url"
+      }
+    }
+  }
+}
+```
+
+### Step 3: Using Notifications in Your Workflow
+
+Once configured, you can instruct your AI assistant to notify you when a task completes by including phrases like "send me a notification when it's done" in your prompts. The WebhookMCP server will automatically send a notification to your configured Echobell channel.
+
+## Use Cases
+
+1. **Long-Running Code Generation**: Get notified when your AI assistant finishes generating a complex codebase
+2. **Data Analysis Tasks**: Receive alerts when your AI completes analyzing large datasets
+3. **Content Creation**: Know when your AI finishes drafting articles or documentation
+4. **Training and Fine-tuning**: Get notifications when model training or fine-tuning tasks complete
+
+## Benefits
+
+- **Time Efficiency**: No need to constantly check task progress
+- **Multi-tasking**: Work on other tasks while waiting for AI completion
+- **Flexibility**: Receive notifications through various Echobell channels (email, Slack, Discord, etc.)
+- **Simple Setup**: Easy integration with popular development environments
+
+## Quick Installation
+
+For VS Code users, you can quickly install the WebhookMCP server by clicking the "Install in VS Code" button from the [GitHub repository](https://github.com/noobnooc/webhook-mcp). The installation wizard will guide you through setting up your Echobell webhook URL.
+
+## Conclusion
+
+WebhookMCP combined with Echobell provides a powerful notification system for AI development workflows. By setting up these notifications, you can make your AI development process more efficient and stay informed about task completion without constant manual checking.
+
+Try it out and let us know how it improves your AI development workflow!
