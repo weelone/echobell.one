@@ -13,7 +13,7 @@ const integrations = [
     docUrl: "",
     logo: (
       <Image
-        className="h-10 w-auto dark:invert"
+        className="h-5 md:h-10 w-auto dark:invert"
         src={githubLogo}
         alt="Logo of GitHub"
       />
@@ -24,7 +24,7 @@ const integrations = [
     docUrl: "/docs/trader/tradingview",
     logo: (
       <Image
-        className="h-12 w-auto dark:invert"
+        className="h-6 md:h-12 w-auto dark:invert"
         src={tradingViewLogo}
         alt="Logo of TradingView"
       />
@@ -35,7 +35,7 @@ const integrations = [
     docUrl: "/docs/developer/grafana",
     logo: (
       <Image
-        className="h-12 w-auto dark:invert"
+        className="h-6 md:h-12 w-auto dark:invert"
         src={grafanaLogo}
         alt="Logo of Grafana"
       />

@@ -21,17 +21,19 @@ export default function HeroSection({ lang }: { lang: Language }) {
 
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8">
-      <div className="mx-auto max-w-4xl py-32 sm:py-36 lg:py-40">
+      <div className="mx-auto max-w-4xl py-24 sm:py-32 lg:py-40">
         <div className="text-center">
           <div className="mb-4 flex items-center justify-center">
             <Link
               className={cn(
-                "group rounded-full border border-black/5 bg-white text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-800 dark:hover:bg-neutral-800"
+                "group rounded-full border border-black/10 bg-white text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/10 dark:bg-neutral-800 dark:hover:bg-neutral-800"
               )}
               href={latestPost.url}
             >
               <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
-                <span>✨ {latestPost.data.title}</span>
+                <span className="text-sm lg:text-base line-clamp-1">
+                  ✨ {latestPost.data.title}
+                </span>
                 <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
               </AnimatedShinyText>
             </Link>
