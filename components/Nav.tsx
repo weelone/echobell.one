@@ -29,7 +29,7 @@ export default function Nav({ lang }: { lang: Language }) {
             <Logo className="h-8 w-8 text-orange-500" />
           </Link>
         </div>
-        <div className="flex lg:hidden">
+        <div className="flex md:hidden">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
@@ -39,7 +39,7 @@ export default function Nav({ lang }: { lang: Language }) {
             <MenuIcon aria-hidden="true" className="size-6" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12 lg:items-center">
+        <div className="hidden md:flex md:gap-x-12 md:items-center">
           <NavLinks
             className="text-md font-semibold"
             links={t.navigation.map((navItem) => ({
@@ -59,7 +59,7 @@ export default function Nav({ lang }: { lang: Language }) {
       <Dialog
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
-        className="lg:hidden"
+        className="md:hidden"
       >
         <div className="fixed inset-0 z-50" />
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-neutral-900/10">
