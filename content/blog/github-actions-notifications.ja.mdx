@@ -1,7 +1,7 @@
 ---
 title: "GitHub Actions の失敗を見逃さない：Echobell による即時アラート"
 description: "重要な GitHub Actions の失敗を見逃さないために。Echobell 通知アクションを使用して CI/CD パイプラインのリアルタイム即時通知をセットアップする方法を学びましょう。"
-date: "2025-04-26"
+date: 2025-04-26
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
@@ -58,7 +58,7 @@ jobs:
 
 ### 複数ジョブの workflow の高度な設定
 
-複数の依存ジョブを持つより複雑なパイプラインでは、どの部分が失敗したのかを正確に知りたいでしょう。これは、前のジョブの_いずれか_が失敗した場合に実行される専用の通知ジョブを追加することで実現できます：
+複数の依存ジョブを持つより複雑なパイプラインでは、どの部分が失敗したのかを正確に知りたいでしょう。これは、前のジョブの*いずれか*が失敗した場合に実行される専用の通知ジョブを追加することで実現できます：
 
 ```yaml
 name: Deploy Pipeline

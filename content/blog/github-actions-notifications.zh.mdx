@@ -1,7 +1,7 @@
 ---
 title: "GitHub Actions 失败不再遗漏：使用 Echobell 实现即时警报"
 description: "不再错过关键的 GitHub Actions 失败。了解如何使用 Echobell 通知 Action 为您的 CI/CD 流水线设置即时实时通知。"
-date: "2025-04-26"
+date: 2025-04-26
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
@@ -58,7 +58,7 @@ jobs:
 
 ### 多作业 workflow 的高级设置
 
-对于具有多个相互依赖 job 的更复杂流水线，您需要确切知道哪一部分失败了。您可以通过添加一个专门的通知 job 来实现这一点，该 job 会在_任何_先前 job 失败时运行：
+对于具有多个相互依赖 job 的更复杂流水线，您需要确切知道哪一部分失败了。您可以通过添加一个专门的通知 job 来实现这一点，该 job 会在*任何*先前 job 失败时运行：
 
 ```yaml
 name: Deploy Pipeline
@@ -115,7 +115,7 @@ jobs:
 
 使您的失败警报更加有用：
 
-1.  **使用 `if: failure()`**：确保通知_仅_在实际出现问题时发送。对于多 job 的 workflow，使用具有 `if: failure()` 和指向所有关键 job 的 `needs` 的专用最终 job。
+1.  **使用 `if: failure()`**：确保通知*仅*在实际出现问题时发送。对于多 job 的 workflow，使用具有 `if: failure()` 和指向所有关键 job 的 `needs` 的专用最终 job。
 2.  **信息丰富的标题**：清楚地说明仓库及发生了失败（例如，"`your-repo` CI 中的失败"）。
 3.  **提供上下文**：在消息正文中包含 workflow 名称和特定 GitHub Actions 运行的直接链接，以便快速访问。
 4.  **考虑优先级**：Echobell 允许设置优先级；如有必要，可以为关键部署失败使用更高优先级（通过 action 中的 `priority` 输入）。
