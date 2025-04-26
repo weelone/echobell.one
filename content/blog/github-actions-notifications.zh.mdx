@@ -1,0 +1,127 @@
+---
+title: "GitHub Actions 失败不再遗漏：使用 Echobell 实现即时警报"
+description: "不再错过关键的 GitHub Actions 失败。了解如何使用 Echobell 通知 Action 为您的 CI/CD 流水线设置即时实时通知。"
+date: "2025-04-26"
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# GitHub Actions 失败不再遗漏：使用 Echobell 实现即时警报
+
+使用 GitHub Actions 运行 CI/CD 流水线已成为标准做法，但当出现问题时您能多快发现？发现失败的延迟可能会减缓开发进度并影响部署计划。幸运的是，[Echobell 通知 Action](https://github.com/weelone/echobell-action) 提供了一种简单的方式，可以在 GitHub Actions workflow 遇到错误时立即收到警报。
+
+## 为什么及时的 workflow 通知很重要
+
+及时了解 GitHub Actions 状态不仅仅是一种便利；它对于以下方面至关重要：
+
+- **快速响应**：在构建或部署问题发生的那一刻就立即处理，最大限度地减少中断。
+- **保持势头**：保持 CI/CD 流水线顺畅运行，避免不必要的延迟。
+- **保持团队同步**：确保所有相关人员都了解构建和部署的当前状态。
+
+## 设置 Echobell 失败通知
+
+将 Echobell 集成到您的 workflow 中非常简单。
+
+### 单一作业 workflow 的基本设置
+
+如果您的 workflow 由单个 job 组成，您可以添加一个仅在前一步骤失败时运行的通知步骤：
+
+```yaml
+name: Build and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+      - name: Notify on Failure
+        if: failure()
+        uses: weelone/echobell-action@v1
+        with:
+          webhook-url: ${{ secrets.ECHOBELL_WEBHOOK_URL }}
+```
+
+### 多作业 workflow 的高级设置
+
+对于具有多个相互依赖 job 的更复杂流水线，您需要确切知道哪一部分失败了。您可以通过添加一个专门的通知 job 来实现这一点，该 job 会在_任何_先前 job 失败时运行：
+
+```yaml
+name: Deploy Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Tests
+        run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: ./deploy.sh
+
+  notify_on_failure:
+    runs-on: ubuntu-latest
+    needs: [test, build, deploy]
+    if: failure()
+    steps:
+      - name: Send Failure Notification
+        uses: weelone/echobell-action@v1
+        with:
+          webhook-url: ${{ secrets.ECHOBELL_WEBHOOK_URL }}
+```
+
+## 配置您的 Echobell Webhook
+
+获取您唯一的 webhook URL 很简单：
+
+1.  下载 iOS 版 Echobell 应用并注册。
+2.  在应用内，创建一个新的通知频道。
+3.  复制为该频道生成的 webhook URL。
+4.  在您的 GitHub 仓库中，前往 `Settings` > `Secrets and variables` > `Actions`。
+5.  创建一个名为 `ECHOBELL_WEBHOOK_URL` 的新仓库密钥，并粘贴您复制的 URL。
+
+## 有效通知的技巧
+
+使您的失败警报更加有用：
+
+1.  **使用 `if: failure()`**：确保通知_仅_在实际出现问题时发送。对于多 job 的 workflow，使用具有 `if: failure()` 和指向所有关键 job 的 `needs` 的专用最终 job。
+2.  **信息丰富的标题**：清楚地说明仓库及发生了失败（例如，"`your-repo` CI 中的失败"）。
+3.  **提供上下文**：在消息正文中包含 workflow 名称和特定 GitHub Actions 运行的直接链接，以便快速访问。
+4.  **考虑优先级**：Echobell 允许设置优先级；如有必要，可以为关键部署失败使用更高优先级（通过 action 中的 `priority` 输入）。
+
+## 结论
+
+将 Echobell 与 GitHub Actions 集成可提供安心保障，确保您和您的团队立即收到 CI/CD 流水线失败的通知。设置快速，通知即时，有助于维持更高效、响应更迅速的开发流程。
+
+不要再让 workflow 失败悄无声息。今天就尝试 Echobell 通知 Action，保持您的项目步入正轨。
