@@ -14,7 +14,9 @@ import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
 import { NavLinks } from "./NavLinks";
 import { Gantari } from "next/font/google";
 
-const gantari = Gantari({});
+const gantari = Gantari({
+  subsets: ["latin"],
+});
 
 export default function Nav({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].nav;
