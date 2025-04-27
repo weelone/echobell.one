@@ -1,0 +1,91 @@
+---
+title: "Monitor HuggingFace Activity with Echobell: Real-time Updates for AI Models and Repositories"
+description: "Learn how to set up Echobell webhooks to monitor HuggingFace repositories and organization activities, ensuring you never miss important AI model updates and team collaboration changes."
+date: 2025-04-27
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Monitor HuggingFace Activity with Echobell: Real-time Updates for AI Models and Repositories
+
+HuggingFace has become an essential platform for the AI and machine learning community, bringing together the latest models, research, and collaboration tools. However, with the increasing activity on the platform, staying on top of key model updates, repository changes, or team collaboration dynamics can be challenging. Fortunately, with [Echobell](https://echobell.one)'s real-time notification capabilities, you can easily set up webhooks to receive instant updates about the latest activities in your favorite HuggingFace repositories or organizations.
+
+## Why Monitor HuggingFace Activity?
+
+Keeping track of HuggingFace activities in real-time is crucial, especially in these scenarios:
+
+- **Track Model Updates**: Get notified when critical AI models you rely on release new versions or undergo important modifications.
+- **Monitor Project Contributions**: Know when new contributors join your project, or when new Pull Requests and code commits are made.
+- **Stay Informed About Organization Activities**: Track activities across your entire organization, ensuring team members don't miss any important announcements or changes.
+- **Participate in Community Discussions**: Receive alerts about new Issues, comments, or discussion posts to respond and engage quickly.
+- **Analyze Usage**: Monitor downloads and popularity of your models or datasets to understand their impact.
+
+## Setting Up HuggingFace Monitoring with Echobell Webhooks
+
+Follow these simple steps to connect Echobell with HuggingFace for automated notifications:
+
+### Step 1: Set Up Your Echobell Notification Channel
+
+First, you need to create a channel in the Echobell app dedicated to receiving HuggingFace notifications:
+
+1.  Download and install the [Echobell app](https://apps.apple.com/app/id6743597198) on your iOS device.
+2.  Log in using your email or Apple ID.
+3.  Create a new notification channel, for example, named "HuggingFace Updates".
+4.  (Optional) Configure custom notification templates for clearer event understanding:
+    - **Title Template**: `HuggingFace: {{repo.name}} {{event.action}}`
+    - **Content Template**: `{{event.scope}} was {{event.action}} in {{repo.name}}. Check the repository for details.`
+5.  Copy the unique Webhook URL for this channel (go to channel details, click the Webhook button to copy).
+
+<Callout type="info">
+  Want to learn more about variables you can use in your templates? Check the [HuggingFace official Webhook
+  documentation](https://huggingface.co/docs/hub/webhooks).
+</Callout>
+
+### Step 2: Configure the Webhook in HuggingFace
+
+Next, add the Echobell Webhook in your HuggingFace account settings:
+
+![HuggingFace Settings](/images/blog/huggingface-settings.png)
+
+1.  Log in to HuggingFace, click on your profile picture in the top right corner, and select **Settings**.
+2.  In the left menu, find and click on **Webhooks**.
+3.  Click the **Add a new webhook** button.
+4.  In the **Target repositories** field, enter the specific repository name you want to monitor (e.g., `username/repo-name`) or an entire organization/user name (e.g., `org-name` or `username`). You can add multiple targets.
+5.  Paste the Echobell **Webhook URL** you copied in Step 1 into the appropriate field.
+6.  Leave the **Secret** field empty.
+7.  In the **Triggers** section, it's recommended to check at least **Repo update**, but you can select other triggering events (like `Discussion created`) as needed.
+8.  Click **Create webhook** to complete the setup.
+
+![HuggingFace webhook has been set](/images/blog/huggingface-webhook-set.png)
+
+Once set up, Echobell will immediately send notifications to your device whenever your specified HuggingFace repositories or organizations experience the events you've selected!
+
+## Advanced Configuration and Usage
+
+### Monitor Critical Updates for Specific Models
+
+If you're particularly interested in a specific model, you can create a dedicated Echobell channel for it and set up more specific notification templates or use high-priority notifications (like "Time-sensitive" or "Call") to ensure critical updates don't get lost.
+
+### Team Notification Sharing
+
+Echobell's channel subscription feature makes team collaboration more convenient. You can share your HuggingFace notification channel with team members:
+
+1.  In Echobell's channel settings interface, find and copy the **Subscription Link**.
+2.  Send this link to team members who need to receive notifications.
+3.  Members can click the link to subscribe to the channel and choose their preferred notification method (Regular, Time-sensitive, or Call Alert).
+
+## Best Practices
+
+To make the most of the HuggingFace and Echobell integration, consider these recommendations:
+
+1.  **Categorized Management**: Create different Echobell channels for different types of activities (such as model updates, community discussions, organization dynamics) for easier management and differentiation.
+2.  **Leverage Priority Levels**: For critical events you can't afford to miss (like updates to production-dependent models), set their notification type to "Call" or "Time-sensitive" in Echobell.
+3.  **Optimize Templates**: Include sufficient information in your notification templates (such as repository name, event type, trigger) to quickly determine the importance and content of notifications.
+4.  **Precise Triggers**: In HuggingFace Webhook settings, only select the event types you truly need to monitor to avoid unnecessary distractions and reduce notification fatigue.
+
+## Conclusion
+
+By combining Echobell's real-time notification capabilities with HuggingFace's powerful platform, you can build an efficient monitoring system. This not only helps you stay up-to-date with the latest developments in AI models, datasets, and projects but also facilitates information synchronization among team members, ensuring you and your team are always at the forefront of AI development.
+
+Start using Echobell to monitor your HuggingFace activities today and say goodbye to the frustration of missing important updates!
