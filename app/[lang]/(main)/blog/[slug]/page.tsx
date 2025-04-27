@@ -7,6 +7,7 @@ import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { Language, uiDictionary } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
+import { createMetadata } from "@/lib/metadata";
 
 export default async function Page(props: {
   params: Promise<{ lang: Language; slug: string }>;
@@ -72,9 +73,9 @@ export async function generateMetadata(props: {
 
   if (!page) notFound();
 
-  return {
+  return createMetadata({
     title: page.data.title,
     description:
       page.data.description ?? "The library for building documentation sites",
-  };
+  });
 }

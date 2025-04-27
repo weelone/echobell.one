@@ -3,6 +3,7 @@ import { blog } from "@/lib/source";
 import { Language, uiDictionary } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
 import { Metadata } from "next";
+import { createMetadata } from "@/lib/metadata";
 
 export default async function Page({
   params,
@@ -84,8 +85,8 @@ export async function generateMetadata({
   const lang = (await params).lang;
   const t = uiDictionary[lang].blog;
 
-  return {
+  return createMetadata({
     title: t.title,
     description: t.description,
-  };
+  });
 }
