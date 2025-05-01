@@ -1,0 +1,143 @@
+---
+title: Vorlagen
+description: Erfahren Sie, wie Sie Vorlagen in Echobell verwenden können
+---
+
+# Vorlagen in Echobell
+
+Vorlagen in Echobell ermöglichen es Ihnen, dynamische Benachrichtigungen zu erstellen, indem Sie Variablen in Ihre Benachrichtigungstitel und -texte einbauen. Diese Funktion ermöglicht personalisierte und informative Benachrichtigungen, die sich basierend auf den Auslöserdaten anpassen.
+
+## Grundlegende Vorlagen-Syntax
+
+In Echobell-Vorlagen können Sie Variablen verwenden, indem Sie sie in doppelte geschweifte Klammern setzen:
+
+```
+{{Variablenname}}
+```
+
+Wenn ein Kanal ausgelöst wird, werden diese Variablen durch die tatsächlichen Werte ersetzt, die über den Auslöser übermittelt werden. Wenn Ihre Titelvorlage beispielsweise `Sie haben ${{Betrag}}` lautet und Sie den Kanal mit einem `Betrag`-Wert von 100 auslösen, wird die resultierende Benachrichtigung als `Sie haben $100` angezeigt.
+
+## Erweiterte Vorlagen-Ausdrücke
+
+Echobell-Vorlagen unterstützen verschiedene Ausdrücke für komplexere Szenarien:
+
+- Zugriff auf Objekteigenschaften
+
+```
+{{benutzer.name}}
+{{daten["wert"]}}
+```
+
+- Zugriff auf Array-Elemente
+
+```
+{{elemente[0]}}
+```
+
+- Verwendung von Vergleichsoperatoren
+
+```
+{{status == "aktiv"}}
+{{alter > 18}}
+```
+
+- Logische Operatoren
+
+```
+{{istAbonniert && !istPausiert}}
+{{istDringend || istHohePriorität}}
+```
+
+Alle Standardoperatoren werden unterstützt: `==`, `!=`, `<`, `>`, `<=`, `>=`, `&&`, `||` und `!`.
+
+## Vorlagenvariablen aus verschiedenen Auslösern
+
+### Webhook-Auslöser
+
+Beim Auslösen über Webhook können Sie Variablen bereitstellen durch:
+
+1. **Query-String-Parameter**:
+
+   ```http
+   GET https://hook.echobell.one/t/ihre-kanal-id?betrag=100&status=abgeschlossen
+   ```
+
+2. **JSON-Körper** (für POST-Anfragen):
+
+   ```http
+   POST https://hook.echobell.one/t/ihre-kanal-id
+   Content-Type: application/json
+
+   {
+     "betrag": 100,
+     "status": "abgeschlossen",
+     "benutzer": {
+       "name": "Hans",
+       "id": 12345
+     }
+   }
+   ```
+
+3. **Spezielle Variablen**:
+   - `externalLink`: Stellt einen klickbaren Link in Benachrichtigungsdatensätzen bereit
+   - `header`: Ermöglicht Zugriff auf HTTP-Anfrage-Header (z.B. `{{header["content-type"]}}`)
+
+### E-Mail-Auslöser
+
+Wenn ein Kanal per E-Mail ausgelöst wird, sind die folgenden Variablen automatisch verfügbar:
+
+- `from`: Die E-Mail-Adresse des Absenders
+- `to`: Die E-Mail-Adresse des Empfängers
+- `subject`: Die Betreffzeile der E-Mail
+- `text`: Der Nur-Text-Inhalt der E-Mail
+- `html`: Der HTML-Inhalt der E-Mail
+
+## Anwendungsfälle für Vorlagen
+
+### Bedingter Inhalt
+
+Sie können Vorlagen verwenden, um unterschiedliche Inhalte basierend auf Bedingungen anzuzeigen:
+
+```
+{{betrag > 1000 ? "Große" : "Standard"}} Zahlung erhalten: ${{betrag}}
+```
+
+### Kanal-Bedingungen
+
+Zusätzlich zur Verwendung von Vorlagen in Benachrichtigungsinhalten können Sie **Bedingungen** in den erweiterten Kanaleinstellungen festlegen, die bestimmen, ob Benachrichtigungen überhaupt gesendet werden sollen. Diese Bedingungen verwenden dieselbe Ausdruckssyntax (ohne die geschweiften Klammern).
+
+Zum Beispiel, um Benachrichtigungen nur für Beträge über einem Schwellenwert zu senden:
+
+```
+betrag > 100
+```
+
+## Link-Vorlagen
+
+Konfigurieren Sie eine benutzerdefinierte Link-Vorlage in den erweiterten Kanaleinstellungen, um klickbare Links in Benachrichtigungsdatensätzen zu erstellen:
+
+```
+https://dashboard.example.com/bestellungen/{{bestellId}}
+```
+
+Wenn keine Link-Vorlage festgelegt ist, wird standardmäßig der Wert der `externalLink`-Variable verwendet.
+
+## Bewährte Praktiken
+
+1. **Standardwerte**: Erwägen Sie, Standardwerte für optionale Variablen bereitzustellen:
+
+   ```
+   {{benutzername || "Anonymer Benutzer"}}
+   ```
+
+2. **Informative Vorlagen**: Fügen Sie wichtige Informationen in Ihre Vorlagen ein, um Benachrichtigungen handlungsfähig zu machen:
+
+   ```
+   {{dienst}}: {{status}} - {{nachricht}}
+   ```
+
+3. **Halten Sie Vorlagen prägnant**: Benachrichtigungen werden am besten angezeigt, wenn Titel und Texte klar und auf den Punkt gebracht sind.
+
+4. **Testen**: Testen Sie Ihre Vorlagen mit verschiedenen Variablenkombinationen, um sicherzustellen, dass sie wie erwartet angezeigt werden.
+
+Vorlagen sind ein leistungsstarker Weg, um dynamische, informative Benachrichtigungen zu erstellen, die den Benutzern genau die Informationen liefern, die sie benötigen, wenn sie sie benötigen.

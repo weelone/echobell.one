@@ -9,6 +9,7 @@
     "webhook",
     "email-trigger",
     "notification",
+    "template",
     "---ユースケース---",
     "developer",
     "trader",

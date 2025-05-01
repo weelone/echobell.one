@@ -1,0 +1,143 @@
+---
+title: Template
+description: Learn how to use templates in Echobell
+---
+
+# Templates in Echobell
+
+Templates in Echobell allow you to create dynamic notifications by incorporating variables into your notification titles and bodies. This feature enables personalized and informative alerts that adapt based on the trigger data.
+
+## Basic Template Syntax
+
+In Echobell templates, you can use variables by wrapping them in double curly braces:
+
+```
+{{variableName}}
+```
+
+When a channel is triggered, these variables are replaced with actual values passed through the trigger. For example, if your title template is `You have received ${{amount}}` and you trigger the channel with an `amount` value of 100, the resulting notification will display as `You have received $100`.
+
+## Advanced Template Expressions
+
+Echobell templates support a variety of expressions for more complex scenarios:
+
+- Accessing Object Properties
+
+```
+{{user.name}}
+{{data["value"]}}
+```
+
+- Accessing Array Elements
+
+```
+{{items[0]}}
+```
+
+- Using Comparison Operators
+
+```
+{{status == "active"}}
+{{age > 18}}
+```
+
+- Logical Operators
+
+```
+{{isSubscribed && !isPaused}}
+{{isUrgent || isHighPriority}}
+```
+
+All standard operators are supported: `==`, `!=`, `<`, `>`, `<=`, `>=`, `&&`, `||`, and `!`.
+
+## Template Variables from Different Triggers
+
+### Webhook Triggers
+
+When triggering via webhook, you can provide variables through:
+
+1. **Query string parameters**:
+
+   ```http
+   GET https://hook.echobell.one/t/your-channel-id?amount=100&status=complete
+   ```
+
+2. **JSON body** (for POST requests):
+
+   ```http
+   POST https://hook.echobell.one/t/your-channel-id
+   Content-Type: application/json
+
+   {
+     "amount": 100,
+     "status": "complete",
+     "user": {
+       "name": "John",
+       "id": 12345
+     }
+   }
+   ```
+
+3. **Special variables**:
+   - `externalLink`: Provides a clickable link in notification records
+   - `header`: Gives access to HTTP request headers (e.g., `{{header["content-type"]}}`)
+
+### Email Triggers
+
+When a channel is triggered via email, the following variables are automatically available:
+
+- `from`: The sender's email address
+- `to`: The recipient's email address
+- `subject`: The email subject line
+- `text`: The plain text content of the email
+- `html`: The HTML content of the email
+
+## Template Use Cases
+
+### Conditional Content
+
+You can use templates to show different content based on conditions:
+
+```
+Received {{amount > 1000 ? "large" : "standard"}} payment: ${{amount}}
+```
+
+### Channel Conditions
+
+In addition to using templates in notification content, you can set **Conditions** in channel advanced settings that determine whether notifications should be sent at all. These conditions use the same expression syntax (without the curly braces).
+
+For example, to only send notifications for amounts greater than a threshold:
+
+```
+amount > 100
+```
+
+## Link Templates
+
+Configure a custom link template in channel advanced settings to create clickable links in notification records:
+
+```
+https://dashboard.example.com/orders/{{orderId}}
+```
+
+If no link template is set, the value of the `externalLink` variable will be used by default.
+
+## Best Practices
+
+1. **Default Values**: Consider providing default values for optional variables:
+
+   ```
+   {{username || "Anonymous User"}}
+   ```
+
+2. **Informative Templates**: Include key information in your templates to make notifications actionable:
+
+   ```
+   {{service}}: {{status}} - {{message}}
+   ```
+
+3. **Keep Templates Concise**: Notifications display best when titles and bodies are clear and to the point.
+
+4. **Testing**: Test your templates with different variable combinations to ensure they render as expected.
+
+Templates are a powerful way to create dynamic, informative notifications that give users exactly the information they need, when they need it.

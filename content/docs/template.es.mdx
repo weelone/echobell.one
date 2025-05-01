@@ -1,0 +1,143 @@
+---
+title: Plantillas
+description: Aprende a usar plantillas en Echobell
+---
+
+# Plantillas en Echobell
+
+Las plantillas en Echobell te permiten crear notificaciones dinámicas incorporando variables en los títulos y cuerpos de tus notificaciones. Esta función permite alertas personalizadas e informativas que se adaptan según los datos del disparador.
+
+## Sintaxis Básica de Plantillas
+
+En las plantillas de Echobell, puedes usar variables envolviéndolas en llaves dobles:
+
+```
+{{nombreVariable}}
+```
+
+Cuando se activa un canal, estas variables se reemplazan con valores reales pasados a través del disparador. Por ejemplo, si tu plantilla de título es `Has recibido ${{cantidad}}` y activas el canal con un valor de `cantidad` de 100, la notificación resultante se mostrará como `Has recibido $100`.
+
+## Expresiones Avanzadas de Plantillas
+
+Las plantillas de Echobell admiten diversas expresiones para escenarios más complejos:
+
+- Acceder a Propiedades de Objetos
+
+```
+{{usuario.nombre}}
+{{datos["valor"]}}
+```
+
+- Acceder a Elementos de Arreglos
+
+```
+{{elementos[0]}}
+```
+
+- Usar Operadores de Comparación
+
+```
+{{estado == "activo"}}
+{{edad > 18}}
+```
+
+- Operadores Lógicos
+
+```
+{{estaSuscrito && !estaPausado}}
+{{esUrgente || esAltaPrioridad}}
+```
+
+Todos los operadores estándar son compatibles: `==`, `!=`, `<`, `>`, `<=`, `>=`, `&&`, `||`, y `!`.
+
+## Variables de Plantilla de Diferentes Disparadores
+
+### Disparadores de Webhook
+
+Al disparar a través de webhook, puedes proporcionar variables a través de:
+
+1. **Parámetros de cadena de consulta**:
+
+   ```http
+   GET https://hook.echobell.one/t/tu-id-de-canal?cantidad=100&estado=completado
+   ```
+
+2. **Cuerpo JSON** (para peticiones POST):
+
+   ```http
+   POST https://hook.echobell.one/t/tu-id-de-canal
+   Content-Type: application/json
+
+   {
+     "cantidad": 100,
+     "estado": "completado",
+     "usuario": {
+       "nombre": "Juan",
+       "id": 12345
+     }
+   }
+   ```
+
+3. **Variables especiales**:
+   - `externalLink`: Proporciona un enlace clickeable en los registros de notificación
+   - `header`: Da acceso a los encabezados de la petición HTTP (p.ej., `{{header["content-type"]}}`)
+
+### Disparadores de Email
+
+Cuando un canal se dispara por email, las siguientes variables están disponibles automáticamente:
+
+- `from`: La dirección de correo del remitente
+- `to`: La dirección de correo del destinatario
+- `subject`: La línea de asunto del correo
+- `text`: El contenido de texto plano del correo
+- `html`: El contenido HTML del correo
+
+## Casos de Uso de Plantillas
+
+### Contenido Condicional
+
+Puedes usar plantillas para mostrar diferentes contenidos basados en condiciones:
+
+```
+Recibido pago {{cantidad > 1000 ? "grande" : "estándar"}}: ${{cantidad}}
+```
+
+### Condiciones de Canal
+
+Además de usar plantillas en el contenido de las notificaciones, puedes establecer **Condiciones** en la configuración avanzada del canal que determinan si las notificaciones deben enviarse o no. Estas condiciones utilizan la misma sintaxis de expresión (sin las llaves).
+
+Por ejemplo, para enviar notificaciones solo para cantidades mayores a un umbral:
+
+```
+cantidad > 100
+```
+
+## Plantillas de Enlaces
+
+Configura una plantilla de enlace personalizada en la configuración avanzada del canal para crear enlaces clickeables en los registros de notificación:
+
+```
+https://dashboard.example.com/ordenes/{{idOrden}}
+```
+
+Si no se establece ninguna plantilla de enlace, se usará por defecto el valor de la variable `externalLink`.
+
+## Mejores Prácticas
+
+1. **Valores Predeterminados**: Considera proporcionar valores predeterminados para variables opcionales:
+
+   ```
+   {{nombreUsuario || "Usuario Anónimo"}}
+   ```
+
+2. **Plantillas Informativas**: Incluye información clave en tus plantillas para hacer que las notificaciones sean accionables:
+
+   ```
+   {{servicio}}: {{estado}} - {{mensaje}}
+   ```
+
+3. **Mantén las Plantillas Concisas**: Las notificaciones se muestran mejor cuando los títulos y cuerpos son claros y directos.
+
+4. **Pruebas**: Prueba tus plantillas con diferentes combinaciones de variables para asegurarte de que se rendericen como se espera.
+
+Las plantillas son una forma poderosa de crear notificaciones dinámicas e informativas que proporcionan a los usuarios exactamente la información que necesitan, cuando la necesitan.

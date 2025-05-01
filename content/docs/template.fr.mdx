@@ -1,0 +1,143 @@
+---
+title: Modèles
+description: Apprenez à utiliser les modèles dans Echobell
+---
+
+# Modèles dans Echobell
+
+Les modèles dans Echobell vous permettent de créer des notifications dynamiques en incorporant des variables dans les titres et les corps de vos notifications. Cette fonctionnalité permet des alertes personnalisées et informatives qui s'adaptent en fonction des données du déclencheur.
+
+## Syntaxe de Base des Modèles
+
+Dans les modèles Echobell, vous pouvez utiliser des variables en les entourant de doubles accolades :
+
+```
+{{nomVariable}}
+```
+
+Lorsqu'un canal est déclenché, ces variables sont remplacées par les valeurs réelles transmises via le déclencheur. Par exemple, si votre modèle de titre est `Vous avez reçu ${{montant}}` et que vous déclenchez le canal avec une valeur `montant` de 100, la notification résultante s'affichera comme `Vous avez reçu $100`.
+
+## Expressions Avancées de Modèles
+
+Les modèles Echobell prennent en charge diverses expressions pour des scénarios plus complexes :
+
+- Accéder aux Propriétés d'Objets
+
+```
+{{utilisateur.nom}}
+{{donnees["valeur"]}}
+```
+
+- Accéder aux Éléments de Tableaux
+
+```
+{{elements[0]}}
+```
+
+- Utiliser des Opérateurs de Comparaison
+
+```
+{{statut == "actif"}}
+{{age > 18}}
+```
+
+- Opérateurs Logiques
+
+```
+{{estAbonne && !estEnPause}}
+{{estUrgent || estHautePriorite}}
+```
+
+Tous les opérateurs standard sont pris en charge : `==`, `!=`, `<`, `>`, `<=`, `>=`, `&&`, `||`, et `!`.
+
+## Variables de Modèle à partir de Différents Déclencheurs
+
+### Déclencheurs Webhook
+
+Lors du déclenchement via webhook, vous pouvez fournir des variables via :
+
+1. **Paramètres de chaîne de requête** :
+
+   ```http
+   GET https://hook.echobell.one/t/votre-id-de-canal?montant=100&statut=termine
+   ```
+
+2. **Corps JSON** (pour les requêtes POST) :
+
+   ```http
+   POST https://hook.echobell.one/t/votre-id-de-canal
+   Content-Type: application/json
+
+   {
+     "montant": 100,
+     "statut": "termine",
+     "utilisateur": {
+       "nom": "Jean",
+       "id": 12345
+     }
+   }
+   ```
+
+3. **Variables spéciales** :
+   - `externalLink` : Fournit un lien cliquable dans les enregistrements de notification
+   - `header` : Donne accès aux en-têtes de requête HTTP (par exemple, `{{header["content-type"]}}`)
+
+### Déclencheurs Email
+
+Lorsqu'un canal est déclenché par email, les variables suivantes sont automatiquement disponibles :
+
+- `from` : L'adresse email de l'expéditeur
+- `to` : L'adresse email du destinataire
+- `subject` : La ligne d'objet de l'email
+- `text` : Le contenu texte brut de l'email
+- `html` : Le contenu HTML de l'email
+
+## Cas d'Utilisation des Modèles
+
+### Contenu Conditionnel
+
+Vous pouvez utiliser des modèles pour afficher différents contenus basés sur des conditions :
+
+```
+Reçu paiement {{montant > 1000 ? "important" : "standard"}} : ${{montant}}
+```
+
+### Conditions de Canal
+
+En plus d'utiliser des modèles dans le contenu des notifications, vous pouvez définir des **Conditions** dans les paramètres avancés du canal qui déterminent si les notifications doivent être envoyées ou non. Ces conditions utilisent la même syntaxe d'expression (sans les accolades).
+
+Par exemple, pour n'envoyer des notifications que pour des montants supérieurs à un seuil :
+
+```
+montant > 100
+```
+
+## Modèles de Liens
+
+Configurez un modèle de lien personnalisé dans les paramètres avancés du canal pour créer des liens cliquables dans les enregistrements de notification :
+
+```
+https://dashboard.example.com/commandes/{{idCommande}}
+```
+
+Si aucun modèle de lien n'est défini, la valeur de la variable `externalLink` sera utilisée par défaut.
+
+## Meilleures Pratiques
+
+1. **Valeurs par Défaut** : Envisagez de fournir des valeurs par défaut pour les variables optionnelles :
+
+   ```
+   {{nomUtilisateur || "Utilisateur Anonyme"}}
+   ```
+
+2. **Modèles Informatifs** : Incluez des informations clés dans vos modèles pour rendre les notifications exploitables :
+
+   ```
+   {{service}} : {{statut}} - {{message}}
+   ```
+
+3. **Gardez les Modèles Concis** : Les notifications s'affichent mieux lorsque les titres et les corps sont clairs et directs.
+
+4. **Tests** : Testez vos modèles avec différentes combinaisons de variables pour vous assurer qu'ils s'affichent comme prévu.
+
+Les modèles sont un moyen puissant de créer des notifications dynamiques et informatives qui donnent aux utilisateurs exactement les informations dont ils ont besoin, quand ils en ont besoin.
