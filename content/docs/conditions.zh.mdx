@@ -1,0 +1,162 @@
+---
+title: 频道条件
+description: 了解Echobell中频道条件的工作原理
+---
+
+# 频道条件
+
+频道条件是强大的表达式，用于确定何时应发送通知。通过在频道上设置条件，您可以根据变量或 HTTP 标头的内容过滤通知，确保订阅者只收到相关警报。
+
+## 了解条件
+
+条件是计算结果为 `true` 或 `false` 的表达式。当频道被触发时：
+
+- 如果条件**未设置**（为空），通知将发送给所有订阅者。
+- 如果条件**已设置**，只有当表达式计算为 `true` 时，才会发送通知。
+
+## 编写条件
+
+条件以表达式形式编写，不需要在模板中使用的 `{{}}` 包装器。例如：
+
+```
+status == "active"
+```
+
+此条件仅允许在 `status` 变量等于 "active" 时发送通知。
+
+## 常见用例
+
+以下是一些您可能使用条件的实际例子：
+
+### 基本变量检查
+
+```
+amount > 100
+```
+
+仅当 "amount" 变量大于 100 时才通知。
+
+```
+message != ""
+```
+
+仅当 "message" 变量不为空时才通知。
+
+```
+isUrgent == true
+```
+
+仅当 "isUrgent" 变量为真时才通知。
+
+### 检查 HTTP 标头
+
+您可以使用特殊变量 `header` 访问 HTTP 标头：
+
+```
+header["user-agent"].includes("Mozilla")
+```
+
+仅当请求来自 Mozilla 浏览器时才通知。
+
+```
+header["content-type"] == "application/json"
+```
+
+仅当内容类型为 JSON 时才通知。
+
+```
+header["x-priority"] == "high"
+```
+
+仅当自定义优先级标头设置为"high"时才通知。
+
+<Callout type="info">标头中的所有键都是小写的。</Callout>
+
+### 复杂条件
+
+您可以使用逻辑运算符组合多个条件：
+
+```
+(temperature > 30 || pressure > 100) && status == "monitoring"
+```
+
+仅当温度超过 30 或压力超过 100，且状态为"monitoring"时才通知。
+
+```
+environment == "production" && (errorLevel == "critical" || errorLevel == "high")
+```
+
+仅对生产环境中的关键或高级错误进行通知。
+
+## 支持的运算符
+
+条件表达式中支持以下运算符：
+
+| 运算符 | 描述       | 示例                   |
+| ------ | ---------- | ---------------------- | ------ | -------- | --- | ---------- |
+| `==`   | 等于       | `status == "active"`   |
+| `!=`   | 不等于     | `status != "inactive"` |
+| `!`    | 逻辑非     | `!isCompleted`         |
+| `<`    | 小于       | `count < 10`           |
+| `>`    | 大于       | `price > 99.99`        |
+| `<=`   | 小于或等于 | `battery <= 20`        |
+| `>=`   | 大于或等于 | `confidence >= 0.95`   |
+| `&&`   | 逻辑与     | `isAdmin && isActive`  |
+| `      |            | `                      | 逻辑或 | `isError |     | isWarning` |
+
+## 条件变量
+
+当通过 webhook 触发频道时，您可以访问：
+
+1. URL 中的**查询参数**
+2. POST 请求的**JSON 主体**
+3. 通过 `header` 对象访问的**HTTP 标头**
+
+对于电子邮件触发器，您可以访问：
+
+- `from`：电子邮件发件人地址
+- `to`：收件人地址
+- `subject`：电子邮件主题行
+- `text`：纯文本正文内容
+- `html`：HTML 正文内容
+
+## 最佳实践
+
+1. **从简单开始** - 从基本条件开始，根据需要增加复杂性
+2. **彻底测试** - 用各种输入测试您的条件，确保它们按预期工作
+3. **记录您的条件** - 在您频道的备注字段中添加注释，解释复杂的条件
+4. **考虑边缘情况** - 考虑缺失变量或意外值的情况
+
+## 示例
+
+### 仅针对特定错误发出警报
+
+```
+errorType == "database" && severity == "high"
+```
+
+### 仅在工作时间内通知
+
+```
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+### 按用户类型过滤
+
+```
+userType == "admin" || userRole == "supervisor"
+```
+
+### 检查请求来源
+
+```
+header["origin"] == "https://trusted-site.com" || header["referer"].includes("trusted-domain.com")
+```
+
+### 监控阈值违规
+
+```
+metricValue > threshold && isMonitoring == true
+```
+
+通过有效使用条件，您可以减少通知噪音，确保订阅者只收到对他们有相关性和可操作性的警报。

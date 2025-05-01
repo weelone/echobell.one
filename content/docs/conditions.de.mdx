@@ -1,0 +1,162 @@
+---
+title: Bedingungen
+description: Verstehen, wie Kanalbedingungen in Echobell funktionieren
+---
+
+# Channel-Bedingungen
+
+Channel-Bedingungen sind leistungsstarke Ausdrücke, die bestimmen, wann Benachrichtigungen gesendet werden sollen. Durch die Festlegung von Bedingungen für Ihren Channel können Sie Benachrichtigungen basierend auf dem Inhalt von Variablen oder HTTP-Headern filtern und sicherstellen, dass Abonnenten nur relevante Warnungen erhalten.
+
+## Bedingungen verstehen
+
+Bedingungen sind Ausdrücke, die entweder zu `true` oder `false` ausgewertet werden. Wenn ein Channel ausgelöst wird:
+
+- Wenn Bedingungen **nicht festgelegt** sind (leer), werden Benachrichtigungen an alle Abonnenten gesendet.
+- Wenn Bedingungen **festgelegt** sind, werden Benachrichtigungen nur gesendet, wenn der Ausdruck zu `true` ausgewertet wird.
+
+## Bedingungen schreiben
+
+Bedingungen werden als Ausdrücke ohne die `{{}}` Klammerung geschrieben, die in Vorlagen verwendet werden. Zum Beispiel:
+
+```
+status == "active"
+```
+
+Diese Bedingung erlaubt das Senden von Benachrichtigungen nur, wenn die Variable `status` den Wert "active" hat.
+
+## Häufige Anwendungsfälle
+
+Hier sind einige praktische Beispiele, wie Sie Bedingungen verwenden können:
+
+### Grundlegende Variablenprüfungen
+
+```
+amount > 100
+```
+
+Benachrichtigen Sie nur, wenn die Variable "amount" größer als 100 ist.
+
+```
+message != ""
+```
+
+Benachrichtigen Sie nur, wenn die Variable "message" nicht leer ist.
+
+```
+isUrgent == true
+```
+
+Benachrichtigen Sie nur, wenn die Variable "isUrgent" wahr ist.
+
+### Überprüfung von HTTP-Headern
+
+Sie können auf HTTP-Header über die spezielle Variable `header` zugreifen:
+
+```
+header["user-agent"].includes("Mozilla")
+```
+
+Benachrichtigen Sie nur, wenn die Anfrage von einem Mozilla-Browser stammt.
+
+```
+header["content-type"] == "application/json"
+```
+
+Benachrichtigen Sie nur, wenn der Inhaltstyp JSON ist.
+
+```
+header["x-priority"] == "high"
+```
+
+Benachrichtigen Sie nur, wenn ein benutzerdefinierter Prioritäts-Header auf "high" gesetzt ist.
+
+<Callout type="info">Alle Schlüssel in Headern sind kleingeschrieben.</Callout>
+
+### Komplexe Bedingungen
+
+Sie können mehrere Bedingungen mit logischen Operatoren kombinieren:
+
+```
+(temperature > 30 || pressure > 100) && status == "monitoring"
+```
+
+Benachrichtigen Sie nur, wenn entweder die Temperatur 30 überschreitet oder der Druck 100 überschreitet, und der Status "monitoring" ist.
+
+```
+environment == "production" && (errorLevel == "critical" || errorLevel == "high")
+```
+
+Benachrichtigen Sie nur bei kritischen oder schwerwiegenden Fehlern in der Produktionsumgebung.
+
+## Unterstützte Operatoren
+
+Die folgenden Operatoren werden in Bedingungsausdrücken unterstützt:
+
+| Operator | Beschreibung        | Beispiel               |
+| -------- | ------------------- | ---------------------- | -------------- | -------- | --- | ---------- |
+| `==`     | Gleich              | `status == "active"`   |
+| `!=`     | Ungleich            | `status != "inactive"` |
+| `!`      | Logisches NICHT     | `!isCompleted`         |
+| `<`      | Kleiner als         | `count < 10`           |
+| `>`      | Größer als          | `price > 99.99`        |
+| `<=`     | Kleiner oder gleich | `battery <= 20`        |
+| `>=`     | Größer oder gleich  | `confidence >= 0.95`   |
+| `&&`     | Logisches UND       | `isAdmin && isActive`  |
+| `        |                     | `                      | Logisches ODER | `isError |     | isWarning` |
+
+## Bedingungsvariablen
+
+Wenn ein Channel über Webhook ausgelöst wird, können Sie auf Folgendes zugreifen:
+
+1. **Abfrageparameter** aus der URL
+2. **JSON-Body** aus POST-Anfragen
+3. **HTTP-Header** über das Objekt `header`
+
+Bei E-Mail-Triggern können Sie auf Folgendes zugreifen:
+
+- `from`: Die E-Mail-Absenderadresse
+- `to`: Die Empfängeradresse
+- `subject`: Die Betreffzeile der E-Mail
+- `text`: Der Klartext-Inhalt
+- `html`: Der HTML-Inhalt
+
+## Best Practices
+
+1. **Einfach beginnen** - Beginnen Sie mit einfachen Bedingungen und erhöhen Sie bei Bedarf die Komplexität
+2. **Gründlich testen** - Testen Sie Ihre Bedingungen mit verschiedenen Eingaben, um sicherzustellen, dass sie wie erwartet funktionieren
+3. **Dokumentieren Sie Ihre Bedingungen** - Fügen Sie im Notizfeld Ihres Channels Kommentare hinzu, um komplexe Bedingungen zu erklären
+4. **Berücksichtigen Sie Randfälle** - Berücksichtigen Sie fehlende Variablen oder unerwartete Werte
+
+## Beispiele
+
+### Nur bei bestimmten Fehlern alarmieren
+
+```
+errorType == "database" && severity == "high"
+```
+
+### Nur während der Geschäftszeiten benachrichtigen
+
+```
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+### Nach Benutzertyp filtern
+
+```
+userType == "admin" || userRole == "supervisor"
+```
+
+### Anfrageursprung überprüfen
+
+```
+header["origin"] == "https://trusted-site.com" || header["referer"].includes("trusted-domain.com")
+```
+
+### Schwellenwertüberschreitungen überwachen
+
+```
+metricValue > threshold && isMonitoring == true
+```
+
+Durch den effektiven Einsatz von Bedingungen können Sie den Benachrichtigungslärm reduzieren und sicherstellen, dass Abonnenten nur Warnungen erhalten, die für sie relevant und umsetzbar sind.

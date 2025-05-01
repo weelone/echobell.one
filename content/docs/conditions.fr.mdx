@@ -1,0 +1,164 @@
+---
+title: Conditions
+description: Comprendre comment les conditions de canal fonctionnent dans Echobell
+---
+
+# Conditions de Canal
+
+Les conditions de canal sont des expressions puissantes qui déterminent quand les notifications doivent être envoyées. En définissant des conditions sur votre canal, vous pouvez filtrer les notifications en fonction du contenu des variables ou des en-têtes HTTP, garantissant que les abonnés ne reçoivent que des alertes pertinentes.
+
+## Comprendre les Conditions
+
+Les conditions sont des expressions qui sont évaluées soit à `true` soit à `false`. Lorsqu'un canal est déclenché:
+
+- Si les conditions **ne sont pas définies** (vides), les notifications sont envoyées à tous les abonnés.
+- Si les conditions **sont définies**, les notifications sont envoyées seulement lorsque l'expression est évaluée à `true`.
+
+## Écrire des Conditions
+
+Les conditions sont écrites comme des expressions sans les délimiteurs `{{}}` qui sont utilisés dans les modèles. Par exemple:
+
+```
+status == "active"
+```
+
+Cette condition ne permettra l'envoi de notifications que lorsque la variable `status` est égale à "active".
+
+## Cas d'Utilisation Courants
+
+Voici quelques exemples pratiques de comment vous pourriez utiliser les conditions:
+
+### Vérifications de Variables Basiques
+
+```
+amount > 100
+```
+
+Ne notifier que lorsque la variable "amount" est supérieure à 100.
+
+```
+message != ""
+```
+
+Ne notifier que lorsque la variable "message" n'est pas vide.
+
+```
+isUrgent == true
+```
+
+Ne notifier que lorsque la variable "isUrgent" est vraie.
+
+### Vérification des En-têtes HTTP
+
+Vous pouvez accéder aux en-têtes HTTP en utilisant la variable spéciale `header`:
+
+```
+header["user-agent"].includes("Mozilla")
+```
+
+Ne notifier que lorsque la requête provient d'un navigateur Mozilla.
+
+```
+header["content-type"] == "application/json"
+```
+
+Ne notifier que lorsque le type de contenu est JSON.
+
+```
+header["x-priority"] == "high"
+```
+
+Ne notifier que lorsqu'un en-tête de priorité personnalisé est défini sur "high".
+
+<Callout type="info">
+  Toutes les clés dans les en-têtes sont en minuscules.
+</Callout>
+
+### Conditions Complexes
+
+Vous pouvez combiner plusieurs conditions en utilisant des opérateurs logiques:
+
+```
+(temperature > 30 || pressure > 100) && status == "monitoring"
+```
+
+Ne notifier que lorsque la température dépasse 30 ou la pression dépasse 100, et que le statut est "monitoring".
+
+```
+environment == "production" && (errorLevel == "critical" || errorLevel == "high")
+```
+
+Ne notifier que pour les erreurs critiques ou de niveau élevé dans l'environnement de production.
+
+## Opérateurs Pris en Charge
+
+Les opérateurs suivants sont pris en charge dans les expressions de condition:
+
+| Opérateur | Description         | Exemple                |
+| --------- | ------------------- | ---------------------- | ---------- | -------- | --- | ---------- |
+| `==`      | Égal à              | `status == "active"`   |
+| `!=`      | Non égal à          | `status != "inactive"` |
+| `!`       | NON logique         | `!isCompleted`         |
+| `<`       | Inférieur à         | `count < 10`           |
+| `>`       | Supérieur à         | `price > 99.99`        |
+| `<=`      | Inférieur ou égal à | `battery <= 20`        |
+| `>=`      | Supérieur ou égal à | `confidence >= 0.95`   |
+| `&&`      | ET logique          | `isAdmin && isActive`  |
+| `         |                     | `                      | OU logique | `isError |     | isWarning` |
+
+## Variables de Condition
+
+Lorsqu'un canal est déclenché via webhook, vous pouvez accéder à:
+
+1. **Paramètres de requête** de l'URL
+2. **Corps JSON** des requêtes POST
+3. **En-têtes HTTP** via l'objet `header`
+
+Pour les déclencheurs par email, vous pouvez accéder à:
+
+- `from`: L'adresse de l'expéditeur de l'email
+- `to`: L'adresse du destinataire
+- `subject`: La ligne d'objet de l'email
+- `text`: Le contenu en texte brut
+- `html`: Le contenu HTML
+
+## Bonnes Pratiques
+
+1. **Commencez simplement** - Commencez par des conditions simples et ajoutez de la complexité si nécessaire
+2. **Testez rigoureusement** - Testez vos conditions avec diverses entrées pour vous assurer qu'elles fonctionnent comme prévu
+3. **Documentez vos conditions** - Ajoutez des commentaires dans le champ de notes de votre canal pour expliquer les conditions complexes
+4. **Tenez compte des cas limites** - Tenez compte des variables manquantes ou des valeurs inattendues
+
+## Exemples
+
+### Alerter uniquement pour des erreurs spécifiques
+
+```
+errorType == "database" && severity == "high"
+```
+
+### Notifier uniquement pendant les heures de bureau
+
+```
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+### Filtrer par type d'utilisateur
+
+```
+userType == "admin" || userRole == "supervisor"
+```
+
+### Vérifier l'origine de la requête
+
+```
+header["origin"] == "https://trusted-site.com" || header["referer"].includes("trusted-domain.com")
+```
+
+### Surveiller les violations de seuil
+
+```
+metricValue > threshold && isMonitoring == true
+```
+
+En utilisant efficacement les conditions, vous pouvez réduire le bruit des notifications et garantir que les abonnés ne reçoivent que les alertes qui sont pertinentes et exploitables pour eux.

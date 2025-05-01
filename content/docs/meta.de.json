@@ -10,6 +10,7 @@
     "email-trigger",
     "notification",
     "template",
+    "conditions",
     "---Anwendungsfälle---",
     "developer",
     "trader",

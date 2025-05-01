@@ -1,0 +1,164 @@
+---
+title: Condiciones
+description: Entendiendo cómo las condiciones del canal funcionan en Echobell
+---
+
+# Condiciones de Canal
+
+Las condiciones de canal son expresiones poderosas que determinan cuándo se deben enviar notificaciones. Al establecer condiciones en tu canal, puedes filtrar notificaciones basadas en el contenido de variables o encabezados HTTP, asegurando que los suscriptores reciban solo alertas relevantes.
+
+## Entendiendo las Condiciones
+
+Las condiciones son expresiones que se evalúan como `true` o `false`. Cuando se activa un canal:
+
+- Si las condiciones **no están establecidas** (vacías), se envían notificaciones a todos los suscriptores.
+- Si las condiciones **están establecidas**, las notificaciones se envían solo cuando la expresión se evalúa como `true`.
+
+## Escribiendo Condiciones
+
+Las condiciones se escriben como expresiones sin los envoltorios `{{}}` que se utilizan en las plantillas. Por ejemplo:
+
+```
+status == "active"
+```
+
+Esta condición solo permitirá que se envíen notificaciones cuando la variable `status` sea igual a "active".
+
+## Casos de Uso Comunes
+
+Aquí hay algunos ejemplos prácticos de cómo podrías usar las condiciones:
+
+### Verificaciones Básicas de Variables
+
+```
+amount > 100
+```
+
+Notificar solo cuando la variable "amount" sea mayor que 100.
+
+```
+message != ""
+```
+
+Notificar solo cuando la variable "message" no esté vacía.
+
+```
+isUrgent == true
+```
+
+Notificar solo cuando la variable "isUrgent" sea verdadera.
+
+### Verificando Encabezados HTTP
+
+Puedes acceder a los encabezados HTTP usando la variable especial `header`:
+
+```
+header["user-agent"].includes("Mozilla")
+```
+
+Notificar solo cuando la solicitud proviene de un navegador Mozilla.
+
+```
+header["content-type"] == "application/json"
+```
+
+Notificar solo cuando el tipo de contenido es JSON.
+
+```
+header["x-priority"] == "high"
+```
+
+Notificar solo cuando un encabezado personalizado de prioridad está configurado como "high".
+
+<Callout type="info">
+  Todas las claves en los encabezados están en minúsculas.
+</Callout>
+
+### Condiciones Complejas
+
+Puedes combinar múltiples condiciones usando operadores lógicos:
+
+```
+(temperature > 30 || pressure > 100) && status == "monitoring"
+```
+
+Notificar solo cuando la temperatura excede 30 o la presión excede 100, y el estado es "monitoring".
+
+```
+environment == "production" && (errorLevel == "critical" || errorLevel == "high")
+```
+
+Notificar solo para errores críticos o de alto nivel en el entorno de producción.
+
+## Operadores Admitidos
+
+Los siguientes operadores son admitidos en las expresiones de condición:
+
+| Operador | Descripción     | Ejemplo                |
+| -------- | --------------- | ---------------------- | --------- | -------- | --- | ---------- |
+| `==`     | Igual a         | `status == "active"`   |
+| `!=`     | No igual a      | `status != "inactive"` |
+| `!`      | NO lógico       | `!isCompleted`         |
+| `<`      | Menor que       | `count < 10`           |
+| `>`      | Mayor que       | `price > 99.99`        |
+| `<=`     | Menor o igual a | `battery <= 20`        |
+| `>=`     | Mayor o igual a | `confidence >= 0.95`   |
+| `&&`     | AND lógico      | `isAdmin && isActive`  |
+| `        |                 | `                      | OR lógico | `isError |     | isWarning` |
+
+## Variables de Condición
+
+Cuando un canal se activa a través de webhook, puedes acceder a:
+
+1. **Parámetros de consulta** de la URL
+2. **Cuerpo JSON** de solicitudes POST
+3. **Encabezados HTTP** a través del objeto `header`
+
+Para activadores de correo electrónico, puedes acceder a:
+
+- `from`: La dirección del remitente del correo
+- `to`: La dirección del destinatario
+- `subject`: La línea de asunto del correo
+- `text`: El contenido de texto plano
+- `html`: El contenido HTML
+
+## Mejores Prácticas
+
+1. **Comienza simple** - Empieza con condiciones básicas y añade complejidad según sea necesario
+2. **Prueba exhaustivamente** - Prueba tus condiciones con varias entradas para asegurar que funcionen como se espera
+3. **Documenta tus condiciones** - Añade comentarios en el campo de notas de tu canal para explicar condiciones complejas
+4. **Considera casos extremos** - Ten en cuenta variables faltantes o valores inesperados
+
+## Ejemplos
+
+### Alertar solo para errores específicos
+
+```
+errorType == "database" && severity == "high"
+```
+
+### Notificar solo durante horas de trabajo
+
+```
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+### Filtrar por tipo de usuario
+
+```
+userType == "admin" || userRole == "supervisor"
+```
+
+### Comprobar origen de la solicitud
+
+```
+header["origin"] == "https://trusted-site.com" || header["referer"].includes("trusted-domain.com")
+```
+
+### Monitorizar violaciones de umbral
+
+```
+metricValue > threshold && isMonitoring == true
+```
+
+Al usar las condiciones de manera efectiva, puedes reducir el ruido de las notificaciones y asegurar que los suscriptores reciban solo las alertas que son relevantes y procesables para ellos.

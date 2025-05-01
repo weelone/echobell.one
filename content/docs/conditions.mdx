@@ -1,0 +1,162 @@
+---
+title: Conditions
+description: Understanding how channel conditions work in Echobell
+---
+
+# Channel Conditions
+
+Channel conditions are powerful expressions that determine when notifications should be sent. By setting conditions on your channel, you can filter notifications based on the content of variables or HTTP headers, ensuring subscribers only receive relevant alerts.
+
+## Understanding Conditions
+
+Conditions are expressions that evaluate to either `true` or `false`. When a channel is triggered:
+
+- If conditions are **not set** (empty), notifications are sent to all subscribers.
+- If conditions are **set**, notifications are only sent when the expression evaluates to `true`.
+
+## Writing Conditions
+
+Conditions are written as expressions without the `{{}}` wrappers that are used in templates. For example:
+
+```
+status == "active"
+```
+
+This condition will only allow notifications to be sent when the `status` variable equals "active".
+
+## Common Use Cases
+
+Here are some practical examples of how you might use conditions:
+
+### Basic Variable Checks
+
+```
+amount > 100
+```
+
+Only notify when the "amount" variable is greater than 100.
+
+```
+message != ""
+```
+
+Only notify when the "message" variable is not empty.
+
+```
+isUrgent == true
+```
+
+Only notify when the "isUrgent" variable is true.
+
+### Checking HTTP Headers
+
+You can access HTTP headers using the special `header` variable:
+
+```
+header["user-agent"].includes("Mozilla")
+```
+
+Only notify when the request comes from a Mozilla browser.
+
+```
+header["content-type"] == "application/json"
+```
+
+Only notify when the content type is JSON.
+
+```
+header["x-priority"] == "high"
+```
+
+Only notify when a custom priority header is set to "high".
+
+<Callout type="info">All the keys in headers are lowercase.</Callout>
+
+### Complex Conditions
+
+You can combine multiple conditions using logical operators:
+
+```
+(temperature > 30 || pressure > 100) && status == "monitoring"
+```
+
+Only notify when either temperature exceeds 30 or pressure exceeds 100, and the status is "monitoring".
+
+```
+environment == "production" && (errorLevel == "critical" || errorLevel == "high")
+```
+
+Only notify for critical or high-level errors in the production environment.
+
+## Supported Operators
+
+The following operators are supported in condition expressions:
+
+| Operator | Description              | Example                |
+| -------- | ------------------------ | ---------------------- | ---------- | -------- | --- | ---------- |
+| `==`     | Equal to                 | `status == "active"`   |
+| `!=`     | Not equal to             | `status != "inactive"` |
+| `!`      | Logical NOT              | `!isCompleted`         |
+| `<`      | Less than                | `count < 10`           |
+| `>`      | Greater than             | `price > 99.99`        |
+| `<=`     | Less than or equal to    | `battery <= 20`        |
+| `>=`     | Greater than or equal to | `confidence >= 0.95`   |
+| `&&`     | Logical AND              | `isAdmin && isActive`  |
+| `        |                          | `                      | Logical OR | `isError |     | isWarning` |
+
+## Condition Variables
+
+When a channel is triggered via webhook, you can access:
+
+1. **Query parameters** from the URL
+2. **JSON body** from POST requests
+3. **HTTP headers** via the `header` object
+
+For email triggers, you can access:
+
+- `from`: The email sender address
+- `to`: The recipient address
+- `subject`: The email subject line
+- `text`: The plain text body content
+- `html`: The HTML body content
+
+## Best Practices
+
+1. **Start simple** - Begin with basic conditions and add complexity as needed
+2. **Test thoroughly** - Test your conditions with various inputs to ensure they work as expected
+3. **Document your conditions** - Add comments in your channel's note field to explain complex conditions
+4. **Consider edge cases** - Account for missing variables or unexpected values
+
+## Examples
+
+### Alert only for specific errors
+
+```
+errorType == "database" && severity == "high"
+```
+
+### Notify only during business hours
+
+```
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+### Filter by user type
+
+```
+userType == "admin" || userRole == "supervisor"
+```
+
+### Check request origin
+
+```
+header["origin"] == "https://trusted-site.com" || header["referer"].includes("trusted-domain.com")
+```
+
+### Monitor threshold violations
+
+```
+metricValue > threshold && isMonitoring == true
+```
+
+By using conditions effectively, you can reduce notification noise and ensure that subscribers only receive alerts that are relevant and actionable for them.
