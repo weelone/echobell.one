@@ -80,6 +80,7 @@ Webhook を通じてトリガーする場合、以下の方法で変数を提供
 
 3. **特別な変数**：
    - `externalLink`：通知レコード内でクリック可能なリンクを提供します
+   - `bodyAsText`: `Content-Type` が `text/plain` の場合のリクエストボディのプレーンテキストコンテンツ
    - `header`：HTTP リクエストヘッダーへのアクセスを提供します（例：`{{header["content-type"]}}`)
 
 ### メールトリガー

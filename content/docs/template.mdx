@@ -80,6 +80,7 @@ When triggering via webhook, you can provide variables through:
 
 3. **Special variables**:
    - `externalLink`: Provides a clickable link in notification records
+   - `bodyAsText`: The plain text content of the request body if `Content-Type` is `text/plain`
    - `header`: Gives access to HTTP request headers (e.g., `{{header["content-type"]}}`)
 
 ### Email Triggers

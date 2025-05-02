@@ -79,7 +79,9 @@ Echobell 模板支持多种表达式，适用于更复杂的场景：
    ```
 
 3. **特殊变量**：
+
    - `externalLink`：在通知记录中提供可点击链接
+   - `bodyAsText`: 如果 `Content-Type` 是 `text/plain`，则为请求正文的纯文本内容
    - `header`：提供对 HTTP 请求头的访问（例如，`{{header["content-type"]}}`)
 
 ### 电子邮件触发器

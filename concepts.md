@@ -31,6 +31,7 @@ A link to trigger a channel. Once it is called, the channel will be triggered.
 You can pass variables to the [templates](#templates) through Json Body or Query String. And there is a special variable:
 
 - `externalLink`: If you pass a link with this variable name, it will be displayed as a link on the records.
+- `bodyAsText`: The body content if the `Content-Type` is `text/plain`.
 - `header`: The header content of the http request, can be retrieved by template as `{{header["content-type"]}}`.
 
 #### Email

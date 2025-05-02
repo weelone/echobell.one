@@ -80,6 +80,7 @@ Lors du déclenchement via webhook, vous pouvez fournir des variables via :
 
 3. **Variables spéciales** :
    - `externalLink` : Fournit un lien cliquable dans les enregistrements de notification
+   - `bodyAsText`: Le contenu en texte brut du corps de la requête si `Content-Type` est `text/plain`
    - `header` : Donne accès aux en-têtes de requête HTTP (par exemple, `{{header["content-type"]}}`)
 
 ### Déclencheurs Email
