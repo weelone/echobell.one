@@ -3,7 +3,7 @@ import type { Metadata } from "next/types";
 export function createMetadata(override: Metadata): Metadata {
   return {
     itunes: {
-      appId: "id6743597198",
+      appId: "6743597198",
     },
     ...override,
     openGraph: {
