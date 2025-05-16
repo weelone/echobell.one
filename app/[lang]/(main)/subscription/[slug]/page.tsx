@@ -43,6 +43,12 @@ export default async function SubscriptionPage({
               <p className="font-medium text-pretty opacity-60">
                 {channel.bodyTemplate}
               </p>
+              {channel.note && (
+                <div className="font-medium text-pretty opacity-60 mt-4 flex">
+                  <div className="w-1 rounded-full bg-foreground mr-2" />
+                  <p>{channel.note}</p>
+                </div>
+              )}
             </div>
             <a
               className="w-full block mt-4 bg-orange-500 text-white py-2 rounded-lg text-center"
