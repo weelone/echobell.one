@@ -1,3 +1,7 @@
+---
+applyTo: "content/**"
+---
+
 # Concepts of Echobell
 
 Echobell is an instant alert app that can handle webhooks or emails, and then trigger notifications or calls to notify users. You can also subscribe to channels created by other users and get notified when a channel has been triggered.
@@ -11,9 +15,9 @@ Only the data of users, channels, and subscriptions of channels are stored on ou
 A notification channel that, once triggered, will send a notification to all subscribers.
 
 - `Name` and `Color`, used for identifying different channels.
-- [`Notification Templates`](#templates), includes a `Title template` and a `Body template`, which will be rendered with `Variables` and sent to subscribers as the title and body content for the notification.
-- [`Notification Type`](#notification-type), when subscribing to a channel, you can choose a notification type, which indicates which form of notification will be sent to you when the channel is triggered.
-- [`Trigger`](#trigger), a method for triggering a channel to send notifications. You can copy them from the channel detail view.
+- [`Notification Templates`], includes a `Title template` and a `Body template`, which will be rendered with `Variables` and sent to subscribers as the title and body content for the notification.
+- [`Notification Type`], when subscribing to a channel, you can choose a notification type, which indicates which form of notification will be sent to you when the channel is triggered.
+- [`Trigger`], a method for triggering a channel to send notifications. You can copy them from the channel detail view.
 - `Subscription Link`, you can share subscription link to others let them to subscribe to the channel. You can copy from or share thought the channel detail view.
 
 #### Advanced Settings
@@ -28,7 +32,7 @@ A notification channel that, once triggered, will send a notification to all sub
 
 A link to trigger a channel. Once it is called, the channel will be triggered.
 
-You can pass variables to the [templates](#templates) through Json Body or Query String. And there is a special variable:
+You can pass variables to the [templates] through Json Body or Query String. And there is a special variable:
 
 - `externalLink`: If you pass a link with this variable name, it will be displayed as a link on the records.
 - `bodyAsText`: The body content if the `Content-Type` is `text/plain`.
