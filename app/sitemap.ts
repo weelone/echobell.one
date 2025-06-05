@@ -35,6 +35,46 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.8,
         } as const)
     ),
+    ...getLocalizedUrls("/features/webhooks").map(
+      (item) =>
+        ({
+          url: url(item),
+          changeFrequency: "monthly",
+          priority: 0.8,
+        } as const)
+    ),
+    ...getLocalizedUrls("/features/email-triggers").map(
+      (item) =>
+        ({
+          url: url(item),
+          changeFrequency: "monthly",
+          priority: 0.8,
+        } as const)
+    ),
+    ...getLocalizedUrls("/features/call-notifications").map(
+      (item) =>
+        ({
+          url: url(item),
+          changeFrequency: "monthly",
+          priority: 0.8,
+        } as const)
+    ),
+    ...getLocalizedUrls("/features/channels").map(
+      (item) =>
+        ({
+          url: url(item),
+          changeFrequency: "monthly",
+          priority: 0.8,
+        } as const)
+    ),
+    ...getLocalizedUrls("/features/templates").map(
+      (item) =>
+        ({
+          url: url(item),
+          changeFrequency: "monthly",
+          priority: 0.8,
+        } as const)
+    ),
     ...languages.flatMap((lang) => {
       return source.getPages(lang).map((page) => {
         const lastModified = page.data.lastModified;

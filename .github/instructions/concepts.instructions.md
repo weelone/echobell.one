@@ -1,5 +1,5 @@
 ---
-applyTo: "content/**"
+applyTo: "**"
 ---
 
 # Concepts of Echobell
