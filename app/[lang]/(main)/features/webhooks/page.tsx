@@ -54,7 +54,7 @@ export default async function WebhooksPage({
                             {step.title}
                           </h3>
                         </div>
-                        <p className="text-sm/6 opacity-60 opacity-80">
+                        <p className="text-sm/6 opacity-60">
                           {step.description}
                         </p>
                       </div>
