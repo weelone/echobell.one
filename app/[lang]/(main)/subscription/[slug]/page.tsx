@@ -2,12 +2,12 @@ import { fetchChannelBySubscriptionToken } from "@/app/actions/channel";
 import { APP_STORE_LINK } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
-
-import { uiDictionary } from "@/lib/i18n";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { Language, uiDictionary } from "@/lib/i18n";
 
 interface SubscriptionPageProps {
   params: Promise<{
-    lang: string;
+    lang: Language;
     slug: string;
   }>;
 }
@@ -21,6 +21,7 @@ export default async function SubscriptionPage({
 
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8">
+      <Breadcrumb lang={lang} />
       <div className="mx-auto max-w-2xl py-32 sm:py-42 lg:py-52">
         {channel ? (
           <>

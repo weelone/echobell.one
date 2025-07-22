@@ -26,6 +26,20 @@ export async function generateMetadata({
     description: t.description,
     metadataBase: baseUrl,
     keywords: t.keywords,
+    alternates: {
+      canonical: lang === "en" ? "/" : `/${lang}`,
+      languages: {
+        en: "/",
+        zh: "/zh",
+        es: "/es",
+        fr: "/fr",
+        ja: "/ja",
+        de: "/de",
+      },
+    },
+    openGraph: {
+      locale: lang,
+    },
   });
 }
 

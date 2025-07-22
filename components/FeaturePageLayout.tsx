@@ -1,6 +1,7 @@
 import { Language, uiDictionary } from "@/lib/i18n";
 import Link from "next/link";
 import CTASection from "./CTASection";
+import { Breadcrumb } from "./Breadcrumb";
 
 interface FeaturePageLayoutProps {
   lang: Language;
@@ -17,6 +18,11 @@ export default function FeaturePageLayout({
 
   return (
     <div className="min-h-screen">
+      {/* Breadcrumb */}
+      <div className="container mx-auto px-6 pt-20">
+        <Breadcrumb lang={lang} />
+      </div>
+      
       {/* Hero Section */}
       <div className="relative isolate overflow-hidden px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-6xl py-24 sm:py-32">

@@ -8,6 +8,7 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { Language, uiDictionary } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
 import { createMetadata } from "@/lib/metadata";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
 export default async function Page(props: {
   params: Promise<{ lang: Language; slug: string }>;
@@ -24,6 +25,7 @@ export default async function Page(props: {
   return (
     <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="mx-auto max-w-7xl">
+        <Breadcrumb lang={params.lang} />
         <div className="container px-0">
           <h2 className="text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl">
             {page.data.title}
