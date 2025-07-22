@@ -1,0 +1,392 @@
+---
+title: App Store Connect Webhook統合
+description: App Store ConnectのWebhookをEchobellと統合して、アプリステータスの即座通知とTestFlightフィードバックアラートを受け取る方法を学びます
+---
+
+# App Store Connect Webhook 統合
+
+App Store Connect は、アプリのステータス変更と TestFlight フィードバックに関するリアルタイム通知を直接サーバーに送信する Webhook 機能を提供しています。App Store Connect の Webhook を Echobell と統合することで、iOS アプリで重要なイベントが発生するたびに、モバイルデバイスで即座に通知を受け取ることができます。
+
+<Callout type="info">
+  App Store ConnectのWebhookは、Account Holder、Admin、またはApp
+  Managerの役割を持つ開発者が利用できます。各Webhookは1つのアプリにのみ適用でき、アプリごとに最大10個のWebhookを作成できます。
+</Callout>
+
+## 前提条件
+
+- 少なくとも 1 つのチャンネルが作成された Echobell アカウント
+- Account Holder、Admin、または App Manager の役割での App Store Connect へのアクセス
+- App Store Connect でアクティブな iOS アプリ
+- Echobell の Webhook URL（チャンネル設定で利用可能）
+
+## 監視できる内容
+
+App Store Connect の Webhook は以下について通知できます：
+
+1. **アプリバージョンのステータス変更**
+
+   - アプリ提出ステータスの更新
+   - アプリレビューの承認または拒否
+   - App Store でのアプリリリース
+   - 本番環境に移行するバージョン更新
+
+2. **TestFlight イベント**
+   - ベータテスターからの新しい TestFlight フィードバック
+   - ビルド処理の完了
+   - テスター招待ステータスの変更
+
+## セットアップ概要
+
+1. Echobell チャンネルの作成と設定
+2. App Store Connect イベント用の通知テンプレートの設定
+3. Echobell の Webhook URL の取得
+4. App Store Connect での Webhook の作成と設定
+5. 統合のテスト
+
+## ステップバイステップガイド
+
+### 1. Echobell チャンネルの作成
+
+1. Echobell アプリを開く
+2. 新しいチャンネルを作成（例：「App Store Connect」）
+3. 簡単に識別できるよう、特徴的な色とアイコンを選択
+4. アプリステータス通知を受け取るべきチームメンバーを追加
+
+### 2. 通知テンプレートの設定
+
+App Store Connect イベントを効果的にフォーマットするテンプレートを設定：
+
+**タイトルテンプレート：**
+
+```
+[{{app.name}}] {{eventType}} - {{status}}
+```
+
+**本文テンプレート：**
+
+```
+📱 アプリ: {{app.name}}
+🔄 イベント: {{eventType}}
+📊 ステータス: {{status}}
+⏰ 時刻: {{eventDate}}
+💬 メッセージ: {{message}}
+🔗 App Store Connectで表示
+```
+
+### 3. Echobell の Webhook URL の取得
+
+1. Echobell チャンネル設定で、**トリガー**セクションに移動
+2. 提供された Webhook URL をコピー
+3. App Store Connect で設定されるため、この URL を安全に保管
+
+### 4. App Store Connect Webhook の設定
+
+[Apple の公式ドキュメント](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/)に従って、以下の手順を実行：
+
+#### Webhook の作成
+
+1. [App Store Connect](https://appstoreconnect.apple.com/)にサインイン
+2. **ユーザーとアクセス**に移動
+3. サイドバーの**統合**をクリック
+4. **追加**の下で、**Webhooks**をクリック
+5. Webhooks の横にある追加ボタン（+）をクリック
+6. Webhook を設定：
+   - **名前**：説明的な名前を入力（例：「Echobell 通知」）
+   - **ペイロード URL**：Echobell の Webhook URL を貼り付け
+   - **シークレット**：認証用の安全なシークレット文字列を作成
+   - **アプリ**：監視したいアプリを選択
+   - **イベントトリガー**：通知を受け取りたいイベントを選択
+
+#### 利用可能なイベントトリガー
+
+監視ニーズに基づいて、これらのイベントタイプから選択：
+
+**アプリバージョンイベント：**
+
+- **App Store Version State Changed**：アプリのレビューステータスが変更されたとき
+- **App Store Version Released**：アプリバージョンが App Store でリリースされたとき
+
+**TestFlight イベント：**
+
+- **TestFlight Beta Feedback**：ベータテスターがフィードバックを提出したとき
+- **TestFlight Beta Review State Changed**：TestFlight レビューステータスが変更されたとき
+
+7. **追加**をクリックして Webhook を作成
+
+### 5. 統合のテスト
+
+1. Webhook を作成した後、App Store Connect の組み込みテスト機能を使用：
+
+   - Webhook リストで、新しく作成した Webhook をクリック
+   - 右上角の**テスト**をクリック
+   - テスト Ping が Echobell チャンネルに送信される
+
+2. イベントタイプ「Ping」のテスト通知を Echobell で受信するはず
+
+## 高度な設定
+
+### Webhook セキュリティ
+
+セキュリティを強化し、Webhook の信頼性を検証するため：
+
+1. **HTTPS を使用**：Echobell の Webhook URL はデフォルトで HTTPS を使用
+2. **シークレット検証**：設定したシークレットを使用して受信リクエストを検証
+3. **IP 許可リスト**：Apple の Webhook 配信 IP レンジの許可リストを検討
+
+### カスタム通知テンプレート
+
+異なるイベントタイプに基づいてテンプレートをカスタマイズ：
+
+**アプリステータス変更用：**
+
+- タイトルテンプレート:
+
+```
+[{{app.name}}] アプリ {{eventType}}
+```
+
+- 本文テンプレート:
+
+```
+🍎 あなたのアプリ「{{app.name}}」のステータスが変更されました！
+
+📊 ステータス: {{status}}
+📅 日付: {{eventDate}}
+```
+
+- リンクテンプレート:
+
+```
+{{app.url}}
+```
+
+**TestFlight フィードバック用：**
+
+- タイトルテンプレート:
+
+```
+[{{app.name}}] 新しいTestFlightフィードバック
+```
+
+- 本文テンプレート:
+
+```
+📱 アプリ: {{app.name}}
+👤 テスター: {{tester.name}}
+⭐ 評価: {{rating}}/5
+💬 フィードバック: {{feedback}}
+📱 デバイス: {{device}}
+```
+
+- リンクテンプレート:
+
+```
+{{feedbackUrl}}
+```
+
+### 複数アプリの管理
+
+複数のアプリを管理するチーム向け：
+
+1. **各アプリやアプリカテゴリごとに個別のチャンネルを作成**
+2. **説明的な命名規則を使用**（例：「MyApp - 本番」、「MyApp - ベータ」）
+3. **異なるアプリに対して異なる通知スケジュールを設定**
+4. **役割ベースのチャンネル購読を設定**
+
+## Webhook ペイロード構造
+
+App Store Connect は JSON 形式で Webhook ペイロードを送信します。典型的な構造は以下の通り：
+
+```json
+{
+  "eventType": "APP_STORE_VERSION_STATE_CHANGED",
+  "apiVersion": "v1",
+  "eventId": "12345678-1234-1234-1234-123456789012",
+  "eventDate": "2025-01-15T10:30:00Z",
+  "data": {
+    "app": {
+      "id": "1234567890",
+      "name": "私の素晴らしいアプリ",
+      "bundleId": "com.example.myapp"
+    },
+    "appStoreVersion": {
+      "id": "987654321",
+      "versionString": "1.2.0",
+      "appStoreState": "READY_FOR_SALE"
+    }
+  }
+}
+```
+
+## Webhook の管理
+
+### Webhook 配信の表示
+
+App Store Connect で Webhook のパフォーマンスを監視：
+
+1. **ユーザーとアクセス** → **統合** → **Webhooks**に移動
+2. Webhook をクリック
+3. **最近の配信**セクションを確認して以下を表示：
+   - イベント ID とタイプ
+   - 配信ステータス（成功、保留、失敗）
+   - 作成日
+   - レスポンス詳細
+
+### Webhook 配信ステータス
+
+| ステータス | 説明                                   |
+| ---------- | -------------------------------------- |
+| 成功       | Webhook が Echobell に正常に配信された |
+| 保留       | Webhook が配信処理中                   |
+| 失敗       | Webhook 配信が失敗（再送信可能）       |
+
+### 失敗した配信の再送信
+
+Webhook 配信が失敗した場合：
+
+1. 最近の配信テーブルで、失敗した配信を特定
+2. 失敗したイベントの横にある**再送信**をクリック
+3. 新しい配信試行が実行される
+
+### Webhook 設定の変更
+
+Webhook 設定はいつでも更新可能：
+
+1. 変更したい Webhook をクリック
+2. 名前、シークレット、ペイロード URL、またはイベントトリガーを更新
+3. **保存**をクリック
+4. 変更は即座に有効になる
+
+### Webhook の一時的な無効化
+
+Webhook を削除せずに通知を一時停止するには：
+
+1. Webhook をクリック
+2. **Webhook をオフにする**をクリック
+3. **確認**をクリック
+4. 再有効化するには、**Webhook をオンにする**をクリック
+
+## 使用例と事例
+
+### 開発チームワークフロー
+
+**シナリオ 1：アプリリリース監視**
+
+- アプリが「レビュー中」から「販売準備完了」に移行するときを監視
+- 新しいバージョンがユーザーに利用可能になったときの即座通知
+- 提出とレビュープロセス全体を追跡
+
+**シナリオ 2：TestFlight ベータ管理**
+
+- ベータテスターからの即座フィードバック受信
+- ベータビルド処理ステータスの監視
+- テスターエンゲージメントとフィードバックトレンドの追跡
+
+**シナリオ 3：マルチアプリポートフォリオ管理**
+
+- 異なるアプリに対して個別のチャンネルを設定
+- チームメンバーに対して役割ベースの通知を設定
+- ステークホルダー向けサマリーレポートの作成
+
+### 通知戦略
+
+**小規模チーム向け：**
+
+- すべてのアプリイベント用の単一チャンネル
+- すべてのチームメンバーを含める
+- 完全なコンテキストを含む詳細テンプレートを使用
+
+**大規模組織向け：**
+
+- アプリと環境別の個別チャンネル
+- 役割ベースのチャンネルアクセス（開発者、QA、マーケティング）
+- 重要なイベント用のエスカレーションチャンネル
+
+## トラブルシューティング
+
+### 一般的な問題
+
+**通知を受信しない：**
+
+1. **Webhook URL の確認**：Echobell の Webhook URL が正しく設定されていることを確認
+2. **イベントトリガーの確認**：適切なイベントタイプを選択していることを確認
+3. **配信ステータスの確認**：App Store Connect の最近の配信でエラーを確認
+4. **チャンネルステータスの検証**：Echobell チャンネルがアクティブであることを確認
+5. **購読の確認**：チームメンバーがチャンネルを購読していることを確認
+
+**Webhook 認証エラー：**
+
+1. **シークレットの不一致**：App Store Connect で設定したシークレットが期待と一致することを確認
+2. **URL 到達可能性**：Echobell の Webhook URL が公開アクセス可能であることを確認
+3. **SSL 証明書**：HTTPS 接続が正常に動作することを確認
+
+**イベントデータの欠落：**
+
+1. **テンプレート変数**：通知テンプレートが正しい変数名を使用していることを確認
+2. **イベントタイプフィルタリング**：正しいイベントタイプを購読していることを確認
+3. **ペイロード解析**：利用可能なデータフィールドの Webhook ペイロード構造を確認
+
+### Webhook のテスト
+
+**App Store Connect テスト機能の使用：**
+
+1. App Store Connect で Webhook に移動
+2. **テスト**ボタンをクリック
+3. Echobell で Ping 通知を受信することを確認
+
+**手動テスト：**
+
+1. アプリ更新または TestFlight ビルドを提出
+2. Webhook 配信ステータスを監視
+3. 適切なフォーマットの Echobell 通知を確認
+
+### レート制限とパフォーマンス
+
+- App Store Connect は Webhook 配信にレート制限を実装する場合がある
+- Echobell は遅延を最小化するため Webhook 処理を効率的に処理
+- 複数の Webhook を設定する際は通知頻度を考慮
+
+## ベストプラクティス
+
+### セキュリティ
+
+1. **Webhook URL を非公開に保つ**：Echobell の Webhook URL を公開で共有しない
+2. **強力なシークレットを使用**：Webhook 認証用に複雑でユニークなシークレットを作成
+3. **配信ログの監視**：Webhook 配信ステータスを定期的に確認
+4. **シークレットの定期的なローテーション**：セキュリティのため Webhook シークレットを定期的に更新
+
+### 組織
+
+1. **一貫した命名**：Webhook とチャンネルにクリアで説明的な名前を使用
+2. **ドキュメント化**：チーム参照用に Webhook 設定をドキュメント化
+3. **チャンネル組織**：関連する通知を適切なチャンネルにグループ化
+4. **アクセス制御**：チーム役割に基づいてチャンネル購読を管理
+
+### 監視
+
+1. **定期的なヘルスチェック**：Webhook が動作していることを定期的にテスト
+2. **パフォーマンス監視**：Webhook 配信成功率を追跡
+3. **エラーアラート**：Webhook 配信失敗の通知を設定
+4. **容量計画**：通知ボリュームを監視し、それに応じて調整
+
+## API 統合
+
+高度な使用例では、[App Store Connect API](https://developer.apple.com/documentation/appstoreconnectapi/)を使用して Webhook をプログラム的に管理することも可能です。これにより以下が可能になります：
+
+- 新しいアプリ用の Webhook 作成の自動化
+- Webhook 設定のプログラム的更新
+- CI/CD パイプラインへの Webhook 管理の統合
+- Webhook パフォーマンスメトリクスの監視
+
+## 関連リソース
+
+- [Apple の Webhook 公式ドキュメント](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/)
+- [App Store Connect API ドキュメント](https://developer.apple.com/documentation/appstoreconnectapi/)
+- [TestFlight ベータテストガイド](https://developer.apple.com/testflight/)
+- [App Store レビューガイドライン](https://developer.apple.com/app-store/review/guidelines/)
+
+## まとめ
+
+App Store Connect の Webhook を Echobell と統合することで、アプリステータスと TestFlight フィードバックのリアルタイム可視性が提供されます。この統合により、開発チームは重要なアプリイベントについて情報を得て、レビューフィードバックに迅速に対応し、アプリ開発ライフサイクル全体を通じてより良いコミュニケーションを維持することができます。
+
+App Store Connect の信頼性の高い Webhook 配信と Echobell の柔軟な通知システムの組み合わせにより、あらゆる規模の iOS アプリ開発者とチームにとって強力な監視ソリューションが生まれます。
