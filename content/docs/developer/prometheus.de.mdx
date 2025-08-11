@@ -1,0 +1,179 @@
+---
+title: Prometheus- & Alertmanager-Integration
+description: Richten Sie Prometheus Alertmanager ein, um Alarme per Webhook oder E-Mail an Echobell zu senden
+---
+
+# Prometheus-Integration
+
+Prometheus mit Alertmanager ist ein weit verbreiteter Open-Source-Monitoring- und Alerting-Stack. Durch die Integration des Alertmanagers mit Echobell erhalten Sie sofortige mobile Benachrichtigungen (inklusive zeitkritischer oder Anruf-Benachrichtigungen), sobald Ihre Alarmregeln auslösen.
+
+## Voraussetzungen
+
+- Ein Echobell-Konto mit mindestens einem angelegten Kanal
+- Eine laufende Prometheus- + Alertmanager-Installation
+- Zugriff auf die Bearbeitung der Alertmanager-Konfiguration (alertmanager.yml)
+
+## Überblick
+
+1. Echobell-Kanal erstellen
+2. Benachrichtigungsvorlagen (und optional Link-Vorlage) konfigurieren
+3. Integrationsmethode wählen:
+   - Webhook über Alertmanager-Webhook-Receiver (empfohlen)
+   - E-Mail über Alertmanager-E-Mail-Receiver (Alternative)
+4. Alarmregeln anlegen oder aktualisieren
+5. Testen und verfeinern
+
+## Schritt-für-Schritt
+
+### 1) Echobell-Kanal erstellen
+
+1. Echobell-App öffnen
+2. Neuen Kanal erstellen (z. B. „Prometheus Alerts“)
+3. Eine Farbe zur besseren Erkennung wählen
+
+### 2) Vorlagen konfigurieren
+
+Die Webhook-Nutzlast des Alertmanagers enthält strukturierte Felder wie status, commonLabels, commonAnnotations, externalURL sowie ein alerts-Array. Sie können diese in Echobell-Vorlagen direkt referenzieren.
+
+Vorschläge:
+
+Titelvorlage:
+
+```
+{{commonLabels.alertname}} - {{status}}
+```
+
+Textvorlage:
+
+```
+🔔 Alarm: {{commonLabels.alertname}}
+📊 Schweregrad: {{commonLabels.severity}}
+🖥️ Instance: {{alerts[0].labels["instance"]}}
+⏰ Start: {{alerts[0].startsAt}}
+ℹ️ Zusammenfassung: {{commonAnnotations.summary}}
+🧾 Beschreibung: {{commonAnnotations.description}}
+```
+
+Optionale Link-Vorlage (Erweitert):
+
+```
+{{alerts[0].generatorURL || externalURL}}
+```
+
+Damit erscheint im Datensatz ein direkter Link zur Graph-/Dashboard-Ansicht. Falls generatorURL fehlt, wird externalURL verwendet.
+
+### 3) Methode A — Webhook (empfohlen)
+
+1. Im Echobell-Kanal die Webhook-URL aus „Triggers“ kopieren
+2. Im Alertmanager einen Webhook-Receiver konfigurieren, der auf diese URL postet
+
+Minimalbeispiel alertmanager.yml:
+
+```yaml
+route:
+  receiver: echobell-webhook
+
+receivers:
+  - name: echobell-webhook
+    webhook_configs:
+      - url: "https://hook.echobell.one/t/REPLACE_WITH_YOUR_TOKEN"
+        send_resolved: true
+        http_config:
+          follow_redirects: true
+```
+
+Hinweise:
+
+- send_resolved: true benachrichtigt auch, wenn Alarme wieder „resolved“ sind
+- Echobell verarbeitet die JSON-Nutzlast direkt, die obigen Vorlagen rendern korrekt
+
+### 3 alt) Methode B — E-Mail (Alternative)
+
+Falls E-Mail bevorzugt/erforderlich ist, nutzen Sie den E-Mail-Receiver des Alertmanagers und senden Sie an die dem Kanal zugeordnete E-Mail-Adresse.
+
+1. In Echobell die Kanal-E-Mail aus „Triggers“ kopieren
+2. Im Alertmanager einen E-Mail-Receiver konfigurieren und einfache Templates nutzen
+
+Beispiel:
+
+```yaml
+receivers:
+  - name: echobell-email
+    email_configs:
+      - to: "KANAL_EMAIL_EINFÜGEN"
+        send_resolved: true
+        subject: "{{ .CommonLabels.alertname }} - {{ .Status }}"
+        html: |
+          <p><strong>Zusammenfassung:</strong> {{ .CommonAnnotations.summary }}</p>
+          <p>{{ .CommonAnnotations.description }}</p>
+          <p>
+            <a href='{{ (index .Alerts 0).GeneratorURL }}' target='_blank' rel='noopener'>In Prometheus öffnen</a>
+          </p>
+```
+
+In Echobell-Vorlagen für E-Mail-Trigger können Sie Variablen wie subject, text und html verwenden, die Echobell automatisch bereitstellt.
+
+### 4) Beispiel-Alarmregel
+
+```yaml
+groups:
+  - name: example
+    rules:
+      - alert: HighCPU
+        expr: avg(rate(process_cpu_seconds_total[5m])) > 0.8
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Hohe CPU-Auslastung"
+          description: "CPU war 2 Minuten über 80%"
+```
+
+Wenn dieser Alarm auslöst, sendet der Alertmanager das Ereignis an den konfigurierten Receiver und Echobell benachrichtigt die Abonnenten des Kanals.
+
+## Test
+
+1. Schwellenwerte vorübergehend senken oder einen schnell auslösenden Testalarm erstellen
+2. Prüfen, ob eine Echobell-Benachrichtigung eintrifft
+3. Bei Link-Vorlage den Link im Datensatz öffnen
+4. Alarm auf „resolved“ setzen und Bestätigung erhalten (falls aktiviert)
+
+## Benachrichtigungstypen
+
+- Time Sensitive: kritische Produktionsausfälle, Paging-Vorfälle
+- Calling: schwere Ausfälle, die Fokusmodi durchbrechen müssen
+- Normal: Routinewarnungen oder Informationsmeldungen
+
+## Best Practices
+
+1. Vorlagen kurz, aber informativ halten (Name, Schweregrad, Instance, Summary)
+2. Link-Vorlage nutzen, um direkt zur relevanten Ansicht zu springen
+3. Alerts im Alertmanager gruppieren/roouten, um Rauschen zu vermeiden
+4. Schweregrade labeln und passende Echobell-Typen wählen
+5. Webhook-URL wie ein Geheimnis behandeln; bei Leckage rotieren
+
+## Fehlerbehebung
+
+- Webhook-URL oder Kanal-E-Mail prüfen
+- Kanal in Echobell aktiv? Abonnenten vorhanden?
+- Alertmanager-Logs auf Zustellfehler prüfen
+- Route in alertmanager.yml zeigt auf den erwarteten Receiver?
+- Mit einfacher Testrule gegenprüfen
+- Bei E-Mail: SMTP-Funktion und Zustellung sicherstellen
+
+## Datenschutz
+
+- Inhalte bleiben auf Ihren Geräten
+- Auf Servern werden nur minimale Konfigurationsdaten gespeichert
+- Webhook-URLs und Kanal-E-Mails geheim halten
+- Echobell speichert Ihre Alert-Payloads nicht dauerhaft
+
+## Ressourcen
+
+- [Prometheus-Dokumentation](https://prometheus.io/docs/introduction/overview/)
+- [Alertmanager-Konfiguration](https://prometheus.io/docs/alerting/latest/configuration/)
+- [Alerting-Regeln](https://prometheus.io/docs/alerting/latest/alerting_rules/)
+- [Echobell Webhook](/de/docs/webhook)
+- [Vorlagen](/de/docs/notification)
+- [Bedingungen & Link-Vorlage](/de/docs/conditions)
+- [Support](/de/docs/support)

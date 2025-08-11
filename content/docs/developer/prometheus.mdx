@@ -1,0 +1,185 @@
+---
+title: Prometheus & Alertmanager Integration
+description: Set up Prometheus Alertmanager to send alerts to Echobell via webhook or email
+---
+
+# Prometheus Integration
+
+Prometheus with Alertmanager is a widely used open-source monitoring and alerting stack. By integrating Alertmanager with Echobell, you can receive instant mobile notifications (including time-sensitive or call-style alerts) whenever your alert rules fire.
+
+## Prerequisites
+
+- An Echobell account with at least one channel created
+- A running Prometheus + Alertmanager setup
+- Access to edit your Alertmanager configuration (alertmanager.yml)
+
+## Setup Overview
+
+1. Create an Echobell channel
+2. Configure notification templates (and optional Link Template)
+3. Choose an integration method:
+   - Webhook via Alertmanager webhook receiver (recommended)
+   - Email via Alertmanager email receiver (alternative)
+4. Create or update alert rules
+5. Test and refine
+
+## Step-by-Step Guide
+
+### 1) Create an Echobell Channel
+
+1. Open the Echobell app
+2. Create a new channel (e.g., "Prometheus Alerts")
+3. Pick a color for easy identification
+
+### 2) Configure Notification Templates
+
+Alertmanager’s webhook payload contains structured fields like status, commonLabels, commonAnnotations, externalURL and an alerts array. You can reference these fields directly in Echobell templates.
+
+Suggested templates:
+
+Title template:
+
+```
+{{commonLabels.alertname}} - {{status}}
+```
+
+Body template:
+
+```
+🔔 Alert: {{commonLabels.alertname}}
+📊 Severity: {{commonLabels.severity}}
+🖥️ Instance: {{alerts[0].labels["instance"]}}
+⏰ Starts: {{alerts[0].startsAt}}
+ℹ️ Summary: {{commonAnnotations.summary}}
+🧾 Description: {{commonAnnotations.description}}
+```
+
+Optional Link Template (Advanced Settings):
+
+```
+{{alerts[0].generatorURL || externalURL}}
+```
+
+This shows a direct link to the firing graph or dashboard inside your alert record. If generatorURL isn’t present, it falls back to externalURL.
+
+### 3) Integration Method A — Webhook (Recommended)
+
+1. In your Echobell channel, copy the Webhook URL from Triggers
+2. In Alertmanager, add a webhook receiver that posts to that URL
+
+Minimal alertmanager.yml example:
+
+```yaml
+route:
+  receiver: echobell-webhook
+
+receivers:
+  - name: echobell-webhook
+    webhook_configs:
+      - url: "https://hook.echobell.one/t/REPLACE_WITH_YOUR_TOKEN"
+        send_resolved: true
+        http_config:
+          follow_redirects: true
+```
+
+Notes:
+
+- send_resolved: true will also notify when alerts resolve (status becomes resolved)
+- Echobell reads the JSON body as-is, so the templates above will render correctly
+
+### 3 alt) Integration Method B — Email (Alternative)
+
+If you prefer or require email, use Alertmanager’s email receiver and send to the channel’s bound email address.
+
+1. In Echobell, copy the channel’s email address from the Triggers section
+2. Configure an email receiver in Alertmanager and use simple templates
+
+Example snippet:
+
+```yaml
+receivers:
+  - name: echobell-email
+    email_configs:
+      - to: "PASTE_CHANNEL_EMAIL_ADDRESS"
+        send_resolved: true
+        subject: "{{ .CommonLabels.alertname }} - {{ .Status }}"
+        html: |
+          <p><strong>Summary:</strong> {{ .CommonAnnotations.summary }}</p>
+          <p>{{ .CommonAnnotations.description }}</p>
+          <p>
+            <a href='{{ (index .Alerts 0).GeneratorURL }}' target='_blank' rel='noopener'>Open in Prometheus</a>
+          </p>
+```
+
+In Echobell templates for email triggers, you can use variables like subject, text, and html that Echobell provides automatically.
+
+### 4) Create an Example Alert Rule
+
+Here’s a small example rule to test the flow:
+
+```yaml
+groups:
+  - name: example
+    rules:
+      - alert: HighCPU
+        expr: avg(rate(process_cpu_seconds_total[5m])) > 0.8
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU has been over 80% for 2 minutes"
+```
+
+Once this alert fires, Alertmanager will send the event to your configured receiver and Echobell will notify subscribers to the channel.
+
+## Testing the Integration
+
+1. Temporarily lower thresholds or create a test alert that fires quickly
+2. Confirm you receive an Echobell notification when it fires
+3. If using the Link Template, open the record and tap the link
+4. Resolve the alert and verify you receive the resolution notification (if enabled)
+
+## Choosing Notification Types
+
+- Time Sensitive: critical production outages, paging-level incidents
+- Calling: severe outages where you must wake or interrupt focus modes
+- Normal: routine alerts, warnings, or informational notices
+
+## Best Practices
+
+1. Keep templates concise but informative (alert name, severity, instance, summary)
+2. Use the Link Template to jump straight to the relevant graph or dashboard
+3. Group and route alerts in Alertmanager to avoid noise and fatigue
+4. Include severity labels and use Echobell notification types to match urgency
+5. Protect your Echobell webhook URL like a secret; rotate if exposed
+
+## Troubleshooting
+
+If alerts aren’t appearing in Echobell:
+
+- Verify the correct webhook URL or channel email address
+- Ensure the Echobell channel is active and has subscribers
+- Check Alertmanager logs for delivery errors
+- Confirm your route in alertmanager.yml actually points to the intended receiver
+- Test with a simple one-off alert rule
+- If using email, ensure your SMTP settings work and emails are being delivered
+
+## Privacy and Data Handling
+
+Echobell is privacy-first:
+
+- Notification content stays on your devices
+- Only minimal configuration data is stored on servers
+- Webhook URLs and channel email addresses should be treated as secrets
+- Echobell does not retain your alert payloads on its servers
+
+## Additional Resources
+
+- [Prometheus documentation](https://prometheus.io/docs/introduction/overview/)
+- [Alertmanager configuration](https://prometheus.io/docs/alerting/latest/configuration/)
+- [Alerting rules](https://prometheus.io/docs/alerting/latest/alerting_rules/)
+- [Echobell Webhook](/docs/webhook)
+- [Notification Templates](/docs/notification)
+- [Conditions and Link Template](/docs/conditions)
+- [Support](/docs/support)
