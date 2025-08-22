@@ -6,6 +6,15 @@ import AppStore from "@/public/images/app-store.en.svg";
 
 export const runtime = "edge";
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: { index: false, follow: false },
+  },
+};
+
 export default function NotFound() {
   return (
     <div>

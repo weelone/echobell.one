@@ -1,6 +1,8 @@
 import { ShareIcon, FolderIcon, LinkIcon } from "lucide-react";
 import FeaturePageLayout from "@/components/FeaturePageLayout";
-import { Language, uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary, languages, localizeUrl } from "@/lib/i18n";
+import type { Metadata } from "next";
+import { createMetadata, baseUrl } from "@/lib/metadata";
 
 export default async function ChannelsPage({
   params,
@@ -134,4 +136,28 @@ export default async function ChannelsPage({
       </div>
     </FeaturePageLayout>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: Language }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const t = uiDictionary[lang].featurePages.channels;
+  const canonical = new URL(
+    localizeUrl("/features/channels", lang),
+    baseUrl
+  ).toString();
+  return createMetadata({
+    title: t.title,
+    description: t.description,
+    alternates: {
+      canonical,
+      languages: Object.fromEntries(
+        languages.map((l) => [l, localizeUrl("/features/channels", l)])
+      ),
+    },
+    openGraph: { url: canonical },
+  });
 }

@@ -5,7 +5,8 @@ import { languages, localizeUrl } from "@/lib/i18n";
 
 export const runtime = "edge";
 
-export const revalidate = false;
+// Revalidate daily to keep lastModified stable but fresh
+export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const url = (path: string): string => new URL(path, baseUrl).toString();

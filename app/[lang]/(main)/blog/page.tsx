@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { blog } from "@/lib/source";
-import { Language, uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary, languages, localizeUrl } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
 import { Metadata } from "next";
 import { createMetadata } from "@/lib/metadata";
@@ -90,5 +90,11 @@ export async function generateMetadata({
   return createMetadata({
     title: t.title,
     description: t.description,
+    alternates: {
+      canonical: localizeUrl("/blog", lang),
+      languages: Object.fromEntries(
+        languages.map((l) => [l, localizeUrl("/blog", l)])
+      ),
+    },
   });
 }

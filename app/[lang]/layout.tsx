@@ -5,8 +5,9 @@ import "./globals.css";
 import { RootProvider } from "fumadocs-ui/provider";
 import { baseUrl, createMetadata } from "@/lib/metadata";
 import { Translations } from "fumadocs-ui/contexts/i18n";
-import { Language, uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
 import { Metadata } from "next";
+import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/JsonLd";
 
 export const runtime = "edge";
 
@@ -27,7 +28,7 @@ export async function generateMetadata({
     metadataBase: baseUrl,
     keywords: t.keywords,
     alternates: {
-      canonical: lang === "en" ? "/" : `/${lang}`,
+      canonical: localizeUrl("/", lang),
       languages: {
         en: "/",
         zh: "/zh",
@@ -156,6 +157,9 @@ export default async function Layout({
           minHeight: "100vh",
         }}
       >
+        {/* Site-wide structured data */}
+        <OrganizationJsonLd />
+        <WebsiteJsonLd />
         <RootProvider
           i18n={{
             locale: lang,

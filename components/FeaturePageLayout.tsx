@@ -1,4 +1,4 @@
-import { Language, uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
 import Link from "next/link";
 import CTASection from "./CTASection";
 import { Breadcrumb } from "./Breadcrumb";
@@ -22,7 +22,7 @@ export default function FeaturePageLayout({
       <div className="container mx-auto px-6 pt-20">
         <Breadcrumb lang={lang} />
       </div>
-      
+
       {/* Hero Section */}
       <div className="relative isolate overflow-hidden px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-6xl py-24 sm:py-32">
@@ -41,7 +41,7 @@ export default function FeaturePageLayout({
                 {t.cta.action}
               </Link>
               <Link
-                href={`/${lang === "en" ? "" : lang + "/"}docs`}
+                href={localizeUrl("/docs", lang)}
                 className="text-sm font-semibold leading-6"
               >
                 Learn more <span aria-hidden="true">→</span>

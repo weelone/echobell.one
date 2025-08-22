@@ -5,9 +5,9 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import { blog } from "@/lib/source";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import { Language, uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary, languages, localizeUrl } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
-import { createMetadata } from "@/lib/metadata";
+import { createMetadata, baseUrl } from "@/lib/metadata";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
 export default async function Page(props: {
@@ -75,9 +75,21 @@ export async function generateMetadata(props: {
 
   if (!page) notFound();
 
+  const canonical = new URL(
+    localizeUrl(`/blog/${params.slug}`, params.lang),
+    baseUrl
+  ).toString();
+
   return createMetadata({
     title: page.data.title,
     description:
       page.data.description ?? "The library for building documentation sites",
+    alternates: {
+      canonical,
+      languages: Object.fromEntries(
+        languages.map((l) => [l, localizeUrl(`/blog/${params.slug}`, l)])
+      ),
+    },
+    openGraph: { url: canonical },
   });
 }

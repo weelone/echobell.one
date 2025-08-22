@@ -3,7 +3,9 @@ import { APP_STORE_LINK } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { Language, uiDictionary } from "@/lib/i18n";
+import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
+import type { Metadata } from "next";
+import { baseUrl } from "@/lib/metadata";
 
 interface SubscriptionPageProps {
   params: Promise<{
@@ -75,4 +77,27 @@ export default async function SubscriptionPage({
       </div>
     </div>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: SubscriptionPageProps): Promise<Metadata> {
+  const { slug, lang } = await params;
+  const canonical = new URL(
+    localizeUrl(`/subscription/${slug}`, lang),
+    baseUrl
+  ).toString();
+
+  return {
+    title: "Subscribe to Channel | Echobell",
+    description:
+      "Private subscription page to join an Echobell channel on your device.",
+    alternates: { canonical },
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: { index: false, follow: false, noimageindex: true },
+    },
+  };
 }
