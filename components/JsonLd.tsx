@@ -50,14 +50,9 @@ export function WebsiteJsonLd() {
     url: "https://echobell.one",
     description:
       "Never miss critical alerts. Echobell instantly converts webhooks & emails into iOS notifications or phone calls.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://echobell.one/search?q={search_term_string}",
-      },
-      "query-input": "required name=search_term_string",
-    },
+    // Keep potentialAction simple to avoid invalid URLs if no search page exists
+    // You can re-enable a dedicated search endpoint later
+    potentialAction: undefined,
     publisher: {
       "@type": "Organization",
       name: "Echobell",

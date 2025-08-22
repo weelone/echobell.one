@@ -5,10 +5,12 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import { blog } from "@/lib/source";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import { Language, uiDictionary, languages, localizeUrl } from "@/lib/i18n";
+import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
-import { createMetadata, baseUrl } from "@/lib/metadata";
-import { Breadcrumb } from "@/components/Breadcrumb";
+import { createBlogMetadata, baseUrl } from "@/lib/metadata";
+import { ArticleJsonLd } from "@/components/JsonLd";
+import { Breadcrumb, BreadcrumbJsonLd } from "@/components/Breadcrumb";
+import { languages } from "@/lib/i18n";
 
 export default async function Page(props: {
   params: Promise<{ lang: Language; slug: string }>;
@@ -21,11 +23,30 @@ export default async function Page(props: {
 
   const Mdx = page.data.body;
   const toc = page.data.toc;
+  const canonical = new URL(
+    localizeUrl(`/blog/${params.slug}`, params.lang),
+    baseUrl
+  ).toString();
 
   return (
     <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <Breadcrumb lang={params.lang} />
+        <BreadcrumbJsonLd lang={params.lang} />
+        {/* Structured data for the article */}
+        <ArticleJsonLd
+          title={page.data.title}
+          description={page.data.description ?? page.data.title}
+          datePublished={new Date(
+            page.data.date ?? page.file.name
+          ).toISOString()}
+          dateModified={new Date(
+            page.data.lastModified ?? page.data.date ?? page.file.name
+          ).toISOString()}
+          authorName={page.data.author}
+          url={canonical}
+          imageUrl={(page.data as Partial<{ image?: string }>).image}
+        />
         <div className="container px-0">
           <h2 className="text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl">
             {page.data.title}
@@ -80,16 +101,35 @@ export async function generateMetadata(props: {
     baseUrl
   ).toString();
 
-  return createMetadata({
+  const publishedTime = new Date(
+    page.data.date ?? page.file.name
+  ).toISOString();
+  const modifiedTime = new Date(
+    (page.data as Partial<{ lastModified?: string | Date }>).lastModified ??
+      page.data.date ??
+      page.file.name
+  ).toISOString();
+  const image = (page.data as Partial<{ image?: string }>).image;
+  const tags = (page.data as Partial<{ tags?: string[] }>).tags;
+
+  const base = createBlogMetadata({
     title: page.data.title,
-    description:
-      page.data.description ?? "The library for building documentation sites",
+    description: page.data.description ?? page.data.title,
+    publishedTime,
+    modifiedTime,
+    authors: [page.data.author],
+    tags,
+    image,
+    url: canonical,
+  });
+
+  return {
+    ...base,
     alternates: {
       canonical,
       languages: Object.fromEntries(
         languages.map((l) => [l, localizeUrl(`/blog/${params.slug}`, l)])
       ),
     },
-    openGraph: { url: canonical },
-  });
+  };
 }

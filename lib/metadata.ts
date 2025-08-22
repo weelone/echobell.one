@@ -43,6 +43,7 @@ export function createMetadata(override: Metadata): Metadata {
     alternates: {
       canonical: override.alternates?.canonical,
       languages: {
+        "x-default": "/",
         en: "/",
         zh: "/zh",
         es: "/es",

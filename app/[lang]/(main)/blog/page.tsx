@@ -3,8 +3,8 @@ import { blog } from "@/lib/source";
 import { Language, uiDictionary, languages, localizeUrl } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
 import { Metadata } from "next";
-import { createMetadata } from "@/lib/metadata";
-import { Breadcrumb } from "@/components/Breadcrumb";
+import { baseUrl, createMetadata } from "@/lib/metadata";
+import { Breadcrumb, BreadcrumbJsonLd } from "@/components/Breadcrumb";
 
 export default async function Page({
   params,
@@ -24,6 +24,7 @@ export default async function Page({
     <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <Breadcrumb lang={lang} />
+        <BreadcrumbJsonLd lang={lang} />
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl">
             {t.title}
@@ -58,7 +59,7 @@ export default async function Page({
               <div className="relative mt-8 flex items-center gap-x-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  alt=""
+                  alt={`${post.data.author} avatar`}
                   src={post.data.authorAvatarLink}
                   className="size-10 rounded-full bg-neutral-50"
                 />
@@ -92,9 +93,16 @@ export async function generateMetadata({
     description: t.description,
     alternates: {
       canonical: localizeUrl("/blog", lang),
+      types: {
+        "application/rss+xml": localizeUrl("/blog/rss.xml", lang),
+        "application/atom+xml": localizeUrl("/blog/atom.xml", lang),
+      },
       languages: Object.fromEntries(
         languages.map((l) => [l, localizeUrl("/blog", l)])
       ),
+    },
+    openGraph: {
+      url: new URL(localizeUrl("/blog", lang), baseUrl).toString(),
     },
   });
 }
