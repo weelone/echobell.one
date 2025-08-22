@@ -1,4 +1,4 @@
-import { Language } from "@/lib/i18n";
+import { Language, localizeUrl } from "@/lib/i18n";
 import { createMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import TermsEn from "./terms.en.mdx";
@@ -40,7 +40,8 @@ export async function generateMetadata({
   return createMetadata({
     title: titles[lang] ?? titles.default,
     description: descriptions[lang] ?? descriptions.default,
-    alternates: { canonical: "/terms" },
+    // Make canonical self-referencing per language to avoid hreflang → non-canonical
+    alternates: { canonical: localizeUrl("/terms", lang) },
   });
 }
 

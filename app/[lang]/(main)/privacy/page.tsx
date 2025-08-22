@@ -1,4 +1,4 @@
-import { Language } from "@/lib/i18n";
+import { Language, localizeUrl } from "@/lib/i18n";
 import { createMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import PrivacyEn from "./privacy.en.mdx";
@@ -40,7 +40,8 @@ export async function generateMetadata({
   return createMetadata({
     title: titles[lang] ?? titles.default,
     description: descriptions[lang] ?? descriptions.default,
-    alternates: { canonical: "/privacy" },
+    // Self-referencing canonicals per language to align with hreflang
+    alternates: { canonical: localizeUrl("/privacy", lang) },
   });
 }
 
