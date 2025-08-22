@@ -5,7 +5,7 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import { blog } from "@/lib/source";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
+import { Language, uiDictionary, localizeUrl, i18n } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
 import { createBlogMetadata, baseUrl } from "@/lib/metadata";
 import { ArticleJsonLd } from "@/components/JsonLd";
@@ -127,9 +127,15 @@ export async function generateMetadata(props: {
     ...base,
     alternates: {
       canonical,
-      languages: Object.fromEntries(
-        languages.map((l) => [l, localizeUrl(`/blog/${params.slug}`, l)])
-      ),
+      languages: {
+        "x-default": localizeUrl(
+          `/blog/${params.slug}`,
+          i18n.defaultLanguage as Language
+        ),
+        ...Object.fromEntries(
+          languages.map((l) => [l, localizeUrl(`/blog/${params.slug}`, l)])
+        ),
+      },
     },
   };
 }

@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { blog } from "@/lib/source";
-import { Language, uiDictionary, languages, localizeUrl } from "@/lib/i18n";
+import {
+  Language,
+  uiDictionary,
+  languages,
+  localizeUrl,
+  i18n,
+} from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
 import { Metadata } from "next";
 import { baseUrl, createMetadata } from "@/lib/metadata";
@@ -97,9 +103,12 @@ export async function generateMetadata({
         "application/rss+xml": localizeUrl("/blog/rss.xml", lang),
         "application/atom+xml": localizeUrl("/blog/atom.xml", lang),
       },
-      languages: Object.fromEntries(
-        languages.map((l) => [l, localizeUrl("/blog", l)])
-      ),
+      languages: {
+        "x-default": localizeUrl("/blog", i18n.defaultLanguage as Language),
+        ...Object.fromEntries(
+          languages.map((l) => [l, localizeUrl("/blog", l)])
+        ),
+      },
     },
     openGraph: {
       url: new URL(localizeUrl("/blog", lang), baseUrl).toString(),
