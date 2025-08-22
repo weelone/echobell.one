@@ -1,7 +1,12 @@
-import { Metadata } from "next";
-import { Language, localizeUrl } from "@/lib/i18n";
+import { Language } from "@/lib/i18n";
 import { createMetadata } from "@/lib/metadata";
-import { Breadcrumb } from "@/components/Breadcrumb";
+import type { Metadata } from "next";
+import TermsEn from "./terms.en.mdx";
+import TermsZh from "./terms.zh.mdx";
+import TermsEs from "./terms.es.mdx";
+import TermsFr from "./terms.fr.mdx";
+import TermsJa from "./terms.ja.mdx";
+import TermsDe from "./terms.de.mdx";
 
 export const runtime = "edge";
 
@@ -12,71 +17,49 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
 
-  const titles = {
+  const titles: Record<Language | "default", string> = {
     en: "Terms of Service",
     zh: "服务条款",
     es: "Términos de Servicio",
     fr: "Conditions d'Utilisation",
     ja: "利用規約",
     de: "Nutzungsbedingungen",
+    default: "Terms of Service",
   };
 
-  const descriptions = {
+  const descriptions: Record<Language | "default", string> = {
     en: "Read Echobell's Terms of Service. Understand your rights and responsibilities when using our webhook and email notification service.",
     zh: "阅读 Echobell 的服务条款。了解使用我们的 webhook 和邮件通知服务时的权利和责任。",
     es: "Lee los Términos de Servicio de Echobell. Comprende tus derechos y responsabilidades al usar nuestro servicio de notificaciones webhook y email.",
     fr: "Lisez les Conditions d'Utilisation d'Echobell. Comprenez vos droits et responsabilités lors de l'utilisation de notre service de notifications webhook et email.",
     ja: "Echobell の利用規約をお読みください。当社の webhook およびメール通知サービスを使用する際の権利と責任を理解してください。",
     de: "Lesen Sie Echobells Nutzungsbedingungen. Verstehen Sie Ihre Rechte und Pflichten bei der Nutzung unseres Webhook- und E-Mail-Benachrichtigungsdienstes.",
+    default: "Read Echobell's Terms of Service.",
   };
 
   return createMetadata({
-    title: titles[lang] || titles.en,
-    description: descriptions[lang] || descriptions.en,
+    title: titles[lang] ?? titles.default,
+    description: descriptions[lang] ?? descriptions.default,
+    alternates: { canonical: "/terms" },
   });
 }
 
-export default async function MdxLayout({
-  children,
+export default async function TermsPage({
   params,
 }: {
-  children: React.ReactNode;
   params: Promise<{ lang: Language }>;
 }) {
   const { lang } = await params;
 
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            name: "Terms of Service - Echobell",
-            description:
-              "Terms of Service for Echobell webhook and email notification service",
-            url: `https://echobell.one${localizeUrl("/terms", lang)}`,
-            isPartOf: {
-              "@type": "WebSite",
-              name: "Echobell",
-              url: "https://echobell.one",
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "Echobell",
-            },
-            dateModified: "2025-03-25",
-            inLanguage: lang,
-          }),
-        }}
-      />
-      <div className="max-w-4xl mx-auto mt-20 pt-20 p-4">
-        <Breadcrumb lang={lang} />
-      </div>
-      <div className="flex flex-col py-24 p-4 max-w-4xl mt-10 mb-20 mx-auto prose dark:prose-invert">
-        {children}
-      </div>
-    </>
-  );
+  const Map: Record<Language, React.ComponentType> = {
+    en: TermsEn,
+    zh: TermsZh,
+    es: TermsEs,
+    fr: TermsFr,
+    ja: TermsJa,
+    de: TermsDe,
+  };
+
+  const Component = Map[lang] ?? TermsEn;
+  return <Component />;
 }

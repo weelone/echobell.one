@@ -2,7 +2,7 @@ import { AppStoreQRCode } from "./QRCode";
 import { Logo } from "./Logo";
 import { NavLinks } from "./NavLinks";
 import { APP_STORE_LINK } from "@/constants";
-import { uiDictionary } from "@/lib/i18n";
+import { uiDictionary, Language } from "@/lib/i18n";
 
 function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
@@ -16,7 +16,7 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-export function Footer({ lang }: { lang: string }) {
+export function Footer({ lang }: { lang: Language }) {
   const t = uiDictionary[lang as keyof typeof uiDictionary].footer;
 
   return (

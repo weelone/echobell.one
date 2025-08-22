@@ -1,6 +1,6 @@
 import React from "react";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { Language } from "@/lib/i18n";
+import { Language, localizeUrl } from "@/lib/i18n";
 
 export const runtime = "edge";
 
@@ -24,7 +24,7 @@ export default async function MdxLayout({
             name: "Privacy Policy - Echobell",
             description:
               "Privacy Policy for Echobell webhook and email notification service",
-            url: "https://echobell.one/privacy",
+            url: `https://echobell.one${localizeUrl("/privacy", lang)}`,
             isPartOf: {
               "@type": "WebSite",
               name: "Echobell",
@@ -35,7 +35,7 @@ export default async function MdxLayout({
               name: "Echobell",
             },
             dateModified: "2025-03-25",
-            inLanguage: "en",
+            inLanguage: lang,
           }),
         }}
       />
