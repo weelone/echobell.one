@@ -14,7 +14,12 @@ export const i18n: I18nConfig = {
 };
 
 export function localizeUrl(url: string, lang: Language): string {
-  return lang === i18n.defaultLanguage ? url : `/${lang}${url}`;
+  // Avoid trailing slash on locale roots to prevent canonical → redirect (308)
+  if (lang !== i18n.defaultLanguage) {
+    if (url === "/") return `/${lang}`; // e.g. /zh instead of /zh/
+    return `/${lang}${url}`;
+  }
+  return url;
 }
 
 export const uiDictionary = {
