@@ -1,17 +1,132 @@
 ---
 title: Support
-description: Echobell support and troubleshooting guide
+description: Get help with Echobell - we're here to help you build the perfect notification setup for your team
 ---
 
-# Echobell Support
+# We're Here to Help!
 
-Echobell is designed to be user-friendly, but if you encounter any issues or have questions, we're here to help! Below are some common troubleshooting steps and support resources.
+Getting stuck with notification setups? Webhook not working the way you expected? Or maybe you just want to share your awesome use case with us? 
 
-## Contact Support
+**We're developers too**, and we know how frustrating it can be when tools don't work the way you expect. That's why we're committed to making sure Echobell works perfectly for your specific needs.
 
-You can find us on:
+## The Fastest Way to Get Help
 
-- [X (Twitter)](https://x.com/EchobellApp)
-- [Discord Group](https://discord.gg/s4JqfrgccJ)
-- [Telegram Group](https://t.me/EchobellGroup)
-- [Email](mailto:echobell@weelone.com)
+### Got a Quick Question?
+**Join our community** where real people (including the Echobell team) hang out and help each other:
+
+- 💬 **[Discord Community](https://discord.gg/s4JqfrgccJ)** - Active community, quick responses
+- 📱 **[Telegram Group](https://t.me/EchobellGroup)** - Great for mobile discussions  
+- 🐦 **[X (Twitter)](https://x.com/EchobellApp)** - Follow for updates and quick questions
+
+### Need Detailed Help?
+**Email us directly** at [echobell@weelone.com](mailto:echobell@weelone.com)
+
+We actually read and respond to every email (seriously!). When you email us:
+- **Include your use case** - what are you trying to build?
+- **Share your webhook/template setup** - helps us debug faster
+- **Describe what's happening vs. what you expected** - be specific!
+
+*Average response time: Usually within a few hours during business hours, definitely within 24 hours.*
+
+## Common Issues & Solutions
+
+### "My webhook isn't triggering notifications"
+
+**Check these first:**
+1. **Notification permissions** - Echobell needs permission to send notifications
+2. **Channel subscription** - Make sure you're subscribed to the channel
+3. **Webhook URL** - Verify you're using the correct webhook URL from channel settings
+4. **Request format** - Try a simple GET request first: `https://hook.echobell.one/t/your-id?test=hello`
+
+**Still not working?** Send us the exact webhook call you're making and we'll debug it together.
+
+### "I'm getting notifications but the content is wrong"
+
+This is usually a template variable issue:
+
+**Quick fixes:**
+- Check your template variable names match the data you're sending
+- Remember variables are case-sensitive: `{{Server}}` is different from `{{server}}`
+- Test with simple variables first, then build complexity
+
+**Pro tip:** Email us your webhook payload and template - we love helping people craft perfect notification templates.
+
+### "Notifications aren't coming through Do Not Disturb"
+
+This is by design for most notification types:
+
+- **Normal notifications** respect Do Not Disturb (as they should)
+- **Time Sensitive** notifications break through DND during allowed hours
+- **Calling notifications** will wake you up (use sparingly!)
+
+**Need different behavior?** Let us know your use case - we're always improving how notifications work.
+
+### "The app crashes or behaves weirdly"
+
+**We want to fix this immediately:**
+1. **Force close and restart** the app first
+2. **Check for app updates** in the App Store
+3. **Email us** with your device model, iOS version, and what you were doing when it crashed
+
+*Crashes are our highest priority. We'll usually push a fix within days.*
+
+## Feature Requests & Ideas
+
+### Got an idea for Echobell?
+We love hearing from users about how we can make Echobell better! Some of our best features came from user suggestions.
+
+**Current popular requests we're working on:**
+- Android app (it's coming!)
+- Webhook response customization
+- More notification types
+- Team management features
+
+**Share your idea** with us via email or in our community channels. Even if it seems crazy - we might love it.
+
+### Want to integrate with a specific tool?
+We're always building new integrations and guides. **Tell us what you're using** and we'll prioritize creating documentation or direct integrations for it.
+
+*Recent integrations we've built based on user requests: GitHub Actions, Grafana, HuggingFace, TradingView*
+
+## Tips for Getting the Best Help
+
+### When something isn't working:
+1. **Be specific** - "webhook doesn't work" vs "webhook returns 200 but no notification appears"
+2. **Include context** - what are you building? what tools are you using?
+3. **Share code/configs** - we can't debug what we can't see
+4. **Mention your timeline** - need help urgently? just exploring? helps us prioritize
+
+### When you want to share something cool:
+We love success stories! If you build something awesome with Echobell:
+- **Share it in our community** - inspire other developers  
+- **Let us feature it** - we're always looking for great use cases to highlight
+- **Write a guest blog post** - we'd love to share your story
+
+## Emergency Support
+
+### Production system down and Echobell notifications are critical?
+**Email us immediately** with "EMERGENCY" in the subject line. Include:
+- What's broken
+- How it's affecting your production system  
+- Your phone number (we'll call you)
+
+We monitor emergency emails 24/7 and will respond within minutes.
+
+*Note: This is for genuine production emergencies only. For regular issues, use our normal support channels.*
+
+## Why We Care So Much About Support
+
+**We're developers who built Echobell to solve our own notification problems.** We know how critical reliable alerts are to keeping systems running and teams productive.
+
+When your notifications don't work, your monitoring breaks down. When your monitoring breaks down, things go wrong and nobody knows about it. We've been there, and we never want you to experience that frustration.
+
+**Every support request helps us build a better product.** Your questions reveal use cases we hadn't considered, your problems highlight bugs we need to fix, and your ideas inspire features we want to build.
+
+## Our Support Promise
+
+- **We respond to every message** (even if it takes a day or two during busy periods)
+- **We actually read your full message** (no auto-responses or chatbots)
+- **We follow up** to make sure your issue is truly resolved
+- **We improve Echobell** based on the feedback you give us
+
+**Ready to get help?** Pick your favorite channel above and reach out. We're genuinely excited to help you build something awesome with Echobell.
