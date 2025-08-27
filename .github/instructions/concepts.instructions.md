@@ -18,13 +18,15 @@ A notification channel that, once triggered, will send a notification to all sub
 - [`Notification Templates`], includes a `Title template` and a `Body template`, which will be rendered with `Variables` and sent to subscribers as the title and body content for the notification.
 - [`Notification Type`], when subscribing to a channel, you can choose a notification type, which indicates which form of notification will be sent to you when the channel is triggered.
 - [`Trigger`], a method for triggering a channel to send notifications. You can copy them from the channel detail view.
-- `Subscription Link`, you can share subscription link to others let them to subscribe to the channel. You can copy from or share thought the channel detail view.
+- `Subscription Link`, you can share a tokenized subscription link so others can subscribe to the channel. Channel admins can reset this token to revoke old links. You can copy or share it from the channel detail view.
+- `Subscribers Management` (admin only), channel owners can view the subscriber list and remove subscribers when needed.
 
 #### Advanced Settings
 
 - `Conditions`: The value is an expression as same as the in templates. If set, notifications are only sent when the channel is triggered _and_ the specified conditions are met. If unset, all triggers result in notifications.
 - `Link Template`: A customizable link displayed on notification records, using template variables. Defaults to the `externalLink` variable if not set.
 - `Note`: A channel note, visible only on the channel's detail and subscription pages.
+- `Reset Tokens` (admin only): You can reset both the Trigger token (webhook/email) and Subscription token to invalidate previously shared URLs/addresses.
 
 ### Trigger
 
@@ -44,9 +46,11 @@ Once you send an email to an address bonded with a channel, the channel will be 
 
 ### Notification Type
 
-- `Normal`, a normal app notification.
-- `Time Sensitive`, a time-sensitive notification, it's able to break through some focus modes.
-- `Call`, a call-form notification that will send you a call-like alert.
+- `Normal (Active)`, a standard app notification.
+- `Time Sensitive`, a high-priority notification that can break through certain focus modes.
+- `Calling`, a call-like alert suitable for critical situations.
+
+Note: In APIs the raw values may appear as `active`, `time-sensitive`, and `calling`.
 
 ### Templates
 
@@ -100,6 +104,15 @@ You can use `header` variable to access the HTTP headers, such as `{{header["con
   - `text`: The text-form body of the email content
   - `html`: The html-form body of the email content
 
+### Records
+
+Echobell saves notification records locally on your device (not on the server). Each record includes the rendered title/body, trigger time, and optional links:
+
+- `externalLink`: A link shown on the record when provided by the trigger or generated via `Link Template`.
+- `requestLink`: A link to the original request context (when available), used for local reference.
+
+Records are visible in the channel detail view. You can clear them locally at any time.
+
 ## App Settings
 
 There are some app settings to can config:
@@ -110,3 +123,4 @@ There are some app settings to can config:
 ## Be aware
 
 - The app required the notification permission to work properly, because all the features of the app are based on notifications.
+- Triggers are protected by tokens and may be subject to rate limiting and abuse protection.
