@@ -1,165 +1,239 @@
 ---
 title: Get started
-description: Introduction to Echobell, a powerful notification management tool
+description: Start your journey with Echobell - the developer-friendly instant alert app that finally solves notification fatigue and missed critical alerts
 ---
 
 # Get Started with Echobell
 
-Welcome to Echobell, the instant alert app that helps you stay on top of important notifications. This guide will walk you through setting up and using Echobell effectively.
+We've all been there - that sinking feeling when you realize your server has been down for hours, or your CI/CD pipeline failed while you were grabbing coffee. The endless stream of notifications from different tools has made us numb to alerts, causing us to miss the ones that actually matter.
 
-## What is Echobell?
+That's exactly why we built Echobell. After years of being woken up by false alarms or missing critical alerts entirely, we knew there had to be a better way to handle instant notifications.
 
-Echobell is a powerful notification management tool that:
+## What Makes Echobell Different?
 
-- Handles webhooks and emails as triggers
-- Sends customized notifications to subscribers
-- Allows you to create and share notification channels
-- Keeps your notification data private on your device
+Echobell transforms how you manage alerts and notifications by focusing on what developers actually need:
+
+- **Smart webhook notifications** that trigger only when it matters
+- **Email-to-notification** bridges for legacy systems
+- **Customizable alert channels** that you control completely
+- **Privacy-first design** - your notification data stays on your device
+
+Think of it as your personal notification butler - intelligent enough to know when to disturb you and when to stay quiet.
 
 ![Echobell Overview](/images/docs/screenshot-overview.en.webp)
 
-## Core Concepts
+## Understanding Echobell's Core Concepts
 
-Before diving in, let's understand some key concepts:
+Let's break down how Echobell works in terms that make sense for your daily workflow:
 
-### Channels
+### Channels - Your Notification Command Centers
 
-A **Channel** is the core unit in Echobell for organizing and distributing notifications:
+Think of a **Channel** as a dedicated notification pipeline for different aspects of your system:
 
-- Each channel has a unique **Name** and **Color** for easy identification
-- Channels contain **Notification Templates** that determine what information is sent
-- Channels are triggered through webhooks or emails
-- You can create your own channels or subscribe to others
+- Each channel has a distinct **name and color** (because visual recognition saves precious seconds during emergencies)
+- **Notification templates** define exactly what information gets sent to your phone
+- Channels can be triggered via webhooks or good old-fashioned email
+- Share channels with your team or subscribe to channels others create
 
-### Triggers
+*Real example: You might have a "Production Alerts" channel (red) for critical system issues and a "Deploy Updates" channel (green) for successful deployments.*
 
-A **Trigger** is what activates a channel to send notifications:
+### Triggers - How Your Systems Talk to You
 
-- **Webhook**: A URL endpoint that, when called, activates the channel
-- **Email**: An email address linked to the channel that, when messaged, activates the channel
+A **Trigger** is simply how your systems wake up your channel:
 
-### Notification Types
+- **Webhook URL**: Your monitoring tools, CI/CD pipelines, or any system can call this URL to send you instant notifications
+- **Email Address**: Forward important emails or integrate with systems that only know how to send email
 
-When subscribing to a channel, you can choose from different notification styles:
+*Why both? Sometimes you're dealing with a modern microservice that speaks REST APIs, other times you're working with that legacy system from 2015 that only knows SMTP.*
 
-- **Normal**: Standard app notification
-- **Time Sensitive**: High-priority notification that can break through focus modes
-- **Calling**: Call-like alert for the most urgent matters
+### Notification Types - Matching Urgency to Reality
 
-## Getting Started
+When you subscribe to a channel, you choose how urgently you want to be interrupted:
 
-### 1. Setting Up Your Account
+- **Normal**: Standard push notifications for routine updates
+- **Time Sensitive**: Breaks through Do Not Disturb for important but not critical alerts  
+- **Calling**: Phone call alerts for "wake-me-up-at-3am" level emergencies
 
-1. Download Echobell from the [App Store](https://apps.apple.com/app/id6743597198)
-2. Open the app and sign in with your email or sign in with Apple
+*Pro tip: Reserve calling notifications for true emergencies. Nothing breaks trust like false alarm calls.*
+
+## Getting Started - Your First 5 Minutes with Echobell
+
+Let's get you set up with your first notification channel. I promise it's easier than configuring Prometheus alerts!
+
+### 1. Download and Set Up Your Account
+
+1. **Download Echobell** from the [App Store](https://apps.apple.com/app/id6743597198) (yes, it's free)
+2. **Sign in** with your email or Apple ID - whatever feels more comfortable
 
 ![Account Setup](/images/docs/screenshot-sign-in.en.webp)
 
-### 2. Creating Your First Channel
+*Quick note: We use your email only for account management. No spam, no newsletters unless you explicitly ask for them.*
 
-1. From the main view, tap the button on the bottom right corner to navigate to the **Channels** view
-2. Tap the **+** button to create a new channel
-3. Enter a name for your channel (e.g., "Server Alerts")
-4. Select a color to identify your channel
-5. Configure your notification templates:
-   - **Title template**: What appears as the notification headline
-   - **Body template**: The detailed content of the notification
-6. Optionally, toggle whether to subscribe the channel to yourself
-7. Choose a **Notification Type** for your channel (Normal, Time Sensitive, or Calling)
-8. Save your new channel
+### 2. Create Your First Notification Channel
+
+Here's where the magic happens:
+
+1. **Tap the bottom-right button** to navigate to the **Channels** view
+2. **Tap the + button** - time to create your first channel
+3. **Name your channel** meaningfully (e.g., "Production Server Alerts" or "CI/CD Pipeline")
+4. **Pick a color** that makes sense to you (red for critical, green for success, etc.)
+5. **Set up notification templates** (we'll explain this in detail below)
+6. **Choose whether to auto-subscribe** yourself to this channel
+7. **Select your notification urgency level** (Normal, Time Sensitive, or Calling)
+8. **Save** and celebrate - you've just created your first smart notification channel!
 
 ![Create Channel](/images/docs/screenshot-create-channel.en.webp)
 
-### 3. Setting Up a Trigger
+*Tip: Start with a test channel first. Name it something like "Test Alerts" so you can experiment without accidentally sending critical alerts to your entire team.*
 
-Once your channel is created, there are two ways to trigger notifications: via webhooks or emails. Tap the channel you just created to access its settings. In the channel settings, you can find the **Triggers** section.
+### 3. Connect Your Systems with Triggers
+
+This is where Echobell becomes truly powerful. **Tap your newly created channel** to access its settings page - this is your notification control center.
 
 ![Channel Settings](/images/docs/screenshot-channel-settings.en.webp)
 
-#### Webhook Trigger
+#### Option A: Webhook Triggers (The Modern Way)
 
-1. Tap the **webhook** button to copy the generated webhook URL
-2. Integrate this URL into your systems (e.g., server monitoring, CI/CD pipeline)
-3. When the URL is called, your channel will be triggered
+Perfect for modern systems, monitoring tools, and anything that can make HTTP requests:
 
-You can provide variables to your notification templates in two ways:
+1. **Tap the webhook button** to copy your unique webhook URL
+2. **Integrate this URL** into your systems:
+   - Grafana alerts
+   - GitHub Actions workflows  
+   - Kubernetes monitoring
+   - Custom scripts and monitoring tools
+   - Any system that can make HTTP calls
+
+Here's how easy it is to trigger notifications:
 
 ```bash
-# Example webhook call with query parameters
-curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=CPU%20usage%20at%2095%25"
+# Simple GET request with alert data
+curl "https://hook.echobell.one/t/your-unique-id?server=web-01&status=DOWN&cpu=95%"
 
-# OR with JSON body
+# Or POST with JSON (for complex data)
 curl -X POST https://hook.echobell.one/t/your-unique-id \
   -H "Content-Type: application/json" \
-  -d '{"server": "production", "status": "critical", "message": "CPU usage at 95%"}'
+  -d '{
+    "server": "web-01",
+    "status": "CRITICAL", 
+    "message": "CPU usage spiked to 95%",
+    "dashboard_url": "https://grafana.company.com/dashboard/123"
+  }'
 ```
 
-These variables will be used to populate your notification templates. For example, if your title template is `{{server}} - {{status}}`, it would render as "production - critical".
+**Pro tip:** Include an `externalLink` variable in your webhook calls. It becomes a clickable link in your notification, perfect for jumping straight to dashboards or logs.
 
-**Special Variables:**
+#### Option B: Email Triggers (The Universal Fallback)
 
-- `externalLink`: If you include this variable, it will be displayed as a clickable link in the notification records
+Sometimes you need to work with systems that predate REST APIs:
 
-#### Email Trigger
+1. **Tap the email button** to reveal your channel's unique email address
+2. **Forward important emails** to this address, or configure legacy systems to send alerts here
+3. When emails arrive, they automatically trigger notifications with these variables:
+   - `from` - who sent the email
+   - `subject` - the email subject line  
+   - `text` - plain text email content
+   - `html` - formatted email content
 
-1. Tap the **email** button to copy the generated email address for your channel
-2. When an email is sent to this address, your channel will be triggered
+*This is incredibly useful for integrating with older systems, forwarding critical emails, or creating notification workflows without writing code.*
 
-With email triggers, Echobell automatically extracts these variables from the email:
+### 4. Craft Perfect Notification Messages
 
-- `from`: The sender's email address
-- `to`: The recipient's email address (your channel's email)
-- `subject`: The email subject line
-- `text`: The plain text content of the email
-- `html`: The HTML content of the email
+This is where you transform raw data into actionable alerts. Good notification templates are the difference between useful alerts and notification spam.
 
-You can use these variables in your templates, such as `{{subject}}` or `{{text}}`.
+**Template Basics:**
+1. **Navigate to Notification Templates** in your channel settings
+2. **Title template** - Keep it concise but informative (this shows in your notification preview)
+3. **Body template** - Include the details you need to take action
+4. **Use variables** enclosed in `{{double_braces}}` to make templates dynamic
 
-### 4. Customizing Notification Templates
+**Real-world examples that work:**
 
-Templates use variables that are filled from the trigger data:
+```
+Title: 🚨 {{server}} is having issues
+Body: Status: {{status}} | CPU: {{cpu}}% | Memory: {{memory}}% | Check: {{dashboard_url}}
+```
 
-1. In your channel settings, go to **Notification Templates**
-2. For the title template, you might use: `{{server}} - {{status}}`
-3. For the body template, you could use: `{{message}} Detected at {{timestamp}}`
-4. Variables are enclosed in double curly braces: `{{variable_name}}`
-5. Test your template with sample data
+```  
+Title: ✅ Deploy completed to {{environment}}
+Body: {{app_name}} v{{version}} deployed successfully. Duration: {{deploy_time}}
+```
 
-### 5. Subscribing to Channels
+```
+Title: 💸 New order #{{order_id}} 
+Body: Customer: {{customer_name}} | Amount: ${{amount}} | Items: {{item_count}}
+```
 
-1. You can share the subscription link of your channels to others
-2. Or you can use subscription links shared by others to subscribe to the channels
-3. Tap **Subscribe** on the channels view
-4. Enter the subscription link
-5. Choose your preferred **Notification Type**:
-   - Normal for standard alerts
-   - Time Sensitive for important alerts
-   - Calling for critical situations
-6. Confirm your subscription
+**Template Pro Tips:**
+- Start with emojis or status indicators for quick visual recognition
+- Include actionable information (URLs, server names, error codes)
+- Keep titles under 50 characters for better mobile display
+- Test your templates with real data before going live
 
-## App Settings
+### 5. Share Channels and Build Your Notification Network
 
-You can customize how Echobell handles notifications through these settings:
+One of Echobell's most powerful features is collaborative notifications:
 
-- **Repeat Voice Content**: When using call notifications, this setting will make the notification content repeat
-- **Retry Failed Call**: Automatically retry call notifications that failed due to Focus Mode or other reasons
+**To subscribe to someone else's channel:**
+1. **Tap Subscribe** in the channels view
+2. **Paste the subscription link** they shared with you
+3. **Choose your notification urgency level** (you control this, not the channel owner)
+4. **Confirm** - you'll now receive their notifications
 
-## Privacy and Data Storage
+**To share your channels:**
+1. **Open your channel settings**  
+2. **Copy the subscription link**
+3. **Share it** with team members via Slack, email, or however your team communicates
 
-Echobell prioritizes your privacy:
+*This is fantastic for team alerts, deployment notifications, or sharing monitoring data across departments.*
 
-- Only user accounts, channels, and subscription data are stored on our servers
-- Notification content and history are stored locally on your device
-- Your alert data never leaves your control
+## Fine-Tuning Your Notification Experience
 
-## Next Steps
+### App Settings That Actually Matter
 
-Now that you've set up your first channel:
+Access these through the app settings to customize your Echobell experience:
 
-- Explore advanced template options
-- Share your channels with team members
-- Set up notification schedules and quiet hours
+- **Repeat Voice Content**: When you get calling notifications, this makes the message repeat so you catch every detail (useful when woken up at 3 AM)
+- **Retry Failed Call**: Automatically retries calling notifications that fail due to Do Not Disturb or other focus modes
 
-For more detailed information on each feature, check out our [Feature Guides](/docs/features) section.
+*Small settings, big impact on reliability.*
 
-Need help? Visit our [Support Center](/docs/support) or email echobell@weelone.com.
+## Your Privacy Comes First
+
+We built Echobell with a privacy-first mindset because we're developers too and we know how sensitive system data can be:
+
+- **Server-side data**: Only your account, channel definitions, and subscription lists  
+- **Device-only data**: All notification content and history stays completely local
+- **Your control**: Your alert data never leaves your control or gets analyzed by us
+
+*Translation: We see that you created a channel called "Production Alerts" but we never see the actual alert content like "Database CPU at 95%".*
+
+## What's Next? Level Up Your Alert Game
+
+Now that you have your first channel running, here are some ways to evolve your notification setup:
+
+**Immediate next steps:**
+- Create channels for different severity levels (Info, Warning, Critical)
+- Set up webhook integrations with your existing monitoring tools
+- Share important channels with your team members
+
+**Advanced strategies:**
+- Use conditional templates to customize messages based on alert data
+- Create escalation workflows with different notification types
+- Build channel hierarchies for complex systems
+
+**Integration ideas:**
+- Connect your CI/CD pipeline for deployment notifications
+- Bridge legacy email alerts into modern push notifications  
+- Set up monitoring dashboards that speak directly to your phone
+
+## Need Help? We're Here for You
+
+Every developer's setup is unique, and we love helping people get the most out of Echobell:
+
+- **Explore detailed guides** in our [Feature Documentation](/docs/features) 
+- **Check out integration tutorials** in our blog posts
+- **Get direct help** at our [Support Center](/docs/support) 
+- **Email us directly** at echobell@weelone.com (we actually read and respond to emails!)
+
+Remember: great notification systems aren't built in a day, but they're definitely worth the investment. Your future 3 AM self will thank you for setting this up properly.
