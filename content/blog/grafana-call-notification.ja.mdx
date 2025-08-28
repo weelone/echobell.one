@@ -7,68 +7,95 @@ authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# 重要なアラートを見逃さない：Grafana の Webhook を通じた電話通知の設定
+# 深夜 3 時でも Grafana の重大アラートを逃さない
 
-重要なシステムを監視する際、メール通知だけでは不十分な場合があります。重要なアラートをより即座に、より注目を集める方法で通知する必要があります。そこで Echobell の電話通知が役立ちます。
+朝起きてダッシュボード一面が赤くなっていて「電話で起こしてほしかった…」と思ったことはありませんか？メールやチャットは便利ですが、本当に重要なインシデントには“電話”が一番確実です。Echobell を使えば、Grafana のアラートを即時の電話通知に変換し、エスカレーションやおやすみ時間も柔軟に設定できます。
 
-## なぜ電話通知なのか？
+このガイドでは、Webhook を使って Grafana と Echobell を数分で接続する方法と、オンコールを楽にするコツを紹介します。
 
-- **即座の注目**: メールやプッシュ通知は簡単に見逃されがちですが、電話は無視するのが難しいです
-- **重要アラートの認識**: 即座の対応が必要なシステムの重大な障害に最適です
-- **24 時間 365 日のアラート**: 睡眠中でも重要なアラートを見逃すことがありません
-- **チームエスカレーション**: 主要な担当者が応答しない場合、複数のチームメンバーへの呼び出しカスケードを設定できます
+## なぜ Grafana に Echobell の電話通知？
 
-## Grafana 電話通知の設定
+- すぐに気づく: 重要なときに電話は無視できない
+- オンコールに最適: エスカレーション、再試行、おやすみ時間でノイズを管理
+- チーム運用: チャンネル共有や担当ローテーションが簡単
+- シンプル設定: Echobell の安全な Webhook を使って数分で完了
+
+先に読みたい関連ドキュメント：
+
+- Echobell とは → [/ja/docs/what-is-echobell](/ja/docs/what-is-echobell)
+- 通知モデル（優先度・再試行）→ [/ja/docs/notification](/ja/docs/notification)
+- Webhook の基本 → [/ja/docs/webhook](/ja/docs/webhook)
+- Grafana 連携ガイド → [/ja/docs/developer/grafana](/ja/docs/developer/grafana)
+
+## 3 分で Echobell と Grafana をつなぐ
 
 ### 前提条件
 
-1. アクティブなサブスクリプションを持つ Echobell アカウント
-2. 管理者権限を持つ Grafana インスタンスへのアクセス
-3. Grafana で設定済みのアラートルール
+1. Echobell のチャンネルと Webhook URL（詳細は [/ja/docs/webhook](/ja/docs/webhook)）
+2. Grafana の管理者アクセス
+3. 何らかのアラートルール
 
-### 設定手順
+### ステップ 1 — Grafana に Webhook の連絡先を作成
 
-1. **Webhook コンタクトポイントの作成**
+- Grafana: Alerting → Contact points
+- “New contact point” → 種別は “Webhook”
+- 名前例: 「Echobell 電話通知」
 
-   - Grafana で、Alerting → Contact points に移動します
-   - "New contact point"をクリックします
-   - コンタクトポイントのタイプとして"Webhook"を選択します
-   - "Echobell 電話通知"と名前を付けます
+### ステップ 2 — Echobell の Webhook URL を設定
 
-2. **Webhook の設定**
+チャンネルの Webhook を指定します（例）:
 
-   - URL を設定：`https://hook.echobell.one/t/xxxx`（あなたの Echobell チャンネルの webhook）
+`https://hook.echobell.one/t/xxxxxxxx`
 
-3. **統合のテスト**
+URL は Echobell のチャンネル設定からコピーします（[/ja/docs/webhook](/ja/docs/webhook)）。秘密情報として取り扱いましょう。
 
-   - Grafana の"Test"ボタンを使用してテスト通知を送信します
-   - 数秒以内に電話が着信するはずです
+### ステップ 3 — 動作テスト
 
-4. **通知ポリシーの作成**
-   - Alerting → Notification policies に移動します
-   - 新しいポリシーを作成するか、既存のものを変更します
-   - 希望するアラートルールに Echobell コンタクトポイントを追加します
+- Grafana の「Test」からテスト通知を送信
+- 数秒で Echobell から電話がかかってくるはずです
 
-## ベストプラクティス
+### ステップ 4 — 通知ポリシーに紐づけ
 
-- **アラートしきい値を慎重に設定**: 電話通知は真に重要なアラートのために予約すべきです
-- **通話タイムアウトを設定**: アラート疲れを防ぐため、Echobell で適切なタイムアウト期間を設定します
-- **連絡先リストを維持**: 緊急連絡先リストを最新の状態に保ちます
-- **対応手順を文書化**: チームメンバーが電話を受けた際の対応手順を明確にします
+- Alerting → Notification policies
+- 重大度の高いアラートに適用されるポリシーを作成/編集
+- 連絡先「Echobell 電話通知」を追加
 
-## 高度な設定
+これで、ポリシーに一致したときに Echobell が発信します。
 
-以下の方法で電話通知をカスタマイズできます：
+## オンコールを楽にするベストプラクティス
 
-- チームメンバーとチャンネルを共有
-- 応答のない通話の再試行を設定
-- 異なるタイプのアラートに対して音声メッセージをカスタマイズ
-- 静寂時間とバックアップ連絡先を設定
+- 電話は高優先度のみ。低優先度はチャット/メールへ
+- Echobell 側で再試行とタイムアウトを調整（[/ja/docs/notification](/ja/docs/notification)）
+- 最初の電話に出ない場合はチームへエスカレーション
+- 非緊急の夜間通知を防ぐ「おやすみ時間」を設定
+- オンコール担当表を最新に保ち、Echobell で共有
 
-詳細な設定オプションについては、[開発者向けドキュメント](/ja/docs/developer/grafana)をご覧ください。
+## 応用編：電話の体験をカスタマイズ
 
-## 結論
+Echobell では通話の挙動を細かく制御できます：
 
-電話通知は、重要なシステムのアラートに不可欠な層を追加します。Echobell と Grafana の統合により、重要なアラートが見逃されることなく、チームがインシデントに迅速に対応できます。
+- チャンネルをチームと共有
+- 再試行回数やエスカレーション経路を設定
+- テンプレートでアラート種別ごとに音声内容を出し分け
+- おやすみ時間やバックアップ連絡先を設定
 
-インシデント対応時間とシステムの信頼性を向上させるために、今すぐ電話通知の使用を開始しましょう。
+詳しくは Grafana 連携ガイドへ： [/ja/docs/developer/grafana](/ja/docs/developer/grafana)
+
+## トラブルシューティング
+
+- 電話が来ない: ポリシーが Echobell の連絡先へルーティングしているか確認
+- Webhook が 4xx: Webhook URL とチャンネルの有効状態を確認
+- 通話が多すぎる: ポリシーを絞る/重大度を下げる
+- 通話が少なすぎる: 重大度を上げる/フィルタを調整
+
+## 関連記事
+
+- Webhook で Echobell に通知を送る（自前システム向け）： [/ja/blog/get-notified-with-webhook-mcp](/ja/blog/get-notified-with-webhook-mcp)
+- GitHub Actions の失敗を即時に電話通知： [/ja/blog/github-actions-notifications](/ja/blog/github-actions-notifications)
+- Grafana の開発者向けドキュメント： [/ja/docs/developer/grafana](/ja/docs/developer/grafana)
+
+## まとめ
+
+電話通知は、Grafana のアラートに“確実さ”という人間的なレイヤーを追加します。Echobell の Webhook 連携で、適切な人に適切なタイミングで電話を届け、インシデント対応を速く落ち着いたものにしましょう。
+
+今日 5 分でつないで、今夜は少し安心して眠りましょう。

@@ -7,68 +7,96 @@ authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# 为 Grafana 警报启用电话通知
+# 再也不怕错过 Grafana 的关键告警（即便凌晨 3 点）
 
-在监控关键系统时，有时电子邮件通知是不够的。你需要一种更即时、更引人注意的方式来接收关键警报。这就是 Echobell 电话通知发挥作用的地方。
+如果你也有过起床后看到满屏红色面板、心想“要是有人给我打个电话就好了”的经历——这篇文章就是为你写的。邮件和聊天很有用，但在真正紧急的时候，“电话”才最有说服力。借助 Echobell，你可以把 Grafana 告警变成即时电话通知，并支持升级、重试和安静时段。
 
-## 为什么选择电话通知？
+下面用最短的时间带你通过 Webhook 将 Grafana 接入 Echobell，并分享一些让值班更从容的小技巧。
 
-- **即时关注**：与容易被忽略的电子邮件或推送通知不同，电话很难被忽视
-- **关键警报意识**：非常适合需要立即采取行动的关键系统故障
-- **全天候警报**：确保你永远不会错过关键警报，即使在睡眠时间
-- **团队升级**：如果主要联系人没有响应，可以设置多个团队成员的呼叫级联
+## 为什么用 Echobell 来接 Grafana 电话通知？
 
-## 设置 Grafana 电话通知
+- 立即引起注意：关键时刻，电话不容易被忽略
+- 为值班而生：升级、重试、安静时段，控制“噪音”
+- 团队友好：频道共享、角色轮值更轻松
+- 设置简单：安全的 Echobell Webhook，几分钟就能跑通
+
+先看这些文档更快上手：
+
+- 什么是 Echobell → [/zh/docs/what-is-echobell](/zh/docs/what-is-echobell)
+- 通知模型（优先级、重试）→ [/zh/docs/notification](/zh/docs/notification)
+- Webhook 概览 → [/zh/docs/webhook](/zh/docs/webhook)
+- Grafana 开发者指南 → [/zh/docs/developer/grafana](/zh/docs/developer/grafana)
+
+## 3 分钟把 Echobell 接入 Grafana
 
 ### 前提条件
 
-1. 一个有效订阅的 Echobell 账户
-2. 具有管理员权限的 Grafana 实例访问权限
-3. Grafana 中已配置的警报规则
+1. 有 Echobell 频道和 Webhook URL（见 [/zh/docs/webhook](/zh/docs/webhook)）
+2. 具有 Grafana 管理员权限
+3. 至少存在一条告警规则
 
-### 配置步骤
+### 第 1 步 — 在 Grafana 创建 Webhook 联系点
 
-1. **创建 Webhook 联系点**
+- Grafana：Alerting → Contact points
+- “New contact point” → 类型选择 “Webhook”
+- 名称可写 “Echobell 电话通知”
 
-   - 在 Grafana 中，导航到 Alerting → Contact points
-   - 点击 "New contact point"
-   - 选择 "Webhook" 作为联系点类型
-   - 将其命名为 "Echobell 电话通知"
+### 第 2 步 — 填入 Echobell 的 Webhook URL
 
-2. **配置 Webhook**
+把频道的 Webhook 填进去，例如：
 
-- 设置 URL 为：`https://hook.echobell.one/t/xxxx`，你的 Echobell 频道的 webhook。
+`https://hook.echobell.one/t/xxxxxxxx`
 
-3. **测试集成**
+在 Echobell 的频道设置中可复制该 URL（详见 [/zh/docs/webhook](/zh/docs/webhook)）。请当作机密妥善保存，泄露时及时更换。
 
-   - 使用 Grafana 中的 "Test" 按钮发送测试通知
-   - 你应该在几秒钟内收到电话
+### 第 3 步 — 测试是否打得通
 
-4. **创建通知策略**
-   - 转到 Alerting → Notification policies
-   - 创建新策略或修改现有策略
-   - 将 Echobell 联系点添加到你所需的警报规则中
+- 在 Grafana 点击 “Test” 发送测试告警
 
-## 最佳实践
+- 几秒钟内你应该会接到 Echobell 的电话
 
-- **谨慎设置警报阈值**：电话通知应该保留给真正的关键警报
-- **配置呼叫超时**：在 Echobell 中设置适当的超时期限，以防止警报疲劳
-- **维护联系人列表**：保持紧急联系人列表的最新状态
-- **记录响应程序**：确保团队成员知道在收到电话时该怎么做
+### 第 4 步 — 绑定到通知策略
 
-## 高级配置
+- Alerting → Notification policies
+- 创建或编辑用于关键告警的策略
+- 添加刚才的 “Echobell 电话通知” 联系点
 
-你可以通过以下方式自定义电话通知：
+完成！当策略匹配时，Grafana 会通过 Echobell 给你打电话。
 
-- 分享频道给团队成员
-- 配置未接来电的重试次数
-- 为不同类型的警报自定义语音消息
-- 设置安静时间和备用联系人
+## 值班不抓狂的小建议
 
-有关详细的配置选项，请访问我们的[开发者文档](/zh/docs/developer/grafana)。
+- 把电话留给高优先级；低优先级走聊天/邮件
+- 在 Echobell 设置重试与超时（见 [/zh/docs/notification](/zh/docs/notification)）
+- 若首个电话未接听，自动升级到队友
+- 配置安静时段，避免非紧急夜间打扰
+- 维护好值班表并在 Echobell 中共享
 
-## 结论
+## 进阶玩法：定制“电话体验”
 
-电话通知为关键系统添加了重要的警报层。通过 Echobell 与 Grafana 的集成，你可以确保不会错过关键警报，并且你的团队可以快速响应事件。
+Echobell 支持对通话行为进行细粒度配置：
 
-立即开始使用电话通知，提高你的事件响应时间和系统可靠性。
+- 与团队共享频道
+- 自定义重试次数和升级路径
+- 通过模板为不同告警类型定制语音内容
+- 设置安静时段与备用联系人
+
+完整 Grafana 集成指南：[/zh/docs/developer/grafana](/zh/docs/developer/grafana)
+
+## 常见问题排查
+
+- 没有接到电话：确认策略是否路由到 Echobell 联系点
+- Webhook 返回 4xx：检查 URL 是否正确及频道是否激活
+- 电话太频繁：收紧策略范围或降低告警严重级别
+- 电话太少：提高严重级别或调整过滤条件
+
+## 延伸阅读
+
+- 用 Webhook 向 Echobell 发送通知（适合自建系统）：[/zh/blog/get-notified-with-webhook-mcp](/zh/blog/get-notified-with-webhook-mcp)
+- GitHub Actions 失败，手机即时来电：[/zh/blog/github-actions-notifications](/zh/blog/github-actions-notifications)
+- Grafana 开发者文档：[/zh/docs/developer/grafana](/zh/docs/developer/grafana)
+
+## 小结
+
+电话通知为 Grafana 告警增加了“更可靠、更人性化”的一层保障。通过 Echobell 的 Webhook 集成，你能在关键时刻拨通正确的人，让事件响应更快、更稳。
+
+现在花 5 分钟连好，今晚就能睡得更踏实。
