@@ -1,58 +1,60 @@
 ---
-title: Wichtige E-Mails in Telefonbenachrichtigungen verwandeln
+title: Wichtige E‑Mails in Anruf‑Benachrichtigungen mit Echobell verwandeln
 date: 2025-08-22
-description: Leite kritische E-Mails (Gmail, iCloud, Outlook) an einen Echobell-Kanal weiter und erhalte sofortige Anrufe-ähnliche Alarme mit Vorlagen, Filtern und Wiederholungen.
+description: Verpasse keine kritische E‑Mail mehr: Mit Echobell werden dringende Mails zu anrufähnlichen, zeitkritischen Alerts. Kanal per E‑Mail auslösen, Vorlagen & Bedingungen setzen – fertig.
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Wichtige E-Mails in Telefonbenachrichtigungen verwandeln
+# Wichtige E‑Mails in Anruf‑Benachrichtigungen mit Echobell verwandeln
 
-Du willst nie wieder eine dringende E-Mail verpassen? Mit Echobell verwandelst du wichtige E-Mails in Anruf-Benachrichtigungen, die wie ein Telefonklingeln durchkommen. Ideal für Produktionsvorfälle, VIP-Absender, fehlgeschlagene Zahlungen und andere kritische Alerts.
+Es gibt diese eine Mail, die einfach nicht untergehen darf. Echobell macht aus genau solchen E‑Mails anrufähnliche, zeitkritische Benachrichtigungen, die wirklich klingeln – selbst, wenn du im Fokusmodus bist. Ideal für Produktionsvorfälle, VIP‑Absender, fehlgeschlagene Zahlungen und On‑Call‑Alerts für Entwickler:innen.
 
-## Was du einrichtest
+Am Ende hast du:
 
-- Einen Kanal, der per E-Mail ausgelöst wird
-- Vorlagen für gesprochenen Titel und Text
-- Anruf-Benachrichtigungen, die auch in Fokusmodi klingeln
-- Optionale Bedingungen, um nach Absender/Betreff zu filtern
-- Weiterleitungsregeln in Gmail, iCloud Mail oder Outlook
+- Einen Echobell‑Kanal, der per E‑Mail ausgelöst wird
+- Verständliche Vorlagen, die in Anruf‑Benachrichtigungen vorgelesen werden
+- Zeitkritische „Calling“-Benachrichtigungen mit optionalen Wiederholungen
+- Smarte Bedingungen (Conditions) nach Absender, Betreff oder Keywords
+- Einfache Weiterleitungsregeln für Gmail, iCloud Mail oder Outlook
+
+Datenschutz vorweg: Echobell ist privacy‑first. Auf dem Server liegen nur Konto, Kanäle und Abos – Inhalte und Protokolle bleiben auf deinen Geräten.
 
 ## Voraussetzungen
 
-- Echobell installiert: App Store https://apps.apple.com/app/id6743597198
-- Benachrichtigungsberechtigung erteilt
+- Echobell aus dem App Store installieren: https://apps.apple.com/app/id6743597198
+- Benachrichtigungsberechtigung erteilen
 
 ## Schritt 1 — Kanal erstellen
 
 1. Echobell öffnen → Neuer Kanal
-2. Namen und Farbe festlegen (z. B. „Kritische E-Mail-Alerts“)
+2. Namen und Farbe vergeben (z. B. „Kritische E‑Mail‑Alerts“)
 3. Speichern
 
-## Schritt 2 — E-Mail-Trigger binden
+## Schritt 2 — E‑Mail‑Trigger binden
 
-Auf der Kanal-Detailseite die dedizierte E-Mail-Adresse kopieren. Jede E-Mail an diese Adresse löst den Kanal aus.
+Auf der Kanal‑Detailseite die dedizierte E‑Mail‑Adresse kopieren. Jede Mail an diese Adresse löst den Kanal aus.
 
-Bei E-Mail-Triggern stehen in Vorlagen folgende Variablen zur Verfügung:
+Bei E‑Mail‑Triggern stehen diese Template‑Variablen zur Verfügung:
 
 - `from`: Absenderadresse
 - `to`: gebundene Kanaladresse
 - `subject`: Betreff
-- `text`: Textkörper (Plain-Text)
-- `html`: HTML-Körper (falls vorhanden)
+- `text`: Textkörper (Plain‑Text)
+- `html`: HTML‑Körper (falls vorhanden)
 
-## Schritt 3 — Klare Vorlagen schreiben
+## Schritt 3 — Klare, vorlesefreundliche Vorlagen schreiben
 
-Nutze Variablen, um den Alert aussagekräftig zu machen.
+Nutze Variablen, um die Alerts kurz und aussagekräftig zu halten – Anruf‑Benachrichtigungen lesen den Inhalt vor.
 
-Titelvorlage:
+Titelbeispiel:
 
 ```
-[Email Alert] {{subject}}
+[E‑Mail‑Alert] {{subject}}
 ```
 
-Textvorlage:
+Textbeispiel:
 
 ```
 Von: {{from}}
@@ -61,22 +63,22 @@ Vorschau: {{text}}
 
 Tipps:
 
-- Für einen Link in Einträgen `externalLink` per Webhook übergeben oder einen Link-Template in den Erweiterten Einstellungen setzen.
-- Bei E-Mails knapp halten; Anruf-Alerts sprechen diesen Inhalt.
+- Für einen Link in Einträgen `externalLink` per Webhook übergeben oder einen Link‑Template in den Erweiterten Einstellungen setzen.
+- Möglichst knapp formulieren – lange Texte sind beim Vorlesen schwerer zu folgen.
 
-## Schritt 4 — Benachrichtigungstyp „Anruf“ wählen
+## Schritt 4 — Benachrichtigungstyp „Calling“ wählen
 
-Abonnenten wählen, wie sie benachrichtigt werden. Für nie-zu-verpassen-Alerts:
+Abonnent:innen wählen, wie sie benachrichtigt werden. Für „nicht verpassen“:
 
-- Benachrichtigungstyp: Anruf
-- App-Einstellungen → Sprachinhalt wiederholen: An (optional)
-- App-Einstellungen → Fehlgeschlagenen Anruf erneut versuchen: An (empfohlen)
+- Benachrichtigungstyp: Calling
+- App‑Einstellungen → Sprachinhalt wiederholen: An (optional)
+- App‑Einstellungen → Fehlgeschlagenen Anruf erneut versuchen: An (empfohlen)
 
-Anruf-Benachrichtigungen klingen wie ein Anruf und können Fokusmodi durchbrechen (abhängig von Systemeinstellungen).
+Calling‑Benachrichtigungen klingen wie ein echter Anruf und können je nach iOS‑Einstellungen Fokusmodi durchbrechen.
 
-## Schritt 5 — Mit Bedingungen filtern (optional, empfohlen)
+## Schritt 5 — Mit Conditions filtern (optional, empfohlen)
 
-Bedingungen begrenzen Alarme auf spezifische E-Mails. Ausdrücke werden auf die Template-Variablen ausgewertet.
+Conditions sorgen dafür, dass nur relevante Mails anrufen. Es sind Ausdrücke, die auf Template‑Variablen ausgewertet werden.
 
 Beispiele:
 
@@ -84,71 +86,73 @@ Beispiele:
   ```
   from == "alerts@yourcompany.com"
   ```
-- Nur wenn Betreff "URGENT" enthält:
+- Nur wenn Betreff „URGENT“ enthält:
   ```
   subject.toLowerCase().includes("urgent")
   ```
-- Mehrere Regeln:
+- Mehrere Regeln kombinieren:
   ```
   (from == "pager@service.com" || from == "vip@customer.com") && subject.toLowerCase().includes("fail")
   ```
 
-Ohne Bedingungen lösen alle E-Mails an den Kanal Benachrichtigungen aus.
+Ohne Conditions löst jede Mail an die Kanaladresse eine Benachrichtigung aus.
 
-## Schritt 6 — Mail-Weiterleitung einrichten
+## Schritt 6 — Mail‑Weiterleitung einrichten
 
-Leite wichtige E-Mails an die Kanaladresse weiter. Beispiele:
+Leite wichtige Mails an die Kanaladresse weiter. Häufige Anbieter:
 
 ### Gmail
 
-- Gmail → Einstellungen → Alle Einstellungen anzeigen → Filter und blockierte Adressen
+- Gmail → Einstellungen → Alle Einstellungen → Filter und blockierte Adressen
 - Filter erstellen (Von / Betreff enthält)
-- Aktion: An Echobell-Kanaladresse weiterleiten
-- Optional: Label setzen oder Posteingang überspringen
+- Aktion: An die Echobell‑Kanaladresse weiterleiten
+- Optional: Label vergeben oder Posteingang überspringen
 
-Hinweis: Gmail kann eine Bestätigung der Weiterleitungsadresse verlangen. Wenn das unpraktisch ist, nutze eine Gruppenadresse, die du kontrollierst.
+Hinweis: Gmail verlangt ggf. die Verifizierung der Weiterleitungsadresse. Unpraktisch? Nutze eine Gruppenadresse, die du kontrollierst.
 
 ### iCloud Mail
 
 - iCloud Mail → Einstellungen → Regeln
 - Wenn: Von/Betreff enthält …
-- Dann: An Echobell-Kanaladresse weiterleiten
+- Dann: An die Echobell‑Kanaladresse weiterleiten
 
 ### Outlook
 
-- Outlook/Exchange → Einstellungen → E-Mail → Regeln
-- Bedingungen für Absender/Betreff/Stichwörter
-- Aktion: Weiterleiten/Umleiten an Echobell-Kanaladresse
+- Outlook/Exchange → Einstellungen → Mail → Regeln
+- Bedingungen für Absender/Betreff/Keywords hinzufügen
+- Aktion: Weiterleiten/Umleiten an die Echobell‑Kanaladresse
 
 ## Schritt 7 — Testen
 
-- Testmail an die Kanaladresse senden
-- Du solltest einen Anruf-Alert mit gesprochenen Vorlagen erhalten
-- Eintrag in Echobell prüfen; Vorlagen/Bedingungen anpassen
+- Testmail an die Kanaladresse schicken
+- Eine anrufähnliche Alert‑Benachrichtigung sollte deine Vorlagen vorlesen
+- Eintrag in Echobell prüfen und Vorlagen/Conditions bei Bedarf anpassen
 
 ## Fehlerbehebung
 
 - Keine Anrufe:
-  - Benachrichtigungstyp für dein Abo auf Anruf gesetzt?
-  - iOS-Benachrichtigungen und Fokusmodus prüfen
+  - Abo‑Benachrichtigungstyp auf Calling gestellt?
+  - iOS‑Berechtigungen und Fokusmodus prüfen
   - „Fehlgeschlagenen Anruf erneut versuchen“ aktivieren
 - Vorlage rendert nicht:
-  - Variablennamen prüfen: `from`, `to`, `subject`, `text`, `html`
-  - Ausdrücke in Bedingungen validieren (ohne `{{ }}` in Bedingungen)
+  - Variablen prüfen: `from`, `to`, `subject`, `text`, `html`
+  - Conditions sind reine Ausdrücke – ohne `{{ }}`
 - Zu laut:
-  - Bedingungen schärfen
-  - Mail-Regeln mit spezifischen Absendern/Keywords ergänzen
+  - Conditions schärfen
+  - Betreff‑Keywords oder spezifische Absender in Mail‑Regeln ergänzen
 
-## Datenschutz
+## Wo Echobell glänzt
 
-Auf dem Server speichert Echobell nur Konto, Kanäle und Abos. Inhalte und Protokolle bleiben auf deinen Geräten.
+- On‑Call‑Alerts und Produktionsvorfälle
+- Monitoring‑Benachrichtigungen per E‑Mail (und Webhooks, wenn du magst)
+- VIP‑Nachrichten, die nicht untergehen dürfen
 
 ## Nächste Schritte
 
-- Separate Kanäle für Teams/Systeme
-- Webhooks für System-Alerts, E-Mail für menschliche Nachrichten kombinieren
-- Abo-Link mit Kolleg:innen teilen, die ebenfalls Anruf-Alerts brauchen
+- Separate Kanäle für Teams oder Systeme erstellen
+- Webhooks für System‑Alerts, E‑Mail für menschliche Nachrichten nutzen
+- Abo‑Link mit Kolleg:innen teilen, die Calling‑Benachrichtigungen brauchen
 
 ---
 
-Teile gern deinen Workflow – wir freuen uns auf Praxisbeispiele mit Echobell.
+Hast du einen gelungenen Workflow? Teile, wie du Echobell für Instant‑Benachrichtigungen und Entwickler‑Alerts nutzt – wir freuen uns darauf.

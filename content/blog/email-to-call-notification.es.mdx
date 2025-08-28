@@ -1,40 +1,42 @@
 ---
-title: Convierte correos importantes en notificaciones de llamada
+title: Convierte correos importantes en notificaciones de llamada con Echobell
 date: 2025-08-22
-description: Reenvía correos críticos (Gmail, iCloud, Outlook) a un canal de Echobell y recibe alertas tipo llamada con plantillas, filtros y reintentos.
+description: No vuelvas a perder un correo crítico. Con Echobell, los emails urgentes se convierten en alertas tipo llamada y de alta prioridad. Crea un canal por email, añade plantillas y condiciones.
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Convierte correos importantes en notificaciones de llamada
+# Convierte correos importantes en notificaciones de llamada con Echobell
 
-¿Quieres no perder jamás un correo urgente? Con Echobell puedes convertir correos importantes en notificaciones tipo llamada que hacen sonar tu teléfono como si fuese una llamada. Ideal para incidentes en producción, remitentes VIP, fallos de pago y otras alertas críticas.
+Siempre hay un correo que no puede esperar. Echobell transforma esos emails críticos en notificaciones tipo llamada que realmente hacen sonar tu teléfono, incluso en modo de concentración. Ideal para incidentes en producción, remitentes VIP, fallos de cobro y alertas de guardia para desarrolladores.
 
-## Lo que vas a configurar
+Al finalizar tendrás:
 
-- Un canal que se activa por correo electrónico
-- Plantillas para el título y el cuerpo que se leerán en voz
-- Notificaciones de llamada que atraviesan modos de concentración
-- Condiciones opcionales para filtrar por remitente/asunto
-- Reglas de reenvío en Gmail, iCloud Mail u Outlook
+- Un canal de Echobell activado por correo electrónico
+- Plantillas claras y breves que se leen en voz en las llamadas
+- Notificaciones de llamada (Calling) con reintentos opcionales
+- Condiciones inteligentes para filtrar por remitente, asunto o palabras clave
+- Reglas de reenvío sencillas en Gmail, iCloud Mail u Outlook
+
+Privacidad ante todo: Echobell guarda solo tu cuenta, canales y suscripciones. El contenido e historial de notificaciones viven en tus dispositivos.
 
 ## Requisitos previos
 
-- Echobell instalado: App Store https://apps.apple.com/app/id6743597198
-- Permiso de notificaciones concedido
+- Instala Echobell desde el App Store: https://apps.apple.com/app/id6743597198
+- Concede permiso de notificaciones
 
 ## Paso 1 — Crea un canal
 
 1. Abre Echobell → Nuevo canal
-2. Ponle nombre y color (p. ej., "Alertas de correo críticas")
+2. Ponle nombre y color (por ejemplo, «Alertas de correo críticas»)
 3. Guardar
 
-## Paso 2 — Vincula el disparador por correo
+## Paso 2 — Vincula el disparador por email
 
-En la página de detalle del canal, copia la dirección de correo dedicada. Cualquier correo enviado a esa dirección activará el canal.
+En la página del canal, copia la dirección de correo dedicada. Cualquier email enviado a esa dirección activará el canal al instante.
 
-Cuando un correo activa un canal, tienes estas variables para plantillas:
+Variables disponibles en plantillas cuando se activa por email:
 
 - `from`: remitente
 - `to`: dirección del canal
@@ -42,9 +44,9 @@ Cuando un correo activa un canal, tienes estas variables para plantillas:
 - `text`: cuerpo en texto plano
 - `html`: cuerpo HTML (si existe)
 
-## Paso 3 — Escribe plantillas claras
+## Paso 3 — Escribe plantillas breves y fáciles de escuchar
 
-Usa variables para que la alerta sea útil.
+Usa variables para dar contexto sin sobrecargar. Recuerda: las llamadas leerán el contenido.
 
 Ejemplo de título:
 
@@ -61,22 +63,22 @@ Vista previa: {{text}}
 
 Consejos:
 
-- Si quieres un enlace en los registros, pasa `externalLink` por webhook o usa una Plantilla de enlace en Ajustes avanzados.
-- En correos, sé breve; las alertas de llamada leerán este contenido.
+- ¿Quieres un enlace clicable en los registros? Pasa `externalLink` por webhook o define una Plantilla de enlace en Ajustes avanzados.
+- Mantén los textos cortos; los cuerpos largos son más difíciles de seguir al escucharlos.
 
-## Paso 4 — Elige el tipo de notificación Llamada
+## Paso 4 — Elige el tipo de notificación Calling
 
-Los suscriptores eligen cómo ser notificados. Para no perderte nada crítico:
+Los suscriptores deciden cómo recibir avisos. Para no perder nada:
 
-- Tipo de notificación: Llamada
+- Tipo de notificación: Calling
 - Ajustes de la app → Repetir contenido de voz: Activado (opcional)
 - Ajustes de la app → Reintentar llamadas fallidas: Activado (recomendado)
 
-Las notificaciones de llamada suenan como una llamada y pueden atravesar modos de concentración según tu configuración del sistema.
+Las notificaciones de Calling suenan como una llamada y pueden atravesar modos de concentración según tu iOS.
 
 ## Paso 5 — Filtra con Condiciones (opcional, recomendado)
 
-Usa Condiciones para llamar solo para correos específicos. Son expresiones evaluadas sobre las variables de plantilla.
+Usa Condiciones para llamar solo cuando importa. Son expresiones evaluadas sobre variables de plantilla.
 
 Ejemplos:
 
@@ -84,34 +86,34 @@ Ejemplos:
   ```
   from == "alerts@yourcompany.com"
   ```
-- Solo cuando el asunto contiene "URGENT":
+- Solo cuando el asunto contiene «URGENT»:
   ```
   subject.toLowerCase().includes("urgent")
   ```
-- Varias reglas:
+- Combinación de reglas:
   ```
   (from == "pager@service.com" || from == "vip@customer.com") && subject.toLowerCase().includes("fail")
   ```
 
-Si dejas Condiciones vacío, todos los correos al canal dispararán notificaciones.
+Si no defines Condiciones, cualquier email al canal disparará una notificación.
 
-## Paso 6 — Configura el reenvío de correo
+## Paso 6 — Configura el reenvío de correo (elige tu proveedor)
 
-Reenvía los correos importantes a la dirección del canal. Proveedores comunes:
+Reenvía los correos importantes a la dirección del canal. Opciones comunes:
 
 ### Gmail
 
 - Gmail → Configuración → Ver todos los ajustes → Filtros y direcciones bloqueadas
 - Crea un filtro (De / Asunto contiene)
-- Acción: Reenviar a la dirección de tu canal de Echobell
-- Opcional: Etiquetar o saltar la bandeja de entrada
+- Acción: Reenviar a la dirección del canal de Echobell
+- Opcional: Etiqueta o saltar la bandeja de entrada
 
-Nota: Gmail puede pedir verificar la dirección de reenvío. Si no es conveniente, usa un alias de grupo que controles.
+Nota: Gmail puede pedir verificar la dirección de reenvío. Si no es cómodo, reenvía mediante un alias de grupo que controles.
 
 ### iCloud Mail
 
 - iCloud Mail → Ajustes → Reglas
-- Si: De/Asunto contiene…
+- Si: De/Asunto contiene tus condiciones
 - Entonces: Reenviar a la dirección del canal de Echobell
 
 ### Outlook
@@ -120,35 +122,37 @@ Nota: Gmail puede pedir verificar la dirección de reenvío. Si no es convenient
 - Añade condiciones para remitente/asunto/palabras clave
 - Acción: Reenviar/Redirigir a la dirección del canal de Echobell
 
-## Paso 7 — Prueba
+## Paso 7 — Prueba tu alerta
 
-- Envía un correo de prueba a la dirección del canal
-- Deberías recibir una alerta tipo llamada con las plantillas leídas
-- Revisa el registro en Echobell; ajusta plantillas/condiciones si hace falta
+- Envía un email de prueba a la dirección del canal
+- Deberías recibir una alerta tipo llamada que lee tus plantillas
+- Revisa el registro en Echobell y ajusta plantillas/condiciones si hace falta
 
 ## Solución de problemas
 
 - No recibes llamadas:
-  - Verifica que tu suscripción use el tipo Llamada
-  - Revisa permisos de notificación de iOS y modos de concentración
-  - Activa "Reintentar llamadas fallidas" en Ajustes
+  - Asegúrate de que tu suscripción usa el tipo Calling
+  - Revisa permisos de iOS y modos de concentración
+  - Activa «Reintentar llamadas fallidas» en Ajustes
 - La plantilla no se renderiza:
-  - Revisa variables: `from`, `to`, `subject`, `text`, `html`
-  - Valida expresiones en Condiciones (sin `{{ }}` en Condiciones)
+  - Verifica variables: `from`, `to`, `subject`, `text`, `html`
+  - Las Condiciones son expresiones simples: no uses `{{ }}`
 - Demasiado ruido:
   - Endurece las Condiciones
-  - Añade palabras clave o remitentes específicos en reglas de correo
+  - Añade palabras clave de asunto o remitentes específicos en tus reglas
 
-## Privacidad
+## Dónde brilla
 
-Echobell solo almacena tu cuenta, canales y suscripciones en el servidor. El contenido y el historial de notificaciones por correo viven en tus dispositivos.
+- Alertas de guardia y incidentes de producción
+- Notificaciones de monitoring por email (y webhooks, si quieres ambos)
+- Mensajes de clientes/VIP que no pueden esperar
 
 ## Próximos pasos
 
-- Crea canales separados para equipos/sistemas
-- Combina webhooks para alertas del sistema y correo para mensajes humanos
-- Comparte el enlace de suscripción del canal con tu equipo
+- Crea canales separados para equipos o sistemas
+- Usa webhooks para alertas automáticas y email para mensajes humanos
+- Comparte el enlace de suscripción del canal con tu equipo que necesite llamadas
 
 ---
 
-Si construyes un flujo interesante, cuéntanoslo. Comparte cómo usas Echobell para alertas críticas por correo.
+¿Tienes un flujo del que estés orgulloso? Comparte cómo usas Echobell para notificaciones instantáneas y alertas de desarrollo. Nos encantará verlo.
