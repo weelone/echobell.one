@@ -1,7 +1,7 @@
 ---
 title: Echobell ist hier!
 date: 2025-03-30
-description: Echobell ist eine Instant-Alert-App, die das Benachrichtigungsmanagement vereinfacht.
+description: Echobell ist eine datenschutzorientierte Instant‑Alert‑App für Entwickler und Teams – verwandelt Webhooks oder E‑Mails in zeitkritische Benachrichtigungen und Anruf‑Alerts mit Kanälen und Vorlagen.
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
@@ -9,109 +9,109 @@ authorLink: https://nooc.me
 
 # Echobell ist hier!
 
-Heute freuen wir uns, die offizielle Einführung von Echobell ankündigen zu können – eine revolutionäre Instant-Alert-App, die entwickelt wurde, um die Art und Weise, wie Sie Benachrichtigungen empfangen und verwalten, zu transformieren.
+Wir freuen uns, Echobell mit Ihnen zu teilen – eine Instant‑Alert‑App, die Lärm reduziert und sicherstellt, dass Sie nichts Wichtiges verpassen. Wenn Sie je einen fehlgeschlagenen Build, einen Uptime‑Alarm oder eine wichtige Mail übersehen haben, verwandelt Echobell solche Momente in klare, rechtzeitige Benachrichtigungen, auf die Sie sich verlassen können.
 
 ## Was ist Echobell?
 
-Echobell ist eine Instant-Alert-Anwendung, die Einfachheit und Leistung in das Benachrichtigungsmanagement bringt. In der heutigen Welt der Informationsüberflutung kann es eine Herausforderung sein, wirklich wichtige Alarme im Auge zu behalten. Echobell löst dies durch eine flexible Plattform, die Webhooks oder E-Mails als Auslöser verarbeiten und dann angepasste Benachrichtigungen an Sie und Ihre Abonnenten senden kann.
+Echobell ist eine datenschutz‑first Benachrichtigungs‑App. Sie nimmt Trigger über Webhooks oder E‑Mail entgegen und liefert die passende Alert‑Benachrichtigung an die richtigen Personen – sofort. Sie organisieren Alarme in Kanälen, gestalten Inhalte mit Vorlagen und wählen, wie dringend jede Benachrichtigung sein soll. Schnell, flexibel und für echte Workflows gebaut.
 
-Das Grundprinzip hinter Echobell ist unkompliziert: Erstellen Sie Kanäle für verschiedene Arten von Benachrichtigungen, passen Sie an, wie diese Benachrichtigungen erscheinen, und wählen Sie, wie dringend Sie alarmiert werden möchten.
+Kurz gesagt: Kanal erstellen, einen Webhook oder eine E‑Mail senden – Echobell macht daraus eine personalisierte App‑Benachrichtigung: Normal, Zeitkritisch oder sogar eine Anruf‑ähnliche Alert.
 
 ## Hauptfunktionen
 
 ### Benachrichtigungskanäle
 
-Im Herzen von Echobell stehen **Kanäle** – anpassbare Benachrichtigungspipelines, die Sie für verschiedene Zwecke erstellen können. Jeder Kanal hat:
+Im Herzen von Echobell stehen Kanäle – einfache, leistungsfähige Pipelines für Ihre Alarme. Jeder Kanal bietet:
 
-- Einen eindeutigen Namen und eine Farbe zur einfachen Identifizierung
-- Anpassbare Benachrichtigungsvorlagen, die bestimmen, welche Informationen gesendet werden
-- Flexible Auslöseoptionen über Webhooks oder E-Mail
-- Teilbare Abonnement-Links, damit andere Ihre Benachrichtigungen empfangen können
+- Name und Farbe zur schnellen Wiedererkennung
+- Vorlagen für Titel und Text mit Variablen wie {{server}}, {{message}} oder {{timestamp}}
+- Trigger per Webhook oder E‑Mail
+- Einen teilbaren Abo‑Link, damit Teamkollegen oder Follower abonnieren können
 
 ### Mehrere Auslösemethoden
 
-Echobell bietet zwei leistungsstarke Möglichkeiten, Benachrichtigungen auszulösen:
+Echobell bietet zwei zuverlässige Wege, Benachrichtigungen auszulösen:
 
-**Webhooks**: Integrieren Sie sich mit praktisch jedem System durch die Verwendung unserer Webhook-URLs. Wenn diese URLs aufgerufen werden (mit einer einfachen GET- oder POST-Anfrage), sendet Ihr Kanal Benachrichtigungen an alle Abonnenten. Dies ist perfekt für:
+**Webhook‑Benachrichtigungen**: Rufen Sie Ihre individuelle URL per GET oder POST auf, und Echobell benachrichtigt alle Kanal‑Abonnenten. Ideal für:
 
-- Server-Überwachungsalarme
-- CI/CD-Pipeline-Benachrichtigungen
-- IoT-Gerätestatus-Updates
-- E-Commerce-Bestellbenachrichtigungen
+- Server‑Überwachungsalarme
+- CI/CD‑Pipeline‑Benachrichtigungen
+- IoT‑Gerätestatus‑Updates
+- E‑Commerce‑Bestellbenachrichtigungen
 
-**E-Mail-Auslöser**: Jeder Kanal kann eine dedizierte E-Mail-Adresse haben. Wenn eine E-Mail an diese Adresse gesendet wird, wird der Kanal ausgelöst und Benachrichtigungen werden verschickt. Dies macht es einfach:
+**E‑Mail‑zu‑Benachrichtigung**: Senden oder leiten Sie eine E‑Mail an die Kanaladresse weiter, um Alerts auszulösen – ganz ohne Code. Perfekt, wenn Sie:
 
-- Wichtige E-Mails als Benachrichtigungen weiterzuleiten
-- Benachrichtigungsabläufe ohne Programmierung zu erstellen
-- Mit Legacy-Systemen zu integrieren, die E-Mail, aber keine Webhooks unterstützen
+- Wichtige E‑Mails als Benachrichtigungen weiterleiten
+- Benachrichtigungsflüsse ohne Programmierung bauen
+- Legacy‑Systeme integrieren, die E‑Mail, aber keine Webhooks unterstützen
 
 ### Anpassbare Benachrichtigungsvorlagen
 
-Machen Sie Ihre Alarme aussagekräftig durch unser Vorlagensystem mit dynamischen Variablen:
+Machen Sie Alarme aussagekräftig – mit Vorlagen und Variablen:
 
 ```
 Titel: {{server}} Statusalarm
 Text: {{message}} erkannt um {{timestamp}}
 ```
 
-Wenn mit Variablen wie `server=production` und `message=CPU-Auslastung bei 95%` ausgelöst, wird die Benachrichtigung personalisiert und informativ.
+Übergeben Sie Variablen im Webhook‑Body oder als Query‑String – oder nutzen Sie E‑Mail‑Felder wie Betreff, From und Text –, um klare, personalisierte Benachrichtigungen zu rendern.
 
 ### Flexible Benachrichtigungstypen
 
-Nicht alle Alarme sind gleich. Echobell lässt Abonnenten aus drei Benachrichtigungstypen wählen:
+Nicht alle Alarme sind gleich. Echobell unterstützt drei Typen:
 
-- **Normal**: Standard-App-Benachrichtigungen für Routine-Alarme
-- **Zeitkritisch**: Hochprioritäts-Benachrichtigungen, die bestimmte Fokusmodi durchbrechen können
-- **Anruf**: Anruf-ähnliche Alarme für kritische Situationen, die sofortige Aufmerksamkeit erfordern
+- **Normal (Aktiv)**: Standard‑App‑Benachrichtigungen für Routine‑Updates
+- **Zeitkritisch**: Hochpriorisierte Alerts, die Fokus‑Modi durchbrechen können
+- **Anruf**: Anruf‑ähnliche Benachrichtigungen für kritische Vorfälle
 
-### Datenschutz-First-Ansatz
+### Datenschutz‑First‑Ansatz
 
-Wir haben Echobell mit Datenschutz im Kern aufgebaut:
+Datenschutz ist eingebaut:
 
-- Nur Benutzerkonten, Kanäle und Abonnementdaten werden auf unseren Servern gespeichert
-- Benachrichtigungsinhalte und Verlauf bleiben ausschließlich auf Ihrem Gerät
-- Ihre sensiblen Alarmdaten verlassen nie Ihre Kontrolle
+- Auf unseren Servern liegen nur Konten, Kanäle und Abos
+- Benachrichtigungsinhalte und Verlauf bleiben auf Ihren Geräten
+- Sensible Daten bleiben unter Ihrer Kontrolle
 
 ## Anwendungsfälle
 
-Echobell ist vielseitig genug, um einer breiten Palette von Benachrichtigungsanforderungen gerecht zu werden:
+Echobell passt zu vielen realen Workflows:
 
 ### Für Entwickler
 
-- Überwachen Sie die Server-Gesundheit und erhalten Sie sofortige Alarme bei Problemen
-- Erhalten Sie Benachrichtigungen, wenn Builds abgeschlossen sind oder Tests fehlschlagen
-- Empfangen Sie Alarme, wenn kritische Fehler in der Produktion auftreten
+- Server‑ und Uptime‑Monitoring mit Webhook‑Benachrichtigungen (Grafana, Prometheus)
+- CI/CD‑ und GitHub‑Actions‑Alerts für Build‑Erfolg/Fehlschlag
+- Error‑Reporting und Log‑Spikes in Produktion
 
-### Für Händler
+### Für Trader
 
-- Erhalten Sie Echtzeit-Alarme für Aktienkursänderungen
-- Überwachen Sie Kryptowährungspreise und erhalten Sie Benachrichtigungen für signifikante Schwankungen
-- Richten Sie Alarme für Nachrichtenartikel oder Social-Media-Erwähnungen bestimmter Aktien ein
+- Echtzeit‑Alarme für Aktien‑ oder Krypto‑Preise
+- Schwellenwert‑Benachrichtigungen bei starken Bewegungen
+- Mentions und Signale via E‑Mail‑Weiterleitung
 
 ### Für Teams
 
-- Erstellen Sie Kanäle für verschiedene Projekte oder Systeme
-- Lassen Sie Teammitglieder mit ihrer bevorzugten Benachrichtigungsdringlichkeit abonnieren
-- Stellen Sie sicher, dass kritische Alarme nie verpasst werden, auch während der Fokuszeit
+- Kanäle je Projekt oder Kunde
+- Teammitglieder abonnieren mit bevorzugter Dringlichkeit (Normal, Zeitkritisch, Anruf)
+- Kritische Alerts durchbrechen bei Bedarf die Fokuszeit
 
-### Für persönliche Nutzung
+### Für die persönliche Nutzung
 
-- Erhalten Sie Alarme, wenn Ihre Website ausfällt
-- Empfangen Sie Benachrichtigungen für wichtige E-Mails ohne Ihren Posteingang zu prüfen
-- Erstellen Sie benutzerdefinierte Alarme für alles, was Ihnen wichtig ist
+- Website‑Down‑Alerts und Kontaktformular‑Pings
+- Wichtige E‑Mail‑Benachrichtigungen ohne Posteingangsstress
+- Eigene Erinnerungen für alles, was Ihnen wichtig ist
 
 ## Erste Schritte
 
-Der Einstieg in Echobell ist einfach:
+Der Einstieg dauert nur Minuten:
 
-1. Laden Sie Echobell aus dem [App Store](https://apps.apple.com/app/id6743597198) herunter
-2. Erstellen Sie ein Konto mit E-Mail oder Anmelden mit Apple
-3. Erstellen Sie Ihren ersten Kanal mit benutzerdefinierten Vorlagen
-4. Richten Sie einen Webhook oder E-Mail-Auslöser ein
-5. Beginnen Sie mit dem Empfang von Benachrichtigungen!
+1. Echobell im [App Store](https://apps.apple.com/app/id6743597198) herunterladen
+2. Konto erstellen (E‑Mail oder „Anmelden mit Apple“)
+3. Ersten Kanal anlegen und Titel/Body‑Vorlage setzen
+4. Webhook oder E‑Mail‑Trigger hinzufügen
+5. Test senden – und sofort Benachrichtigungen erhalten
 
-## Treten Sie der Echobell-Community bei
+## Treten Sie der Echobell‑Community bei
 
-Wir stehen erst am Anfang und haben große Pläne für Echobells Zukunft. Wir bauen eine Plattform, die Sie die Kontrolle über Ihre Benachrichtigungen gibt und sicherstellt, dass Sie nur unterbrochen werden, wenn es wirklich wichtig ist.
+Wir fangen gerade erst an und bauen Echobell offen für Entwickler, Teams und alle, die ruhigere, klarere Benachrichtigungen möchten. Wenn Ihnen Datenschutz‑first, zuverlässige Webhook‑Benachrichtigungen, einfache E‑Mail‑Trigger und flexible Kanäle wichtig sind, ist Echobell für Sie.
 
-Laden Sie Echobell noch heute herunter und transformieren Sie die Art und Weise, wie Sie Benachrichtigungen verwalten. Wir können es kaum erwarten zu sehen, was Sie damit aufbauen!
+Laden Sie Echobell heute herunter und holen Sie sich die Kontrolle über Ihre Alerts zurück. Wir sind gespannt, was Sie damit verbinden!

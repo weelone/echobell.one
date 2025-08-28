@@ -1,7 +1,7 @@
 ---
 title: ¡Echobell está aquí!
 date: 2025-03-30
-description: Echobell es una aplicación de alertas instantáneas que simplifica la gestión de notificaciones.
+description: Echobell es una app de alertas instantáneas con privacidad por diseño para desarrolladores y equipos: convierte webhooks o correos en notificaciones sensibles al tiempo y alertas tipo llamada con canales y plantillas.
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
@@ -9,109 +9,109 @@ authorLink: https://nooc.me
 
 # ¡Echobell está aquí!
 
-Hoy, nos complace anunciar el lanzamiento oficial de Echobell – una revolucionaria aplicación de alertas instantáneas diseñada para transformar la forma en que recibes y gestionas las notificaciones.
+Nos entusiasma presentarte Echobell: una app de alertas instantáneas que te ayuda a cortar el ruido y no perder lo importante. Si alguna vez pasaste por alto un fallo de build, una alerta de uptime o un correo clave, Echobell convierte esos momentos en notificaciones claras y puntuales en las que puedes confiar.
 
 ## ¿Qué es Echobell?
 
-Echobell es una aplicación de alertas instantáneas que aporta simplicidad y poder a la gestión de notificaciones. En el mundo actual de sobrecarga de información, mantenerse al día con las alertas verdaderamente importantes puede ser un desafío. Echobell resuelve esto proporcionando una plataforma flexible que puede manejar webhooks o correos electrónicos como disparadores, y luego enviar notificaciones personalizadas a ti y a tus suscriptores.
+Echobell es una app de notificaciones con enfoque de privacidad que recibe triggers por webhooks o correo y entrega la alerta correcta a las personas adecuadas, al instante. Organizas los avisos en canales, das forma al contenido con plantillas y eliges la urgencia de cada notificación. Rápida, flexible y pensada para flujos reales.
 
-El principio fundamental detrás de Echobell es sencillo: crea canales para diferentes tipos de notificaciones, personaliza cómo aparecen esas notificaciones y elige con qué urgencia deseas ser alertado.
+En pocas palabras: crea un canal, envíale un webhook o un email, y Echobell lo convierte en una notificación personalizada: Normal, Sensible al Tiempo o incluso tipo llamada.
 
-## Características Principales
+## Funciones clave
 
-### Canales de Notificación
+### Canales de notificación
 
-En el corazón de Echobell están los **Canales** – conductos de notificación personalizables que puedes crear para diferentes propósitos. Cada canal tiene:
+El corazón de Echobell son los canales: pipelines simples y potentes para tus alertas. Cada canal incluye:
 
-- Un nombre y color único para fácil identificación
-- Plantillas de notificación personalizables que determinan qué información se envía
-- Opciones flexibles de activación vía webhooks o correo electrónico
-- Enlaces de suscripción compartibles para que otros puedan recibir tus notificaciones
+- Nombre y color para identificación rápida
+- Plantillas de título y cuerpo con variables como {{server}}, {{message}} o {{timestamp}}
+- Disparadores vía webhook o correo electrónico
+- Un enlace de suscripción para que compañeros o seguidores se suscriban
 
-### Múltiples Métodos de Activación
+### Múltiples métodos de activación
 
-Echobell ofrece dos formas poderosas de activar notificaciones:
+Echobell ofrece dos formas confiables de activar notificaciones:
 
-**Webhooks**: Integra con prácticamente cualquier sistema usando nuestras URLs de webhook. Cuando estas URLs son llamadas (con una simple solicitud GET o POST), tu canal envía notificaciones a todos los suscriptores. Esto es perfecto para:
+**Notificaciones por webhook**: Llama a tu URL única con GET o POST y Echobell notifica a todos los suscriptores del canal. Ideal para:
 
 - Alertas de monitoreo de servidores
-- Notificaciones de pipeline CI/CD
+- Notificaciones de pipelines CI/CD
 - Actualizaciones de estado de dispositivos IoT
-- Notificaciones de pedidos de comercio electrónico
+- Notificaciones de pedidos de e‑commerce
 
-**Activadores por Correo Electrónico**: Cada canal puede tener una dirección de correo electrónico dedicada. Cuando se envía un correo a esta dirección, el canal se activa y las notificaciones son enviadas. Esto facilita:
+**Email → notificación**: Envía o reenvía un correo a la dirección del canal para disparar alertas, sin código. Perfecto para:
 
 - Reenviar correos importantes como notificaciones
-- Crear flujos de notificación sin programación
-- Integrar con sistemas heredados que soportan correo pero no webhooks
+- Crear flujos de alerta sin programar
+- Integrarte con sistemas heredados que soportan email pero no webhooks
 
-### Plantillas de Notificación Personalizables
+### Plantillas de notificación personalizables
 
-Haz que tus alertas sean significativas usando nuestro sistema de plantillas con variables dinámicas:
+Haz que las alertas sean claras con plantillas y variables:
 
 ```
 Título: Alerta de estado de {{server}}
 Cuerpo: {{message}} detectado en {{timestamp}}
 ```
 
-Cuando se activa con variables como `server=producción` y `message=Uso de CPU al 95%`, la notificación se vuelve personalizada e informativa.
+Envía variables en el body o query del webhook, o usa campos del correo como subject, from y text, para generar notificaciones personalizadas y precisas.
 
-### Tipos de Notificación Flexibles
+### Tipos de notificación flexibles
 
-No todas las alertas son iguales. Echobell permite a los suscriptores elegir entre tres tipos de notificación:
+No todas las alertas son iguales. Echobell admite tres tipos:
 
-- **Normal**: Notificaciones estándar de la aplicación para alertas rutinarias
-- **Sensible al Tiempo**: Notificaciones de alta prioridad que pueden atravesar ciertos modos de concentración
-- **Llamada**: Alertas tipo llamada para situaciones críticas que requieren atención inmediata
+- **Normal (Activa)**: Notificaciones estándar para actualizaciones rutinarias
+- **Sensible al Tiempo**: Alertas de alta prioridad que pueden atravesar modos de concentración
+- **Llamada**: Notificaciones tipo llamada para incidentes críticos
 
-### Enfoque Centrado en la Privacidad
+### Privacidad primero
 
-Hemos construido Echobell con la privacidad como núcleo:
+La privacidad viene integrada:
 
-- Solo las cuentas de usuario, canales y datos de suscripción se almacenan en nuestros servidores
-- El contenido e historial de notificaciones permanece exclusivamente en tu dispositivo
-- Tus datos sensibles de alerta nunca salen de tu control
+- En nuestros servidores solo viven cuentas, canales y suscripciones
+- El contenido e historial de notificaciones permanecen en tus dispositivos
+- Tus datos sensibles permanecen bajo tu control
 
-## Casos de Uso
+## Casos de uso
 
-Echobell es lo suficientemente versátil para servir a una amplia gama de necesidades de notificación:
+Echobell encaja en muchos flujos reales:
 
-### Para Desarrolladores
+### Para desarrolladores
 
-- Monitorea la salud del servidor y recibe alertas instantáneas cuando surgen problemas
-- Recibe notificaciones cuando las compilaciones se completan o las pruebas fallan
-- Recibe alertas cuando ocurren errores críticos en producción
+- Monitoreo de servidores y uptime con notificaciones por webhook (Grafana, Prometheus)
+- Alertas de CI/CD y GitHub Actions por éxito/fallo de builds
+- Errores en producción y picos de logs
 
-### Para Traders
+### Para traders
 
-- Recibe alertas en tiempo real para cambios en precios de acciones
-- Monitorea precios de criptomonedas y recibe notificaciones de fluctuaciones significativas
-- Configura alertas para artículos de noticias o menciones en redes sociales de acciones específicas
+- Alertas en tiempo real de precios de acciones o cripto
+- Notificaciones por umbral ante movimientos fuertes
+- Menciones y señales mediante reenvío de email
 
-### Para Equipos
+### Para equipos
 
-- Crea canales para diferentes proyectos o sistemas
-- Permite que los miembros del equipo se suscriban con su nivel de urgencia preferido
-- Asegura que las alertas críticas nunca se pierdan, incluso durante tiempo de concentración
+- Canales por proyecto o cliente
+- Suscripciones con la urgencia preferida (Normal, Sensible, Llamada)
+- Las alertas críticas atraviesan el tiempo de concentración cuando hace falta
 
-### Para Uso Personal
+### Uso personal
 
-- Recibe alertas cuando tu sitio web se cae
-- Recibe notificaciones de correos importantes sin revisar tu bandeja de entrada
-- Crea alertas personalizadas para cualquier cosa importante para ti
+- Alertas cuando tu web cae y pings de formularios de contacto
+- Notificaciones de correos importantes sin vivir en la bandeja de entrada
+- Recordatorios personalizados para lo que te importa
 
-## Primeros Pasos
+## Primeros pasos
 
-Comenzar con Echobell es simple:
+Arrancar lleva minutos:
 
 1. Descarga Echobell desde la [App Store](https://apps.apple.com/app/id6743597198)
-2. Crea una cuenta usando correo electrónico o Iniciar Sesión con Apple
-3. Crea tu primer canal con plantillas personalizadas
-4. Configura un webhook o activador por correo electrónico
-5. ¡Comienza a recibir notificaciones!
+2. Crea tu cuenta (email o Iniciar sesión con Apple)
+3. Crea tu primer canal y define plantillas de título/cuerpo
+4. Añade un trigger por webhook o email
+5. Envía una prueba y empieza a recibir notificaciones al instante
 
-## Únete a la Comunidad Echobell
+## Únete a la comunidad de Echobell
 
-Esto es solo el comienzo, y tenemos grandes planes para el futuro de Echobell. Estamos construyendo una plataforma que te pone en control de tus notificaciones, asegurando que solo seas interrumpido cuando realmente importa.
+Apenas empezamos y estamos construyendo Echobell de forma abierta para desarrolladores, equipos y cualquiera que quiera notificaciones más claras y tranquilas. Si valoras la privacidad, los webhooks confiables, los disparadores por email y los canales flexibles, Echobell es para ti.
 
-¡Descarga Echobell hoy y transforma la forma en que gestionas las notificaciones. Estamos ansiosos por ver qué construirás con ella!
+Descarga Echobell hoy y recupera el control de tus alertas. Nos encantará ver con qué lo conectas.

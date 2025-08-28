@@ -1,7 +1,7 @@
 ---
 title: Echobell is here!
 date: 2025-03-30
-description: Echobell is an instant alert app that simplifies notifications management.
+description: Echobell is a privacy-first instant alert app for developers and teams—turn webhook or email triggers into time-sensitive and call notifications with channels and templates.
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
@@ -9,96 +9,109 @@ authorLink: https://nooc.me
 
 # Echobell is here!
 
-Today, we're thrilled to announce the official launch of Echobell – a revolutionary instant alert app designed to transform how you receive and manage notifications.
+We’re excited to share Echobell with you—an instant alert app that helps you cut through noise and never miss what matters. If you’ve ever missed a build failure, an uptime alert, or an important email, Echobell turns those moments into clear, timely notifications you can trust.
 
 ## What is Echobell?
 
-Echobell is an instant alert application that brings simplicity and power to notification management. In today's world of information overload, staying on top of truly important alerts can be challenging. Echobell solves this by providing a flexible platform that can handle webhooks or emails as triggers, and then deliver customized notifications to you and your subscribers.
+Echobell is a privacy‑first notification app that receives triggers from webhooks or email and delivers the right alert to the right people—instantly. You organize alerts into channels, shape the content with templates, and pick how urgent each notification should be. It’s fast, flexible, and built for real‑world workflows.
 
-The core principle behind Echobell is straightforward: create channels for different types of notifications, customize how those notifications appear, and choose how urgently you want to be alerted.
+In short: create a channel, send it a webhook or an email, and Echobell turns it into a personalized app notification—Normal, Time Sensitive, or even a call‑like alert.
 
 ## Key Features
 
 ### Notification Channels
-At the heart of Echobell are **Channels** – customizable notification pipelines that you can create for different purposes. Each channel has:
-- A unique name and color for easy identification
-- Customizable notification templates that determine what information is sent
-- Flexible triggering options via webhooks or email
-- Shareable subscription links so others can receive your notifications
+
+At the heart of Echobell are Channels—simple, powerful pipelines for your alerts. Each channel includes:
+
+- Name and color for quick recognition
+- Templates for title and body, using variables like {{server}}, {{message}}, or {{timestamp}}
+- Triggers via webhook or email
+- A shareable subscription link so teammates or followers can subscribe
 
 ### Multiple Triggering Methods
-Echobell offers two powerful ways to trigger notifications:
 
-**Webhooks**: Integrate with virtually any system by using our webhook URLs. When these URLs are called (with a simple GET or POST request), your channel sends notifications to all subscribers. This is perfect for:
+Echobell offers two reliable ways to trigger notifications:
+
+**Webhook notifications**: Call your unique URL with GET or POST and Echobell notifies all channel subscribers. Great for:
+
 - Server monitoring alerts
 - CI/CD pipeline notifications
 - IoT device status updates
 - E-commerce order notifications
 
-**Email Triggers**: Each channel can have a dedicated email address. When an email is sent to this address, the channel is triggered, and notifications are sent out. This makes it easy to:
+**Email‑to‑notification**: Send or forward an email to a channel’s address to trigger alerts—no code required. Perfect when:
+
 - Forward important emails as notifications
 - Create notification flows without coding
 - Integrate with legacy systems that support email but not webhooks
 
 ### Customizable Notification Templates
-Make your alerts meaningful by using our template system with dynamic variables:
+
+Make alerts meaningful with templates and variables:
 
 ```
 Title: {{server}} status alert
 Body: {{message}} detected at {{timestamp}}
 ```
 
-When triggered with variables like `server=production` and `message=CPU usage at 95%`, the notification becomes personalized and informative.
+Send variables in the webhook body or query string—or rely on email fields like subject, from, and text—to render clear, personalized notifications.
 
 ### Flexible Notification Types
-Not all alerts are created equal. Echobell lets subscribers choose from three notification types:
 
-- **Normal**: Standard app notifications for routine alerts
-- **Time Sensitive**: High-priority notifications that can break through certain focus modes
-- **Calling**: Call-like alerts for critical situations that demand immediate attention
+Not all alerts are equal. Echobell supports three types:
+
+- **Normal (Active)**: Standard app notifications for routine updates
+- **Time Sensitive**: High‑priority alerts that can break through focus modes
+- **Calling**: Call‑like notifications for critical incidents
 
 ### Privacy-First Approach
-We've built Echobell with privacy at its core:
-- Only user accounts, channels, and subscription data are stored on our servers
-- Notification content and history stay exclusively on your device
-- Your sensitive alert data never leaves your control
+
+Privacy is built in:
+
+- Only accounts, channels, and subscriptions live on our servers
+- Notification content and history stay on your devices
+- Your sensitive data remains under your control
 
 ## Use Cases
 
-Echobell is versatile enough to serve a wide range of notification needs:
+Echobell fits many real‑world workflows:
 
 ### For Developers
-- Monitor server health and receive instant alerts when issues arise
-- Get notifications when builds complete or tests fail
-- Receive alerts when critical errors occur in production
+
+- Server and uptime monitoring with webhook notifications (Grafana, Prometheus)
+- CI/CD and GitHub Actions alerts for build success/failure
+- Error reporting and log spikes in production
 
 ### For Traders
-- Get real-time alerts for stock price changes
-- Monitor cryptocurrency prices and receive notifications for significant fluctuations
-- Set up alerts for news articles or social media mentions of specific stocks
+
+- Real‑time stock or crypto price alerts
+- Threshold notifications for big moves
+- Mentions and signals via email forwarding
 
 ### For Teams
-- Create channels for different projects or systems
-- Let team members subscribe with their preferred notification urgency
-- Ensure critical alerts are never missed, even during focus time
+
+- Channels per project or customer
+- Teammates subscribe with their preferred urgency (Normal, Time Sensitive, Calling)
+- Critical alerts cut through focus time when needed
 
 ### For Personal Use
-- Get alerts when your website goes down
-- Receive notifications for important emails without checking your inbox
-- Create custom alerts for anything important to you
+
+- Website down alerts and contact‑form pings
+- Important email notifications without living in your inbox
+- Custom reminders for anything that matters to you
 
 ## Getting Started
 
-Getting started with Echobell is simple:
+Getting started takes minutes:
 
 1. Download Echobell from the [App Store](https://apps.apple.com/app/id6743597198)
-2. Create an account using email or Sign in with Apple
-3. Create your first channel with custom templates
-4. Set up a webhook or email trigger
-5. Start receiving notifications!
+2. Create an account (email or Sign in with Apple)
+3. Create your first channel and set a title/body template
+4. Add a webhook or email trigger
+5. Send a test—and start receiving instant notifications
 
 ## Join the Echobell Community
 
-We're just getting started, and we have big plans for Echobell's future. We're building a platform that puts you in control of your notifications, ensuring you're only interrupted when it truly matters.
+We’re just getting started, and we’re building Echobell in the open for developers, teams, and anyone who wants calmer, clearer notifications. If you value privacy‑first, reliable webhook notifications, simple email triggers, and flexible channels, Echobell is for you.
 
-Download Echobell today and transform how you manage notifications. We can't wait to hear what you build with it!
+Download Echobell today and take back control of your alerts. We can’t wait to see what you connect it to.
