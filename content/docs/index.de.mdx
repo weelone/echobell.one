@@ -1,121 +1,239 @@
 ---
 title: Erste Schritte
-description: Einführung in Echobell, ein leistungsstarkes Benachrichtigungsmanagement-Tool
+description: Beginnen Sie Ihre Reise mit Echobell - der entwicklerfreundlichen Instant-Alert-App, die endlich Benachrichtigungsmüdigkeit löst und verpasste kritische Alerts verhindert
 ---
 
 # Erste Schritte mit Echobell
 
-Willkommen bei Echobell, der Instant-Alert-App, die Ihnen hilft, wichtige Benachrichtigungen im Blick zu behalten. Diese Anleitung führt Sie durch die effektive Einrichtung und Nutzung von Echobell.
+Wir alle waren schon mal da - dieses mulmige Gefühl, wenn man merkt, dass der Server schon seit Stunden down ist, oder die CI/CD-Pipeline versagt hat, während man sich einen Kaffee geholt hat. Der endlose Strom von Benachrichtigungen verschiedener Tools hat uns taub für Alerts gemacht und dazu geführt, dass wir die wichtigen verpassen.
 
-## Was ist Echobell?
+Genau deshalb haben wir Echobell entwickelt. Nach Jahren, in denen wir von Fehlalarmen geweckt oder kritische Alerts komplett übersehen haben, wussten wir, dass es einen besseren Weg für Instant-Benachrichtigungen geben muss.
 
-Echobell ist ein leistungsstarkes Benachrichtigungsmanagement-Tool, das:
+## Was macht Echobell anders?
 
-- Webhooks und E-Mails als Auslöser verarbeitet
-- Angepasste Benachrichtigungen an Abonnenten sendet
-- Ihnen ermöglicht, Benachrichtigungskanäle zu erstellen und zu teilen
-- Ihre Benachrichtigungsdaten privat auf Ihrem Gerät hält
+Echobell verändert, wie Sie Alerts und Benachrichtigungen verwalten, indem es sich darauf konzentriert, was Entwickler wirklich brauchen:
+
+- **Smarte Webhook-Benachrichtigungen**, die nur ausgelöst werden, wenn es wichtig ist
+- **E-Mail-zu-Benachrichtigung-Brücken** für Legacy-Systeme
+- **Anpassbare Alert-Kanäle**, die Sie vollständig kontrollieren
+- **Privacy-first Design** - Ihre Benachrichtigungsdaten bleiben auf Ihrem Gerät
+
+Stellen Sie es sich als Ihren persönlichen Benachrichtigungs-Butler vor - intelligent genug zu wissen, wann er Sie stören soll und wann er ruhig bleiben sollte.
 
 ![Echobell Übersicht](/images/docs/screenshot-overview.en.webp)
 
-## Kernkonzepte
+## Echobells Kernkonzepte verstehen
 
-Bevor wir eintauchen, lassen Sie uns einige wichtige Konzepte verstehen:
+Lassen Sie uns aufschlüsseln, wie Echobell in Begriffen funktioniert, die für Ihren täglichen Workflow Sinn ergeben:
 
-### Kanäle
+### Kanäle - Ihre Benachrichtigungs-Kommandozentralen
 
-Ein **Kanal** ist die Grundeinheit in Echobell für die Organisation und Verteilung von Benachrichtigungen:
+Denken Sie an einen **Kanal** als eine dedizierte Benachrichtigungs-Pipeline für verschiedene Aspekte Ihres Systems:
 
-- Jeder Kanal hat einen eindeutigen **Namen** und eine **Farbe** zur einfachen Identifizierung
-- Kanäle enthalten **Benachrichtigungsvorlagen**, die bestimmen, welche Informationen gesendet werden
-- Kanäle werden durch Webhooks oder E-Mails ausgelöst
-- Sie können eigene Kanäle erstellen oder andere abonnieren
+- Jeder Kanal hat einen eindeutigen **Namen und Farbe** (weil visuelle Erkennung in Notfällen kostbare Sekunden spart)
+- **Benachrichtigungsvorlagen** definieren genau, welche Informationen an Ihr Telefon gesendet werden
+- Kanäle können über Webhooks oder gute alte E-Mail ausgelöst werden
+- Teilen Sie Kanäle mit Ihrem Team oder abonnieren Sie Kanäle, die andere erstellt haben
 
-### Auslöser
+*Echtes Beispiel: Sie könnten einen "Produktions-Alerts"-Kanal (rot) für kritische Systemprobleme und einen "Deploy-Updates"-Kanal (grün) für erfolgreiche Deployments haben.*
 
-Ein **Auslöser** aktiviert einen Kanal, um Benachrichtigungen zu senden:
+### Auslöser - Wie Ihre Systeme mit Ihnen sprechen
 
-- **Webhook**: Ein URL-Endpunkt, der bei Aufruf den Kanal aktiviert
-- **E-Mail**: Eine mit dem Kanal verknüpfte E-Mail-Adresse, die bei Empfang einer Nachricht den Kanal aktiviert
+Ein **Auslöser** ist einfach die Art, wie Ihre Systeme Ihren Kanal aktivieren:
 
-### Benachrichtigungstypen
+- **Webhook-URL**: Ihre Monitoring-Tools, CI/CD-Pipelines oder jedes System kann diese URL aufrufen, um Ihnen Instant-Benachrichtigungen zu senden
+- **E-Mail-Adresse**: Leiten Sie wichtige E-Mails weiter oder integrieren Sie sich mit Systemen, die nur E-Mail können
 
-Beim Abonnieren eines Kanals können Sie aus verschiedenen Benachrichtigungsstilen wählen:
+*Warum beide? Manchmal haben Sie es mit einem modernen Microservice zu tun, der REST-APIs spricht, manchmal arbeiten Sie mit diesem Legacy-System von 2015, das nur SMTP kennt.*
 
-- **Normal**: Standard-App-Benachrichtigung
-- **Zeitkritisch**: Hochprioritäts-Benachrichtigung, die Fokusmodi durchbrechen kann
-- **Anruf**: Anruf-ähnlicher Alarm für dringendste Angelegenheiten
+### Benachrichtigungstypen - Dringlichkeit zur Realität abgleichen
 
-## Erste Schritte
+Wenn Sie einen Kanal abonnieren, wählen Sie aus, wie dringend Sie gestört werden möchten:
 
-### 1. Konto einrichten
+- **Normal**: Standard-Push-Benachrichtigungen für Routine-Updates
+- **Zeitkritisch**: Durchbricht "Nicht stören" für wichtige, aber nicht kritische Alerts
+- **Anruf**: Telefonanruf-Alerts für "Weck-mich-um-3-Uhr-nachts"-Level-Notfälle
 
-1. Laden Sie Echobell aus dem [App Store](https://apps.apple.com/app/id6743597198) herunter
-2. Öffnen Sie die App und melden Sie sich mit E-Mail oder Apple an
+*Pro-Tipp: Reservieren Sie Anruf-Benachrichtigungen für echte Notfälle. Nichts zerstört Vertrauen wie falsche Alarm-Anrufe.*
+
+## Erste Schritte - Ihre ersten 5 Minuten mit Echobell
+
+Lassen Sie uns Ihren ersten Benachrichtigungskanal einrichten. Ich verspreche, es ist einfacher als Prometheus-Alerts zu konfigurieren!
+
+### 1. Herunterladen und Konto einrichten
+
+1. **Echobell herunterladen** vom [App Store](https://apps.apple.com/app/id6743597198) (ja, es ist kostenlos)
+2. **Anmelden** mit Ihrer E-Mail oder Apple ID - was auch immer sich bequemer anfühlt
 
 ![Konto-Einrichtung](/images/docs/screenshot-sign-in.en.webp)
 
-### 2. Ihren ersten Kanal erstellen
+*Kurze Notiz: Wir verwenden Ihre E-Mail nur für die Kontoverwaltung. Kein Spam, keine Newsletter, es sei denn Sie bitten explizit darum.*
 
-1. Tippen Sie auf dem Startbildschirm auf 'Kanal erstellen'
-2. Geben Sie einen Kanalnamen ein (z.B. "Server-Überwachung")
-3. Wählen Sie eine eindeutige Farbe für Ihren Kanal
-4. Der Kanal wird erstellt und Sie sehen die Einstellungen
+### 2. Ihren ersten Benachrichtigungskanal erstellen
+
+Hier passiert die Magie:
+
+1. **Tippen Sie auf den unteren rechten Button** um zur **Kanäle**-Ansicht zu navigieren
+2. **Tippen Sie auf den + Button** - Zeit, Ihren ersten Kanal zu erstellen
+3. **Benennen Sie Ihren Kanal** sinnvoll (z.B. "Produktionsserver-Alerts" oder "CI/CD-Pipeline")
+4. **Wählen Sie eine Farbe**, die für Sie Sinn macht (rot für kritisch, grün für Erfolg, etc.)
+5. **Benachrichtigungsvorlagen einrichten** (wir erklären das unten im Detail)
+6. **Wählen Sie ob Sie sich selbst** automatisch für diesen Kanal abonnieren möchten
+7. **Wählen Sie Ihre Benachrichtigungs-Dringlichkeitsstufe** (Normal, Zeitkritisch oder Anruf)
+8. **Speichern** und feiern - Sie haben gerade Ihren ersten smarten Benachrichtigungskanal erstellt!
 
 ![Kanal erstellen](/images/docs/screenshot-create-channel.en.webp)
 
-### 3. Auslöser einrichten
+*Tipp: Beginnen Sie zuerst mit einem Test-Kanal. Nennen Sie ihn etwas wie "Test-Alerts", damit Sie experimentieren können, ohne versehentlich kritische Alerts an Ihr ganzes Team zu senden.*
 
-1. Navigieren Sie in den Kanaleinstellungen zu 'Auslöser'
-2. Wählen Sie **Webhook** oder **E-Mail** Auslöser:
-   - **Webhook**: Kopieren Sie die URL zur Integration in Ihr System
-   - **E-Mail**: Kopieren Sie die E-Mail-Adresse für Weiterleitungsregeln
+### 3. Ihre Systeme mit Auslösern verbinden
 
-### 4. Benachrichtigungsvorlagen anpassen
+Hier wird Echobell wirklich mächtig. **Tippen Sie auf Ihren neu erstellten Kanal** um zu dessen Einstellungsseite zu gelangen - das ist Ihr Benachrichtigungs-Kontrollzentrum.
 
-Vorlagen verwenden Variablen, die aus den Auslöserdaten gefüllt werden:
+![Kanal-Einstellungen](/images/docs/screenshot-channel-settings.en.webp)
 
-1. Gehen Sie in Ihren Kanaleinstellungen zu **Benachrichtigungsvorlagen**
-2. Für die Titelvorlage könnten Sie verwenden: `{{server}} - {{status}}`
-3. Für die Textvorlage könnten Sie verwenden: `{{message}} Erkannt um {{timestamp}}`
-4. Variablen werden in doppelte geschweifte Klammern eingeschlossen: `{{variablenname}}`
-5. Testen Sie Ihre Vorlage mit Beispieldaten
+#### Option A: Webhook-Auslöser (Der moderne Weg)
 
-### 5. Kanäle abonnieren
+Perfekt für moderne Systeme, Monitoring-Tools und alles, was HTTP-Anfragen machen kann:
 
-1. Sie können den Abonnement-Link Ihrer Kanäle mit anderen teilen
-2. Oder Sie können von anderen geteilte Abonnement-Links verwenden
-3. Tippen Sie auf **Abonnieren** in der Kanalansicht
-4. Geben Sie den Abonnement-Link ein
-5. Wählen Sie Ihren bevorzugten **Benachrichtigungstyp**:
-   - Normal für Standardalarme
-   - Zeitkritisch für wichtige Alarme
-   - Anruf für kritische Situationen
-6. Bestätigen Sie Ihr Abonnement
+1. **Tippen Sie auf den Webhook-Button** um Ihre einzigartige Webhook-URL zu kopieren
+2. **Integrieren Sie diese URL** in Ihre Systeme:
+   - Grafana-Alerts
+   - GitHub Actions Workflows
+   - Kubernetes-Monitoring
+   - Benutzerdefinierte Skripte und Monitoring-Tools
+   - Jedes System, das HTTP-Aufrufe machen kann
 
-## App-Einstellungen
+So einfach ist es, Benachrichtigungen auszulösen:
 
-Sie können anpassen, wie Echobell Benachrichtigungen handhabt:
+```bash
+# Einfache GET-Anfrage mit Alert-Daten
+curl "https://hook.echobell.one/t/their-unique-id?server=web-01&status=DOWN&cpu=95%"
 
-- **Sprachinhalt wiederholen**: Bei Anrufbenachrichtigungen wird der Benachrichtigungsinhalt wiederholt
-- **Fehlgeschlagenen Anruf wiederholen**: Automatische Wiederholung von Anrufbenachrichtigungen, die aufgrund des Fokusmodus fehlgeschlagen sind
+# Oder POST mit JSON (für komplexe Daten)
+curl -X POST https://hook.echobell.one/t/your-unique-id \
+  -H "Content-Type: application/json" \
+  -d '{
+    "server": "web-01",
+    "status": "KRITISCH", 
+    "message": "CPU-Nutzung auf 95% gestiegen",
+    "dashboard_url": "https://grafana.company.com/dashboard/123"
+  }'
+```
 
-## Datenschutz und Datenspeicherung
+**Pro-Tipp:** Fügen Sie eine `externalLink`-Variable in Ihre Webhook-Aufrufe ein. Es wird zu einem klickbaren Link in Ihrer Benachrichtigung, perfekt um direkt zu Dashboards oder Logs zu springen.
 
-Echobell priorisiert Ihren Datenschutz:
+#### Option B: E-Mail-Auslöser (Der universelle Fallback)
 
-- Nur Benutzerkonten, Kanäle und Abonnementdaten werden auf unseren Servern gespeichert
-- Benachrichtigungsinhalte und -verlauf werden lokal auf Ihrem Gerät gespeichert
-- Ihre Alarmdaten bleiben unter Ihrer Kontrolle
+Manchmal müssen Sie mit Systemen arbeiten, die älter sind als REST-APIs:
 
-## Nächste Schritte
+1. **Tippen Sie auf den E-Mail-Button** um die einzigartige E-Mail-Adresse Ihres Kanals zu sehen
+2. **Leiten Sie wichtige E-Mails** an diese Adresse weiter, oder konfigurieren Sie Legacy-Systeme, Alerts hierher zu senden
+3. Wenn E-Mails ankommen, lösen sie automatisch Benachrichtigungen mit diesen Variablen aus:
+   - `from` - wer die E-Mail gesendet hat
+   - `subject` - die E-Mail-Betreffzeile
+   - `text` - einfacher E-Mail-Text-Inhalt
+   - `html` - formatierter E-Mail-Inhalt
 
-Nachdem Sie Ihren ersten Kanal eingerichtet haben:
+*Das ist unglaublich nützlich für die Integration mit älteren Systemen, das Weiterleiten kritischer E-Mails oder das Erstellen von Benachrichtigungs-Workflows ohne Code zu schreiben.*
 
-- Erkunden Sie erweiterte Vorlagenoptionen
-- Teilen Sie Ihre Kanäle mit Teammitgliedern
-- Richten Sie Benachrichtigungszeitpläne und Ruhezeiten ein
+### 4. Perfekte Benachrichtigungen erstellen
 
-Für detailliertere Informationen zu jeder Funktion besuchen Sie unseren [Funktionsführer](/de/docs/features).
+Hier verwandeln Sie rohe Daten in umsetzbare Alerts. Gute Benachrichtigungsvorlagen sind der Unterschied zwischen nützlichen Alerts und Benachrichtigungs-Spam.
 
-Brauchen Sie Hilfe? Besuchen Sie unser [Support-Center](/de/docs/support) oder senden Sie eine E-Mail an echobell@weelone.com.
+**Vorlagen-Grundlagen:**
+1. **Navigieren Sie zu Benachrichtigungsvorlagen** in Ihren Kanal-Einstellungen
+2. **Titel-Vorlage** - Halten Sie es prägnant aber informativ (zeigt in Ihrer Benachrichtigungsvorschau)
+3. **Text-Vorlage** - Fügen Sie die Details hinzu, die Sie brauchen um zu handeln
+4. **Verwenden Sie Variablen** in `{{doppelten_klammern}}` um Vorlagen dynamisch zu machen
+
+**Realitätsnahe Beispiele, die funktionieren:**
+
+```
+Titel: 🚨 {{server}} hat Probleme
+Text: Status: {{status}} | CPU: {{cpu}}% | Memory: {{memory}}% | Check: {{dashboard_url}}
+```
+
+```  
+Titel: ✅ Deploy auf {{environment}} abgeschlossen
+Text: {{app_name}} v{{version}} erfolgreich deployed. Dauer: {{deploy_time}}
+```
+
+```
+Titel: 💸 Neue Bestellung #{{order_id}} 
+Text: Kunde: {{customer_name}} | Betrag: ${{amount}} | Artikel: {{item_count}}
+```
+
+**Vorlagen Pro-Tipps:**
+- Beginnen Sie mit Emojis oder Status-Indikatoren für schnelle visuelle Erkennung
+- Fügen Sie umsetzbare Informationen hinzu (URLs, Server-Namen, Fehler-Codes)
+- Halten Sie Titel unter 50 Zeichen für bessere mobile Anzeige
+- Testen Sie Ihre Vorlagen mit echten Daten bevor Sie live gehen
+
+### 5. Kanäle teilen und Ihr Benachrichtigungsnetzwerk aufbauen
+
+Eine der mächtigsten Funktionen von Echobell sind kollaborative Benachrichtigungen:
+
+**Um den Kanal von jemand anderem zu abonnieren:**
+1. **Tippen Sie auf Abonnieren** in der Kanäle-Ansicht
+2. **Fügen Sie den Abonnement-Link ein**, den sie mit Ihnen geteilt haben
+3. **Wählen Sie Ihre Benachrichtigungs-Dringlichkeitsstufe** (Sie kontrollieren das, nicht der Kanal-Besitzer)
+4. **Bestätigen** - Sie erhalten jetzt deren Benachrichtigungen
+
+**Um Ihre Kanäle zu teilen:**
+1. **Öffnen Sie Ihre Kanal-Einstellungen**
+2. **Kopieren Sie den Abonnement-Link**
+3. **Teilen Sie ihn** mit Teammitgliedern über Slack, E-Mail oder wie auch immer Ihr Team kommuniziert
+
+*Das ist fantastisch für Team-Alerts, Deployment-Benachrichtigungen oder das Teilen von Monitoring-Daten zwischen Abteilungen.*
+
+## Ihre Benachrichtigungserfahrung feinabstimmen
+
+### App-Einstellungen, die wirklich wichtig sind
+
+Greifen Sie über die App-Einstellungen darauf zu, um Ihre Echobell-Erfahrung anzupassen:
+
+- **Sprach-Inhalt wiederholen**: Wenn Sie Anruf-Benachrichtigungen erhalten, wird die Nachricht wiederholt, damit Sie jedes Detail mitbekommen (nützlich wenn um 3 Uhr nachts geweckt)
+- **Fehlgeschlagenen Anruf wiederholen**: Wiederholt automatisch Anruf-Benachrichtigungen, die wegen "Nicht stören" oder anderen Fokus-Modi fehlgeschlagen sind
+
+*Kleine Einstellungen, große Auswirkung auf die Zuverlässigkeit.*
+
+## Ihr Datenschutz kommt zuerst
+
+Wir haben Echobell mit einem datenschutz-ersten Ansatz gebaut, weil wir auch Entwickler sind und wissen, wie sensibel Systemdaten sein können:
+
+- **Server-seitige Daten**: Nur Ihr Konto, Kanal-Definitionen und Abonnement-Listen
+- **Nur-Gerät-Daten**: Alle Benachrichtigungsinhalte und der Verlauf bleiben komplett lokal
+- **Ihre Kontrolle**: Ihre Alert-Daten verlassen nie Ihre Kontrolle oder werden von uns analysiert
+
+*Übersetzung: Wir sehen, dass Sie einen Kanal namens "Produktions-Alerts" erstellt haben, aber wir sehen nie den tatsächlichen Alert-Inhalt wie "Datenbank CPU bei 95%".*
+
+## Was kommt als nächstes? Verbessern Sie Ihr Alert-Spiel
+
+Jetzt da Sie Ihren ersten Kanal am Laufen haben, sind hier einige Wege, Ihre Benachrichtigungs-Einrichtung weiterzuentwickeln:
+
+**Sofortige nächste Schritte:**
+- Erstellen Sie Kanäle für verschiedene Schweregrade (Info, Warnung, Kritisch)
+- Richten Sie Webhook-Integrationen mit Ihren bestehenden Monitoring-Tools ein
+- Teilen Sie wichtige Kanäle mit Ihren Teammitgliedern
+
+**Erweiterte Strategien:**
+- Verwenden Sie bedingte Vorlagen um Nachrichten basierend auf Alert-Daten anzupassen
+- Erstellen Sie Eskalations-Workflows mit verschiedenen Benachrichtigungstypen
+- Bauen Sie Kanal-Hierarchien für komplexe Systeme
+
+**Integrations-Ideen:**
+- Verbinden Sie Ihre CI/CD-Pipeline für Deployment-Benachrichtigungen
+- Brücken Sie Legacy-E-Mail-Alerts in moderne Push-Benachrichtigungen
+- Richten Sie Monitoring-Dashboards ein, die direkt mit Ihrem Telefon sprechen
+
+## Brauchen Sie Hilfe? Wir sind für Sie da
+
+Jeder Entwickler-Setup ist einzigartig, und wir lieben es, Menschen zu helfen, das Beste aus Echobell herauszuholen:
+
+- **Erkunden Sie detaillierte Anleitungen** in unserer [Funktionsdokumentation](/docs/features)
+- **Schauen Sie sich Integrations-Tutorials** in unseren Blog-Posts an
+- **Holen Sie sich direkte Hilfe** in unserem [Support-Center](/docs/support)
+- **Schreiben Sie uns direkt** an echobell@weelone.com (wir lesen und antworten tatsächlich auf E-Mails!)
+
+Denken Sie daran: Großartige Benachrichtigungssysteme werden nicht an einem Tag gebaut, aber sie sind definitiv die Investition wert. Ihr zukünftiges 3-Uhr-nachts-Ich wird Ihnen dafür danken, dass Sie das richtig eingerichtet haben.

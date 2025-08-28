@@ -1,79 +1,175 @@
 ---
 title: Was ist Echobell?
-description: Lernen Sie Echobell kennen, die Instant-Alert-App, die das Benachrichtigungsmanagement vereinfacht.
+description: Entdecken Sie, wie Echobell Entwickler-Benachrichtigungen transformiert - vom Webhook-Chaos zu kristallklaren Instant-Alerts, die Ihnen tatsächlich helfen, Probleme schneller zu lösen.
 ---
 
 # Was ist Echobell?
 
-Echobell ist eine Instant-Alert-Anwendung, die entwickelt wurde, um das Benachrichtigungsmanagement zu vereinfachen. Sie verarbeitet Webhooks und E-Mails, um angepasste Benachrichtigungen zu senden und sicherzustellen, dass Sie keine wichtigen Alarme verpassen.
+Haben Sie schon mal eine kritische Produktions-Alert verpasst, weil sie unter 47 anderen Benachrichtigungen begraben war? Oder wurden Sie um 2 Uhr nachts von einer "niedriger Festplattenspeicher"-Warnung geweckt, die bis zum Morgen hätte warten können? Wir waren auch schon da, und genau diese Frustration führte dazu, dass wir Echobell erschaffen haben.
 
-## Kernfunktionen
+**Echobell ist die Instant-Alert-App, die endlich Entwickler-Benachrichtigungen für Sie arbeiten lässt, nicht gegen Sie.** Es verwandelt den chaotischen Strom von Webhooks und E-Mails aus Ihren Systemen in klare, umsetzbare Alerts, die Sie zur richtigen Zeit mit dem richtigen Dringlichkeitslevel erreichen.
 
-- **Sofortige Alarme**: Empfangen Sie Benachrichtigungen in Echtzeit, wenn Ihre Kanäle ausgelöst werden
-- **Mehrere Auslösemethoden**: Richten Sie Webhook- oder E-Mail-basierte Auslöser ein
-- **Anpassbare Benachrichtigungen**: Konfigurieren Sie Vorlagen mit dynamischen Variablen
-- **Abonnementsystem**: Erstellen Sie Kanäle und lassen Sie andere diese abonnieren
-- **Datenschutzorientiert**: Nur essenzielle Daten werden auf unseren Servern gespeichert, während der Benachrichtigungsverlauf auf Ihrem Gerät bleibt
+## Das Problem, das wir gelöst haben
 
-## Wie Echobell funktioniert
+Als Entwickler und Ops-Ingenieure leben wir in einer Welt konstanter Pings, Alerts und Benachrichtigungen. Slack-Nachrichten, E-Mail-Weiterleitungen, PagerDuty-Alerts, Grafana-Benachrichtigungen, GitHub-Webhooks - es hört nie auf. Das Resultat? **Benachrichtigungsmüdigkeit**. Wir fangen an, alles zu ignorieren, was bedeutet, dass wir die Alerts verpassen, die wirklich wichtig sind.
 
-Wenn ein Webhook aufgerufen oder eine E-Mail empfangen wird, verarbeitet Echobell die eingehenden Daten und sendet Benachrichtigungen an alle Kanalabonnenten. Der Benachrichtigungsinhalt wird dynamisch basierend auf Ihren Vorlagen und den im Auslöser bereitgestellten Variablen generiert.
+Traditionelle Benachrichtigungssysteme behandeln alles gleich. Ein erfolgreiches Deployment bekommt die gleiche Aufmerksamkeit wie ein Datenbankausfall. Eine Code-Review-Anfrage sieht identisch aus wie eine Sicherheitslücken-Alert.
 
-## Schlüsselkonzepte
+**Echobell ändert das, indem es Ihnen granulare Kontrolle darüber gibt, wie und wann Sie gestört werden.**
 
-### Kanäle
+## Was macht Echobell besonders
 
-Ein Kanal ist die Kerneinheit in Echobell. Jeder Kanal:
+### Smarte Benachrichtigungsverwaltung
+- **Instant-Webhook-Benachrichtigungen**, die jeden HTTP-Call in eine perfekt formatierte mobile Alert verwandeln
+- **E-Mail-zu-Benachrichtigung-Brücken**, die wichtige Nachrichten aus der E-Mail-Hölle retten
+- **Benutzerdefinierte Alert-Kanäle**, organisiert nach Projekt, Schweregrad oder Team
+- **Intelligente Dringlichkeitsstufen** - von stillen Updates bis zu "weck mich jetzt auf"-Notrufen
 
-- Hat einen eindeutigen Namen und eine Farbe zur einfachen Identifizierung
-- Enthält Benachrichtigungsvorlagen für Titel- und Textinhalt
-- Kann über Webhook oder E-Mail ausgelöst werden
-- Kann mit anderen über Abonnement-Links geteilt werden
+### Entwickler-First-Design
+- **Template-basierte Benachrichtigungen** mit Variablen aus Ihren Webhook-Payloads
+- **Zero-configuration-Integrationen** mit Tools wie GitHub Actions, Grafana und benutzerdefinierten Skripten
+- **Team-Kollaborationsfeatures** zum Teilen von Benachrichtigungskanälen
+- **Privacy-fokussierte Architektur** - Ihr Alert-Inhalt kommt nie auf unsere Server
 
-### Benachrichtigungstypen
+### Reale Problemlösung
+Anstatt noch ein weiteres Dashboard zu überprüfen, bringt Echobell kritische Informationen direkt an Ihr Telefon, Ihre Smartwatch oder wo auch immer Sie es brauchen. Es ist der Unterschied zwischen dem Entdecken eines Ausfalls durch eine verärgerte Kunden-E-Mail und dem Erfassen in der Sekunde, in der es passiert.
 
-Beim Abonnieren eines Kanals können Sie aus drei Benachrichtigungstypen wählen:
+## Wie Echobell tatsächlich funktioniert
 
-- **Normal**: Standard-App-Benachrichtigungen
-- **Zeitkritisch**: Benachrichtigungen, die bestimmte Fokusmodi durchbrechen können
-- **Anruf**: Anruf-ähnliche Alarme für kritische Benachrichtigungen
+Hier ist die Magie: Ihre Systeme (Monitoring-Tools, CI/CD-Pipelines, benutzerdefinierte Skripte) senden Webhook-Anfragen oder E-Mails an Echobell. Wir verarbeiten diese Daten und liefern sofort formatierte Benachrichtigungen an alle, die diesen Kanal abonniert haben.
 
-### Vorlagenvariablen
+**Der Ablauf ist einfach:**
+1. Etwas passiert in Ihrem System (Deployment, Fehler, Schwellenwert-Überschreitung)
+2. Ihr System ruft einen Echobell-Webhook auf oder sendet eine E-Mail
+3. Echobell verarbeitet die Daten und wendet Ihre Benachrichtigungsvorlage an
+4. Formatierte Benachrichtigungen werden sofort an alle Abonnenten geliefert
+5. Sie können sofort mit dem gesamten benötigten Kontext handeln
 
-Machen Sie Ihre Benachrichtigungen dynamisch, indem Sie Variablen in Ihren Vorlagen verwenden:
+**Was es mächtig macht:** Der Benachrichtigungsinhalt wird dynamisch aus den tatsächlichen Daten generiert, die Ihre Systeme senden, also erhalten Sie anstelle generischer Alerts umsetzbare Informationen wie Server-Namen, Fehler-Codes, Dashboard-Links und spezifische Metriken.
+
+## Die Bausteine: Echobells Kernkonzepte verstehen
+
+### Kanäle - Ihre Benachrichtigungs-Kommandozentralen
+
+Denken Sie an Kanäle als smarte Benachrichtigungs-Pipelines, jede für einen spezifischen Zweck entwickelt:
+
+- **Einzigartige Identität**: Jeder Kanal hat einen Namen und eine Farbe (denn wenn Sie um 3 Uhr nachts Probleme lösen, sind visuelle Hinweise wichtig)
+- **Smarte Vorlagen**: Definieren Sie genau, wie rohe Daten zu umsetzbaren Benachrichtigungen werden
+- **Flexible Auslöser**: Verbinden Sie sich über Webhooks für moderne Systeme oder E-Mail für Legacy-Integrationen
+- **Team-Sharing**: Einmal erstellen, mit jedem teilen, der diese Alerts braucht
+
+*Beispiel: Ihr "Datenbank-Alerts"-Kanal (rot) könnte Anruf-Benachrichtigungen auslösen, während Ihr "Deploy-Updates"-Kanal (grün) normale Benachrichtigungen sendet.*
+
+### Benachrichtigungstypen - Alerts zur Realität abgleichen
+
+Hier glänzt Echobell. Nicht jede Alert verdient das gleiche Dringlichkeitslevel:
+
+- **Normal**: Standard-Push-Benachrichtigungen für Routine-Updates und unkritische Informationen
+- **Zeitkritisch**: Durchbricht "Nicht stören" für wichtige aber handhabbare Probleme
+- **Anruf**: Telefonanruf-Alerts, die Sie für echte Notfälle aufwecken
+
+*Die Schlüssel-Erkenntnis: SIE kontrollieren das Dringlichkeitslevel, wenn Sie einen Kanal abonnieren. Der Kanal-Ersteller schlägt vor, aber Sie entscheiden, ob deren "kritische" Alert es wert ist, Sie aufzuwecken.*
+
+### Template-Variablen - Von rohen Daten zu klaren Aktionen
+
+Hier werden Entwickler-Benachrichtigungen aufregend. Anstelle generischer "etwas ist passiert"-Alerts erhalten Sie reiche, kontextuelle Informationen:
 
 ```
-Titel: Server {{server_name}} ist ausgefallen!
-Text: CPU-Auslastung erreichte {{cpu_usage}}%
+Titel: 🚨 {{environment}} Datenbankprobleme
+Text: {{database_name}} Antwortzeit: {{response_time}}ms
+Query: {{slow_query}}
+Dashboard: {{grafana_url}}
 ```
 
-Wenn diese Vorlagen mit den entsprechenden Variablen ausgelöst werden, generieren sie personalisierte Benachrichtigungen.
+Wenn Ihr Monitoring-System das mit echten Daten auslöst, erhalten Sie:
+```
+🚨 Produktions-Datenbankprobleme
+mysql-primary Antwortzeit: 2.847ms  
+Query: SELECT * FROM users WHERE...
+Dashboard: https://grafana.company.com/db/mysql
+```
 
-### Auslösemethoden
+**Jetzt das ist eine umsetzbare Alert.** Sie wissen sofort, was falsch ist, wo Sie nachschauen müssen und wie Sie es beheben können.
 
-Echobell unterstützt zwei Hauptauslösemethoden:
+## Wie Sie Ihre Systeme verbinden
 
-- **Webhook**: HTTP-Endpunkte zur Systemintegration
-- **E-Mail**: Dedizierte E-Mail-Adressen zum Auslösen von Benachrichtigungen
+### Webhook-Auslöser - Der moderne Ansatz
 
-## Datenschutz und Datenspeicherung
+Perfekt für jedes System, das HTTP-Anfragen machen kann. Die meisten Monitoring-Tools, CI/CD-Plattformen und benutzerdefinierte Anwendungen passen in diese Kategorie:
 
-Echobell wurde mit Datenschutz im Fokus entwickelt:
+```bash
+# Einfache GET-Anfrage mit Parametern
+curl "https://hook.echobell.one/t/your-channel?server=web-01&status=DOWN&cpu=95"
 
-- Nur Benutzerdaten, Kanaleinstellungen und Abonnementinformationen werden auf unseren Servern gespeichert
-- Benachrichtigungsverlauf und -aufzeichnungen bleiben ausschließlich auf Ihrem lokalen Gerät
+# Reiche POST mit detaillierten JSON-Daten
+curl -X POST https://hook.echobell.one/t/your-channel \
+  -H "Content-Type: application/json" \
+  -d '{
+    "server": "web-01",
+    "status": "KRITISCH",
+    "service": "nginx", 
+    "error_count": 47,
+    "dashboard": "https://grafana.company.com/d/nginx-overview"
+  }'
+```
 
-## Erste Schritte
+**Pro-Tipp:** Fügen Sie eine `externalLink`-Variable in Ihre Anfragen ein. Es wird zu einem klickbaren Button in Ihrer Benachrichtigung, der Sie direkt zu Dashboards, Logs oder wo auch immer Sie nachforschen müssen, bringt.
 
-Um Echobell zu nutzen, müssen Sie:
+### E-Mail-Auslöser - Der universelle Fallback
 
-1. Echobell-App aus dem [App Store](https://apps.apple.com/app/id6743597198) herunterladen
-2. Mit E-Mail oder Ihrer Apple-ID anmelden
-3. Einen Kanal erstellen und seine Einstellungen anpassen
-4. Ihren Webhook oder E-Mail-Auslöser integrieren
-5. Beginnen Sie mit dem Empfang von Benachrichtigungen
+Manche Systeme sprechen nur E-Mail (wir schauen dich an, Legacy-Monitoring-Tools von 2010). Kein Problem:
 
-<Callout type="warn">
-  Echobell benötigt Benachrichtigungsberechtigungen, um ordnungsgemäß zu
-  funktionieren, da alle Funktionen benachrichtigungsbasiert sind.
+1. **Jeder Kanal bekommt eine einzigartige E-Mail-Adresse** wie `alerts-x8k9n@hook.echobell.one`
+2. **Leiten Sie E-Mails weiter oder konfigurieren Sie Systeme** um an diese Adresse zu senden
+3. **Automatische Variable-Extraktion** gibt Ihnen:
+   - `from` - Wer die Alert gesendet hat
+   - `subject` - E-Mail-Betreffzeile
+   - `text` - Einfacher Text-Inhalt
+   - `html` - Rich-formatierter Inhalt
+
+*Das ist unglaublich nützlich für die Integration mit älteren Systemen oder das Erstellen von Benachrichtigungs-Workflows für nicht-technische Teammitglieder.*
+
+## Datenschutz, der Entwicklern wirklich wichtig ist
+
+Wir haben Echobells Datenschutzmodell so gebaut, wie wir es wollten, wenn wir es verwenden würden:
+
+**Was auf unseren Servern bleibt:**
+- Ihre Kontoinformationen
+- Kanal-Definitionen (Namen, Vorlagen, Einstellungen)
+- Abonnement-Listen (wer was abonniert hat)
+
+**Was nie unsere Server berührt:**
+- Der tatsächliche Inhalt Ihrer Benachrichtigungen
+- Alert-Verlauf und Aufzeichnungen
+- Jegliche sensiblen Daten aus Ihren Webhook-Payloads oder E-Mails
+
+**Übersetzung:** Wir wissen, dass Sie einen Kanal namens "Datenbank-Alerts" haben, aber wir sehen nie die Benachrichtigung, die sagt "Produktions-MySQL CPU bei 95%". Diese Daten gehen direkt von unserem System zu Ihrem Gerät und bleiben dort.
+
+## Bereit, Ihre Alerts zu transformieren?
+
+Der Einstieg in Echobell dauert etwa 5 Minuten und wird für immer ändern, wie Sie System-Benachrichtigungen handhaben:
+
+1. **Herunterladen** der kostenlosen Echobell-App vom [App Store](https://apps.apple.com/app/id6743597198)
+2. **Anmelden** mit Ihrer E-Mail oder Apple ID - was auch immer einfacher für Sie ist
+3. **Erstellen Sie Ihren ersten Kanal** für etwas, das Sie bereits überwachen
+4. **Verbinden Sie einen Webhook oder E-Mail-Auslöser** von Ihren bestehenden Systemen
+5. **Erleben Sie**, wie sich intelligente Benachrichtigungen anfühlen
+
+<Callout type="info">
+**Schnellstart-Tipp:** Beginnen Sie mit einem unkritischen Kanal wie "Deployment-Benachrichtigungen" oder "Tägliche Report-Zusammenfassungen". Sobald Sie sehen, wie gut es funktioniert, können Sie Ihre kritischen Alerts migrieren.
 </Callout>
+
+## Warum Entwickler Echobell lieben
+
+**"Endlich Benachrichtigungen, die helfen anstatt zu nerven"** - Das ist das häufigste Feedback, das wir erhalten. Echobell sendet Ihnen nicht nur mehr Benachrichtigungen; es sendet Ihnen bessere Benachrichtigungen zur richtigen Zeit.
+
+**Reale Auswirkungen:**
+- Produktionsprobleme in Sekunden statt Minuten oder Stunden erfassen
+- Aufhören, von unkritischen Alerts geweckt zu werden
+- Wichtige Benachrichtigungen im Team teilen ohne komplexe Einrichtung
+- Chaotische E-Mail-Weiterleitungen in saubere, umsetzbare mobile Alerts verwandeln
+- Benachrichtigungs-Workflows erstellen, ohne eine weitere komplexe Plattform zu lernen
+
+Das Beste? **Echobell benötigt Benachrichtigungsberechtigungen, um ordnungsgemäß zu funktionieren**, weil alles, was wir tun, darum geht, Ihnen die richtigen Informationen zur richtigen Zeit zu bringen. Wir versuchen nicht, Sie in einer App zu halten; wir versuchen, Ihnen die Informationen zu geben, die Sie brauchen, damit Sie wieder großartige Sachen bauen können.
+
+**Bereit, die Kontrolle über Ihre Alerts zurückzugewinnen?** Laden Sie Echobell herunter und richten Sie Ihren ersten smarten Benachrichtigungskanal ein. Ihr zukünftiges Ich (besonders das, das zu schlafen versucht) wird es Ihnen danken.
