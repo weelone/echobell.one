@@ -1,56 +1,114 @@
 ---
-title: TradingViewのアラートを緊急電話通知として受信
-description: TradingViewのアラートをEchobellで即時の電話通知に変換します。
+title: TradingView のアラートを緊急電話通知として受信
+description: TradingView のアラートを Echobell で即時の電話通知に変換します。
 date: 2025-04-19
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# もう取引の機会を逃さない：TradingView のアラートを Echobell で緊急電話通知として受信！
+# もう取引の機会を逃さない：TradingView のアラートを Echobell で電話通知に
 
-画面から目を離していたために重要な市場の動きを見逃してしまった経験はありませんか？重要な TradingView のアラートがトリガーされた瞬間に*実際の電話*を受けることができたらと想像してみてください！Echobell なら、それは夢ではなく現実です。見逃しやすい通知に頼るのをやめ、注目を要求するアラートを受け取り始めましょう。
+完璧なセットアップを逃してしまう原因は、通知を見落とすことにあります。私は「絶対に気づける仕組み」が欲しくて、TradingView のアラートを Echobell の電話通知に変えました。数分でつながり、安心感が違います。
 
-以下は、TradingView のシグナルと Echobell の強力な通話アラートを連携させる方法です：
+このガイドでは、Webhook で TradingView と Echobell を接続し、通話内容をテンプレートでカスタマイズし、エンドツーエンドでテストします。
 
-## 準備：必要なもの
+全体像のためのリンク：
 
-- スマートフォンに Echobell アプリをインストールしたアカウント
-- TradingView アカウント（注意：TradingView の Webhook 機能は通常、Pro、Pro+、または Premium サブスクリプションが必要です）
+- Echobell とは → [/ja/docs/what-is-echobell](/ja/docs/what-is-echobell)
+- Webhook の概要 → [/ja/docs/webhook](/ja/docs/webhook)
+- 通知タイプ（通常・時間重視・通話） → [/ja/docs/notification](/ja/docs/notification)
+- テンプレートと変数 → [/ja/docs/template](/ja/docs/template)
 
-## ステップ 1：Echobell アラートチャンネルの作成
+## なぜ「通話」通知？
 
-1. **新しいチャンネルの作成：** Echobell アプリで「チャンネル作成」をタップし、「TradingView GOLD アラート」などの印象的な名前を付け、アクションを示す色を選択します
-2. **「通話」機能の有効化：** これが重要です！チャンネルを設定（または購読）する際、通知タイプとして**「通話」**を選択します。控えめな通知音ではなく、完全な通話アラートが必要です
-3. **アラートメッセージの作成（忍者テクニック）：** 通話通知で*正確に*何が起きているのかを伝えたいですか？`タイトル`と`本文`のテンプレートをカスタマイズしましょう。TradingView はティッカーシンボルや価格などのデータを送信できます。電話が鳴り、Echobell が「アラート：BTC/USD が$50,000 を突破！」と告知する様子を想像してください。使用可能なアラート変数（`{{ticker}}`、`{{close}}`など）については TradingView のドキュメントを確認し、Echobell のテンプレートで`{{変数名}}`として使用します
-4. **秘密の武器を入手：Webhook の URL：** チャンネル設定が完了したら、その詳細に移動します。**Webhook**のトリガー URL を見つけてください - このユニークなリンクがあなたの秘密の鍵です。慎重にコピーして大切に保管してください！TradingView はこの正確な URL を使用して Echobell の通話を即座にトリガーします
+- 秒単位で重要なときでも、通話はフォーカスモードを貫通します
+- Echobell ではチャンネルごとに優先度（通常/時間重視/通話）を選べます
+- テンプレートでデータを「聞き取りやすい文章」にできます
 
-## ステップ 2：TradingView の設定
+SEO メモ：本記事は、Echobell の Webhook 連携で TradingView のアラートを電話通知にする方法を解説します。
 
-1. **戦場に参入：TradingView：** TradingView を開き、選択したチャートに移動します
-2. **罠を仕掛ける：アラートの作成/編集：**
-   - 時計アイコンの「アラート」をクリックするか、チャート、インジケーター、または描画物を右クリックしてアラート設定を呼び出します
-3. **トリガーを定義：** レジスタンスレベルを突破する価格、お気に入りのインジケーターからのシグナルなど、「アラート！」と叫ぶべき市場条件を正確に設定します
-4. **配線を接続：通知の設定：**
-   - 「通知」または「アラートアクション」セクションを探します
-   - **「Webhook URL」**のチェックボックスを見つけてチェックを入れます。これで接続が有効になります
-   - ステップ 1 で取得した Echobell の**Webhook トリガー URL**をこのフィールドに直接貼り付けます
-5. **メッセージの強化（オプションだが素晴らしい）：**
-   - 「メッセージ」ボックスは、TradingView が\_何を\_Echobell に叫ぶかを指示する場所です
-   - Echobell のテンプレートを輝かせるために、このメッセージを JSON 形式でフォーマットします。これによりチャートから動的なデータを直接電話通知に渡すことができます！
-   - 典型的な JSON 構造は次のようになります（TradingView 固有のプレースホルダーを確認してください）：
-     ```json
-     {
-       "ticker": "{{ticker}}",
-       "price": "{{close}}",
-       "action": "{{strategy.order.action}}"
-     }
-     ```
-   - シンプルなメッセージでも問題ありませんが、JSON を使用することで、Echobell のテンプレートと組み合わせることで真に情報豊富な通話アラートが実現できます
-6. **アラートを武装：** 「作成」または「保存」を押すと、TradingView のアラートが Echobell を通じて通話する準備が整います！
+## 前提条件
 
-## ステップ 3：真実の瞬間 - テスト！
+- Echobell アプリのインストールとアカウント作成（[App Store](https://apps.apple.com/app/id6743597198)）
+- TradingView アカウント（Webhook は Pro/Pro+/Premium で利用可能）
 
-アラート条件が市場でトリガーされるのを待ちます（またはテストアラートを使用します）。準備してください！Echobell の独特な通話通知が、ほぼ瞬時にあなたのスマートフォンで鳴るはずです。（スマートフォンで Echobell に通知権限を付与することを忘れないでください！）
+## ステップ 1 — Echobell チャンネル作成（通話を選択）
 
-**おめでとうございます！** TradingView のパッシブな通知を、注目を集める無視できない電話通知に変換することに成功しました。よりスマートに取引し、より素早く反応し、二度と重要な市場イベントを見逃すことはありません！
+1）Echobell アプリ → チャンネル作成。名称は「TradingView Calls」など、ひと目で分かるものに。
+
+2）通知タイプを選択。緊急なら**通話**、それ以外は**時間重視**や**通常**も可。→ [/ja/docs/notification](/ja/docs/notification)
+
+3）テンプレートを調整（推奨）。通話で「何が起きたか」をそのまま伝えられます。TradingView の変数と組み合わせましょう：
+
+    タイトル：`{{ticker}} が {{price}} をクロス`
+
+    本文：`シグナル: {{action}} @ {{price}} / {{ticker}}`
+
+変数と式の詳細 → [/ja/docs/template](/ja/docs/template)
+
+4）チャンネル詳細から Webhook URL をコピー。TradingView が呼び出す先です。秘密として扱ってください。→ [/ja/docs/webhook](/ja/docs/webhook)
+
+## ステップ 2 — TradingView と接続
+
+1）TradingView でチャートを開き、アラートを作成/編集。
+
+2）条件（価格・インジ・ストラテジーなど）を設定。
+
+3）通知/アクションで**Webhook URL**を有効にし、ステップ 1 の URL を貼り付け。
+
+4）メッセージは JSON で。動的値を渡すと、Echobell が通話で読み上げできます：
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "price": "{{close}}",
+  "action": "{{strategy.order.action}}",
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+補足：
+
+- TradingView の変数（例：`{{ticker}}`, `{{close}}`）を使います。
+- `externalLink`は任意。ローカル記録にリンクとして表示されます → [/ja/docs/notification](/ja/docs/notification)
+
+## ステップ 3 — 動作確認
+
+アラートを発火（テストでも可）。数秒以内に、設定した内容で Echobell の電話が鳴るはずです。まずは時間重視で試し、本当に緊急なものだけ通話にするのもおすすめ。
+
+## トラブルシューティング
+
+- 通話が来ない：通知タイプが通話か、通知権限があるか確認
+- Webhook が 4xx：URL の誤り、チャンネルトークンのローテーションを確認
+- 変数が反映されない：JSON キーとテンプレート変数の表記（大文字小文字）を一致させる
+- 通話が多すぎる：時間重視に落とす、または TradingView の条件を調整
+
+## テンプレートを活かすコツ
+
+通話で聞いた瞬間に理解できる文章を：
+
+- 文脈を追加：「{{ticker}} が {{price}}（15 分足）」
+- 方向性を含める：「アクション：{{action}}」
+- `externalLink`で後から記録からチャートへ
+
+詳しくは → [/ja/docs/template](/ja/docs/template)
+
+## ほかの連携にも広げよう
+
+TradingView→Echobell が動いたら、同じ Webhook 戦略を他でも活用：
+
+- カスタム Webhooks → [/ja/blog/get-notified-with-webhook-mcp](/ja/blog/get-notified-with-webhook-mcp)
+- CI/CD → [/ja/blog/github-actions-notifications](/ja/blog/github-actions-notifications)
+- 監視/インフラ → [/ja/blog/grafana-call-notification](/ja/blog/grafana-call-notification)
+
+機能ページもどうぞ：
+
+- Webhooks → [/ja/features/webhooks](/ja/features/webhooks)
+- 通話通知 → [/ja/features/call-notifications](/ja/features/call-notifications)
+
+## まとめ
+
+TradingView のアラートは強力—but 気づけてこそ価値があります。Echobell なら、本当に重要なシグナルを電話通知にして確実に受け取れます。セットアップは簡単、調整もしやすく、戦略の成長にもついていけます。
+
+Echobell をダウンロードして次のセットアップで試してみてください： https://apps.apple.com/app/id6743597198

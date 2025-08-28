@@ -7,50 +7,107 @@ authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# 不再错过任何交易：使用 Echobell 将 TradingView 警报转化为紧急电话通知！
+# 不再错过交易：用 Echobell 将 TradingView 警报变成电话通知
 
-是否厌倦了因为没有盯着屏幕而错过关键市场行情？想象一下，在 TradingView 关键警报触发的瞬间收到一个*真实的电话*！使用 Echobell，这不再是梦想 - 而是您的新现实。停止依赖容易被忽视的通知，开始接收那些引人注目的警报。
+完美的入场从指缝溜走，往往只是因为通知没被注意到。我也经历过，所以把 TradingView 的警报改造成了 Echobell 的“电话通知”。几分钟即可接通，心态踏实很多。
 
-以下是如何将 TradingView 信号与 Echobell 强大的电话警报相连接：
+本文演示如何通过 Webhook 将 TradingView 连接到 Echobell，如何用模板自定义通话内容，并完成端到端测试。
 
-## 准备工作：您需要的东西
+建议先阅读：
 
-- 一个在手机上安装好应用的 Echobell 账户。
-- 一个 TradingView 账户（提醒：TradingView 的 webhook 功能通常需要 Pro、Pro+ 或 Premium 订阅）。
+- 什么是 Echobell → [/zh/docs/what-is-echobell](/zh/docs/what-is-echobell)
+- Webhook 概览 → [/zh/docs/webhook](/zh/docs/webhook)
+- 通知与优先级（普通/时间敏感/电话） → [/zh/docs/notification](/zh/docs/notification)
+- 模板与变量 → [/zh/docs/template](/zh/docs/template)
 
-## 步骤 1：创建您的 Echobell 警报频道
+## 为什么选择“电话通知”？
 
-1.  **创建新频道：** 打开 Echobell 应用并点击"创建频道"。为其取一个引人注目的名称，如"TradingView 黄金警报"，并选择一个代表"行动"的颜色！
-2.  **启用"电话"功能：** 这一点至关重要！在设置（或订阅）您的频道时，选择**"电话"**通知类型。忘记那些微弱的提示音；我们需要一个能引起注意的完整电话警报。
-3.  **定制您的警报消息（可选进阶技巧）：** 希望您的电话通知能*精确地*告诉您发生了什么？定制`标题`和`内容`模板。TradingView 可以发送数据，如股票代码或价格。想象一下，您的手机响起，Echobell 宣布："警报：BTC/USD 刚突破了 $50,000！"查看 TradingView 文档了解可用的警报变量（如`{{ticker}}`、`{{close}}`），并在 Echobell 的模板中使用它们，格式为`{{变量名}}`。
-4.  **获取秘密武器：您的 Webhook URL：** 一旦您的频道创建完成，导航至其详情。找到 **Webhook** 触发 URL - 这个唯一链接是您的秘密钥匙。仔细复制并妥善保管！TradingView 将使用这个确切的 URL 立即触发您的 Echobell 电话。
+- 秒级场景中，电话能穿透专注模式和环境噪音
+- Echobell 可按频道选择优先级（普通、时间敏感、电话）
+- 模板可把数据转换成“听得懂”的语句
 
-## 步骤 2：设置 TradingView
+SEO 说明：本文讲解用 Echobell 的 Webhook 集成把 TradingView 警报变成电话通知。
 
-1.  **进入 TradingView：** 启动 TradingView 并导航至您选择的图表。
-2.  **设置警报：创建/编辑警报：**
-    - 点击"警报"时钟图标，或直接右键点击您的图表、指标或绘图工具来调出警报设置。
-3.  **定义触发条件：** 精确设置那些需要"警报"的市场条件 - 价格突破阻力位、您喜爱的指标发出信号等。
-4.  **配置通知：设置通知：**
-    - 找到"通知"或"警报操作"部分。
-    - 找到并勾选标记为 **"Webhook URL"** 的选项。这将激活连接。
-    - 直接将您宝贵的 Echobell **Webhook 触发 URL**（来自步骤 1）粘贴到此字段中。
-5.  **增强消息（可选但强大）：**
-    - "消息"框是您告诉 TradingView *要*向 Echobell 发送什么内容的地方。
-    - 为了让您的 Echobell 模板发挥最大作用，请使用 JSON 格式化此消息。这允许您将动态数据直接从图表传递到您的电话呼叫！
-    - 一个典型的 JSON 结构可能如下所示（请确认 TradingView 的特定变量占位符）：
-      ```json
-      {
-        "ticker": "{{ticker}}",
-        "price": "{{close}}",
-        "action": "{{strategy.order.action}}"
-      }
-      ```
-    - 即使是简单消息也可以，但使用 JSON 结合 Echobell 的模板可以解锁真正信息丰富的电话警报。
-6.  **启用警报：** 点击"创建"或"保存"，您的 TradingView 警报现在已经锁定、加载并准备通过 Echobell 呼叫您！
+## 前置条件
 
-## 步骤 3：真相时刻 - 测试一下！
+- 安装 Echobell 并完成账号设置（[App Store](https://apps.apple.com/app/id6743597198)）
+- TradingView 账号（Webhook 通常需 Pro/Pro+/Premium）
 
-让市场触发您的警报条件（或使用测试警报）。准备好！您的手机应该几乎立即响起 Echobell 独特的电话通知。（记得在您的手机上授予 Echobell 通知权限！）
+## 步骤 1 — 创建 Echobell 频道（选择“电话”）
 
-**恭喜！** 您已成功将被动的 TradingView 通知转变为引人注目的、不可错过的电话呼叫。交易更智能，反应更快，永远不再让关键市场事件悄悄溜走！
+1）在 Echobell 应用中 → 创建频道。建议命名为“TradingView Calls”等，并选一个醒目的颜色。
+
+2）选择通知类型。紧急场景请选择 **电话**；不那么紧急的可用 **时间敏感** 或 **普通**。详见 [/zh/docs/notification](/zh/docs/notification)。
+
+3）在“模板”中自定义内容（推荐）。通话可以直接描述所发生的事件。结合 TradingView 变量：
+
+标题：`{{ticker}} 突破 {{price}}`
+
+正文：`信号：{{action}} @ {{price}} / {{ticker}}`
+
+变量与表达式 → [/zh/docs/template](/zh/docs/template)
+
+4）从频道详情复制 Webhook URL。TradingView 将调用该地址。请妥善保管。详情见：[/zh/docs/webhook](/zh/docs/webhook)
+
+## 步骤 2 — 连接 TradingView 与 Echobell
+
+1）在 TradingView 中打开图表，新建/编辑一个警报。
+
+2）设置触发条件（价格、指标、策略信号等）。
+
+3）在“通知/操作”处勾选 **Webhook URL**，粘贴步骤 1 的地址。
+
+4）将消息写成 JSON，传入动态值，这些值可在通话中被 Echobell 模板“读出”：
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "price": "{{close}}",
+  "action": "{{strategy.order.action}}",
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+提示：
+
+- 使用 TradingView 变量（如 `{{ticker}}`, `{{close}}`）。
+- `externalLink` 可选：用于在本地记录中展示链接 → [/zh/docs/notification](/zh/docs/notification)
+
+## 步骤 3 — 测试全流程
+
+触发该警报（或用测试警报）。几秒内，您应能接到带有自定义内容的 Echobell 来电。如果想先温和一点，可先用“时间敏感”，真正紧急时再切换到“电话”。
+
+## 常见问题排查
+
+- 没有来电？检查频道的通知类型是否为“电话”，以及应用是否有通知权限。
+- Webhook 4xx？请核对 URL 是否准确，或频道 Token 是否被重置。
+- 模板未替换？确保 JSON 键名与模板变量完全一致（区分大小写）。
+
+## 用模板，让内容更“会说话”
+
+建议在通话中加入足量上下文：
+
+- 场景说明：「{{ticker}} 于 15 分钟级别触达 {{price}}」
+- 方向动作：「动作：{{action}}」
+- 通过 `externalLink` 方便事后从记录跳回图表
+
+更多模板玩法 → [/zh/docs/template](/zh/docs/template)
+
+## 与你的告警体系一起成长
+
+TradingView→Echobell 搭好后，可复用同样的 Webhook 策略：
+
+- 自定义系统告警 → [/zh/blog/get-notified-with-webhook-mcp](/zh/blog/get-notified-with-webhook-mcp)
+- CI/CD 与仓库健康 → [/zh/blog/github-actions-notifications](/zh/blog/github-actions-notifications)
+- 基础设施与监控 → [/zh/blog/grafana-call-notification](/zh/blog/grafana-call-notification)
+
+功能页：
+
+- Webhooks → [/zh/features/webhooks](/zh/features/webhooks)
+- 电话通知 → [/zh/features/call-notifications](/zh/features/call-notifications)
+
+## 收尾
+
+TradingView 警报的价值，在于“及时看到”。借助 Echobell，你能把最重要的信号变成电话通知，穿透噪声，稳稳接住。配置很快，上手容易，能随你的策略一起进化。
+
+去 App Store 下载 Echobell，下一次入场就试试： https://apps.apple.com/app/id6743597198
