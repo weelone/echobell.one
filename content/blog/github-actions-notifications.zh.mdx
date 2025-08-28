@@ -1,10 +1,16 @@
 ---
 title: "GitHub Actions 失败不再遗漏：使用 Echobell 实现即时警报"
-description: "停止遗漏那些可能破坏您部署的关键 GitHub Actions 失败。学习我如何使用 Echobell 为我的 CI/CD 流水线设置即时 Webhook 通知—包括真实世界的技巧和团队协作策略，这些改变了我的开发工作流程。"
+description: "别再错过关键的 GitHub Actions 失败。用 Echobell 为 CI/CD 流水线配置即时 Webhook 通知和开发者警报——附实用技巧与团队协作经验，真正提升效率。"
 date: 2025-04-26
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
+tags:
+  - Echobell
+  - GitHub Actions
+  - CI/CD
+  - Webhook 通知
+  - 开发者警报
 ---
 
 # GitHub Actions 失败不再遗漏：使用 Echobell 实现即时警报
@@ -27,7 +33,7 @@ authorLink: https://nooc.me
 
 - **团队和谐与信任**：当团队成员能够相信 CI 失败会被快速发现和解决时，它会减少围绕部署的焦虑并建立对开发过程的信心。当每个人都知道问题不会溜过去时，团队动态变得多么顺畅是令人惊讶的。
 
-我记得一个特别有压力的发布周，我们的 GitHub Actions 流水线开始因为测试 API 的速率限制问题而失败。没有即时通知，我们会在几个小时后的计划部署窗口期间才发现这个问题—可能会延迟一个关键的客户功能。相反，[Echobell 的 Webhook 警报](https://echobell.one/docs/webhook) 在几分钟内捕获了问题，让我们能够实施解决方案并保持发布按时进行。
+我记得一个特别有压力的发布周，我们的 GitHub Actions 流水线开始因为测试 API 的速率限制问题而失败。没有即时通知，我们会在几个小时后的计划部署窗口期间才发现这个问题—可能会延迟一个关键的客户功能。相反，[Echobell 的 Webhook 警报](/zh/docs/webhook) 在几分钟内捕获了问题，让我们能够实施解决方案并保持发布按时进行。
 
 ## 设置 Echobell 失败通知
 
@@ -135,3 +141,9 @@ jobs:
 将 Echobell 与 GitHub Actions 集成可提供安心保障，确保您和您的团队立即收到 CI/CD 流水线失败的通知。设置快速，通知即时，有助于维持更高效、响应更迅速的开发流程。
 
 不要再让 workflow 失败悄无声息。今天就尝试 Echobell 通知 Action，保持您的项目步入正轨。
+
+## 延伸阅读
+
+- Webhooks 101：[使用 Echobell Webhook 触发通知](/zh/docs/webhook)
+- 功能页：[频道](/zh/features/channels)、[Webhooks](/zh/features/webhooks)、[邮件触发](/zh/features/email-triggers)、[模板](/zh/features/templates)、[电话通知](/zh/features/call-notifications)
+- 博客指南：[Grafana 电话通知](/zh/blog/grafana-call-notification)、[WebhookMCP 通知](/zh/blog/get-notified-with-webhook-mcp)、[邮件转电话](/zh/blog/email-to-call-notification)

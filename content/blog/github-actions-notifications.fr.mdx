@@ -1,10 +1,16 @@
 ---
 title: "Ne manquez plus jamais un échec de GitHub Actions : Alertes instantanées avec Echobell"
-description: "Arrêtez de manquer les échecs critiques de GitHub Actions qui peuvent faire dérailler vos déploiements. Apprenez comment j'ai configuré des notifications webhook instantanées pour mon pipeline CI/CD avec Echobell—incluant des conseils du monde réel et des stratégies de collaboration en équipe qui ont transformé mon flux de développement."
+description: "Ne manquez plus les échecs critiques de GitHub Actions. Configurez avec Echobell des notifications webhook instantanées et des alertes développeur pour votre pipeline CI/CD—avec des conseils pratiques et des workflows d'équipe qui fonctionnent vraiment."
 date: 2025-04-26
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
+tags:
+  - Echobell
+  - GitHub Actions
+  - CI/CD
+  - notifications webhook
+  - alertes développeur
 ---
 
 # Ne manquez plus jamais un échec de GitHub Actions : Alertes instantanées avec Echobell
@@ -27,11 +33,11 @@ Après avoir travaillé avec des dizaines d'équipes de développement au fil de
 
 - **Harmonie et confiance de l'équipe** : Quand les membres de l'équipe peuvent faire confiance que les échecs CI seront détectés et adressés rapidement, cela réduit l'anxiété autour des déploiements et construit la confiance dans le processus de développement. C'est incroyable comme la dynamique d'équipe devient fluide quand tout le monde sait que les problèmes ne passeront pas entre les mailles du filet.
 
-Je me souviens d'une semaine de release particulièrement stressante où notre pipeline GitHub Actions a commencé à échouer à cause d'un problème de limite de taux avec notre API de test. Sans notifications instantanées, nous aurions découvert ce problème des heures plus tard pendant notre fenêtre de déploiement programmée—retardant potentiellement une fonctionnalité critique client. À la place, les [alertes webhook d'Echobell](https://echobell.one/docs/webhook) ont attrapé le problème en quelques minutes, nous permettant d'implémenter une solution de contournement et de garder le release à temps.
+Je me souviens d'une semaine de release particulièrement stressante où notre pipeline GitHub Actions a commencé à échouer à cause d'un problème de limite de taux avec notre API de test. Sans notifications instantanées, nous aurions découvert ce problème des heures plus tard pendant notre fenêtre de déploiement programmée—retardant potentiellement une fonctionnalité critique client. À la place, les [alertes webhook d'Echobell](/fr/docs/webhook) ont attrapé le problème en quelques minutes, nous permettant d'implémenter une solution de contournement et de garder le release à temps.
 
 ## Configurer Echobell pour GitHub Actions (de la bonne manière)
 
-La beauté de la [gestion des notifications d'Echobell](https://echobell.one/docs/what-is-echobell) est sa simplicité—mais il y a quelques meilleures pratiques que j'ai apprises qui font toute la différence. Laissez-moi vous guider à travers des configurations basiques et avancées qui fonctionnent réellement dans des scénarios du monde réel.
+La beauté de la [gestion des notifications d'Echobell](/fr/docs/what-is-echobell) est sa simplicité—mais avec quelques bonnes pratiques, c'est encore mieux. Voici des configurations basiques et avancées qui fonctionnent dans des pipelines CI/CD réels.
 
 ### Configuration basique : Parfaite pour les workflows à job unique
 
@@ -125,7 +131,7 @@ Le processus de configuration est rafraîchissamment simple comparé aux autres 
 
 4. **Sécuriser votre webhook dans GitHub** : Dans votre dépôt GitHub, allez à `Settings` > `Secrets and variables` > `Actions`. Créez un nouveau secret de dépôt appelé `ECHOBELL_WEBHOOK_URL` et collez votre URL copiée. Ne codez jamais les URLs webhook directement dans vos fichiers de workflow—utilisez toujours des secrets.
 
-**Conseil pro** : Si vous gérez plusieurs projets, créez des canaux Echobell séparés pour chacun. De cette façon, vous saurez immédiatement quel projet a des problèmes sans avoir à creuser dans les détails de la notification. Vous pouvez en apprendre plus sur [l'organisation de vos canaux de notification](https://echobell.one/features/channels) dans notre guide des fonctionnalités.
+**Conseil pro** : Si vous gérez plusieurs projets, créez des canaux Echobell séparés pour chacun. De cette façon, vous saurez immédiatement quel projet a des problèmes sans avoir à creuser dans les détails de la notification. Vous pouvez en apprendre plus sur [l'organisation de vos canaux de notification](/fr/features/channels) dans notre guide des fonctionnalités.
 
 ## Conseils pro : Rendre vos notifications réellement utiles
 
@@ -145,11 +151,11 @@ Ne me dites pas juste que quelque chose a échoué—dites-moi comment le répar
 
 ### 4. **Tirer parti du système de priorités d'Echobell pour les échecs critiques**
 
-Voici un game-changer que j'aurais souhaité découvrir plus tôt : Echobell vous permet de définir différentes priorités de notification. J'utilise des priorités plus élevées pour les échecs de déploiement en production et des priorités standard pour les problèmes de branches de développement. Vous pouvez configurer ceci en utilisant l'entrée `priority` dans l'action Echobell. Pour les problèmes vraiment critiques, vous pouvez même configurer des [notifications par appel téléphonique](https://echobell.one/blog/grafana-call-notification) qui vous appelleront réellement—parfait pour les pannes de production.
+Voici un game-changer que j'aurais souhaité découvrir plus tôt : Echobell vous permet de définir différentes priorités de notification. J'utilise des priorités plus élevées pour les échecs de déploiement en production et des priorités standard pour les problèmes de branches de développement. Vous pouvez configurer ceci en utilisant l'entrée `priority` dans l'action Echobell. Pour les problèmes vraiment critiques, vous pouvez même configurer des [notifications par appel téléphonique](/fr/blog/grafana-call-notification)—parfait pour les pannes de production.
 
 ### 5. **Partager les canaux avec votre équipe (mais être stratégique à ce sujet)**
 
-Une des fonctionnalités les plus puissantes d'Echobell est la [collaboration d'équipe à travers des canaux partagés](https://echobell.one/features/channels). Je crée des canaux séparés pour différents types d'échecs : un pour tous les problèmes CI/CD que toute l'équipe devrait connaître, et un autre pour les échecs de déploiement qui ne concernent que l'équipe infrastructure. Cela prévient la fatigue de notification tout en s'assurant que les bonnes personnes sont informées.
+Une des fonctionnalités les plus puissantes d'Echobell est la [collaboration d'équipe à travers des canaux partagés](/fr/features/channels). Je crée des canaux séparés pour différents types d'échecs : un pour tous les problèmes CI/CD que toute l'équipe devrait connaître, et un autre pour les échecs de déploiement qui ne concernent que l'équipe infrastructure. Cela prévient la fatigue de notification tout en s'assurant que les bonnes personnes sont informées.
 
 ## Au-delà de GitHub Actions : La vue d'ensemble
 
@@ -157,11 +163,11 @@ Ce que j'aime chez Echobell, c'est que ce n'est pas juste un autre outil de noti
 
 ### Élargir votre stratégie de notifications
 
-- **Intégration de monitoring** : Si vous utilisez Grafana pour le monitoring système, vous pouvez configurer des [alertes par appel téléphonique pour les échecs système critiques](https://echobell.one/blog/grafana-call-notification) en utilisant la même approche webhook.
+- **Intégration de monitoring** : Si vous utilisez Grafana pour le monitoring système, vous pouvez configurer des [alertes par appel téléphonique pour les échecs critiques](/fr/blog/grafana-call-notification) en utilisant la même approche webhook.
 
-- **Flux de développement IA** : Travaillez-vous avec des tâches IA longues ? Regardez comment [être notifié quand vos tâches IA se terminent](https://echobell.one/blog/get-notified-with-webhook-mcp) en utilisant l'intégration WebhookMCP.
+- **Flux de développement IA** : Travaillez-vous avec des tâches IA longues ? Regardez comment [être notifié quand vos tâches IA se terminent](/fr/blog/get-notified-with-webhook-mcp) en utilisant l'intégration WebhookMCP.
 
-- **Alertes d'applications personnalisées** : Au-delà de CI/CD, vous pouvez intégrer les webhooks d'Echobell directement dans vos applications pour des notifications orientées utilisateur, des alertes de santé système, ou des déclencheurs d'événements business. Le [guide d'intégration webhook](https://echobell.one/docs/webhook) couvre tous les détails techniques.
+- **Alertes d'applications personnalisées** : Au-delà de CI/CD, vous pouvez intégrer les webhooks d'Echobell directement dans vos applications pour des notifications orientées utilisateur, des alertes de santé système, ou des déclencheurs d'événements business. Le [guide d'intégration webhook](/fr/docs/webhook) couvre tous les détails techniques.
 
 ### Une approche unifiée pour les notifications développeur
 
@@ -182,11 +188,17 @@ Prêt à ne plus jamais manquer un échec GitHub Actions ? Voici votre plan d'ac
 1. [Téléchargez Echobell](https://apps.apple.com/app/id6743597198) et créez votre premier canal de notification
 2. Configurez l'[Action de Notification Echobell](https://github.com/weelone/echobell-action) dans vos dépôts les plus critiques
 3. Peaufinez vos préférences de notification basées sur le flux de votre équipe
-4. Explorez des intégrations additionnelles comme le [monitoring webhook](https://echobell.one/docs/webhook) et les [déclencheurs email](https://echobell.one/features/email-triggers)
+4. Explorez des intégrations additionnelles comme le [monitoring webhook](/fr/docs/webhook) et les [déclencheurs email](/fr/features/email-triggers)
 
-Pour des instructions de configuration détaillées et des options de configuration avancées, consultez notre [documentation d'intégration GitHub](https://echobell.one/docs/developer/github) ou [guide de démarrage](https://echobell.one/docs).
+Pour des instructions de configuration détaillées et des options de configuration avancées, consultez notre [guide développeur](/fr/docs/developer) ou le [guide de démarrage](/fr/docs). À lire aussi : [Templates](/fr/docs/template) et [Conditions](/fr/docs/conditions).
 
-Votre futur vous (et votre équipe) vous remercieront d'avoir configuré ceci aujourd'hui. Faites-moi confiance—une fois que vous expérimentez la tranquillité d'esprit qui vient avec des notifications CI/CD fiables et instantanées, vous vous demanderez comment vous avez jamais développé sans elles.
+Votre futur vous (et votre équipe) vous remercieront d'avoir configuré ceci aujourd'hui. Une fois que vous aurez expérimenté la tranquillité d'esprit qui vient avec des notifications CI/CD fiables et instantanées d'Echobell, vous vous demanderez comment vous avez jamais développé sans elles.
+
+## Lectures connexes
+
+- Webhooks 101 : [Déclencher des notifications avec les webhooks Echobell](/fr/docs/webhook)
+- Fonctionnalités : [Canaux](/fr/features/channels), [Webhooks](/fr/features/webhooks), [Déclencheurs email](/fr/features/email-triggers), [Templates](/fr/features/templates), [Notifications par appel](/fr/features/call-notifications)
+- Guides du blog : [Notifications d'appel Grafana](/fr/blog/grafana-call-notification), [Être notifié via WebhookMCP](/fr/blog/get-notified-with-webhook-mcp), [Email vers appel](/fr/blog/email-to-call-notification)
 
 ## Configuration des notifications d'échec Echobell
 
