@@ -1,17 +1,132 @@
 ---
 title: Soporte
-description: Guía de soporte y solución de problemas de Echobell
+description: Obtén ayuda con Echobell - estamos aquí para ayudarte a construir el sistema de notificaciones perfecto para tu equipo
 ---
 
-# Soporte de Echobell
+# ¡Estamos aquí para ayudar!
 
-Echobell está diseñado para ser fácil de usar, pero si encuentras algún problema o tienes preguntas, ¡estamos aquí para ayudar! A continuación encontrarás algunos pasos comunes de solución de problemas y recursos de soporte.
+¿Te quedaste atascado con configuraciones de notificación? ¿Tu webhook no funciona como esperabas? ¿O tal vez solo quieres compartir tu caso de uso increíble con nosotros?
 
-## Contactar soporte
+**También somos desarrolladores**, y sabemos lo frustrante que puede ser cuando las herramientas no funcionan como esperas. Por eso estamos comprometidos a asegurarnos de que Echobell funcione perfectamente para tus necesidades específicas.
 
-Puedes encontrarnos en:
+## La forma más rápida de obtener ayuda
 
-- [X (Twitter)](https://x.com/EchobellApp)
-- [Grupo de Discord](https://discord.gg/s4JqfrgccJ)
-- [Grupo de Telegram](https://t.me/EchobellGroup)
-- [Correo electrónico](mailto:echobell@weelone.com)
+### ¿Tienes una pregunta rápida?
+**Únete a nuestra comunidad** donde personas reales (incluyendo el equipo de Echobell) pasan el tiempo y se ayudan mutuamente:
+
+- 💬 **[Comunidad de Discord](https://discord.gg/s4JqfrgccJ)** - Comunidad activa, respuestas rápidas
+- 📱 **[Grupo de Telegram](https://t.me/EchobellGroup)** - Genial para discusiones móviles
+- 🐦 **[X (Twitter)](https://x.com/EchobellApp)** - Síguenos para actualizaciones y preguntas rápidas
+
+### ¿Necesitas ayuda detallada?
+**Escríbenos directamente** a [echobell@weelone.com](mailto:echobell@weelone.com)
+
+Realmente leemos y respondemos a cada email (¡en serio!). Cuando nos escribas:
+- **Incluye tu caso de uso** - ¿qué estás tratando de construir?
+- **Comparte tu configuración de webhook/plantilla** - nos ayuda a debuggear más rápido
+- **Describe qué está pasando vs. qué esperabas** - ¡sé específico!
+
+*Tiempo promedio de respuesta: Normalmente dentro de unas pocas horas durante horario laboral, definitivamente dentro de 24 horas.*
+
+## Problemas comunes y soluciones
+
+### "Mi webhook no activa notificaciones"
+
+**Revisa estos primero:**
+1. **Permisos de notificación** - Echobell necesita permiso para enviar notificaciones
+2. **Suscripción al canal** - Asegúrate de estar suscrito al canal
+3. **URL del webhook** - Verifica que estés usando la URL correcta de la configuración del canal
+4. **Formato de request** - Prueba una request GET simple primero: `https://hook.echobell.one/t/your-id?test=hello`
+
+**¿Sigue sin funcionar?** Envíanos la llamada webhook exacta que estás haciendo y lo debuggearemos juntos.
+
+### "Recibo notificaciones pero el contenido está mal"
+
+Esto suele ser un problema con las variables de plantilla:
+
+**Soluciones rápidas:**
+- Verifica que los nombres de tus variables de plantilla coincidan con los datos que estás enviando
+- Recuerda que las variables son sensibles a mayúsculas: `{{Server}}` es diferente de `{{server}}`
+- Prueba con variables simples primero, luego construye complejidad
+
+**Consejo pro:** Escríbenos tu payload de webhook y plantilla - nos encanta ayudar a la gente a crear plantillas de notificación perfectas.
+
+### "Las notificaciones no llegan durante No molestar"
+
+Esto es por diseño para la mayoría de tipos de notificación:
+
+- **Notificaciones normales** respetan No molestar (como deberían)
+- **Notificaciones sensibles al tiempo** atraviesan DND durante horas permitidas
+- **Notificaciones de llamada** te despertarán (¡úsalas con moderación!)
+
+**¿Necesitas comportamiento diferente?** Cuéntanos tu caso de uso - siempre estamos mejorando cómo funcionan las notificaciones.
+
+### "La app se crashea o se comporta raro"
+
+**Queremos arreglar esto inmediatamente:**
+1. **Force-close y reinicia** la app primero
+2. **Verifica actualizaciones de la app** en el App Store
+3. **Escríbenos** con tu modelo de dispositivo, versión de iOS y qué estabas haciendo cuando se crasheó
+
+*Los crashes son nuestra máxima prioridad. Normalmente lanzaremos una corrección en días.*
+
+## Solicitudes de características e ideas
+
+### ¿Tienes una idea para Echobell?
+¡Nos encanta escuchar de los usuarios sobre cómo podemos hacer mejor Echobell! Algunas de nuestras mejores características vinieron de sugerencias de usuarios.
+
+**Solicitudes populares actuales en las que estamos trabajando:**
+- App de Android (¡viene en camino!)
+- Personalización de respuesta webhook
+- Más tipos de notificación
+- Características de gestión de equipos
+
+**Comparte tu idea** con nosotros por email o en nuestros canales de comunidad. Aunque parezca loca - podríamos amarla.
+
+### ¿Quieres integrar con una herramienta específica?
+Siempre estamos construyendo nuevas integraciones y guías. **Dinos qué estás usando** y priorizaremos crear documentación o integraciones directas para ello.
+
+*Integraciones recientes que construimos basadas en solicitudes de usuarios: GitHub Actions, Grafana, HuggingFace, TradingView*
+
+## Consejos para obtener la mejor ayuda
+
+### Cuando algo no funciona:
+1. **Sé específico** - "webhook no funciona" vs "webhook devuelve 200 pero no aparece notificación"
+2. **Incluye contexto** - ¿qué estás construyendo? ¿qué herramientas usas?
+3. **Comparte código/configs** - no podemos debuggear lo que no podemos ver
+4. **Menciona tu timeline** - ¿necesitas ayuda urgentemente? ¿solo explorando? nos ayuda a priorizar
+
+### Cuando quieres compartir algo genial:
+¡Nos encantan las historias de éxito! Si construyes algo increíble con Echobell:
+- **Compártelo en nuestra comunidad** - inspira a otros desarrolladores
+- **Déjanos destacarlo** - siempre buscamos casos de uso geniales para resaltar
+- **Escribe un blog post como invitado** - nos encantaría compartir tu historia
+
+## Soporte de emergencia
+
+### ¿Sistema de producción caído y las notificaciones de Echobell son críticas?
+**Escríbenos inmediatamente** con "EMERGENCIA" en el asunto. Incluye:
+- Qué está roto
+- Cómo está afectando tu sistema de producción
+- Tu número de teléfono (te llamaremos)
+
+Monitoreamos emails de emergencia 24/7 y responderemos en minutos.
+
+*Nota: Esto es solo para emergencias de producción genuinas. Para problemas regulares, usa nuestros canales de soporte normales.*
+
+## Por qué nos importa tanto el soporte
+
+**Somos desarrolladores que construimos Echobell para resolver nuestros propios problemas de notificación.** Sabemos lo críticas que son las alertas confiables para mantener los sistemas funcionando y los equipos productivos.
+
+Cuando tus notificaciones no funcionan, tu monitoreo se rompe. Cuando tu monitoreo se rompe, las cosas salen mal y nadie lo sabe. Hemos estado ahí, y nunca queremos que experimentes esa frustración.
+
+**Cada solicitud de soporte nos ayuda a construir un mejor producto.** Tus preguntas revelan casos de uso que no habíamos considerado, tus problemas destacan bugs que necesitamos arreglar, y tus ideas inspiran características que queremos construir.
+
+## Nuestra promesa de soporte
+
+- **Respondemos a cada mensaje** (aunque tome un día o dos durante períodos ocupados)
+- **Realmente leemos tu mensaje completo** (sin respuestas automáticas o chatbots)
+- **Hacemos seguimiento** para asegurarnos de que tu problema esté realmente resuelto
+- **Mejoramos Echobell** basado en la retroalimentación que nos das
+
+**¿Listo para obtener ayuda?** Elige tu canal favorito arriba y comunícate. Estamos genuinamente emocionados de ayudarte a construir algo increíble con Echobell.
