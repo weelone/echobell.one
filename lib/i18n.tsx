@@ -1,4 +1,4 @@
-import type { I18nConfig } from "fumadocs-core/i18n";
+import { defineI18n } from "fumadocs-core/i18n";
 
 import appStoreImageEn from "@/public/images/app-store.en.svg";
 import appStoreImageZh from "@/public/images/app-store.zh.svg";
@@ -7,11 +7,11 @@ import { Cover } from "@/components/ui/cover";
 export const languages = ["en", "zh", "es", "fr", "ja", "de"] as const;
 export type Language = (typeof languages)[number];
 
-export const i18n: I18nConfig = {
+export const i18n = defineI18n<Language>({
   defaultLanguage: "en",
   languages: [...languages],
   hideLocale: "default-locale",
-};
+});
 
 export function localizeUrl(url: string, lang: Language): string {
   // Avoid trailing slash on locale roots to prevent canonical → redirect (308)
