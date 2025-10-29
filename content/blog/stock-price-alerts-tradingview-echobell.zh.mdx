@@ -1,0 +1,76 @@
+---
+title: 用 TradingView + Echobell 获得不容错过的股票价格提醒
+description: 在 TradingView 设置股票价格提醒，并通过 Echobell 以电话或高优先级通知即时接收，使用 Webhook 简单对接。
+date: 2025-10-29
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Echobell
+  - TradingView
+  - 股票价格提醒
+  - webhook
+---
+
+# 不再错过关键价格：TradingView → Echobell
+
+行情瞬息万变。仅靠普通推送，迟早会错过时机。下面这套做法能把 TradingView 的价格提醒变成 Echobell 的电话（或 Time Sensitive 高优先级通知），当价格触达你的关口时，立刻行动。
+
+相关文档：
+
+- 什么是 Echobell → [/zh/docs/what-is-echobell](/zh/docs/what-is-echobell)
+- Webhooks 概览 → [/zh/docs/webhook](/zh/docs/webhook)
+- 通知类型（普通、Time Sensitive、电话）→ [/zh/docs/notification](/zh/docs/notification)
+- 模板与变量 → [/zh/docs/template](/zh/docs/template)
+
+## 前置条件
+
+- 安装 Echobell 并完成注册（[App Store](https://apps.apple.com/app/id6743597198)）
+- TradingView 账号（Webhooks 通常需要 Pro/Pro+/Premium）
+
+## 1) 创建 Echobell 频道
+
+1. 在 Echobell 新建频道（例如 “Stocks: AAPL levels”）。
+2. 选择通知类型：紧急场景用 **电话**，其次可用 **Time Sensitive**。见 [/zh/docs/notification](/zh/docs/notification)。
+3. 设置模板，让电话内容一听就懂：
+
+   标题：`{{ticker}} 触达 {{price}}`
+
+   正文：`规则：{{rule}}（标的：{{ticker}}，价格：{{price}}）`
+
+4. 复制频道的 Webhook URL（注意保密）。详见 [/zh/docs/webhook](/zh/docs/webhook)。
+
+## 2) 配置 TradingView 提醒
+
+1. 在图表上创建提醒（如：收盘价跨越阈值）。
+2. 勾选 **Webhook URL** 并粘贴 Echobell 的地址。
+3. 使用 JSON 消息传递变量，让 Echobell 在电话中读出来：
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "price": "{{close}}",
+  "rule": "收盘价跨越 150",
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+提示：
+
+- 保持键名简单（`ticker`, `price`, `rule`）。
+- `externalLink` 可选；Echobell 会在本地记录里显示。见 [/zh/docs/notification](/zh/docs/notification)。
+
+## 3) 端到端测试
+
+触发提醒（或用临时条件）。你会收到电话（或 Time Sensitive 通知），内容为你设置的标题/正文。多试几次，优化到一听就明白。
+
+## 最佳实践
+
+- 电话仅用于真正紧急的价位；其余用 Time Sensitive。
+- 按标的或策略拆分频道，降低噪音。
+- 如需，模板里加入周期（例如 “15m 收盘”）。
+
+延伸阅读：TradingView 电话提醒 → [/zh/blog/tradingview-call-notifications](/zh/blog/tradingview-call-notifications)。功能：[/zh/features/webhooks](/zh/features/webhooks)、[/zh/features/call-notifications](/zh/features/call-notifications)。
+
+下载 Echobell: https://apps.apple.com/app/id6743597198
+

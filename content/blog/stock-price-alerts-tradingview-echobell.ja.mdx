@@ -1,0 +1,76 @@
+---
+title: TradingView と Echobell で株価アラートを確実に受け取る
+description: TradingView の株価アラートを Echobell の通話または高優先度通知で受け取る方法。Webhook で簡単に連携できます。
+date: 2025-10-29
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Echobell
+  - TradingView
+  - 株価アラート
+  - webhook
+---
+
+# 見逃さない株価アラート：TradingView → Echobell
+
+相場の動きは速いです。通常のプッシュ通知だけだと、いつか見逃します。TradingView の価格アラートを Echobell の電話（または Time Sensitive 通知）に変換して、価格がレベルに到達した瞬間に動けるようにしましょう。
+
+関連ドキュメント：
+
+- Echobell とは → [/ja/docs/what-is-echobell](/ja/docs/what-is-echobell)
+- Webhooks 概要 → [/ja/docs/webhook](/ja/docs/webhook)
+- 通知タイプ → [/ja/docs/notification](/ja/docs/notification)
+- テンプレートと変数 → [/ja/docs/template](/ja/docs/template)
+
+## 前提条件
+
+- Echobell をインストールし、アカウント作成（[App Store](https://apps.apple.com/app/id6743597198)）
+- TradingView アカウント（Webhook は Pro/Pro+/Premium が必要な場合あり）
+
+## 1) Echobell チャンネルを作成
+
+1. Echobell でチャンネルを作成（例：「Stocks: AAPL levels」）。
+2. 通知タイプを選択。緊急は **Calling**、それ以外は **Time Sensitive**。→ [/ja/docs/notification](/ja/docs/notification)
+3. テンプレートを設定して、通話内容を分かりやすく：
+
+   タイトル: `{{ticker}} が {{price}} に到達`
+
+   本文: `ルール: {{rule}}（銘柄: {{ticker}}、価格: {{price}}）`
+
+4. チャンネルの Webhook URL をコピー（秘密として取り扱い）。→ [/ja/docs/webhook](/ja/docs/webhook)
+
+## 2) TradingView アラートを設定
+
+1. チャートでアラートを作成（例：終値がしきい値をクロス）。
+2. **Webhook URL** を有効化し、Echobell の URL を貼り付け。
+3. JSON メッセージでテンプレートに渡す値を指定：
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "price": "{{close}}",
+  "rule": "Close が 150 をクロス",
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+ヒント：
+
+- キーは簡潔に（`ticker`, `price`, `rule`）。
+- `externalLink` は任意。Echobell のローカル記録に表示されます。→ [/ja/docs/notification](/ja/docs/notification)
+
+## 3) 動作確認
+
+アラートを発火（または一時条件を使用）。設定したタイトル/本文の電話（または Time Sensitive 通知）が届きます。聞いて分かりやすい文に微調整しましょう。
+
+## ベストプラクティス
+
+- 本当に緊急なレベルのみ Calling に。その他は Time Sensitive。
+- 銘柄や戦略ごとにチャンネルを分けてノイズを削減。
+- 必要なら時間足をテンプレートに含める（例：「15m close」）。
+
+関連記事：TradingView の通話通知 → [/ja/blog/tradingview-call-notifications](/ja/blog/tradingview-call-notifications)。機能ページ：[/ja/features/webhooks](/ja/features/webhooks), [/ja/features/call-notifications](/ja/features/call-notifications)。
+
+Echobell をダウンロード: https://apps.apple.com/app/id6743597198
+

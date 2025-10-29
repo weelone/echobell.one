@@ -1,0 +1,76 @@
+---
+title: Get Stock Price Alerts with TradingView + Echobell
+description: Set up stock price alerts in TradingView and receive instant phone calls or time‑sensitive notifications with Echobell using simple webhooks.
+date: 2025-10-29
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Echobell
+  - TradingView
+  - stock price alerts
+  - webhook
+---
+
+# Stock price alerts you can’t miss: TradingView → Echobell
+
+Markets move fast. If you rely on push notifications, you’ll eventually miss the moment. Here’s a straightforward setup to turn TradingView price alerts into Echobell phone calls (or time‑sensitive notifications) so you actually act when price hits your level.
+
+Helpful context:
+
+- What is Echobell → [/docs/what-is-echobell](/docs/what-is-echobell)
+- Webhooks overview → [/docs/webhook](/docs/webhook)
+- Notification types (Normal, Time Sensitive, Calling) → [/docs/notification](/docs/notification)
+- Templates and variables → [/docs/template](/docs/template)
+
+## Prerequisites
+
+- Echobell installed with an account ([App Store](https://apps.apple.com/app/id6743597198))
+- TradingView account (webhooks typically need Pro/Pro+/Premium)
+
+## 1) Create an Echobell channel
+
+1. In Echobell, create a Channel (e.g., “Stocks: AAPL levels”).
+2. Pick a notification type. For urgent moves choose **Calling**; otherwise **Time Sensitive**. See [/docs/notification](/docs/notification).
+3. Set Templates so the call reads something useful:
+
+   Title: `{{ticker}} hit {{price}}`
+
+   Body: `Rule: {{rule}} on {{ticker}} at {{price}}`
+
+4. Copy the channel’s Webhook URL (keep it private). Details: [/docs/webhook](/docs/webhook)
+
+## 2) Configure the TradingView alert
+
+1. Create an Alert on your chart (e.g., close crosses a price).
+2. Enable **Webhook URL** and paste the Echobell URL.
+3. Use a JSON message so Echobell can speak variables via your template:
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "price": "{{close}}",
+  "rule": "Close crossed 150",
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+Tips:
+
+- Keep keys simple (`ticker`, `price`, `rule`).
+- `externalLink` is optional; Echobell will show it in the local record. See [/docs/notification](/docs/notification).
+
+## 3) Test the flow
+
+Trigger the alert or use a temporary test condition. You should receive a phone call (or a time‑sensitive alert) saying the title/body you defined. Adjust wording until it’s clear at a glance and on a call.
+
+## Best practices
+
+- Use Calling only for truly urgent price levels; otherwise Time Sensitive.
+- Create separate channels per symbol or strategy to avoid noise.
+- Include timeframe in your template if relevant (e.g., “15m close”).
+
+Further reading: TradingView calls → [/blog/tradingview-call-notifications](/blog/tradingview-call-notifications). Features: [/features/webhooks](/features/webhooks), [/features/call-notifications](/features/call-notifications).
+
+Download Echobell: https://apps.apple.com/app/id6743597198
+

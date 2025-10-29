@@ -1,0 +1,76 @@
+---
+title: Recibe Alertas de Precio con TradingView + Echobell
+description: Configura alertas de precio en TradingView y recibe llamadas telefónicas o notificaciones de alta prioridad con Echobell usando webhooks.
+date: 2025-10-29
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Echobell
+  - TradingView
+  - alertas de precio
+  - webhook
+---
+
+# Alertas de precio que no ignoras: TradingView → Echobell
+
+El mercado se mueve rápido. Con notificaciones normales, tarde o temprano te pierdes el momento. Aquí tienes una configuración sencilla para convertir alertas de precio de TradingView en llamadas con Echobell (o notificaciones Time Sensitive) y actuar cuando el precio toca tu nivel.
+
+Para contexto:
+
+- ¿Qué es Echobell? → [/es/docs/what-is-echobell](/es/docs/what-is-echobell)
+- Webhooks → [/es/docs/webhook](/es/docs/webhook)
+- Tipos de notificación → [/es/docs/notification](/es/docs/notification)
+- Plantillas y variables → [/es/docs/template](/es/docs/template)
+
+## Requisitos
+
+- Echobell instalada y cuenta creada ([App Store](https://apps.apple.com/app/id6743597198))
+- Cuenta de TradingView (los webhooks suelen requerir Pro/Pro+/Premium)
+
+## 1) Crea un canal en Echobell
+
+1. En Echobell, crea un canal (p. ej., “Stocks: AAPL niveles”).
+2. Elige el tipo de notificación. Urgente → **Llamada**; menos crítico → **Time Sensitive**. Ver [/es/docs/notification](/es/docs/notification).
+3. Define Plantillas para que la llamada diga algo útil:
+
+   Título: `{{ticker}} alcanzó {{price}}`
+
+   Cuerpo: `Regla: {{rule}} en {{ticker}} a {{price}}`
+
+4. Copia la URL de Webhook del canal (trátala como secreto). Detalles: [/es/docs/webhook](/es/docs/webhook)
+
+## 2) Configura la alerta en TradingView
+
+1. Crea una alerta en tu gráfico (p. ej., cierre cruza un precio).
+2. Activa **Webhook URL** y pega la URL de Echobell.
+3. Usa un mensaje JSON para que Echobell lea variables vía tu plantilla:
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "price": "{{close}}",
+  "rule": "El cierre cruzó 150",
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+Consejos:
+
+- Mantén claves simples (`ticker`, `price`, `rule`).
+- `externalLink` es opcional; Echobell lo muestra en el registro local. Ver [/es/docs/notification](/es/docs/notification).
+
+## 3) Prueba el flujo
+
+Dispara la alerta o usa una condición temporal. Deberías recibir una llamada (o alerta Time Sensitive) con tu título/cuerpo. Ajusta el texto hasta que sea claro al instante.
+
+## Buenas prácticas
+
+- Usa Llamada solo para niveles realmente urgentes; si no, Time Sensitive.
+- Crea canales por símbolo o estrategia para reducir ruido.
+- Incluye el marco temporal en la plantilla si aplica (p. ej., “cierre 15m”).
+
+Lecturas: Llamadas con TradingView → [/es/blog/tradingview-call-notifications](/es/blog/tradingview-call-notifications). Features: [/es/features/webhooks](/es/features/webhooks), [/es/features/call-notifications](/es/features/call-notifications).
+
+Descarga Echobell: https://apps.apple.com/app/id6743597198
+

@@ -1,0 +1,76 @@
+---
+title: Aktienkurs‑Alerts mit TradingView + Echobell
+description: Richte Kurs‑Alerts in TradingView ein und erhalte sofortige Telefonanrufe oder priorisierte Benachrichtigungen mit Echobell per Webhook.
+date: 2025-10-29
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Echobell
+  - TradingView
+  - Aktienkurs Alerts
+  - webhook
+---
+
+# Kursalarme, die du nicht verpasst: TradingView → Echobell
+
+Märkte bewegen sich schnell. Mit normalen Pushs verpasst man irgendwann den Moment. Hier ist ein einfacher Weg, um TradingView‑Kursalarm in Echobell‑Anrufe (oder Time‑Sensitive‑Benachrichtigungen) zu verwandeln – damit du reagierst, sobald der Preis dein Level trifft.
+
+Nützliche Ressourcen:
+
+- Was ist Echobell → [/de/docs/what-is-echobell](/de/docs/what-is-echobell)
+- Webhooks → [/de/docs/webhook](/de/docs/webhook)
+- Benachrichtigungstypen → [/de/docs/notification](/de/docs/notification)
+- Templates & Variablen → [/de/docs/template](/de/docs/template)
+
+## Voraussetzungen
+
+- Echobell installiert und Konto erstellt ([App Store](https://apps.apple.com/app/id6743597198))
+- TradingView‑Konto (Webhooks meist Pro/Pro+/Premium)
+
+## 1) Echobell‑Kanal anlegen
+
+1. In Echobell Kanal erstellen (z. B. „Stocks: AAPL Levels“).
+2. Typ wählen: Dringend → **Calling**, sonst **Time Sensitive**. Siehe [/de/docs/notification](/de/docs/notification).
+3. Templates setzen, damit der Anruf klar ist:
+
+   Titel: `{{ticker}} erreichte {{price}}`
+
+   Text: `Regel: {{rule}} auf {{ticker}} bei {{price}}`
+
+4. Webhook‑URL des Kanals kopieren (geheim halten). Details: [/de/docs/webhook](/de/docs/webhook)
+
+## 2) TradingView‑Alert konfigurieren
+
+1. Alarm am Chart anlegen (z. B. Schlusskurs kreuzt Preis).
+2. **Webhook URL** aktivieren und Echobell‑URL einfügen.
+3. JSON‑Nachricht verwenden, damit Echobell Variablen vorlesen kann:
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "price": "{{close}}",
+  "rule": "Close kreuzte 150",
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+Tipps:
+
+- Einfache Keys (`ticker`, `price`, `rule`).
+- `externalLink` optional; erscheint im lokalen Protokoll. Siehe [/de/docs/notification](/de/docs/notification).
+
+## 3) Flow testen
+
+Alarm auslösen oder temporäre Bedingung nutzen. Du solltest einen Anruf (oder Time‑Sensitive‑Alert) mit Titel/Text erhalten. Wording anpassen, bis es eindeutig ist.
+
+## Best Practices
+
+- Calling nur für wirklich dringende Levels; sonst Time Sensitive.
+- Kanäle nach Symbol/Strategie trennen, um Lärm zu reduzieren.
+- Zeitrahmen in Templates ergänzen (z. B. „15m Close“).
+
+Weiterlesen: TradingView‑Anrufe → [/de/blog/tradingview-call-notifications](/de/blog/tradingview-call-notifications). Features: [/de/features/webhooks](/de/features/webhooks), [/de/features/call-notifications](/de/features/call-notifications).
+
+Echobell laden: https://apps.apple.com/app/id6743597198
+
