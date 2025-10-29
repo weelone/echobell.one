@@ -9,7 +9,6 @@ import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
 import { Metadata } from "next";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/JsonLd";
 
-export const runtime = "edge";
 
 export async function generateMetadata({
   params,

@@ -8,13 +8,13 @@ export default async function Layout({
   params,
   children,
 }: {
-  params: Promise<{ lang: Language }>;
+  params: Promise<{ lang: string }>;
   children: ReactNode;
 }) {
   const { lang } = await params;
 
   return (
-    <DocsLayout tree={source.pageTree[lang]} {...baseOptions(lang)}>
+    <DocsLayout tree={source.pageTree[lang as Language]} {...baseOptions(lang as Language)}>
       {children}
     </DocsLayout>
   );

@@ -1,15 +1,11 @@
 import { createMDX } from 'fumadocs-mdx/next';
-import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
+import type { NextConfig } from 'next';
 
 const withMDX = createMDX();
 
-/** @type {import('next').NextConfig} */
-const config = {
+const config: NextConfig = {
   reactStrictMode: true,
+  output: 'standalone',
 };
 
 export default withMDX(config);
-
-if (process.env.NODE_ENV === 'development') {
-	setupDevPlatform().catch(e => console.error(e));
-}

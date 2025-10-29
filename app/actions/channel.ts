@@ -1,11 +1,10 @@
 "use server";
 
-import { getRequestContext } from "@cloudflare/next-on-pages";
-
 export async function fetchChannelBySubscriptionToken(token: string) {
-  const context = getRequestContext();
+  // @ts-expect-error - Cloudflare env is available in the global scope
+  const env = globalThis.process.env.cloudflare.env;
 
-  const channel = await context.env.DB.prepare(
+  const channel = await env.DB.prepare(
     "SELECT * FROM channels WHERE subscription_token = ?"
   )
     .bind(token)

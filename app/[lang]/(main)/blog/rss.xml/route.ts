@@ -3,7 +3,6 @@ import { blog } from "@/lib/source";
 import { Language, localizeUrl } from "@/lib/i18n";
 import { baseUrl } from "@/lib/metadata";
 
-export const runtime = "edge";
 export const revalidate = 3600; // 1 hour
 
 function escape(str: string) {
@@ -12,20 +11,20 @@ function escape(str: string) {
 
 export async function GET(
   _: Request,
-  { params }: { params: Promise<{ lang: Language }> }
+  { params }: { params: Promise<{ lang: string }> }
 ) {
   const { lang } = await params;
-  const pages = [...blog.getPages(lang)].sort(
+  const pages = [...blog.getPages(lang as Language)].sort(
     (a, b) =>
       new Date(b.data.date ?? b.file.name).getTime() -
       new Date(a.data.date ?? a.file.name).getTime()
   );
 
   const feedUrl = new URL(
-    localizeUrl("/blog/rss.xml", lang),
+    localizeUrl("/blog/rss.xml", lang as Language),
     baseUrl
   ).toString();
-  const channelLink = new URL(localizeUrl("/blog", lang), baseUrl).toString();
+  const channelLink = new URL(localizeUrl("/blog", lang as Language), baseUrl).toString();
 
   const items = pages
     .map((p) => {

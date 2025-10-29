@@ -3,8 +3,6 @@ import { baseUrl } from "@/lib/metadata";
 import { source, blog } from "@/lib/source";
 import { languages, localizeUrl } from "@/lib/i18n";
 
-export const runtime = "edge";
-
 // Revalidate daily to keep lastModified stable but fresh
 export const revalidate = 86400;
 

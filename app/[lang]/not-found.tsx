@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import AppStore from "@/public/images/app-store.en.svg";
 
-export const runtime = "edge";
 
 export const metadata = {
   robots: {

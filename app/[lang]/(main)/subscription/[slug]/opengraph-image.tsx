@@ -3,7 +3,6 @@ import { Logo } from "@/components/Logo";
 import { uiDictionary } from "@/lib/i18n";
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
 
 // Image metadata
 export const alt = "About Acme";

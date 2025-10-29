@@ -8,7 +8,6 @@ import PrivacyFr from "./privacy.fr.mdx";
 import PrivacyJa from "./privacy.ja.mdx";
 import PrivacyDe from "./privacy.de.mdx";
 
-export const runtime = "edge";
 
 export async function generateMetadata({
   params,

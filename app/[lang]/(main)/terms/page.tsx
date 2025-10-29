@@ -8,7 +8,6 @@ import TermsFr from "./terms.fr.mdx";
 import TermsJa from "./terms.ja.mdx";
 import TermsDe from "./terms.de.mdx";
 
-export const runtime = "edge";
 
 export async function generateMetadata({
   params,

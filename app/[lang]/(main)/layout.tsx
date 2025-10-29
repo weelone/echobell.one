@@ -8,7 +8,7 @@ export default async function RootLayout({
   params,
   children,
 }: Readonly<{
-  params: Promise<{ lang: Language }>;
+  params: Promise<{ lang: string }>;
   children: React.ReactNode;
 }>) {
   const { lang } = await params;
@@ -17,10 +17,10 @@ export default async function RootLayout({
     <div>
       <OrganizationJsonLd />
       <WebsiteJsonLd />
-      <BreadcrumbJsonLd lang={lang} />
-      <Nav lang={lang} />
+      <BreadcrumbJsonLd lang={lang as Language} />
+      <Nav lang={lang as Language} />
       {children}
-      <Footer lang={lang} />
+      <Footer lang={lang as Language} />
     </div>
   );
 }

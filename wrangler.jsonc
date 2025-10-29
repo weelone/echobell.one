@@ -1,0 +1,23 @@
+{
+  "name": "echobell-one",
+  "compatibility_date": "2024-09-23",
+  "compatibility_flags": ["nodejs_compat"],
+  // D1 Database configuration
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "echobell",
+      "database_id": "42f866b5-2d88-4364-b41c-51669cd88644"
+    }
+  ],
+  // Observability configuration
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  // OpenNext.js specific configuration
+  "main": ".open-next/worker.js",
+  "assets": {
+    "directory": ".open-next/assets"
+  }
+}
