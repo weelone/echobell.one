@@ -1,8 +1,9 @@
 "use server";
 
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+
 export async function fetchChannelBySubscriptionToken(token: string) {
-  // @ts-expect-error - Cloudflare env is available in the global scope
-  const env = globalThis.process.env.cloudflare.env;
+  const env = getCloudflareContext().env;
 
   const channel = await env.DB.prepare(
     "SELECT * FROM channels WHERE subscription_token = ?"
