@@ -149,9 +149,9 @@ Tu título de notificación debería responder inmediatamente tres preguntas: ¿
 
 No solo me digas que algo falló—dime cómo arreglarlo rápidamente. Incluye el nombre del workflow, la URL específica de la ejecución de GitHub Actions, e incluso el SHA del commit si es relevante. A menudo incluyo enlaces directos a nuestros dashboards de monitoreo o documentación para fallos comunes. El objetivo es minimizar el tiempo entre recibir la alerta y entender qué acción tomar.
 
-### 4. **Aprovechar el sistema de prioridades de Echobell para fallos críticos**
+### 4. **Aprovecha la prioridad por canal para fallos críticos**
 
-Aquí hay un cambio radical que desearía haber descubierto antes: Echobell te permite establecer diferentes prioridades de notificación. Uso prioridades más altas para fallos de despliegue de producción y prioridades estándar para problemas de ramas de desarrollo. Puedes configurarlo con la entrada `priority` en la acción. Para problemas realmente críticos, incluso puedes configurar [notificaciones por llamada telefónica](/es/blog/grafana-call-notification) ideales para caídas en producción.
+La prioridad en Echobell se define por canal. Mantengo un canal "CI/CD — Push" para alertas normales y otro "CI/CD — Llamadas" configurado como **Time Sensitive** o **Llamada** para fallos en producción. Apunta distintos workflows a distintas URLs de webhook. Para lo realmente crítico, usa un canal con [notificaciones por llamada](/es/blog/grafana-call-notification) para recibir una llamada real.
 
 ### 5. **Compartir canales con tu equipo (pero ser estratégico al respecto)**
 
@@ -299,7 +299,7 @@ Haz que tus alertas de fallos sean aún más útiles:
 1.  **Usa `if: failure()`**: Asegúrate de que las notificaciones se envíen _solo_ cuando algo realmente vaya mal. Para workflows con múltiples jobs, utiliza un job final dedicado con `if: failure()` y `needs` apuntando a todos los jobs críticos.
 2.  **Títulos informativos**: Indica claramente el repositorio y que ha ocurrido un fallo (por ejemplo, "Fallo en el CI de `tu-repo`").
 3.  **Proporciona contexto**: Incluye el nombre del workflow y un enlace directo a la ejecución específica de GitHub Actions en el cuerpo del mensaje para un acceso rápido.
-4.  **Considera la prioridad**: Echobell permite establecer prioridades; usa una prioridad más alta para fallos críticos de despliegue si es necesario (a través de la entrada `priority` en la acción).
+4.  **Controla la prioridad por canal**: En Echobell la prioridad es por canal. Crea un canal "CI/CD — Push" para avisos normales y otro "CI/CD — Llamadas" configurado como **Time Sensitive** o **Llamada** para fallos críticos; apunta cada workflow a la URL de webhook adecuada.
 
 ## Conclusión
 

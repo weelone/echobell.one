@@ -134,7 +134,7 @@ jobs:
 1.  **使用 `if: failure()`**：确保通知*仅*在实际出现问题时发送。对于多 job 的 workflow，使用具有 `if: failure()` 和指向所有关键 job 的 `needs` 的专用最终 job。
 2.  **信息丰富的标题**：清楚地说明仓库及发生了失败（例如，"`your-repo` CI 中的失败"）。
 3.  **提供上下文**：在消息正文中包含 workflow 名称和特定 GitHub Actions 运行的直接链接，以便快速访问。
-4.  **考虑优先级**：Echobell 允许设置优先级；如有必要，可以为关键部署失败使用更高优先级（通过 action 中的 `priority` 输入）。
+4.  **按频道控制优先级**：Echobell 的优先级由频道设置。建议准备两个频道：常规提醒用的“CI/CD — Push”，以及设为 **Time Sensitive** 或 **电话** 的“CI/CD — 通话”用于生产级故障。让不同的 workflow 指向不同的 webhook URL。
 
 ## 结论
 

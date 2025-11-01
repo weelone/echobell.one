@@ -10,16 +10,15 @@ Echobell 可以与 TradingView 集成，以接收您的交易提醒通知。本�
 ## 前提条件
 
 - Echobell 账户
-- TradingView 账户（免费或高级版）
+- 具有 Webhook 支持的 TradingView 账户（通常为 Pro/Pro+/Premium）
 
 ## 设置步骤
 
-### 1. 在 Echobell 中创建 Webhook
+### 1. 在 Echobell 创建频道（获取 Webhook URL）
 
-1. 登录到您的 Echobell 控制面板
-2. 导航到 Webhooks 部分
-3. 点击"创建新的 Webhook"
-4. 复制生成的 webhook URL - 您将需要它用于 TradingView
+1. 打开 iOS 版 Echobell 应用，新建一个频道（如“TradingView”）。
+2. 在频道详情中复制 Webhook URL，并妥善保管。
+3. 根据紧急程度选择频道的通知类型（普通 / Time Sensitive / 电话）。
 
 ### 2. 配置 TradingView 提醒
 
@@ -30,13 +29,12 @@ Echobell 可以与 TradingView 集成，以接收您的交易提醒通知。本�
    - 滚动到"提醒操作"
    - 选择"Webhook URL"
    - 粘贴您的 Echobell webhook URL
-   - 在"消息"字段中，自定义您的通知：
+   - 在"消息"字段中，定义 payload（Echobell 模板会使用这些值）：
 
 ```json
 {
   "title": "TradingView 提醒",
-  "message": "{{ticker}} 达到 {{price}}",
-  "priority": "high"
+  "message": "{{ticker}} 达到 {{price}}"
 }
 ```
 
@@ -53,26 +51,14 @@ Echobell 可以与 TradingView 集成，以接收您的交易提醒通知。本�
 
 ## 高级配置
 
-### 优先级等级
+### 在 Echobell 中控制优先级
 
-您可以为通知设置不同的优先级：
+Echobell 的优先级由频道设置控制，TradingView 的 payload 字段不能改变优先级。若需调整紧急程度：
 
-- `"priority": "low"` - 普通优先级
-- `"priority": "high"` - 高优先级（将发送推送通知）
-- `"priority": "critical"` - 紧急优先级（将发送带声音的推送通知）
+- 在 Echobell 应用中为频道选择通知类型：**普通**、**Time Sensitive** 或 **电话**（参见 [/zh/docs/notification](/zh/docs/notification)）。
+- 如需不同紧急程度，建议创建多个频道（例如“TV—电话”和“TV—推送”），并在不同提醒里分别使用对应的 webhook URL。
 
-### 自定义声音
-
-您可以为通知指定自定义声音：
-
-```json
-{
-  "title": "价格提醒",
-  "message": "{{ticker}} 达到目标价格",
-  "priority": "critical",
-  "sound": "cash"
-}
-```
+说明：目前不支持自定义通知声音。
 
 ## 示例提醒模板
 
@@ -81,8 +67,7 @@ Echobell 可以与 TradingView 集成，以接收您的交易提醒通知。本�
 ```json
 {
   "title": "价格提醒",
-  "message": "{{ticker}} 现在价格为 {{price}}",
-  "priority": "high"
+  "message": "{{ticker}} 现在价格为 {{price}}"
 }
 ```
 
@@ -91,8 +76,7 @@ Echobell 可以与 TradingView 集成，以接收您的交易提醒通知。本�
 ```json
 {
   "title": "成交量提醒",
-  "message": "检测到 {{ticker}} 的高成交量\n成交量：{{volume}}\n价格：{{price}}",
-  "priority": "critical"
+  "message": "检测到 {{ticker}} 的高成交量\n成交量：{{volume}}\n价格：{{price}}"
 }
 ```
 
@@ -101,9 +85,7 @@ Echobell 可以与 TradingView 集成，以接收您的交易提醒通知。本�
 ```json
 {
   "title": "交易信号",
-  "message": "{{ticker}} 的{{strategy.order.action}}信号\n价格：{{price}}\n时间：{{time}}",
-  "priority": "high",
-  "sound": "alert"
+  "message": "{{ticker}} 的{{strategy.order.action}}信号\n价格：{{price}}\n时间：{{time}}"
 }
 ```
 

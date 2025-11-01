@@ -10,16 +10,15 @@ Echobell は、TradingView と連携して取引アラートからの通知を�
 ## 前提条件
 
 - Echobell アカウント
-- TradingView アカウント（無料版またはプレミアム）
+- Webhook に対応した TradingView アカウント（通常は Pro/Pro+/Premium）
 
 ## セットアップ手順
 
-### 1. Echobell でウェブフックを作成
+### 1. Echobell でチャネルを作成（Webhook URL を取得）
 
-1. Echobell ダッシュボードにログイン
-2. ウェブフックセクションに移動
-3. 「新規ウェブフック作成」をクリック
-4. 生成されたウェブフック URL をコピー - TradingView で使用します
+1. iOS 版 Echobell アプリを開き、新しいチャネル（例：「TradingView」）を作成します。
+2. チャネル詳細で Webhook URL をコピーし、秘密として扱います。
+3. 緊急度に応じてチャネルの通知タイプ（通常 / Time Sensitive / 通話）を設定します。
 
 ### 2. TradingView アラートの設定
 
@@ -30,13 +29,12 @@ Echobell は、TradingView と連携して取引アラートからの通知を�
    - 「アラートアクション」までスクロール
    - 「Webhook URL」を選択
    - Echobell のウェブフック URL を貼り付け
-   - 「メッセージ」フィールドで通知をカスタマイズ：
+   - 「メッセージ」フィールドで payload を定義（Echobell のテンプレートで利用される値）：
 
 ```json
 {
   "title": "TradingViewアラート",
-  "message": "{{ticker}}が{{price}}に到達",
-  "priority": "high"
+  "message": "{{ticker}}が{{price}}に到達"
 }
 ```
 
@@ -53,26 +51,14 @@ TradingView の変数を使用して通知をカスタマイズできます：
 
 ## 高度な設定
 
-### 優先度レベル
+### 優先度は Echobell 側で設定
 
-通知の優先度を設定できます：
+Echobell の優先度はチャネル単位で管理され、TradingView の payload では変更できません。緊急度を変えたい場合：
 
-- `"priority": "low"` - 通常優先度
-- `"priority": "high"` - 高優先度（プッシュ通知を送信）
-- `"priority": "critical"` - 重要優先度（サウンド付きプッシュ通知を送信）
+- Echobell アプリでチャネルの通知タイプを設定します：**通常** / **Time Sensitive** / **通話**（[/ja/docs/notification](/ja/docs/notification) を参照）。
+- 異なる緊急度が必要ならチャネルを分け（例：「TV — 通話」「TV — プッシュ」）、各アラートで対応する Webhook URL を使います。
 
-### カスタムサウンド
-
-通知にカスタムサウンドを指定できます：
-
-```json
-{
-  "title": "価格アラート",
-  "message": "{{ticker}}が目標価格に到達",
-  "priority": "critical",
-  "sound": "cash"
-}
-```
+注意：カスタムの通知サウンドは現在サポートしていません。
 
 ## アラートテンプレート例
 
@@ -81,8 +67,7 @@ TradingView の変数を使用して通知をカスタマイズできます：
 ```json
 {
   "title": "価格アラート",
-  "message": "{{ticker}}の現在価格：{{price}}",
-  "priority": "high"
+  "message": "{{ticker}}の現在価格：{{price}}"
 }
 ```
 
@@ -91,8 +76,7 @@ TradingView の変数を使用して通知をカスタマイズできます：
 ```json
 {
   "title": "出来高アラート",
-  "message": "{{ticker}}で高出来高を検出\n出来高：{{volume}}\n価格：{{price}}",
-  "priority": "critical"
+  "message": "{{ticker}}で高出来高を検出\n出来高：{{volume}}\n価格：{{price}}"
 }
 ```
 
@@ -101,9 +85,7 @@ TradingView の変数を使用して通知をカスタマイズできます：
 ```json
 {
   "title": "トレードシグナル",
-  "message": "{{ticker}}の{{strategy.order.action}}シグナル\n価格：{{price}}\n時刻：{{time}}",
-  "priority": "high",
-  "sound": "alert"
+  "message": "{{ticker}}の{{strategy.order.action}}シグナル\n価格：{{price}}\n時刻：{{time}}"
 }
 ```
 

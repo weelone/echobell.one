@@ -149,9 +149,9 @@ Your notification title should immediately answer three questions: What failed? 
 
 Don't just tell me something failed—tell me how to fix it quickly. Include the workflow name, the specific GitHub Actions run URL, and even the commit SHA if relevant. I often include direct links to our monitoring dashboards or documentation for common failures. The goal is to minimize the time between receiving the alert and understanding what action to take.
 
-### 4. **Leverage Echobell's Priority System for Critical Failures**
+### 4. **Leverage Channel Priority for Critical Failures**
 
-Here's a game-changer I wish I'd discovered earlier: Echobell allows you to set different notification priorities. I use higher priorities for production deployment failures and standard priorities for development branch issues. You can configure this using the `priority` input in the Echobell action. For truly critical issues, you can even set up [phone call notifications](/blog/grafana-call-notification) that will actually call you—perfect for production outages.
+Echobell priority is set per channel. I keep a "CI/CD — Push" channel for normal alerts and a "CI/CD — Calls" channel configured as **Time Sensitive** or **Calling** for production failures. Point different workflows to different webhook URLs. For truly critical issues, set up a channel with [phone call notifications](/blog/grafana-call-notification) so you actually get a call—perfect for production outages.
 
 ### 5. **Share Channels with Your Team (But Be Strategic About It)**
 

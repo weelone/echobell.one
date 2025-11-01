@@ -149,9 +149,9 @@ Votre titre de notification devrait immédiatement répondre à trois questions 
 
 Ne me dites pas juste que quelque chose a échoué—dites-moi comment le réparer rapidement. Incluez le nom du workflow, l'URL spécifique du run GitHub Actions, et même le SHA du commit si pertinent. J'inclus souvent des liens directs vers nos dashboards de monitoring ou la documentation pour les échecs courants. L'objectif est de minimiser le temps entre recevoir l'alerte et comprendre quelle action prendre.
 
-### 4. **Tirer parti du système de priorités d'Echobell pour les échecs critiques**
+### 4. **Utiliser la priorité par canal pour les échecs critiques**
 
-Voici un game-changer que j'aurais souhaité découvrir plus tôt : Echobell vous permet de définir différentes priorités de notification. J'utilise des priorités plus élevées pour les échecs de déploiement en production et des priorités standard pour les problèmes de branches de développement. Vous pouvez configurer ceci en utilisant l'entrée `priority` dans l'action Echobell. Pour les problèmes vraiment critiques, vous pouvez même configurer des [notifications par appel téléphonique](/fr/blog/grafana-call-notification)—parfait pour les pannes de production.
+La priorité est définie par canal dans Echobell. Je garde un canal « CI/CD — Push » pour les alertes normales et un canal « CI/CD — Appels » configuré en **Time Sensitive** ou **Appel** pour les échecs en production. Faites pointer des workflows différents vers des URLs webhook différentes. Pour le vraiment critique, utilisez un canal avec [notifications par appel](/fr/blog/grafana-call-notification).
 
 ### 5. **Partager les canaux avec votre équipe (mais être stratégique à ce sujet)**
 
@@ -299,7 +299,7 @@ Rendez vos alertes d'échec encore plus utiles :
 1.  **Utilisez `if: failure()`** : Assurez-vous que les notifications sont envoyées _uniquement_ lorsque quelque chose ne va pas réellement. Pour les workflows à jobs multiples, utilisez un job final dédié avec `if: failure()` et `needs` pointant vers tous les jobs critiques.
 2.  **Titres informatifs** : Indiquez clairement le dépôt et qu'une défaillance s'est produite (par exemple, "Échec dans le CI de `votre-dépôt`").
 3.  **Fournissez du contexte** : Incluez le nom du workflow et un lien direct vers l'exécution spécifique de GitHub Actions dans le corps du message pour un accès rapide.
-4.  **Considérez la priorité** : Echobell permet de définir des priorités ; utilisez une priorité plus élevée pour les échecs de déploiement critiques si nécessaire (via l'entrée `priority` dans l'action).
+4.  **Gérez la priorité par canal** : Dans Echobell, la priorité est par canal. Créez un canal « CI/CD — Push » pour les alertes normales et un canal « CI/CD — Appels » configuré en **Time Sensitive** ou **Appel** pour les échecs critiques ; faites pointer chaque workflow vers l'URL webhook appropriée.
 
 ## Conclusion
 

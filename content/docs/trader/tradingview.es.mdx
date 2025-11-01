@@ -10,16 +10,15 @@ Echobell puede integrarse con TradingView para recibir notificaciones de tus ale
 ## Requisitos previos
 
 - Una cuenta de Echobell
-- Una cuenta de TradingView (Gratuita o Premium)
+- Una cuenta de TradingView con soporte de webhook (normalmente Pro/Pro+/Premium)
 
 ## Pasos de configuración
 
-### 1. Crear un Webhook en Echobell
+### 1. Crea un canal en Echobell (obtén la URL del webhook)
 
-1. Inicia sesión en tu panel de Echobell
-2. Ve a la sección de Webhooks
-3. Haz clic en "Crear Nuevo Webhook"
-4. Copia la URL del webhook generada - la necesitarás para TradingView
+1. Abre la app de Echobell en iOS y crea un canal nuevo (p. ej., "TradingView").
+2. En los detalles del canal, copia la URL de Webhook. Trátala como un secreto.
+3. Elige el tipo de notificación del canal (Normal, Time Sensitive o Llamada) según la urgencia.
 
 ### 2. Configurar la alerta de TradingView
 
@@ -30,13 +29,12 @@ Echobell puede integrarse con TradingView para recibir notificaciones de tus ale
    - Desplázate hasta "Acciones de alerta"
    - Selecciona "URL del Webhook"
    - Pega tu URL de webhook de Echobell
-   - En el campo "Mensaje", personaliza tu notificación:
+   - En el campo "Mensaje", define el payload (valores que usarán las plantillas de Echobell):
 
 ```json
 {
   "title": "Alerta de TradingView",
-  "message": "{{ticker}} alcanzó {{price}}",
-  "priority": "high"
+  "message": "{{ticker}} alcanzó {{price}}"
 }
 ```
 
@@ -53,26 +51,14 @@ Puedes personalizar tu notificación usando las variables de TradingView:
 
 ## Configuración avanzada
 
-### Niveles de prioridad
+### Controlar la prioridad en Echobell
 
-Puedes establecer diferentes niveles de prioridad para tus notificaciones:
+La prioridad en Echobell se controla por canal, no mediante campos del payload de TradingView. Para ajustar la urgencia:
 
-- `"priority": "low"` - Prioridad normal
-- `"priority": "high"` - Prioridad alta (enviará notificaciones push)
-- `"priority": "critical"` - Prioridad crítica (enviará notificaciones push con sonido)
+- Define en la app de Echobell el tipo de notificación del canal: **Normal**, **Time Sensitive** o **Llamada** (ver [/es/docs/notification](/es/docs/notification)).
+- Si necesitas distintas urgencias, crea canales separados (p. ej., "TV — Llamadas" y "TV — Push") y usa cada URL de webhook según la alerta.
 
-### Sonido personalizado
-
-Puedes especificar un sonido personalizado para tus notificaciones:
-
-```json
-{
-  "title": "Alerta de precio",
-  "message": "{{ticker}} alcanzó el precio objetivo",
-  "priority": "critical",
-  "sound": "cash"
-}
-```
+Nota: Por ahora no se admiten sonidos personalizados.
 
 ## Plantillas de ejemplo
 
@@ -81,8 +67,7 @@ Puedes especificar un sonido personalizado para tus notificaciones:
 ```json
 {
   "title": "Alerta de precio",
-  "message": "{{ticker}} está ahora en {{price}}",
-  "priority": "high"
+  "message": "{{ticker}} está ahora en {{price}}"
 }
 ```
 
@@ -91,8 +76,7 @@ Puedes especificar un sonido personalizado para tus notificaciones:
 ```json
 {
   "title": "Alerta de volumen",
-  "message": "Alto volumen detectado para {{ticker}}\nVolumen: {{volume}}\nPrecio: {{price}}",
-  "priority": "critical"
+  "message": "Alto volumen detectado para {{ticker}}\nVolumen: {{volume}}\nPrecio: {{price}}"
 }
 ```
 
@@ -101,9 +85,7 @@ Puedes especificar un sonido personalizado para tus notificaciones:
 ```json
 {
   "title": "Señal de trading",
-  "message": "Señal de {{strategy.order.action}} para {{ticker}}\nPrecio: {{price}}\nHora: {{time}}",
-  "priority": "high",
-  "sound": "alert"
+  "message": "Señal de {{strategy.order.action}} para {{ticker}}\nPrecio: {{price}}\nHora: {{time}}"
 }
 ```
 

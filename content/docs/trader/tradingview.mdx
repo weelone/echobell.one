@@ -10,16 +10,15 @@ Echobell can be integrated with TradingView to receive notifications from your t
 ## Prerequisites
 
 - An Echobell account
-- A TradingView account (Free or Premium)
+- A TradingView account with webhook support (typically Pro/Pro+/Premium)
 
 ## Setup Steps
 
-### 1. Create a Webhook in Echobell
+### 1. Create a channel in Echobell (get webhook URL)
 
-1. Log in to your Echobell dashboard
-2. Navigate to the Webhooks section
-3. Click "Create New Webhook"
-4. Copy the generated webhook URL - you'll need this for TradingView
+1. Open the Echobell iOS app and create a new channel (e.g., "TradingView").
+2. In channel details, copy the Webhook URL. Treat it as a secret.
+3. Choose the channel's notification type (Normal, Time Sensitive, or Calling) based on urgency.
 
 ### 2. Configure TradingView Alert
 
@@ -30,13 +29,12 @@ Echobell can be integrated with TradingView to receive notifications from your t
    - Scroll down to "Alert Actions"
    - Select "Webhook URL"
    - Paste your Echobell webhook URL
-   - In the "Message" field, customize your notification:
+   - In the "Message" field, customize your payload (values used by templates in Echobell):
 
 ```json
 {
   "title": "TradingView Alert",
-  "message": "{{ticker}} hit {{price}}",
-  "priority": "high"
+  "message": "{{ticker}} hit {{price}}"
 }
 ```
 
@@ -53,26 +51,14 @@ You can customize your notification using TradingView's variables:
 
 ## Advanced Configuration
 
-### Priority Levels
+### Control Priority in Echobell
 
-You can set different priority levels for your notifications:
+Echobell priority is controlled per channel, not by TradingView payload fields. To change urgency:
 
-- `"priority": "low"` - Normal priority
-- `"priority": "high"` - High priority (will send push notifications)
-- `"priority": "critical"` - Critical priority (will send push notifications with sound)
+- Set the channel's notification type in the Echobell app: **Normal**, **Time Sensitive**, or **Calling** (see [/docs/notification](/docs/notification)).
+- If you need different urgencies, create separate channels (e.g., "TV — Calls" and "TV — Push") and use the corresponding webhook URLs in different alerts.
 
-### Custom Sound
-
-You can specify a custom sound for your notifications:
-
-```json
-{
-  "title": "Price Alert",
-  "message": "{{ticker}} reached target price",
-  "priority": "critical",
-  "sound": "cash"
-}
-```
+Note: Custom notification sounds are not supported.
 
 ## Example Alert Templates
 
@@ -81,8 +67,7 @@ You can specify a custom sound for your notifications:
 ```json
 {
   "title": "Price Alert",
-  "message": "{{ticker}} is now at {{price}}",
-  "priority": "high"
+  "message": "{{ticker}} is now at {{price}}"
 }
 ```
 
@@ -91,8 +76,7 @@ You can specify a custom sound for your notifications:
 ```json
 {
   "title": "Volume Alert",
-  "message": "High volume detected for {{ticker}}\nVolume: {{volume}}\nPrice: {{price}}",
-  "priority": "critical"
+  "message": "High volume detected for {{ticker}}\nVolume: {{volume}}\nPrice: {{price}}"
 }
 ```
 
@@ -101,9 +85,7 @@ You can specify a custom sound for your notifications:
 ```json
 {
   "title": "Trading Signal",
-  "message": "{{strategy.order.action}} signal for {{ticker}}\nPrice: {{price}}\nTime: {{time}}",
-  "priority": "high",
-  "sound": "alert"
+  "message": "{{strategy.order.action}} signal for {{ticker}}\nPrice: {{price}}\nTime: {{time}}"
 }
 ```
 

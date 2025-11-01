@@ -149,9 +149,9 @@ Ihr Benachrichtigungstitel sollte sofort drei Fragen beantworten: Was ist fehlge
 
 Sagen Sie mir nicht nur, dass etwas fehlgeschlagen ist—sagen Sie mir, wie ich es schnell beheben kann. Schließen Sie den Workflow-Namen, die spezifische GitHub Actions Run-URL und sogar den Commit-SHA ein, wenn relevant. Ich füge oft direkte Links zu unseren Monitoring-Dashboards oder Dokumentation für häufige Fehler ein. Das Ziel ist, die Zeit zwischen Erhalt der Benachrichtigung und dem Verstehen der notwendigen Aktion zu minimieren.
 
-### 4. **Echobells Prioritätssystem für kritische Fehler nutzen**
+### 4. **Priorität über Kanäle für kritische Fehler nutzen**
 
-Hier ist ein Game-Changer, den ich früher entdeckt hätte: Echobell erlaubt es, verschiedene Benachrichtigungsprioritäten zu setzen. Ich verwende höhere Prioritäten für Produktions-Deployment-Fehler und Standard-Prioritäten für Entwicklungszweig-Probleme. Sie können das mit dem `priority`-Input in der Echobell-Action konfigurieren. Für wirklich kritische Probleme können Sie sogar [Telefonanruf-Benachrichtigungen](/de/blog/grafana-call-notification) einrichten—perfekt für Produktionsausfälle.
+Die Priorität wird in Echobell pro Kanal festgelegt. Ich nutze einen Kanal „CI/CD — Push“ für normale Alarme und einen „CI/CD — Calls“, der auf **Time Sensitive** oder **Calling** gestellt ist, für Produktionsfehler. Verweisen Sie unterschiedliche Workflows auf unterschiedliche Webhook‑URLs. Für wirklich kritische Probleme eignet sich ein Kanal mit [Telefonanruf‑Benachrichtigungen](/de/blog/grafana-call-notification).
 
 ### 5. **Kanäle mit Ihrem Team teilen (aber strategisch vorgehen)**
 
