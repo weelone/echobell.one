@@ -226,7 +226,7 @@ export const uiDictionary = {
           label: "Community", // Singular often reads better
           links: [
             { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
-            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "Telegram", href: "https://t.me/EchobellApp" },
             { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
@@ -795,7 +795,7 @@ export const uiDictionary = {
           label: "社区",
           links: [
             { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
-            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "Telegram", href: "https://t.me/EchobellApp" },
             { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
@@ -1349,7 +1349,7 @@ export const uiDictionary = {
           label: "Comunidad",
           links: [
             { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
-            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "Telegram", href: "https://t.me/EchobellApp" },
             { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
@@ -1927,7 +1927,7 @@ export const uiDictionary = {
           label: "Communauté",
           links: [
             { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
-            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "Telegram", href: "https://t.me/EchobellApp" },
             { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
@@ -2496,7 +2496,7 @@ export const uiDictionary = {
           label: "コミュニティ",
           links: [
             { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
-            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "Telegram", href: "https://t.me/EchobellApp" },
             { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
@@ -3049,7 +3049,7 @@ export const uiDictionary = {
           label: "Community",
           links: [
             { label: "Discord", href: "https://discord.gg/s4JqfrgccJ" },
-            { label: "Telegram", href: "https://t.me/EchobellGroup" },
+            { label: "Telegram", href: "https://t.me/EchobellApp" },
             { label: "X (Twitter)", href: "https://x.com/EchobellApp" },
           ],
         },
