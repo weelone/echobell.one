@@ -75,10 +75,6 @@ dayOfMonth == 1 && minute == 0
 
 データ変数と組み合わせるとさらに便利：
 
-- 平日営業時間 かつ 件名に “urgent” が含まれる（メール）：
-  ```
-  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
-  ```
 - 夜間/週末は重大時のみエスカレーション：
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
@@ -122,4 +118,3 @@ Epoch: {{epochSeconds}}
 ---
 
 あなたの時間帯ルール、ぜひ教えてください。Echobell の条件で、静かで賢い通知体験を一緒につくりましょう。
-

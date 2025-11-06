@@ -75,10 +75,6 @@ dayOfMonth == 1 && minute == 0
 
 Más útil aún con tus datos:
 
-- L‑V horario laboral Y asunto contiene “urgent” (correo):
-  ```
-  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
-  ```
 - Escalar de noche/fines de semana solo para errores:
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
@@ -122,4 +118,3 @@ Mezcla tiempo con datos enviados por [Webhook](/es/docs/webhook) o [Activadores 
 ---
 
 ¿Tienes un patrón de ventana de tiempo genial? Cuéntanos cómo usas condiciones en Echobell para notificaciones más inteligentes y tranquilas.
-

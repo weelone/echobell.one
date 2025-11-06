@@ -75,10 +75,6 @@ dayOfMonth == 1 && minute == 0
 
 与现有变量组合更强大：
 
-- 工作日工作时间 且 主题包含 “urgent”（邮件触发）：
-  ```
-  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
-  ```
 - 仅在夜间/周末对高严重级别升级：
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
@@ -122,4 +118,3 @@ Epoch：{{epochSeconds}}
 ---
 
 有更好的时间窗口写法？欢迎分享你在 Echobell 中利用条件实现“安静、高效通知”的经验。
-

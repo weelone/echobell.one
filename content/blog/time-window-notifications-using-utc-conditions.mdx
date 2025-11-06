@@ -75,10 +75,6 @@ dayOfMonth == 1 && minute == 0
 
 Time windows get even more useful when combined with your data variables:
 
-- Weekday business hours AND subject contains “urgent” (email triggers):
-  ```
-  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
-  ```
 - Night/weekend escalations only for errors:
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
@@ -122,4 +118,3 @@ You can also mix time with data you send via [Webhook](/docs/webhook) or [Email 
 ---
 
 Have a great time‑window pattern? Share how you use Echobell conditions for smarter, calmer notifications.
-

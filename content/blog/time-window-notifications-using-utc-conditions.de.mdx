@@ -75,10 +75,6 @@ dayOfMonth == 1 && minute == 0
 
 Noch hilfreicher mit Ihren Datenvariablen:
 
-- Werktage, Geschäftszeiten UND Betreff enthält „urgent“ (E‑Mail):
-  ```
-  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
-  ```
 - Nacht/Wochenende nur für Fehler eskalieren:
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
@@ -122,4 +118,3 @@ Kombinieren Sie Zeit mit Daten aus [Webhook](/de/docs/webhook) oder [E‑Mail‑
 ---
 
 Haben Sie ein gutes Zeitfenster‑Muster? Teilen Sie, wie Sie Echobell‑Bedingungen für ruhigere, smartere Benachrichtigungen nutzen.
-

@@ -75,10 +75,6 @@ dayOfMonth == 1 && minute == 0
 
 Encore plus utile avec vos données :
 
-- Heures ouvrées ET l’objet contient « urgent » (email) :
-  ```
-  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
-  ```
 - Escalade nuit/week‑end uniquement pour les erreurs :
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
@@ -122,4 +118,3 @@ Mélangez ces informations avec des données envoyées via [Webhook](/fr/docs/we
 ---
 
 Vous avez un bon modèle de fenêtre temporelle ? Partagez comment vous utilisez les conditions Echobell pour des notifications plus intelligentes et sereines.
-
