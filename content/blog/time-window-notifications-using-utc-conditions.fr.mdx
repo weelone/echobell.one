@@ -1,0 +1,125 @@
+---
+title: Recevez des alertes seulement quand c’est utile — notifications par fenêtre temporelle avec conditions UTC
+date: 2025-11-06
+description: Utilisez les variables temporelles UTC intégrées d’Echobell pour envoyer des notifications uniquement pendant les heures ouvrées, le week‑end ou des fenêtres de maintenance. Recettes pratiques et comment les réutiliser dans les modèles.
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Notifications par fenêtre temporelle avec conditions UTC
+
+Vous voulez des alertes quand elles sont actionnables—heures ouvrées, périodes d’astreinte, maintenance week‑end ? Avec les variables temporelles système (UTC), exprimez des conditions claires comme « lundi à vendredi 09:00–17:00 » ou « premier jour du mois à la minute 00 » directement dans les Conditions de votre canal.
+
+Au programme :
+
+- Les variables UTC disponibles partout (conditions et modèles)
+- Des recettes prêtes à l’emploi pour les fenêtres courantes
+- Combiner le temps avec d’autres règles (expéditeur, mots‑clés, sévérité)
+- Bonus : afficher l’heure dans vos modèles
+
+Nouveau sur le sujet ? Voir [Conditions](/fr/docs/conditions) et [Modèles](/fr/docs/template). Sources de déclenchement : [Webhook](/fr/docs/webhook) et [Déclencheurs Email](/fr/docs/email-trigger).
+
+## Les variables de temps système (UTC)
+
+Toujours disponibles, calculées en UTC :
+
+- `timezone` (toujours "UTC"), `now`/`iso`, `epochMs`, `epochSeconds`
+- `year`, `month` (1–12), `monthName`
+- `dayOfMonth` (1–31)
+- `dayOfWeek` (0–6, dimanche = 0), `dayOfWeekName`
+- `hour` (0–23), `minute` (0–59), `second` (0–59)
+- `date` (YYYY‑MM‑DD), `time` (HH:mm:ss)
+
+Utilisez‑les directement dans les [Conditions](/fr/docs/conditions) (sans `{{ }}`) et dans les [Modèles](/fr/docs/template) (avec `{{ }}`).
+
+## Recettes à copier‑coller
+
+### Heures ouvrées en semaine
+
+```
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+### Week‑end uniquement
+
+```
+dayOfWeek == 0 || dayOfWeek == 6
+```
+
+### Hors horaires (nuits et week‑end)
+
+```
+(hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6
+```
+
+### Fenêtre de maintenance (samedis 01:00–03:00)
+
+```
+dayOfWeek == 6 && hour >= 1 && hour < 3
+```
+
+### Premier jour du mois à l’heure pile
+
+```
+dayOfMonth == 1 && minute == 0
+```
+
+### Fin de trimestre (mar/juin/sep/déc) pendant les heures ouvrées
+
+```
+(month == 3 || month == 6 || month == 9 || month == 12) && hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+## Combiner temps, contenu et sévérité
+
+Encore plus utile avec vos données :
+
+- Heures ouvrées ET l’objet contient « urgent » (email) :
+  ```
+  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
+  ```
+- Escalade nuit/week‑end uniquement pour les erreurs :
+  ```
+  ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
+  ```
+- Production uniquement, en semaine :
+  ```
+  environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
+  ```
+
+Rappel : les conditions sont de simples expressions—sans `{{ }}`. Voir [Conditions → Opérateurs pris en charge](/fr/docs/conditions#opérateurs-pris-en-charge).
+
+## Afficher l’heure dans vos modèles (bonus)
+
+Les mêmes variables fonctionnent dans les modèles (avec `{{ }}`) :
+
+```
+Envoyé à {{date}} {{time}} {{timezone}}
+Nous sommes {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Epoch : {{epochSeconds}}
+```
+
+Mélangez ces informations avec des données envoyées via [Webhook](/fr/docs/webhook) ou [Déclencheurs Email](/fr/docs/email-trigger) :
+
+```
+{{service}} {{status}} à {{time}} ({{timezone}})
+```
+
+## Bonnes pratiques
+
+- UTC vs. local : valeurs en UTC pour rester cohérent entre appareils.
+- Commencez simple puis raffinez : fenêtre d’abord, filtres ensuite.
+- Documentez l’intention : petite note dans le canal, ex. « Lun‑Ven 09–17 UTC ; hors plage high/critical uniquement ».
+
+## Prochaines étapes
+
+- Ajoutez une condition de fenêtre temporelle à un canal : [Conditions](/fr/docs/conditions)
+- Soignez le contenu avec des variables : [Modèles](/fr/docs/template)
+- Créez des canaux séparés pour heures ouvrées vs. astreinte
+- Préférez le type « Appel » pour les alertes urgentes hors horaires
+
+---
+
+Vous avez un bon modèle de fenêtre temporelle ? Partagez comment vous utilisez les conditions Echobell pour des notifications plus intelligentes et sereines.
+

@@ -1,0 +1,125 @@
+---
+title: Only get alerts in the hours that matter — time‑window notifications with UTC conditions
+date: 2025-11-06
+description: Use Echobell’s built‑in UTC time variables to send notifications only during business hours, weekends, or maintenance windows. Learn practical condition recipes and how to reuse the same variables in templates.
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Time‑window notifications with UTC conditions
+
+If you’ve ever wanted alerts only when they’re actionable—business hours, on‑call windows, or weekend maintenance—Echobell now makes it simple. With built‑in system time variables (UTC), you can express clear conditions like “weekdays 09:00–17:00” or “first day of month at 00 minute” directly in your channel’s Conditions.
+
+What you’ll learn:
+
+- The UTC variables available everywhere (conditions and templates)
+- Ready‑to‑paste recipes for common time windows
+- How to combine time with other rules (sender, keywords, severity)
+- Bonus: rendering time data inside templates
+
+New to conditions or templates? See the guides: [Conditions](/docs/conditions) and [Templates](/docs/template). Trigger sources: [Webhook](/docs/webhook) and [Email Triggers](/docs/email-trigger).
+
+## The system time (UTC) variables
+
+These read‑only variables are always available and computed in UTC:
+
+- `timezone` (always "UTC"), `now`/`iso`, `epochMs`, `epochSeconds`
+- `year`, `month` (1–12), `monthName`
+- `dayOfMonth` (1–31)
+- `dayOfWeek` (0–6, Sunday = 0), `dayOfWeekName`
+- `hour` (0–23), `minute` (0–59), `second` (0–59)
+- `date` (YYYY‑MM‑DD), `time` (HH:mm:ss)
+
+You can reference them directly in [Conditions](/docs/conditions) (no `{{ }}`) and in [Templates](/docs/template) (with `{{ }}`).
+
+## Copy‑paste recipes
+
+### Weekdays during business hours
+
+```
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+### Weekends only
+
+```
+dayOfWeek == 0 || dayOfWeek == 6
+```
+
+### Off‑hours (nights and weekends)
+
+```
+(hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6
+```
+
+### Maintenance window (Saturdays 01:00–03:00)
+
+```
+dayOfWeek == 6 && hour >= 1 && hour < 3
+```
+
+### First day of each month at the top of the hour
+
+```
+dayOfMonth == 1 && minute == 0
+```
+
+### End‑of‑quarter (Mar/Jun/Sep/Dec) business hours
+
+```
+(month == 3 || month == 6 || month == 9 || month == 12) && hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+## Combine time with content and severity
+
+Time windows get even more useful when combined with your data variables:
+
+- Weekday business hours AND subject contains “urgent” (email triggers):
+  ```
+  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
+  ```
+- Night/weekend escalations only for errors:
+  ```
+  ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
+  ```
+- Production only, weekdays:
+  ```
+  environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
+  ```
+
+Remember: conditions are plain expressions—don’t wrap them in `{{ }}`. See all operators in [Conditions → Supported Operators](/docs/conditions#supported-operators).
+
+## Show time in your templates (bonus)
+
+The same variables work in templates (with `{{ }}`). Helpful for human‑friendly receipts and audit records:
+
+```
+Sent at {{date}} {{time}} {{timezone}}
+Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Epoch: {{epochSeconds}}
+```
+
+You can also mix time with data you send via [Webhook](/docs/webhook) or [Email Triggers](/docs/email-trigger). For example:
+
+```
+{{service}} {{status}} at {{time}} ({{timezone}})
+```
+
+## Best practices and notes
+
+- Consider UTC vs. local audience: Echobell’s system variables are UTC to keep expressions deterministic across devices. If your team is globally distributed, this avoids surprises.
+- Start simple, then add complexity: first narrow the time window, then add content filters.
+- Document your intent: leave a short note in the channel to explain your condition, e.g., “Business hours M–F 09–17 UTC; escalate off‑hours only for high severity”.
+
+## Next steps
+
+- Add a time‑window condition to an existing channel: [Conditions](/docs/conditions)
+- Polish your notification content with variables: [Templates](/docs/template)
+- Create separate channels for business vs. on‑call hours
+- Prefer Calling notifications for urgent off‑hours alerts
+
+---
+
+Have a great time‑window pattern? Share how you use Echobell conditions for smarter, calmer notifications.
+

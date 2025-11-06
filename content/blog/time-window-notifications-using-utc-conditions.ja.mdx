@@ -1,0 +1,125 @@
+---
+title: 本当に必要な時間だけ通知 — UTC 条件で時間帯ベースの通知を実現
+date: 2025-11-06
+description: Echobell の組み込み UTC 時刻変数で、営業時間や週末、メンテナンス枠など特定の時間帯にだけ通知を送信。実用レシピとテンプレートでの活用も紹介。
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# UTC 条件で時間帯ベースの通知
+
+「動ける時間にだけ通知してほしい」— 営業時間、オンコール枠、週末メンテなど。Echobell のシステム時刻変数（UTC）なら、チャネルの条件で「平日 09:00–17:00」「毎月 1 日の 00 分」などをそのまま表現できます。
+
+この記事でわかること：
+
+- どこでも使える UTC 変数（条件・テンプレート）
+- よくある時間帯のコピペレシピ
+- 時間と内容（送信者、キーワード、重大度）の組み合わせ方
+- おまけ：テンプレートで時刻を表示
+
+基礎ガイド： [条件](/ja/docs/conditions) / [テンプレート](/ja/docs/template)。トリガー： [Webhook](/ja/docs/webhook) / [メールトリガー](/ja/docs/email-trigger)。
+
+## システム時刻（UTC）変数
+
+常に利用可能、UTC で計算：
+
+- `timezone`（常に "UTC"）、`now`/`iso`、`epochMs`、`epochSeconds`
+- `year`、`month`（1–12）、`monthName`
+- `dayOfMonth`（1–31）
+- `dayOfWeek`（0–6、日曜 = 0）、`dayOfWeekName`
+- `hour`（0–23）、`minute`（0–59）、`second`（0–59）
+- `date`（YYYY‑MM‑DD）、`time`（HH:mm:ss）
+
+使い方： [条件](/ja/docs/conditions) ではそのまま（`{{ }}` なし）、[テンプレート](/ja/docs/template) では `{{ }}` で参照します。
+
+## コピペで使えるレシピ
+
+### 平日・営業時間（09:00–17:00）
+
+```
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+### 週末のみ
+
+```
+dayOfWeek == 0 || dayOfWeek == 6
+```
+
+### 営業時間外（夜間＋週末）
+
+```
+(hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6
+```
+
+### メンテ枠（毎週土曜 01:00–03:00）
+
+```
+dayOfWeek == 6 && hour >= 1 && hour < 3
+```
+
+### 毎月 1 日・ちょうどの分（xx:00）
+
+```
+dayOfMonth == 1 && minute == 0
+```
+
+### 四半期末（3/6/9/12 月）・営業時間
+
+```
+(month == 3 || month == 6 || month == 9 || month == 12) && hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+```
+
+## 時間 × コンテンツ × 重大度
+
+データ変数と組み合わせるとさらに便利：
+
+- 平日営業時間 かつ 件名に “urgent” が含まれる（メール）：
+  ```
+  (hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5) && subject.toLowerCase().includes("urgent")
+  ```
+- 夜間/週末は重大時のみエスカレーション：
+  ```
+  ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
+  ```
+- 本番のみ、平日：
+  ```
+  environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
+  ```
+
+注意：条件はプレーンな式（`{{ }}` で囲まない）。演算子は [条件 → サポートされている演算子](/ja/docs/conditions#サポートされている演算子) を参照。
+
+## テンプレートで時刻を表示（おまけ）
+
+同じ変数がテンプレートでも使えます（`{{ }}`）：
+
+```
+送信時刻 {{date}} {{time}} {{timezone}}
+今日は {{dayOfWeekName}}、{{monthName}} {{dayOfMonth}}, {{year}}
+Epoch: {{epochSeconds}}
+```
+
+[Webhook](/ja/docs/webhook) や [メールトリガー](/ja/docs/email-trigger) で送るデータとも組み合わせ可能：
+
+```
+{{service}} {{status}} at {{time}} ({{timezone}})
+```
+
+## ベストプラクティス
+
+- UTC とローカルの違い：UTC ならデバイス間で表現がぶれず安全です。
+- まず時間で絞り、次に内容で絞る：段階的にノイズを減らしましょう。
+- 意図をメモ：チャネルのノートに「平日 09–17 UTC、時間外は high/critical のみ」など記述。
+
+## 次のステップ
+
+- 既存チャネルに時間帯条件を追加： [条件](/ja/docs/conditions)
+- 変数で通知内容を磨く： [テンプレート](/ja/docs/template)
+- 営業時間用とオンコール用にチャネルを分ける
+- 夜間の緊急は「Call」タイプ通知を推奨
+
+---
+
+あなたの時間帯ルール、ぜひ教えてください。Echobell の条件で、静かで賢い通知体験を一緒につくりましょう。
+
