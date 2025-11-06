@@ -124,6 +124,26 @@ https://dashboard.example.com/orders/{{orderId}}
 
 如果未设置链接模板，将默认使用 `externalLink` 变量的值。
 
+## 系统时间变量（UTC）
+
+这些变量在模板（以及条件）中始终可用，且以 UTC 计算：
+
+- `timezone`：恒为 `"UTC"`
+- `now` / `iso`：ISO‑8601 时间戳（如 `2025-05-06T12:34:56.789Z`）
+- `epochMs`、`epochSeconds`：自 Unix 纪元以来的当前时间（数字）
+- `year`、`month`（1–12）、`monthName`
+- `dayOfMonth`、`dayOfWeek`（0–6，周日 = 0）、`dayOfWeekName`
+- `hour`（0–23）、`minute`、`second`
+- `date`（`YYYY-MM-DD`）、`time`（`HH:mm:ss`）
+
+示例：
+
+```
+发送时间 {{date}} {{time}} {{timezone}}
+今天是 {{dayOfWeekName}}，{{monthName}} {{dayOfMonth}}，{{year}}
+Epoch：{{epochSeconds}}
+```
+
 ## 最佳实践
 
 1. **默认值**：考虑为可选变量提供默认值：

@@ -26,6 +26,10 @@ Cuando un correo activa tu canal, Echobell extrae automáticamente las siguiente
 - `text`: El contenido de texto plano del correo
 - `html`: El contenido HTML del correo (si está disponible)
 
+## Variables de tiempo del sistema (UTC)
+
+Además de los campos de correo, las variables de tiempo del sistema de solo lectura están siempre disponibles en plantillas y condiciones (UTC): `date`, `time`, `year`, `month`, `dayOfWeek`/`dayOfWeekName`, `hour`, `minute`, `second`, `epochMs`, `epochSeconds`, y más. Consulta [Condiciones](/es/docs/conditions) para la lista completa y ejemplos de uso.
+
 ## Usando variables de correo en plantillas
 
 Puedes usar estas variables en tus plantillas de notificación usando la sintaxis `{{nombreVariable}}`. Por ejemplo:

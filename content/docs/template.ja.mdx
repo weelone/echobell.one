@@ -123,6 +123,26 @@ https://dashboard.example.com/orders/{{注文ID}}
 
 リンクテンプレートが設定されていない場合、デフォルトで`externalLink`変数の値が使用されます。
 
+## システム時刻変数（UTC）
+
+これらの変数はテンプレート（および条件）で常に利用でき、UTC で計算されます：
+
+- `timezone`: 常に `"UTC"`
+- `now` / `iso`: ISO‑8601 タイムスタンプ（例：`2025-05-06T12:34:56.789Z`）
+- `epochMs`, `epochSeconds`: 現在時刻（Unix エポックからの経過）
+- `year`, `month`（1–12）, `monthName`
+- `dayOfMonth`, `dayOfWeek`（0–6、日曜 = 0）, `dayOfWeekName`
+- `hour`（0–23）, `minute`, `second`
+- `date`（`YYYY-MM-DD`）, `time`（`HH:mm:ss`）
+
+例：
+
+```
+送信時刻 {{date}} {{time}} {{timezone}}
+今日は {{dayOfWeekName}}、{{monthName}} {{dayOfMonth}}, {{year}}
+Epoch: {{epochSeconds}}
+```
+
 ## ベストプラクティス
 
 1. **デフォルト値**：オプションの変数にデフォルト値を提供することを検討してください：

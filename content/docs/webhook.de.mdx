@@ -79,6 +79,10 @@ Text: CPU-Auslastung hat {{cpu_usage}}% erreicht
 
 Bei Auslösung werden diese Vorlagen mit den in Ihrer Webhook-Anfrage bereitgestellten Werten gefüllt.
 
+## Systemzeit‑Variablen (UTC)
+
+Zusätzlich zu gesendeten Daten stellt Echobell schreibgeschützte Systemzeit‑Variablen bereit, die in Vorlagen und Bedingungen immer verfügbar sind (UTC). Häufige Felder: `date`, `time`, `year`, `month`, `dayOfWeek`/`dayOfWeekName`, `hour`, `minute`, `second`, `epochMs`, `epochSeconds`. Die vollständige Liste und Beispiele finden Sie unter [Bedingungen](/de/docs/conditions).
+
 ## Häufige Anwendungsfälle
 
 Webhooks sind besonders nützlich für:

@@ -120,6 +120,39 @@ Bei E-Mail-Triggern können Sie auf Folgendes zugreifen:
 - `text`: Der Klartext-Inhalt
 - `html`: Der HTML-Inhalt
 
+### Systemzeit‑Variablen (UTC)
+
+Diese schreibgeschützten Variablen stehen in Bedingungen und Templates immer zur Verfügung. Alle Werte sind in UTC berechnet.
+
+- `timezone`: Der konstante String `"UTC"`
+- `now` / `iso`: Aktuelle Zeit als ISO‑8601‑String (z. B. `2025-05-06T12:34:56.789Z`)
+- `epochMs`: Millisekunden seit Unix‑Epoch (Zahl)
+- `epochSeconds`: Sekunden seit Unix‑Epoch (Zahl)
+- `year`: Vierstellige Jahreszahl
+- `month`: Monatszahl `1–12`
+- `monthName`: Monatsname `January–December`
+- `dayOfMonth`: Tag im Monat `1–31`
+- `dayOfWeek`: Wochentag `0–6` (Sonntag = 0)
+- `dayOfWeekName`: Wochentagsname `Sunday–Saturday`
+- `hour`: Stunde `0–23`
+- `minute`: Minute `0–59`
+- `second`: Sekunde `0–59`
+- `date`: Datum als `YYYY-MM-DD`
+- `time`: Zeit als `HH:mm:ss`
+
+Beispiele:
+
+```
+// Werktage zwischen 09:00–17:00 UTC
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+
+// Nur am Wochenende
+dayOfWeek == 0 || dayOfWeek == 6
+
+// Erster Tag des Monats zur vollen Stunde
+dayOfMonth == 1 && minute == 0
+```
+
 ## Best Practices
 
 1. **Einfach beginnen** - Beginnen Sie mit einfachen Bedingungen und erhöhen Sie bei Bedarf die Komplexität

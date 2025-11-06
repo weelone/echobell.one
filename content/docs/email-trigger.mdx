@@ -26,6 +26,10 @@ When an email triggers your channel, Echobell automatically extracts the followi
 - `text`: The plain text content of the email
 - `html`: The HTML content of the email (if available)
 
+## System Time Variables (UTC)
+
+Beyond email fields, read‑only system time variables are always available in templates and conditions (UTC): `date`, `time`, `year`, `month`, `dayOfWeek`/`dayOfWeekName`, `hour`, `minute`, `second`, `epochMs`, `epochSeconds`, and more. See [Conditions](/docs/conditions) for the complete list and usage examples.
+
 ## Using Email Variables in Templates
 
 You can use these variables in your notification templates using the `{{variableName}}` syntax. For example:

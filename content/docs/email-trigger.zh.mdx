@@ -26,6 +26,10 @@ description: 了解如何在 Echobell 中使用电子邮件触发器发送通知
 - `text`：邮件的纯文本内容
 - `html`：邮件的 HTML 内容（如果有）
 
+## 系统时间变量（UTC）
+
+除邮件字段外，系统时间变量（只读）也始终可用于模板与条件（UTC）：`date`、`time`、`year`、`month`、`dayOfWeek`/`dayOfWeekName`、`hour`、`minute`、`second`、`epochMs`、`epochSeconds` 等。完整列表与用法示例见[条件](/zh/docs/conditions)。
+
 ## 在模板中使用邮件变量
 
 您可以在通知模板中使用这些变量，使用 `{{variableName}}` 语法。例如：

@@ -123,6 +123,26 @@ https://dashboard.example.com/bestellungen/{{bestellId}}
 
 Wenn keine Link-Vorlage festgelegt ist, wird standardmäßig der Wert der `externalLink`-Variable verwendet.
 
+## Systemzeit‑Variablen (UTC)
+
+Diese Variablen stehen Vorlagen (und Bedingungen) immer zur Verfügung und werden in UTC berechnet:
+
+- `timezone`: Immer `"UTC"`
+- `now` / `iso`: ISO‑8601‑Zeitstempel (z. B. `2025-05-06T12:34:56.789Z`)
+- `epochMs`, `epochSeconds`: Aktuelle Zeit seit Unix‑Epoch (Zahl)
+- `year`, `month` (1–12), `monthName`
+- `dayOfMonth`, `dayOfWeek` (0–6, Sonntag = 0), `dayOfWeekName`
+- `hour` (0–23), `minute`, `second`
+- `date` (`YYYY-MM-DD`), `time` (`HH:mm:ss`)
+
+Beispiele:
+
+```
+Gesendet um {{date}} {{time}} {{timezone}}
+Heute ist {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Epoch: {{epochSeconds}}
+```
+
 ## Bewährte Praktiken
 
 1. **Standardwerte**: Erwägen Sie, Standardwerte für optionale Variablen bereitzustellen:

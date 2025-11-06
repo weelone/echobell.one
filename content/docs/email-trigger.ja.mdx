@@ -26,6 +26,10 @@ description: Echobellでメールトリガーを使用して通知を送信す�
 - `text`: メールのプレーンテキスト内容
 - `html`: メールの HTML 内容（利用可能な場合）
 
+## システム時刻変数（UTC）
+
+メールのフィールドに加えて、テンプレートと条件で常に利用できる読み取り専用のシステム時刻変数（UTC）があります：`date`、`time`、`year`、`month`、`dayOfWeek`/`dayOfWeekName`、`hour`、`minute`、`second`、`epochMs`、`epochSeconds` など。完全な一覧と使用例は[条件](/ja/docs/conditions)を参照してください。
+
 ## メール変数のテンプレートでの使用
 
 これらの変数は、`{{変数名}}`構文を使用してテンプレートで使用できます。例：

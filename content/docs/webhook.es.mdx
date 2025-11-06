@@ -79,6 +79,10 @@ Cuerpo: El uso de CPU ha alcanzado {{cpu_usage}}%
 
 Cuando se activa, estas plantillas se completarán con los valores proporcionados en tu petición webhook.
 
+## Variables de tiempo del sistema (UTC)
+
+Además de los datos que envías, Echobell proporciona variables de tiempo del sistema de solo lectura que siempre están disponibles en plantillas y condiciones (UTC). Campos comunes: `date`, `time`, `year`, `month`, `dayOfWeek`/`dayOfWeekName`, `hour`, `minute`, `second`, `epochMs`, `epochSeconds`. Consulta [Condiciones](/es/docs/conditions) para la lista completa y ejemplos.
+
 ## Casos de uso comunes
 
 Los webhooks son particularmente útiles para:

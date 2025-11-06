@@ -79,6 +79,10 @@ Body: CPU usage has reached {{cpu_usage}}%
 
 When triggered, these templates will be populated with the values provided in your webhook request.
 
+## System Time Variables (UTC)
+
+In addition to data you send, Echobell provides read‑only system time variables that are always available in templates and conditions. All values are computed in UTC. Common fields include `date`, `time`, `year`, `month`, `dayOfWeek`/`dayOfWeekName`, `hour`, `minute`, `second`, `epochMs`, and `epochSeconds`. See [Conditions](/docs/conditions) for the full list and examples.
+
 ## Common Use Cases
 
 Webhooks are particularly useful for:

@@ -123,6 +123,26 @@ https://dashboard.example.com/orders/{{orderId}}
 
 If no link template is set, the value of the `externalLink` variable will be used by default.
 
+## System Time Variables (UTC)
+
+These variables are always available to templates (and conditions) and are computed in UTC:
+
+- `timezone`: Always `"UTC"`
+- `now` / `iso`: ISO‑8601 timestamp (e.g., `2025-05-06T12:34:56.789Z`)
+- `epochMs`, `epochSeconds`: Current time since Unix epoch (number)
+- `year`, `month` (1–12), `monthName`
+- `dayOfMonth`, `dayOfWeek` (0–6, Sunday = 0), `dayOfWeekName`
+- `hour` (0–23), `minute`, `second`
+- `date` (`YYYY-MM-DD`), `time` (`HH:mm:ss`)
+
+Examples:
+
+```
+Sent at {{date}} {{time}} {{timezone}}
+Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Epoch: {{epochSeconds}}
+```
+
 ## Best Practices
 
 1. **Default Values**: Consider providing default values for optional variables:

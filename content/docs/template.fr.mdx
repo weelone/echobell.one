@@ -123,6 +123,26 @@ https://dashboard.example.com/commandes/{{idCommande}}
 
 Si aucun modèle de lien n'est défini, la valeur de la variable `externalLink` sera utilisée par défaut.
 
+## Variables temporelles système (UTC)
+
+Ces variables sont toujours disponibles pour les modèles (et les conditions) et sont calculées en UTC :
+
+- `timezone` : Toujours `"UTC"`
+- `now` / `iso` : Horodatage ISO‑8601 (ex. `2025-05-06T12:34:56.789Z`)
+- `epochMs`, `epochSeconds` : Temps écoulé depuis l’époque Unix (nombre)
+- `year`, `month` (1–12), `monthName`
+- `dayOfMonth`, `dayOfWeek` (0–6, dimanche = 0), `dayOfWeekName`
+- `hour` (0–23), `minute`, `second`
+- `date` (`YYYY-MM-DD`), `time` (`HH:mm:ss`)
+
+Exemples :
+
+```
+Envoyé à {{date}} {{time}} {{timezone}}
+Nous sommes {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Epoch : {{epochSeconds}}
+```
+
 ## Meilleures Pratiques
 
 1. **Valeurs par Défaut** : Envisagez de fournir des valeurs par défaut pour les variables optionnelles :

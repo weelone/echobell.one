@@ -79,6 +79,10 @@ Corps : L'utilisation du CPU a atteint {{cpu_usage}}%
 
 Lorsqu'elles sont déclenchées, ces modèles seront remplis avec les valeurs fournies dans votre requête webhook.
 
+## Variables temporelles système (UTC)
+
+En plus des données que vous envoyez, Echobell fournit des variables temporelles système en lecture seule toujours disponibles dans les modèles et les conditions (UTC). Champs courants : `date`, `time`, `year`, `month`, `dayOfWeek`/`dayOfWeekName`, `hour`, `minute`, `second`, `epochMs`, `epochSeconds`. Voir [Conditions](/fr/docs/conditions) pour la liste complète et des exemples.
+
 ## Cas d'utilisation courants
 
 Les webhooks sont particulièrement utiles pour :

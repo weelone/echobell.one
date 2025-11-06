@@ -122,6 +122,39 @@ Pour les déclencheurs par email, vous pouvez accéder à:
 - `text`: Le contenu en texte brut
 - `html`: Le contenu HTML
 
+### Variables temporelles système (UTC)
+
+Ces variables en lecture seule sont toujours disponibles dans les conditions et les modèles. Toutes les valeurs sont calculées en UTC.
+
+- `timezone` : La chaîne constante `"UTC"`
+- `now` / `iso` : Horodatage ISO‑8601 (ex. `2025-05-06T12:34:56.789Z`)
+- `epochMs` : Millisecondes depuis l’époque Unix (nombre)
+- `epochSeconds` : Secondes depuis l’époque Unix (nombre)
+- `year` : Année à 4 chiffres
+- `month` : Mois `1–12`
+- `monthName` : Nom du mois `January–December`
+- `dayOfMonth` : Jour du mois `1–31`
+- `dayOfWeek` : Jour de la semaine `0–6` (dimanche = 0)
+- `dayOfWeekName` : Nom du jour `Sunday–Saturday`
+- `hour` : Heure `0–23`
+- `minute` : Minute `0–59`
+- `second` : Seconde `0–59`
+- `date` : Chaîne `YYYY-MM-DD`
+- `time` : Chaîne `HH:mm:ss`
+
+Exemples :
+
+```
+// Jours ouvrés entre 09:00–17:00 UTC
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+
+// Week-end uniquement
+dayOfWeek == 0 || dayOfWeek == 6
+
+// Premier jour du mois à l’heure pile
+dayOfMonth == 1 && minute == 0
+```
+
 ## Bonnes Pratiques
 
 1. **Commencez simplement** - Commencez par des conditions simples et ajoutez de la complexité si nécessaire

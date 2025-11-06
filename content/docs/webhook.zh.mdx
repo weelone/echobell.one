@@ -79,6 +79,10 @@ Content-Type: application/json
 
 触发时，这些模板将使用您的 webhook 请求中提供的值填充。
 
+## 系统时间变量（UTC）
+
+除您发送的数据外，Echobell 还提供只读的系统时间变量，始终可用于模板与条件（UTC）。常见字段包括：`date`、`time`、`year`、`month`、`dayOfWeek`/`dayOfWeekName`、`hour`、`minute`、`second`、`epochMs`、`epochSeconds`。完整列表与示例见[条件](/zh/docs/conditions)。
+
 ## 常见用例
 
 Webhook 特别适用于：

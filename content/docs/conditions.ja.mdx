@@ -120,6 +120,39 @@ Webhook を通じてチャネルがトリガーされる場合、以下にアク
 - `text`：プレーンテキストの本文内容
 - `html`：HTML 本文内容
 
+### システム時刻変数（UTC）
+
+これらの読み取り専用変数は、条件とテンプレートの両方で常に利用できます。すべて UTC で計算されます。
+
+- `timezone`: 常に `"UTC"`
+- `now` / `iso`: ISO‑8601 タイムスタンプ（例 `2025-05-06T12:34:56.789Z`）
+- `epochMs`: Unix エポックからのミリ秒（数値）
+- `epochSeconds`: Unix エポックからの秒（数値）
+- `year`: 西暦（4 桁）
+- `month`: 月 `1–12`
+- `monthName`: 月名 `January–December`
+- `dayOfMonth`: 月内の日 `1–31`
+- `dayOfWeek`: 曜日 `0–6`（日曜 = 0）
+- `dayOfWeekName`: 曜日名 `Sunday–Saturday`
+- `hour`: 時 `0–23`
+- `minute`: 分 `0–59`
+- `second`: 秒 `0–59`
+- `date`: `YYYY-MM-DD` 形式の文字列
+- `time`: `HH:mm:ss` 形式の文字列
+
+例：
+
+```
+// 平日の 09:00–17:00（UTC）のみ
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+
+// 週末のみ
+dayOfWeek == 0 || dayOfWeek == 6
+
+// 毎月 1 日のちょうど 00 分
+dayOfMonth == 1 && minute == 0
+```
+
 ## ベストプラクティス
 
 1. **シンプルに始める** - 基本的な条件から始め、必要に応じて複雑さを追加する

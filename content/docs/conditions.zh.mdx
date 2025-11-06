@@ -120,6 +120,39 @@ environment == "production" && (errorLevel == "critical" || errorLevel == "high"
 - `text`：纯文本正文内容
 - `html`：HTML 正文内容
 
+### 系统时间变量（UTC）
+
+这些只读变量在条件与模板中始终可用，且全部以 UTC 计算。
+
+- `timezone`：恒为 `"UTC"`
+- `now` / `iso`：当前时间的 ISO‑8601 字符串（如 `2025-05-06T12:34:56.789Z`）
+- `epochMs`：自 Unix 纪元以来的毫秒数（数字）
+- `epochSeconds`：自 Unix 纪元以来的秒数（数字）
+- `year`：四位年份
+- `month`：月份 `1–12`
+- `monthName`：月份名称 `January–December`
+- `dayOfMonth`：当月第几天 `1–31`
+- `dayOfWeek`：星期几 `0–6`（周日 = 0）
+- `dayOfWeekName`：星期名称 `Sunday–Saturday`
+- `hour`：小时 `0–23`
+- `minute`：分钟 `0–59`
+- `second`：秒 `0–59`
+- `date`：`YYYY-MM-DD` 字符串
+- `time`：`HH:mm:ss` 字符串
+
+示例：
+
+```
+// 工作日的 09:00–17:00（UTC）
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+
+// 仅周末
+dayOfWeek == 0 || dayOfWeek == 6
+
+// 每月第一天的整点
+dayOfMonth == 1 && minute == 0
+```
+
 ## 最佳实践
 
 1. **从简单开始** - 从基本条件开始，根据需要增加复杂性

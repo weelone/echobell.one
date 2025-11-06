@@ -123,6 +123,26 @@ https://dashboard.example.com/ordenes/{{idOrden}}
 
 Si no se establece ninguna plantilla de enlace, se usará por defecto el valor de la variable `externalLink`.
 
+## Variables de tiempo del sistema (UTC)
+
+Estas variables están siempre disponibles para las plantillas (y condiciones) y se calculan en UTC:
+
+- `timezone`: Siempre `"UTC"`
+- `now` / `iso`: Marca de tiempo ISO‑8601 (p. ej., `2025-05-06T12:34:56.789Z`)
+- `epochMs`, `epochSeconds`: Tiempo actual desde el Unix epoch (número)
+- `year`, `month` (1–12), `monthName`
+- `dayOfMonth`, `dayOfWeek` (0–6, domingo = 0), `dayOfWeekName`
+- `hour` (0–23), `minute`, `second`
+- `date` (`YYYY-MM-DD`), `time` (`HH:mm:ss`)
+
+Ejemplos:
+
+```
+Enviado a las {{date}} {{time}} {{timezone}}
+Hoy es {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Época: {{epochSeconds}}
+```
+
 ## Mejores Prácticas
 
 1. **Valores Predeterminados**: Considera proporcionar valores predeterminados para variables opcionales:

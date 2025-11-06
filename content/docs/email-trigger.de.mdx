@@ -26,6 +26,10 @@ Wenn eine E-Mail Ihren Kanal auslöst, extrahiert Echobell automatisch die folge
 - `text`: Der Nur-Text-Inhalt der E-Mail
 - `html`: Der HTML-Inhalt der E-Mail (falls verfügbar)
 
+## Systemzeit‑Variablen (UTC)
+
+Neben E-Mail-Feldern sind schreibgeschützte Systemzeit‑Variablen in Vorlagen und Bedingungen immer verfügbar (UTC): `date`, `time`, `year`, `month`, `dayOfWeek`/`dayOfWeekName`, `hour`, `minute`, `second`, `epochMs`, `epochSeconds` u. a. Siehe [Bedingungen](/de/docs/conditions) für die vollständige Liste und Beispiele.
+
 ## E-Mail-Variablen in Vorlagen verwenden
 
 Sie können diese Variablen in Ihren Vorlagen mit der `{{variablenName}}`-Syntax verwenden. Zum Beispiel:

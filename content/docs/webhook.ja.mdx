@@ -79,6 +79,10 @@ webhook を通じて渡された変数は、`{{変数名}}`構文を使用して
 
 トリガー時、これらのテンプレートは webhook リクエストで提供された値で置き換えられます。
 
+## システム時刻変数（UTC）
+
+送信データに加えて、テンプレートと条件で常に利用できる読み取り専用のシステム時刻変数（UTC）があります。主なフィールド：`date`、`time`、`year`、`month`、`dayOfWeek`/`dayOfWeekName`、`hour`、`minute`、`second`、`epochMs`、`epochSeconds`。完全な一覧と例は[条件](/ja/docs/conditions)を参照してください。
+
 ## 一般的なユースケース
 
 webhook は以下のような用途に特に便利です：

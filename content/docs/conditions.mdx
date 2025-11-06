@@ -120,6 +120,39 @@ For email triggers, you can access:
 - `text`: The plain text body content
 - `html`: The HTML body content
 
+### System Time Variables (UTC)
+
+These read-only variables are always available in both conditions and templates. All values are computed in UTC.
+
+- `timezone`: The constant string `"UTC"`
+- `now` / `iso`: Current time as ISO‑8601 string (e.g., `2025-05-06T12:34:56.789Z`)
+- `epochMs`: Milliseconds since Unix epoch (number)
+- `epochSeconds`: Seconds since Unix epoch (number)
+- `year`: 4‑digit year (number)
+- `month`: Month number `1–12`
+- `monthName`: Month name `January–December`
+- `dayOfMonth`: Day of month `1–31`
+- `dayOfWeek`: Day of week `0–6` (Sunday = 0)
+- `dayOfWeekName`: Day name `Sunday–Saturday`
+- `hour`: Hour of day `0–23`
+- `minute`: Minute `0–59`
+- `second`: Second `0–59`
+- `date`: `YYYY-MM-DD` string
+- `time`: `HH:mm:ss` string
+
+Examples:
+
+```
+// Weekdays during 09:00–17:00 UTC
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+
+// Weekends only
+dayOfWeek == 0 || dayOfWeek == 6
+
+// First day of month at top of hour
+dayOfMonth == 1 && minute == 0
+```
+
 ## Best Practices
 
 1. **Start simple** - Begin with basic conditions and add complexity as needed

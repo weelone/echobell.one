@@ -122,6 +122,39 @@ Para activadores de correo electrónico, puedes acceder a:
 - `text`: El contenido de texto plano
 - `html`: El contenido HTML
 
+### Variables de tiempo del sistema (UTC)
+
+Estas variables de solo lectura están siempre disponibles en condiciones y plantillas. Todos los valores se calculan en UTC.
+
+- `timezone`: La cadena constante `"UTC"`
+- `now` / `iso`: Hora actual en formato ISO‑8601 (p. ej., `2025-05-06T12:34:56.789Z`)
+- `epochMs`: Milisegundos desde el Unix epoch (número)
+- `epochSeconds`: Segundos desde el Unix epoch (número)
+- `year`: Año de 4 dígitos
+- `month`: Mes `1–12`
+- `monthName`: Nombre del mes `January–December`
+- `dayOfMonth`: Día del mes `1–31`
+- `dayOfWeek`: Día de la semana `0–6` (domingo = 0)
+- `dayOfWeekName`: Nombre del día `Sunday–Saturday`
+- `hour`: Hora del día `0–23`
+- `minute`: Minuto `0–59`
+- `second`: Segundo `0–59`
+- `date`: Cadena `YYYY-MM-DD`
+- `time`: Cadena `HH:mm:ss`
+
+Ejemplos:
+
+```
+// Días laborables entre 09:00–17:00 UTC
+hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+
+// Solo fines de semana
+dayOfWeek == 0 || dayOfWeek == 6
+
+// Primer día del mes a la hora en punto
+dayOfMonth == 1 && minute == 0
+```
+
 ## Mejores Prácticas
 
 1. **Comienza simple** - Empieza con condiciones básicas y añade complejidad según sea necesario

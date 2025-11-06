@@ -26,6 +26,10 @@ Lorsqu'un email déclenche votre canal, Echobell extrait automatiquement les var
 - `text` : Le contenu en texte brut de l'email
 - `html` : Le contenu HTML de l'email (si disponible)
 
+## Variables temporelles système (UTC)
+
+Au‑delà des champs email, des variables temporelles système en lecture seule sont toujours disponibles dans les modèles et les conditions (UTC) : `date`, `time`, `year`, `month`, `dayOfWeek`/`dayOfWeekName`, `hour`, `minute`, `second`, `epochMs`, `epochSeconds`, etc. Voir [Conditions](/fr/docs/conditions) pour la liste complète et des exemples d’utilisation.
+
 ## Utilisation des variables email dans les modèles
 
 Vous pouvez utiliser ces variables dans vos modèles de notification en utilisant la syntaxe `{{nomVariable}}`. Par exemple :
