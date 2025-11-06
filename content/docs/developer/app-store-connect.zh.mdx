@@ -50,7 +50,7 @@ App Store Connect Webhook 可以通知您以下事件：
 
 1. 打开 Echobell 应用
 2. 创建新频道（例如"App Store Connect"）
-3. 选择明显的颜色和图标以便于识别
+3. 选择醒目的颜色以便于识别
 4. 添加应该接收应用状态通知的团队成员
 
 ### 2. 配置通知模板
@@ -131,7 +131,7 @@ App Store Connect Webhook 可以通知您以下事件：
 为了增强安全性并验证 Webhook 真实性：
 
 1. **使用 HTTPS**：Echobell Webhook URL 默认使用 HTTPS
-2. **密钥验证**：使用您配置的密钥来验证传入请求
+2. **密钥处理**：App Store Connect 需要设置密钥，但 Echobell 当前不会自动验证。请保留该值，以便需要时手动核验负载。
 3. **IP 白名单**：考虑将 Apple 的 Webhook 传送 IP 范围加入白名单
 
 ### 自定义通知模板

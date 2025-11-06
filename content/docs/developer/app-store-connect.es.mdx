@@ -50,7 +50,7 @@ Los webhooks de App Store Connect pueden notificarte sobre:
 
 1. Abre la aplicación Echobell
 2. Crea un nuevo canal (ej. "App Store Connect")
-3. Elige un color e icono distintivos para fácil identificación
+3. Elige un color distintivo para facilitar la identificación
 4. Agrega miembros del equipo que deberían recibir notificaciones de estado de aplicación
 
 ### 2. Configurar Plantillas de Notificación
@@ -131,7 +131,7 @@ Selecciona de estos tipos de evento basado en tus necesidades de monitoreo:
 Para mejorar la seguridad y verificar la autenticidad del webhook:
 
 1. **Usar HTTPS**: Las URLs de webhook de Echobell usan HTTPS por defecto
-2. **Verificación de Secreto**: Usa el secreto que configuraste para verificar solicitudes entrantes
+2. **Gestión del secreto**: App Store Connect requiere un secreto, pero Echobell no lo valida automáticamente. Conserva el valor para poder verificar las cargas útiles manualmente si lo necesitas.
 3. **Lista Blanca de IP**: Considera crear una lista blanca de los rangos de IP de entrega de webhook de Apple
 
 ### Plantillas de Notificación Personalizadas
