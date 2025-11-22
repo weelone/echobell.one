@@ -2,6 +2,7 @@ import { Marquee } from "./magicui/marquee";
 import tradingViewLogo from "@/public/images/logos/tradingview.svg";
 import githubLogo from "@/public/images/logos/github.svg";
 import grafanaLogo from "@/public/images/logos/grafana.svg";
+import upptimeLogo from "@/public/images/logos/upptime.svg";
 import Image from "next/image";
 import { ReactElement } from "react";
 import Link from "next/link";
@@ -38,6 +39,17 @@ const integrations = [
         className="h-6 md:h-12 w-auto dark:invert"
         src={grafanaLogo}
         alt="Logo of Grafana"
+      />
+    ),
+  },
+  {
+    name: "Upptime",
+    docUrl: "/docs/developer/upptime",
+    logo: (
+      <Image
+        className="h-6 md:h-12 w-auto dark:invert"
+        src={upptimeLogo}
+        alt="Logo of Upptime"
       />
     ),
   },
