@@ -1,0 +1,48 @@
+---
+title: "让 Upptime 告警在 Echobell 里直接响电话"
+description: "用一个自定义 Webhook 将 Upptime 宕机告警送到 Echobell，既有时间敏感推送也能直接打电话，配置快且可靠。"
+date: 2025-11-22
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Echobell
+  - Upptime
+  - uptime 监控
+  - Webhook 告警
+  - 电话通知
+---
+
+# 让 Upptime 告警在 Echobell 里直接响电话
+
+Upptime 已经在 GitHub Actions 中监控你的站点，但关键时刻仍需要能“拍醒”你的信号。Echobell 把这些检测变成时间敏感推送或电话提醒——不需要额外服务器，每个频道只要一个 Webhook。
+
+## 为什么这样配
+
+- **真正的升级**：对不能等待的端点直接切到电话提醒，其它保持推送。  
+- **上下文完整**：每条告警都包含站点、状态、响应码和 GitHub Issue 链接。  
+- **配置极简**：Upptime 仓库里加两个 Secret，其他设置不动。
+
+## 几分钟完成配置
+
+1) 在 Echobell 复制频道 Webhook：`https://hook.echobell.one/t/<channel-token>`（可选标准、时间敏感或电话）。  
+2) 在 Upptime 仓库添加 GitHub Actions Secrets：
+
+```
+NOTIFICATION_CUSTOM_WEBHOOK=true
+NOTIFICATION_CUSTOM_WEBHOOK_URL=https://hook.echobell.one/t/<channel-token>?site=$SITE_NAME&status=$STATUS&url=$SITE_URL&issue=$ISSUE_URL&code=$RESPONSE_CODE&emoji=$EMOJI
+NOTIFICATIONS_DOWN_MESSAGE=$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE) – $ISSUE_URL
+NOTIFICATIONS_UP_MESSAGE=$EMOJI $SITE_NAME is back up – $SITE_URL
+```
+
+3) 在 Echobell 用 `{{site}}`、`{{status}}`、`{{code}}`、`{{url}}`、`{{issue}}` 做一个简洁模板，选择频道是打电话还是推送。
+
+就这样—Upptime 负责填充数据，Echobell 负责通知样式。想看完整细节，查看[配置文档](/zh/docs/developer/upptime)；Upptime 其他开关在[官方文档](https://upptime.js.org/docs/notifications)。
+
+## 你会得到什么
+
+- 当站点降级或宕机时更快知道  
+- 直接链接回受影响的站点和 GitHub Issue 讨论  
+- 不改动其他 Upptime 配置就获得可靠的升级路径
+
+先在一个监控地址试试，制造一次测试宕机，你会立刻看到（或听到）提醒。

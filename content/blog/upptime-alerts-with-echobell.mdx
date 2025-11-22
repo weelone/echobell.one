@@ -1,0 +1,48 @@
+---
+title: "Turn Upptime Alerts into Instant Calls with Echobell"
+description: "Route Upptime outages to Echobell’s time-sensitive push or phone-call alerts with one custom webhook—fast to set up, reliable when it matters."
+date: 2025-11-22
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Echobell
+  - Upptime
+  - uptime monitoring
+  - webhook alerts
+  - on-call
+---
+
+# Turn Upptime Alerts into Instant Calls with Echobell
+
+Upptime already monitors your sites from GitHub Actions, but the moment something breaks you still need a signal that cuts through. Echobell turns those checks into time-sensitive pushes or even phone calls—no extra servers, just a single webhook URL per channel.
+
+## Why this pairing works
+
+- **Real escalation**: flip a channel to call notifications for the endpoints that cannot wait.  
+- **Structured context**: include site name, status, response code, and the GitHub issue link in every alert.  
+- **Low-effort setup**: add two secrets in your Upptime repo and keep the rest of your config unchanged.
+
+## Enable it in minutes
+
+1) In Echobell, copy a channel webhook: `https://hook.echobell.one/t/<channel-token>` (choose standard, time-sensitive, or call).  
+2) In your Upptime repo, add GitHub Actions secrets:
+
+```
+NOTIFICATION_CUSTOM_WEBHOOK=true
+NOTIFICATION_CUSTOM_WEBHOOK_URL=https://hook.echobell.one/t/<channel-token>?site=$SITE_NAME&status=$STATUS&url=$SITE_URL&issue=$ISSUE_URL&code=$RESPONSE_CODE&emoji=$EMOJI
+NOTIFICATIONS_DOWN_MESSAGE=$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE) – $ISSUE_URL
+NOTIFICATIONS_UP_MESSAGE=$EMOJI $SITE_NAME is back up – $SITE_URL
+```
+
+3) In Echobell, set a simple template (`{{site}}`, `{{status}}`, `{{code}}`, `{{url}}`, `{{issue}}`) and choose whether the channel should ring your phone or stay as a push.
+
+That’s it—Upptime delivers the data, and Echobell handles the notification style. If you need the full breakdown, the [configuration guide](/docs/developer/upptime) walks through every detail, while Upptime’s own knobs stay in the [official docs](https://upptime.js.org/docs/notifications).
+
+## What you get
+
+- Faster awareness when an endpoint degrades or goes down  
+- Clear links back to the affected site and the GitHub issue thread  
+- A reliable escalation path without touching the rest of your Upptime setup
+
+Try it on one monitored URL, trigger a test outage, and you’ll hear (or see) the alert instantly.

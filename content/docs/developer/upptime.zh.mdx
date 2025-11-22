@@ -1,0 +1,65 @@
+---
+title: 将 Upptime 警报接入 Echobell
+description: 通过自定义 Webhook 将 Upptime 宕机通知转到 Echobell，获取即时推送或电话提醒。
+---
+
+# 将 Upptime 警报接入 Echobell
+
+可以把 Upptime 的宕机与恢复事件直接送到 Echobell，这样团队能收到时间敏感推送或电话提醒，无需再搭建额外链路。本文聚焦 Echobell 侧的配置，Upptime 其他选项请参考 [官方通知文档](https://upptime.js.org/docs/notifications)。
+
+## 为什么用 Echobell 处理 Upptime 告警
+
+- 关键故障可升级为电话提醒，日常检查保持标准或时间敏感推送
+- 模板与变量让每条告警都带站点、状态、响应码和 GitHub Issue 链接
+- 只需每个 Echobell 频道一个安全的 Webhook URL，无需额外服务
+
+## 前置准备
+
+- 已启用 GitHub Actions 的 Upptime 仓库
+- 可以添加仓库 Secrets 的权限
+- 一个包含 Webhook URL 的 Echobell 频道（在 App 中打开频道并复制 Webhook）
+
+## 步骤 1：准备 Echobell 频道
+
+1. 在 Echobell 创建或打开频道，选择需要的通知样式（标准 / 时间敏感 / 电话）。  
+2. 复制频道 Webhook，形如 `https://hook.echobell.one/t/<channel-token>`。  
+3. （可选）设置使用 `{{site}}`、`{{status}}`、`{{code}}`、`{{url}}`、`{{issue}}` 的模板，保证告警结构化。
+
+## 步骤 2：为 Echobell 添加 Upptime Secrets
+
+在 Upptime 仓库中，进入 **Settings → Secrets and variables → Actions**，添加：
+
+- `NOTIFICATION_CUSTOM_WEBHOOK=true`
+- `NOTIFICATION_CUSTOM_WEBHOOK_URL=https://hook.echobell.one/t/<channel-token>?site=$SITE_NAME&status=$STATUS&url=$SITE_URL&issue=$ISSUE_URL&code=$RESPONSE_CODE&emoji=$EMOJI`
+- （可选）`NOTIFICATIONS_DOWN_MESSAGE=$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE) – $ISSUE_URL`
+- （可选）`NOTIFICATIONS_UP_MESSAGE=$EMOJI $SITE_NAME is back up – $SITE_URL`
+
+说明：
+
+- 查询参数会把结构化数据带入 Echobell，Upptime 会填充变量，Echobell 会把它们存成模板变量（`site`、`status`、`url`、`issue`、`code`、`emoji`）。  
+- 如需自定义文本，请保持 URL 编码（空格用 `%20`），避免请求被截断。  
+- 其他通知提供方或策略继续在 Upptime 中管理，这里只添加 Echobell 需要的 Secrets。
+
+## 步骤 3：在 Echobell 映射变量
+
+使用简洁模板，确保可读性：
+
+```
+标题：{{emoji}} Upptime：{{site}} is {{status}}
+内容：Response {{code}} · {{url}}
+外部链接：{{issue}}
+```
+
+关键站点可把频道通知类型切换为“时间敏感”或“电话”，普通站点保持标准推送。
+
+## 步骤 4：验证集成
+
+- 暂时把监控地址指向不存在的服务或停机，触发一次失败。  
+- 确认 Echobell 收到告警并填充模板字段。  
+- 恢复服务，再查看恢复通知。
+
+## 故障排查
+
+- 确保 `NOTIFICATION_CUSTOM_WEBHOOK` 和 `NOTIFICATION_CUSTOM_WEBHOOK_URL` 拼写正确。  
+- 更换 Echobell 频道 Token 后记得同步更新 Secret。  
+- Upptime 侧报错或需要更多提供方时，请查看 [官方文档](https://upptime.js.org/docs/notifications) 与 GitHub Actions 日志。

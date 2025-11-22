@@ -1,0 +1,65 @@
+---
+title: Configure Upptime Alerts with Echobell
+description: Route Upptime downtime notifications to Echobell through a custom webhook for instant calls or push alerts.
+---
+
+# Configure Upptime Alerts with Echobell
+
+You can forward Upptime’s outage and recovery events directly into Echobell, so your team gets time-sensitive push alerts or phone calls without building a separate pipeline. This guide focuses on the Echobell side of the setup and uses Upptime’s native notification variables. For any Upptime-specific options, refer to the [official notification docs](https://upptime.js.org/docs/notifications).
+
+## Why use Echobell for Upptime alerts
+
+- Phone-call escalation for critical outages while keeping routine checks as standard or time-sensitive pushes
+- Templates and variables so every alert shows the affected site, status, response code, and GitHub issue link
+- No extra infrastructure—just a secure webhook URL per Echobell channel
+
+## Prerequisites
+
+- An existing Upptime repository with GitHub Actions enabled
+- Permission to add GitHub repository secrets
+- An Echobell channel with a webhook URL (in the app, open the channel → copy its webhook URL)
+
+## Step 1: Prepare an Echobell channel
+
+1. Create or open a channel in Echobell and choose the notification style you prefer (standard, time-sensitive, or call).  
+2. Copy the channel webhook URL; it looks like `https://hook.echobell.one/t/<channel-token>`.  
+3. (Optional) Set a template that uses variables such as `{{site}}`, `{{status}}`, `{{code}}`, `{{url}}`, and `{{issue}}` so your alerts stay structured.
+
+## Step 2: Add Upptime secrets for Echobell
+
+In your Upptime repository, go to **Settings → Secrets and variables → Actions** and add:
+
+- `NOTIFICATION_CUSTOM_WEBHOOK=true`
+- `NOTIFICATION_CUSTOM_WEBHOOK_URL=https://hook.echobell.one/t/<channel-token>?site=$SITE_NAME&status=$STATUS&url=$SITE_URL&issue=$ISSUE_URL&code=$RESPONSE_CODE&emoji=$EMOJI`
+- (Optional) `NOTIFICATIONS_DOWN_MESSAGE=$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE) – $ISSUE_URL`
+- (Optional) `NOTIFICATIONS_UP_MESSAGE=$EMOJI $SITE_NAME is back up – $SITE_URL`
+
+Notes:
+
+- The query parameters carry structured data into Echobell. Upptime appends the variables, and Echobell stores them as template variables (`site`, `status`, `url`, `issue`, `code`, `emoji`).  
+- Keep the URL encoded (replace spaces with `%20` if you customize text) to avoid breaking the request.  
+- Other notification providers or strategies stay managed in Upptime—only add what you need for Echobell and keep the rest in the GitHub secrets UI.
+
+## Step 3: Map variables in Echobell
+
+Use a concise template so alerts remain readable:
+
+```
+Title: {{emoji}} Upptime: {{site}} is {{status}}
+Body: Response {{code}} · {{url}}
+External link: {{issue}}
+```
+
+You can switch the channel’s notification style to “Time-Sensitive” or “Call” for high-priority sites while keeping others as standard pushes.
+
+## Step 4: Test the integration
+
+- Temporarily point a monitored URL to a non-existent endpoint or pause a service to trigger a failure.  
+- Confirm the alert arrives in Echobell with your template fields populated.  
+- Restore the service and verify the recovery message.
+
+## Troubleshooting
+
+- Make sure `NOTIFICATION_CUSTOM_WEBHOOK` and `NOTIFICATION_CUSTOM_WEBHOOK_URL` are spelled exactly as in the secrets list.  
+- If you change the Echobell channel token, update the secret.  
+- For any Upptime-side failures or additional providers, check the [official docs](https://upptime.js.org/docs/notifications) and your GitHub Actions logs.
