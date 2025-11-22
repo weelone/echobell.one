@@ -236,6 +236,7 @@ export const uiDictionary = {
             { label: "Quick Start Guide", href: "/docs" }, // More descriptive
             { label: "Documentation", href: "/docs/what-is-echobell" }, // Keep specific link if needed
             { label: "Blog", href: "/blog" },
+            { label: "Status", href: "https://status.echobell.one" },
           ],
         },
         {
@@ -805,6 +806,7 @@ export const uiDictionary = {
             { label: "快速入门指南", href: "/zh/docs" },
             { label: "文档", href: "/zh/docs/what-is-echobell" },
             { label: "博客", href: "/zh/blog" },
+            { label: "服务状态", href: "https://status.echobell.one" },
           ],
         },
         {
@@ -1359,6 +1361,7 @@ export const uiDictionary = {
             { label: "Guía de Inicio Rápido", href: "/es/docs" },
             { label: "Documentación", href: "/es/docs/what-is-echobell" },
             { label: "Blog", href: "/es/blog" },
+            { label: "Estado del servicio", href: "https://status.echobell.one" },
           ],
         },
         {
@@ -1937,6 +1940,7 @@ export const uiDictionary = {
             { label: "Guide de Démarrage Rapide", href: "/fr/docs" },
             { label: "Documentation", href: "/fr/docs/what-is-echobell" },
             { label: "Blog", href: "/fr/blog" },
+            { label: "Statut du service", href: "https://status.echobell.one" },
           ],
         },
         {
@@ -2506,6 +2510,7 @@ export const uiDictionary = {
             { label: "クイックスタートガイド", href: "/ja/docs" },
             { label: "ドキュメント", href: "/ja/docs/what-is-echobell" },
             { label: "ブログ", href: "/ja/blog" },
+            { label: "サービスステータス", href: "https://status.echobell.one" },
           ],
         },
         {
@@ -3059,6 +3064,7 @@ export const uiDictionary = {
             { label: "Schnellstartanleitung", href: "/de/docs" },
             { label: "Dokumentation", href: "/de/docs/what-is-echobell" },
             { label: "Blog", href: "/de/blog" },
+            { label: "Dienststatus", href: "https://status.echobell.one" },
           ],
         },
         {
