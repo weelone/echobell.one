@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Language, uiDictionary } from "@/lib/i18n";
-import overviewScreenshot from "@/public/images/docs/screenshot-overview.en.webp";
+import screenshots from "@/public/images/screenshots.webp";
 
 const icons = {
   call: PhoneIncomingIcon,
@@ -61,7 +61,7 @@ export default function FeatureSection({ lang }: { lang: Language }) {
           <div className="relative p-0 w-[32rem] h-fit overflow-hidden max-w-none rounded-xl ring-1 shadow-xl ring-neutral-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0 dark:brightness-85">
             <Image
               alt="Product screenshot"
-              src={overviewScreenshot}
+              src={screenshots}
               className="h-full w-full object-cover"
             />
           </div>
