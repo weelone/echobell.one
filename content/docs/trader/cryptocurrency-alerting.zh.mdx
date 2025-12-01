@@ -1,0 +1,43 @@
+---
+title: Cryptocurrency Alerting
+description: 通过 Echobell 接收来自 Cryptocurrency Alerting 的加密货币价格提醒。
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+[Cryptocurrency Alerting](https://cryptocurrencyalerting.com) 是一个监控加密货币市场并发送提醒的服务。您可以使用 Webhook 在 Echobell 中接收这些提醒。
+
+<Steps>
+  <Step>
+    ### 创建频道
+    在 Echobell 中创建一个新频道，并复制 **Webhook URL**。
+  </Step>
+  <Step>
+    ### 创建提醒
+    1. 登录您的 Cryptocurrency Alerting 账户。
+    2. 创建一个新的提醒（例如，价格提醒、交易量提醒）。
+    3. 配置您的提醒条件（例如，BTC > 50000）。
+  </Step>
+  <Step>
+    ### 配置 Webhook
+    1. 在 **Alert Actions** 或 **Notifications** 部分，选择 **Webhook**。
+    2. 粘贴您的 Echobell Webhook URL。
+    3. 点击 **Save**。
+  </Step>
+  <Step>
+    ### 配置模板（可选）
+    Cryptocurrency Alerting 发送 JSON 负载。您可以在 Echobell 频道模板中使用变量来自定义通知。
+
+    例如，如果负载是：
+    ```json
+    {
+      "coin": "BTC",
+      "price": "50000",
+      "currency": "USD"
+    }
+    ```
+
+    您可以将频道标题模板设置为：
+    `{{coin}} 价格达到 {{price}} {{currency}}`
+  </Step>
+</Steps>

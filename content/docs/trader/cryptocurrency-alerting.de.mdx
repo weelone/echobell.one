@@ -1,0 +1,43 @@
+---
+title: Cryptocurrency Alerting
+description: Erhalten Sie Krypto-Preisalarme von Cryptocurrency Alerting über Echobell.
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+[Cryptocurrency Alerting](https://cryptocurrencyalerting.com) ist ein Dienst, der den Kryptomarkt überwacht und Alarme sendet. Sie können diese Alarme in Echobell über Webhooks empfangen.
+
+<Steps>
+  <Step>
+    ### Kanal erstellen
+    Erstellen Sie einen neuen Kanal in Echobell und kopieren Sie die **Webhook-URL**.
+  </Step>
+  <Step>
+    ### Alarm erstellen
+    1. Melden Sie sich bei Ihrem Cryptocurrency Alerting-Konto an.
+    2. Erstellen Sie einen neuen Alarm (z. B. Preisalarm, Volumenalarm).
+    3. Konfigurieren Sie Ihre Alarmbedingungen (z. B. BTC > 50000).
+  </Step>
+  <Step>
+    ### Webhook konfigurieren
+    1. Wählen Sie im Bereich **Alert Actions** oder **Notifications** die Option **Webhook**.
+    2. Fügen Sie Ihre Echobell Webhook-URL ein.
+    3. Klicken Sie auf **Save**.
+  </Step>
+  <Step>
+    ### Vorlagen konfigurieren (Optional)
+    Cryptocurrency Alerting sendet eine JSON-Payload. Sie können Variablen in Ihren Echobell-Kanalvorlagen verwenden, um die Benachrichtigung anzupassen.
+
+    Wenn die Payload beispielsweise so aussieht:
+    ```json
+    {
+      "coin": "BTC",
+      "price": "50000",
+      "currency": "USD"
+    }
+    ```
+
+    Können Sie Ihre Kanaltitel-Vorlage wie folgt festlegen:
+    `{{coin}} Preis erreicht {{price}} {{currency}}`
+  </Step>
+</Steps>
