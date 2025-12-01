@@ -1,0 +1,42 @@
+---
+title: 集成 AiCoin
+description: 通过电话或通知即时接收 AiCoin 的价格预警和技术指标信号。
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+# 集成 AiCoin
+
+[AiCoin](https://www.aicoin.com) 是专业的数字货币市场数据和交易工具。通过与 Echobell 集成，您可以将 AiCoin 的价格预警和指标信号转换为即时的电话呼叫或通知，确保您不会错过任何交易机会。
+
+<Steps>
+  <Step>
+    ## 在 Echobell 中创建频道
+
+    1. 打开 Echobell App。
+    2. 点击 **+** 按钮创建一个新频道。
+    3. 将其命名为 "AiCoin 预警" 或类似名称。
+    4. 选择您喜欢的图标和颜色。
+    5. 在频道详情中，复制 **Webhook URL**。
+
+  </Step>
+
+  <Step>
+    ## 配置 AiCoin 预警
+
+    1. 打开 AiCoin PC 客户端。
+    2. 导航到您想要监控的交易对的 K 线图。
+    3. 点击 **预警**（或铃铛图标）并选择 **添加预警**。
+    4. 设置您的触发条件（例如：价格 > 60000）。
+    5. 在通知设置中，勾选 **Webhook** 选项。
+    6. 将您的 Echobell Webhook URL 粘贴到输入框中。
+
+  </Step>
+
+  <Step>
+    ## 测试集成
+
+    保存预警。当条件满足时，AiCoin 将向 Echobell 发送请求，您将在设备上收到即时通知或电话。
+
+  </Step>
+</Steps>

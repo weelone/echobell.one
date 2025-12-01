@@ -1,0 +1,42 @@
+---
+title: Intégrer AiCoin
+description: Recevez des alertes de prix AiCoin et des signaux d'indicateurs techniques via des appels instantanés ou des notifications.
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+# Intégrer AiCoin
+
+[AiCoin](https://www.aicoin.com) est un outil professionnel de données de marché et de trading de crypto-monnaies. En intégrant Echobell, vous pouvez recevoir les avertissements de prix et les signaux d'indicateurs d'AiCoin sous forme d'appels téléphoniques instantanés ou de notifications, vous assurant de ne jamais manquer une opportunité de trading.
+
+<Steps>
+  <Step>
+    ## Créer un canal dans Echobell
+
+    1. Ouvrez l'application Echobell.
+    2. Appuyez sur le bouton **+** pour créer un nouveau canal.
+    3. Nommez-le "Alertes AiCoin" ou quelque chose de similaire.
+    4. Choisissez une icône et une couleur que vous aimez.
+    5. Dans les détails du canal, copiez l'**URL Webhook**.
+
+  </Step>
+
+  <Step>
+    ## Configurer l'alerte AiCoin
+
+    1. Ouvrez le client PC AiCoin.
+    2. Accédez au graphique en ligne K de la paire de trading que vous souhaitez surveiller.
+    3. Cliquez sur **Alerte** (ou l'icône de cloche) et sélectionnez **Ajouter une alerte**.
+    4. Définissez vos conditions de déclenchement (par exemple, Prix > 60000).
+    5. Dans les paramètres de notification, cochez l'option **Webhook**.
+    6. Collez votre URL Webhook Echobell dans le champ.
+
+  </Step>
+
+  <Step>
+    ## Tester l'intégration
+
+    Enregistrez l'alerte. Lorsque la condition est remplie, AiCoin enverra une requête à Echobell et vous recevrez une notification instantanée ou un appel sur votre appareil.
+
+  </Step>
+</Steps>

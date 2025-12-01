@@ -1,7 +1,3 @@
 {
-  "pages": [
-    "index",
-    "cryptocurrency-alerting",
-    "tradingview"
-  ]
+  "pages": ["index", "cryptocurrency-alerting", "tradingview", "aicoin"]
 }
