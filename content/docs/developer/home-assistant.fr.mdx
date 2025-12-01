@@ -3,6 +3,8 @@ title: Intégration Home Assistant
 description: Guide complet pour intégrer Echobell avec Home Assistant pour des notifications et alertes instantanées de maison intelligente
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Intégration Home Assistant
 
 [Home Assistant](https://www.home-assistant.io/) est une puissante plateforme domotique open-source qui privilégie le contrôle local et la confidentialité. En intégrant Echobell avec Home Assistant, vous pouvez recevoir des notifications instantanées et même des appels téléphoniques lorsque des événements importants se produisent dans votre maison intelligente, qu'il s'agisse d'une alerte de sécurité, d'un dépassement de seuil de température ou d'un déclencheur d'automatisation.
@@ -22,14 +24,18 @@ Avant de commencer, assurez-vous d'avoir :
 
 La méthode webhook est l'approche la plus flexible, vous permettant d'envoyer des données personnalisées et d'utiliser des [variables de modèle](/docs/template) dans vos notifications.
 
-### Étape 1 : Obtenir votre URL de Webhook Echobell
+<Steps>
+<Step>
+### Obtenir votre URL de Webhook Echobell
 
 1. Ouvrez l'application Echobell et accédez à votre canal
 2. Appuyez sur le canal pour voir les détails
 3. Trouvez l'**URL du Webhook** dans la section Déclencheurs (Triggers)
 4. Copiez l'URL — elle ressemblera à : `https://hook.echobell.one/t/VOTRE_TOKEN`
+</Step>
+<Step>
 
-### Étape 2 : Créer une automatisation Home Assistant
+### Créer une automatisation Home Assistant
 
 Dans Home Assistant, vous pouvez déclencher des notifications Echobell en utilisant le service `rest_command`. Tout d'abord, ajoutez la commande REST à votre `configuration.yaml` :
 
@@ -46,7 +52,9 @@ Remplacez `YOUR_TOKEN` par votre véritable jeton de webhook Echobell.
 
 Après avoir ajouté ceci, redémarrez Home Assistant pour charger la nouvelle configuration.
 
-### Étape 3 : Utilisation dans les automatisations
+</Step>
+<Step>
+### Utilisation dans les automatisations
 
 Maintenant, vous pouvez appeler ce service depuis n'importe quelle automatisation. Voici un exemple qui vous notifie lorsqu'une porte s'ouvre :
 
@@ -64,7 +72,9 @@ automation:
           message: "Front door opened at {{ now().strftime('%H:%M') }}"
 ```
 
-### Étape 4 : Configurer les modèles de notification
+</Step>
+<Step>
+### Configurer les modèles de notification
 
 Dans les paramètres de votre canal Echobell, configurez les modèles de notification pour afficher les données du webhook :
 
@@ -72,6 +82,9 @@ Dans les paramètres de votre canal Echobell, configurez les modèles de notific
 - **Modèle de corps** : `{{message}}`
 
 Désormais, lorsque l'automatisation se déclenche, vous recevrez une notification avec le titre et le message personnalisés.
+
+</Step>
+</Steps>
 
 ## Méthode 2 : Utilisation de la plateforme de notification RESTful
 
@@ -112,345 +125,18 @@ automation:
           message: "Phone battery is at {{ states('sensor.phone_battery') }}%"
 ```
 
-## Cas d'utilisation avancés
-
-### Surveillance de la température avec alertes critiques
-
-Utilisez les [types de notification](/docs/notification) pour envoyer des alertes de température critiques sous forme d'appels :
-
-```yaml
-rest_command:
-  echobell_critical:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    content_type: "application/json"
-    payload: '{"temperature": "{{ temperature }}", "location": "{{ location }}", "severity": "critical"}'
-```
-
-Dans votre canal Echobell, définissez le [type de notification](/docs/notification) sur "Calling" (Appel) et utilisez ce modèle :
-
-- **Titre** : `Critical Temperature Alert`
-- **Corps** : `{{location}} temperature is {{temperature}}°C - Immediate attention required!`
-
-### Intégration du système de sécurité
-
-Mettez en place une surveillance de sécurité complète :
-
-```yaml
-automation:
-  - alias: "Security Breach Detection"
-    trigger:
-      - platform: state
-        entity_id:
-          - binary_sensor.motion_detector_1
-          - binary_sensor.motion_detector_2
-          - binary_sensor.window_sensor
-        to: "on"
-    condition:
-      - condition: state
-        entity_id: alarm_control_panel.home_alarm
-        state: "armed_away"
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "🚨 Security Alert"
-          message: "{{ trigger.to_state.attributes.friendly_name }} detected activity while system armed"
-          sensor: "{{ trigger.entity_id }}"
-          timestamp: "{{ now().isoformat() }}"
-```
-
-### Notifications d'appareils électroménagers intelligents
-
-Surveillez les cycles des appareils et soyez notifié lorsqu'ils sont terminés :
-
-```yaml
-automation:
-  - alias: "Washing Machine Complete"
-    trigger:
-      - platform: state
-        entity_id: sensor.washing_machine_power
-        to: "0"
-        for:
-          minutes: 3
-    action:
-      - service: notify.echobell
-        data:
-          title: "Washing Machine Done"
-          message: "Your laundry is ready to be moved to the dryer"
-```
-
-### Surveillance environnementale
-
-Suivez la qualité de l'air, l'humidité ou d'autres facteurs environnementaux :
-
-```yaml
-automation:
-  - alias: "High CO2 Alert"
-    trigger:
-      - platform: numeric_state
-        entity_id: sensor.living_room_co2
-        above: 1000
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "Air Quality Warning"
-          message: "CO2 level in living room is {{ states('sensor.living_room_co2') }} ppm. Consider ventilating."
-```
-
-## Utilisation de conditions pour un filtrage intelligent
-
-Vous pouvez utiliser les [conditions Echobell](/docs/conditions) pour filtrer les notifications en fonction de critères spécifiques. Par exemple, ne notifier que pendant certaines heures ou lorsque les valeurs dépassent des seuils :
-
-Définissez une condition dans votre canal Echobell :
-```
-severity == "critical" || (hour >= 22 || hour <= 7)
-```
-
-Cela n'envoie des notifications que si la gravité est critique OU s'il fait nuit (de 22h à 7h).
-
-Dans votre automatisation Home Assistant, incluez les données pertinentes :
-
-```yaml
-action:
-  - service: rest_command.echobell_notify
-    data:
-      title: "Temperature Alert"
-      message: "Freezer temperature: {{ states('sensor.freezer_temp') }}°C"
-      severity: "{% if states('sensor.freezer_temp') | float > -10 %}critical{% else %}normal{% endif %}"
-      hour: "{{ now().hour }}"
-```
-
-## Envoi de données de capteurs
-
-Vous pouvez transmettre n'importe quelle donnée de capteur Home Assistant à vos notifications Echobell :
-
-```yaml
-rest_command:
-  echobell_sensor_update:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    content_type: "application/json"
-    payload: >
-      {
-        "sensor_name": "{{ sensor_name }}",
-        "current_value": "{{ current_value }}",
-        "unit": "{{ unit }}",
-        "state": "{{ state }}",
-        "timestamp": "{{ timestamp }}"
-      }
-```
-
-## Gestion des en-têtes HTTP
-
-Echobell peut accéder aux en-têtes HTTP des requêtes webhook. C'est utile pour l'authentification ou le suivi :
-
-```yaml
-rest_command:
-  echobell_with_headers:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    headers:
-      X-Home-Assistant-Instance: "{{ instance_name }}"
-      X-Automation-ID: "{{ automation_id }}"
-    content_type: "application/json"
-    payload: '{"message": "{{ message }}"}'
-```
-
-Dans votre modèle Echobell, accédez aux en-têtes avec :
-```
-{{header["x-home-assistant-instance"]}}
-```
-
-## Débogage et tests
-
-### Tester votre Webhook
-
-Utilisez les Outils de développement → Services de Home Assistant pour tester votre configuration :
-
-1. Sélectionnez `rest_command.echobell_notify`
-2. Entrez les données de test :
-```yaml
-title: "Test Notification"
-message: "This is a test from Home Assistant"
-```
-3. Cliquez sur "Appeler le service"
-4. Vérifiez votre application Echobell pour la notification
-
-### Vérifier les journaux Home Assistant
-
-Si les notifications n'arrivent pas, vérifiez les journaux de Home Assistant :
-
-```bash
-# Dans Home Assistant, allez à :
-Paramètres → Système → Journaux
-
-# Ou vérifiez le fichier journal :
-config/home-assistant.log
-```
-
-Recherchez des erreurs liées à `rest_command` ou aux requêtes HTTP vers `hook.echobell.one`.
-
-### Vérifier l'URL du Webhook
-
-Assurez-vous que votre URL de webhook est correcte :
-- Elle doit commencer par `https://hook.echobell.one/t/`
-- Le jeton doit être inclus
-- Pas d'espaces ou de caractères supplémentaires
-
-## Considérations de performance
-
-### Limitation de débit
-
-Les webhooks Echobell sont soumis à une limitation de débit pour éviter les abus. Pour les capteurs à haute fréquence :
-
-- Évitez de déclencher à chaque mise à jour du capteur
-- Utilisez `for` dans les déclencheurs pour temporiser :
-```yaml
-trigger:
-  - platform: numeric_state
-    entity_id: sensor.temperature
-    above: 30
-    for:
-      minutes: 5  # Only trigger after 5 minutes above threshold
-```
-
-### Regroupement des mises à jour
-
-Pour plusieurs événements liés, envisagez de les regrouper en une seule notification :
-
-```yaml
-automation:
-  - alias: "Daily Home Summary"
-    trigger:
-      - platform: time
-        at: "09:00:00"
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "Morning Home Summary"
-          message: >
-            Temperature: {{ states('sensor.temperature') }}°C
-            Humidity: {{ states('sensor.humidity') }}%
-            Energy today: {{ states('sensor.daily_energy') }} kWh
-            Windows open: {{ expand(states.binary_sensor) | selectattr('state', 'eq', 'on') | selectattr('attributes.device_class', 'eq', 'window') | list | count }}
-```
-
-## Bonnes pratiques de sécurité
-
-### Protégez votre URL de Webhook
-
-- Ne committez jamais d'URL de webhook dans des dépôts publics
-- Utilisez les secrets Home Assistant pour les données sensibles
-- Faites tourner les jetons de webhook périodiquement
-
-Utilisation des secrets dans `configuration.yaml` :
-
-```yaml
-# secrets.yaml
-echobell_webhook: "https://hook.echobell.one/t/YOUR_TOKEN"
-
-# configuration.yaml
-rest_command:
-  echobell_notify:
-    url: !secret echobell_webhook
-    method: POST
-    content_type: "application/json"
-    payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
-```
-
-### Limiter les informations sensibles
-
-Soyez prudent quant aux données que vous incluez dans les notifications :
-
-```yaml
-# Good - General information
-message: "Motion detected in living room"
-
-# Avoid - Sensitive details
-message: "Security code: 1234, camera feed: http://..."
-```
-
-## Dépannage des problèmes courants
-
-### Les notifications n'arrivent pas
-
-1. **Vérifiez la connectivité réseau** : Assurez-vous que votre instance Home Assistant peut accéder à Internet
-2. **Vérifiez l'URL du webhook** : Copiez-la et collez-la soigneusement, en incluant le jeton
-3. **Vérifiez l'application Echobell** : Assurez-vous d'être abonné au canal
-4. **Examinez les journaux Home Assistant** : Recherchez des erreurs HTTP ou des délais d'attente
-
-### Erreurs de modèle
-
-Si les modèles ne s'affichent pas correctement :
-
-1. Testez les modèles dans Outils de développement → Modèle
-2. Assurez-vous que les noms de variables correspondent entre Home Assistant et Echobell
-3. Vérifiez les fautes de frappe dans la syntaxe du modèle : `{{variable}}` et non `{{ variable}}`
-
-### L'automatisation ne se déclenche pas
-
-1. Vérifiez les conditions de déclenchement dans Home Assistant
-2. Testez l'automatisation manuellement depuis les Outils de développement
-3. Vérifiez que les états des entités correspondent à votre configuration de déclenchement
-4. Examinez les traces d'automatisation pour le débogage
-
-## Exemple : Configuration complète du système de sécurité
-
-Voici un exemple complet intégrant plusieurs capteurs de sécurité :
-
-```yaml
-# configuration.yaml
-rest_command:
-  echobell_security:
-    url: !secret echobell_security_webhook
-    method: POST
-    content_type: "application/json"
-    payload: >
-      {
-        "event_type": "{{ event_type }}",
-        "location": "{{ location }}",
-        "sensor": "{{ sensor }}",
-        "timestamp": "{{ timestamp }}",
-        "alarm_state": "{{ alarm_state }}"
-      }
-
-# automations.yaml
-- alias: "Security Event Handler"
-  trigger:
-    - platform: state
-      entity_id:
-        - binary_sensor.front_door
-        - binary_sensor.back_door
-        - binary_sensor.garage_door
-        - binary_sensor.motion_hallway
-        - binary_sensor.motion_living_room
-      to: "on"
-  action:
-    - service: rest_command.echobell_security
-      data:
-        event_type: "{{ 'door' if 'door' in trigger.entity_id else 'motion' }}"
-        location: "{{ trigger.to_state.attributes.friendly_name }}"
-        sensor: "{{ trigger.entity_id }}"
-        timestamp: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
-        alarm_state: "{{ states('alarm_control_panel.home_alarm') }}"
-```
-
-Dans Echobell, définissez vos modèles :
-- **Titre** : `Security Alert: {{event_type | upper}}`
-- **Corps** : `{{location}} activated at {{timestamp}} (Alarm: {{alarm_state}})`
-
-## Prochaines étapes
+## Prochaines Étapes
 
 Maintenant que vous avez intégré Echobell avec Home Assistant :
 
 - Explorez les [types de notification](/docs/notification) pour différentes priorités d'alerte
-- Apprenez-en plus sur les [conditions](/docs/conditions) pour filtrer les notifications intelligemment
-- Consultez les [variables de modèle](/docs/template) pour un formatage de message avancé
-- Lisez les [bonnes pratiques webhook](/docs/webhook) pour une intégration optimale
+- Apprenez les [conditions](/docs/conditions) pour filtrer intelligemment les notifications
+- Consultez les [variables de modèle](/docs/template) pour un formatage avancé des messages
+- Lisez les [meilleures pratiques webhook](/docs/webhook) pour une intégration optimale
 
-## Ressources associées
+## Ressources Connexes
 
-- [Documentation des commandes REST Home Assistant](https://www.home-assistant.io/integrations/rest_command/)
-- [Plateforme de notification RESTful Home Assistant](https://www.home-assistant.io/integrations/notify.rest/)
+- [Documentation REST Command de Home Assistant](https://www.home-assistant.io/integrations/rest_command/)
+- [Plateforme RESTful Notify de Home Assistant](https://www.home-assistant.io/integrations/notify.rest/)
 - [Documentation Webhook Echobell](/docs/webhook)
-- [Système de modèles Echobell](/docs/template)
+- [Système de Modèles Echobell](/docs/template)

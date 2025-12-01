@@ -8,11 +8,11 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 [UptimeRobot](https://uptimerobot.com/) 是一个流行的正常运行时间监控服务。您可以使用 Webhook 将其与 Echobell 集成。
 
 <Steps>
-  <Step>
+<Step>
     ### 创建频道
     在 Echobell 中创建一个新频道并复制 **Webhook URL**。
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### 添加警报联系人
     1. 登录 UptimeRobot。
     2. 转到 **My Settings**。
@@ -21,8 +21,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
     5. 将 **Friendly Name** 设置为 "Echobell"。
     6. 将您的 Echobell Webhook URL 粘贴到 **URL to Notify** 中。
     7. 启用 **Send as JSON**。
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### 配置 Payload
     将以下 JSON 粘贴到 **Post Value (JSON Format)** 字段中：
 
@@ -37,8 +37,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 
     *   `*alertType*`: `1` 表示宕机，`2` 表示恢复。
 
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### 配置 Echobell 模板
     在您的 Echobell 频道设置中，您可以使用表达式来处理警报类型：
 
@@ -53,5 +53,5 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
     URL: {{url}}
     ```
 
-  </Step>
+</Step>
 </Steps>

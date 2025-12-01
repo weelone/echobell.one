@@ -3,6 +3,8 @@ title: Integración con Grafana
 description: Aprende cómo integrar las alertas de Grafana con Echobell para recibir notificaciones instantáneas
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Integración con Grafana
 
 Grafana es una solución popular de código abierto para análisis y monitoreo. Al integrar Grafana con Echobell, puedes recibir notificaciones instantáneas cuando tus métricas activen alertas. Esta guía te mostrará cómo configurar las alertas de Grafana con Echobell.
@@ -23,13 +25,17 @@ Grafana es una solución popular de código abierto para análisis y monitoreo. 
 
 ## Guía paso a paso
 
-### 1. Crear un canal de Echobell
+<Steps>
+<Step>
+### Crear un canal de Echobell
 
 1. Abrir la aplicación Echobell
 2. Crear un nuevo canal (por ejemplo, "Alertas de Grafana")
 3. Elegir un color distintivo para facilitar la identificación
+</Step>
+<Step>
 
-### 2. Configurar plantillas de notificación
+### Configurar plantillas de notificación
 
 Configura plantillas que formatearán tus alertas de Grafana de manera efectiva:
 
@@ -51,13 +57,17 @@ Configura plantillas que formatearán tus alertas de Grafana de manera efectiva:
 
 Estas plantillas funcionarán con la estructura de datos de alerta de Grafana.
 
-### 3. Obtener la URL del webhook
+</Step>
+<Step>
+### Obtener la URL del webhook
 
 1. En la configuración de tu canal, localiza la sección **Disparadores**
 2. Copia la URL del webhook proporcionada
 3. Mantén esta URL segura ya que se utilizará en la configuración de Grafana
+</Step>
+<Step>
 
-### 4. Configurar punto de contacto en Grafana
+### Configurar punto de contacto en Grafana
 
 1. En Grafana, ve a **Alertas** → **Puntos de contacto**
 2. Haz clic en **Nuevo punto de contacto**
@@ -81,7 +91,9 @@ Estas plantillas funcionarán con la estructura de datos de alerta de Grafana.
 }
 ```
 
-### 5. Crear reglas de alerta
+</Step>
+<Step>
+### Crear reglas de alerta
 
 1. Navega a **Alertas** → **Reglas de alerta**
 2. Crea una nueva regla de alerta o edita una existente
@@ -89,6 +101,8 @@ Estas plantillas funcionarán con la estructura de datos de alerta de Grafana.
    - Establece condiciones apropiadas para tus métricas
    - Selecciona el punto de contacto "Echobell"
    - Configura criterios de evaluación de alertas
+</Step>
+</Steps>
 
 ## Probando la integración
 

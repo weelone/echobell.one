@@ -1,37 +1,43 @@
 ---
 title: Home Assistant 集成
-description: 将 Echobell 与 Home Assistant 集成的完整指南，实现即时智能家居通知和警报
+description: 完整指南：将Echobell与Home Assistant集成，即时接收智能家居通知和警报
 ---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
 # Home Assistant 集成
 
-[Home Assistant](https://www.home-assistant.io/) 是一个强大的开源家庭自动化平台，它将本地控制和隐私放在首位。通过将 Echobell 与 Home Assistant 集成，当您的智能家居中发生重要事件时——无论是安全警报、温度阈值突破还是自动化触发——您都可以收到即时通知甚至电话呼叫。
+[Home Assistant](https://www.home-assistant.io/)是一个强大的开源家庭自动化平台，注重本地控制和隐私保护。通过将 Echobell 与 Home Assistant 集成，您可以在智能家居发生重要事件时立即收到通知或电话，例如安全警报、温度阈值超标或自动化触发器。
 
-本指南将引导您设置 Echobell，以便使用 Webhook 或 RESTful Notify 服务从 Home Assistant 自动化接收通知。
+本指南将介绍如何使用 Webhook 或 RESTful 通知服务设置 Home Assistant 自动化，向您的 Echobell 通知频道发送通知。
 
-## 先决条件
+## 前提条件
 
-在开始之前，请确保您拥有：
+在开始之前，请确保您具备：
 
-- 在您的 iOS 设备上安装了 [Echobell 应用](https://apps.apple.com/app/id6743597198)
-- 一个活跃的 Echobell 频道（如果还没有，请在应用中创建一个）
-- 正在运行的 Home Assistant 实例（建议使用 2023.1 或更高版本）
-- 对 Home Assistant 配置的访问权限
+- iOS 设备上已安装[Echobell 应用](https://apps.apple.com/app/id6743597198)
+- 有效的 Echobell 频道（如果没有，请在应用中创建）
+- 正在运行的 Home Assistant 实例（建议 2023.1 或更高版本）
+- 访问 Home Assistant 配置的权限
 
-## 方法 1：使用 Webhook 触发器（推荐）
+## 方法一：使用 Webhook 触发器（推荐）
 
-Webhook 方法是最灵活的方式，允许您发送自定义数据并在通知中使用 [模板变量](/docs/template)。
+使用 Webhook 方法是最灵活的方式，允许您发送自定义数据并在通知中使用[模板变量](/docs/template)。
 
-### 第 1 步：获取您的 Echobell Webhook URL
+<Steps>
+<Step>
+### 获取Echobell Webhook URL
 
 1. 打开 Echobell 应用并导航到您的频道
-2. 点击频道以查看详情
-3. 在触发器（Triggers）部分找到 **Webhook URL**
-4. 复制该 URL——它看起来像这样：`https://hook.echobell.one/t/YOUR_TOKEN`
+2. 点击您的频道查看详情
+3. 在 Triggers 部分找到 **Webhook URL**
+4. 复制 URL，格式类似：`https://hook.echobell.one/t/YOUR_TOKEN`
+</Step>
+<Step>
 
-### 第 2 步：创建 Home Assistant 自动化
+### 创建 Home Assistant 自动化
 
-在 Home Assistant 中，您可以使用 `rest_command` 服务触发 Echobell 通知。首先，将 REST 命令添加到您的 `configuration.yaml` 文件中：
+在 Home Assistant 中，您可以使用`rest_command`服务触发 Echobell 通知。首先，在`configuration.yaml`中添加 REST 命令：
 
 ```yaml
 rest_command:
@@ -42,13 +48,15 @@ rest_command:
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
 ```
 
-将 `YOUR_TOKEN` 替换为您实际的 Echobell Webhook 令牌。
+将`YOUR_TOKEN`替换为您实际的 Echobell Webhook 令牌。
 
-添加此内容后，重新启动 Home Assistant 以加载新配置。
+添加后，重启 Home Assistant 以加载新配置。
 
-### 第 3 步：在自动化中使用
+</Step>
+<Step>
+### 在自动化中使用
 
-现在您可以从任何自动化中调用此服务。这是一个当门打开时通知您的示例：
+现在您可以从任何自动化中调用此服务。以下是门被打开时发送通知的示例：
 
 ```yaml
 automation:
@@ -60,26 +68,31 @@ automation:
     action:
       - service: rest_command.echobell_notify
         data:
-          title: "Security Alert"
-          message: "Front door opened at {{ now().strftime('%H:%M') }}"
+          title: "安全警报"
+          message: "前门于 {{ now().strftime('%H:%M') }} 被打开"
 ```
 
-### 第 4 步：配置通知模板
+</Step>
+<Step>
+### 配置通知模板
 
-在您的 Echobell 频道设置中，配置通知模板以显示 Webhook 数据：
+在 Echobell 频道设置中，配置通知模板以显示 Webhook 数据：
 
-- **标题模板 (Title template)**：`{{title}}`
-- **正文模板 (Body template)**：`{{message}}`
+- **标题模板**：`{{title}}`
+- **内容模板**：`{{message}}`
 
-现在，当自动化触发时，您将收到带有自定义标题和消息的通知。
+这确保了当自动化触发时，您将收到包含自定义标题和消息的通知。
 
-## 方法 2：使用 RESTful Notify 平台
+</Step>
+</Steps>
 
-为了更紧密的集成，您可以将 Echobell 设置为 Home Assistant 中的通知服务。
+## 方法二：使用 RESTful 通知平台
+
+如需更紧密的集成，您可以将 Echobell 配置为 Home Assistant 的通知服务。
 
 ### 配置
 
-将以下内容添加到您的 `configuration.yaml`：
+在`configuration.yaml`中添加：
 
 ```yaml
 notify:
@@ -92,11 +105,11 @@ notify:
       message: "{{ message }}"
 ```
 
-将 `YOUR_TOKEN` 替换为您的 Echobell Webhook 令牌，然后重新启动 Home Assistant。
+将`YOUR_TOKEN`替换为您的 Echobell Webhook 令牌并重启 Home Assistant。
 
-### 使用 Notify 服务
+### 使用通知服务
 
-现在您可以像使用任何其他通知服务一样使用 Echobell：
+现在您可以像使用其他通知服务一样使用 Echobell：
 
 ```yaml
 automation:
@@ -108,349 +121,22 @@ automation:
     action:
       - service: notify.echobell
         data:
-          title: "Low Battery Warning"
-          message: "Phone battery is at {{ states('sensor.phone_battery') }}%"
+          title: "电量不足警告"
+          message: "手机电量仅剩 {{ states('sensor.phone_battery') }}%"
 ```
-
-## 高级用例
-
-### 带有紧急警报的温度监控
-
-使用 [通知类型](/docs/notification) 发送作为电话呼叫的紧急温度警报：
-
-```yaml
-rest_command:
-  echobell_critical:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    content_type: "application/json"
-    payload: '{"temperature": "{{ temperature }}", "location": "{{ location }}", "severity": "critical"}'
-```
-
-在您的 Echobell 频道中，将 [通知类型](/docs/notification) 设置为 "Calling"（呼叫），并使用此模板：
-
-- **标题**：`Critical Temperature Alert`
-- **正文**：`{{location}} temperature is {{temperature}}°C - Immediate attention required!`
-
-### 安全系统集成
-
-设置全面的安全监控：
-
-```yaml
-automation:
-  - alias: "Security Breach Detection"
-    trigger:
-      - platform: state
-        entity_id:
-          - binary_sensor.motion_detector_1
-          - binary_sensor.motion_detector_2
-          - binary_sensor.window_sensor
-        to: "on"
-    condition:
-      - condition: state
-        entity_id: alarm_control_panel.home_alarm
-        state: "armed_away"
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "🚨 Security Alert"
-          message: "{{ trigger.to_state.attributes.friendly_name }} detected activity while system armed"
-          sensor: "{{ trigger.entity_id }}"
-          timestamp: "{{ now().isoformat() }}"
-```
-
-### 智能家电通知
-
-监控家电周期并在完成时获得通知：
-
-```yaml
-automation:
-  - alias: "Washing Machine Complete"
-    trigger:
-      - platform: state
-        entity_id: sensor.washing_machine_power
-        to: "0"
-        for:
-          minutes: 3
-    action:
-      - service: notify.echobell
-        data:
-          title: "Washing Machine Done"
-          message: "Your laundry is ready to be moved to the dryer"
-```
-
-### 环境监控
-
-跟踪空气质量、湿度或其他环境因素：
-
-```yaml
-automation:
-  - alias: "High CO2 Alert"
-    trigger:
-      - platform: numeric_state
-        entity_id: sensor.living_room_co2
-        above: 1000
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "Air Quality Warning"
-          message: "CO2 level in living room is {{ states('sensor.living_room_co2') }} ppm. Consider ventilating."
-```
-
-## 使用条件进行智能过滤
-
-您可以使用 [Echobell 条件](/docs/conditions) 根据特定标准过滤通知。例如，仅在特定时间或数值超过阈值时通知：
-
-在您的 Echobell 频道中设置条件：
-```
-severity == "critical" || (hour >= 22 || hour <= 7)
-```
-
-这仅在严重程度为 critical（紧急）或在夜间（晚上 10 点到早上 7 点）时发送通知。
-
-在您的 Home Assistant 自动化中，包含相关数据：
-
-```yaml
-action:
-  - service: rest_command.echobell_notify
-    data:
-      title: "Temperature Alert"
-      message: "Freezer temperature: {{ states('sensor.freezer_temp') }}°C"
-      severity: "{% if states('sensor.freezer_temp') | float > -10 %}critical{% else %}normal{% endif %}"
-      hour: "{{ now().hour }}"
-```
-
-## 发送传感器数据
-
-您可以将任何 Home Assistant 传感器数据传递给您的 Echobell 通知：
-
-```yaml
-rest_command:
-  echobell_sensor_update:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    content_type: "application/json"
-    payload: >
-      {
-        "sensor_name": "{{ sensor_name }}",
-        "current_value": "{{ current_value }}",
-        "unit": "{{ unit }}",
-        "state": "{{ state }}",
-        "timestamp": "{{ timestamp }}"
-      }
-```
-
-## 处理 HTTP 标头
-
-Echobell 可以从 Webhook 请求中访问 HTTP 标头。这对于身份验证或跟踪非常有用：
-
-```yaml
-rest_command:
-  echobell_with_headers:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    headers:
-      X-Home-Assistant-Instance: "{{ instance_name }}"
-      X-Automation-ID: "{{ automation_id }}"
-    content_type: "application/json"
-    payload: '{"message": "{{ message }}"}'
-```
-
-在您的 Echobell 模板中，使用以下方式访问标头：
-```
-{{header["x-home-assistant-instance"]}}
-```
-
-## 调试和测试
-
-### 测试您的 Webhook
-
-使用 Home Assistant 的开发者工具（Developer Tools）→ 服务（Services）来测试您的配置：
-
-1. 选择 `rest_command.echobell_notify`
-2. 输入测试数据：
-```yaml
-title: "Test Notification"
-message: "This is a test from Home Assistant"
-```
-3. 点击 "调用服务" (Call Service)
-4. 检查您的 Echobell 应用是否收到通知
-
-### 检查 Home Assistant 日志
-
-如果未收到通知，请检查 Home Assistant 日志：
-
-```bash
-# 在 Home Assistant 中，前往：
-设置 (Settings) → 系统 (System) → 日志 (Logs)
-
-# 或者检查日志文件：
-config/home-assistant.log
-```
-
-查找与 `rest_command` 或对 `hook.echobell.one` 的 HTTP 请求相关的错误。
-
-### 验证 Webhook URL
-
-确保您的 Webhook URL 正确：
-- 它应该以 `https://hook.echobell.one/t/` 开头
-- 应包含令牌
-- 没有多余的空格或字符
-
-## 性能考量
-
-### 速率限制
-
-Echobell Webhook 受到速率限制以防止滥用。对于高频传感器：
-
-- 避免在每次传感器更新时触发
-- 在触发器中使用 `for` 进行去抖动：
-```yaml
-trigger:
-  - platform: numeric_state
-    entity_id: sensor.temperature
-    above: 30
-    for:
-      minutes: 5  # 仅在超过阈值 5 分钟后触发
-```
-
-### 批量更新
-
-对于多个相关事件，考虑将它们批量处理为单个通知：
-
-```yaml
-automation:
-  - alias: "Daily Home Summary"
-    trigger:
-      - platform: time
-        at: "09:00:00"
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "Morning Home Summary"
-          message: >
-            Temperature: {{ states('sensor.temperature') }}°C
-            Humidity: {{ states('sensor.humidity') }}%
-            Energy today: {{ states('sensor.daily_energy') }} kWh
-            Windows open: {{ expand(states.binary_sensor) | selectattr('state', 'eq', 'on') | selectattr('attributes.device_class', 'eq', 'window') | list | count }}
-```
-
-## 安全最佳实践
-
-### 保护您的 Webhook URL
-
-- 切勿将 Webhook URL 提交到公共存储库
-- 使用 Home Assistant secrets 存储敏感数据
-- 定期轮换 Webhook 令牌
-
-在 `configuration.yaml` 中使用 secrets：
-
-```yaml
-# secrets.yaml
-echobell_webhook: "https://hook.echobell.one/t/YOUR_TOKEN"
-
-# configuration.yaml
-rest_command:
-  echobell_notify:
-    url: !secret echobell_webhook
-    method: POST
-    content_type: "application/json"
-    payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
-```
-
-### 限制敏感信息
-
-注意您在通知中包含的数据：
-
-```yaml
-# 推荐 - 一般信息
-message: "Motion detected in living room"
-
-# 避免 - 敏感细节
-message: "Security code: 1234, camera feed: http://..."
-```
-
-## 常见问题排查
-
-### 通知未送达
-
-1. **检查网络连接**：确保您的 Home Assistant 实例可以访问互联网
-2. **验证 Webhook URL**：仔细复制并粘贴，包括令牌
-3. **检查 Echobell 应用**：确保您已订阅该频道
-4. **查看 Home Assistant 日志**：查找 HTTP 错误或超时
-
-### 模板错误
-
-如果模板未正确渲染：
-
-1. 在开发者工具（Developer Tools）→ 模板（Template）中测试模板
-2. 确保 Home Assistant 和 Echobell 之间的变量名称匹配
-3. 检查模板语法中的拼写错误：是 `{{variable}}` 而不是 `{{ variable}}`
-
-### 自动化未触发
-
-1. 验证 Home Assistant 中的触发条件
-2. 从开发者工具手动测试自动化
-3. 检查实体状态是否与您的触发器配置匹配
-4. 查看自动化追踪（Trace）进行调试
-
-## 示例：完整的安全系统设置
-
-这是一个集成多个安全传感器的综合示例：
-
-```yaml
-# configuration.yaml
-rest_command:
-  echobell_security:
-    url: !secret echobell_security_webhook
-    method: POST
-    content_type: "application/json"
-    payload: >
-      {
-        "event_type": "{{ event_type }}",
-        "location": "{{ location }}",
-        "sensor": "{{ sensor }}",
-        "timestamp": "{{ timestamp }}",
-        "alarm_state": "{{ alarm_state }}"
-      }
-
-# automations.yaml
-- alias: "Security Event Handler"
-  trigger:
-    - platform: state
-      entity_id:
-        - binary_sensor.front_door
-        - binary_sensor.back_door
-        - binary_sensor.garage_door
-        - binary_sensor.motion_hallway
-        - binary_sensor.motion_living_room
-      to: "on"
-  action:
-    - service: rest_command.echobell_security
-      data:
-        event_type: "{{ 'door' if 'door' in trigger.entity_id else 'motion' }}"
-        location: "{{ trigger.to_state.attributes.friendly_name }}"
-        sensor: "{{ trigger.entity_id }}"
-        timestamp: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
-        alarm_state: "{{ states('alarm_control_panel.home_alarm') }}"
-```
-
-在 Echobell 中，设置您的模板：
-- **标题**：`Security Alert: {{event_type | upper}}`
-- **正文**：`{{location}} activated at {{timestamp}} (Alarm: {{alarm_state}})`
 
 ## 下一步
 
-现在您已将 Echobell 与 Home Assistant 集成：
+Echobell 与 Home Assistant 集成成功后：
 
-- 探索 [通知类型](/docs/notification) 以了解不同的警报优先级
-- 了解 [条件](/docs/conditions) 以智能过滤通知
-- 查看 [模板变量](/docs/template) 以获取高级消息格式
-- 阅读 [Webhook 最佳实践](/docs/webhook) 以实现最佳集成
+- 探索[通知类型](/docs/notification)设置不同的警报优先级
+- 使用[条件](/docs/conditions)智能过滤通知
+- 查看[模板变量](/docs/template)了解高级消息格式化
+- 阅读[Webhook 最佳实践](/docs/webhook)优化集成
 
 ## 相关资源
 
-- [Home Assistant REST Command 文档](https://www.home-assistant.io/integrations/rest_command/)
-- [Home Assistant RESTful Notify 平台](https://www.home-assistant.io/integrations/notify.rest/)
+- [Home Assistant REST 命令文档](https://www.home-assistant.io/integrations/rest_command/)
+- [Home Assistant RESTful 通知平台](https://www.home-assistant.io/integrations/notify.rest/)
 - [Echobell Webhook 文档](/docs/webhook)
 - [Echobell 模板系统](/docs/template)

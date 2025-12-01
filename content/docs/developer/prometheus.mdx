@@ -3,6 +3,8 @@ title: Prometheus Integration
 description: Set up Prometheus Alertmanager to send alerts to Echobell via webhook or email
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Prometheus Integration
 
 Prometheus with Alertmanager is a widely used open-source monitoring and alerting stack. By integrating Alertmanager with Echobell, you can receive instant mobile notifications (including time-sensitive or call-style alerts) whenever your alert rules fire.
@@ -25,15 +27,19 @@ Prometheus with Alertmanager is a widely used open-source monitoring and alertin
 
 ## Step-by-Step Guide
 
-### 1) Create an Echobell Channel
+<Steps>
+<Step>
+### Create an Echobell Channel
 
 1. Open the Echobell app
 2. Create a new channel (e.g., "Prometheus Alerts")
 3. Pick a color for easy identification
+</Step>
+<Step>
 
-### 2) Configure Notification Templates
+### Configure Notification Templates
 
-Alertmanager’s webhook payload contains structured fields like status, commonLabels, commonAnnotations, externalURL and an alerts array. You can reference these fields directly in Echobell templates.
+Alertmanager's webhook payload contains structured fields like status, commonLabels, commonAnnotations, externalURL and an alerts array. You can reference these fields directly in Echobell templates.
 
 Suggested templates:
 
@@ -60,9 +66,11 @@ Optional Link Template (Advanced Settings):
 {{alerts[0].generatorURL || externalURL}}
 ```
 
-This shows a direct link to the firing graph or dashboard inside your alert record. If generatorURL isn’t present, it falls back to externalURL.
+This shows a direct link to the firing graph or dashboard inside your alert record. If generatorURL isn't present, it falls back to externalURL.
 
-### 3) Integration Method A — Webhook (Recommended)
+</Step>
+<Step>
+### Integration Method A — Webhook (Recommended)
 
 1. In your Echobell channel, copy the Webhook URL from Triggers
 2. In Alertmanager, add a webhook receiver that posts to that URL
@@ -86,12 +94,14 @@ Notes:
 
 - send_resolved: true will also notify when alerts resolve (status becomes resolved)
 - Echobell reads the JSON body as-is, so the templates above will render correctly
+</Step>
+<Step>
 
-### 3 alt) Integration Method B — Email (Alternative)
+### Integration Method B — Email (Alternative)
 
-If you prefer or require email, use Alertmanager’s email receiver and send to the channel’s bound email address.
+If you prefer or require email, use Alertmanager's email receiver and send to the channel's bound email address.
 
-1. In Echobell, copy the channel’s email address from the Triggers section
+1. In Echobell, copy the channel's email address from the Triggers section
 2. Configure an email receiver in Alertmanager and use simple templates
 
 Example snippet:
@@ -113,9 +123,11 @@ receivers:
 
 In Echobell templates for email triggers, you can use variables like subject, text, and html that Echobell provides automatically.
 
-### 4) Create an Example Alert Rule
+</Step>
+<Step>
+### Create an Example Alert Rule
 
-Here’s a small example rule to test the flow:
+Here's a small example rule to test the flow:
 
 ```yaml
 groups:
@@ -132,6 +144,9 @@ groups:
 ```
 
 Once this alert fires, Alertmanager will send the event to your configured receiver and Echobell will notify subscribers to the channel.
+
+</Step>
+</Steps>
 
 ## Testing the Integration
 
@@ -156,7 +171,7 @@ Once this alert fires, Alertmanager will send the event to your configured recei
 
 ## Troubleshooting
 
-If alerts aren’t appearing in Echobell:
+If alerts aren't appearing in Echobell:
 
 - Verify the correct webhook URL or channel email address
 - Ensure the Echobell channel is active and has subscribers

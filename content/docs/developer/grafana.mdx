@@ -3,6 +3,8 @@ title: Grafana Integration
 description: Learn how to integrate Grafana alerts with Echobell for instant notifications
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Grafana Integration
 
 Grafana is a popular open-source analytics and monitoring solution. By integrating Grafana with Echobell, you can receive instant notifications when your metrics trigger alerts. This guide will walk you through setting up Grafana alerts with Echobell.
@@ -23,13 +25,17 @@ Grafana is a popular open-source analytics and monitoring solution. By integrati
 
 ## Step-by-Step Guide
 
-### 1. Create an Echobell Channel
+<Steps>
+<Step>
+### Create an Echobell Channel
 
 1. Open the Echobell app
 2. Create a new channel (e.g., "Grafana Alerts")
 3. Choose a distinctive color for easy identification
+</Step>
+<Step>
 
-### 2. Configure Notification Templates
+### Configure Notification Templates
 
 Set up templates that will format your Grafana alerts effectively:
 
@@ -51,13 +57,17 @@ Set up templates that will format your Grafana alerts effectively:
 
 These templates will work with Grafana's alert payload structure.
 
-### 3. Get the Webhook URL
+</Step>
+<Step>
+### Get the Webhook URL
 
 1. In your channel settings, locate the **Triggers** section
 2. Copy the webhook URL provided
 3. Keep this URL secure as it will be used in Grafana's configuration
+</Step>
+<Step>
 
-### 4. Configure Grafana Contact Point
+### Configure Grafana Contact Point
 
 1. In Grafana, go to **Alerting** → **Contact points**
 2. Click **New contact point**
@@ -81,7 +91,9 @@ These templates will work with Grafana's alert payload structure.
 }
 ```
 
-### 5. Create Alert Rules
+</Step>
+<Step>
+### Create Alert Rules
 
 1. Navigate to **Alerting** → **Alert rules**
 2. Create a new alert rule or edit an existing one
@@ -89,6 +101,8 @@ These templates will work with Grafana's alert payload structure.
    - Set appropriate conditions for your metrics
    - Select the "Echobell" contact point
    - Configure alert evaluation criteria
+</Step>
+</Steps>
 
 ## Testing the Integration
 

@@ -1,49 +1,51 @@
 ---
 title: Integración con Prometheus
-description: Configura Alertmanager para enviar alertas a Echobell por webhook o correo
+description: Configura Prometheus Alertmanager para enviar alertas a Echobell vía webhook o email
 ---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
 # Integración con Prometheus
 
-Prometheus con Alertmanager es una pila de monitoreo y alertas de código abierto muy utilizada. Al integrarlo con Echobell, recibirás notificaciones móviles instantáneas (incluidas de alta prioridad o en forma de llamada) cuando se activen tus reglas de alerta.
+Prometheus con Alertmanager es un stack de monitoreo y alertas de código abierto ampliamente utilizado. Al integrar Alertmanager con Echobell, puedes recibir notificaciones móviles instantáneas (incluyendo alertas sensibles al tiempo o tipo llamada) cada vez que se activen tus reglas de alerta.
 
-## Requisitos previos
+## Requisitos Previos
 
-- Una cuenta de Echobell con al menos un canal
-- Un entorno funcionando de Prometheus + Alertmanager
-- Acceso para editar la configuración de Alertmanager (alertmanager.yml)
+- Una cuenta de Echobell con al menos un canal creado
+- Una instalación de Prometheus + Alertmanager en funcionamiento
+- Acceso para editar tu configuración de Alertmanager (alertmanager.yml)
 
-## Resumen de configuración
+## Descripción General
 
-1. Crea un canal en Echobell
-2. Configura las plantillas de notificación (y la Plantilla de Enlace opcional)
-3. Elige un método de integración:
-   - Webhook mediante un receptor de webhook en Alertmanager (recomendado)
-   - Correo mediante un receptor de email en Alertmanager (alternativo)
-4. Crea o actualiza reglas de alerta
-5. Prueba y ajusta
+1. Crear un canal de Echobell
+2. Configurar plantillas de notificación
+3. Elegir método de integración (Webhook o Email)
+4. Crear o actualizar reglas de alerta
+5. Probar y refinar
 
-## Guía paso a paso
+## Guía Paso a Paso
 
-### 1) Crea un canal de Echobell
+<Steps>
+<Step>
+### Crear un Canal de Echobell
 
-1. Abre la app Echobell
-2. Crea un canal (por ejemplo, "Prometheus Alerts")
-3. Elige un color para identificarlo fácilmente
+1. Abrir la aplicación Echobell
+2. Crear un nuevo canal (ej. "Alertas Prometheus")
+3. Elegir un color para fácil identificación
+</Step>
+<Step>
 
-### 2) Configura las plantillas
+### Configurar Plantillas de Notificación
 
-La carga útil del webhook de Alertmanager incluye campos como status, commonLabels, commonAnnotations, externalURL y una matriz alerts. Puedes referenciarlos directamente en las plantillas de Echobell.
+El payload del webhook de Alertmanager contiene campos estructurados como status, commonLabels, commonAnnotations, externalURL y un array alerts.
 
-Plantillas sugeridas:
-
-Plantilla de título:
+**Plantilla de Título:**
 
 ```
 {{commonLabels.alertname}} - {{status}}
 ```
 
-Plantilla de cuerpo:
+**Plantilla de Cuerpo:**
 
 ```
 🔔 Alerta: {{commonLabels.alertname}}
@@ -51,23 +53,20 @@ Plantilla de cuerpo:
 🖥️ Instancia: {{alerts[0].labels["instance"]}}
 ⏰ Inicio: {{alerts[0].startsAt}}
 ℹ️ Resumen: {{commonAnnotations.summary}}
-🧾 Descripción: {{commonAnnotations.description}}
 ```
 
-Plantilla de enlace (opcional):
+**Plantilla de Enlace Opcional (Configuración Avanzada):**
 
 ```
 {{alerts[0].generatorURL || externalURL}}
 ```
 
-Muestra un enlace directo al gráfico o panel relevante. Si no hay generatorURL, se usa externalURL.
+</Step>
+<Step>
+### Método A — Webhook (Recomendado)
 
-### 3) Método A — Webhook (recomendado)
-
-1. En tu canal de Echobell, copia la URL de Webhook desde Triggers
-2. En Alertmanager, añade un receptor de webhook que publique a esa URL
-
-Ejemplo mínimo de alertmanager.yml:
+1. En tu canal de Echobell, copia la URL del Webhook desde Triggers
+2. En Alertmanager, configura un receptor webhook:
 
 ```yaml
 route:
@@ -82,38 +81,32 @@ receivers:
           follow_redirects: true
 ```
 
-Notas:
+Nota: `send_resolved: true` también notificará cuando las alertas se resuelvan.
 
-- send_resolved: true también notificará cuando la alerta se resuelva
-- Echobell lee el JSON tal cual, por lo que las plantillas anteriores funcionarán
+</Step>
+<Step>
+### Método B — Email (Alternativo)
 
-### 3 alt) Método B — Correo (alternativo)
+Si prefieres email, usa el receptor de email de Alertmanager:
 
-Si prefieres/necesitas correo, usa el receptor de email de Alertmanager y envía a la dirección vinculada al canal.
-
-1. En Echobell, copia la dirección de correo del canal desde Triggers
-2. Configura un receptor de email en Alertmanager con plantillas simples
-
-Ejemplo:
+1. En Echobell, copia la dirección de email del canal desde Triggers
+2. Configura un receptor de email en Alertmanager:
 
 ```yaml
 receivers:
   - name: echobell-email
     email_configs:
-      - to: "PEGA_LA_DIRECCIÓN_DEL_CANAL"
+      - to: "PASTE_CHANNEL_EMAIL_ADDRESS"
         send_resolved: true
         subject: "{{ .CommonLabels.alertname }} - {{ .Status }}"
         html: |
           <p><strong>Resumen:</strong> {{ .CommonAnnotations.summary }}</p>
           <p>{{ .CommonAnnotations.description }}</p>
-          <p>
-            <a href='{{ (index .Alerts 0).GeneratorURL }}' target='_blank' rel='noopener'>Abrir en Prometheus</a>
-          </p>
 ```
 
-En las plantillas de Echobell para disparos por email, puedes usar variables como subject, text y html que la app proporciona automáticamente.
-
-### 4) Regla de alerta de ejemplo
+</Step>
+<Step>
+### Crear una Regla de Alerta de Ejemplo
 
 ```yaml
 groups:
@@ -125,55 +118,40 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "Uso alto de CPU"
-          description: "La CPU superó 80% por 2 minutos"
+          summary: "Alto uso de CPU"
+          description: "CPU ha estado sobre 80% por 2 minutos"
 ```
 
-Cuando se dispare, Alertmanager enviará el evento al receptor configurado y Echobell notificará a los suscriptores del canal.
+Una vez que esta alerta se active, Alertmanager enviará el evento a Echobell.
 
-## Pruebas
+</Step>
+</Steps>
 
-1. Baja temporalmente umbrales o crea una alerta de prueba
-2. Confirma que recibes la notificación en Echobell
-3. Si usas la Plantilla de Enlace, ábrelo desde el registro
-4. Resuelve la alerta y verifica la notificación de resolución
+## Tipos de Notificación
 
-## Tipos de notificación
+- **Sensible al tiempo**: Interrupciones críticas de producción, incidentes de paginación
+- **Llamada**: Cortes severos donde debes interrumpir modos de enfoque
+- **Normal**: Alertas rutinarias, advertencias o avisos informativos
 
-- Time Sensitive: interrupciones críticas, incidentes de paginación
-- Calling: caídas graves que deben interrumpir modos de enfoque
-- Normal: alertas rutinarias o informativas
+## Mejores Prácticas
 
-## Buenas prácticas
+1. Mantener las plantillas concisas pero informativas
+2. Usar la plantilla de enlace para ir directamente al gráfico/dashboard
+3. Agrupar y enrutar alertas en Alertmanager
+4. Proteger la URL del webhook como un secreto
 
-1. Plantillas concisas pero informativas (nombre, severidad, instancia, resumen)
-2. Usa la Plantilla de Enlace para ir directo al gráfico/panel
-3. Agrupa/rutea alertas en Alertmanager para evitar ruido
-4. Etiqueta severidades y ajusta el tipo de notificación en Echobell
-5. Protege la URL del webhook; rota si se expone
+## Solución de Problemas
 
-## Solución de problemas
+Si las alertas no aparecen en Echobell:
 
-- Verifica la URL del webhook o el correo del canal
-- Comprueba que el canal esté activo y con suscriptores
-- Revisa los logs de Alertmanager
-- Confirma que la ruta en alertmanager.yml apunte al receptor correcto
-- Prueba con una regla simple
-- Si usas correo, valida SMTP y entrega
+- Verificar la URL del webhook o email del canal
+- Asegurar que el canal está activo y tiene suscriptores
+- Revisar logs de Alertmanager para errores de entrega
+- Verificar la ruta en alertmanager.yml
 
-## Privacidad
-
-- El contenido de las notificaciones permanece en tus dispositivos
-- En servidores solo se guarda configuración mínima
-- Trata las URLs de webhook y correos del canal como secretos
-- Echobell no conserva las cargas de alerta en sus servidores
-
-## Recursos
+## Recursos Adicionales
 
 - [Documentación de Prometheus](https://prometheus.io/docs/introduction/overview/)
 - [Configuración de Alertmanager](https://prometheus.io/docs/alerting/latest/configuration/)
-- [Reglas de alertado](https://prometheus.io/docs/alerting/latest/alerting_rules/)
 - [Webhook de Echobell](/es/docs/webhook)
-- [Plantillas](/es/docs/notification)
-- [Condiciones y Enlace](/es/docs/conditions)
-- [Soporte](/es/docs/support)
+- [Plantillas de Notificación](/es/docs/notification)

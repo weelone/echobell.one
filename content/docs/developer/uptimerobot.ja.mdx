@@ -8,11 +8,11 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 [UptimeRobot](https://uptimerobot.com/)は、人気のある稼働時間監視サービスです。Webhook を使用して Echobell と統合できます。
 
 <Steps>
-  <Step>
+<Step>
     ### チャンネルの作成
     Echobellで新しいチャンネルを作成し、**Webhook URL**をコピーします。
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### アラート連絡先の追加
     1. UptimeRobotにログインします。
     2. **My Settings**に移動します。
@@ -21,8 +21,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
     5. **Friendly Name**を「Echobell」に設定します。
     6. EchobellのWebhook URLを**URL to Notify**に貼り付けます。
     7. **Send as JSON**を有効にします。
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### ペイロードの設定
     **Post Value (JSON Format)**フィールドに以下のJSONを貼り付けます：
 
@@ -37,8 +37,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 
     *   `*alertType*`: `1` はダウン、`2` はアップ。
 
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### Echobellテンプレートの設定
     Echobellチャンネルの設定で、式を使用してアラートタイプを処理できます：
 
@@ -53,5 +53,5 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
     URL: {{url}}
     ```
 
-  </Step>
+</Step>
 </Steps>

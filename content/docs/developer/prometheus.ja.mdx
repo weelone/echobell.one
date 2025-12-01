@@ -1,73 +1,72 @@
 ---
 title: Prometheus 連携
-description: Alertmanager から Echobell へ Webhook またはメールでアラートを送信する手順
+description: Prometheus Alertmanager から Webhook または Email で Echobell にアラートを送信する設定
 ---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
 # Prometheus 連携
 
-Prometheus と Alertmanager は広く使われているオープンソースの監視・アラート基盤です。Alertmanager を Echobell と連携すると、アラートルールが発火した際に、即時のモバイル通知（時限性や通話形式も可）を受け取れます。
+Prometheus と Alertmanager は広く使用されているオープンソースの監視・アラートスタックです。Alertmanager を Echobell と統合することで、アラートルールが発火するたびに、即座にモバイル通知（時間重要通知や通話通知を含む）を受け取ることができます。
 
 ## 前提条件
 
-- Echobell アカウント（チャンネルを 1 つ以上作成済み）
-- 稼働中の Prometheus + Alertmanager
-- Alertmanager 設定（alertmanager.yml）の編集権限
+- 少なくとも 1 つのチャンネルが作成された Echobell アカウント
+- 稼働中の Prometheus + Alertmanager 環境
+- Alertmanager 設定ファイル（alertmanager.yml）の編集権限
 
-## 手順の流れ
+## 概要
 
-1. Echobell チャンネルを作成
-2. 通知テンプレート（任意でリンクテンプレート）を設定
-3. 連携方法を選択：
-   - Webhook（Alertmanager の webhook レシーバー。推奨）
-   - メール（Alertmanager の email レシーバー。代替）
-4. アラートルールを作成/更新
+1. Echobell チャンネルの作成
+2. 通知テンプレートの設定
+3. 統合方法の選択（Webhook または Email）
+4. アラートルールの作成・更新
 5. テストと調整
 
-## 手順
+## ステップバイステップガイド
 
-### 1) Echobell チャンネル作成
+<Steps>
+<Step>
+### Echobell チャンネルの作成
 
 1. Echobell アプリを開く
-2. 新規チャンネル（例: "Prometheus Alerts"）を作成
+2. 新しいチャンネルを作成（例：「Prometheus アラート」）
 3. 識別しやすい色を選択
+</Step>
+<Step>
 
-### 2) 通知テンプレート設定
+### 通知テンプレートの設定
 
-Alertmanager の webhook ペイロードには status、commonLabels、commonAnnotations、externalURL、alerts 配列などのフィールドが含まれます。Echobell のテンプレートでそれらを直接参照できます。
+Alertmanager の Webhook ペイロードには status、commonLabels、commonAnnotations、externalURL、alerts 配列などの構造化されたフィールドが含まれます。
 
-推奨テンプレート：
-
-タイトルテンプレート：
+**タイトルテンプレート：**
 
 ```
 {{commonLabels.alertname}} - {{status}}
 ```
 
-本文テンプレート：
+**本文テンプレート：**
 
 ```
 🔔 アラート: {{commonLabels.alertname}}
-📊 重大度: {{commonLabels.severity}}
+📊 重要度: {{commonLabels.severity}}
 🖥️ インスタンス: {{alerts[0].labels["instance"]}}
 ⏰ 開始: {{alerts[0].startsAt}}
 ℹ️ 概要: {{commonAnnotations.summary}}
-🧾 詳細: {{commonAnnotations.description}}
 ```
 
-オプションのリンクテンプレート（詳細設定）：
+**オプションのリンクテンプレート（詳細設定）：**
 
 ```
 {{alerts[0].generatorURL || externalURL}}
 ```
 
-これにより、記録に関連グラフ/ダッシュボードへのリンクが表示されます。generatorURL が無い場合は externalURL を使用します。
+</Step>
+<Step>
+### 方法 A — Webhook（推奨）
 
-### 3) 方法 A — Webhook（推奨）
-
-1. Echobell チャンネルの Triggers から Webhook URL をコピー
-2. Alertmanager にその URL に POST する webhook レシーバーを追加
-
-alertmanager.yml 最小例：
+1. Echobell チャンネルで、トリガーから Webhook URL をコピー
+2. Alertmanager で Webhook レシーバーを設定：
 
 ```yaml
 route:
@@ -82,38 +81,32 @@ receivers:
           follow_redirects: true
 ```
 
-注意：
+注意：`send_resolved: true` でアラートが解決した際にも通知されます。
 
-- send_resolved: true は解消時（resolved）も通知します
-- Echobell は JSON 本文をそのまま解釈するため、上記テンプレートで正しくレンダリングされます
+</Step>
+<Step>
+### 方法 B — Email（代替）
 
-### 3 代替) 方法 B — メール
+Email を使用する場合は、Alertmanager の Email レシーバーを使用：
 
-メールを使う場合は、Alertmanager の email レシーバーでチャンネルのメールアドレスへ送信します。
-
-1. Echobell の Triggers からチャンネルのメールアドレスをコピー
-2. Alertmanager でメールレシーバーを設定し、簡単なテンプレートを使用
-
-例：
+1. Echobell で、トリガーからチャンネルの Email アドレスをコピー
+2. Alertmanager で Email レシーバーを設定：
 
 ```yaml
 receivers:
   - name: echobell-email
     email_configs:
-      - to: "チャンネルのメールアドレスを貼り付け"
+      - to: "PASTE_CHANNEL_EMAIL_ADDRESS"
         send_resolved: true
         subject: "{{ .CommonLabels.alertname }} - {{ .Status }}"
         html: |
           <p><strong>概要:</strong> {{ .CommonAnnotations.summary }}</p>
           <p>{{ .CommonAnnotations.description }}</p>
-          <p>
-            <a href='{{ (index .Alerts 0).GeneratorURL }}' target='_blank' rel='noopener'>Prometheus で開く</a>
-          </p>
 ```
 
-Echobell のメールトリガー用テンプレートでは、subject、text、html などの変数を使用できます。
-
-### 4) サンプルアラートルール
+</Step>
+<Step>
+### サンプルアラートルールの作成
 
 ```yaml
 groups:
@@ -126,54 +119,39 @@ groups:
           severity: critical
         annotations:
           summary: "CPU 使用率が高い"
-          description: "CPU が 2 分以上 80% を超過"
+          description: "CPU が 2 分間 80% を超えています"
 ```
 
-発火すると、Alertmanager がレシーバーへ送信し、Echobell がチャンネル購読者に通知します。
+このアラートが発火すると、Alertmanager がイベントを Echobell に送信します。
 
-## テスト方法
+</Step>
+</Steps>
 
-1. 閾値を一時的に下げるか、すぐに発火するテストを作成
-2. 発火時に Echobell 通知が届くか確認
-3. リンクテンプレート使用時は、記録からリンクを開く
-4. 解消時の通知（有効な場合）も確認
+## 通知タイプ
 
-## 通知タイプの選択
-
-- Time Sensitive: 本番重大障害、緊急ページ
-- Calling: 重大障害でフォーカスモードを突破したい場合
-- Normal: 日常的な警告・情報通知
+- **時間重要**：重大な本番障害、ページングレベルのインシデント
+- **通話**：フォーカスモードを中断する必要がある深刻な障害
+- **通常**：定期的なアラート、警告、情報通知
 
 ## ベストプラクティス
 
-1. 簡潔かつ要点を含むテンプレート（名前、重大度、インスタンス、概要）
-2. リンクテンプレートで関連画面へ即ジャンプ
-3. Alertmanager 側でグルーピング/ルーティングしてノイズを軽減
-4. severity ラベルと Echobell の通知タイプを使い分け
-5. Webhook URL は秘匿し、露出時はローテーション
+1. テンプレートは簡潔だが情報を含めて保つ
+2. リンクテンプレートでグラフ/ダッシュボードに直接アクセス
+3. Alertmanager でアラートをグループ化してルーティング
+4. Webhook URL を機密情報として保護
 
 ## トラブルシューティング
 
-- Webhook URL またはチャンネルのメールが正しいか
-- チャンネルが有効で購読者がいるか
-- Alertmanager のログに配送エラーがないか
-- alertmanager.yml の route が正しいレシーバーを指しているか
-- 単純なテストルールで検証
-- メール使用時は SMTP と配送を確認
+アラートが Echobell に表示されない場合：
 
-## プライバシー
+- Webhook URL またはチャンネル Email を確認
+- チャンネルがアクティブで購読者がいるか確認
+- Alertmanager のログで配信エラーを確認
+- alertmanager.yml のルートを確認
 
-- 通知内容はデバイス上に保存
-- サーバーには最小限の設定データのみ保存
-- Webhook URL とチャンネルメールは秘密として扱う
-- Echobell はアラートのペイロードを保持しません
-
-## 参考
+## 追加リソース
 
 - [Prometheus ドキュメント](https://prometheus.io/docs/introduction/overview/)
 - [Alertmanager 設定](https://prometheus.io/docs/alerting/latest/configuration/)
-- [アラートルール](https://prometheus.io/docs/alerting/latest/alerting_rules/)
 - [Echobell Webhook](/ja/docs/webhook)
 - [通知テンプレート](/ja/docs/notification)
-- [条件 & リンク](/ja/docs/conditions)
-- [サポート](/ja/docs/support)

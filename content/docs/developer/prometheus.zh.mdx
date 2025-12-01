@@ -1,73 +1,72 @@
 ---
 title: Prometheus 集成
-description: 将 Alertmanager 的告警通过 Webhook 或邮箱发送到 Echobell
+description: 配置 Prometheus Alertmanager 通过 Webhook 或 Email 向 Echobell 发送告警
 ---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
 # Prometheus 集成
 
-Prometheus + Alertmanager 是广泛使用的开源监控与告警体系。将 Alertmanager 集成到 Echobell 后，当告警规则触发时，你可以立即在手机上收到通知（支持“时间敏感”或“来电式”提醒）。
+Prometheus 配合 Alertmanager 是广泛使用的开源监控和告警栈。将 Alertmanager 与 Echobell 集成后，每当告警规则触发时，您可以收到即时移动通知（包括时效性通知或电话通知）。
 
-## 准备
+## 前提条件
 
-- 一个 Echobell 账号，并已创建至少一个频道
-- 已运行的 Prometheus 与 Alertmanager
-- 可编辑 Alertmanager 配置（alertmanager.yml）的权限
+- 已创建至少一个频道的 Echobell 账户
+- 运行中的 Prometheus + Alertmanager 环境
+- 能够编辑 Alertmanager 配置文件（alertmanager.yml）
 
-## 步骤概览
+## 概述
 
 1. 创建 Echobell 频道
-2. 配置通知模板（可选配置链接模板）
-3. 选择集成方式：
-   - Webhook（推荐）：Alertmanager webhook 接收器
-   - 邮箱（可选）：Alertmanager 邮件接收器
-4. 创建/更新告警规则
-5. 测试与优化
+2. 配置通知模板
+3. 选择集成方式（Webhook 或 Email）
+4. 创建或更新告警规则
+5. 测试和优化
 
-## 详细步骤
+## 分步指南
 
-### 1) 创建 Echobell 频道
+<Steps>
+<Step>
+### 创建 Echobell 频道
 
-1. 打开 Echobell App
-2. 新建频道（例如「Prometheus Alerts」）
-3. 选择易识别的颜色
+1. 打开 Echobell 应用
+2. 创建新频道（例如："Prometheus 告警"）
+3. 选择便于识别的颜色
+</Step>
+<Step>
 
-### 2) 配置通知模板
+### 配置通知模板
 
-Alertmanager 的 Webhook 负载包含 status、commonLabels、commonAnnotations、externalURL 以及 alerts 数组等字段。可以在 Echobell 模板中直接引用。
+Alertmanager 的 Webhook 负载包含 status、commonLabels、commonAnnotations、externalURL 和 alerts 数组等结构化字段。
 
-建议模板：
-
-标题模板：
+**标题模板：**
 
 ```
 {{commonLabels.alertname}} - {{status}}
 ```
 
-正文模板：
+**正文模板：**
 
 ```
-🔔 告警: {{commonLabels.alertname}}
-📊 严重级别: {{commonLabels.severity}}
-🖥️ 实例: {{alerts[0].labels["instance"]}}
-⏰ 开始时间: {{alerts[0].startsAt}}
-ℹ️ 摘要: {{commonAnnotations.summary}}
-🧾 描述: {{commonAnnotations.description}}
+🔔 告警：{{commonLabels.alertname}}
+📊 严重级别：{{commonLabels.severity}}
+🖥️ 实例：{{alerts[0].labels["instance"]}}
+⏰ 开始时间：{{alerts[0].startsAt}}
+ℹ️ 摘要：{{commonAnnotations.summary}}
 ```
 
-可选链接模板（高级设置）：
+**可选链接模板（高级设置）：**
 
 ```
 {{alerts[0].generatorURL || externalURL}}
 ```
 
-这会在记录中显示指向相关图表/看板的链接；若没有 generatorURL，则回退到 externalURL。
+</Step>
+<Step>
+### 方式 A — Webhook（推荐）
 
-### 3) 方式 A — Webhook（推荐）
-
-1. 在 Echobell 频道的触发器里复制 Webhook URL
-2. 在 Alertmanager 中新增 webhook 接收器，指向该 URL
-
-alertmanager.yml 最小示例：
+1. 在 Echobell 频道中，从触发器复制 Webhook URL
+2. 在 Alertmanager 中配置 Webhook 接收器：
 
 ```yaml
 route:
@@ -82,38 +81,32 @@ receivers:
           follow_redirects: true
 ```
 
-说明：
+注意：`send_resolved: true` 会在告警解除时也发送通知。
 
-- send_resolved: true 表示在告警恢复时也会发送通知
-- Echobell 直接解析 JSON 体，上述模板可正确渲染
+</Step>
+<Step>
+### 方式 B — Email（备选）
 
-### 3 可选) 方式 B — 邮箱
+如果偏好使用 Email，使用 Alertmanager 的 Email 接收器：
 
-如需使用邮箱，在 Alertmanager 中配置 email 接收器，并发送到频道绑定的邮箱地址。
-
-1. 在 Echobell 中复制频道邮箱地址（触发器处）
-2. 在 Alertmanager 中配置邮箱接收器并使用简洁模板
-
-示例：
+1. 在 Echobell 中，从触发器复制频道的 Email 地址
+2. 在 Alertmanager 中配置 Email 接收器：
 
 ```yaml
 receivers:
   - name: echobell-email
     email_configs:
-      - to: "粘贴频道邮箱地址"
+      - to: "PASTE_CHANNEL_EMAIL_ADDRESS"
         send_resolved: true
         subject: "{{ .CommonLabels.alertname }} - {{ .Status }}"
         html: |
           <p><strong>摘要：</strong> {{ .CommonAnnotations.summary }}</p>
           <p>{{ .CommonAnnotations.description }}</p>
-          <p>
-            <a href='{{ (index .Alerts 0).GeneratorURL }}' target='_blank' rel='noopener'>在 Prometheus 中打开</a>
-          </p>
 ```
 
-在基于邮箱触发的模板中，可使用 Echobell 自动提供的 subject、text、html 等变量。
-
-### 4) 示例告警规则
+</Step>
+<Step>
+### 创建示例告警规则
 
 ```yaml
 groups:
@@ -129,51 +122,36 @@ groups:
           description: "CPU 已超过 80% 持续 2 分钟"
 ```
 
-告警触发后，Alertmanager 会将事件发送至配置的接收器，Echobell 将通知该频道的所有订阅者。
+当此告警触发时，Alertmanager 会将事件发送到 Echobell。
 
-## 测试
+</Step>
+</Steps>
 
-1. 暂时降低阈值或创建快速触发的测试告警
-2. 确认触发时能收到 Echobell 通知
-3. 使用链接模板时，从记录中打开链接
-4. 告警恢复后也能收到通知（若启用）
+## 通知类型
 
-## 通知类型建议
-
-- 时间敏感（Time Sensitive）：生产级重大故障、紧急事件
-- 来电（Calling）：需要打断专注模式的严重故障
-- 普通（Normal）：日常警告、信息提示
+- **时效性**：关键生产故障、需要呼叫级别响应的事件
+- **电话**：必须中断专注模式的严重故障
+- **普通**：常规告警、警告或信息通知
 
 ## 最佳实践
 
-1. 模板简洁且包含关键信息（名称、级别、实例、摘要）
-2. 使用链接模板快速跳转到相关图表/看板
-3. 在 Alertmanager 中合理分组/路由，降低噪音
-4. 使用 severity 标签并在 Echobell 中匹配合适的通知类型
-5. 将 Webhook URL 视为密钥，泄露时及时更换
+1. 保持模板简洁但信息完整
+2. 使用链接模板直接跳转到图表/仪表板
+3. 在 Alertmanager 中分组和路由告警
+4. 将 Webhook URL 作为机密信息保护
 
-## 故障排查
+## 故障排除
 
-- 检查 Webhook URL 或频道邮箱是否正确
-- 确认频道有效且有订阅者
-- 查看 Alertmanager 日志是否有投递错误
-- 确认 alertmanager.yml 的路由指向正确接收器
-- 使用简单测试规则进行验证
-- 使用邮箱时，检查 SMTP 与投递情况
+如果告警没有出现在 Echobell 中：
 
-## 隐私与数据
+- 验证 Webhook URL 或频道 Email
+- 确保频道处于活动状态且有订阅者
+- 检查 Alertmanager 日志中的投递错误
+- 验证 alertmanager.yml 中的路由
 
-- 通知内容仅保存在你的设备上
-- 服务器只存储最少的配置数据
-- Webhook URL 与频道邮箱需作为机密处理
-- Echobell 不在服务器上保留你的告警负载
-
-## 参考
+## 相关资源
 
 - [Prometheus 文档](https://prometheus.io/docs/introduction/overview/)
 - [Alertmanager 配置](https://prometheus.io/docs/alerting/latest/configuration/)
-- [告警规则](https://prometheus.io/docs/alerting/latest/alerting_rules/)
 - [Echobell Webhook](/zh/docs/webhook)
 - [通知模板](/zh/docs/notification)
-- [条件与链接模板](/zh/docs/conditions)
-- [支持](/zh/docs/support)

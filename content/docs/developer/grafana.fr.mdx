@@ -3,6 +3,8 @@ title: Intégration Grafana
 description: Apprenez à intégrer les alertes Grafana avec Echobell pour des notifications instantanées
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Intégration Grafana
 
 Grafana est une solution populaire d'analyse et de surveillance open-source. En intégrant Grafana avec Echobell, vous pouvez recevoir des notifications instantanées lorsque vos métriques déclenchent des alertes. Ce guide vous accompagnera dans la configuration des alertes Grafana avec Echobell.
@@ -23,13 +25,17 @@ Grafana est une solution populaire d'analyse et de surveillance open-source. En 
 
 ## Guide étape par étape
 
-### 1. Créer un canal Echobell
+<Steps>
+<Step>
+### Créer un canal Echobell
 
 1. Ouvrir l'application Echobell
 2. Créer un nouveau canal (par exemple, "Alertes Grafana")
 3. Choisir une couleur distinctive pour faciliter l'identification
+</Step>
+<Step>
 
-### 2. Configurer les modèles de notification
+### Configurer les modèles de notification
 
 Configurez des modèles qui formateront efficacement vos alertes Grafana :
 
@@ -51,13 +57,17 @@ Configurez des modèles qui formateront efficacement vos alertes Grafana :
 
 Ces modèles fonctionneront avec la structure de données d'alerte de Grafana.
 
-### 3. Obtenir l'URL du webhook
+</Step>
+<Step>
+### Obtenir l'URL du webhook
 
 1. Dans les paramètres de votre canal, localisez la section **Déclencheurs**
 2. Copiez l'URL du webhook fournie
 3. Gardez cette URL en sécurité car elle sera utilisée dans la configuration de Grafana
+</Step>
+<Step>
 
-### 4. Configurer le point de contact Grafana
+### Configurer le point de contact Grafana
 
 1. Dans Grafana, allez dans **Alertes** → **Points de contact**
 2. Cliquez sur **Nouveau point de contact**
@@ -81,7 +91,9 @@ Ces modèles fonctionneront avec la structure de données d'alerte de Grafana.
 }
 ```
 
-### 5. Créer des règles d'alerte
+</Step>
+<Step>
+### Créer des règles d'alerte
 
 1. Naviguez vers **Alertes** → **Règles d'alerte**
 2. Créez une nouvelle règle d'alerte ou modifiez une existante
@@ -89,6 +101,8 @@ Ces modèles fonctionneront avec la structure de données d'alerte de Grafana.
    - Définissez des conditions appropriées pour vos métriques
    - Sélectionnez le point de contact "Echobell"
    - Configurez les critères d'évaluation des alertes
+</Step>
+</Steps>
 
 ## Tester l'intégration
 

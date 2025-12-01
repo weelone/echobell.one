@@ -8,11 +8,11 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 [Uptime Kuma](https://github.com/louislam/uptime-kuma) es una herramienta de monitoreo autohospedada fácil de usar. Puede recibir notificaciones a través de Echobell cuando sus servicios dejen de funcionar.
 
 <Steps>
-  <Step>
+<Step>
     ### Crear un canal
     Cree un nuevo canal en Echobell y copie la **URL del Webhook**.
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### Configurar notificación en Uptime Kuma
     1. Vaya a **Ajustes** > **Notificaciones**.
     2. Haga clic en **Configurar Notificación**.
@@ -22,8 +22,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
     6. Establezca el **Método** en `POST`.
     7. Establezca el **Tipo de Cuerpo** en `JSON`.
     8. Habilite **Cuerpo Personalizado**.
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### Configurar Payload
     Ingrese el siguiente JSON en el campo **Cuerpo Personalizado**:
 
@@ -38,9 +38,9 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 
     Puede personalizar la estructura JSON según sea necesario. Echobell utilizará estas variables en sus plantillas de notificación.
 
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### Probar
     Haga clic en **Probar** para enviar una notificación de prueba a Echobell.
-  </Step>
+</Step>
 </Steps>

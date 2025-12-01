@@ -3,6 +3,8 @@ title: Grafana Integration
 description: Erfahren Sie, wie Sie Grafana-Warnungen mit Echobell für sofortige Benachrichtigungen integrieren
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Grafana Integration
 
 Grafana ist eine beliebte Open-Source-Analyse- und Überwachungslösung. Durch die Integration von Grafana mit Echobell können Sie sofortige Benachrichtigungen erhalten, wenn Ihre Metriken Warnungen auslösen. Diese Anleitung führt Sie durch die Einrichtung von Grafana-Warnungen mit Echobell.
@@ -23,13 +25,17 @@ Grafana ist eine beliebte Open-Source-Analyse- und Überwachungslösung. Durch d
 
 ## Schritt-für-Schritt-Anleitung
 
-### 1. Echobell-Kanal erstellen
+<Steps>
+<Step>
+### Echobell-Kanal erstellen
 
 1. Öffnen Sie die Echobell-App
 2. Erstellen Sie einen neuen Kanal (z.B. "Grafana-Warnungen")
 3. Wählen Sie eine markante Farbe zur einfachen Identifizierung
+</Step>
+<Step>
 
-### 2. Benachrichtigungsvorlagen konfigurieren
+### Benachrichtigungsvorlagen konfigurieren
 
 Richten Sie Vorlagen ein, die Ihre Grafana-Warnungen effektiv formatieren:
 
@@ -51,13 +57,17 @@ Richten Sie Vorlagen ein, die Ihre Grafana-Warnungen effektiv formatieren:
 
 Diese Vorlagen funktionieren mit der Warnungs-Payload-Struktur von Grafana.
 
-### 3. Webhook-URL abrufen
+</Step>
+<Step>
+### Webhook-URL abrufen
 
 1. Suchen Sie in Ihren Kanaleinstellungen den Abschnitt **Trigger**
 2. Kopieren Sie die bereitgestellte Webhook-URL
 3. Bewahren Sie diese URL sicher auf, da sie in der Grafana-Konfiguration verwendet wird
+</Step>
+<Step>
 
-### 4. Grafana-Kontaktpunkt konfigurieren
+### Grafana-Kontaktpunkt konfigurieren
 
 1. Gehen Sie in Grafana zu **Alerting** → **Contact points**
 2. Klicken Sie auf **New contact point**
@@ -81,7 +91,9 @@ Diese Vorlagen funktionieren mit der Warnungs-Payload-Struktur von Grafana.
 }
 ```
 
-### 5. Warnungsregeln erstellen
+</Step>
+<Step>
+### Warnungsregeln erstellen
 
 1. Navigieren Sie zu **Alerting** → **Alert rules**
 2. Erstellen Sie eine neue Warnungsregel oder bearbeiten Sie eine bestehende
@@ -89,6 +101,8 @@ Diese Vorlagen funktionieren mit der Warnungs-Payload-Struktur von Grafana.
    - Legen Sie geeignete Bedingungen für Ihre Metriken fest
    - Wählen Sie den "Echobell" Kontaktpunkt
    - Konfigurieren Sie die Warnungsauswertungskriterien
+</Step>
+</Steps>
 
 ## Integration testen
 

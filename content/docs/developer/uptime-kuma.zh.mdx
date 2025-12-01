@@ -8,11 +8,11 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 [Uptime Kuma](https://github.com/louislam/uptime-kuma) 是一个易于使用的自托管监控工具。当您的服务宕机时，您可以通过 Echobell 接收通知。
 
 <Steps>
-  <Step>
+<Step>
     ### 创建频道
     在 Echobell 中创建一个新频道并复制 **Webhook URL**。
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### 在 Uptime Kuma 中设置通知
     1. 转到 **设置** > **通知**。
     2. 点击 **设置通知**。
@@ -22,8 +22,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
     6. 将 **请求方法** 设置为 `POST`。
     7. 将 **正文类型** 设置为 `JSON`。
     8. 启用 **自定义正文**。
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### 配置 Payload
     在 **自定义正文** 字段中输入以下 JSON：
 
@@ -38,9 +38,9 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 
     您可以根据需要自定义 JSON 结构。Echobell 将在您的通知模板中使用这些变量。
 
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### 测试
     点击 **测试** 向 Echobell 发送测试通知。
-  </Step>
+</Step>
 </Steps>

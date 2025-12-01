@@ -3,6 +3,8 @@ title: Grafana 集成
 description: 了解如何将 Grafana 警报与 Echobell 集成以获取即时通知
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Grafana 集成
 
 Grafana 是一个流行的开源分析和监控解决方案。通过将 Grafana 与 Echobell 集成，您可以在指标触发警报时收到即时通知。本指南将指导您设置 Grafana 警报与 Echobell 的集成。
@@ -23,13 +25,17 @@ Grafana 是一个流行的开源分析和监控解决方案。通过将 Grafana 
 
 ## 分步指南
 
-### 1. 创建 Echobell 频道
+<Steps>
+<Step>
+### 创建 Echobell 频道
 
 1. 打开 Echobell 应用
 2. 创建新频道（例如，"Grafana 警报"）
 3. 选择醒目的颜色以便识别
+</Step>
+<Step>
 
-### 2. 配置通知模板
+### 配置通知模板
 
 设置能有效格式化 Grafana 警报的模板：
 
@@ -51,13 +57,17 @@ Grafana 是一个流行的开源分析和监控解决方案。通过将 Grafana 
 
 这些模板将适用于 Grafana 的警报数据结构。
 
-### 3. 获取 Webhook URL
+</Step>
+<Step>
+### 获取 Webhook URL
 
 1. 在频道设置中，找到 **触发器** 部分
 2. 复制提供的 webhook URL
 3. 确保安全保管此 URL，因为它将用于 Grafana 的配置
+</Step>
+<Step>
 
-### 4. 配置 Grafana 联系点
+### 配置 Grafana 联系点
 
 1. 在 Grafana 中，进入 **警报** → **联系点**
 2. 点击 **新建联系点**
@@ -81,7 +91,9 @@ Grafana 是一个流行的开源分析和监控解决方案。通过将 Grafana 
 }
 ```
 
-### 5. 创建警报规则
+</Step>
+<Step>
+### 创建警报规则
 
 1. 导航至 **警报** → **警报规则**
 2. 创建新警报规则或编辑现有规则
@@ -89,6 +101,8 @@ Grafana 是一个流行的开源分析和监控解决方案。通过将 Grafana 
    - 为指标设置适当的条件
    - 选择 "Echobell" 联系点
    - 配置警报评估标准
+</Step>
+</Steps>
 
 ## 测试集成
 

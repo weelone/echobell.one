@@ -3,35 +3,41 @@ title: Home Assistant 連携
 description: EchobellとHome Assistantを連携し、スマートホームの通知やアラートを即座に受け取るための完全ガイド
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Home Assistant 連携
 
-[Home Assistant](https://www.home-assistant.io/)は、ローカル制御とプライバシーを第一に考えた強力なオープンソースのホームオートメーションプラットフォームです。EchobellをHome Assistantと連携させることで、セキュリティアラート、温度の閾値超過、オートメーションのトリガーなど、スマートホームで重要なイベントが発生した際に、即座に通知や電話着信を受け取ることができます。
+[Home Assistant](https://www.home-assistant.io/)は、ローカル制御とプライバシーを第一に考えた強力なオープンソースのホームオートメーションプラットフォームです。Echobell を Home Assistant と連携させることで、セキュリティアラート、温度の閾値超過、オートメーションのトリガーなど、スマートホームで重要なイベントが発生した際に、即座に通知や電話着信を受け取ることができます。
 
-このガイドでは、WebhookまたはRESTful Notifyサービスを使用して、Home AssistantのオートメーションからEchobellの通知を受け取る設定方法を解説します。
+このガイドでは、Webhook または RESTful Notify サービスを使用して、Home Assistant のオートメーションから Echobell の通知を受け取る設定方法を解説します。
 
 ## 前提条件
 
 始める前に、以下を確認してください：
 
-- iOSデバイスに[Echobellアプリ](https://apps.apple.com/app/id6743597198)がインストールされていること
-- 有効なEchobellチャンネルがあること（まだの場合はアプリで作成してください）
-- Home Assistantインスタンスが稼働していること（バージョン2023.1以降を推奨）
-- Home Assistantの設定へのアクセス権があること
+- iOS デバイスに[Echobell アプリ](https://apps.apple.com/app/id6743597198)がインストールされていること
+- 有効な Echobell チャンネルがあること（まだの場合はアプリで作成してください）
+- Home Assistant インスタンスが稼働していること（バージョン 2023.1 以降を推奨）
+- Home Assistant の設定へのアクセス権があること
 
-## 方法1: Webhookトリガーを使用する（推奨）
+## 方法 1: Webhook トリガーを使用する（推奨）
 
-Webhookを使用する方法は最も柔軟性が高く、カスタムデータの送信や通知内での[テンプレート変数](/docs/template)の使用が可能です。
+Webhook を使用する方法は最も柔軟性が高く、カスタムデータの送信や通知内での[テンプレート変数](/docs/template)の使用が可能です。
 
-### ステップ1: Echobell Webhook URLの取得
+<Steps>
+<Step>
+### Echobell Webhook URLの取得
 
-1. Echobellアプリを開き、チャンネルに移動します
+1. Echobell アプリを開き、チャンネルに移動します
 2. チャンネルをタップして詳細を表示します
-3. Triggersセクションにある **Webhook URL** を探します
-4. URLをコピーします。次のようになります：`https://hook.echobell.one/t/YOUR_TOKEN`
+3. Triggers セクションにある **Webhook URL** を探します
+4. URL をコピーします。次のようになります：`https://hook.echobell.one/t/YOUR_TOKEN`
+</Step>
+<Step>
 
-### ステップ2: Home Assistantオートメーションの作成
+### Home Assistant オートメーションの作成
 
-Home Assistantでは、`rest_command`サービスを使用してEchobell通知をトリガーできます。まず、`configuration.yaml`にRESTコマンドを追加します：
+Home Assistant では、`rest_command`サービスを使用して Echobell 通知をトリガーできます。まず、`configuration.yaml`に REST コマンドを追加します：
 
 ```yaml
 rest_command:
@@ -42,11 +48,13 @@ rest_command:
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
 ```
 
-`YOUR_TOKEN`を実際のEchobell Webhookトークンに置き換えてください。
+`YOUR_TOKEN`を実際の Echobell Webhook トークンに置き換えてください。
 
-追加後、Home Assistantを再起動して新しい設定を読み込みます。
+追加後、Home Assistant を再起動して新しい設定を読み込みます。
 
-### ステップ3: オートメーションでの使用
+</Step>
+<Step>
+### オートメーションでの使用
 
 これで、どのオートメーションからでもこのサービスを呼び出すことができます。以下は、ドアが開いたときに通知する例です：
 
@@ -64,18 +72,23 @@ automation:
           message: "Front door opened at {{ now().strftime('%H:%M') }}"
 ```
 
-### ステップ4: 通知テンプレートの設定
+</Step>
+<Step>
+### 通知テンプレートの設定
 
-Echobellチャンネルの設定で、Webhookデータを表示するように通知テンプレートを設定します：
+Echobell チャンネルの設定で、Webhook データを表示するように通知テンプレートを設定します：
 
 - **Title template**: `{{title}}`
 - **Body template**: `{{message}}`
 
 これで、オートメーションがトリガーされると、カスタムタイトルとメッセージを含む通知が届きます。
 
-## 方法2: RESTful Notifyプラットフォームを使用する
+</Step>
+</Steps>
 
-より統合されたアプローチとして、EchobellをHome Assistantの通知サービス（notify service）として設定することもできます。
+## 方法 2: RESTful Notify プラットフォームを使用する
+
+より統合されたアプローチとして、Echobell を Home Assistant の通知サービス（notify service）として設定することもできます。
 
 ### 設定
 
@@ -92,11 +105,11 @@ notify:
       message: "{{ message }}"
 ```
 
-`YOUR_TOKEN`をEchobell Webhookトークンに置き換え、Home Assistantを再起動してください。
+`YOUR_TOKEN`を Echobell Webhook トークンに置き換え、Home Assistant を再起動してください。
 
-### Notifyサービスの使用
+### Notify サービスの使用
 
-これで、他の通知サービスと同様にEchobellを使用できます：
+これで、Echobell を他の通知サービスと同様に使用できます：
 
 ```yaml
 automation:
@@ -112,345 +125,18 @@ automation:
           message: "Phone battery is at {{ states('sensor.phone_battery') }}%"
 ```
 
-## 高度なユースケース
-
-### クリティカルアラートによる温度監視
-
-[通知タイプ](/docs/notification)を使用して、重要な温度アラートを電話着信として送信します：
-
-```yaml
-rest_command:
-  echobell_critical:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    content_type: "application/json"
-    payload: '{"temperature": "{{ temperature }}", "location": "{{ location }}", "severity": "critical"}'
-```
-
-Echobellチャンネルで、[通知タイプ](/docs/notification)を「Calling」に設定し、以下のテンプレートを使用します：
-
-- **Title**: `Critical Temperature Alert`
-- **Body**: `{{location}} temperature is {{temperature}}°C - Immediate attention required!`
-
-### セキュリティシステムとの統合
-
-包括的なセキュリティ監視を設定します：
-
-```yaml
-automation:
-  - alias: "Security Breach Detection"
-    trigger:
-      - platform: state
-        entity_id:
-          - binary_sensor.motion_detector_1
-          - binary_sensor.motion_detector_2
-          - binary_sensor.window_sensor
-        to: "on"
-    condition:
-      - condition: state
-        entity_id: alarm_control_panel.home_alarm
-        state: "armed_away"
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "🚨 Security Alert"
-          message: "{{ trigger.to_state.attributes.friendly_name }} detected activity while system armed"
-          sensor: "{{ trigger.entity_id }}"
-          timestamp: "{{ now().isoformat() }}"
-```
-
-### スマート家電の通知
-
-家電のサイクルを監視し、完了時に通知を受け取ります：
-
-```yaml
-automation:
-  - alias: "Washing Machine Complete"
-    trigger:
-      - platform: state
-        entity_id: sensor.washing_machine_power
-        to: "0"
-        for:
-          minutes: 3
-    action:
-      - service: notify.echobell
-        data:
-          title: "Washing Machine Done"
-          message: "Your laundry is ready to be moved to the dryer"
-```
-
-### 環境モニタリング
-
-空気質、湿度、その他の環境要因を追跡します：
-
-```yaml
-automation:
-  - alias: "High CO2 Alert"
-    trigger:
-      - platform: numeric_state
-        entity_id: sensor.living_room_co2
-        above: 1000
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "Air Quality Warning"
-          message: "CO2 level in living room is {{ states('sensor.living_room_co2') }} ppm. Consider ventilating."
-```
-
-## 条件を使用したスマートフィルタリング
-
-[Echobellの条件](/docs/conditions)を使用して、特定の基準に基づいて通知をフィルタリングできます。例えば、特定の時間帯や値が閾値を超えた場合のみ通知するなどです：
-
-Echobellチャンネルで条件を設定します：
-```
-severity == "critical" || (hour >= 22 || hour <= 7)
-```
-
-これは、重要度が「critical」であるか、または夜間（午後10時から午前7時）である場合にのみ通知を送信します。
-
-Home Assistantのオートメーションに、関連データを含めます：
-
-```yaml
-action:
-  - service: rest_command.echobell_notify
-    data:
-      title: "Temperature Alert"
-      message: "Freezer temperature: {{ states('sensor.freezer_temp') }}°C"
-      severity: "{% if states('sensor.freezer_temp') | float > -10 %}critical{% else %}normal{% endif %}"
-      hour: "{{ now().hour }}"
-```
-
-## センサーデータの送信
-
-Home Assistantの任意のセンサーデータをEchobell通知に渡すことができます：
-
-```yaml
-rest_command:
-  echobell_sensor_update:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    content_type: "application/json"
-    payload: >
-      {
-        "sensor_name": "{{ sensor_name }}",
-        "current_value": "{{ current_value }}",
-        "unit": "{{ unit }}",
-        "state": "{{ state }}",
-        "timestamp": "{{ timestamp }}"
-      }
-```
-
-## HTTPヘッダーの処理
-
-EchobellはWebhookリクエストからHTTPヘッダーにアクセスできます。これは認証や追跡に役立ちます：
-
-```yaml
-rest_command:
-  echobell_with_headers:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
-    method: POST
-    headers:
-      X-Home-Assistant-Instance: "{{ instance_name }}"
-      X-Automation-ID: "{{ automation_id }}"
-    content_type: "application/json"
-    payload: '{"message": "{{ message }}"}'
-```
-
-Echobellテンプレートでは、以下のようにヘッダーにアクセスします：
-```
-{{header["x-home-assistant-instance"]}}
-```
-
-## デバッグとテスト
-
-### Webhookのテスト
-
-Home Assistantの「開発者ツール」→「サービス」を使用して設定をテストします：
-
-1. `rest_command.echobell_notify` を選択します
-2. テストデータを入力します：
-```yaml
-title: "Test Notification"
-message: "This is a test from Home Assistant"
-```
-3. 「サービスを呼び出す」をクリックします
-4. Echobellアプリで通知を確認します
-
-### Home Assistantログの確認
-
-通知が届かない場合は、Home Assistantのログを確認してください：
-
-```bash
-# Home Assistantで以下に移動:
-設定 → システム → ログ
-
-# またはログファイルを確認:
-config/home-assistant.log
-```
-
-`rest_command`や`hook.echobell.one`へのHTTPリクエストに関連するエラーを探してください。
-
-### Webhook URLの確認
-
-Webhook URLが正しいことを確認してください：
-- `https://hook.echobell.one/t/` で始まっていること
-- トークンが含まれていること
-- 余分なスペースや文字が含まれていないこと
-
-## パフォーマンスに関する考慮事項
-
-### レート制限
-
-EchobellのWebhookには、乱用を防ぐためにレート制限が設けられています。更新頻度の高いセンサーの場合：
-
-- すべてのセンサー更新でトリガーしないようにする
-- トリガーで `for` を使用してデバウンス（間引き）する：
-```yaml
-trigger:
-  - platform: numeric_state
-    entity_id: sensor.temperature
-    above: 30
-    for:
-      minutes: 5  # 閾値を超えて5分経過した場合のみトリガー
-```
-
-### 更新のバッチ処理
-
-複数の関連イベントについては、1つの通知にまとめることを検討してください：
-
-```yaml
-automation:
-  - alias: "Daily Home Summary"
-    trigger:
-      - platform: time
-        at: "09:00:00"
-    action:
-      - service: rest_command.echobell_notify
-        data:
-          title: "Morning Home Summary"
-          message: >
-            Temperature: {{ states('sensor.temperature') }}°C
-            Humidity: {{ states('sensor.humidity') }}%
-            Energy today: {{ states('sensor.daily_energy') }} kWh
-            Windows open: {{ expand(states.binary_sensor) | selectattr('state', 'eq', 'on') | selectattr('attributes.device_class', 'eq', 'window') | list | count }}
-```
-
-## セキュリティのベストプラクティス
-
-### Webhook URLの保護
-
-- Webhook URLを公開リポジトリにコミットしないでください
-- 機密データにはHome Assistantのsecretsを使用してください
-- Webhookトークンは定期的にローテーションしてください
-
-`configuration.yaml`でsecretsを使用する場合：
-
-```yaml
-# secrets.yaml
-echobell_webhook: "https://hook.echobell.one/t/YOUR_TOKEN"
-
-# configuration.yaml
-rest_command:
-  echobell_notify:
-    url: !secret echobell_webhook
-    method: POST
-    content_type: "application/json"
-    payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
-```
-
-### 機密情報の制限
-
-通知に含めるデータには注意してください：
-
-```yaml
-# 良い例 - 一般的な情報
-message: "Motion detected in living room"
-
-# 避けるべき例 - 機密性の高い詳細
-message: "Security code: 1234, camera feed: http://..."
-```
-
-## よくある問題のトラブルシューティング
-
-### 通知が届かない
-
-1. **ネットワーク接続の確認**: Home Assistantインスタンスがインターネットに接続できることを確認してください
-2. **Webhook URLの確認**: トークンを含めて慎重にコピー＆ペーストしてください
-3. **Echobellアプリの確認**: チャンネルを購読していることを確認してください
-4. **Home Assistantログの確認**: HTTPエラーやタイムアウトがないか確認してください
-
-### テンプレートエラー
-
-テンプレートが正しくレンダリングされない場合：
-
-1. 「開発者ツール」→「テンプレート」でテンプレートをテストしてください
-2. Home AssistantとEchobellの間で変数名が一致していることを確認してください
-3. テンプレート構文のタイプミスを確認してください：`{{ variable}}` ではなく `{{variable}}`
-
-### オートメーションがトリガーされない
-
-1. Home Assistantでトリガー条件を確認してください
-2. 「開発者ツール」からオートメーションを手動でテストしてください
-3. エンティティの状態がトリガー設定と一致しているか確認してください
-4. デバッグのためにオートメーションのトレースを確認してください
-
-## 例：完全なセキュリティシステム設定
-
-複数のセキュリティセンサーを統合した包括的な例を以下に示します：
-
-```yaml
-# configuration.yaml
-rest_command:
-  echobell_security:
-    url: !secret echobell_security_webhook
-    method: POST
-    content_type: "application/json"
-    payload: >
-      {
-        "event_type": "{{ event_type }}",
-        "location": "{{ location }}",
-        "sensor": "{{ sensor }}",
-        "timestamp": "{{ timestamp }}",
-        "alarm_state": "{{ alarm_state }}"
-      }
-
-# automations.yaml
-- alias: "Security Event Handler"
-  trigger:
-    - platform: state
-      entity_id:
-        - binary_sensor.front_door
-        - binary_sensor.back_door
-        - binary_sensor.garage_door
-        - binary_sensor.motion_hallway
-        - binary_sensor.motion_living_room
-      to: "on"
-  action:
-    - service: rest_command.echobell_security
-      data:
-        event_type: "{{ 'door' if 'door' in trigger.entity_id else 'motion' }}"
-        location: "{{ trigger.to_state.attributes.friendly_name }}"
-        sensor: "{{ trigger.entity_id }}"
-        timestamp: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
-        alarm_state: "{{ states('alarm_control_panel.home_alarm') }}"
-```
-
-Echobellでテンプレートを設定します：
-- **Title**: `Security Alert: {{event_type | upper}}`
-- **Body**: `{{location}} activated at {{timestamp}} (Alarm: {{alarm_state}})`
-
 ## 次のステップ
 
-EchobellとHome Assistantの連携が完了しました：
+Echobell を Home Assistant と連携できたら：
 
-- さまざまなアラート優先度に対応する[通知タイプ](/docs/notification)を調べる
-- 通知をインテリジェントにフィルタリングする[条件](/docs/conditions)について学ぶ
-- 高度なメッセージフォーマットのための[テンプレート変数](/docs/template)を確認する
-- 最適な統合のための[Webhookのベストプラクティス](/docs/webhook)を読む
+- [通知タイプ](/docs/notification)で異なるアラート優先度を設定
+- [条件](/docs/conditions)で通知をインテリジェントにフィルタリング
+- [テンプレート変数](/docs/template)で高度なメッセージフォーマット
+- [Webhook ベストプラクティス](/docs/webhook)で最適な連携を実現
 
 ## 関連リソース
 
-- [Home Assistant REST Command Documentation](https://www.home-assistant.io/integrations/rest_command/)
-- [Home Assistant RESTful Notify Platform](https://www.home-assistant.io/integrations/notify.rest/)
-- [Echobell Webhook Documentation](/docs/webhook)
-- [Echobell Template System](/docs/template)
+- [Home Assistant REST Command ドキュメント](https://www.home-assistant.io/integrations/rest_command/)
+- [Home Assistant RESTful Notify プラットフォーム](https://www.home-assistant.io/integrations/notify.rest/)
+- [Echobell Webhook ドキュメント](/docs/webhook)
+- [Echobell テンプレートシステム](/docs/template)

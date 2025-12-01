@@ -3,6 +3,8 @@ title: App Store Connect Integration
 description: Connect App Store Connect webhooks to Echobell for faster launch updates, TestFlight alerts, and streamlined team notifications
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # App Store Connect Integration
 
 App Store Connect webhooks broadcast every meaningful change in your iOS release pipeline. When those signals flow into Echobell, your team sees review decisions, releases, and TestFlight feedback the moment they happen—no manual refreshes or inbox digging required.
@@ -42,14 +44,18 @@ App Store Connect can ping Echobell for:
 
 ## Step-by-Step Guide
 
-### 1. Create an Echobell Channel
+<Steps>
+<Step>
+### Create an Echobell Channel
 
 1. Open the Echobell app
 2. Create a new channel (e.g., "App Store Connect")
 3. Pick a distinctive color for quick scanning
 4. Add teammates who should receive these updates
+</Step>
+<Step>
 
-### 2. Configure Notification Templates
+### Configure Notification Templates
 
 Give each event payload a clear title and summary so teams can act quickly.
 
@@ -72,13 +78,17 @@ Give each event payload a clear title and summary so teams can act quickly.
 
 Feel free to drop emojis if you prefer a drier tone—the template variables stay the same.
 
-### 3. Get Your Echobell Webhook URL
+</Step>
+<Step>
+### Get Your Echobell Webhook URL
 
 1. Open your channel settings → **Triggers**
 2. Copy the webhook URL provided
 3. Keep it private; you'll paste it into App Store Connect
+</Step>
+<Step>
 
-### 4. Configure App Store Connect Webhook
+### Configure App Store Connect Webhook
 
 Follow [Apple's official guide](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/) with the Echobell URL you copied earlier:
 
@@ -110,14 +120,18 @@ Mix and match what matters:
 - **TestFlight Beta Review State Changed** — build approvals and rejections
 
 7. Click **Add** to create the webhook
+</Step>
+<Step>
 
-### 5. Test Your Integration
+### Test Your Integration
 
 Use App Store Connect's built-in **Test** button:
 
 1. In the webhook list, open the webhook you just added
 2. Click **Test** → App Store Connect sends a ping
 3. Confirm Echobell shows the "Ping" event with your template formatting
+</Step>
+</Steps>
 
 ## Advanced Configuration
 
@@ -198,124 +212,46 @@ App Store Connect sends webhook payloads in JSON format. Here's the typical stru
   "data": {
     "app": {
       "id": "1234567890",
-      "name": "My Awesome App",
-      "bundleId": "com.example.myapp"
+      "name": "My App"
     },
     "appStoreVersion": {
-      "id": "987654321",
-      "versionString": "1.2.0",
-      "appStoreState": "READY_FOR_SALE"
+      "id": "12345678",
+      "versionString": "1.2.3",
+      "state": "READY_FOR_SALE"
     }
   }
 }
 ```
 
-## Managing Webhooks
+## Best Practices
 
-### View Webhook Deliveries
-
-1. Go to **Users and Access** → **Integrations** → **Webhooks**
-2. Click your webhook
-3. Review **Recent Deliveries** for event IDs, statuses, timestamps, and responses
-
-### Webhook Delivery Status
-
-| Status  | Description                                    |
-| ------- | ---------------------------------------------- |
-| Success | Webhook reached Echobell and returned 2xx      |
-| Pending | Apple is still delivering the event            |
-| Failed  | Delivery error (resend after resolving issues) |
-
-### Resend Failed Deliveries
-
-1. In **Recent Deliveries**, locate the failed event
-2. Click **Resend**
-3. Confirm the new delivery shows Success
-
-### Modify Webhook Settings
-
-- Open the webhook, adjust the name, secret, payload URL, or triggers
-- Click **Save** — Apple applies the change right away
-
-### Temporarily Disable Webhooks
-
-Need downtime? Use **Turn Off Webhook** and bring it back later with **Turn On Webhook**.
-
-## Use Cases and Notification Strategies
-
-**App release readiness** — Get notified when builds shift from _In Review_ to _Ready for Sale_ so you can publish release notes or run marketing plays.
-
-**TestFlight triage** — Pipe every tester comment into a dedicated channel and loop in QA automatically.
-
-**Portfolio oversight** — Large orgs typically split notifications by product and environment, plus an escalation-only channel for blockers.
-
-Tweak your approach:
-
-- **Small teams:** One shared channel, verbose templates, everyone subscribed.
-- **Larger orgs:** Channels per platform or market, role-based membership, summarized digests for stakeholders.
+1. **Channel organization**: Create separate channels for different apps or environments
+2. **Team management**: Add only relevant team members to each channel
+3. **Template customization**: Adjust templates to show information most relevant to your workflow
+4. **Notification types**: Use Time Sensitive for critical app rejections, Normal for routine updates
 
 ## Troubleshooting
 
-### Common Issues
+If you're not receiving notifications:
 
-**Not receiving notifications**
+1. Verify the webhook URL is correctly copied
+2. Check if the channel is active and has subscribers
+3. Verify App Store Connect webhook configuration
+4. Use the Test button in App Store Connect to verify connectivity
+5. Check webhook delivery history in App Store Connect
 
-1. Verify the Echobell webhook URL in App Store Connect
-2. Confirm relevant event triggers are selected
-3. Review **Recent Deliveries** for errors
-4. Make sure the Echobell channel is active and members are subscribed
+## Privacy and Data Handling
 
-**Webhook authentication errors**
+Echobell's privacy-first approach:
 
-1. Double-check the shared secret
-2. Ensure your webhook endpoint is publicly accessible and SSL-valid
-3. Inspect payload signing logic if you added custom validation
+- Notification content is stored locally on your device
+- Only essential configuration data is stored on servers
+- Webhook URLs should be treated as secrets
+- No alert data is retained on Echobell servers
 
-**Missing event data**
+## Additional Resources
 
-1. Confirm template variable names
-2. Check that the event type actually includes the data you expect
-3. Log the raw payload to debug parsing issues
-
-### Testing Webhooks
-
-- **App Store Connect test ping** — fastest sanity check.
-- **Real event** — submit a TestFlight build or app update and watch deliveries.
-
-### Rate Limiting and Performance
-
-- Apple may throttle if a channel generates heavy traffic.
-- Echobell queues inbound events to avoid dropped payloads.
-- Spread events across channels if you manage dozens of apps.
-
-## Best Practices
-
-**Security**
-
-- Keep Echobell URLs private and rotate secrets every few quarters.
-- Audit webhook delivery logs for unusual spikes.
-
-**Organization**
-
-- Use naming patterns like `Product - Environment` so channels self-describe.
-- Document webhook settings in your runbook for quick onboarding.
-
-**Monitoring**
-
-- Schedule quarterly test pings.
-- Enable alerts for repeated failures and review volume trends to avoid alert fatigue.
-
-## API Integration
-
-Prefer automation? Use the [App Store Connect API](https://developer.apple.com/documentation/appstoreconnectapi/) to spin up webhooks for new apps, rotate secrets, and feed delivery stats into your existing monitoring stack or CI/CD workflows.
-
-## Related Resources
-
-- [Apple's Official Webhook Documentation](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/)
-- [App Store Connect API Documentation](https://developer.apple.com/documentation/appstoreconnectapi/)
-- [TestFlight Beta Testing Guide](https://developer.apple.com/testflight/)
-- [App Store Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
-
-## Conclusion
-
-Integrating App Store Connect webhooks with Echobell means you learn about critical iOS events immediately, react faster to review changes, and capture TestFlight insights before they go stale. Pair Apple's reliable delivery with Echobell's flexible channels and you've got a launch command center that scales from solo developers to global teams.
+- [Apple Webhooks Documentation](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/)
+- [Echobell Webhook Integration](/docs/webhook)
+- [Notification Templates Guide](/docs/template)
+- [Support Center](/docs/support)

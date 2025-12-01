@@ -3,6 +3,8 @@ title: Upptime 連携
 description: カスタム Webhook で Upptime のダウン通知を Echobell へ送り、即時のプッシュや電話アラートを受け取ります。
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # Upptime 連携
 
 Upptime のダウン・復旧イベントをそのまま Echobell に転送し、追加の仕組みなしで時間依存のプッシュや電話通知を届けられます。ここでは Echobell 側の設定に絞り、Upptime 特有のオプションは [公式通知ドキュメント](https://upptime.js.org/docs/notifications) を参照してください。
@@ -19,13 +21,17 @@ Upptime のダウン・復旧イベントをそのまま Echobell に転送し�
 - リポジトリ Secrets を追加できる権限
 - Webhook URL を持つ Echobell チャンネル（アプリでチャンネルを開き Webhook をコピー）
 
-## ステップ 1：Echobell チャンネルを用意
+<Steps>
+<Step>
+### Echobell チャンネルを用意
 
 1. Echobell でチャンネルを作成または開き、通知スタイル（標準 / 時間依存 / 通話）を選択。
 2. チャンネルの Webhook をコピーします：`https://hook.echobell.one/t/<channel-token>`。
 3. （任意）`{{site}}`、`{{status}}`、`{{code}}`、`{{url}}`、`{{issue}}` を使ったテンプレートを設定し、通知を構造化します。
+</Step>
+<Step>
 
-## ステップ 2：Upptime に Echobell 用 Secrets を追加
+### Upptime に Echobell 用 Secrets を追加
 
 Upptime リポジトリで **Settings → Secrets and variables → Actions** を開き、以下を追加します。
 
@@ -39,8 +45,10 @@ Upptime リポジトリで **Settings → Secrets and variables → Actions** �
 - クエリパラメーターで構造化データを Echobell に渡します。Upptime が変数を埋め、Echobell 側では `site`、`status`、`url`、`issue`、`code`、`emoji` として扱えます。
 - テキストを変える場合は URL エンコードを維持してください（空白は `%20` など）。
 - そのほかの通知プロバイダや戦略は Upptime 側で管理し、Echobell に必要なものだけを Secrets に追加します。
+</Step>
+<Step>
 
-## ステップ 3：Echobell で変数をマッピング
+### Echobell で変数をマッピング
 
 読みやすいよう簡潔なテンプレートにします。
 
@@ -52,11 +60,15 @@ External link: {{issue}}
 
 重要なサイトはチャンネル通知タイプを「時間依存」や「通話」に切り替え、その他は標準プッシュのままにできます。
 
-## ステップ 4：連携をテスト
+</Step>
+<Step>
+### 連携をテスト
 
 - 監視 URL を一時的に存在しないエンドポイントへ向けるか、サービスを停止して障害を発生させます。
 - Echobell にテンプレートのフィールドが入った通知が届くか確認します。
 - サービスを復旧させ、回復メッセージも届くか確かめます。
+</Step>
+</Steps>
 
 ## トラブルシュート
 

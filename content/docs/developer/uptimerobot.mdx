@@ -8,11 +8,11 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 [UptimeRobot](https://uptimerobot.com/) is a popular uptime monitoring service. You can integrate it with Echobell using Webhooks.
 
 <Steps>
-  <Step>
+<Step>
     ### Create a Channel
     Create a new channel in Echobell and copy the **Webhook URL**.
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### Add Alert Contact
     1. Log in to UptimeRobot.
     2. Go to **My Settings**.
@@ -21,8 +21,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
     5. Set **Friendly Name** to "Echobell".
     6. Paste your Echobell Webhook URL into **URL to Notify**.
     7. Enable **Send as JSON**.
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### Configure Payload
     Paste the following JSON into the **Post Value (JSON Format)** field:
 
@@ -37,8 +37,8 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 
     *   `*alertType*`: `1` for Down, `2` for Up.
 
-  </Step>
-  <Step>
+</Step>
+<Step>
     ### Configure Echobell Template
     In your Echobell Channel settings, you can use expressions to handle the alert type:
 
@@ -53,5 +53,5 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
     URL: {{url}}
     ```
 
-  </Step>
+</Step>
 </Steps>

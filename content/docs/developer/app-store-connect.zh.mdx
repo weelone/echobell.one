@@ -3,15 +3,11 @@ title: App Store Connect 集成
 description: 将 App Store Connect Webhook 接入 Echobell，快速掌握上架进展、TestFlight 反馈和团队通知
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
 # App Store Connect 集成
 
-App Store Connect Webhook 负责广播每一次关键的 iOS 发布动态。把这些信号接入 Echobell 后，审核结果、版本上线、TestFlight 反馈都会第一时间推送到手机，无需反复刷新 App Store Connect 或在邮箱里翻找。
-
-**为什么团队喜欢这套组合：**
-
-- 审核状态从 "Rejected" 翻转到 "Ready for Sale" 时立刻响应
-- TestFlight 反馈、构建处理等事件集中在同一条通知流
-- 语气友好的移动端通知，让产品、QA、营销同步信息
+App Store Connect Webhook 负责广播每一次关键的 iOS 发布动态。把这些信号接入 Echobell 后，审核结果、版本上线、TestFlight 反馈都会第一时间推送到手机，无需反复刷新或在邮箱里翻找。
 
 <Callout type="info">
   App Store Connect Webhook 仅提供给 Account Holder、Admin 或 App Manager
@@ -23,30 +19,27 @@ App Store Connect Webhook 负责广播每一次关键的 iOS 发布动态。把�
 - 已启用 Webhook 触发器的 Echobell 频道
 - 具备 Account Holder、Admin 或 App Manager 权限的 App Store Connect 账号
 - 至少一个需要监控的 iOS 应用
-- 在频道设置 → **触发器** 中复制的 Echobell Webhook URL
+- Echobell Webhook URL
 
 ## 可监控的内容
 
-1. **App Store 版本生命周期** —— 提交、审核、拒绝、上架等节点
-2. **TestFlight 里程碑** —— 构建处理结果、测试员反馈、邀请状态变化
-
-## 设置总览
-
-1. 准备 Echobell 频道和通知模板
-2. 复制频道 Webhook URL
-3. 在 App Store Connect 中创建 Webhook
-4. 发送测试事件确认格式
+1. **App Store 版本生命周期** — 提交、审核、拒绝、上架等节点
+2. **TestFlight 里程碑** — 构建处理结果、测试员反馈、邀请状态变化
 
 ## 分步指南
 
-### 1. 创建 Echobell 频道
+<Steps>
+<Step>
+### 创建 Echobell 频道
 
 1. 打开 Echobell
 2. 新建频道（例："App Store Connect"）
 3. 使用醒目的颜色方便识别
 4. 添加需要接收通知的团队成员
+</Step>
+<Step>
 
-### 2. 配置通知模板
+### 配置通知模板
 
 模板越清晰，团队就能越快采取行动。
 
@@ -64,253 +57,72 @@ App Store Connect Webhook 负责广播每一次关键的 iOS 发布动态。把�
 📊 状态：{{status}}
 ⏰ 时间：{{eventDate}}
 💬 消息：{{message}}
-🔗 在 App Store Connect 中查看
 ```
 
-如果更喜欢简洁语气，可以去掉表情符号，变量保持不变即可。
-
-### 3. 获取 Echobell Webhook URL
+</Step>
+<Step>
+### 获取 Webhook URL
 
 1. 打开频道设置 → **触发器**
 2. 复制 Webhook URL
-3. 妥善保存，稍后要粘贴到 App Store Connect
+3. 妥善保存
+</Step>
+<Step>
 
-### 4. 配置 App Store Connect Webhook
+### 配置 App Store Connect Webhook
 
-按照 [Apple 官方指引](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/) 将刚复制的 URL 粘贴进去：
-
-#### 创建 Webhook
+按照 [Apple 官方指引](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/)：
 
 1. 登录 [App Store Connect](https://appstoreconnect.apple.com/)
 2. 前往 **用户与访问** → **集成**
 3. 在 **附加** 区域点击 **Webhook**
-4. 点击 Webhook 旁的加号 (+)
-5. 填写以下字段：
-   - **名称**：描述性标签（如 "Echobell 通知"）
-   - **载荷 URL**：粘贴 Echobell Webhook 地址
-   - **密钥**：自定义安全字符串，后续可验证签名
+4. 点击加号 (+)
+5. 填写：
+   - **名称**："Echobell 通知"
+   - **载荷 URL**：Echobell Webhook 地址
+   - **密钥**：自定义安全字符串
    - **应用**：选择需要监控的应用
    - **事件触发器**：勾选想跟踪的事件
+6. 点击 **添加**
+</Step>
+<Step>
 
-#### 可用事件触发器
+### 测试集成
 
-**App Store 版本事件**
+1. 在 Webhook 列表中点击刚创建的 Webhook
+2. 点击右上角的 **测试**
+3. 应该收到事件类型为"Ping"的测试通知
+</Step>
+</Steps>
 
-- **App Store Version State Changed** —— 审核状态的每次流转
-- **App Store Version Released** —— 版本正式上架
+## 可用事件触发器
 
-**TestFlight 事件**
+**App Store 版本事件：**
 
-- **TestFlight Beta Feedback** —— 新的评论、评分和设备信息
-- **TestFlight Beta Review State Changed** —— 构建审核通过或被拒
+- **App Store Version State Changed** — 审核状态的每次流转
+- **App Store Version Released** — 版本正式上架
 
-7. 点击 **添加** 即可创建 Webhook
+**TestFlight 事件：**
 
-### 5. 测试集成
-
-使用 App Store Connect 自带的 **测试** 按钮：
-
-1. 在 Webhook 列表里打开刚创建的 Webhook
-2. 点击 **测试**，系统会发送 Ping 事件
-3. 在 Echobell 查看到 "Ping" 通知并确认模板格式正确
-
-## 高级配置
-
-### Webhook 安全
-
-1. **HTTPS**：Echobell URL 默认启用 TLS，无需额外设置。
-2. **密钥处理**：App Store Connect 必填密钥，Echobell 暂不自动验证，可将密钥留作手动校验。
-3. **IP 白名单**：需要加固时，可仅开放 Apple 的发送 IP 段。
-
-### 自定义通知模板
-
-为不同事件准备不同模板，让信号一目了然。
-
-**应用状态变更**
-
-- 标题：
-
-```
-[{{app.name}}] App {{eventType}}
-```
-
-- 正文：
-
-```
-🍎 您的应用 "{{app.name}}" 状态已更新！
-
-📊 状态：{{status}}
-📅 日期：{{eventDate}}
-```
-
-- 链接：
-
-```
-{{app.url}}
-```
-
-**TestFlight 反馈**
-
-- 标题：
-
-```
-[{{app.name}}] TestFlight 新反馈
-```
-
-- 正文：
-
-```
-📱 应用：{{app.name}}
-👤 测试员：{{tester.name}}
-⭐ 评分：{{rating}}/5
-💬 反馈：{{feedback}}
-📱 设备：{{device}}
-```
-
-- 链接：
-
-```
-{{feedbackUrl}}
-```
-
-### 管理多个应用
-
-- 以应用或环境为维度拆分频道（如 "MyApp - Beta"、"MyApp - Prod"）
-- 统一命名风格，方便成员快速定位
-- 为流量高的频道设置自动化规则或静默时段
-- 仅为相关角色开放对应频道，减少噪声
-
-## Webhook 载荷结构
-
-App Store Connect 会以 JSON 发送负载，示例如下：
-
-```json
-{
-  "eventType": "APP_STORE_VERSION_STATE_CHANGED",
-  "apiVersion": "v1",
-  "eventId": "12345678-1234-1234-1234-123456789012",
-  "eventDate": "2025-01-15T10:30:00Z",
-  "data": {
-    "app": {
-      "id": "1234567890",
-      "name": "My Awesome App",
-      "bundleId": "com.example.myapp"
-    },
-    "appStoreVersion": {
-      "id": "987654321",
-      "versionString": "1.2.0",
-      "appStoreState": "READY_FOR_SALE"
-    }
-  }
-}
-```
-
-## 管理 Webhook
-
-### 查看投递记录
-
-1. 前往 **用户与访问** → **集成** → **Webhook**
-2. 打开目标 Webhook
-3. 在 **最近投递** 中查看事件 ID、状态、时间和响应详情
-
-### 投递状态
-
-| 状态    | 说明                                   |
-| ------- | -------------------------------------- |
-| Success | Webhook 已成功送达 Echobell 并返回 2xx |
-| Pending | Apple 正在投递该事件                   |
-| Failed  | 投递失败（修复问题后可重试）           |
-
-### 重新发送失败事件
-
-1. 在 **最近投递** 中找到失败记录
-2. 点击 **重新发送**
-3. 确认新的投递状态为 Success
-
-### 修改 Webhook 设置
-
-- 打开 Webhook，调整名称、密钥、载荷 URL 或触发器
-- 点击 **保存**，变更即刻生效
-
-### 暂停 Webhook
-
-需要短暂停用时，点击 **关闭 Webhook**；恢复时再点击 **开启 Webhook**。
-
-## 使用场景与策略
-
-**发布准备** —— 构建从 _In Review_ 切换到 _Ready for Sale_ 时立即通知，配合上线公告或营销动作。
-
-**TestFlight 分诊** —— 将测试员反馈推送到专用频道，并自动 @QA 跟进。
-
-**多产品团队** —— 按产品与环境拆分渠道，另设仅处理阻断问题的升级频道。
-
-策略提示：
-
-- **小团队**：共用一个频道，模板提供完整上下文，所有成员订阅。
-- **大型团队**：按照平台或市场拆分频道，按角色订阅，给管理层输出摘要通知或报表。
-
-## 故障排查
-
-### 常见问题
-
-**收不到通知**
-
-1. 核对 App Store Connect 中的 Echobell Webhook URL
-2. 确认勾选了需要的事件类型
-3. 查看 **最近投递** 是否出现错误
-4. 检查 Echobell 频道是否启用且成员已订阅
-
-**Webhook 认证失败**
-
-1. 比对共享密钥是否一致
-2. 确认 Webhook 端点可公开访问、证书有效
-3. 如自行验签，请检查签名逻辑
-
-**事件数据缺失**
-
-1. 检查模板变量名称
-2. 确认订阅的事件是否包含期望字段
-3. 记录原始负载，以便排查解析问题
-
-### 测试方式
-
-- **App Store Connect 测试 Ping** —— 最快速的健康检查
-- **真实事件** —— 提交 TestFlight 构建或版本更新，观察投递情况
-
-### 速率与性能
-
-- Apple 在事件过多时可能施加限速
-- Echobell 会排队处理，避免丢失负载
-- 如管理多个应用，可按频道拆分流量
+- **TestFlight Beta Feedback** — 测试员提交反馈时
+- **TestFlight Beta Review State Changed** — TestFlight 状态变化时
 
 ## 最佳实践
 
-**安全**
+1. **频道组织**：为不同应用创建独立频道
+2. **团队管理**：只添加相关成员
+3. **通知类型**：重要拒绝使用时效性通知
 
-- 保密 Echobell URL，并定期（如每季度）轮换密钥
-- 定期审计 Webhook 日志，关注异常激增
+## 故障排除
 
-**组织**
+如果没有收到通知：
 
-- 采用 `产品 - 环境` 等命名方式，频道含义一眼可知
-- 在团队 Runbook 中记录 Webhook 配置，方便新人上手
-
-**监控**
-
-- 每季度安排一次测试 Ping
-- 为连续失败设置告警，并关注通知量趋势，避免告警疲劳
-
-## API 集成
-
-想自动化？使用 [App Store Connect API](https://developer.apple.com/documentation/appstoreconnectapi/) 批量创建 Webhook、轮换密钥，或把投递数据接入现有监控和 CI/CD 流程。
+1. 确认 Webhook URL 复制正确
+2. 检查频道是否处于活动状态且有订阅者
+3. 使用 App Store Connect 中的测试按钮
 
 ## 相关资源
 
-- [Apple 官方 Webhook 文档](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/)
-- [App Store Connect API 文档](https://developer.apple.com/documentation/appstoreconnectapi/)
-- [TestFlight Beta 测试指南](https://developer.apple.com/testflight/)
-- [App Store 审核指南](https://developer.apple.com/app-store/review/guidelines/)
-
-## 结语
-
-把 App Store Connect Webhook 接入 Echobell，即可在第一时间掌握关键 iOS 事件、加快对审核反馈的响应，并确保 TestFlight 见解不会被埋没。Apple 的可靠投递加上 Echobell 灵活的频道体系，为个人开发者到全球化团队提供了一站式的上线指挥中心。
+- [Apple Webhooks 文档](https://developer.apple.com/help/app-store-connect/manage-your-team/manage-webhooks/)
+- [Echobell Webhook 集成](/zh/docs/webhook)
+- [通知模板](/zh/docs/template)
