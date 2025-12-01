@@ -1,0 +1,46 @@
+---
+title: Uptime Kuma
+description: Echobell経由でUptime Kumaの監視アラートを受信します。
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+[Uptime Kuma](https://github.com/louislam/uptime-kuma)は、使いやすいセルフホスト型の監視ツールです。サービスがダウンした際に、Echobell 経由で通知を受け取ることができます。
+
+<Steps>
+  <Step>
+    ### チャンネルの作成
+    Echobellで新しいチャンネルを作成し、**Webhook URL**をコピーします。
+  </Step>
+  <Step>
+    ### Uptime Kumaでの通知設定
+    1. **設定** > **通知**に移動します。
+    2. **通知を設定**をクリックします。
+    3. 通知タイプとして**Webhook**を選択します。
+    4. **表示名**を「Echobell」に設定します。
+    5. EchobellのWebhook URLを**Post URL**に貼り付けます。
+    6. **メソッド**を`POST`に設定します。
+    7. **ボディタイプ**を`JSON`に設定します。
+    8. **カスタムボディ**を有効にします。
+  </Step>
+  <Step>
+    ### ペイロードの設定
+    **カスタムボディ**フィールドに以下のJSONを入力します：
+
+    ```json
+    {
+      "title": "Monitor {{name}} is {{status}}",
+      "body": "{{msg}}\nURL: {{hostnameOrURL}}",
+      "status": "{{status}}",
+      "monitor": "{{name}}"
+    }
+    ```
+
+    必要に応じてJSON構造をカスタマイズできます。Echobellは通知テンプレートでこれらの変数を使用します。
+
+  </Step>
+  <Step>
+    ### テスト
+    **テスト**をクリックして、Echobellにテスト通知を送信します。
+  </Step>
+</Steps>

@@ -1,0 +1,57 @@
+---
+title: UptimeRobot
+description: Reciba alertas de monitoreo de UptimeRobot a través de Echobell.
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+[UptimeRobot](https://uptimerobot.com/) es un servicio popular de monitoreo de tiempo de actividad. Puede integrarlo con Echobell utilizando Webhooks.
+
+<Steps>
+  <Step>
+    ### Crear un canal
+    Cree un nuevo canal en Echobell y copie la **URL del Webhook**.
+  </Step>
+  <Step>
+    ### Agregar contacto de alerta
+    1. Inicie sesión en UptimeRobot.
+    2. Vaya a **My Settings**.
+    3. Desplácese hasta **Alert Contacts** y haga clic en **Add Alert Contact**.
+    4. Seleccione **Web-Hook** como Alert Contact Type.
+    5. Establezca el **Friendly Name** como "Echobell".
+    6. Pegue su URL de Webhook de Echobell en **URL to Notify**.
+    7. Habilite **Send as JSON**.
+  </Step>
+  <Step>
+    ### Configurar Payload
+    Pegue el siguiente JSON en el campo **Post Value (JSON Format)**:
+
+    ```json
+    {
+      "monitorName": "*monitorFriendlyName*",
+      "alertType": "*alertType*",
+      "details": "*alertDetails*",
+      "url": "*monitorURL*"
+    }
+    ```
+
+    *   `*alertType*`: `1` para Down, `2` para Up.
+
+  </Step>
+  <Step>
+    ### Configurar plantilla de Echobell
+    En la configuración de su canal de Echobell, puede usar expresiones para manejar el tipo de alerta:
+
+    **Plantilla de Título:**
+    ```
+    Monitor {{monitorName}} is {{alertType == "1" ? "DOWN" : "UP"}}
+    ```
+
+    **Plantilla de Cuerpo:**
+    ```
+    {{details}}
+    URL: {{url}}
+    ```
+
+  </Step>
+</Steps>

@@ -1,0 +1,46 @@
+---
+title: Uptime Kuma
+description: Receive Uptime Kuma monitoring alerts via Echobell.
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+[Uptime Kuma](https://github.com/louislam/uptime-kuma) is an easy-to-use self-hosted monitoring tool. You can receive notifications via Echobell when your services go down.
+
+<Steps>
+  <Step>
+    ### Create a Channel
+    Create a new channel in Echobell and copy the **Webhook URL**.
+  </Step>
+  <Step>
+    ### Setup Notification in Uptime Kuma
+    1. Go to **Settings** > **Notifications**.
+    2. Click **Setup Notification**.
+    3. Select **Webhook** as the Notification Type.
+    4. Set **Friendly Name** to "Echobell".
+    5. Paste your Echobell Webhook URL into **Post URL**.
+    6. Set **Method** to `POST`.
+    7. Set **Body Type** to `JSON`.
+    8. Enable **Custom Body**.
+  </Step>
+  <Step>
+    ### Configure Payload
+    Enter the following JSON in the **Custom Body** field:
+
+    ```json
+    {
+      "title": "Monitor {{name}} is {{status}}",
+      "body": "{{msg}}\nURL: {{hostnameOrURL}}",
+      "status": "{{status}}",
+      "monitor": "{{name}}"
+    }
+    ```
+
+    You can customize the JSON structure as needed. Echobell will use these variables in your notification templates.
+
+  </Step>
+  <Step>
+    ### Test
+    Click **Test** to send a test notification to Echobell.
+  </Step>
+</Steps>
