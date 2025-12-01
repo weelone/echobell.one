@@ -1,9 +1,9 @@
 ---
-title: Upptime の通知を Echobell に連携する
+title: Upptime 連携
 description: カスタム Webhook で Upptime のダウン通知を Echobell へ送り、即時のプッシュや電話アラートを受け取ります。
 ---
 
-# Upptime の通知を Echobell に連携する
+# Upptime 連携
 
 Upptime のダウン・復旧イベントをそのまま Echobell に転送し、追加の仕組みなしで時間依存のプッシュや電話通知を届けられます。ここでは Echobell 側の設定に絞り、Upptime 特有のオプションは [公式通知ドキュメント](https://upptime.js.org/docs/notifications) を参照してください。
 
@@ -21,8 +21,8 @@ Upptime のダウン・復旧イベントをそのまま Echobell に転送し�
 
 ## ステップ 1：Echobell チャンネルを用意
 
-1. Echobell でチャンネルを作成または開き、通知スタイル（標準 / 時間依存 / 通話）を選択。  
-2. チャンネルの Webhook をコピーします：`https://hook.echobell.one/t/<channel-token>`。  
+1. Echobell でチャンネルを作成または開き、通知スタイル（標準 / 時間依存 / 通話）を選択。
+2. チャンネルの Webhook をコピーします：`https://hook.echobell.one/t/<channel-token>`。
 3. （任意）`{{site}}`、`{{status}}`、`{{code}}`、`{{url}}`、`{{issue}}` を使ったテンプレートを設定し、通知を構造化します。
 
 ## ステップ 2：Upptime に Echobell 用 Secrets を追加
@@ -36,8 +36,8 @@ Upptime リポジトリで **Settings → Secrets and variables → Actions** �
 
 ポイント：
 
-- クエリパラメーターで構造化データを Echobell に渡します。Upptime が変数を埋め、Echobell 側では `site`、`status`、`url`、`issue`、`code`、`emoji` として扱えます。  
-- テキストを変える場合は URL エンコードを維持してください（空白は `%20` など）。  
+- クエリパラメーターで構造化データを Echobell に渡します。Upptime が変数を埋め、Echobell 側では `site`、`status`、`url`、`issue`、`code`、`emoji` として扱えます。
+- テキストを変える場合は URL エンコードを維持してください（空白は `%20` など）。
 - そのほかの通知プロバイダや戦略は Upptime 側で管理し、Echobell に必要なものだけを Secrets に追加します。
 
 ## ステップ 3：Echobell で変数をマッピング
@@ -54,12 +54,12 @@ External link: {{issue}}
 
 ## ステップ 4：連携をテスト
 
-- 監視 URL を一時的に存在しないエンドポイントへ向けるか、サービスを停止して障害を発生させます。  
-- Echobell にテンプレートのフィールドが入った通知が届くか確認します。  
+- 監視 URL を一時的に存在しないエンドポイントへ向けるか、サービスを停止して障害を発生させます。
+- Echobell にテンプレートのフィールドが入った通知が届くか確認します。
 - サービスを復旧させ、回復メッセージも届くか確かめます。
 
 ## トラブルシュート
 
-- `NOTIFICATION_CUSTOM_WEBHOOK` と `NOTIFICATION_CUSTOM_WEBHOOK_URL` の綴りを再確認してください。  
-- Echobell のチャンネルトークンを変更した場合は Secret を更新します。  
+- `NOTIFICATION_CUSTOM_WEBHOOK` と `NOTIFICATION_CUSTOM_WEBHOOK_URL` の綴りを再確認してください。
+- Echobell のチャンネルトークンを変更した場合は Secret を更新します。
 - Upptime 側の失敗や追加プロバイダについては、[公式ドキュメント](https://upptime.js.org/docs/notifications) と GitHub Actions のログを参照してください。

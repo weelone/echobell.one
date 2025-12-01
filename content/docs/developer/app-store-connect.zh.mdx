@@ -1,9 +1,9 @@
 ---
-title: App Store Connect Webhook 集成
+title: App Store Connect 集成
 description: 将 App Store Connect Webhook 接入 Echobell，快速掌握上架进展、TestFlight 反馈和团队通知
 ---
 
-# App Store Connect Webhook 集成
+# App Store Connect 集成
 
 App Store Connect Webhook 负责广播每一次关键的 iOS 发布动态。把这些信号接入 Echobell 后，审核结果、版本上线、TestFlight 反馈都会第一时间推送到手机，无需反复刷新 App Store Connect 或在邮箱里翻找。
 
@@ -14,7 +14,8 @@ App Store Connect Webhook 负责广播每一次关键的 iOS 发布动态。把�
 - 语气友好的移动端通知，让产品、QA、营销同步信息
 
 <Callout type="info">
-  App Store Connect Webhook 仅提供给 Account Holder、Admin 或 App Manager 角色使用。每条 Webhook 只能关联一个应用，同一应用最多可创建十条。
+  App Store Connect Webhook 仅提供给 Account Holder、Admin 或 App Manager
+  角色使用。每条 Webhook 只能关联一个应用，同一应用最多可创建十条。
 </Callout>
 
 ## 先决条件
@@ -214,11 +215,11 @@ App Store Connect 会以 JSON 发送负载，示例如下：
 
 ### 投递状态
 
-| 状态   | 说明                                         |
-| ------ | -------------------------------------------- |
-| Success | Webhook 已成功送达 Echobell 并返回 2xx        |
-| Pending | Apple 正在投递该事件                          |
-| Failed  | 投递失败（修复问题后可重试）                 |
+| 状态    | 说明                                   |
+| ------- | -------------------------------------- |
+| Success | Webhook 已成功送达 Echobell 并返回 2xx |
+| Pending | Apple 正在投递该事件                   |
+| Failed  | 投递失败（修复问题后可重试）           |
 
 ### 重新发送失败事件
 
@@ -237,7 +238,7 @@ App Store Connect 会以 JSON 发送负载，示例如下：
 
 ## 使用场景与策略
 
-**发布准备** —— 构建从 *In Review* 切换到 *Ready for Sale* 时立即通知，配合上线公告或营销动作。
+**发布准备** —— 构建从 _In Review_ 切换到 _Ready for Sale_ 时立即通知，配合上线公告或营销动作。
 
 **TestFlight 分诊** —— 将测试员反馈推送到专用频道，并自动 @QA 跟进。
 
