@@ -1,27 +1,38 @@
 ---
-title: Grafana Integration
-description: Learn how to integrate Grafana alerts with Echobell for instant notifications
+title: Grafana Integration - Real-time Infrastructure Monitoring Alerts
+sidebarTitle: Grafana
+description: Complete guide to integrating Grafana alerts with Echobell for instant infrastructure monitoring notifications. Step-by-step setup, alert templates, webhook configuration, and best practices for Grafana alerting.
 ---
 
 import { Step, Steps } from "fumadocs-ui/components/steps";
 
 # Grafana Integration
 
-Grafana is a popular open-source analytics and monitoring solution. By integrating Grafana with Echobell, you can receive instant notifications when your metrics trigger alerts. This guide will walk you through setting up Grafana alerts with Echobell.
+Grafana is a popular open-source analytics and monitoring solution used by thousands of organizations for visualizing metrics, logs, and traces. By integrating Grafana with Echobell, you can receive instant notifications when your metrics trigger alerts - whether it's high CPU usage, memory pressure, failed services, or any other monitored condition.
+
+This comprehensive guide will walk you through setting up Grafana alerts with Echobell, from basic configuration to advanced alert management strategies.
 
 ## Prerequisites
 
-- An Echobell account with at least one channel created
-- Access to a Grafana instance (version 8.0 or later)
-- Administrative access to configure alert notifications in Grafana
+Before you begin, ensure you have:
+
+- An Echobell account with at least one channel created ([Get started here](/docs))
+- Access to a Grafana instance (version 8.0 or later recommended, version 9.0+ for best compatibility)
+- Administrative access to configure alert notifications in Grafana (typically requires Admin or Editor role)
+- Basic understanding of Grafana dashboards and metrics
+- Familiarity with your monitoring infrastructure and alert requirements
 
 ## Setup Overview
 
-1. Create an Echobell channel
-2. Configure the notification templates
-3. Get the webhook URL
-4. Set up Grafana contact point
-5. Create alert rules in Grafana
+The integration process involves five main steps that typically take 10-15 minutes to complete:
+
+1. **Create an Echobell Channel** - Set up a dedicated channel for Grafana alerts
+2. **Configure Notification Templates** - Design how alerts will appear on your device
+3. **Get the Webhook URL** - Obtain the unique webhook endpoint for your channel
+4. **Set up Grafana Contact Point** - Configure Grafana to send alerts to Echobell
+5. **Create Alert Rules in Grafana** - Define what conditions trigger notifications
+
+Once configured, alerts flow automatically from Grafana to your device in real-time.
 
 ## Step-by-Step Guide
 
@@ -124,49 +135,329 @@ When subscribing to the Grafana alerts channel, configure these critical notific
 
 ## Best Practices for Alert Management
 
-1. **Alert Template Organization**
+### Alert Template Organization
 
-   - Keep alert templates clear and consistent
-   - Include critical metric information
-   - Use appropriate formatting for numbers and timestamps in notifications
-   - Ensure emergency alerts are distinctly formatted
+**Keep alert templates clear and consistent across channels:**
 
-2. **Critical Alert Configuration**
+```
+Title: {{alertName}} - {{status}}
+Body: 
+Server: {{instance}}
+Metric: {{metric}}  
+Current: {{value}}
+Threshold: {{threshold}}
+```
 
-   - Set appropriate alert thresholds to avoid notification fatigue
-   - Use meaningful emergency alert names
-   - Include sufficient context in critical alert messages
-   - Configure priority levels for different types of notifications
+- **Use structured formatting** - Organize information with clear labels
+- **Include critical information** - Metric name, value, threshold, affected system
+- **Use emoji sparingly** - 🚨 for critical, ⚠️ for warnings, ✅ for resolved
+- **Keep titles concise** - Aim for 5-8 words that immediately convey the issue
+- **Test templates** - Send test alerts to verify formatting before deploying
 
-3. **Alert Security**
+### Critical Alert Configuration
 
-   - Keep your webhook URL secure
-   - Regularly audit alert configurations
-   - Monitor webhook delivery status
+**Set appropriate alert thresholds to avoid notification fatigue:**
+
+- **Avoid over-alerting** - Set thresholds at actionable levels, not interesting levels
+- **Use hysteresis** - Configure different thresholds for alerting vs. recovery
+- **Group related alerts** - Combine related conditions into single alert rules
+- **Set appropriate evaluation intervals** - Balance responsiveness with noise reduction
+- **Consider time windows** - Use multiple condition checks before alerting
+
+**Example threshold strategy:**
+```
+# Bad: Alert at 50% CPU (too sensitive)
+cpu_usage > 50
+
+# Better: Alert at 80% for 5 minutes
+avg_over_time(cpu_usage[5m]) > 80
+
+# Best: Progressive alerts
+# Warning at 70% sustained, Critical at 90%
+```
+
+### Use Meaningful Alert Names
+
+Give alerts descriptive names that immediately convey:
+- **What** is being monitored (CPU, Memory, Disk)
+- **Where** it's happening (production, staging, specific instance)
+- **Why** it matters (user-facing service, critical database)
+
+Good examples:
+- "Production Database - High Connection Pool Usage"
+- "API Gateway - Response Time Degradation"  
+- "Worker Node 3 - Disk Space Critical"
+
+Avoid:
+- "Alert 1", "Test Alert", "High CPU"
+
+### Include Sufficient Context
+
+Your alert message should answer:
+- **What happened?** The specific condition that triggered
+- **Where?** Which system, service, or instance
+- **How bad?** Current value vs. threshold
+- **When?** Timestamp of the alert
+- **What next?** Link to relevant dashboard or runbook
+
+### Configure Priority Levels
+
+Use Echobell's [notification types](/docs/notification) strategically:
+
+- **Normal**: Info alerts, resolved notifications, non-urgent warnings
+- **Time Sensitive**: Important alerts requiring attention within hours
+- **Calling**: Critical production issues requiring immediate response
+
+Map Grafana severity levels to notification types:
+```
+Critical + Production → Calling
+High + Production → Time Sensitive  
+Medium → Time Sensitive
+Low → Normal
+Info/Resolved → Normal
+```
+
+### Alert Security
+
+**Protect your monitoring infrastructure:**
+
+- **Keep webhook URLs secret** - They provide unauthenticated access to send notifications
+- **Use environment variables** - Don't hardcode URLs in Grafana provisioning files
+- **Rotate webhooks periodically** - Especially when team members leave
+- **Monitor webhook delivery** - Track failed deliveries and investigate anomalies
+- **Audit alert configurations** - Regularly review who has access to modify alerts
+- **Validate alert sources** - Use Grafana's built-in authentication for contact points
+
+### Alert Lifecycle Management
+
+**Maintain healthy alert hygiene:**
+
+1. **Regular review** - Audit alerts quarterly to remove obsolete rules
+2. **Document alerts** - Add descriptions explaining why each alert exists
+3. **Track alert history** - Monitor which alerts fire most frequently
+4. **Tune thresholds** - Adjust based on historical data and false positive rates
+5. **Archive old alerts** - Disable but preserve rules for services being retired
+6. **Version control** - Use Grafana provisioning to track alert changes
+
+### Performance Considerations
+
+- **Avoid alert storms** - Configure proper grouping and timing
+- **Use notification policies** - Route different severities to appropriate channels
+- **Set wait/repeat intervals** - Prevent duplicate notifications
+- **Group similar alerts** - Reduce notification volume with aggregation
+- **Consider time of day** - Use [conditions](/docs/conditions) for business hours filtering
+
+## Real-World Examples
+
+### High CPU Alert
+```
+Title: {{instance}} CPU Critical
+Body: CPU usage: {{cpu_percent}}%
+Duration: {{duration}}
+Time: {{time}}
+Dashboard: {{dashboard_url}}
+```
+
+### Memory Pressure
+```
+Title: Memory Warning - {{hostname}}
+Body: Available: {{available_mb}}MB ({{percent_free}}%)
+Threshold: {{threshold_mb}}MB
+Action: Check memory-intensive processes
+```
+
+### Service Down
+```
+Title: 🚨 {{service_name}} Unreachable
+Body: Health check failed
+Last success: {{last_successful_check}}
+Impact: {{affected_users}} users affected
+Runbook: {{runbook_url}}
+```
+
+## Common Use Cases
+
+### Infrastructure Monitoring
+- CPU, memory, disk usage thresholds
+- Network throughput and packet loss
+- Service availability and health checks
+- Container and pod status monitoring
+
+### Application Performance
+- Response time degradation
+- Error rate increases
+- Database connection pool exhaustion
+- Queue depth and processing lag
+
+### Business Metrics
+- Transaction volume anomalies
+- Revenue per minute drops
+- Active user count changes
+- API rate limit approaches
+
+### Security Monitoring
+- Failed authentication attempts
+- Unusual access patterns
+- Certificate expiration warnings
+- Firewall rule violations
+
+Learn more integration strategies in our [blog post about Grafana call notifications](/blog/grafana-call-notification).
 
 ## Troubleshooting
 
-If you're not receiving alerts:
+If you're not receiving alerts, work through these diagnostic steps:
 
-1. Verify the webhook URL is correctly copied
-2. Check if the channel is active
-3. Ensure there are active subscribers
-4. Verify Grafana's contact point configuration
-5. Check Grafana's alert rule configuration
-6. Review Grafana's alert history
+### Webhook Not Triggering Notifications
 
-## Privacy and Data Handling
+1. **Verify the webhook URL is correctly copied**
+   - Go to your Echobell channel → Triggers → Webhook
+   - Copy the complete URL including `https://hook.echobell.one/t/`
+   - Ensure no extra spaces or characters were added when pasting into Grafana
 
-Echobell's privacy-first approach means:
+2. **Check if the channel is active**
+   - Open the Echobell app
+   - Navigate to your Grafana alerts channel
+   - Verify it wasn't accidentally deleted or archived
 
-- Alert content is stored locally on your device
-- Only essential configuration data is stored on servers
-- Webhook URLs should be treated as secrets
-- No alert data is retained on Echobell servers
+3. **Ensure there are active subscribers**
+   - At least one person must be subscribed to receive notifications
+   - Check the channel's subscription list
+   - Verify your personal subscription is active
 
-## Additional Resources
+4. **Verify Grafana's contact point configuration**
+   - Go to Alerting → Contact points in Grafana
+   - Open your Echobell contact point
+   - Confirm the URL matches your channel's webhook
+   - Check that HTTP Method is set to POST
+   - Verify Content-Type is application/json
 
-- [Grafana Alerting Documentation](https://grafana.com/docs/grafana/latest/alerting/)
-- [Echobell Webhook Integration](/docs/webhook)
-- [Notification Templates Guide](/docs/notification)
-- [Support Center](/docs/support)
+5. **Check Grafana's alert rule configuration**
+   - Navigate to Alerting → Alert rules
+   - Open the specific rule that should trigger
+   - Confirm the rule is linked to your Echobell contact point
+   - Check the notification policy routes to the correct contact point
+
+6. **Review Grafana's alert history**
+   - Go to Alerting → Alert rules
+   - Click on your rule → Show history
+   - Verify the alert is actually firing (not in pending state)
+   - Check if there are any evaluation errors
+
+### Alerts Firing But Not Delivered
+
+1. **Test the webhook directly**
+   ```bash
+   curl -X POST https://hook.echobell.one/t/YOUR_TOKEN \
+     -H "Content-Type: application/json" \
+     -d '{"alertName": "Test", "status": "firing"}'
+   ```
+   If you receive a notification from this but not from Grafana, the issue is in Grafana's configuration.
+
+2. **Check Grafana's notification policies**
+   - Go to Alerting → Notification policies
+   - Verify your rule's labels match the policy routing rules
+   - Check for timing issues (grouping wait time, repeat intervals)
+
+3. **Review Grafana logs**
+   - Look for webhook delivery errors in Grafana's logs
+   - Check for HTTP status codes (should be 200)
+   - Investigate any timeout or connection errors
+
+### Notifications Rendering Incorrectly
+
+1. **Template variables don't match Grafana's payload**
+   - Grafana sends specific field names like `.alertName`, `.status`, etc.
+   - Ensure your template variables match the payload structure
+   - Test with Grafana's "Test" button to see actual payload
+
+2. **Missing information in notifications**
+   - Some Grafana variables may be empty depending on alert configuration
+   - Add fallback values in templates: `{{alertName || "Unknown Alert"}}`
+   - Check Grafana docs for available template variables
+
+3. **JSON parsing errors**
+   - Verify Grafana's message template is valid JSON
+   - Check for unescaped quotes or special characters
+   - Use online JSON validators to verify payload structure
+
+### Alert Timing Issues
+
+1. **Delays in receiving alerts**
+   - Check your network connectivity
+   - Verify Grafana can reach Echobell's servers
+   - Review Grafana's evaluation interval (may cause delays)
+   - Check notification policy timing settings
+
+2. **Duplicate notifications**
+   - Review repeat interval settings in notification policies
+   - Check if multiple rules are firing for the same condition
+   - Verify only one contact point is configured for the channel
+
+3. **Notifications during quiet hours**
+   - iOS Focus modes may affect notification delivery
+   - Time Sensitive and Calling notifications can bypass some Focus modes
+   - Review your device's notification settings
+
+### Still Having Issues?
+
+If you've tried all the above and still experiencing problems:
+
+1. **Enable Grafana debug logging**
+   - Add `[log]` section to grafana.ini with `level = debug`
+   - Check logs for webhook delivery attempts and responses
+
+2. **Use Grafana's built-in test feature**
+   - In contact point settings, use "Test" to send a sample alert
+   - This helps isolate whether the issue is with rules or delivery
+
+3. **Try a different alert rule**
+   - Create a simple test rule with conditions that will definitely fire
+   - If test works but production rules don't, the issue is in rule configuration
+
+4. **Contact support**
+   - Visit our [Support Center](/docs/support)
+   - Email echobell@weelone.com with:
+     - Grafana version
+     - Sample alert payload (remove sensitive data)
+     - Webhook URL (with token redacted)
+     - Steps you've tried
+     - Expected vs. actual behavior
+
+## Related Documentation and Resources
+
+### Echobell Documentation
+- **[Webhook Integration Guide](/docs/webhook)** - Deep dive into webhook functionality
+- **[Template System](/docs/template)** - Master notification template syntax
+- **[Conditions](/docs/conditions)** - Filter alerts based on criteria
+- **[Notification Types](/docs/notification)** - Understanding alert priorities
+- **[Getting Started](/docs)** - Echobell basics and setup
+
+### Grafana Resources
+- **[Grafana Alerting Documentation](https://grafana.com/docs/grafana/latest/alerting/)** - Official Grafana alerting guide
+- **[Contact Points](https://grafana.com/docs/grafana/latest/alerting/fundamentals/contact-points/)** - Grafana contact point configuration
+- **[Notification Policies](https://grafana.com/docs/grafana/latest/alerting/fundamentals/notification-policies/)** - Alert routing and grouping
+- **[Alert Rules](https://grafana.com/docs/grafana/latest/alerting/fundamentals/alert-rules/)** - Creating and managing alert rules
+
+### Related Integrations
+- **[Prometheus Integration](/docs/developer/prometheus)** - Direct Prometheus alerting
+- **[Uptime Kuma](/docs/developer/uptime-kuma)** - Website uptime monitoring
+- **[GitHub Actions](/docs/developer/github)** - CI/CD pipeline alerts
+- **[Home Assistant](/docs/developer/home-assistant)** - Smart home notifications
+
+### Blog Posts
+- **[Enable Phone Call Notifications for Grafana Alerts](/blog/grafana-call-notification)** - Advanced Grafana integration strategies
+- **[Never Miss a GitHub Actions Failure](/blog/github-actions-notifications)** - CI/CD alerting best practices
+- **[Time Window Notifications Using UTC Conditions](/blog/time-window-notifications-using-utc-conditions)** - Business hours filtering
+
+## Next Steps
+
+Now that you have Grafana integrated with Echobell:
+
+1. **Fine-tune your alerts** - Adjust thresholds based on actual usage patterns
+2. **Set up additional channels** - Create separate channels for different severity levels
+3. **Explore other integrations** - Connect more tools to Echobell ([view all integrations](/docs/features))
+4. **Share with your team** - Add team members to your alert channels
+5. **Document your setup** - Create runbooks for responding to specific alerts
+6. **Monitor alert effectiveness** - Track false positive rates and response times
+
+Ready to monitor more systems? Check out our [complete integration guide](/docs/features) for other popular monitoring tools and platforms.

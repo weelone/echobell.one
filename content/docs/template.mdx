@@ -1,11 +1,14 @@
 ---
-title: Template
-description: Learn how to use templates in Echobell
+title: Template System - Dynamic Notification Content
+sidebarTitle: Templates
+description: Master Echobell's template system to create dynamic, informative notifications. Complete guide to variable substitution, expressions, operators, system variables, and best practices for notification templates.
 ---
 
 # Templates in Echobell
 
-Templates in Echobell allow you to create dynamic notifications by incorporating variables into your notification titles and bodies. This feature enables personalized and informative alerts that adapt based on the trigger data.
+Templates in Echobell allow you to create dynamic, context-rich notifications by incorporating variables into your notification titles and bodies. This powerful feature enables personalized and informative alerts that adapt based on the trigger data, transforming generic notifications into actionable intelligence.
+
+Instead of receiving a generic "Alert triggered" message, templates let you create specific notifications like "Production server CPU at 95%" or "Build #142 failed in deploy stage" - providing immediate context without requiring additional investigation.
 
 ## Basic Template Syntax
 
@@ -145,20 +148,201 @@ Epoch: {{epochSeconds}}
 
 ## Best Practices
 
-1. **Default Values**: Consider providing default values for optional variables:
+### Default Values
+Consider providing default values for optional variables to ensure templates always render meaningfully:
 
-   ```
-   {{username || "Anonymous User"}}
-   ```
+```
+{{username || "Anonymous User"}}
+{{serverName || "Unknown Server"}}
+{{errorCount || 0}} errors detected
+```
 
-2. **Informative Templates**: Include key information in your templates to make notifications actionable:
+This prevents empty or confusing notifications when optional variables aren't provided.
 
-   ```
-   {{service}}: {{status}} - {{message}}
-   ```
+### Informative Templates
+Include key information in your templates to make notifications actionable without requiring additional context:
 
-3. **Keep Templates Concise**: Notifications display best when titles and bodies are clear and to the point.
+**Good Examples:**
+```
+Title: {{service}} {{status}} on {{environment}}
+Body: {{errorMessage}} at {{timestamp}}
+Action required: {{recommendedAction}}
+```
 
-4. **Testing**: Test your templates with different variable combinations to ensure they render as expected.
+**Avoid:**
+```
+Title: Alert
+Body: Check logs
+```
 
-Templates are a powerful way to create dynamic, informative notifications that give users exactly the information they need, when they need it.
+### Keep Templates Concise
+Notifications display best when titles and bodies are clear and to the point:
+
+- **Titles**: 3-8 words ideal, max 20 words
+- **Bodies**: 1-3 sentences ideal, avoid walls of text
+- **Priority**: Put most important information first
+
+iOS notification constraints:
+- Title: ~40 characters visible in collapsed view
+- Body: ~60 characters in collapsed view, more when expanded
+
+### Use Consistent Naming
+Maintain consistent variable naming across your channels:
+
+- Use clear, descriptive names: `server_name` not `sn`
+- Follow a convention: snake_case, camelCase, or kebab-case
+- Be consistent across related channels
+- Document expected variables for team members
+
+### Test Thoroughly
+Test your templates with different variable combinations to ensure they render as expected:
+
+1. Test with all variables present
+2. Test with optional variables missing
+3. Test with special characters and Unicode
+4. Test with very long values
+5. Test with empty strings
+6. Test with numbers, booleans, arrays, and objects
+
+### Structure for Readability
+Use formatting to make notification content easy to scan:
+
+```
+🚨 Alert: {{alertName}}
+━━━━━━━━━━━━━━━
+Server: {{server}}
+Metric: {{metric}}  
+Value: {{value}}
+Time: {{time}}
+━━━━━━━━━━━━━━━
+Details: {{message}}
+```
+
+Or use simple labels:
+
+```
+Server: {{server}}
+CPU Usage: {{cpu}}%
+Memory: {{memory}}%
+Status: {{status}}
+```
+
+### Leverage Expressions
+Use expressions to make notifications more intelligent:
+
+```
+Title: {{severity == "critical" ? "🚨 CRITICAL" : "⚠️ Warning"}} - {{service}}
+Body: {{metric}} is {{value > threshold ? "above" : "at"}} {{value}}
+```
+
+### Consider Time Zones
+Remember that system time variables are in UTC. Document this or convert in your templates:
+
+```
+Alert triggered at {{time}} UTC
+Triggered: {{date}} {{time}} (UTC)
+```
+
+## Common Patterns and Examples
+
+### Server Monitoring
+```
+Title: {{hostname}} - {{metric}} Alert
+Body: {{metric}} on {{hostname}} is at {{value}}{{unit}}
+Threshold: {{threshold}}{{unit}}
+Time: {{date}} {{time}}
+```
+
+### CI/CD Pipelines
+```
+Title: {{repository}} - Build {{status}}
+Body: Build #{{buildNumber}} {{status}} in {{duration}}s
+Branch: {{branch}}
+Commit: {{commit_message}}
+Author: {{author}}
+```
+
+### E-commerce
+```
+Title: New Order #{{orderNumber}}
+Body: Customer: {{customerName}}
+Items: {{itemCount}} items
+Total: ${{totalAmount}}
+Shipping: {{shippingAddress}}
+```
+
+### Error Tracking
+```
+Title: {{errorType}} in {{service}}
+Body: {{errorMessage}}
+File: {{filename}}:{{lineNumber}}
+User: {{userId}}
+Environment: {{environment}}
+```
+
+## Advanced Features
+
+### Link Templates
+Configure a custom **link template** in channel advanced settings to create clickable links in notification records:
+
+```
+https://dashboard.example.com/orders/{{orderId}}
+https://grafana.example.com/d/{{dashboardId}}
+https://github.com/{{repo}}/actions/runs/{{runId}}
+```
+
+If no link template is set, the value of the `externalLink` variable will be used by default. This is useful for providing quick access to relevant dashboards, logs, or documentation directly from the notification.
+
+### Conditional Content in Templates
+You can use ternary operators to show different content based on conditions:
+
+```
+Status: {{isOnline ? "✅ Online" : "❌ Offline"}}
+Priority: {{severity > 5 ? "HIGH" : "NORMAL"}}
+Message: {{count > 1 ? count + " errors detected" : "1 error detected"}}
+```
+
+This allows a single template to adapt to different scenarios without needing multiple channels.
+
+### Channel Conditions
+In addition to using templates in notification content, you can set **[Conditions](/docs/conditions)** in channel advanced settings that determine whether notifications should be sent at all. These conditions use the same expression syntax (without the curly braces).
+
+For example, to only send notifications for amounts greater than a threshold:
+
+```
+amount > 100
+status == "critical"
+temperature > 30 && location == "datacenter"
+```
+
+This prevents alert fatigue by filtering out non-critical events before notifications are sent. Learn more in our [Conditions guide](/docs/conditions).
+
+## Related Documentation
+
+- **[Webhook Integration](/docs/webhook)** - Learn how to pass variables via webhooks
+- **[Email Triggers](/docs/email-trigger)** - Variables available from email triggers
+- **[Conditions](/docs/conditions)** - Filter notifications with conditional expressions
+- **[Getting Started](/docs)** - Set up your first channel with templates
+
+## Troubleshooting
+
+**Template not rendering variables:**
+- Check variable names match exactly (case-sensitive)
+- Verify variables are being passed in webhook/email trigger
+- Test with simple variables first, then add complexity
+
+**Variables showing as empty:**
+- Confirm the variable exists in the trigger data
+- Check for typos in variable names
+- Verify JSON structure for nested properties
+
+**Expression errors:**
+- Validate syntax with simple expressions first
+- Ensure operators are properly spaced
+- Check that property access uses correct syntax
+
+Need help? Visit our [Support Center](/docs/support) or contact echobell@weelone.com.
+
+---
+
+Templates are a powerful way to create dynamic, informative notifications that give users exactly the information they need, when they need it. Start with simple variable substitution, then gradually add expressions and conditional logic to create sophisticated notification systems.

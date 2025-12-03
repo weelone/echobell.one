@@ -8,6 +8,12 @@ import { z } from "zod";
 
 export const docs = defineDocs({
   dir: "content/docs",
+  docs: {
+    schema: frontmatterSchema.extend({
+      // Short title for sidebar display, falls back to title if not set
+      sidebarTitle: z.string().optional(),
+    }),
+  },
 });
 
 export const blog = defineCollections({

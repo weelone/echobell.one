@@ -23,7 +23,7 @@ export default function HeroSection({ lang }: { lang: Language }) {
 
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8">
-      <div className="mx-auto max-w-7xl py-24 sm:py-32 lg:py-40">
+      <div className="mx-auto max-w-7xl py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left">
             <div className="mb-4 flex items-center justify-center lg:justify-start">

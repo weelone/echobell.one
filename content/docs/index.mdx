@@ -1,20 +1,29 @@
 ---
-title: Get started
-description: Introduction to Echobell, a powerful notification management tool
+title: Get Started with Echobell - Complete Setup Guide
+sidebarTitle: Getting Started
+description: Learn how to set up Echobell for instant webhook notifications, email alerts, and custom notification channels. Complete step-by-step guide for iOS notification management with templates, triggers, and real-time alerts.
 ---
 
 # Get Started with Echobell
 
-Welcome to Echobell, the instant alert app that helps you stay on top of important notifications. This guide will walk you through setting up and using Echobell effectively.
+Welcome to Echobell, the instant alert app that helps you stay on top of important notifications. Whether you're a developer needing webhook alerts for your CI/CD pipeline, a system administrator monitoring servers, or a team managing critical notifications, this comprehensive guide will walk you through setting up and using Echobell effectively.
+
+By the end of this guide, you'll understand how to create notification channels, set up webhook and email triggers, customize notification templates, and integrate Echobell with your existing tools and workflows.
 
 ## What is Echobell?
 
-Echobell is a powerful notification management tool that:
+Echobell is a powerful notification management tool designed for developers, DevOps teams, and anyone who needs reliable instant alerts. It bridges the gap between your systems and your mobile device, ensuring critical information reaches you immediately.
 
-- Handles webhooks and emails as triggers
-- Sends customized notifications to subscribers
-- Allows you to create and share notification channels
-- Keeps your notification data private on your device
+**Key capabilities:**
+
+- **Webhook Integration**: Connect any system that can make HTTP requests - monitoring tools, CI/CD pipelines, IoT devices, and more
+- **Email Triggers**: Turn any email into an instant notification by forwarding to your channel's dedicated email address
+- **Custom Templates**: Use dynamic variables to create informative, context-rich notifications
+- **Flexible Notification Types**: Choose between normal notifications, time-sensitive alerts, or phone call-style notifications for critical issues
+- **Privacy-First Design**: Your notification history stays on your device, not on our servers
+- **Team Collaboration**: Share channels with teammates and manage subscriber access
+
+Learn more about [what makes Echobell unique](/docs/what-is-echobell) and explore our [complete feature overview](/docs/features).
 
 ![Echobell Overview](/images/docs/screenshot-overview.en.webp)
 
@@ -26,25 +35,36 @@ Before diving in, let's understand some key concepts:
 
 A **Channel** is the core unit in Echobell for organizing and distributing notifications:
 
-- Each channel has a unique **Name** and **Color** for easy identification
-- Channels contain **Notification Templates** that determine what information is sent
-- Channels are triggered through webhooks or emails
-- You can create your own channels or subscribe to others
+- Each channel has a unique **Name** and **Color** for easy identification across different alert sources
+- Channels contain **[Notification Templates](/docs/template)** that determine what information is sent to subscribers
+- Channels are triggered through **[webhooks](/docs/webhook)** or **[emails](/docs/email-trigger)**
+- You can create your own channels or subscribe to channels shared by others
+- Each channel supports **[conditions](/docs/conditions)** to filter which triggers actually send notifications
+- Channels can be shared via secure subscription links with team members or the public
+
+Think of a channel as a notification pipeline: data comes in through triggers, gets formatted by templates, filtered by conditions, and delivered as notifications to all subscribers.
 
 ### Triggers
 
-A **Trigger** is what activates a channel to send notifications:
+A **Trigger** is what activates a channel to send notifications. Echobell supports two trigger methods:
 
-- **Webhook**: A URL endpoint that, when called, activates the channel
-- **Email**: An email address linked to the channel that, when messaged, activates the channel
+- **[Webhook](/docs/webhook)**: A URL endpoint that, when called via HTTP GET or POST, activates the channel. Perfect for integrating with monitoring systems, CI/CD pipelines, serverless functions, and any tool that can make HTTP requests.
+  
+- **[Email Trigger](/docs/email-trigger)**: A unique email address linked to the channel. When an email is sent to this address, the channel is activated. Ideal for email-based alerts, forwarding important messages, or systems that only support email notifications.
+
+You can use both trigger types simultaneously on the same channel, giving you maximum flexibility in how you send alerts. Learn more about [webhook integration](/docs/webhook) and [email triggers](/docs/email-trigger).
 
 ### Notification Types
 
-When subscribing to a channel, you can choose from different notification styles:
+When subscribing to a channel, you can choose from different [notification styles](/docs/notification) that determine how alerts appear on your device:
 
-- **Normal**: Standard app notification
-- **Time Sensitive**: High-priority notification that can break through focus modes
-- **Calling**: Call-like alert for the most urgent matters
+- **Normal (Active)**: Standard app notification that appears in your notification center. Best for non-urgent updates and informational alerts.
+
+- **Time Sensitive**: High-priority notification that can break through Focus modes and Do Not Disturb settings. Recommended for important alerts that need immediate attention but aren't critical emergencies.
+
+- **Calling**: Call-like alert with ringtone and full-screen interface, similar to receiving a phone call. Essential for critical incidents requiring immediate response, such as production outages or security alerts.
+
+The notification type you choose depends on the urgency of the channel's content. You can subscribe to the same channel multiple times with different notification types if needed. Read our [detailed guide on notifications](/docs/notification) to understand when to use each type.
 
 ## Getting Started
 
@@ -154,12 +174,54 @@ Echobell prioritizes your privacy:
 
 ## Next Steps
 
-Now that you've set up your first channel:
+Now that you've set up your first channel, explore these resources to get the most out of Echobell:
 
-- Explore advanced template options
-- Share your channels with team members
-- Set up notification schedules and quiet hours
+### Essential Guides
 
-For more detailed information on each feature, check out our [Feature Guides](/docs/features) section.
+- **[What is Echobell?](/docs/what-is-echobell)** - Understand the core concepts and philosophy behind Echobell
+- **[Feature Overview](/docs/features)** - Explore all available features and capabilities
+- **[Template Guide](/docs/template)** - Master template syntax and create dynamic notifications
+- **[Conditions](/docs/conditions)** - Learn to filter notifications based on trigger data
+- **[Webhook Integration](/docs/webhook)** - Deep dive into webhook configuration and best practices
+- **[Email Triggers](/docs/email-trigger)** - Configure email-based notification triggers
 
-Need help? Visit our [Support Center](/docs/support) or email echobell@weelone.com.
+### Integration Guides
+
+Connect Echobell with popular tools and platforms:
+
+- **[Grafana Integration](/docs/developer/grafana)** - Monitor your infrastructure with instant alerts
+- **[GitHub Actions](/docs/developer/github)** - Get notified of CI/CD pipeline events
+- **[Prometheus](/docs/developer/prometheus)** - Set up alerting for Prometheus metrics
+- **[Home Assistant](/docs/developer/home-assistant)** - Smart home automation notifications
+- **[Uptime Monitoring](/docs/developer/uptime-kuma)** - Website and service availability alerts
+- **[TradingView](/docs/trader/tradingview)** - Trading alerts and market notifications
+
+### Best Practices
+
+- **Start Simple**: Create basic channels with simple templates first, then gradually add complexity
+- **Test Your Templates**: Use test webhook calls to verify your templates render correctly before deploying
+- **Use Conditions Wisely**: Filter out noise by setting conditions on channels to only alert on important events
+- **Choose Appropriate Notification Types**: Reserve "Calling" notifications for truly critical alerts to avoid alert fatigue
+- **Organize with Colors**: Use channel colors strategically to quickly identify alert sources at a glance
+- **Document Your Channels**: Use channel notes to document what triggers them and how to respond
+
+### Common Use Cases
+
+Discover how others use Echobell:
+
+- **Server Monitoring**: Get instant alerts when CPU, memory, or disk usage exceeds thresholds
+- **CI/CD Notifications**: Know immediately when builds fail or deployments complete
+- **E-commerce Alerts**: Receive notifications for new orders, payment issues, or inventory warnings
+- **Security Monitoring**: Critical alerts for authentication failures, suspicious activity, or security events
+- **IoT and Smart Home**: Notifications from sensors, cameras, and home automation systems
+- **Team Coordination**: Share channels with team members for collaborative incident response
+
+### Get Help
+
+Need assistance or have questions?
+
+- **[Support Center](/docs/support)** - Browse common questions and troubleshooting guides
+- **Email Support**: Contact us at echobell@weelone.com
+- **Community**: Join discussions and share your use cases with other Echobell users
+
+Ready to integrate Echobell with your systems? Check out our [webhook integration guide](/docs/webhook) or explore [developer-specific integrations](/docs/developer/github) to get started!

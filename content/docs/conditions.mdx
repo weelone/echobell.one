@@ -1,11 +1,14 @@
 ---
-title: Conditions
-description: Understanding how channel conditions work in Echobell
+title: Channel Conditions - Smart Notification Filtering
+sidebarTitle: Conditions
+description: Master Echobell's condition system to filter notifications intelligently. Complete guide to conditional expressions, operators, time-based filtering, and best practices for reducing alert fatigue.
 ---
 
 # Channel Conditions
 
-Channel conditions are powerful expressions that determine when notifications should be sent. By setting conditions on your channel, you can filter notifications based on the content of variables or HTTP headers, ensuring subscribers only receive relevant alerts.
+Channel conditions are powerful expressions that determine when notifications should be sent. By setting conditions on your channel, you can filter notifications based on the content of variables or HTTP headers, ensuring subscribers only receive relevant alerts. This is essential for reducing alert fatigue and maintaining high signal-to-noise ratio in your notification system.
+
+Think of conditions as the gatekeeper for your notifications - they evaluate incoming trigger data and only allow notifications through when specific criteria are met.
 
 ## Understanding Conditions
 
@@ -155,41 +158,232 @@ dayOfMonth == 1 && minute == 0
 
 ## Best Practices
 
-1. **Start simple** - Begin with basic conditions and add complexity as needed
-2. **Test thoroughly** - Test your conditions with various inputs to ensure they work as expected
-3. **Document your conditions** - Add comments in your channel's note field to explain complex conditions
-4. **Consider edge cases** - Account for missing variables or unexpected values
+### Start Simple
+Begin with basic conditions and add complexity as needed:
 
-## Examples
-
-### Alert only for specific errors
-
+**Phase 1:** Start with single conditions
 ```
-errorType == "database" && severity == "high"
+temperature > 30
 ```
 
-### Notify only during business hours
+**Phase 2:** Add logical operators
+```
+temperature > 30 && location == "server-room"
+```
+
+**Phase 3:** Add nested logic
+```
+(temperature > 30 || humidity > 80) && location == "server-room" && status == "monitoring"
+```
+
+### Test Thoroughly
+Test your conditions with various inputs to ensure they work as expected:
+
+1. **Test with normal values** - Verify conditions work in expected scenarios
+2. **Test edge cases** - What happens at exactly the threshold value?
+3. **Test with missing variables** - How does the condition handle absent data?
+4. **Test with unexpected types** - What if a number is sent as a string?
+5. **Use test webhooks** - Send test triggers with different data combinations
+
+### Document Your Conditions
+Add comments in your channel's note field to explain complex conditions:
 
 ```
+Channel Note:
+Condition: (cpu > 80 && memory > 90) || diskSpace < 10
+
+This condition triggers alerts when:
+- Both CPU is above 80% AND memory is above 90%
+- OR when disk space drops below 10GB
+```
+
+This helps team members understand the alert logic without parsing the expression.
+
+### Consider Edge Cases
+Account for missing variables or unexpected values:
+
+- **Missing variables**: Undefined variables evaluate to empty/false - ensure your logic handles this
+- **Type mismatches**: Numeric comparisons may fail if values are strings
+- **String comparisons**: Remember that `"100" < "20"` is true (lexical order), not numeric comparison
+- **Case sensitivity**: `status == "Active"` differs from `status == "active"`
+
+### Prevent Alert Storms
+Use conditions to prevent rapid-fire notifications for transient issues:
+
+```
+errorCount > 5    # Not just errorCount > 0
+cpuUsage > 90     # Not cpuUsage > 50
+failureRate > 0.1 # Not just hasFailures
+```
+
+Combine with appropriate thresholds to reduce noise without missing critical events.
+
+### Use Business Hours Filtering
+Combine severity with time-based conditions:
+
+```
+severity == "critical" || (severity == "high" && hour >= 9 && hour < 17)
+```
+
+This sends critical alerts 24/7, but high-priority alerts only during business hours.
+
+### Leverage Header Checks
+Validate webhook sources to prevent spam or unauthorized triggers:
+
+```
+header["x-webhook-source"] == "grafana" || header["user-agent"].includes("Prometheus")
+```
+
+This adds a layer of security by checking request origin.
+
+## Real-World Examples
+
+### Server Monitoring - Progressive Alerts
+```
+# Only alert when CPU is consistently high, not transient spikes
+cpu > 80 && duration >= 300
+```
+
+### E-commerce - High-Value Orders
+```
+# Only notify for orders above $500 or fraud-flagged orders
+orderAmount > 500 || isFraudSuspected == true
+```
+
+### Development - Critical Build Failures
+```
+# Alert only for main branch failures or failed deployments
+(branch == "main" || branch == "master") && status == "failed"
+```
+
+### IoT - Environmental Monitoring
+```
+# Temperature extremes outside acceptable range
+temperature < 15 || temperature > 28
+```
+
+### Security - Failed Login Attempts
+```
+# Multiple failed logins from same IP in short time
+failedAttempts >= 3 && timeSinceFirst < 300
+```
+
+### CI/CD - Deployment Tracking
+```
+# Only notify on production deploys or staging failures
+(environment == "production") || (environment == "staging" && status == "failed")
+```
+
+### Trading - Price Alerts
+```
+# Significant price movements beyond threshold
+(priceChange > 5 || priceChange < -5) && volume > 1000000
+```
+
+### Support - SLA Violations
+```
+# Tickets approaching or exceeding SLA
+ticketAge > slaThreshold || priority == "urgent"
+```
+
+## Common Condition Patterns
+
+### Threshold-Based Alerting
+```
+value > threshold
+percentage >= 90
+count < minimumRequired
+```
+
+### Status-Based Filtering
+```
+status == "error" || status == "critical"
+state != "healthy"
+isActive == true
+```
+
+### Time-Window Filtering
+```
+# Business hours only (9 AM - 5 PM UTC, Monday-Friday)
 hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
+
+# After hours only
+hour < 9 || hour >= 17 || dayOfWeek == 0 || dayOfWeek == 6
+
+# Weekend maintenance windows
+(dayOfWeek == 0 || dayOfWeek == 6) && hour >= 2 && hour < 6
 ```
 
-### Filter by user type
-
+### Multi-Factor Conditions
 ```
-userType == "admin" || userRole == "supervisor"
-```
+# Combine multiple criteria
+severity == "high" && environment == "production" && region == "us-east-1"
 
-### Check request origin
-
-```
-header["origin"] == "https://trusted-site.com" || header["referer"].includes("trusted-domain.com")
+# Either critical OR production with high severity
+severity == "critical" || (severity == "high" && environment == "production")
 ```
 
-### Monitor threshold violations
-
+### String Matching
 ```
-metricValue > threshold && isMonitoring == true
+# Contains check
+message.includes("ERROR")
+errorType.includes("Database")
+
+# String comparison
+environment == "production"
+username != "test-user"
 ```
 
-By using conditions effectively, you can reduce notification noise and ensure that subscribers only receive alerts that are relevant and actionable for them.
+## Combining Conditions with Templates
+
+Conditions and [templates](/docs/template) work together to create smart, contextual notifications:
+
+**Condition** (filters which triggers send notifications):
+```
+temperature > 30 || humidity > 80
+```
+
+**Template** (formats the notification content):
+```
+Title: {{location}} Environment Alert
+Body: Temp: {{temperature}}°C, Humidity: {{humidity}}%
+Status: {{temperature > 35 ? "CRITICAL" : "WARNING"}}
+```
+
+This separation allows you to:
+1. **Filter** unwanted notifications with conditions
+2. **Format** important notifications with templates
+3. **Adapt** notification content based on severity
+
+Learn more about [template syntax and features](/docs/template).
+
+## Debugging Conditions
+
+If conditions aren't working as expected:
+
+1. **Simplify the condition** - Test with just one comparison at a time
+2. **Check variable names** - Ensure they match exactly (case-sensitive)
+3. **Verify data types** - Use test webhooks to confirm variable types
+4. **Test boolean logic** - Break complex conditions into smaller parts
+5. **Review operator precedence** - Use parentheses to clarify intent
+6. **Check for typos** - `header["content-type"]` not `header["Content-Type"]`
+
+## Related Documentation
+
+- **[Template Guide](/docs/template)** - Format notification content with variables
+- **[Webhook Integration](/docs/webhook)** - Pass variables via HTTP requests
+- **[Email Triggers](/docs/email-trigger)** - Variables from email triggers
+- **[Getting Started](/docs)** - Set up your first conditional channel
+
+## Next Steps
+
+Now that you understand conditions:
+
+- **[Create smart monitoring alerts](/docs/developer/grafana)** - Filter infrastructure alerts
+- **[Set up CI/CD notifications](/docs/developer/github)** - Alert only on important build events
+- **[Configure time-based alerts](/blog/time-window-notifications-using-utc-conditions)** - Business hours filtering
+- **[Explore all features](/docs/features)** - Discover what else Echobell can do
+
+---
+
+By using conditions effectively, you can reduce notification noise and ensure that subscribers only receive alerts that are relevant and actionable for them. Start with simple conditions and gradually build more sophisticated filtering logic as your needs evolve.

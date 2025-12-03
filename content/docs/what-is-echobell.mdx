@@ -1,23 +1,91 @@
 ---
-title: What is Echobell?
-description: Learn about Echobell, the instant alert app that simplifies notifications management.
+title: What is Echobell? Complete Guide to Instant Notification Management
+sidebarTitle: What is Echobell?
+description: Discover Echobell, the instant alert app that simplifies notification management for developers and teams. Learn about webhook triggers, email alerts, custom templates, and privacy-first notification delivery for iOS.
 ---
 
 # What is Echobell?
 
-Echobell is an instant alert application designed to simplify notifications management. It handles webhooks and emails to trigger customized notifications or calls, ensuring you never miss important alerts.
+Echobell is an instant alert application designed to simplify notification management for developers, DevOps teams, and anyone who needs reliable, customizable alerts. It bridges the gap between your systems and your mobile device by handling webhooks and emails to trigger customized notifications or phone call-style alerts, ensuring you never miss important information.
+
+Whether you're monitoring server infrastructure, tracking CI/CD pipelines, managing e-commerce operations, or coordinating team responses to critical events, Echobell provides a flexible, privacy-focused platform for instant notifications.
 
 ## Core Features
 
-- **Instant Alerts**: Receive notifications in real-time when your channels are triggered
-- **Multiple Trigger Methods**: Set up webhooks or email-based triggers
-- **Customizable Notifications**: Configure templates with dynamic variables
-- **Subscription System**: Create channels and let others subscribe to them
-- **Privacy-Focused**: Only essential data is stored on our servers, while notification history stays on your device
+### Instant Alerts
+Receive notifications in real-time when your channels are triggered. Whether it's a server outage, a failed build, or a critical business event, Echobell ensures the information reaches you immediately - typically within seconds of the trigger event.
+
+### Multiple Trigger Methods
+Set up **[webhooks](/docs/webhook)** or **[email-based triggers](/docs/email-trigger)** to fit your existing infrastructure:
+
+- **Webhook Integration**: Perfect for modern cloud services, monitoring tools, CI/CD pipelines, and any system that can make HTTP requests
+- **Email Triggers**: Ideal for legacy systems, email-based alerts, or forwarding important messages
+
+Both trigger methods support passing custom variables that populate your notification templates.
+
+### Customizable Notifications
+Configure **[templates with dynamic variables](/docs/template)** to create informative, context-rich notifications. Instead of generic "Something happened" alerts, get specific information like "Production server CPU usage: 95%" or "Build #142 failed in deploy stage".
+
+Templates support:
+- Variable substitution with `{{variableName}}` syntax
+- Object property access with `{{user.name}}`
+- Array element access with `{{items[0]}}`
+- Conditional expressions and logical operators
+
+### Subscription System
+Create channels and let others subscribe to them using secure, shareable links. Perfect for:
+- Team-wide incident notifications
+- Public status updates
+- Collaborative monitoring
+- Shared alerting channels
+
+### Privacy-Focused Architecture
+Only essential data is stored on our servers, while notification history stays on your device:
+
+- **Stored on servers**: User accounts, channel configurations, subscription relationships
+- **Stored locally**: Notification content, trigger history, alert records
+
+This design ensures your sensitive operational data never leaves your control. Learn more in our **[privacy documentation](/docs/support#privacy)**.
+
+### Advanced Filtering with Conditions
+Use **[conditional expressions](/docs/conditions)** to filter which triggers actually send notifications. For example:
+- Only alert when CPU usage exceeds 80%
+- Filter by specific HTTP headers
+- Notify only during business hours
+- Alert based on complex logical conditions
+
+This prevents alert fatigue by ensuring you only receive notifications that matter.
 
 ## How Echobell Works
 
-When a webhook is called or an email is received, Echobell processes the incoming data and sends notifications to all channel subscribers. The notification content is dynamically generated based on your templates and variables provided in the trigger.
+Echobell operates on a simple but powerful workflow:
+
+1. **Trigger Reception**: When a webhook is called or an email is received at a channel's unique address, Echobell's servers receive and validate the trigger.
+
+2. **Data Processing**: The incoming data (query parameters, JSON body, or email content) is parsed and made available as variables.
+
+3. **Condition Evaluation**: If the channel has **[conditions](/docs/conditions)** configured, they are evaluated against the trigger data. If conditions aren't met, the process stops here.
+
+4. **Template Rendering**: The channel's **[notification templates](/docs/template)** are populated with the variables from the trigger, generating the final notification title and body.
+
+5. **Notification Delivery**: The rendered notification is sent to all channel subscribers based on their chosen notification type (Normal, Time Sensitive, or Calling).
+
+6. **Local Storage**: On the recipient's device, the notification record is stored locally with the rendered content, timestamp, and any associated links.
+
+This architecture ensures fast delivery (typically under 1-2 seconds from trigger to notification) while maintaining privacy by keeping notification history on your device.
+
+### Real-World Example
+
+Imagine you have a production server being monitored by Prometheus:
+
+1. CPU usage exceeds 90%
+2. Prometheus sends a webhook to your Echobell channel with variables: `{server: "prod-01", cpu: 92, severity: "critical"}`
+3. Your template "Server {{server}}: CPU at {{cpu}}%" renders as "Server prod-01: CPU at 92%"
+4. The channel condition `cpu > 80` evaluates to true
+5. All subscribers receive the notification instantly on their iPhones
+6. If subscribed as "Calling" type, their phones ring like an incoming call
+
+Learn how to set this up in our **[Prometheus integration guide](/docs/developer/prometheus)**.
 
 ## Key Concepts
 
@@ -32,11 +100,17 @@ A channel is the core entity in Echobell. Each channel:
 
 ### Notification Types
 
-When subscribing to a channel, you can choose from three notification types:
+When subscribing to a channel, you can choose from three **[notification types](/docs/notification)** that determine how alerts appear and behave on your device:
 
-- **Normal**: Standard app notifications
-- **Time Sensitive**: Notifications that can break through certain focus modes
-- **Calling**: Call-like alerts for critical notifications
+- **Normal (Active)**: Standard app notifications that appear in your notification center. Respects Do Not Disturb and Focus modes. Best for informational updates, non-urgent alerts, and general monitoring.
+
+- **Time Sensitive**: High-priority notifications that can break through certain Focus modes. These appear prominently and are designed for important alerts that need attention soon but aren't critical emergencies. Examples: failed deployments, high resource usage, important business events.
+
+- **Calling**: Call-like alerts with full-screen interface and ringtone, similar to receiving a phone call. These bypass all Do Not Disturb settings and are impossible to miss. Reserve these for critical incidents: production outages, security breaches, or emergency situations requiring immediate response.
+
+The same channel can be subscribed to multiple times with different notification types if you want different urgency levels for the same alert source. For instance, you might subscribe to your production monitoring channel as "Time Sensitive" during work hours and "Calling" when you're on-call.
+
+Read the complete **[notification guide](/docs/notification)** to understand when to use each type and avoid alert fatigue.
 
 ### Template Variables
 
@@ -91,15 +165,86 @@ Echobell is designed with privacy in mind:
 
 ## Getting Started
 
-To start using Echobell, you'll need to:
+To start using Echobell, follow these steps:
 
-1. Download Echobell app from [App Store](https://apps.apple.com/app/id6743597198)
-2. Sign in using email or your Apple ID
-3. Create a channel and customize its settings
-4. Integrate your webhook or email trigger
-5. Start receiving notifications
+1. **Download** the Echobell app from [App Store](https://apps.apple.com/app/id6743597198) (iOS 15.0 or later)
+2. **Sign in** using your email address or Sign in with Apple for quick authentication
+3. **Create a channel** with a descriptive name and choose an identifying color
+4. **Configure templates** for your notification title and body
+5. **Get your webhook URL or email address** from the channel's Triggers section
+6. **Integrate** the trigger into your system or monitoring tool
+7. **Subscribe** to your channel and choose the appropriate notification type
+8. **Test** your setup with a test trigger to verify everything works
+
+Follow our comprehensive **[getting started guide](/docs)** for detailed step-by-step instructions with screenshots.
 
 <Callout type="warn">
-  Echobell requires notification permission to function properly, as all
-  features are notification-based.
+  Echobell requires notification permission to function properly, as all features are notification-based. You'll be prompted to grant this permission when you first open the app.
 </Callout>
+
+## Common Use Cases
+
+Echobell is used by developers, operations teams, and businesses for a wide variety of alerting scenarios:
+
+### For Developers
+- **CI/CD Pipeline Alerts**: Get notified when builds fail, tests break, or deployments complete. See our **[GitHub Actions integration](/docs/developer/github)** guide.
+- **Error Monitoring**: Receive instant alerts for application errors, exceptions, or API failures
+- **Performance Monitoring**: Track response times, error rates, and system health metrics
+- **Deployment Notifications**: Know when staging or production deployments succeed or fail
+
+### For DevOps and SRE
+- **Infrastructure Monitoring**: Alert on CPU, memory, disk, or network issues using **[Grafana](/docs/developer/grafana)** or **[Prometheus](/docs/developer/prometheus)**
+- **Service Uptime**: Monitor website and API availability with **[Uptime Kuma](/docs/developer/uptime-kuma)** or **[UptimeRobot](/docs/developer/uptimerobot)**
+- **Container & Kubernetes**: Get notified of pod failures, resource constraints, or scaling events
+- **Security Alerts**: Immediate notifications for authentication failures, intrusion attempts, or security policy violations
+
+### For Businesses
+- **E-commerce Operations**: Alerts for new orders, payment failures, inventory levels, or fulfillment issues
+- **Customer Support**: Notify team members of urgent support tickets or escalations
+- **Marketing Automation**: Trigger notifications based on campaign events, form submissions, or user actions
+- **Financial Transactions**: Real-time alerts for high-value transactions, refunds, or suspicious activity
+
+### For Home Automation
+- **Smart Home Notifications**: Integrate with **[Home Assistant](/docs/developer/home-assistant)** for security, environmental, or automation alerts
+- **IoT Device Monitoring**: Get notified when sensors detect events or devices go offline
+- **Security Systems**: Instant alerts for motion detection, door sensors, or camera events
+
+### For Traders and Investors
+- **Market Alerts**: Price notifications, technical indicator signals, or volatility alerts from **[TradingView](/docs/trader/tradingview)**
+- **Portfolio Monitoring**: Track portfolio value changes or position updates
+- **News and Events**: Get notified of market-moving news or economic events
+
+Explore our complete **[integration guides](/docs/features)** to see how to connect Echobell with your tools.
+
+## Why Choose Echobell?
+
+### Simplicity
+Unlike complex notification platforms requiring extensive configuration, Echobell works out of the box. Create a channel, get a webhook URL, and you're receiving notifications in minutes.
+
+### Flexibility
+Whether you need simple "something happened" alerts or rich, template-driven notifications with conditional logic, Echobell adapts to your needs without forcing you into a specific workflow.
+
+### Privacy
+Your notification data belongs to you. By storing notification history locally on your device rather than on our servers, we give you complete control over your alert records.
+
+### Reliability
+Built on modern cloud infrastructure with global reach, Echobell delivers notifications fast and reliably. Most alerts arrive within 1-2 seconds of the trigger event.
+
+### No Vendor Lock-in
+Echobell uses standard protocols (HTTP webhooks and SMTP email). You can easily switch to another service or self-hosted solution without rewriting your integrations.
+
+## Next Steps
+
+Ready to get started with Echobell?
+
+- **[Complete Setup Guide](/docs)** - Step-by-step instructions for creating your first channel
+- **[Webhook Integration](/docs/webhook)** - Learn how to trigger notifications via HTTP
+- **[Template Guide](/docs/template)** - Master template syntax for rich notifications  
+- **[Popular Integrations](/docs/features)** - Connect with tools you already use
+- **[Support](/docs/support)** - Get help and answers to common questions
+
+Or jump directly into an integration guide:
+- **[Monitor with Grafana](/docs/developer/grafana)** - Infrastructure monitoring alerts
+- **[GitHub Actions Notifications](/docs/developer/github)** - CI/CD pipeline alerts
+- **[TradingView Alerts](/docs/trader/tradingview)** - Trading and market notifications
+- **[Home Assistant Integration](/docs/developer/home-assistant)** - Smart home alerts

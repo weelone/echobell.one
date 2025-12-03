@@ -1,15 +1,28 @@
 ---
-title: Webhook
-description: Learn how to integrate Echobell webhooks into your applications and services
+title: Webhook Integration - Complete Guide to HTTP Triggers
+sidebarTitle: Webhooks
+description: Learn how to integrate Echobell webhooks into your applications and services. Complete guide covering HTTP methods, variables, templates, headers, and real-world webhook integration examples for instant notifications.
 ---
 
 # Webhook Integration
 
+Webhooks are the most versatile way to trigger Echobell notifications. This comprehensive guide covers everything you need to know about integrating webhook-based alerts into your systems, from basic concepts to advanced usage patterns.
+
 ## What's webhook
 
-A webhook is a way for one application to provide real-time information to other applications. It's like a phone number that you give to someone - when they call that number, your phone rings. In the digital world, when something happens in one system, it sends an HTTP request to a URL (the webhook) that you provided, triggering an action in your system.
+A webhook is a way for one application to provide real-time information to other applications through HTTP callbacks. Think of it as a phone number that you give to someone - when they call that number, your phone rings. In the digital world, when something happens in one system (like high CPU usage, a failed build, or a new order), it sends an HTTP request to a URL (the webhook) that you provided, triggering an action in your system.
 
 For example, when your server's CPU usage goes too high, your monitoring system can call Echobell's webhook URL, which then triggers a notification to alert you. This happens automatically and in real-time, without you having to constantly check the CPU usage yourself.
+
+Webhooks are the foundation of event-driven architectures and are supported by virtually all modern cloud services, monitoring tools, and SaaS platforms. They're lightweight, fast, and don't require any special infrastructure on your side - just an HTTP client.
+
+### Benefits of Webhooks
+
+- **Real-time**: Events trigger notifications instantly, typically within 1-2 seconds
+- **Universal**: Supported by almost every modern service and programming language
+- **Flexible**: Pass custom data to create rich, contextual notifications
+- **Reliable**: HTTP-based, with standard status codes and error handling
+- **Scalable**: No polling required - notifications sent only when events occur
 
 ## Overview
 
@@ -85,39 +98,223 @@ In addition to data you send, Echobell provides read‑only system time variable
 
 ## Common Use Cases
 
-Webhooks are particularly useful for:
+Webhooks are the most popular trigger method in Echobell and are particularly useful for:
 
-- Server monitoring and alerts
-- CI/CD pipeline notifications
-- IoT device status updates
-- Application error tracking
-- E-commerce order notifications
-- Automated system alerts
+### DevOps and Monitoring
+- **Server Monitoring**: CPU, memory, disk usage alerts from monitoring systems like [Prometheus](/docs/developer/prometheus) or [Grafana](/docs/developer/grafana)
+- **Uptime Monitoring**: Website and service availability alerts from [Uptime Kuma](/docs/developer/uptime-kuma) or [UptimeRobot](/docs/developer/uptimerobot)
+- **Container Monitoring**: Docker, Kubernetes pod failures, and resource constraints
+- **Log Aggregation**: Critical errors and exceptions from log management systems
+
+### Development and CI/CD
+- **Build Notifications**: Failed builds, test results, deployment status from [GitHub Actions](/docs/developer/github) or GitLab CI
+- **Code Quality**: Lint errors, security vulnerabilities, code coverage changes
+- **Repository Events**: Pull requests, commits, releases, and collaborator activity
+- **Deployment Tracking**: Successful deployments, rollbacks, and environment changes
+
+### Business Applications
+- **E-commerce**: New orders, payment confirmations, inventory warnings, shipping updates
+- **CRM**: New leads, deal closures, support tickets, customer interactions
+- **Payment Processing**: Transaction completions, refund requests, fraud alerts
+- **Form Submissions**: Contact forms, survey responses, registration completions
+
+### IoT and Smart Home
+- **Smart Home Events**: Door sensors, motion detection, temperature changes via [Home Assistant](/docs/developer/home-assistant)
+- **IoT Devices**: Sensor readings, device status changes, connectivity issues
+- **Security Systems**: Alarm triggers, camera motion detection, access control events
+- **Environmental Monitoring**: Temperature, humidity, air quality threshold breaches
+
+### Trading and Finance
+- **Market Alerts**: Price movements, technical indicators from [TradingView](/docs/trader/tradingview)
+- **Portfolio Monitoring**: Position changes, margin calls, account balances
+- **Economic Events**: News releases, earning reports, market sentiment changes
+
+See our [integration guides](/docs/features) for specific setup instructions for popular platforms.
 
 ## Best Practices
 
-1. **Error Handling**: Always check the HTTP response status from webhook calls to ensure successful delivery
-2. **Rate Limiting**: Implement reasonable delays between webhook calls to avoid overwhelming your notification system
-3. **Data Security**: Only share webhook URLs with trusted systems and services
-4. **Testing**: Test your webhook integration with minimal data before implementing in production
+### Error Handling
+Always check the HTTP response status from webhook calls to ensure successful delivery:
+
+- **200 OK**: Webhook received and processed successfully
+- **400 Bad Request**: Invalid webhook URL or malformed request
+- **429 Too Many Requests**: Rate limit exceeded, implement backoff
+- **500 Server Error**: Temporary issue, retry with exponential backoff
+
+Most HTTP clients automatically handle redirects and basic errors, but implementing proper error handling prevents lost notifications.
+
+### Rate Limiting
+Implement reasonable delays between webhook calls to avoid overwhelming your notification system:
+
+- For continuous monitoring, batch multiple events into single notifications
+- Use [conditions](/docs/conditions) to filter out non-critical events
+- Consider aggregating rapid-fire events (e.g., multiple errors in short time)
+- Respect rate limits to ensure reliable delivery for critical alerts
+
+### Data Security
+Only share webhook URLs with trusted systems and services:
+
+- Treat webhook URLs as secrets - they provide direct access to send notifications
+- Don't commit webhook URLs to public repositories or share in public documentation
+- Rotate webhook URLs periodically or when team members leave
+- Use the channel's "Reset Token" feature to invalidate old URLs if compromised
+- Consider using environment variables or secret management systems to store URLs
+
+### Variable Naming
+Use clear, consistent variable names in your webhook calls:
+
+- Use descriptive names: `server_name` instead of `s` or `srv`
+- Follow a consistent naming convention across channels
+- Document which variables your templates expect
+- Validate that all required variables are present before sending
+
+### Testing
+Test your webhook integration thoroughly before implementing in production:
+
+1. Use tools like `curl`, Postman, or your language's HTTP client for initial testing
+2. Start with simple templates and gradually add complexity
+3. Test both GET and POST methods to find what works best
+4. Verify that special characters and Unicode are handled correctly
+5. Test error scenarios (missing variables, malformed JSON) to understand behavior
+6. Use [test channels](/docs) separate from production channels during development
+
+### Template Design
+Design templates that remain useful even when optional variables are missing:
+
+- Provide default values or fallbacks for optional data
+- Structure templates to gracefully handle missing variables
+- Test templates with various combinations of present and absent variables
+- Use [conditional expressions](/docs/template) for optional sections
+
+### Monitoring
+Monitor your webhook integrations to ensure they're working correctly:
+
+- Log successful and failed webhook calls in your application
+- Track notification delivery rates and response times
+- Set up alerts for webhook errors or unusual patterns
+- Periodically review and test critical webhook integrations
 
 ## Privacy and Security
 
-Remember that:
+Understanding how Echobell handles your webhook data:
 
-- Webhook URLs should be treated as secrets
-- Only send necessary data in webhook requests
-- All notification content is stored locally on subscribers' devices
-- Our servers only process the webhook request and route notifications
+### What Gets Stored
+
+- **On Our Servers**: 
+  - Webhook URLs (tokens) - needed to route incoming requests to channels
+  - Channel configurations - templates, conditions, settings
+  - Subscription relationships - which users subscribe to which channels
+  
+- **On Your Device**:
+  - Notification content - the rendered title and body text
+  - Trigger history - when notifications were received
+  - Variable values - the data passed in webhook calls
+  - Links and metadata - `externalLink` and other associated data
+
+### What Doesn't Get Stored
+
+- We don't permanently store the raw webhook payloads
+- We don't log or retain sensitive data from your requests
+- We don't analyze or process notification content for any purpose
+- We don't share your webhook data with third parties
+
+### Security Recommendations
+
+- **Treat webhook URLs as API keys** - they provide authentication-free access to send notifications
+- **Rotate URLs regularly** - use the "Reset Token" feature to generate new URLs
+- **Use HTTPS clients** - while we only accept HTTPS connections, ensure your client validates certificates
+- **Validate webhook sources** - if possible, restrict which IPs or services can call your webhooks
+- **Monitor for abuse** - watch for unusual patterns or unauthorized usage
+- **Separate environments** - use different channels for development, staging, and production
+
+Learn more in our [support documentation](/docs/support).
 
 ## Troubleshooting
 
-If your webhooks aren't working as expected:
+If your webhooks aren't working as expected, try these diagnostic steps:
 
-1. Verify the webhook URL is correct
-2. Check if the channel is active
-3. Ensure your JSON payload is properly formatted (for POST requests)
-4. Confirm that all required variables in your templates are being provided
-5. Check if the channel has active subscribers
+### Webhook Not Triggering Notifications
 
-Need help? Visit our [Support Center](/docs/support) or contact us at echobell@weelone.com.
+1. **Verify the webhook URL is correct**
+   - Copy the URL directly from the Echobell app
+   - Ensure no extra spaces or characters were added
+   - Check that you're using `https://hook.echobell.one/t/` not any other domain
+
+2. **Check if the channel is active**
+   - Open the channel in the Echobell app
+   - Verify it hasn't been deleted or archived
+   - Confirm you haven't reset the webhook token (which would invalidate the URL)
+
+3. **Ensure your JSON payload is properly formatted** (for POST requests)
+   - Use a JSON validator to check your payload
+   - Ensure proper quotes around strings
+   - Verify Content-Type header is set to `application/json`
+
+4. **Confirm that all required variables in your templates are being provided**
+   - Check your notification templates to see which variables they use
+   - Verify those variables are in your webhook request (query params or JSON body)
+   - Remember that missing variables will render as empty strings
+
+5. **Check if the channel has active subscribers**
+   - Notifications are only sent if someone is subscribed to the channel
+   - Verify your subscription in the app's channel list
+   - Check that subscriptions haven't been accidentally removed
+
+### Notifications Rendering Incorrectly
+
+1. **Variable names don't match**
+   - Template uses `{{server_name}}` but webhook sends `serverName`
+   - Variable names are case-sensitive and must match exactly
+   - Check for typos in variable names
+
+2. **Nested data not accessible**
+   - Use dot notation: `{{user.name}}` or bracket notation: `{{user["name"]}}`
+   - Verify the structure of your JSON matches your template expectations
+   - Test with simple flat variables first, then add nesting
+
+3. **Special characters causing issues**
+   - URL-encode query parameters properly
+   - Escape special JSON characters in POST bodies
+   - Test with simple ASCII text first
+
+### Testing Your Integration
+
+Use `curl` to test your webhook directly:
+
+```bash
+# Test with query parameters
+curl "https://hook.echobell.one/t/YOUR_TOKEN?test=hello&status=working"
+
+# Test with JSON body
+curl -X POST https://hook.echobell.one/t/YOUR_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{"test": "hello", "status": "working"}'
+```
+
+You should receive a notification immediately if everything is configured correctly.
+
+### Still Having Issues?
+
+If you've tried the above steps and still experiencing problems:
+
+- Visit our [Support Center](/docs/support) for more troubleshooting guides
+- Check if there are known issues or service status updates
+- Contact us at echobell@weelone.com with:
+  - Description of the problem
+  - Steps you've tried
+  - Example webhook URL (with token removed/redacted)
+  - Sample request payload
+  - Expected vs. actual behavior
+
+## Next Steps
+
+Now that you understand webhook integration:
+
+- **[Learn Template Syntax](/docs/template)** - Create dynamic, informative notifications
+- **[Use Conditions](/docs/conditions)** - Filter notifications based on data
+- **[Explore Integrations](/docs/features)** - Connect with tools you already use
+- **[Set Up Grafana Alerts](/docs/developer/grafana)** - Monitor infrastructure
+- **[Configure GitHub Actions](/docs/developer/github)** - Get CI/CD notifications
+- **[Email Triggers](/docs/email-trigger)** - Alternative trigger method for email-based systems
+
+Ready to integrate Echobell with your systems? Create your first channel and start receiving instant notifications!

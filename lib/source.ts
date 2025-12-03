@@ -9,6 +9,25 @@ export const source = loader({
   i18n,
   baseUrl: '/docs',
   source: docs.toFumadocsSource(),
+  // Use pageTree.transformers to customize sidebar titles
+  pageTree: {
+    transformers: [
+      {
+        name: 'sidebarTitle',
+        file(node, filePath) {
+          // Use sidebarTitle if available, otherwise keep the default title
+          if (filePath) {
+            const fileData = this.storage.read(filePath);
+            const sidebarTitle = (fileData?.data as { sidebarTitle?: string })?.sidebarTitle;
+            if (sidebarTitle) {
+              node.name = sidebarTitle;
+            }
+          }
+          return node;
+        },
+      },
+    ],
+  },
 });
 
 export const blog = loader({
