@@ -6,19 +6,95 @@ description: Entdecken Sie Echobell, die Instant-Alert-App für Entwickler und T
 
 # Was ist Echobell?
 
-Echobell ist eine Instant-Alert-Anwendung, die entwickelt wurde, um das Benachrichtigungsmanagement zu vereinfachen. Sie verarbeitet Webhooks und E-Mails, um angepasste Benachrichtigungen zu senden und sicherzustellen, dass Sie keine wichtigen Alarme verpassen.
+Echobell ist eine Instant-Alert-Anwendung, die entwickelt wurde, um das Benachrichtigungsmanagement für Entwickler, DevOps-Teams und alle, die zuverlässige, anpassbare Alarme benötigen, zu vereinfachen. Sie überbrückt die Lücke zwischen Ihren Systemen und Ihrem mobilen Gerät, indem sie Webhooks und E-Mails verarbeitet, um angepasste Benachrichtigungen oder telefonähnliche Alarme auszulösen, damit Sie keine wichtigen Informationen verpassen.
+
+Ob Sie Server-Infrastruktur überwachen, CI/CD-Pipelines verfolgen, E-Commerce-Operationen verwalten oder Team-Reaktionen auf kritische Ereignisse koordinieren – Echobell bietet eine flexible, datenschutzorientierte Plattform für sofortige Benachrichtigungen.
 
 ## Kernfunktionen
 
-- **Sofortige Alarme**: Empfangen Sie Benachrichtigungen in Echtzeit, wenn Ihre Kanäle ausgelöst werden
-- **Mehrere Auslösemethoden**: Richten Sie Webhook- oder E-Mail-basierte Auslöser ein
-- **Anpassbare Benachrichtigungen**: Konfigurieren Sie Vorlagen mit dynamischen Variablen
-- **Abonnementsystem**: Erstellen Sie Kanäle und lassen Sie andere diese abonnieren
-- **Datenschutzorientiert**: Nur essenzielle Daten werden auf unseren Servern gespeichert, während der Benachrichtigungsverlauf auf Ihrem Gerät bleibt
+### Sofortige Alarme
+
+Empfangen Sie Benachrichtigungen in Echtzeit, wenn Ihre Kanäle ausgelöst werden. Ob Serverausfall, fehlgeschlagener Build oder kritisches Geschäftsereignis – Echobell stellt sicher, dass die Informationen Sie sofort erreichen, typischerweise innerhalb von Sekunden nach dem Auslöseereignis.
+
+### Mehrere Auslösemethoden
+
+Richten Sie **[Webhooks](/de/docs/webhook)** oder **[E-Mail-basierte Auslöser](/de/docs/email-trigger)** ein, die zu Ihrer bestehenden Infrastruktur passen:
+
+- **Webhook-Integration**: Perfekt für moderne Cloud-Dienste, Monitoring-Tools, CI/CD-Pipelines und jedes System, das HTTP-Anfragen senden kann
+- **E-Mail-Auslöser**: Ideal für Legacy-Systeme, E-Mail-basierte Alarme oder das Weiterleiten wichtiger Nachrichten
+
+Beide Auslösemethoden unterstützen die Übergabe benutzerdefinierter Variablen, die Ihre Benachrichtigungsvorlagen füllen.
+
+### Anpassbare Benachrichtigungen
+
+Konfigurieren Sie **[Vorlagen mit dynamischen Variablen](/de/docs/template)**, um informative, kontextreiche Benachrichtigungen zu erstellen. Statt generischer "Etwas ist passiert"-Alarme erhalten Sie spezifische Informationen wie "Produktionsserver CPU-Auslastung: 95%" oder "Build #142 fehlgeschlagen in Deploy-Phase".
+
+Vorlagen unterstützen:
+
+- Variablensubstitution mit `{{variableName}}`-Syntax
+- Objekteigenschaftszugriff mit `{{user.name}}`
+- Array-Elementzugriff mit `{{items[0]}}`
+- Bedingte Ausdrücke und logische Operatoren
+
+### Abonnementsystem
+
+Erstellen Sie Kanäle und lassen Sie andere sie über sichere, teilbare Links abonnieren. Perfekt für:
+
+- Teamweite Vorfallbenachrichtigungen
+- Öffentliche Statusaktualisierungen
+- Gemeinsame Überwachung
+- Geteilte Alarmkanäle
+
+### Datenschutzorientierte Architektur
+
+Nur wesentliche Daten werden auf unseren Servern gespeichert, während der Benachrichtigungsverlauf auf Ihrem Gerät bleibt:
+
+- **Auf Servern gespeichert**: Benutzerkonten, Kanalkonfigurationen, Abonnementbeziehungen
+- **Lokal gespeichert**: Benachrichtigungsinhalte, Auslöseverlauf, Alarmaufzeichnungen
+
+Dieses Design stellt sicher, dass Ihre sensiblen Betriebsdaten niemals Ihre Kontrolle verlassen. Erfahren Sie mehr in unserer **[Datenschutzdokumentation](/de/docs/support#privacy)**.
+
+### Erweiterte Filterung mit Bedingungen
+
+Verwenden Sie **[bedingte Ausdrücke](/de/docs/conditions)**, um zu filtern, welche Auslöser tatsächlich Benachrichtigungen senden. Zum Beispiel:
+
+- Nur benachrichtigen, wenn die CPU-Auslastung 80% überschreitet
+- Nach bestimmten HTTP-Headern filtern
+- Nur während der Geschäftszeiten benachrichtigen
+- Basierend auf komplexen logischen Bedingungen alarmieren
+
+Dies verhindert Alarm-Müdigkeit, indem sichergestellt wird, dass Sie nur wichtige Benachrichtigungen erhalten.
 
 ## Wie Echobell funktioniert
 
-Wenn ein Webhook aufgerufen oder eine E-Mail empfangen wird, verarbeitet Echobell die eingehenden Daten und sendet Benachrichtigungen an alle Kanalabonnenten. Der Benachrichtigungsinhalt wird dynamisch basierend auf Ihren Vorlagen und den im Auslöser bereitgestellten Variablen generiert.
+Echobell arbeitet mit einem einfachen, aber leistungsstarken Workflow:
+
+1. **Auslöserempfang**: Wenn ein Webhook aufgerufen oder eine E-Mail an die eindeutige Adresse eines Kanals empfangen wird, empfangen und validieren Echobells Server den Auslöser.
+
+2. **Datenverarbeitung**: Die eingehenden Daten (Abfrageparameter, JSON-Body oder E-Mail-Inhalt) werden geparst und als Variablen verfügbar gemacht.
+
+3. **Bedingungsauswertung**: Wenn der Kanal **[Bedingungen](/de/docs/conditions)** konfiguriert hat, werden diese gegen die Auslöserdaten ausgewertet. Wenn die Bedingungen nicht erfüllt sind, stoppt der Prozess hier.
+
+4. **Vorlagen-Rendering**: Die **[Benachrichtigungsvorlagen](/de/docs/template)** des Kanals werden mit den Variablen aus dem Auslöser gefüllt und generieren den endgültigen Benachrichtigungstitel und -text.
+
+5. **Benachrichtigungszustellung**: Die gerenderte Benachrichtigung wird an alle Kanalabonnenten basierend auf ihrem gewählten Benachrichtigungstyp (Normal, Zeitkritisch oder Anruf) gesendet.
+
+6. **Lokale Speicherung**: Auf dem Gerät des Empfängers wird der Benachrichtigungseintrag lokal mit dem gerenderten Inhalt, Zeitstempel und zugehörigen Links gespeichert.
+
+Diese Architektur gewährleistet schnelle Zustellung (typischerweise unter 1-2 Sekunden vom Auslöser bis zur Benachrichtigung) bei gleichzeitiger Wahrung der Privatsphäre durch Speicherung des Benachrichtigungsverlaufs auf Ihrem Gerät.
+
+### Praxisbeispiel
+
+Stellen Sie sich vor, Sie haben einen Produktionsserver, der von Prometheus überwacht wird:
+
+1. Die CPU-Auslastung überschreitet 90%
+2. Prometheus sendet einen Webhook an Ihren Echobell-Kanal mit Variablen: `{"server": "prod-01", "cpu": 92, "severity": "critical"}`
+3. Ihre Vorlage "Server \{\{server\}\}: CPU bei \{\{cpu\}\}%" wird als "Server prod-01: CPU bei 92%" gerendert
+4. Die Kanalbedingung `cpu > 80` wird als wahr ausgewertet
+5. Alle Abonnenten erhalten die Benachrichtigung sofort auf ihren iPhones
+6. Wenn als "Anruf"-Typ abonniert, klingeln ihre Telefone wie bei einem eingehenden Anruf
+
+Erfahren Sie, wie Sie dies einrichten, in unserem **[Prometheus-Integrationsleitfaden](/de/docs/developer/prometheus)**.
 
 ## Schlüsselkonzepte
 
@@ -33,11 +109,17 @@ Ein Kanal ist die Kerneinheit in Echobell. Jeder Kanal:
 
 ### Benachrichtigungstypen
 
-Beim Abonnieren eines Kanals können Sie aus drei Benachrichtigungstypen wählen:
+Beim Abonnieren eines Kanals können Sie aus drei **[Benachrichtigungstypen](/de/docs/notification)** wählen, die bestimmen, wie Alarme auf Ihrem Gerät erscheinen und sich verhalten:
 
-- **Normal**: Standard-App-Benachrichtigungen
-- **Zeitkritisch**: Benachrichtigungen, die bestimmte Fokusmodi durchbrechen können
-- **Anruf**: Anruf-ähnliche Alarme für kritische Benachrichtigungen
+- **Normal (Aktiv)**: Standard-App-Benachrichtigungen, die in Ihrem Benachrichtigungscenter erscheinen. Respektiert "Nicht stören"- und Fokus-Modi. Am besten für informative Updates, nicht dringende Alarme und allgemeine Überwachung.
+
+- **Zeitkritisch**: Hochprioritäts-Benachrichtigungen, die bestimmte Fokus-Modi durchbrechen können. Diese erscheinen prominent und sind für wichtige Alarme konzipiert, die bald Aufmerksamkeit erfordern, aber keine kritischen Notfälle sind. Beispiele: fehlgeschlagene Bereitstellungen, hohe Ressourcennutzung, wichtige Geschäftsereignisse.
+
+- **Anruf**: Anrufähnliche Alarme mit Vollbildschnittstelle und Klingelton, ähnlich wie beim Empfangen eines Telefonanrufs. Diese umgehen alle "Nicht stören"-Einstellungen und sind unmöglich zu übersehen. Reservieren Sie diese für kritische Vorfälle: Produktionsausfälle, Sicherheitsverletzungen oder Notfallsituationen, die sofortige Reaktion erfordern.
+
+Der gleiche Kanal kann mehrfach mit verschiedenen Benachrichtigungstypen abonniert werden, wenn Sie unterschiedliche Dringlichkeitsstufen für dieselbe Alarmquelle wünschen. Sie könnten beispielsweise Ihren Produktionsüberwachungskanal während der Arbeitszeit als "Zeitkritisch" und während Bereitschaftszeiten als "Anruf" abonnieren.
+
+Lesen Sie den vollständigen **[Benachrichtigungsleitfaden](/de/docs/notification)**, um zu verstehen, wann Sie jeden Typ verwenden sollten und Alarm-Müdigkeit vermeiden.
 
 ### Vorlagenvariablen
 
@@ -52,10 +134,36 @@ Wenn diese Vorlagen mit den entsprechenden Variablen ausgelöst werden, generier
 
 ### Auslösemethoden
 
-Echobell unterstützt zwei Hauptauslösemethoden:
+#### Webhook-Auslöser
 
-- **Webhook**: HTTP-Endpunkte zur Systemintegration
-- **E-Mail**: Dedizierte E-Mail-Adressen zum Auslösen von Benachrichtigungen
+Lösen Sie Kanäle über HTTP-Anfragen mit Variablen in Abfragezeichenfolgen oder JSON-Bodies aus:
+
+```http
+GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+
+# ODER
+
+POST https://hook.echobell.one/t/xxx
+Content-Type: application/json
+
+{
+  "server_name": "Production",
+  "cpu_usage": 95
+}
+```
+
+**Spezielle Variablen**
+
+- `externalLink`: Wenn in der Anfrage enthalten, wird ein klickbarer Link in der Benachrichtigungsaufzeichnungsansicht erstellt
+
+#### E-Mail-Auslöser
+
+Senden Sie E-Mails an kanalspezifische Adressen. Echobell extrahiert automatisch Variablen wie:
+
+- `from`: E-Mail-Adresse des Absenders
+- `subject`: E-Mail-Betreffzeile
+- `text`: Klartext-Inhalt
+- `html`: HTML-Inhalt
 
 ## Datenschutz und Datenspeicherung
 
@@ -66,15 +174,99 @@ Echobell wurde mit Datenschutz im Fokus entwickelt:
 
 ## Erste Schritte
 
-Um Echobell zu nutzen, müssen Sie:
+Um Echobell zu nutzen, folgen Sie diesen Schritten:
 
-1. Echobell-App aus dem [App Store](https://apps.apple.com/app/id6743597198) herunterladen
-2. Mit E-Mail oder Ihrer Apple-ID anmelden
-3. Einen Kanal erstellen und seine Einstellungen anpassen
-4. Ihren Webhook oder E-Mail-Auslöser integrieren
-5. Beginnen Sie mit dem Empfang von Benachrichtigungen
+1. **Herunterladen** der Echobell-App aus dem [App Store](https://apps.apple.com/app/id6743597198) (iOS 15.0 oder höher)
+2. **Anmelden** mit Ihrer E-Mail-Adresse oder "Mit Apple anmelden" für schnelle Authentifizierung
+3. **Erstellen Sie einen Kanal** mit einem beschreibenden Namen und wählen Sie eine identifizierende Farbe
+4. **Konfigurieren Sie Vorlagen** für Ihren Benachrichtigungstitel und -text
+5. **Holen Sie sich Ihre Webhook-URL oder E-Mail-Adresse** aus dem Auslöser-Bereich des Kanals
+6. **Integrieren** Sie den Auslöser in Ihr System oder Überwachungstool
+7. **Abonnieren** Sie Ihren Kanal und wählen Sie den entsprechenden Benachrichtigungstyp
+8. **Testen** Sie Ihr Setup mit einem Testauslöser, um zu überprüfen, ob alles funktioniert
+
+Folgen Sie unserem umfassenden **[Erste-Schritte-Leitfaden](/de/docs)** für detaillierte Schritt-für-Schritt-Anweisungen mit Screenshots.
 
 <Callout type="warn">
   Echobell benötigt Benachrichtigungsberechtigungen, um ordnungsgemäß zu
-  funktionieren, da alle Funktionen benachrichtigungsbasiert sind.
+  funktionieren, da alle Funktionen benachrichtigungsbasiert sind. Sie werden
+  beim ersten Öffnen der App aufgefordert, diese Berechtigung zu erteilen.
 </Callout>
+
+## Häufige Anwendungsfälle
+
+Echobell wird von Entwicklern, Betriebsteams und Unternehmen für eine Vielzahl von Alarmierungsszenarien verwendet:
+
+### Für Entwickler
+
+- **CI/CD-Pipeline-Alarme**: Benachrichtigt werden, wenn Builds fehlschlagen, Tests brechen oder Bereitstellungen abgeschlossen werden. Siehe unseren **[GitHub Actions-Integrationsleitfaden](/de/docs/developer/github)**.
+- **Fehlerüberwachung**: Sofortige Alarme für Anwendungsfehler, Ausnahmen oder API-Ausfälle erhalten
+- **Leistungsüberwachung**: Antwortzeiten, Fehlerraten und Systemgesundheitsmetriken verfolgen
+- **Bereitstellungsbenachrichtigungen**: Wissen, wann Staging- oder Produktionsbereitstellungen erfolgreich sind oder fehlschlagen
+
+### Für DevOps und SRE
+
+- **Infrastrukturüberwachung**: Alarme bei CPU-, Speicher-, Festplatten- oder Netzwerkproblemen mit **[Grafana](/de/docs/developer/grafana)** oder **[Prometheus](/de/docs/developer/prometheus)**
+- **Service-Verfügbarkeit**: Website- und API-Verfügbarkeit überwachen mit **[Uptime Kuma](/de/docs/developer/uptime-kuma)** oder **[UptimeRobot](/de/docs/developer/uptimerobot)**
+- **Container & Kubernetes**: Benachrichtigung über Pod-Ausfälle, Ressourcenbeschränkungen oder Skalierungsereignisse
+- **Sicherheitsalarme**: Sofortige Benachrichtigungen bei Authentifizierungsfehlern, Eindringversuchen oder Sicherheitsrichtlinienverletzungen
+
+### Für Unternehmen
+
+- **E-Commerce-Betrieb**: Alarme für neue Bestellungen, Zahlungsfehler, Lagerbestände oder Erfüllungsprobleme
+- **Kundensupport**: Teammitglieder über dringende Support-Tickets oder Eskalationen benachrichtigen
+- **Marketing-Automatisierung**: Benachrichtigungen basierend auf Kampagnenereignissen, Formulareinreichungen oder Benutzeraktionen auslösen
+- **Finanztransaktionen**: Echtzeit-Alarme für hochwertige Transaktionen, Rückerstattungen oder verdächtige Aktivitäten
+
+### Für Heimautomatisierung
+
+- **Smart-Home-Benachrichtigungen**: Integration mit **[Home Assistant](/de/docs/developer/home-assistant)** für Sicherheits-, Umwelt- oder Automatisierungsalarme
+- **IoT-Geräteüberwachung**: Benachrichtigt werden, wenn Sensoren Ereignisse erkennen oder Geräte offline gehen
+- **Sicherheitssysteme**: Sofortige Alarme für Bewegungserkennung, Türsensoren oder Kameraereignisse
+
+### Für Trader und Investoren
+
+- **Marktalarme**: Preisbenachrichtigungen, technische Indikatorsignale oder Volatilitätsalarme von **[TradingView](/de/docs/trader/tradingview)**
+- **Portfolio-Überwachung**: Portfoliowertänderungen oder Positionsupdates verfolgen
+- **Nachrichten und Ereignisse**: Benachrichtigt werden über marktbewegende Nachrichten oder Wirtschaftsereignisse
+
+Entdecken Sie unsere vollständigen **[Integrationsleitfäden](/de/docs/features)**, um zu sehen, wie Sie Echobell mit Ihren Tools verbinden können.
+
+## Warum Echobell wählen?
+
+### Einfachheit
+
+Im Gegensatz zu komplexen Benachrichtigungsplattformen, die umfangreiche Konfiguration erfordern, funktioniert Echobell sofort. Erstellen Sie einen Kanal, holen Sie sich eine Webhook-URL, und Sie empfangen Benachrichtigungen in Minuten.
+
+### Flexibilität
+
+Ob Sie einfache "etwas ist passiert"-Alarme oder umfangreiche, vorlagengesteuerte Benachrichtigungen mit bedingter Logik benötigen – Echobell passt sich Ihren Bedürfnissen an, ohne Sie in einen bestimmten Workflow zu zwingen.
+
+### Datenschutz
+
+Ihre Benachrichtigungsdaten gehören Ihnen. Durch die lokale Speicherung des Benachrichtigungsverlaufs auf Ihrem Gerät statt auf unseren Servern geben wir Ihnen die vollständige Kontrolle über Ihre Alarmaufzeichnungen.
+
+### Zuverlässigkeit
+
+Aufgebaut auf moderner Cloud-Infrastruktur mit globaler Reichweite, liefert Echobell Benachrichtigungen schnell und zuverlässig. Die meisten Alarme kommen innerhalb von 1-2 Sekunden nach dem Auslöseereignis an.
+
+### Kein Vendor Lock-in
+
+Echobell verwendet Standardprotokolle (HTTP-Webhooks und SMTP-E-Mail). Sie können problemlos zu einem anderen Dienst oder einer selbst gehosteten Lösung wechseln, ohne Ihre Integrationen neu schreiben zu müssen.
+
+## Nächste Schritte
+
+Bereit, mit Echobell zu beginnen?
+
+- **[Vollständiger Einrichtungsleitfaden](/de/docs)** - Schritt-für-Schritt-Anleitung zum Erstellen Ihres ersten Kanals
+- **[Webhook-Integration](/de/docs/webhook)** - Lernen Sie, wie Sie Benachrichtigungen über HTTP auslösen
+- **[Vorlagen-Leitfaden](/de/docs/template)** - Meistern Sie die Vorlagensyntax für umfangreiche Benachrichtigungen
+- **[Beliebte Integrationen](/de/docs/features)** - Verbinden Sie sich mit Tools, die Sie bereits verwenden
+- **[Support](/de/docs/support)** - Hilfe und Antworten auf häufige Fragen
+
+Oder springen Sie direkt zu einem Integrationsleitfaden:
+
+- **[Überwachen mit Grafana](/de/docs/developer/grafana)** - Infrastrukturüberwachungsalarme
+- **[GitHub Actions Benachrichtigungen](/de/docs/developer/github)** - CI/CD-Pipeline-Alarme
+- **[TradingView-Alarme](/de/docs/trader/tradingview)** - Trading- und Marktbenachrichtigungen
+- **[Home Assistant-Integration](/de/docs/developer/home-assistant)** - Smart-Home-Alarme

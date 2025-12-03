@@ -6,19 +6,95 @@ description: Découvrez Echobell, l'application d'alertes instantanées pour dé
 
 # Qu'est-ce qu'Echobell ?
 
-Echobell est une application d'alertes instantanées conçue pour simplifier la gestion des notifications. Elle gère les webhooks et les emails pour déclencher des notifications ou des appels personnalisés, vous assurant de ne jamais manquer d'alertes importantes.
+Echobell est une application d'alertes instantanées conçue pour simplifier la gestion des notifications pour les développeurs, les équipes DevOps et toute personne ayant besoin d'alertes fiables et personnalisables. Elle comble le fossé entre vos systèmes et votre appareil mobile en gérant les webhooks et les emails pour déclencher des notifications personnalisées ou des alertes de type appel téléphonique, vous assurant de ne jamais manquer d'informations importantes.
+
+Que vous surveilliez une infrastructure serveur, suiviez des pipelines CI/CD, gériez des opérations e-commerce ou coordonniez les réponses d'équipe aux événements critiques, Echobell fournit une plateforme flexible et axée sur la confidentialité pour les notifications instantanées.
 
 ## Fonctionnalités principales
 
-- **Alertes instantanées** : Recevez des notifications en temps réel lorsque vos canaux sont déclenchés
-- **Méthodes de déclenchement multiples** : Configurez des webhooks ou des déclencheurs basés sur email
-- **Notifications personnalisables** : Configurez des modèles avec des variables dynamiques
-- **Système d'abonnement** : Créez des canaux et laissez d'autres s'y abonner
-- **Axé sur la confidentialité** : Seules les données essentielles sont stockées sur nos serveurs, tandis que l'historique des notifications reste sur votre appareil
+### Alertes instantanées
+
+Recevez des notifications en temps réel lorsque vos canaux sont déclenchés. Qu'il s'agisse d'une panne de serveur, d'une compilation échouée ou d'un événement commercial critique, Echobell s'assure que l'information vous parvienne immédiatement, généralement en quelques secondes après l'événement déclencheur.
+
+### Méthodes de déclenchement multiples
+
+Configurez des **[webhooks](/fr/docs/webhook)** ou des **[déclencheurs basés sur email](/fr/docs/email-trigger)** pour s'adapter à votre infrastructure existante :
+
+- **Intégration Webhook** : Parfait pour les services cloud modernes, les outils de monitoring, les pipelines CI/CD et tout système pouvant effectuer des requêtes HTTP
+- **Déclencheurs Email** : Idéal pour les systèmes legacy, les alertes par email ou le transfert de messages importants
+
+Les deux méthodes de déclenchement supportent le passage de variables personnalisées qui remplissent vos modèles de notification.
+
+### Notifications personnalisables
+
+Configurez des **[modèles avec variables dynamiques](/fr/docs/template)** pour créer des notifications informatives et riches en contexte. Au lieu d'alertes génériques "Quelque chose s'est passé", obtenez des informations spécifiques comme "CPU serveur production : 95%" ou "Build #142 échoué en phase de déploiement".
+
+Les modèles supportent :
+
+- Substitution de variables avec la syntaxe `{{variableName}}`
+- Accès aux propriétés d'objets avec `{{user.name}}`
+- Accès aux éléments de tableau avec `{{items[0]}}`
+- Expressions conditionnelles et opérateurs logiques
+
+### Système d'abonnement
+
+Créez des canaux et laissez d'autres s'y abonner via des liens sécurisés et partageables. Parfait pour :
+
+- Notifications d'incidents à l'échelle de l'équipe
+- Mises à jour de statut publiques
+- Monitoring collaboratif
+- Canaux d'alertes partagés
+
+### Architecture axée sur la confidentialité
+
+Seules les données essentielles sont stockées sur nos serveurs, tandis que l'historique des notifications reste sur votre appareil :
+
+- **Stocké sur serveurs** : Comptes utilisateur, configurations de canaux, relations d'abonnement
+- **Stocké localement** : Contenu des notifications, historique des déclenchements, enregistrements d'alertes
+
+Cette conception garantit que vos données opérationnelles sensibles ne quittent jamais votre contrôle. En savoir plus dans notre **[documentation sur la confidentialité](/fr/docs/support#privacy)**.
+
+### Filtrage avancé avec conditions
+
+Utilisez des **[expressions conditionnelles](/fr/docs/conditions)** pour filtrer quels déclenchements envoient réellement des notifications. Par exemple :
+
+- N'alerter que lorsque l'utilisation CPU dépasse 80%
+- Filtrer par en-têtes HTTP spécifiques
+- Notifier uniquement pendant les heures de bureau
+- Alerter selon des conditions logiques complexes
+
+Cela prévient la fatigue d'alertes en vous assurant de ne recevoir que les notifications importantes.
 
 ## Comment fonctionne Echobell
 
-Lorsqu'un webhook est appelé ou qu'un email est reçu, Echobell traite les données entrantes et envoie des notifications à tous les abonnés du canal. Le contenu de la notification est généré dynamiquement en fonction de vos modèles et des variables fournies dans le déclencheur.
+Echobell fonctionne avec un workflow simple mais puissant :
+
+1. **Réception du déclencheur** : Lorsqu'un webhook est appelé ou qu'un email est reçu à l'adresse unique d'un canal, les serveurs d'Echobell reçoivent et valident le déclencheur.
+
+2. **Traitement des données** : Les données entrantes (paramètres de requête, corps JSON ou contenu email) sont analysées et rendues disponibles comme variables.
+
+3. **Évaluation des conditions** : Si le canal a des **[conditions](/fr/docs/conditions)** configurées, elles sont évaluées par rapport aux données du déclencheur. Si les conditions ne sont pas remplies, le processus s'arrête ici.
+
+4. **Rendu des modèles** : Les **[modèles de notification](/fr/docs/template)** du canal sont remplis avec les variables du déclencheur, générant le titre et le corps finaux de la notification.
+
+5. **Livraison de notification** : La notification rendue est envoyée à tous les abonnés du canal selon leur type de notification choisi (Normal, Urgent ou Appel).
+
+6. **Stockage local** : Sur l'appareil du destinataire, l'enregistrement de notification est stocké localement avec le contenu rendu, l'horodatage et les liens associés.
+
+Cette architecture assure une livraison rapide (généralement moins de 1-2 secondes du déclencheur à la notification) tout en maintenant la confidentialité en stockant l'historique des notifications sur votre appareil.
+
+### Exemple concret
+
+Imaginez que vous ayez un serveur de production surveillé par Prometheus :
+
+1. L'utilisation CPU dépasse 90%
+2. Prometheus envoie un webhook à votre canal Echobell avec les variables : `{"server": "prod-01", "cpu": 92, "severity": "critical"}`
+3. Votre modèle "Serveur \{\{server\}\} : CPU à \{\{cpu\}\}%" est rendu comme "Serveur prod-01 : CPU à 92%"
+4. La condition du canal `cpu > 80` évalue à vrai
+5. Tous les abonnés reçoivent la notification instantanément sur leurs iPhones
+6. S'ils sont abonnés en type "Appel", leurs téléphones sonnent comme un appel entrant
+
+Apprenez comment configurer cela dans notre **[guide d'intégration Prometheus](/fr/docs/developer/prometheus)**.
 
 ## Concepts clés
 
@@ -33,11 +109,17 @@ Un canal est l'entité centrale dans Echobell. Chaque canal :
 
 ### Types de notification
 
-Lors de l'abonnement à un canal, vous pouvez choisir parmi trois types de notification :
+Lors de l'abonnement à un canal, vous pouvez choisir parmi trois **[types de notification](/fr/docs/notification)** qui déterminent comment les alertes apparaissent et se comportent sur votre appareil :
 
-- **Normal** : Notifications standard de l'application
-- **Urgent** : Notifications qui peuvent passer outre certains modes de concentration
-- **Appel** : Alertes de type appel pour les notifications critiques
+- **Normal (Actif)** : Notifications standard de l'application qui apparaissent dans votre centre de notifications. Respecte les modes Ne pas déranger et Concentration. Idéal pour les mises à jour informatives, alertes non urgentes et monitoring général.
+
+- **Urgent** : Notifications haute priorité qui peuvent passer outre certains modes de Concentration. Elles apparaissent de manière proéminente et sont conçues pour les alertes importantes nécessitant une attention rapide mais pas des urgences critiques. Exemples : déploiements échoués, utilisation élevée des ressources, événements commerciaux importants.
+
+- **Appel** : Alertes de type appel avec interface plein écran et sonnerie, similaire à recevoir un appel téléphonique. Celles-ci contournent tous les paramètres Ne pas déranger et sont impossibles à manquer. Réservez-les pour les incidents critiques : pannes de production, violations de sécurité ou situations d'urgence nécessitant une réponse immédiate.
+
+Le même canal peut être abonné plusieurs fois avec différents types de notification si vous souhaitez différents niveaux d'urgence pour la même source d'alertes. Par exemple, vous pourriez vous abonner à votre canal de monitoring de production comme "Urgent" pendant les heures de travail et "Appel" quand vous êtes d'astreinte.
+
+Lisez le **[guide complet des notifications](/fr/docs/notification)** pour comprendre quand utiliser chaque type et éviter la fatigue d'alertes.
 
 ### Variables de modèle
 
@@ -92,16 +174,100 @@ Echobell est conçu en pensant à la confidentialité :
 
 ## Pour commencer
 
-Pour commencer à utiliser Echobell, vous devrez :
+Pour commencer à utiliser Echobell, suivez ces étapes :
 
-1. Télécharger l'application Echobell depuis l'[App Store](https://apps.apple.com/app/id6743597198)
-2. Vous connecter avec votre email ou votre identifiant Apple
-3. Créer un canal et personnaliser ses paramètres
-4. Intégrer votre webhook ou déclencheur email
-5. Commencer à recevoir des notifications
+1. **Téléchargez** l'application Echobell depuis l'[App Store](https://apps.apple.com/app/id6743597198) (iOS 15.0 ou ultérieur)
+2. **Connectez-vous** avec votre adresse email ou Connexion avec Apple pour une authentification rapide
+3. **Créez un canal** avec un nom descriptif et choisissez une couleur d'identification
+4. **Configurez les modèles** pour le titre et le corps de votre notification
+5. **Obtenez votre URL webhook ou adresse email** depuis la section Déclencheurs du canal
+6. **Intégrez** le déclencheur dans votre système ou outil de monitoring
+7. **Abonnez-vous** à votre canal et choisissez le type de notification approprié
+8. **Testez** votre configuration avec un déclencheur de test pour vérifier que tout fonctionne
+
+Suivez notre **[guide de démarrage complet](/fr/docs)** pour des instructions détaillées étape par étape avec captures d'écran.
 
 <Callout type="warn">
   Echobell nécessite l'autorisation des notifications pour fonctionner
   correctement, car toutes les fonctionnalités sont basées sur les
-  notifications.
+  notifications. Vous serez invité à accorder cette autorisation lors de la
+  première ouverture de l'application.
 </Callout>
+
+## Cas d'utilisation courants
+
+Echobell est utilisé par les développeurs, les équipes d'opérations et les entreprises pour une grande variété de scénarios d'alertes :
+
+### Pour les développeurs
+
+- **Alertes pipeline CI/CD** : Soyez notifié quand les builds échouent, les tests cassent ou les déploiements se terminent. Voir notre guide d'**[intégration GitHub Actions](/fr/docs/developer/github)**.
+- **Monitoring d'erreurs** : Recevez des alertes instantanées pour les erreurs d'application, exceptions ou échecs d'API
+- **Monitoring de performance** : Suivez les temps de réponse, taux d'erreur et métriques de santé système
+- **Notifications de déploiement** : Sachez quand les déploiements staging ou production réussissent ou échouent
+
+### Pour DevOps et SRE
+
+- **Monitoring d'infrastructure** : Alertez sur les problèmes de CPU, mémoire, disque ou réseau avec **[Grafana](/fr/docs/developer/grafana)** ou **[Prometheus](/fr/docs/developer/prometheus)**
+- **Disponibilité des services** : Surveillez la disponibilité des sites web et API avec **[Uptime Kuma](/fr/docs/developer/uptime-kuma)** ou **[UptimeRobot](/fr/docs/developer/uptimerobot)**
+- **Container & Kubernetes** : Soyez notifié des échecs de pods, contraintes de ressources ou événements de mise à l'échelle
+- **Alertes de sécurité** : Notifications immédiates pour les échecs d'authentification, tentatives d'intrusion ou violations de politiques de sécurité
+
+### Pour les entreprises
+
+- **Opérations e-commerce** : Alertes pour nouvelles commandes, échecs de paiement, niveaux de stock ou problèmes de fulfillment
+- **Support client** : Notifiez les membres de l'équipe des tickets de support urgents ou escalades
+- **Automatisation marketing** : Déclenchez des notifications basées sur des événements de campagne, soumissions de formulaires ou actions utilisateur
+- **Transactions financières** : Alertes en temps réel pour transactions à haute valeur, remboursements ou activité suspecte
+
+### Pour la domotique
+
+- **Notifications maison connectée** : Intégrez avec **[Home Assistant](/fr/docs/developer/home-assistant)** pour les alertes de sécurité, environnementales ou d'automatisation
+- **Monitoring d'appareils IoT** : Soyez notifié quand les capteurs détectent des événements ou les appareils se déconnectent
+- **Systèmes de sécurité** : Alertes instantanées pour détection de mouvement, capteurs de porte ou événements de caméra
+
+### Pour les traders et investisseurs
+
+- **Alertes de marché** : Notifications de prix, signaux d'indicateurs techniques ou alertes de volatilité depuis **[TradingView](/fr/docs/trader/tradingview)**
+- **Monitoring de portefeuille** : Suivez les changements de valeur du portefeuille ou mises à jour de positions
+- **Actualités et événements** : Soyez notifié des actualités impactant le marché ou événements économiques
+
+Explorez nos **[guides d'intégration complets](/fr/docs/features)** pour voir comment connecter Echobell avec vos outils.
+
+## Pourquoi choisir Echobell ?
+
+### Simplicité
+
+Contrairement aux plateformes de notification complexes nécessitant une configuration étendue, Echobell fonctionne immédiatement. Créez un canal, obtenez une URL webhook et vous recevez des notifications en minutes.
+
+### Flexibilité
+
+Que vous ayez besoin d'alertes simples "quelque chose s'est passé" ou de notifications riches basées sur des modèles avec logique conditionnelle, Echobell s'adapte à vos besoins sans vous forcer dans un workflow spécifique.
+
+### Confidentialité
+
+Vos données de notification vous appartiennent. En stockant l'historique des notifications localement sur votre appareil plutôt que sur nos serveurs, nous vous donnons un contrôle total sur vos enregistrements d'alertes.
+
+### Fiabilité
+
+Construit sur une infrastructure cloud moderne avec une portée mondiale, Echobell livre les notifications rapidement et de manière fiable. La plupart des alertes arrivent en 1-2 secondes de l'événement déclencheur.
+
+### Pas de verrouillage fournisseur
+
+Echobell utilise des protocoles standards (webhooks HTTP et email SMTP). Vous pouvez facilement passer à un autre service ou solution auto-hébergée sans réécrire vos intégrations.
+
+## Prochaines étapes
+
+Prêt à commencer avec Echobell ?
+
+- **[Guide de configuration complet](/fr/docs)** - Instructions étape par étape pour créer votre premier canal
+- **[Intégration Webhook](/fr/docs/webhook)** - Apprenez à déclencher des notifications via HTTP
+- **[Guide des modèles](/fr/docs/template)** - Maîtrisez la syntaxe des modèles pour des notifications riches
+- **[Intégrations populaires](/fr/docs/features)** - Connectez-vous aux outils que vous utilisez déjà
+- **[Support](/fr/docs/support)** - Obtenez de l'aide et des réponses aux questions courantes
+
+Ou passez directement à un guide d'intégration :
+
+- **[Surveillez avec Grafana](/fr/docs/developer/grafana)** - Alertes de monitoring d'infrastructure
+- **[Notifications GitHub Actions](/fr/docs/developer/github)** - Alertes de pipeline CI/CD
+- **[Alertes TradingView](/fr/docs/trader/tradingview)** - Notifications de trading et marché
+- **[Intégration Home Assistant](/fr/docs/developer/home-assistant)** - Alertes maison connectée
