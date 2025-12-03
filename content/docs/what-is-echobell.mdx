@@ -13,9 +13,11 @@ Whether you're monitoring server infrastructure, tracking CI/CD pipelines, manag
 ## Core Features
 
 ### Instant Alerts
+
 Receive notifications in real-time when your channels are triggered. Whether it's a server outage, a failed build, or a critical business event, Echobell ensures the information reaches you immediately - typically within seconds of the trigger event.
 
 ### Multiple Trigger Methods
+
 Set up **[webhooks](/docs/webhook)** or **[email-based triggers](/docs/email-trigger)** to fit your existing infrastructure:
 
 - **Webhook Integration**: Perfect for modern cloud services, monitoring tools, CI/CD pipelines, and any system that can make HTTP requests
@@ -24,22 +26,27 @@ Set up **[webhooks](/docs/webhook)** or **[email-based triggers](/docs/email-tri
 Both trigger methods support passing custom variables that populate your notification templates.
 
 ### Customizable Notifications
+
 Configure **[templates with dynamic variables](/docs/template)** to create informative, context-rich notifications. Instead of generic "Something happened" alerts, get specific information like "Production server CPU usage: 95%" or "Build #142 failed in deploy stage".
 
 Templates support:
+
 - Variable substitution with `{{variableName}}` syntax
 - Object property access with `{{user.name}}`
 - Array element access with `{{items[0]}}`
 - Conditional expressions and logical operators
 
 ### Subscription System
+
 Create channels and let others subscribe to them using secure, shareable links. Perfect for:
+
 - Team-wide incident notifications
 - Public status updates
 - Collaborative monitoring
 - Shared alerting channels
 
 ### Privacy-Focused Architecture
+
 Only essential data is stored on our servers, while notification history stays on your device:
 
 - **Stored on servers**: User accounts, channel configurations, subscription relationships
@@ -48,7 +55,9 @@ Only essential data is stored on our servers, while notification history stays o
 This design ensures your sensitive operational data never leaves your control. Learn more in our **[privacy documentation](/docs/support#privacy)**.
 
 ### Advanced Filtering with Conditions
+
 Use **[conditional expressions](/docs/conditions)** to filter which triggers actually send notifications. For example:
+
 - Only alert when CPU usage exceeds 80%
 - Filter by specific HTTP headers
 - Notify only during business hours
@@ -79,8 +88,8 @@ This architecture ensures fast delivery (typically under 1-2 seconds from trigge
 Imagine you have a production server being monitored by Prometheus:
 
 1. CPU usage exceeds 90%
-2. Prometheus sends a webhook to your Echobell channel with variables: `{server: "prod-01", cpu: 92, severity: "critical"}`
-3. Your template "Server {{server}}: CPU at {{cpu}}%" renders as "Server prod-01: CPU at 92%"
+2. Prometheus sends a webhook to your Echobell channel with variables: `{"server": "prod-01", "cpu": 92, "severity": "critical"}`
+3. Your template "Server \{\{server\}\}: CPU at \{\{cpu\}\}%" renders as "Server prod-01: CPU at 92%"
 4. The channel condition `cpu > 80` evaluates to true
 5. All subscribers receive the notification instantly on their iPhones
 6. If subscribed as "Calling" type, their phones ring like an incoming call
@@ -179,7 +188,9 @@ To start using Echobell, follow these steps:
 Follow our comprehensive **[getting started guide](/docs)** for detailed step-by-step instructions with screenshots.
 
 <Callout type="warn">
-  Echobell requires notification permission to function properly, as all features are notification-based. You'll be prompted to grant this permission when you first open the app.
+  Echobell requires notification permission to function properly, as all
+  features are notification-based. You'll be prompted to grant this permission
+  when you first open the app.
 </Callout>
 
 ## Common Use Cases
@@ -187,29 +198,34 @@ Follow our comprehensive **[getting started guide](/docs)** for detailed step-by
 Echobell is used by developers, operations teams, and businesses for a wide variety of alerting scenarios:
 
 ### For Developers
+
 - **CI/CD Pipeline Alerts**: Get notified when builds fail, tests break, or deployments complete. See our **[GitHub Actions integration](/docs/developer/github)** guide.
 - **Error Monitoring**: Receive instant alerts for application errors, exceptions, or API failures
 - **Performance Monitoring**: Track response times, error rates, and system health metrics
 - **Deployment Notifications**: Know when staging or production deployments succeed or fail
 
 ### For DevOps and SRE
+
 - **Infrastructure Monitoring**: Alert on CPU, memory, disk, or network issues using **[Grafana](/docs/developer/grafana)** or **[Prometheus](/docs/developer/prometheus)**
 - **Service Uptime**: Monitor website and API availability with **[Uptime Kuma](/docs/developer/uptime-kuma)** or **[UptimeRobot](/docs/developer/uptimerobot)**
 - **Container & Kubernetes**: Get notified of pod failures, resource constraints, or scaling events
 - **Security Alerts**: Immediate notifications for authentication failures, intrusion attempts, or security policy violations
 
 ### For Businesses
+
 - **E-commerce Operations**: Alerts for new orders, payment failures, inventory levels, or fulfillment issues
 - **Customer Support**: Notify team members of urgent support tickets or escalations
 - **Marketing Automation**: Trigger notifications based on campaign events, form submissions, or user actions
 - **Financial Transactions**: Real-time alerts for high-value transactions, refunds, or suspicious activity
 
 ### For Home Automation
+
 - **Smart Home Notifications**: Integrate with **[Home Assistant](/docs/developer/home-assistant)** for security, environmental, or automation alerts
 - **IoT Device Monitoring**: Get notified when sensors detect events or devices go offline
 - **Security Systems**: Instant alerts for motion detection, door sensors, or camera events
 
 ### For Traders and Investors
+
 - **Market Alerts**: Price notifications, technical indicator signals, or volatility alerts from **[TradingView](/docs/trader/tradingview)**
 - **Portfolio Monitoring**: Track portfolio value changes or position updates
 - **News and Events**: Get notified of market-moving news or economic events
@@ -219,18 +235,23 @@ Explore our complete **[integration guides](/docs/features)** to see how to conn
 ## Why Choose Echobell?
 
 ### Simplicity
+
 Unlike complex notification platforms requiring extensive configuration, Echobell works out of the box. Create a channel, get a webhook URL, and you're receiving notifications in minutes.
 
 ### Flexibility
+
 Whether you need simple "something happened" alerts or rich, template-driven notifications with conditional logic, Echobell adapts to your needs without forcing you into a specific workflow.
 
 ### Privacy
+
 Your notification data belongs to you. By storing notification history locally on your device rather than on our servers, we give you complete control over your alert records.
 
 ### Reliability
+
 Built on modern cloud infrastructure with global reach, Echobell delivers notifications fast and reliably. Most alerts arrive within 1-2 seconds of the trigger event.
 
 ### No Vendor Lock-in
+
 Echobell uses standard protocols (HTTP webhooks and SMTP email). You can easily switch to another service or self-hosted solution without rewriting your integrations.
 
 ## Next Steps
@@ -239,11 +260,12 @@ Ready to get started with Echobell?
 
 - **[Complete Setup Guide](/docs)** - Step-by-step instructions for creating your first channel
 - **[Webhook Integration](/docs/webhook)** - Learn how to trigger notifications via HTTP
-- **[Template Guide](/docs/template)** - Master template syntax for rich notifications  
+- **[Template Guide](/docs/template)** - Master template syntax for rich notifications
 - **[Popular Integrations](/docs/features)** - Connect with tools you already use
 - **[Support](/docs/support)** - Get help and answers to common questions
 
 Or jump directly into an integration guide:
+
 - **[Monitor with Grafana](/docs/developer/grafana)** - Infrastructure monitoring alerts
 - **[GitHub Actions Notifications](/docs/developer/github)** - CI/CD pipeline alerts
 - **[TradingView Alerts](/docs/trader/tradingview)** - Trading and market notifications
