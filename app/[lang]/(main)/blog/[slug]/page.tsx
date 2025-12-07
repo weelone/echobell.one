@@ -12,6 +12,20 @@ import { ArticleJsonLd } from "@/components/JsonLd";
 import { Breadcrumb, BreadcrumbJsonLd } from "@/components/Breadcrumb";
 import { languages } from "@/lib/i18n";
 
+export async function generateStaticParams() {
+  const params = [];
+  for (const lang of languages) {
+    const pages = blog.getPages(lang);
+    for (const page of pages) {
+      params.push({
+        lang,
+        slug: page.slugs[0],
+      });
+    }
+  }
+  return params;
+}
+
 export default async function Page(props: {
   params: Promise<{ lang: Language; slug: string }>;
 }) {
@@ -21,8 +35,9 @@ export default async function Page(props: {
 
   if (!page) notFound();
 
-  const Mdx = page.data.body;
-  const toc = page.data.toc;
+  const data = page.data;
+  const Mdx = data.body;
+  const toc = data.toc;
   const canonical = new URL(
     localizeUrl(`/blog/${params.slug}`, params.lang),
     baseUrl
@@ -35,23 +50,19 @@ export default async function Page(props: {
         <BreadcrumbJsonLd lang={params.lang} />
         {/* Structured data for the article */}
         <ArticleJsonLd
-          title={page.data.title}
-          description={page.data.description ?? page.data.title}
-          datePublished={new Date(
-            page.data.date ?? page.file.name
-          ).toISOString()}
-          dateModified={new Date(
-            page.data.lastModified ?? page.data.date ?? page.file.name
-          ).toISOString()}
-          authorName={page.data.author}
+          title={data.title}
+          description={data.description ?? data.title}
+          datePublished={new Date(data.date).toISOString()}
+          dateModified={new Date(data.lastModified ?? data.date).toISOString()}
+          authorName={data.author}
           url={canonical}
-          imageUrl={(page.data as Partial<{ image?: string }>).image}
+          imageUrl={data.image}
         />
         <div className="container px-0">
           <h2 className="text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl">
-            {page.data.title}
+            {data.title}
           </h2>
-          <p className="mt-2 text-lg/8 opacity-60">{page.data.description}</p>
+          <p className="mt-2 text-lg/8 opacity-60">{data.description}</p>
         </div>
         <article className="container flex flex-col px-0 py-8 lg:flex-row">
           <div className="prose min-w-0 flex-1 lg:pr-8">
@@ -70,15 +81,12 @@ export default async function Page(props: {
           <div className="flex flex-col gap-4 border-l p-4 text-sm lg:w-[250px]">
             <div>
               <p className="mb-1 text-fd-muted-foreground">{t.writtenBy}</p>
-              <p className="font-medium">{page.data.author}</p>
+              <p className="font-medium">{data.author}</p>
             </div>
             <div>
               <p className="mb-1 text-sm text-fd-muted-foreground">{t.at}</p>
               <p className="font-medium">
-                {displayDate(
-                  new Date(page.data.date ?? page.file.name),
-                  params.lang
-                )}
+                {displayDate(new Date(data.date), params.lang)}
               </p>
             </div>
           </div>
@@ -96,26 +104,22 @@ export async function generateMetadata(props: {
 
   if (!page) notFound();
 
+  const data = page.data;
+
   const canonical = new URL(
     localizeUrl(`/blog/${params.slug}`, params.lang),
     baseUrl
   ).toString();
 
-  const publishedTime = new Date(
-    page.data.date ?? page.file.name
-  ).toISOString();
-  const modifiedTime = new Date(
-    (page.data as Partial<{ lastModified?: string | Date }>).lastModified ??
-      page.data.date ??
-      page.file.name
-  ).toISOString();
-  const image = (page.data as Partial<{ image?: string }>).image;
-  const tags = (page.data as Partial<{ tags?: string[] }>).tags;
+  const publishedTime = new Date(data.date).toISOString();
+  const modifiedTime = new Date(data.lastModified ?? data.date).toISOString();
+  const image = data.image;
+  const tags = data.tags;
 
   // Build OG image URL using API route
   const ogImageParams = new URLSearchParams({
-    title: page.data.title,
-    description: page.data.description ?? "",
+    title: data.title,
+    description: data.description ?? "",
     type: "blog",
     lang: params.lang,
   });
@@ -123,11 +127,11 @@ export async function generateMetadata(props: {
     image || new URL(`/api/og?${ogImageParams.toString()}`, baseUrl).toString();
 
   const base = createBlogMetadata({
-    title: page.data.title,
-    description: page.data.description ?? page.data.title,
+    title: data.title,
+    description: data.description ?? data.title,
     publishedTime,
     modifiedTime,
-    authors: [page.data.author],
+    authors: [data.author],
     tags,
     image: ogImageUrl,
     url: canonical,

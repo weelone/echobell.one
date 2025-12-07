@@ -1,22 +1,96 @@
 "use client";
 
 import { Dialog, DialogPanel } from "@headlessui/react";
-import { LanguagesIcon, MenuIcon, XIcon } from "lucide-react";
-import { useState } from "react";
+import { LanguagesIcon, MenuIcon, XIcon, Sun, Moon } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Logo } from "./Logo";
 import Link from "next/link";
-import {
-  LanguageToggle,
-  LanguageToggleText,
-} from "fumadocs-ui/components/layout/language-toggle";
-import { ThemeToggle } from "fumadocs-ui/components/layout/theme-toggle";
-import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
+import { Language, localizeUrl, uiDictionary, languages } from "@/lib/i18n";
 import { NavLinks } from "./NavLinks";
 import { Gantari } from "next/font/google";
+import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 const gantari = Gantari({
   subsets: ["latin"],
 });
+
+function SimpleThemeToggle() {
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <button
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      className="inline-flex items-center justify-center rounded-md p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+      aria-label="Toggle theme"
+    >
+      {resolvedTheme === "dark" ? (
+        <Sun className="size-5" />
+      ) : (
+        <Moon className="size-5" />
+      )}
+    </button>
+  );
+}
+
+function SimpleLanguageToggle({ lang }: { lang: Language }) {
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="inline-flex items-center justify-center rounded-md p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 gap-1.5"
+        aria-label="Choose language"
+      >
+        <LanguagesIcon className="size-5" />
+      </button>
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40"
+            onClick={() => setIsOpen(false)}
+          />
+          <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-neutral-900 ring-1 ring-black ring-opacity-5 z-50">
+            <div className="py-1">
+              {languages.map((locale) => (
+                <Link
+                  key={locale}
+                  href={pathname.replace(`/${lang}`, `/${locale}`)}
+                  className={`block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 ${
+                    locale === lang
+                      ? "bg-orange-50 dark:bg-orange-950 font-medium text-orange-600 dark:text-orange-400"
+                      : ""
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {languageNames[locale as Language]}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+const languageNames: Record<Language, string> = {
+  en: "English",
+  zh: "简体中文",
+  es: "Español",
+  fr: "Français",
+  ja: "日本語",
+  de: "Deutsch",
+};
 
 export default function Nav({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].nav;
@@ -57,12 +131,9 @@ export default function Nav({ lang }: { lang: Language }) {
               href: navItem.href,
             }))}
           />
-          <div className="flex gap-4">
-            <LanguageToggle className="me-1.5">
-              <LanguagesIcon className="size-4.5" />
-              <LanguageToggleText className="md:hidden" />
-            </LanguageToggle>
-            <ThemeToggle className="p-0" />
+          <div className="flex gap-2 items-center">
+            <SimpleLanguageToggle lang={lang} />
+            <SimpleThemeToggle />
           </div>
         </div>
       </nav>
@@ -93,11 +164,8 @@ export default function Nav({ lang }: { lang: Language }) {
             <div className="-my-6 divide-y divide-neutral-500/10">
               <div className="space-y-2 py-6">
                 <div className="flex justify-between">
-                  <ThemeToggle className="p-0" />
-                  <LanguageToggle className="me-1.5">
-                    <LanguagesIcon className="size-4.5" />
-                    <LanguageToggleText className="md:hidden" />
-                  </LanguageToggle>
+                  <SimpleThemeToggle />
+                  <SimpleLanguageToggle lang={lang} />
                 </div>
                 {t.navigation.map((item) => (
                   <Link

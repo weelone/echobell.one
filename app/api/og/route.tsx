@@ -2,8 +2,6 @@ import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 import { Language } from "@/lib/i18n";
 
-export const runtime = "edge";
-
 const OG_IMAGE_SIZE = {
   width: 1200,
   height: 630,

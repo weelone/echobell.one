@@ -8,7 +8,7 @@ import {
 import { notFound } from "next/navigation";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { createMetadata, baseUrl } from "@/lib/metadata";
-import { Language } from "@/lib/i18n";
+import { Language, languages } from "@/lib/i18n";
 
 export default async function Page(props: {
   params: Promise<{ lang: string; slug?: string[] }>;
@@ -17,12 +17,13 @@ export default async function Page(props: {
   const page = source.getPage(params.slug, params.lang);
   if (!page) notFound();
 
-  const MDXContent = page.data.body;
+  const data = page.data;
+  const MDXContent = data.body;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
+    <DocsPage toc={data.toc} full={data.full}>
+      <DocsTitle>{data.title}</DocsTitle>
+      <DocsDescription>{data.description}</DocsDescription>
       <DocsBody>
         <MDXContent
           components={{
@@ -36,7 +37,17 @@ export default async function Page(props: {
 }
 
 export async function generateStaticParams() {
-  return source.generateParams();
+  const params = [];
+  for (const lang of languages) {
+    const pages = source.getPages(lang);
+    for (const page of pages) {
+      params.push({
+        lang,
+        slug: page.slugs,
+      });
+    }
+  }
+  return params;
 }
 
 export async function generateMetadata(props: {
@@ -48,10 +59,12 @@ export async function generateMetadata(props: {
 
   const canonical = new URL(page.url, baseUrl).toString();
 
+  const data = page.data;
+
   // Build OG image URL using API route
   const ogImageParams = new URLSearchParams({
-    title: page.data.title,
-    description: page.data.description ?? "",
+    title: data.title ?? "",
+    description: data.description ?? "",
     type: "docs",
     lang: params.lang as Language,
   });
@@ -61,8 +74,8 @@ export async function generateMetadata(props: {
   ).toString();
 
   return createMetadata({
-    title: page.data.title,
-    description: page.data.description,
+    title: data.title,
+    description: data.description,
     alternates: { canonical },
     openGraph: {
       url: canonical,

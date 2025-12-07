@@ -2,12 +2,13 @@ import "fumadocs-ui/style.css";
 import type { ReactNode } from "react";
 
 import "./globals.css";
-import { RootProvider } from "fumadocs-ui/provider";
+import { RootProvider } from "fumadocs-ui/provider/next";
 import { baseUrl, createMetadata } from "@/lib/metadata";
 import { Translations } from "fumadocs-ui/contexts/i18n";
-import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
+import { Language, uiDictionary, localizeUrl, languages } from "@/lib/i18n";
 import { Metadata } from "next";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/JsonLd";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -15,6 +16,7 @@ export async function generateMetadata({
   params: Promise<{ lang: Language }>;
 }): Promise<Metadata> {
   const lang = (await params).lang;
+  if (!languages.includes(lang)) notFound();
   const t = uiDictionary[lang].metadata;
 
   // Build OG image URL using API route
@@ -157,6 +159,10 @@ const locales = [
   },
 ];
 
+export async function generateStaticParams() {
+  return languages.map((lang) => ({ lang }));
+}
+
 export default async function Layout({
   params,
   children,
@@ -165,6 +171,7 @@ export default async function Layout({
   children: ReactNode;
 }) {
   const lang = (await params).lang;
+  if (!languages.includes(lang as Language)) notFound();
 
   return (
     <html lang={lang} suppressHydrationWarning>

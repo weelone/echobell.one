@@ -15,12 +15,13 @@ export async function GET(
 ) {
   const { lang } = await params;
   const pages = [...blog.getPages(lang as Language)].sort(
-    (a, b) =>
-      new Date(b.data.date ?? b.file.name).getTime() -
-      new Date(a.data.date ?? a.file.name).getTime()
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
   );
 
-  const id = new URL(localizeUrl("/blog", lang as Language), baseUrl).toString();
+  const id = new URL(
+    localizeUrl("/blog", lang as Language),
+    baseUrl
+  ).toString();
   const selfUrl = new URL(
     localizeUrl("/blog/atom.xml", lang as Language),
     baseUrl
@@ -28,15 +29,16 @@ export async function GET(
 
   const entries = pages
     .map((p) => {
+      const data = p.data;
       const link = new URL(p.url, baseUrl).toString();
-      const updated = new Date(p.data.date ?? p.file.name).toISOString();
+      const updated = new Date(data.date).toISOString();
       return `\n  <entry>
-    <title>${escape(p.data.title)}</title>
+    <title>${escape(data.title)}</title>
     <link href="${link}" />
     <id>${link}</id>
     <updated>${updated}</updated>
-    <summary>${escape(p.data.description ?? p.data.title)}</summary>
-    <author><name>${escape(p.data.author)}</name></author>
+    <summary>${escape(data.description ?? data.title)}</summary>
+    <author><name>${escape(data.author)}</name></author>
   </entry>`;
     })
     .join("");

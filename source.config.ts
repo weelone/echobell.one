@@ -4,6 +4,7 @@ import {
   defineCollections,
   frontmatterSchema,
 } from "fumadocs-mdx/config";
+import lastModified from "fumadocs-mdx/plugins/last-modified";
 import { z } from "zod";
 
 export const docs = defineDocs({
@@ -35,4 +36,5 @@ export default defineConfig({
   mdxOptions: {
     // MDX options
   },
+  plugins: [lastModified()],
 });

@@ -21,9 +21,7 @@ export default async function Page({
   const t = uiDictionary[lang].blog;
 
   const posts = [...blog.getPages(lang)].sort(
-    (a, b) =>
-      new Date(b.data.date ?? b.file.name).getTime() -
-      new Date(a.data.date ?? a.file.name).getTime()
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
   );
 
   return (

@@ -15,28 +15,30 @@ export async function GET(
 ) {
   const { lang } = await params;
   const pages = [...blog.getPages(lang as Language)].sort(
-    (a, b) =>
-      new Date(b.data.date ?? b.file.name).getTime() -
-      new Date(a.data.date ?? a.file.name).getTime()
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
   );
 
   const feedUrl = new URL(
     localizeUrl("/blog/rss.xml", lang as Language),
     baseUrl
   ).toString();
-  const channelLink = new URL(localizeUrl("/blog", lang as Language), baseUrl).toString();
+  const channelLink = new URL(
+    localizeUrl("/blog", lang as Language),
+    baseUrl
+  ).toString();
 
   const items = pages
     .map((p) => {
+      const data = p.data;
       const link = new URL(p.url, baseUrl).toString();
-      const pub = new Date(p.data.date ?? p.file.name).toUTCString();
+      const pub = new Date(data.date).toUTCString();
       return `\n    <item>
-      <title>${escape(p.data.title)}</title>
+      <title>${escape(data.title)}</title>
       <link>${link}</link>
       <guid isPermaLink="true">${link}</guid>
       <pubDate>${pub}</pubDate>
-      <description>${escape(p.data.description ?? p.data.title)}</description>
-      <author>${escape(p.data.author)}</author>
+      <description>${escape(data.description ?? data.title)}</description>
+      <author>${escape(data.author)}</author>
     </item>`;
     })
     .join("");

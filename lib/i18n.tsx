@@ -10,16 +10,13 @@ export type Language = (typeof languages)[number];
 export const i18n = defineI18n<Language>({
   defaultLanguage: "en",
   languages: [...languages],
-  hideLocale: "default-locale",
+  hideLocale: "never",
 });
 
 export function localizeUrl(url: string, lang: Language): string {
   // Avoid trailing slash on locale roots to prevent canonical → redirect (308)
-  if (lang !== i18n.defaultLanguage) {
-    if (url === "/") return `/${lang}`; // e.g. /zh instead of /zh/
-    return `/${lang}${url}`;
-  }
-  return url;
+  if (url === "/") return `/${lang}`;
+  return `/${lang}${url}`;
 }
 
 export const uiDictionary = {
@@ -1361,7 +1358,10 @@ export const uiDictionary = {
             { label: "Guía de Inicio Rápido", href: "/es/docs" },
             { label: "Documentación", href: "/es/docs/what-is-echobell" },
             { label: "Blog", href: "/es/blog" },
-            { label: "Estado del servicio", href: "https://status.echobell.one" },
+            {
+              label: "Estado del servicio",
+              href: "https://status.echobell.one",
+            },
           ],
         },
         {
@@ -2510,7 +2510,10 @@ export const uiDictionary = {
             { label: "クイックスタートガイド", href: "/ja/docs" },
             { label: "ドキュメント", href: "/ja/docs/what-is-echobell" },
             { label: "ブログ", href: "/ja/blog" },
-            { label: "サービスステータス", href: "https://status.echobell.one" },
+            {
+              label: "サービスステータス",
+              href: "https://status.echobell.one",
+            },
           ],
         },
         {
