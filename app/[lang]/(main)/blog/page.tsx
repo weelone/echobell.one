@@ -94,6 +94,18 @@ export async function generateMetadata({
   const lang = (await params).lang;
   const t = uiDictionary[lang].blog;
 
+  // Build OG image URL using API route
+  const ogImageParams = new URLSearchParams({
+    title: t.title,
+    description: t.description,
+    type: "blog",
+    lang: lang,
+  });
+  const ogImageUrl = new URL(
+    `/api/og?${ogImageParams.toString()}`,
+    baseUrl
+  ).toString();
+
   return createMetadata({
     title: t.title,
     description: t.description,
@@ -112,6 +124,10 @@ export async function generateMetadata({
     },
     openGraph: {
       url: new URL(localizeUrl("/blog", lang), baseUrl).toString(),
+      images: [{ url: ogImageUrl }],
+    },
+    twitter: {
+      images: [{ url: ogImageUrl }],
     },
   });
 }

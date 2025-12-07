@@ -9,7 +9,6 @@ import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
 import { Metadata } from "next";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/JsonLd";
 
-
 export async function generateMetadata({
   params,
 }: {
@@ -17,6 +16,22 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const lang = (await params).lang;
   const t = uiDictionary[lang].metadata;
+
+  // Build OG image URL using API route
+  const title =
+    typeof t.defaultTitle === "string"
+      ? t.defaultTitle.replace(/\s*\|\s*Echobell.*$/, "")
+      : "Instant Webhook & Email Alerts";
+  const ogImageParams = new URLSearchParams({
+    title: title,
+    description: typeof t.description === "string" ? t.description : "",
+    type: "default",
+    lang: lang,
+  });
+  const ogImageUrl = new URL(
+    `/api/og?${ogImageParams.toString()}`,
+    baseUrl
+  ).toString();
 
   return createMetadata({
     title: {
@@ -40,6 +55,10 @@ export async function generateMetadata({
     },
     openGraph: {
       locale: lang,
+      images: [{ url: ogImageUrl }],
+    },
+    twitter: {
+      images: [{ url: ogImageUrl }],
     },
   });
 }

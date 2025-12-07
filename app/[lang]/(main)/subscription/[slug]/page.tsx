@@ -88,6 +88,19 @@ export async function generateMetadata({
     baseUrl
   ).toString();
 
+  // Build OG image URL using API route
+  const ogImageParams = new URLSearchParams({
+    title: "Subscribe to Channel",
+    description:
+      "Private subscription page to join an Echobell channel on your device.",
+    type: "default",
+    lang: lang,
+  });
+  const ogImageUrl = new URL(
+    `/api/og?${ogImageParams.toString()}`,
+    baseUrl
+  ).toString();
+
   return {
     title: "Subscribe to Channel | Echobell",
     description:
@@ -98,6 +111,12 @@ export async function generateMetadata({
       follow: false,
       nocache: true,
       googleBot: { index: false, follow: false, noimageindex: true },
+    },
+    openGraph: {
+      images: [{ url: ogImageUrl }],
+    },
+    twitter: {
+      images: [{ url: ogImageUrl }],
     },
   };
 }

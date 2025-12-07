@@ -112,6 +112,16 @@ export async function generateMetadata(props: {
   const image = (page.data as Partial<{ image?: string }>).image;
   const tags = (page.data as Partial<{ tags?: string[] }>).tags;
 
+  // Build OG image URL using API route
+  const ogImageParams = new URLSearchParams({
+    title: page.data.title,
+    description: page.data.description ?? "",
+    type: "blog",
+    lang: params.lang,
+  });
+  const ogImageUrl =
+    image || new URL(`/api/og?${ogImageParams.toString()}`, baseUrl).toString();
+
   const base = createBlogMetadata({
     title: page.data.title,
     description: page.data.description ?? page.data.title,
@@ -119,7 +129,7 @@ export async function generateMetadata(props: {
     modifiedTime,
     authors: [page.data.author],
     tags,
-    image,
+    image: ogImageUrl,
     url: canonical,
   });
 
