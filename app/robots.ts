@@ -13,6 +13,7 @@ export default function robots(): MetadataRoute.Robots {
           "/private/",
           // Do not index token-based subscription pages (all locales)
           "/subscription/",
+          "/en/subscription/",
           "/zh/subscription/",
           "/es/subscription/",
           "/fr/subscription/",

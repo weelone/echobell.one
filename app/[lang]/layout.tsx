@@ -46,8 +46,8 @@ export async function generateMetadata({
     alternates: {
       canonical: localizeUrl("/", lang),
       languages: {
-        "x-default": "/",
-        en: "/",
+        "x-default": "/en",
+        en: "/en",
         zh: "/zh",
         es: "/es",
         fr: "/fr",

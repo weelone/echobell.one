@@ -50,9 +50,9 @@ export const uiDictionary = {
     },
     nav: {
       navigation: [
-        { name: "Pricing", href: "/#pricing" },
-        { name: "Docs", href: "/docs" },
-        { name: "Blog", href: "/blog" },
+        { name: "Pricing", href: "/en/#pricing" },
+        { name: "Docs", href: "/en/docs" },
+        { name: "Blog", href: "/en/blog" },
       ],
     },
     hero: {
@@ -230,9 +230,9 @@ export const uiDictionary = {
         {
           label: "Resources", // Broader term
           links: [
-            { label: "Quick Start Guide", href: "/docs" }, // More descriptive
-            { label: "Documentation", href: "/docs/what-is-echobell" }, // Keep specific link if needed
-            { label: "Blog", href: "/blog" },
+            { label: "Quick Start Guide", href: "/en/docs" }, // More descriptive
+            { label: "Documentation", href: "/en/docs/what-is-echobell" }, // Keep specific link if needed
+            { label: "Blog", href: "/en/blog" },
             { label: "Status", href: "https://status.echobell.one" },
           ],
         },
@@ -240,8 +240,8 @@ export const uiDictionary = {
           label: "Legal & Support", // Combined for brevity
           links: [
             { label: "Contact Us", href: "mailto:echobell@weelone.com" },
-            { label: "Privacy Policy", href: "/privacy" },
-            { label: "Terms of Service", href: "/terms" },
+            { label: "Privacy Policy", href: "/en/privacy" },
+            { label: "Terms of Service", href: "/en/terms" },
           ],
         },
       ],
