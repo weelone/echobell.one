@@ -1,12 +1,12 @@
+// TODO: Rename this file to proxy.ts once Cloudflare Workers supported the proxy feature.
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-const languages = ["en", "zh", "es", "fr", "ja", "de"];
-const defaultLocale = "en";
+import { i18n, Language, languages } from "./lib/i18n";
 
 function getLocale(request: NextRequest): string {
   const acceptLanguage = request.headers.get("accept-language");
-  if (!acceptLanguage) return defaultLocale;
+  if (!acceptLanguage) return i18n.defaultLanguage;
 
   // Parse Accept-Language header
   // Example: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
@@ -24,8 +24,8 @@ function getLocale(request: NextRequest): string {
   // Find the first supported language
   for (const pref of preferences) {
     // Match exact language or base language (e.g. en-US -> en)
-    const prefLang = pref.lang.toLowerCase();
-    const baseLang = prefLang.split("-")[0];
+    const prefLang = pref.lang.toLowerCase() as Language;
+    const baseLang = prefLang.split("-")[0] as Language;
 
     if (languages.includes(prefLang)) {
       return prefLang;
@@ -35,10 +35,10 @@ function getLocale(request: NextRequest): string {
     }
   }
 
-  return defaultLocale;
+  return i18n.defaultLanguage;
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Check if the pathname is missing a locale
