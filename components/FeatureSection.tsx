@@ -5,7 +5,8 @@ import {
   UsersIcon,
 } from "lucide-react";
 import Image from "next/image";
-import { Language, uiDictionary } from "@/lib/i18n";
+import Link from "next/link";
+import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
 import screenshots from "@/public/images/screenshots.webp";
 
 const icons = {
@@ -14,6 +15,13 @@ const icons = {
   email: AtSignIcon,
   subscription: UsersIcon,
 };
+
+const featureLinks = [
+  "/features/call-notifications",
+  "/features/webhooks",
+  "/features/email-triggers",
+  "/features/channels",
+];
 
 export default function FeatureSection({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].features;
@@ -40,19 +48,24 @@ export default function FeatureSection({ lang }: { lang: Language }) {
               <dl className="mt-10 max-w-xl space-y-8 text-base/7 lg:max-w-none">
                 {t.items.map((feature, index) => {
                   const Icon = featureIcons[index];
+                  const href = featureLinks[index];
                   return (
-                    <div key={feature.name} className="relative pl-9">
-                      <dt className="inline font-semibold opacity-90">
+                    <Link
+                      key={feature.name}
+                      href={localizeUrl(href, lang)}
+                      className="relative pl-9 block group hover:bg-orange-50 dark:hover:bg-orange-950/20 -mx-3 px-3 py-2 rounded-lg transition-colors"
+                    >
+                      <dt className="inline font-semibold opacity-90 group-hover:text-orange-600 transition-colors">
                         <Icon
                           aria-hidden="true"
-                          className="absolute top-1 left-1 size-5 text-orange-600"
+                          className="absolute top-3 left-0 size-5 text-orange-600"
                         />
                         {feature.name}
                       </dt>{" "}
                       <dd className="inline opacity-60">
                         {feature.description}
                       </dd>
-                    </div>
+                    </Link>
                   );
                 })}
               </dl>
