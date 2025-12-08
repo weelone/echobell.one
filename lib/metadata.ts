@@ -89,7 +89,6 @@ export function createMetadata(override: Metadata): Metadata {
       siteName: "Echobell",
       type: "website",
       locale: "en_US",
-      // Don't set images here - let Next.js use dynamic opengraph-image.tsx
       ...override.openGraph,
     },
     twitter: {
@@ -98,7 +97,6 @@ export function createMetadata(override: Metadata): Metadata {
       site: "@EchobellApp",
       title: override.title ?? undefined,
       description: override.description ?? undefined,
-      // Don't set images here - let Next.js use dynamic twitter-image.tsx
       ...override.twitter,
     },
     robots: override.robots ?? {

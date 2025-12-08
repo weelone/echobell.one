@@ -21,6 +21,16 @@ export default function robots(): MetadataRoute.Robots {
           "/de/subscription/",
         ],
       },
+      // Crawl delay for aggressive bots
+      {
+        userAgent: "GPTBot",
+        allow: "/",
+        disallow: ["/api/", "/_next/", "/private/", "/subscription/"],
+      },
+      {
+        userAgent: "Google-Extended",
+        allow: "/",
+      },
     ],
     sitemap: "https://echobell.one/sitemap.xml",
     host: "https://echobell.one",

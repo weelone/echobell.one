@@ -58,6 +58,7 @@ export async function generateMetadata(props: {
   if (!page) notFound();
 
   const canonical = new URL(page.url, baseUrl).toString();
+  const slugPath = params.slug ? `/docs/${params.slug.join("/")}` : "/docs";
 
   const data = page.data;
 
@@ -76,13 +77,19 @@ export async function generateMetadata(props: {
   return createMetadata({
     title: data.title,
     description: data.description,
-    alternates: { canonical },
+    alternates: {
+      canonical,
+      languages: {
+        "x-default": `/en${slugPath}`,
+        ...Object.fromEntries(languages.map((l) => [l, `/${l}${slugPath}`])),
+      },
+    },
     openGraph: {
       url: canonical,
-      images: [{ url: ogImageUrl }],
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: data.title }],
     },
     twitter: {
-      images: [{ url: ogImageUrl }],
+      images: [{ url: ogImageUrl, alt: data.title }],
     },
   });
 }

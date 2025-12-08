@@ -68,6 +68,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         } as const)
     ),
 
+    // Features index page
+    ...getLocalizedUrls("/features").map(
+      (item) =>
+        ({
+          url: url(item),
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.85,
+        } as const)
+    ),
+
     // Documentation and blog
     ...getLocalizedUrls("/docs").map(
       (item) =>

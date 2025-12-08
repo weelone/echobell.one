@@ -3,6 +3,7 @@ import FeaturePageLayout from "@/components/FeaturePageLayout";
 import { Language, uiDictionary, languages, localizeUrl } from "@/lib/i18n";
 import type { Metadata } from "next";
 import { createMetadata, baseUrl } from "@/lib/metadata";
+import { FeatureJsonLd, HowToJsonLd } from "@/components/JsonLd";
 
 export default async function WebhooksPage({
   params,
@@ -18,9 +19,33 @@ export default async function WebhooksPage({
   }
 
   const sections = t.sections;
+  const canonical = new URL(
+    localizeUrl("/features/webhooks", lang),
+    baseUrl
+  ).toString();
+
+  // Prepare HowTo steps for structured data
+  const howToSteps =
+    "steps" in sections.howItWorks
+      ? sections.howItWorks.steps.map(
+          (step: { title: string; description: string }) => ({
+            name: step.title,
+            text: step.description,
+          })
+        )
+      : [];
 
   return (
     <FeaturePageLayout lang={lang} featureKey="webhooks">
+      <FeatureJsonLd name={t.title} description={t.description} url={canonical} />
+      {howToSteps.length > 0 && (
+        <HowToJsonLd
+          name={sections.howItWorks.title}
+          description={sections.howItWorks.description}
+          steps={howToSteps}
+          totalTime="PT5M"
+        />
+      )}
       {/* How it works section */}
       <div className="py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -225,15 +250,35 @@ export async function generateMetadata({
     baseUrl
   ).toString();
 
+  const ogImageParams = new URLSearchParams({
+    title: t.title,
+    description: t.description,
+    type: "default",
+    lang: lang,
+  });
+  const ogImageUrl = new URL(
+    `/api/og?${ogImageParams.toString()}`,
+    baseUrl
+  ).toString();
+
   return createMetadata({
     title: t.title,
     description: t.description,
     alternates: {
       canonical,
-      languages: Object.fromEntries(
-        languages.map((l) => [l, localizeUrl("/features/webhooks", l)])
-      ),
+      languages: {
+        "x-default": localizeUrl("/features/webhooks", "en"),
+        ...Object.fromEntries(
+          languages.map((l) => [l, localizeUrl("/features/webhooks", l)])
+        ),
+      },
     },
-    openGraph: { url: canonical },
+    openGraph: {
+      url: canonical,
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: t.title }],
+    },
+    twitter: {
+      images: [{ url: ogImageUrl, alt: t.title }],
+    },
   });
 }
