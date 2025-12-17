@@ -59,16 +59,16 @@ function SimpleLanguageToggle({ lang }: { lang: Language }) {
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-neutral-900 ring-1 ring-black ring-opacity-5 z-50">
-            <div className="py-1">
+          <div className="absolute right-0 mt-2 w-44 rounded-xl shadow-lg bg-white dark:bg-neutral-900 ring-1 ring-black/5 dark:ring-white/10 z-50 overflow-hidden">
+            <div className="py-1.5">
               {languages.map((locale) => (
                 <Link
                   key={locale}
                   href={pathname.replace(`/${lang}`, `/${locale}`)}
-                  className={`block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 ${
+                  className={`block px-4 py-2 text-sm transition-colors ${
                     locale === lang
-                      ? "bg-orange-50 dark:bg-orange-950 font-medium text-orange-600 dark:text-orange-400"
-                      : ""
+                      ? "bg-orange-50 dark:bg-orange-950/50 font-medium text-orange-600 dark:text-orange-400"
+                      : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
                   }`}
                   onClick={() => setIsOpen(false)}
                 >

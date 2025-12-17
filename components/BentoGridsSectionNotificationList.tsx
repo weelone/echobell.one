@@ -44,24 +44,24 @@ function NotificationItem({
   body: string;
 }) {
   return (
-    <div className="relative flex items-center gap-x-3 rounded-xl bg-neutral-100 dark:bg-neutral-800 p-4 ring-1 ring-neutral-900/5">
+    <div className="relative flex items-center gap-x-3 rounded-2xl bg-neutral-100 dark:bg-neutral-800 p-4 shadow-sm ring-1 ring-neutral-900/5 dark:ring-white/5">
       {type === "call" ? (
-        <div className="flex w-full gap-2 items-center">
-          <div className="grow mr-auto">{title}</div>
-          <div className="bg-green-500 text-white p-2 h-fit rounded-full">
-            <PhoneIcon className="w-5 h-5" />
+        <div className="flex w-full gap-3 items-center">
+          <div className="grow mr-auto font-medium text-sm">{title}</div>
+          <div className="bg-green-500 hover:bg-green-600 text-white p-2.5 rounded-full transition-colors">
+            <PhoneIcon className="w-4 h-4" />
           </div>
-          <div className="bg-red-500 text-white p-2 rounded-full">
-            <PhoneOffIcon className="w-5 h-5" />
+          <div className="bg-red-500 hover:bg-red-600 text-white p-2.5 rounded-full transition-colors">
+            <PhoneOffIcon className="w-4 h-4" />
           </div>
         </div>
       ) : (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-0.5">
           {type === "time-sensitive" && (
-            <div className="text-sm opacity-60">{timeSensitiveLabel}</div>
+            <div className="text-xs font-medium text-orange-600 dark:text-orange-400">{timeSensitiveLabel}</div>
           )}
-          <div className="text-sm font-bold">{title}</div>
-          <div className="text-sm">{body}</div>
+          <div className="text-sm font-semibold">{title}</div>
+          <div className="text-sm opacity-70 line-clamp-2">{body}</div>
         </div>
       )}
     </div>

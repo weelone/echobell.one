@@ -3,7 +3,6 @@ import { Language, localizeUrl } from "@/lib/i18n";
 import { createMetadata } from "@/lib/metadata";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
-
 export async function generateMetadata({
   params,
 }: {
@@ -55,7 +54,10 @@ export default async function MdxLayout({
             name: "Terms of Service - Echobell",
             description:
               "Terms of Service for Echobell webhook and email notification service",
-            url: `https://echobell.one${localizeUrl("/terms", lang as Language)}`,
+            url: `https://echobell.one${localizeUrl(
+              "/terms",
+              lang as Language
+            )}`,
             isPartOf: {
               "@type": "WebSite",
               name: "Echobell",
@@ -70,10 +72,7 @@ export default async function MdxLayout({
           }),
         }}
       />
-      <div className="max-w-4xl mx-auto mt-20 pt-20 p-4">
-        <Breadcrumb lang={lang as Language} />
-      </div>
-      <div className="flex flex-col py-24 p-4 max-w-4xl mt-10 mb-20 mx-auto prose dark:prose-invert">
+      <div className="flex flex-col py-8 p-4 max-w-4xl mt-40 mb-20 mx-auto prose dark:prose-invert">
         {children}
       </div>
     </>

@@ -50,11 +50,11 @@ export function FAQSection({ lang, title, description }: FAQSectionProps) {
   };
 
   return (
-    <section className="py-16 px-4 max-w-4xl mx-auto">
+    <section className="py-20 px-4 max-w-4xl mx-auto">
       <FAQJsonLd faqs={faqs} />
 
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+      <div className="text-center mb-10">
+        <h2 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-3">
           {title || defaultTitles[lang] || defaultTitles.en}
         </h2>
         {(description || defaultDescriptions[lang]) && (
@@ -64,34 +64,40 @@ export function FAQSection({ lang, title, description }: FAQSectionProps) {
         )}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden"
+            className="bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700/50 rounded-xl overflow-hidden transition-colors"
           >
             <button
               onClick={() => toggleItem(index)}
-              className="w-full px-6 py-4 text-left flex items-center justify-between"
+              className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-neutral-100 dark:hover:bg-neutral-700/50 transition-colors"
               aria-expanded={openItems.has(index)}
             >
               <span className="font-medium text-neutral-900 dark:text-neutral-100 pr-4">
                 {faq.question}
               </span>
               <ChevronDownIcon
-                className={`h-5 w-5 text-neutral-500 transition-transform ${
+                className={`h-5 w-5 flex-shrink-0 text-neutral-400 transition-transform duration-200 ${
                   openItems.has(index) ? "rotate-180" : ""
                 }`}
               />
             </button>
-            {openItems.has(index) && (
-              <div className="px-6 pb-4">
-                <div
-                  className="text-neutral-600 dark:text-neutral-400 prose prose-sm max-w-none"
-                  dangerouslySetInnerHTML={{ __html: faq.answer }}
-                />
+            <div
+              className={`grid transition-all duration-200 ease-in-out ${
+                openItems.has(index) ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="px-6 pb-4 pt-0">
+                  <div
+                    className="text-neutral-600 dark:text-neutral-400 prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: faq.answer }}
+                  />
+                </div>
               </div>
-            )}
+            </div>
           </div>
         ))}
       </div>
