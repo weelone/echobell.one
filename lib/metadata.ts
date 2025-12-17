@@ -36,9 +36,8 @@ function buildLanguageAlternates(
     pathname = pathname.slice(0, -1);
 
   // Strip language prefix if present to get the locale-agnostic path
-  const langPrefixes = new Set(
-    languages.filter((l) => l !== i18n.defaultLanguage)
-  );
+  // Include all languages (including default) to properly strip the prefix
+  const langPrefixes = new Set(languages);
   let basePath = pathname;
   for (const l of langPrefixes) {
     const pref = `/${l}`;
