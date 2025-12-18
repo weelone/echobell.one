@@ -194,6 +194,7 @@ export function ProductJsonLd() {
     "@context": "https://schema.org",
     "@type": "Product",
     name: "Echobell",
+    image: "https://echobell.one/images/banner.png",
     description: "Instant webhook and email alerts via calls and notifications",
     brand: {
       "@type": "Brand",
@@ -213,6 +214,23 @@ export function ProductJsonLd() {
       seller: {
         "@type": "Organization",
         name: "Echobell",
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "US",
+        returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: "0",
+          currency: "USD",
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "US",
+        },
       },
     },
     aggregateRating: {
