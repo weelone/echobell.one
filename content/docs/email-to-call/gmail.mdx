@@ -1,0 +1,47 @@
+---
+title: How to Convert Gmail Emails to Phone Calls
+description: Step-by-step guide to setting up Gmail auto-forwarding to trigger phone calls via Echobell.
+sidebarTitle: Gmail
+---
+
+# Convert Gmail Emails to Phone Calls
+
+Follow this guide to set up a filter in Gmail that automatically forwards specific emails to Echobell, triggering a phone call to your device.
+
+## Prerequisites
+
+- An Echobell channel with **Email Trigger** enabled.
+- The unique email address for your channel (found in Channel Settings).
+
+## Step 1: Add Forwarding Address
+
+1.  Open **Gmail** on your computer.
+2.  Click the **Settings gear icon** (⚙️) and select **See all settings**.
+3.  Go to the **Forwarding and POP/IMAP** tab.
+4.  Click **Add a forwarding address**.
+5.  Enter your Echobell channel email address (e.g., `ch_... @trigger.echobell.one`) and click **Next**.
+6.  **Verification:** Gmail will send a verification code to this address.
+    - Open the Echobell app.
+    - Go to your Channel's **Records** tab.
+    - Find the email from Gmail Team.
+    - Click the link in the email body or copy the confirmation code.
+7.  Go back to Gmail settings, enter the code, and click **Verify**.
+
+## Step 2: Create a Filter
+
+Do **not** enable "Forward a copy of incoming mail to" in the general settings, as this will forward *all* your emails. Instead, use a filter:
+
+1.  Click the **Show search options** icon (filters icon) in the Gmail search bar.
+2.  Define criteria for the emails you want to trigger a call (e.g., From: `alerts@example.com`, Subject: `Critical`).
+3.  Click **Create filter**.
+4.  Check the box **Forward it to:** and select your Echobell channel address.
+5.  (Optional) You can also check "Mark as read" or "Archive it" if you don't want these in your inbox.
+6.  Click **Create filter**.
+
+## Step 3: Test It
+
+Send an email that matches your filter criteria to your Gmail address. Your phone should ring via Echobell instantly.
+
+<Callout type="info">
+  Make sure your Echobell notification setting for this channel is set to **Calling** mode to receive actual phone calls.
+</Callout>
