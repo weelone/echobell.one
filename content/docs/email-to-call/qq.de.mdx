@@ -1,0 +1,40 @@
+---
+title: So wandeln Sie QQ-E-Mails in Telefonanrufe um
+description: Anweisungen zum Einrichten von QQ Mail-Regeln für die automatische Weiterleitung, um Echobell-Telefonanrufe auszulösen.
+sidebarTitle: QQ Mail
+---
+
+# QQ-E-Mails in Telefonanrufe umwandeln
+
+Verwenden Sie die Empfangsregeln von QQ Mail, um bestimmte E-Mails an Echobell weiterzuleiten und sie als Telefonanrufe zu empfangen.
+
+## Voraussetzungen
+
+- Ein Echobell-Kanal mit aktiviertem **E-Mail-Trigger**.
+- Ihre Echobell-Kanal-E-Mail-Adresse.
+
+## Schritt 1: Weiterleitungsregel einrichten
+
+1.  Loggen Sie sich im Web bei **QQ Mail** ein.
+2.  Klicken Sie oben auf **Einstellungen** (设置).
+3.  Gehen Sie zum Tab **Empfangsregeln** (收信规则).
+4.  Klicken Sie auf **Regel erstellen** (创建收信规则).
+5.  **Aktivieren** Sie die Regel.
+6.  **Bedingungen:** Legen Sie die Bedingungen für E-Mails fest, die Anrufe auslösen sollen (z. B. Betreff enthält "Error").
+7.  **Aktion:** Aktivieren Sie **Automatisch weiterleiten an** (自动转发给).
+8.  Geben Sie Ihre Echobell-Kanal-E-Mail-Adresse ein.
+    - Möglicherweise werden Sie aufgefordert, diese Adresse zu bestätigen. QQ Mail sendet normalerweise eine Bestätigungs-E-Mail.
+    - Überprüfen Sie Ihre Echobell-**Aufzeichnungen** (Records) auf diese E-Mail und klicken Sie auf den Bestätigungslink.
+9.  Klicken Sie auf **Sofort erstellen** (立即创建).
+
+## Schritt 2: Bestätigen
+
+Falls noch nicht geschehen, stellen Sie sicher, dass die Weiterleitungsadresse bestätigt ist. QQ Mail erfordert möglicherweise, dass Sie die Weiterleitungseinstellung auf der Einstellungsseite bestätigen, nachdem Sie auf den Link in der E-Mail geklickt haben.
+
+## Schritt 3: Testen
+
+Senden Sie eine Test-E-Mail, die Ihrer Regel entspricht, an Ihre QQ-Mail-Adresse. Stellen Sie sicher, dass Ihr Echobell-Kanal auf den Modus **Anrufen (Calling)** eingestellt ist, um das Klingeln zu hören.
+
+<Callout type="info">
+  QQ Mail erfordert möglicherweise, dass Sie SMTP/POP3-Dienste aktivieren oder ein unabhängiges Passwort für den Zugriff durch Dritte festlegen, aber für einfache Weiterleitungsregeln ist dies normalerweise nicht erforderlich.
+</Callout>

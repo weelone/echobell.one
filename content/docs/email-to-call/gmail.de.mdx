@@ -1,0 +1,47 @@
+---
+title: So wandeln Sie Gmail-E-Mails in Telefonanrufe um
+description: Schritt-für-Schritt-Anleitung zum Einrichten der automatischen Weiterleitung in Gmail, um Telefonanrufe über Echobell auszulösen.
+sidebarTitle: Gmail
+---
+
+# Gmail-E-Mails in Telefonanrufe umwandeln
+
+Befolgen Sie diese Anleitung, um einen Filter in Gmail einzurichten, der bestimmte E-Mails automatisch an Echobell weiterleitet und so einen Telefonanruf auf Ihrem Gerät auslöst.
+
+## Voraussetzungen
+
+- Ein Echobell-Kanal mit aktiviertem **E-Mail-Trigger**.
+- Die eindeutige E-Mail-Adresse für Ihren Kanal (zu finden in den Kanaleinstellungen).
+
+## Schritt 1: Weiterleitungsadresse hinzufügen
+
+1.  Öffnen Sie **Gmail** auf Ihrem Computer.
+2.  Klicken Sie auf das **Einstellungen-Zahnradsymbol** (⚙️) und wählen Sie **Alle Einstellungen aufrufen**.
+3.  Gehen Sie zum Tab **Weiterleitung und POP/IMAP**.
+4.  Klicken Sie auf **Weiterleitungsadresse hinzufügen**.
+5.  Geben Sie Ihre Echobell-Kanal-E-Mail-Adresse ein (z. B. `ch_... @trigger.echobell.one`) und klicken Sie auf **Weiter**.
+6.  **Bestätigung:** Gmail sendet einen Bestätigungscode an diese Adresse.
+    - Öffnen Sie die Echobell-App.
+    - Gehen Sie zum Tab **Aufzeichnungen** (Records) Ihres Kanals.
+    - Suchen Sie die E-Mail vom Gmail-Team.
+    - Klicken Sie auf den Link im E-Mail-Text oder kopieren Sie den Bestätigungscode.
+7.  Gehen Sie zurück zu den Gmail-Einstellungen, geben Sie den Code ein und klicken Sie auf **Bestätigen**.
+
+## Schritt 2: Filter erstellen
+
+Aktivieren Sie **nicht** "Kopie eingehender E-Mails an ... weiterleiten" in den allgemeinen Einstellungen, da dies **alle** Ihre E-Mails weiterleitet. Verwenden Sie stattdessen einen Filter:
+
+1.  Klicken Sie auf das Symbol **Suchoptionen anzeigen** (Filtersymbol) in der Gmail-Suchleiste.
+2.  Definieren Sie Kriterien für die E-Mails, die einen Anruf auslösen sollen (z. B. Von: `alerts@example.com`, Betreff: `Kritisch`).
+3.  Klicken Sie auf **Filter erstellen**.
+4.  Aktivieren Sie das Kontrollkästchen **Weiterleiten an:** und wählen Sie Ihre Echobell-Kanaladresse aus.
+5.  (Optional) Sie können auch "Als gelesen markieren" oder "Archivieren" aktivieren, wenn Sie diese nicht in Ihrem Posteingang haben möchten.
+6.  Klicken Sie auf **Filter erstellen**.
+
+## Schritt 3: Testen
+
+Senden Sie eine E-Mail, die Ihren Filterkriterien entspricht, an Ihre Gmail-Adresse. Ihr Telefon sollte über Echobell sofort klingeln.
+
+<Callout type="info">
+  Stellen Sie sicher, dass Ihre Echobell-Benachrichtigungseinstellung für diesen Kanal auf den Modus **Anrufen (Calling)** eingestellt ist, um tatsächliche Telefonanrufe zu erhalten.
+</Callout>

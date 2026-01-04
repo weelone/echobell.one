@@ -1,0 +1,47 @@
+---
+title: Comment convertir les emails Gmail en appels téléphoniques
+description: Guide étape par étape pour configurer le transfert automatique Gmail afin de déclencher des appels téléphoniques via Echobell.
+sidebarTitle: Gmail
+---
+
+# Convertir les emails Gmail en appels téléphoniques
+
+Suivez ce guide pour configurer un filtre dans Gmail qui transfère automatiquement des emails spécifiques vers Echobell, déclenchant un appel téléphonique sur votre appareil.
+
+## Prérequis
+
+- Un canal Echobell avec **Déclencheur Email** activé.
+- L'adresse email unique de votre canal (trouvée dans les Paramètres du canal).
+
+## Étape 1 : Ajouter une adresse de transfert
+
+1.  Ouvrez **Gmail** sur votre ordinateur.
+2.  Cliquez sur l'**icône d'engrenage Paramètres** (⚙️) et sélectionnez **Voir tous les paramètres**.
+3.  Allez dans l'onglet **Transfert et POP/IMAP**.
+4.  Cliquez sur **Ajouter une adresse de transfert**.
+5.  Entrez l'adresse email de votre canal Echobell (par ex., `ch_... @trigger.echobell.one`) et cliquez sur **Suivant**.
+6.  **Vérification :** Gmail enverra un code de vérification à cette adresse.
+    - Ouvrez l'application Echobell.
+    - Allez dans l'onglet **Enregistrements** (Records) de votre canal.
+    - Trouvez l'email de l'équipe Gmail.
+    - Cliquez sur le lien dans le corps de l'email ou copiez le code de confirmation.
+7.  Retournez dans les paramètres Gmail, entrez le code et cliquez sur **Vérifier**.
+
+## Étape 2 : Créer un filtre
+
+N'activez **pas** "Transférer une copie des messages entrants à" dans les paramètres généraux, car cela transférera **tous** vos emails. Utilisez plutôt un filtre :
+
+1.  Cliquez sur l'icône **Afficher les options de recherche** (icône de filtres) dans la barre de recherche Gmail.
+2.  Définissez les critères pour les emails qui doivent déclencher un appel (par ex., De : `alertes@exemple.com`, Objet : `Critique`).
+3.  Cliquez sur **Créer un filtre**.
+4.  Cochez la case **Transférer à :** et sélectionnez votre adresse de canal Echobell.
+5.  (Optionnel) Vous pouvez également cocher "Marquer comme lu" ou "Archiver" si vous ne voulez pas ces emails dans votre boîte de réception.
+6.  Cliquez sur **Créer un filtre**.
+
+## Étape 3 : Tester
+
+Envoyez un email correspondant à vos critères de filtre à votre adresse Gmail. Votre téléphone devrait sonner via Echobell instantanément.
+
+<Callout type="info">
+  Assurez-vous que votre paramètre de notification Echobell pour ce canal est réglé sur le mode **Appel (Calling)** pour recevoir de vrais appels téléphoniques.
+</Callout>

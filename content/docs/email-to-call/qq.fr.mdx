@@ -1,0 +1,40 @@
+---
+title: Comment convertir les emails QQ en appels téléphoniques
+description: Instructions pour configurer les règles de transfert automatique de QQ Mail pour déclencher des appels téléphoniques Echobell.
+sidebarTitle: QQ Mail
+---
+
+# Convertir les emails QQ en appels téléphoniques
+
+Utilisez les règles de réception de QQ Mail pour transférer des emails spécifiques vers Echobell et les recevoir sous forme d'appels téléphoniques.
+
+## Prérequis
+
+- Un canal Echobell avec **Déclencheur Email** activé.
+- Votre adresse email de canal Echobell.
+
+## Étape 1 : Configurer la règle de transfert
+
+1.  Connectez-vous à **QQ Mail** sur le web.
+2.  Cliquez sur **Paramètres** (设置) en haut.
+3.  Allez dans l'onglet **Règles de réception** (收信规则).
+4.  Cliquez sur **Créer une règle** (创建收信规则).
+5.  **Activez** la règle.
+6.  **Conditions :** Définissez les conditions pour les emails qui doivent déclencher des appels (par ex., l'Objet inclut "Error").
+7.  **Action :** Cochez **Transférer automatiquement à** (自动转发给).
+8.  Entrez votre adresse email de canal Echobell.
+    - Il peut vous être demandé de vérifier cette adresse. QQ Mail envoie généralement un email de vérification.
+    - Vérifiez vos **Enregistrements** (Records) Echobell pour cet email et cliquez sur le lien de confirmation.
+9.  Cliquez sur **Créer immédiatement** (立即创建).
+
+## Étape 2 : Vérifier
+
+Si ce n'est pas déjà fait, assurez-vous que l'adresse de transfert est vérifiée. QQ Mail peut exiger que vous confirmiez le paramètre de transfert sur la page des paramètres après avoir cliqué sur le lien dans l'email.
+
+## Étape 3 : Tester
+
+Envoyez un email de test correspondant à votre règle à votre adresse QQ Mail. Assurez-vous que votre canal Echobell est réglé sur le mode **Appel (Calling)** pour entendre la sonnerie.
+
+<Callout type="info">
+  QQ Mail peut exiger que vous activiez les services SMTP/POP3 ou définissiez un mot de passe indépendant pour l'accès tiers, mais pour des règles de transfert simples, ce n'est généralement pas nécessaire.
+</Callout>

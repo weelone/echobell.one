@@ -1,0 +1,40 @@
+---
+title: Cómo convertir correos de QQ en llamadas telefónicas
+description: Instrucciones para configurar reglas de reenvío automático de QQ Mail para activar llamadas telefónicas de Echobell.
+sidebarTitle: QQ Mail
+---
+
+# Convertir correos de QQ en llamadas telefónicas
+
+Use las reglas de recepción de QQ Mail para reenviar correos específicos a Echobell y recibirlos como llamadas telefónicas.
+
+## Requisitos previos
+
+- Un canal de Echobell con **Disparador de correo** habilitado.
+- Su dirección de correo electrónico del canal Echobell.
+
+## Paso 1: Configurar regla de reenvío
+
+1.  Inicie sesión en **QQ Mail** en la web.
+2.  Haga clic en **Configuración** (设置) en la parte superior.
+3.  Vaya a la pestaña **Reglas de recepción** (收信规则).
+4.  Haga clic en **Crear regla** (创建收信规则).
+5.  **Habilitar** la regla.
+6.  **Condiciones:** Establezca las condiciones para los correos que desea que activen llamadas (p. ej., el Asunto incluye "Error").
+7.  **Acción:** Marque **Reenviar automáticamente a** (自动转发给).
+8.  Ingrese su dirección de correo electrónico del canal Echobell.
+    - Es posible que se le solicite verificar esta dirección. QQ Mail generalmente envía un correo de verificación.
+    - Verifique sus **Registros** (Records) de Echobell para ver este correo y haga clic en el enlace de confirmación.
+9.  Haga clic en **Crear inmediatamente** (立即创建).
+
+## Paso 2: Verificar
+
+Si aún no lo ha hecho, asegúrese de que la dirección de reenvío esté verificada. Es posible que QQ Mail requiera que confirme la configuración de reenvío en la página de configuración después de hacer clic en el enlace del correo.
+
+## Paso 3: Probar
+
+Envíe un correo de prueba que coincida con su regla a su dirección de QQ Mail. Asegúrese de que su canal de Echobell esté configurado en modo **Llamada (Calling)** para escuchar el timbre.
+
+<Callout type="info">
+  Es posible que QQ Mail requiera que habilite los servicios SMTP/POP3 o establezca una contraseña independiente para el acceso de terceros, pero para reglas de reenvío simples, esto generalmente no es necesario.
+</Callout>

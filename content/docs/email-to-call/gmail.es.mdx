@@ -1,0 +1,47 @@
+---
+title: Cómo convertir correos de Gmail en llamadas telefónicas
+description: Guía paso a paso para configurar el reenvío automático de Gmail para activar llamadas telefónicas a través de Echobell.
+sidebarTitle: Gmail
+---
+
+# Convertir correos de Gmail en llamadas telefónicas
+
+Siga esta guía para configurar un filtro en Gmail que reenvíe automáticamente correos electrónicos específicos a Echobell, activando una llamada telefónica a su dispositivo.
+
+## Requisitos previos
+
+- Un canal de Echobell con **Disparador de correo** habilitado.
+- La dirección de correo electrónico única para su canal (se encuentra en la Configuración del canal).
+
+## Paso 1: Agregar dirección de reenvío
+
+1.  Abra **Gmail** en su computadora.
+2.  Haga clic en el **icono de engranaje de Configuración** (⚙️) y seleccione **Ver todos los ajustes**.
+3.  Vaya a la pestaña **Reenvío y correo POP/IMAP**.
+4.  Haga clic en **Añadir una dirección de reenvío**.
+5.  Ingrese la dirección de correo electrónico de su canal Echobell (p. ej., `ch_... @trigger.echobell.one`) y haga clic en **Siguiente**.
+6.  **Verificación:** Gmail enviará un código de verificación a esta dirección.
+    - Abra la aplicación Echobell.
+    - Vaya a la pestaña **Registros** (Records) de su canal.
+    - Busque el correo del equipo de Gmail.
+    - Haga clic en el enlace del cuerpo del correo o copie el código de confirmación.
+7.  Vuelva a la configuración de Gmail, ingrese el código y haga clic en **Verificar**.
+
+## Paso 2: Crear un filtro
+
+**No** habilite "Reenviar una copia del correo entrante a" en la configuración general, ya que esto reenviará **todos** sus correos. En su lugar, utilice un filtro:
+
+1.  Haga clic en el icono **Mostrar opciones de búsqueda** (icono de filtros) en la barra de búsqueda de Gmail.
+2.  Defina los criterios para los correos que desea que activen una llamada (p. ej., De: `alertas@ejemplo.com`, Asunto: `Crítico`).
+3.  Haga clic en **Crear filtro**.
+4.  Marque la casilla **Reenviarlo a:** y seleccione su dirección de canal de Echobell.
+5.  (Opcional) También puede marcar "Marcar como leído" o "Archivar" si no desea estos en su bandeja de entrada.
+6.  Haga clic en **Crear filtro**.
+
+## Paso 3: Probar
+
+Envíe un correo electrónico que coincida con los criterios de su filtro a su dirección de Gmail. Su teléfono debería sonar a través de Echobell al instante.
+
+<Callout type="info">
+  Asegúrese de que su configuración de notificación de Echobell para este canal esté configurada en modo **Llamada (Calling)** para recibir llamadas telefónicas reales.
+</Callout>

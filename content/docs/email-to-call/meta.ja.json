@@ -1,0 +1,9 @@
+{
+  "title": "メールから電話へ",
+  "pages": [
+    "index",
+    "gmail",
+    "yahoo",
+    "qq"
+  ]
+}
