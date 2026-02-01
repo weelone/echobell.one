@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Echobell Website & Docs
 
-## Getting Started
+This repository powers the official **Echobell** marketing and documentation site. It explains what Echobell is, how it works, and how to integrate it with your systems.
 
-First, run the development server:
+## What is Echobell?
+
+Echobell is an **instant alert app** that delivers critical events to your phone in seconds. It is built for developers, DevOps teams, and anyone who needs reliable, actionable notifications.
+
+Key highlights:
+
+- **Webhook & Email triggers**: send a simple request or email to fire an alert
+- **Push + phone call alerts**: escalate the most urgent incidents so they cannot be missed
+- **Channel-based routing**: organize alerts by project, environment, or team
+- **Templates & variables**: render richer, clearer notification messages
+- **Team sharing**: invite teammates to a channel with a single link
+
+Whether it is CI/CD failures, production outages, trading signals, or business events, Echobell keeps you informed instantly.
+
+## What this site includes
+
+- Product overview and feature pages
+- Documentation and integration guides (Webhook, Email, TradingView, etc.)
+- Blog posts and best practices
+- Multilingual content (EN/DE/ES/FR/JA/ZH)
+
+## Project structure
+
+- `app/`: Next.js App Router (localized routes in `app/[lang]`)
+- `components/`: Reusable UI
+- `content/`: MDX docs and blog content
+- `lib/`: i18n, utilities, and configuration
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Common commands:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+This project deploys with **OpenNext + Cloudflare Workers**:
 
-To learn more about Next.js, take a look at the following resources:
+- Config: `open-next.config.ts`, `wrangler.jsonc`
+- Preview: `npm run preview`
+- Deploy: `npm run deploy`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+PRs and feedback are welcome. Please run `npm run lint` and ensure `npm run build` passes before submitting.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Learn Echobell here:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Website: https://echobell.one
+- Docs: https://echobell.one/docs
+- Webhook guide: https://echobell.one/docs/webhook
+- Features: https://echobell.one/docs/features
+- App Store: https://apps.apple.com/app/id6743597198
