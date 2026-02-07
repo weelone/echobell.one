@@ -1,0 +1,139 @@
+---
+title: Cómo reenviar correos importantes de QQ Mail a notificaciones por llamada
+date: 2026-02-07
+description: "Aprende a reenviar correos críticos de QQ Mail a Echobell y recibir notificaciones tipo llamada en tu teléfono. Prioriza el filtrado en QQ Mail e incluye notas de privacidad y deber de informar."
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Cómo reenviar correos importantes de QQ Mail a notificaciones por llamada
+
+El problema no suele ser no recibir correos importantes en QQ Mail, sino verlos demasiado tarde. Si estás en reuniones o concentrado, una notificación normal se pierde fácil. La alternativa es simple: reenviar solo lo crítico a Echobell y recibir una llamada en el móvil.
+
+En esta guía lo configuras en pocos minutos.
+
+Lecturas útiles:
+
+- Guía de QQ Mail: [/es/docs/email-to-call/qq](/es/docs/email-to-call/qq)
+- Base de Email Trigger: [/es/docs/email-trigger](/es/docs/email-trigger)
+- Tipos de notificación (incluye Calling): [/es/docs/notification](/es/docs/notification)
+- Plantillas y variables: [/es/docs/template](/es/docs/template)
+- Condiciones: [/es/docs/conditions](/es/docs/conditions)
+
+## Por qué usar llamadas para correos críticos
+
+- Una llamada se ignora mucho menos que una push normal
+- Puedes mantener el correo diario en silencio y escalar solo lo urgente
+- El contenido por voz te da contexto sin mirar la pantalla
+
+Si manejas incidentes, clientes VIP o alertas de facturación, este flujo funciona muy bien.
+
+## Requisitos
+
+- Echobell instalado ([App Store](https://apps.apple.com/app/id6743597198))
+- Un canal de Echobell para correos urgentes
+- Acceso a la configuración de QQ Mail
+
+## Paso 1 - Crea un canal de Echobell para QQ Mail importante
+
+1. Crea un canal nuevo, por ejemplo: `QQ Mail Crítico`.
+2. Define el tipo de notificación en **Calling**.
+3. Activa los reintentos si quieres máxima entrega para alertas urgentes.
+
+Referencia: [/es/docs/notification](/es/docs/notification)
+
+## Paso 2 - Copia el email del canal y define plantillas claras
+
+Desde el detalle del canal, copia el email dedicado. Ahí se reenviarán los mensajes importantes de QQ Mail.
+
+Plantillas recomendadas:
+
+Título:
+
+```txt
+[QQ Importante] {{subject}}
+```
+
+Cuerpo:
+
+```txt
+De {{from}}. {{text}}
+```
+
+Más opciones: [/es/docs/template](/es/docs/template)
+
+## Paso 3 - Configura reglas de reenvío en QQ Mail
+
+En QQ Mail, crea una regla/filtro para correos de alta prioridad:
+
+- Filtrar por remitente (dirección, finanzas, seguridad, clientes clave)
+- Filtrar por asunto (`urgente`, `factura`, `error`, `verificación`)
+- Acción: reenviar al email del canal de Echobell
+
+La primera vez que habilitas el reenvío, QQ Mail envía un correo de verificación. En Echobell, abre esa notificación y usa el enlace en la esquina superior derecha para ver el cuerpo completo; luego pulsa el enlace de confirmación para activar el reenvío.
+
+Esta debe ser tu capa principal de filtrado. Por privacidad, filtra primero en QQ Mail para enviar a Echobell solo lo necesario.
+
+Empieza con una regla estricta y luego amplía. Así evitas fatiga de alertas.
+
+Tutorial específico de QQ: [/es/docs/email-to-call/qq](/es/docs/email-to-call/qq)
+
+## Paso 4 - Capa opcional: Conditions en Echobell
+
+Úsalo solo como respaldo cuando las reglas de QQ Mail no alcancen para expresar toda la lógica.
+
+Ejemplos:
+
+Solo remitente de facturación:
+
+```js
+from == "billing@company.com"
+```
+
+Solo si el asunto contiene `urgent`:
+
+```js
+subject.toLowerCase().includes("urgent")
+```
+
+Remitente + palabra clave:
+
+```js
+(from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
+```
+
+Sintaxis: [/es/docs/conditions](/es/docs/conditions)
+
+## Privacidad y deber de informar
+
+Si publicas este flujo para usuarios o equipos, deja claro que:
+
+- El filtrado principal debe hacerse en QQ Mail para minimizar qué correos se envían a Echobell.
+- Hay que informar a los usuarios de que los correos que cumplan la regla pueden reenviarse para la entrega de notificaciones, según política interna y normativa local.
+
+## Paso 5 - Prueba completa
+
+1. Envía un correo de prueba en QQ Mail que cumpla la regla.
+2. Verifica que se reenvía al email del canal.
+3. Verifica que Echobell dispare la llamada.
+4. Ajusta plantillas y filtros según el resultado.
+
+## Solución de problemas
+
+- No llega la llamada:
+  - Revisa que el tipo sea Calling
+  - Revisa permisos de notificación y modo enfoque en iOS
+- Llegan demasiadas llamadas:
+  - Endurece primero las reglas de QQ Mail
+  - Añade Conditions en Echobell solo si sigue siendo necesario
+- Audio demasiado largo:
+  - Acorta plantillas y deja solo datos clave
+
+## Siguientes pasos
+
+- Separa canales por tema (finanzas/seguridad/clientes)
+- Usa push para lo normal y llamadas solo para lo crítico
+- Revisa reglas de reenvío cada mes
+
+Más integraciones por correo: [/es/docs/email-to-call](/es/docs/email-to-call)

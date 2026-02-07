@@ -1,0 +1,139 @@
+---
+title: Wichtige QQ-Mail-E-Mails als Telefonbenachrichtigung weiterleiten
+date: 2026-02-07
+description: "So leitest du wichtige E-Mails aus QQ Mail an Echobell weiter und erhältst sie als Telefonbenachrichtigung. Mit Fokus auf Filterung in QQ Mail sowie Hinweise zu Datenschutz und Informationspflicht."
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Wichtige QQ-Mail-E-Mails als Telefonbenachrichtigung weiterleiten
+
+Wichtige QQ-Mail-Nachrichten gehen selten verloren, aber sie werden oft zu spät gesehen. Während Meetings oder Fokusphasen reichen normale Push-Benachrichtigungen nicht aus. Besser: Nur kritische E-Mails an Echobell weiterleiten und als Anruf-Benachrichtigung erhalten.
+
+In diesem Guide richtest du das in wenigen Minuten ein.
+
+Nützliche Doku-Links:
+
+- QQ-Mail-Guide: [/de/docs/email-to-call/qq](/de/docs/email-to-call/qq)
+- E-Mail-Trigger-Grundlagen: [/de/docs/email-trigger](/de/docs/email-trigger)
+- Benachrichtigungstypen (inkl. Calling): [/de/docs/notification](/de/docs/notification)
+- Vorlagen und Variablen: [/de/docs/template](/de/docs/template)
+- Conditions: [/de/docs/conditions](/de/docs/conditions)
+
+## Warum Calling-Benachrichtigungen?
+
+- Ein Anruf ist deutlich schwerer zu übersehen als eine normale Push
+- Standardmails bleiben leise, nur wirklich Kritisches eskaliert
+- Sprachinhalt liefert Kontext, auch wenn du nicht aufs Display schaust
+
+Das ist besonders hilfreich bei Incidents, VIP-Kundenanfragen und Abrechnungsproblemen.
+
+## Voraussetzungen
+
+- Echobell installiert ([App Store](https://apps.apple.com/app/id6743597198))
+- Ein Kanal für dringende E-Mail-Alerts
+- Zugriff auf QQ-Mail-Einstellungen
+
+## Schritt 1 - Echobell-Kanal für wichtige QQ-Mails erstellen
+
+1. Neuen Kanal anlegen, z. B. `QQ Kritische Mails`.
+2. Benachrichtigungstyp auf **Calling** setzen.
+3. Optional Retry aktivieren, um Zustellung bei kritischen Fällen zu erhöhen.
+
+Referenz: [/de/docs/notification](/de/docs/notification)
+
+## Schritt 2 - Kanal-E-Mail kopieren und Vorlagen festlegen
+
+In den Kanal-Details die gebundene E-Mail-Adresse kopieren. Dorthin leitet QQ Mail später die wichtigen Nachrichten weiter.
+
+Empfohlene Vorlagen:
+
+Titel:
+
+```txt
+[QQ Wichtig] {{subject}}
+```
+
+Text:
+
+```txt
+Von {{from}}. {{text}}
+```
+
+Mehr zu Vorlagen: [/de/docs/template](/de/docs/template)
+
+## Schritt 3 - Weiterleitungsregel in QQ Mail einrichten
+
+In QQ Mail eine Regel/Filter für priorisierte E-Mails erstellen:
+
+- Nach Absender filtern (Management, Finance, Security, Key Accounts)
+- Nach Betreff-Schlagworten filtern (`urgent`, `invoice`, `failure`, `verification`)
+- Aktion: Weiterleiten an die Echobell-Kanaladresse
+
+Beim ersten Aktivieren der Weiterleitung sendet QQ Mail eine Bestätigungs-E-Mail. Öffne in Echobell diese Benachrichtigung, nutze den Link oben rechts zum vollständigen E-Mail-Text und klicke dann den Bestätigungslink, um die Weiterleitung zu aktivieren.
+
+Das sollte deine primäre Filterebene sein. Für mehr Datenschutz zuerst in QQ Mail filtern, sodass nur notwendige E-Mails an Echobell gehen.
+
+Starte mit einer strikten Regel und erweitere schrittweise.
+
+Vollständige QQ-Anleitung: [/de/docs/email-to-call/qq](/de/docs/email-to-call/qq)
+
+## Schritt 4 - Optionaler Fallback: Conditions in Echobell
+
+Diese Ebene nur nutzen, wenn sich deine Logik in QQ-Mail-Regeln nicht vollständig abbilden lässt.
+
+Beispiele:
+
+Nur Absender Finance:
+
+```js
+from == "billing@company.com"
+```
+
+Nur bei `urgent` im Betreff:
+
+```js
+subject.toLowerCase().includes("urgent")
+```
+
+Absender + Keyword:
+
+```js
+(from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
+```
+
+Syntax: [/de/docs/conditions](/de/docs/conditions)
+
+## Datenschutz und Informationspflicht
+
+Wenn du diesen Workflow für Nutzer oder Teams veröffentlichst, sollte klar kommuniziert werden:
+
+- Die Hauptfilterung erfolgt in QQ Mail, damit nur wirklich notwendige Inhalte an Echobell weitergeleitet werden.
+- Nutzer müssen informiert sein, dass regelbasierte E-Mails zur Benachrichtigungszustellung weitergeleitet werden können, gemäß interner Richtlinien und lokaler Compliance-Anforderungen.
+
+## Schritt 5 - End-to-End testen
+
+1. Testmail in QQ Mail senden, die zur Regel passt.
+2. Prüfen, ob die Weiterleitung zur Kanaladresse erfolgt.
+3. Prüfen, ob Echobell einen Anruf auslöst.
+4. Vorlagen und Regeln anhand des Ergebnisses nachschärfen.
+
+## Troubleshooting
+
+- Kein Anruf:
+  - Prüfen, ob Calling aktiv ist
+  - iOS-Berechtigungen und Fokusmodus prüfen
+- Zu viele Anrufe:
+  - Zuerst QQ-Regeln enger stellen
+  - Conditions in Echobell nur ergänzen, wenn weiterhin nötig
+- Sprachinhalt zu lang:
+  - Vorlagentexte kürzen, nur Kerndaten behalten
+
+## Nächste Schritte
+
+- Kanäle nach Thema trennen (Finance/Security/Kunden)
+- Push für Routine, Calling nur für echte Dringlichkeit
+- Weiterleitungsregeln monatlich prüfen
+
+Mehr E-Mail-Integrationen: [/de/docs/email-to-call](/de/docs/email-to-call)

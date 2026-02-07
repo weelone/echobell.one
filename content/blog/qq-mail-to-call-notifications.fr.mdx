@@ -1,0 +1,139 @@
+---
+title: Comment transférer les emails importants de QQ Mail en notifications d'appel
+date: 2026-02-07
+description: "Découvrez comment transférer les emails critiques de QQ Mail vers Echobell pour recevoir des notifications d'appel sur votre téléphone. Priorité au filtrage côté QQ Mail, avec rappel confidentialité et devoir d'information."
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Comment transférer les emails importants de QQ Mail en notifications d'appel
+
+Le vrai problème avec les emails importants QQ Mail, ce n'est pas de les recevoir, c'est de les voir trop tard. En réunion ou en focus, une notification classique se perd vite. Une meilleure approche consiste à transférer uniquement les messages critiques vers Echobell et à recevoir un appel.
+
+Ce guide vous montre la configuration complète, étape par étape.
+
+Liens utiles :
+
+- Guide QQ Mail : [/fr/docs/email-to-call/qq](/fr/docs/email-to-call/qq)
+- Déclencheurs email : [/fr/docs/email-trigger](/fr/docs/email-trigger)
+- Types de notification (dont Calling) : [/fr/docs/notification](/fr/docs/notification)
+- Templates et variables : [/fr/docs/template](/fr/docs/template)
+- Conditions : [/fr/docs/conditions](/fr/docs/conditions)
+
+## Pourquoi choisir les notifications d'appel ?
+
+- Un appel est bien plus difficile à ignorer qu'une push classique
+- Vous gardez les emails courants silencieux et n'escaladez que l'urgent
+- Le contenu vocal permet de comprendre l'alerte sans regarder l'écran
+
+C'est particulièrement utile pour les incidents, l'escalade client, ou les alertes de facturation.
+
+## Prérequis
+
+- Echobell installé ([App Store](https://apps.apple.com/app/id6743597198))
+- Un canal Echobell dédié aux emails urgents
+- Accès aux paramètres QQ Mail
+
+## Étape 1 - Créer un canal Echobell pour les emails critiques QQ
+
+1. Créez un canal, par exemple : `QQ Mail Critique`.
+2. Choisissez le type de notification **Calling**.
+3. Activez les options de retry si vous voulez une livraison plus robuste.
+
+Voir : [/fr/docs/notification](/fr/docs/notification)
+
+## Étape 2 - Copier l'email du canal et configurer les templates
+
+Dans les détails du canal, copiez l'adresse email dédiée. QQ Mail transférera les messages importants vers cette adresse.
+
+Templates conseillés :
+
+Titre :
+
+```txt
+[QQ Important] {{subject}}
+```
+
+Corps :
+
+```txt
+De {{from}}. {{text}}
+```
+
+Référence templates : [/fr/docs/template](/fr/docs/template)
+
+## Étape 3 - Configurer les règles de transfert dans QQ Mail
+
+Dans QQ Mail, créez une règle/filtre pour les messages prioritaires :
+
+- Filtrer par expéditeur (direction, finance, sécurité, clients clés)
+- Filtrer par mots-clés d'objet (`urgent`, `facture`, `incident`, `vérification`)
+- Action : transférer vers l'email du canal Echobell
+
+Lors de la première activation du transfert, QQ Mail envoie un email de vérification. Dans Echobell, ouvrez cette notification puis utilisez le lien en haut à droite pour afficher le corps complet, et cliquez ensuite sur le lien de confirmation pour activer le transfert.
+
+Cette étape doit être votre couche principale de filtrage. Pour la confidentialité, filtrez d'abord dans QQ Mail afin de n'envoyer à Echobell que le nécessaire.
+
+Commencez avec une règle stricte, puis élargissez progressivement.
+
+Tutoriel QQ complet : [/fr/docs/email-to-call/qq](/fr/docs/email-to-call/qq)
+
+## Étape 4 - Option de secours : Conditions dans Echobell
+
+Utilisez cette couche uniquement en secours, si les règles QQ Mail ne couvrent pas entièrement votre logique.
+
+Exemples :
+
+Uniquement finance :
+
+```js
+from == "billing@company.com"
+```
+
+Uniquement si l'objet contient `urgent` :
+
+```js
+subject.toLowerCase().includes("urgent")
+```
+
+Expéditeur + mot-clé :
+
+```js
+(from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
+```
+
+Syntaxe : [/fr/docs/conditions](/fr/docs/conditions)
+
+## Confidentialité et devoir d'information
+
+Si vous publiez ce workflow pour des utilisateurs ou des équipes, indiquez explicitement :
+
+- Le filtrage principal doit être fait dans QQ Mail pour limiter les emails transférés à Echobell.
+- Les utilisateurs doivent être informés que les emails correspondant aux règles peuvent être transférés pour la délivrance des notifications, selon la politique interne et les exigences locales.
+
+## Étape 5 - Tester de bout en bout
+
+1. Envoyez un email de test QQ Mail qui correspond à la règle.
+2. Vérifiez le transfert vers le canal Echobell.
+3. Vérifiez la réception d'un appel.
+4. Ajustez templates et filtres selon le résultat.
+
+## Dépannage
+
+- Aucun appel reçu :
+  - Vérifiez que le type est bien Calling
+  - Vérifiez les permissions iOS et le mode concentration
+- Trop d'appels :
+  - Renforcez d'abord le filtre QQ Mail
+  - Ajoutez des Conditions Echobell uniquement si nécessaire
+- Message vocal trop long :
+  - Raccourcissez le template au strict essentiel
+
+## Prochaines optimisations
+
+- Un canal par sujet (finance/sécurité/client)
+- Push pour le routine, appel pour l'urgent
+- Revue mensuelle des règles de transfert
+
+Voir aussi : [/fr/docs/email-to-call](/fr/docs/email-to-call)

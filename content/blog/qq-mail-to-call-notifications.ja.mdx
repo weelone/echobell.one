@@ -1,0 +1,139 @@
+---
+title: QQメールの重要メールを電話通知に転送する方法
+date: 2026-02-07
+description: "QQメールの重要メールをEchobellへ転送し、電話通知で受け取る手順を解説。QQメール側フィルタを優先し、プライバシーと告知義務も明記。"
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# QQメールの重要メールを電話通知に転送する方法
+
+QQメールの重要メールは、届かないのではなく「気づくのが遅い」ことが問題です。会議中や作業集中中は通常のプッシュ通知を見逃しやすいため、重要メールだけをEchobellへ転送して電話通知にする運用が効果的です。
+
+このガイドでは、最短で設定できる形に絞って手順をまとめます。
+
+先に読んでおくとスムーズです：
+
+- QQメール連携ドキュメント：[/ja/docs/email-to-call/qq](/ja/docs/email-to-call/qq)
+- Email Trigger の基本：[/ja/docs/email-trigger](/ja/docs/email-trigger)
+- 通知タイプ（Calling含む）：[/ja/docs/notification](/ja/docs/notification)
+- テンプレートと変数：[/ja/docs/template](/ja/docs/template)
+- Conditions：[/ja/docs/conditions](/ja/docs/conditions)
+
+## なぜ電話通知なのか
+
+- 通常のプッシュより見逃しにくい
+- 普段のメールは静かに、緊急時だけ強く通知できる
+- 音声読み上げで画面を見なくても要点を把握しやすい
+
+障害対応、顧客エスカレーション、請求系アラートで特に効果があります。
+
+## 事前準備
+
+- Echobell をインストール（[App Store](https://apps.apple.com/app/id6743597198)）
+- 緊急メール用のチャンネルを1つ作成
+- QQメールの設定画面にアクセスできること
+
+## 手順1 - QQ重要メール用チャンネルを作る
+
+1. Echobellで新規チャンネルを作成（例：`QQ重要メール`）。
+2. 通知タイプを **Calling** に設定。
+3. 必要なら再試行設定を有効化。
+
+関連：[/ja/docs/notification](/ja/docs/notification)
+
+## 手順2 - チャンネルメールをコピーし、テンプレートを設定
+
+チャンネル詳細から専用メールアドレスをコピーします。QQメールはこのアドレスに転送します。
+
+短く分かりやすいテンプレート例：
+
+タイトル：
+
+```txt
+[QQ重要メール] {{subject}}
+```
+
+本文：
+
+```txt
+送信元 {{from}}。{{text}}
+```
+
+テンプレート詳細：[/ja/docs/template](/ja/docs/template)
+
+## 手順3 - QQメールで転送ルールを作成
+
+QQメール側で重要メール用のルール/フィルターを作ります：
+
+- 送信元で絞る（上司、経理、セキュリティ、重要顧客）
+- 件名キーワードで絞る（`urgent`、`invoice`、`failure`、`verification`）
+- アクション：Echobellのチャンネルメールへ転送
+
+初回に転送を有効化すると、QQメールから確認メールが届きます。Echobellでは通知右上のリンクからメール本文を開き、本文内の確認リンクをクリックすると転送が有効になります。
+
+この設定を主フィルターとして扱うのが基本です。プライバシーの観点から、まずQQメール側で厳選し、必要なメールだけをEchobellへ転送します。
+
+最初は厳しめの条件1本から始めるのがおすすめです。
+
+QQ専用手順：[/ja/docs/email-to-call/qq](/ja/docs/email-to-call/qq)
+
+## 手順4 - 任意の補助策：EchobellのConditions
+
+QQメール側のルールで表現しきれない場合だけ、補助的に使います。
+
+例：
+
+請求メールのみ：
+
+```js
+from == "billing@company.com"
+```
+
+件名に urgent が含まれる場合のみ：
+
+```js
+subject.toLowerCase().includes("urgent")
+```
+
+送信元 + キーワード：
+
+```js
+(from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
+```
+
+条件式リファレンス：[/ja/docs/conditions](/ja/docs/conditions)
+
+## プライバシーと告知義務
+
+この運用をユーザーやチーム向けに案内する場合は、次を明示してください。
+
+- 主な条件設定はQQメール側で行い、Echobellへ転送するメールを必要最小限にすること。
+- ルールに一致したメール内容が通知配信のために転送される可能性があることを、社内ポリシーと地域の法令に沿って事前に告知すること。
+
+## 手順5 - エンドツーエンドでテスト
+
+1. QQメールでルールに一致するテストメールを送信。
+2. チャンネルメールに転送されることを確認。
+3. Echobellで電話通知が来ることを確認。
+4. 音声内容を見てテンプレートと条件を微調整。
+
+## よくある問題
+
+- 電話通知が来ない：
+  - サブスクリプションがCallingになっているか確認
+  - iOS通知権限と集中モードを確認
+- 通知が多すぎる：
+  - まずQQルールを厳しくする
+  - それでも不足する場合のみConditionsを追加する
+- 音声が長すぎる：
+  - テンプレートを短くする
+
+## 次の改善ポイント
+
+- テーマ別にチャンネル分割（経理/セキュリティ/顧客）
+- 通常通知はPush、緊急のみCalling
+- 月1で転送ルールを見直す
+
+メール連携の一覧：[/ja/docs/email-to-call](/ja/docs/email-to-call)
