@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { baseUrl } from "@/lib/metadata";
 import { source, blog } from "@/lib/source";
 import { languages, localizeUrl } from "@/lib/i18n";
+import { competitorSlugs } from "@/lib/competitor-comparisons";
 
 // Revalidate daily to keep lastModified stable but fresh
 export const revalidate = 86400;
@@ -66,6 +67,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "monthly",
           priority: 0.8,
         } as const)
+    ),
+    ...getLocalizedUrls("/features/comparisons").map(
+      (item) =>
+        ({
+          url: url(item),
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.85,
+        } as const)
+    ),
+    ...competitorSlugs.flatMap((slug) =>
+      getLocalizedUrls(`/features/comparisons/${slug}`).map(
+        (item) =>
+          ({
+            url: url(item),
+            lastModified: new Date(),
+            changeFrequency: "monthly",
+            priority: 0.8,
+          } as const)
+      )
     ),
 
     // Features index page

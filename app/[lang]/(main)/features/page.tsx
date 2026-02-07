@@ -5,6 +5,7 @@ import {
   PhoneIcon,
   FoldersIcon,
   FileTextIcon,
+  ScaleIcon,
   ArrowRightIcon,
   ZapIcon,
   ShieldIcon,
@@ -56,41 +57,82 @@ const features = [
     icon: FileTextIcon,
     color: "purple",
   },
+  {
+    key: "comparisons" as const,
+    href: "/features/comparisons",
+    icon: ScaleIcon,
+    color: "orange",
+  },
 ];
 
-const colorClasses: Record<
-  string,
-  { bg: string; text: string; border: string; hover: string }
-> = {
+const colorClasses: Record<string, { bg: string; text: string }> = {
   orange: {
     bg: "bg-orange-100 dark:bg-orange-900/30",
     text: "text-orange-600 dark:text-orange-400",
-    border: "border-orange-200 dark:border-orange-800",
-    hover: "hover:border-orange-400 dark:hover:border-orange-600",
   },
   green: {
     bg: "bg-green-100 dark:bg-green-900/30",
     text: "text-green-600 dark:text-green-400",
-    border: "border-green-200 dark:border-green-800",
-    hover: "hover:border-green-400 dark:hover:border-green-600",
   },
   red: {
     bg: "bg-red-100 dark:bg-red-900/30",
     text: "text-red-600 dark:text-red-400",
-    border: "border-red-200 dark:border-red-800",
-    hover: "hover:border-red-400 dark:hover:border-red-600",
   },
   blue: {
     bg: "bg-blue-100 dark:bg-blue-900/30",
     text: "text-blue-600 dark:text-blue-400",
-    border: "border-blue-200 dark:border-blue-800",
-    hover: "hover:border-blue-400 dark:hover:border-blue-600",
   },
   purple: {
     bg: "bg-purple-100 dark:bg-purple-900/30",
     text: "text-purple-600 dark:text-purple-400",
-    border: "border-purple-200 dark:border-purple-800",
-    hover: "hover:border-purple-400 dark:hover:border-purple-600",
+  },
+};
+
+const comparisonFeatureCardText: Record<
+  Language,
+  { meta: { title: string; description: string } }
+> = {
+  en: {
+    meta: {
+      title: "Competitor Comparisons",
+      description:
+        "Compare Echobell with PagerDuty, Opsgenie, Better Stack, Pushover, and IFTTT to choose the best-fit alerting workflow.",
+    },
+  },
+  zh: {
+    meta: {
+      title: "竞品对比",
+      description:
+        "查看 Echobell 与 PagerDuty、Opsgenie、Better Stack、Pushover、IFTTT 的详细对比，快速完成选型。",
+    },
+  },
+  es: {
+    meta: {
+      title: "Comparativas con Competidores",
+      description:
+        "Compara Echobell con PagerDuty, Opsgenie, Better Stack, Pushover e IFTTT para elegir el flujo de alertas adecuado.",
+    },
+  },
+  fr: {
+    meta: {
+      title: "Comparaisons Concurrentielles",
+      description:
+        "Comparez Echobell avec PagerDuty, Opsgenie, Better Stack, Pushover et IFTTT pour choisir le bon flux d'alertes.",
+    },
+  },
+  ja: {
+    meta: {
+      title: "競合比較",
+      description:
+        "Echobell と PagerDuty、Opsgenie、Better Stack、Pushover、IFTTT を比較し、最適なアラート運用を選べます。",
+    },
+  },
+  de: {
+    meta: {
+      title: "Wettbewerbsvergleiche",
+      description:
+        "Vergleichen Sie Echobell mit PagerDuty, Opsgenie, Better Stack, Pushover und IFTTT, um den passenden Alert-Workflow zu finden.",
+    },
   },
 };
 
@@ -98,6 +140,10 @@ function getFeatureTranslation(
   key: (typeof features)[number]["key"],
   lang: Language
 ) {
+  if (key === "comparisons") {
+    return comparisonFeatureCardText[lang];
+  }
+
   const translations = {
     webhooks: webhooksI18n,
     emailTriggers: emailTriggersI18n,
@@ -105,7 +151,9 @@ function getFeatureTranslation(
     channels: channelsI18n,
     templates: templatesI18n,
   };
-  return translations[key][lang];
+  return translations[
+    key as Exclude<(typeof features)[number]["key"], "comparisons">
+  ][lang];
 }
 
 export default async function FeaturesIndexPage({
@@ -158,7 +206,7 @@ export default async function FeaturesIndexPage({
                 <Link
                   key={key}
                   href={localizeUrl(href, lang)}
-                  className={`group relative flex flex-col rounded-2xl border-2 ${colors.border} ${colors.hover} bg-white dark:bg-neutral-900 p-8 transition-all hover:shadow-lg`}
+                  className="group relative flex flex-col rounded-2xl border border-neutral-200 bg-white p-8 shadow-sm transition-all hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700"
                 >
                   <div
                     className={`inline-flex h-14 w-14 items-center justify-center rounded-xl ${colors.bg}`}
@@ -185,7 +233,7 @@ export default async function FeaturesIndexPage({
       </section>
 
       {/* Why Echobell Section */}
-      <section className="py-24 sm:py-32 bg-neutral-50 dark:bg-neutral-900/50">
+      <section className="bg-neutral-50/70 py-24 sm:py-32 dark:bg-neutral-900/40">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -202,8 +250,8 @@ export default async function FeaturesIndexPage({
                         : "Warum Echobell Wählen?"}
             </h2>
           </div>
-          <div className="grid gap-8 sm:grid-cols-3">
-            <div className="text-center">
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div className="rounded-2xl border border-neutral-200 bg-white p-8 text-center dark:border-neutral-800 dark:bg-neutral-900">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-100 dark:bg-orange-900/30">
                 <ZapIcon className="h-8 w-8 text-orange-600" />
               </div>
@@ -234,7 +282,7 @@ export default async function FeaturesIndexPage({
                           : "Benachrichtigungen kommen innerhalb von Sekunden an"}
               </p>
             </div>
-            <div className="text-center">
+            <div className="rounded-2xl border border-neutral-200 bg-white p-8 text-center dark:border-neutral-800 dark:bg-neutral-900">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100 dark:bg-green-900/30">
                 <ShieldIcon className="h-8 w-8 text-green-600" />
               </div>
@@ -265,7 +313,7 @@ export default async function FeaturesIndexPage({
                           : "Ihre Benachrichtigungsdaten bleiben auf Ihrem Gerät"}
               </p>
             </div>
-            <div className="text-center">
+            <div className="rounded-2xl border border-neutral-200 bg-white p-8 text-center dark:border-neutral-800 dark:bg-neutral-900">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-100 dark:bg-blue-900/30">
                 <UsersIcon className="h-8 w-8 text-blue-600" />
               </div>
@@ -301,7 +349,7 @@ export default async function FeaturesIndexPage({
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 sm:py-32">
+      <section className="border-t border-neutral-200 py-24 sm:py-32 dark:border-neutral-800">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">

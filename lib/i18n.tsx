@@ -53,6 +53,7 @@ export const uiDictionary = {
         { name: "Pricing", href: "/en/#pricing" },
         { name: "Docs", href: "/en/docs" },
         { name: "Blog", href: "/en/blog" },
+        { name: "Comparisons", href: "/en/features/comparisons" },
       ],
     },
     hero: {
@@ -233,6 +234,10 @@ export const uiDictionary = {
             { label: "Quick Start Guide", href: "/en/docs" }, // More descriptive
             { label: "Documentation", href: "/en/docs/what-is-echobell" }, // Keep specific link if needed
             { label: "Blog", href: "/en/blog" },
+            {
+              label: "Competitor Comparisons",
+              href: "/en/features/comparisons",
+            },
             { label: "Status", href: "https://status.echobell.one" },
           ],
         },
@@ -631,6 +636,7 @@ export const uiDictionary = {
         { name: "定价", href: "/zh/#pricing" },
         { name: "文档", href: "/zh/docs" },
         { name: "博客", href: "/zh/blog" },
+        { name: "竞品对比", href: "/zh/features/comparisons" },
       ],
     },
     hero: {
@@ -803,6 +809,7 @@ export const uiDictionary = {
             { label: "快速入门指南", href: "/zh/docs" },
             { label: "文档", href: "/zh/docs/what-is-echobell" },
             { label: "博客", href: "/zh/blog" },
+            { label: "竞品对比", href: "/zh/features/comparisons" },
             { label: "服务状态", href: "https://status.echobell.one" },
           ],
         },
@@ -1180,6 +1187,7 @@ export const uiDictionary = {
         { name: "Precios", href: "/es/#pricing" },
         { name: "Docs", href: "/es/docs" }, // Consider translating 'Docs' -> 'Documentación'
         { name: "Blog", href: "/es/blog" },
+        { name: "Comparativas", href: "/es/features/comparisons" },
       ],
     },
     hero: {
@@ -1358,6 +1366,7 @@ export const uiDictionary = {
             { label: "Guía de Inicio Rápido", href: "/es/docs" },
             { label: "Documentación", href: "/es/docs/what-is-echobell" },
             { label: "Blog", href: "/es/blog" },
+            { label: "Comparativas", href: "/es/features/comparisons" },
             {
               label: "Estado del servicio",
               href: "https://status.echobell.one",
@@ -1762,6 +1771,7 @@ export const uiDictionary = {
         { name: "Tarifs", href: "/fr/#pricing" },
         { name: "Docs", href: "/fr/docs" }, // Consider 'Documentation'
         { name: "Blog", href: "/fr/blog" },
+        { name: "Comparatifs", href: "/fr/features/comparisons" },
       ],
     },
     hero: {
@@ -1940,6 +1950,7 @@ export const uiDictionary = {
             { label: "Guide de Démarrage Rapide", href: "/fr/docs" },
             { label: "Documentation", href: "/fr/docs/what-is-echobell" },
             { label: "Blog", href: "/fr/blog" },
+            { label: "Comparatifs", href: "/fr/features/comparisons" },
             { label: "Statut du service", href: "https://status.echobell.one" },
           ],
         },
@@ -2343,6 +2354,7 @@ export const uiDictionary = {
         { name: "価格", href: "/ja/#pricing" },
         { name: "ドキュメント", href: "/ja/docs" },
         { name: "ブログ", href: "/ja/blog" },
+        { name: "競合比較", href: "/ja/features/comparisons" },
       ],
     },
     hero: {
@@ -2510,6 +2522,7 @@ export const uiDictionary = {
             { label: "クイックスタートガイド", href: "/ja/docs" },
             { label: "ドキュメント", href: "/ja/docs/what-is-echobell" },
             { label: "ブログ", href: "/ja/blog" },
+            { label: "競合比較", href: "/ja/features/comparisons" },
             {
               label: "サービスステータス",
               href: "https://status.echobell.one",
@@ -2899,6 +2912,7 @@ export const uiDictionary = {
         { name: "Preise", href: "/de/#pricing" },
         { name: "Doku", href: "/de/docs" }, // Consider 'Dokumentation'
         { name: "Blog", href: "/de/blog" },
+        { name: "Vergleiche", href: "/de/features/comparisons" },
       ],
     },
     hero: {
@@ -3067,6 +3081,7 @@ export const uiDictionary = {
             { label: "Schnellstartanleitung", href: "/de/docs" },
             { label: "Dokumentation", href: "/de/docs/what-is-echobell" },
             { label: "Blog", href: "/de/blog" },
+            { label: "Vergleiche", href: "/de/features/comparisons" },
             { label: "Dienststatus", href: "https://status.echobell.one" },
           ],
         },
