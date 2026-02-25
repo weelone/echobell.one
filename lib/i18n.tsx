@@ -591,6 +591,39 @@ export const uiDictionary = {
         },
       },
     },
+    useCases: {
+      eyebrow: "Use Cases",
+      title: "Built for teams that cannot miss critical signals",
+      description:
+        "Reliable alerting workflows for on-call response, trading alerts, and support escalation.",
+      exploreAll: "Explore all use cases",
+      items: [
+        {
+          title: "Incident Response",
+          description:
+            "Convert webhook events into phone-call alerts for production outages.",
+          href: "/use-cases#incident-response",
+        },
+        {
+          title: "Trading Signals",
+          description:
+            "Send TradingView alerts to iPhone notifications so market events are not missed.",
+          href: "/use-cases#trading-signals",
+        },
+        {
+          title: "Support Escalation",
+          description:
+            "Route urgent customer emails into dedicated channels with escalation-friendly formatting.",
+          href: "/use-cases#support-escalation",
+        },
+        {
+          title: "Team Ownership",
+          description:
+            "Give every team member the same alert context using channel subscriptions.",
+          href: "/use-cases#team-ownership",
+        },
+      ],
+    },
     breadcrumb: {
       home: "Home",
       docs: "Documentation",
@@ -1140,6 +1173,34 @@ export const uiDictionary = {
           action: "下载回声铃",
         },
       },
+    },
+    useCases: {
+      eyebrow: "使用场景",
+      title: "为“不能错过告警”的团队而设计",
+      description: "围绕值班告警、交易提醒、客服升级等场景提供可靠的工作流。",
+      exploreAll: "查看全部场景",
+      items: [
+        {
+          title: "故障响应",
+          description: "将 Webhook 事件转为电话提醒，覆盖生产事故响应流程。",
+          href: "/use-cases#incident-response",
+        },
+        {
+          title: "交易信号",
+          description: "将 TradingView 信号推送到 iPhone 通知，避免错过关键行情。",
+          href: "/use-cases#trading-signals",
+        },
+        {
+          title: "客服升级",
+          description: "把高优先级客户邮件路由到频道，增强响应效率。",
+          href: "/use-cases#support-escalation",
+        },
+        {
+          title: "团队协作",
+          description: "通过频道订阅，让团队成员快速获得一致告警上下文。",
+          href: "/use-cases#team-ownership",
+        },
+      ],
     },
     breadcrumb: {
       home: "首页",
@@ -1724,6 +1785,39 @@ export const uiDictionary = {
           action: "Descargar Echobell",
         },
       },
+    },
+    useCases: {
+      eyebrow: "Casos de Uso",
+      title: "Diseñado para equipos que no pueden perder señales críticas",
+      description:
+        "Flujos de trabajo de alerta fiables para respuesta on-call, alertas de trading y escalado de soporte.",
+      exploreAll: "Explorar todos los casos de uso",
+      items: [
+        {
+          title: "Respuesta a Incidentes",
+          description:
+            "Convierte eventos webhook en alertas de llamada para caídas de producción.",
+          href: "/use-cases#incident-response",
+        },
+        {
+          title: "Señales de Trading",
+          description:
+            "Envía alertas de TradingView a notificaciones de iPhone para no perder eventos del mercado.",
+          href: "/use-cases#trading-signals",
+        },
+        {
+          title: "Escalado de Soporte",
+          description:
+            "Ruta correos urgentes de clientes a canales dedicados con formato apto para escalado.",
+          href: "/use-cases#support-escalation",
+        },
+        {
+          title: "Propiedad del Equipo",
+          description:
+            "Da a cada miembro del equipo el mismo contexto de alerta usando suscripciones a canales.",
+          href: "/use-cases#team-ownership",
+        },
+      ],
     },
     breadcrumb: {
       home: "Inicio",
@@ -2311,6 +2405,39 @@ export const uiDictionary = {
         },
       },
     },
+    useCases: {
+      eyebrow: "Cas d'Utilisation",
+      title: "Conçu pour les équipes qui ne peuvent pas manquer de signaux critiques",
+      description:
+        "Flux de travail d'alerte fiables pour la réponse on-call, les alertes de trading et l'escalade du support.",
+      exploreAll: "Explorer tous les cas d'utilisation",
+      items: [
+        {
+          title: "Réponse aux Incidents",
+          description:
+            "Convertissez les événements webhook en alertes d'appel pour les pannes de production.",
+          href: "/use-cases#incident-response",
+        },
+        {
+          title: "Signaux de Trading",
+          description:
+            "Envoyez des alertes TradingView aux notifications iPhone pour ne pas manquer les événements du marché.",
+          href: "/use-cases#trading-signals",
+        },
+        {
+          title: "Escalade du Support",
+          description:
+            "Acheminez les e-mails urgents des clients vers des canaux dédiés avec un formatage adapté à l'escalade.",
+          href: "/use-cases#support-escalation",
+        },
+        {
+          title: "Propriété d'Équipe",
+          description:
+            "Donnez à chaque membre de l'équipe le même contexte d'alerte grâce aux abonnements aux canaux.",
+          href: "/use-cases#team-ownership",
+        },
+      ],
+    },
     breadcrumb: {
       home: "Accueil",
       docs: "Documentation",
@@ -2868,6 +2995,34 @@ export const uiDictionary = {
           action: "Echobellをダウンロード",
         },
       },
+    },
+    useCases: {
+      eyebrow: "使用例",
+      title: "重要な信号を見逃せないチームのために",
+      description: "オンコール対応、取引アラート、サポートのエスカレーションのための信頼性の高いアラートワークフロー。",
+      exploreAll: "すべての使用例を見る",
+      items: [
+        {
+          title: "インシデント対応",
+          description: "Webhookイベントを通話アラートに変換し、本番環境の停止に対応します。",
+          href: "/use-cases#incident-response",
+        },
+        {
+          title: "取引シグナル",
+          description: "TradingViewアラートをiPhone通知に送信し、市場イベントを見逃しません。",
+          href: "/use-cases#trading-signals",
+        },
+        {
+          title: "サポートのエスカレーション",
+          description: "緊急のカスタマーメールを専用チャンネルにルートし、エスカレーションしやすい形式で通知します。",
+          href: "/use-cases#support-escalation",
+        },
+        {
+          title: "チームでの共有",
+          description: "チャンネル購読を使用して、チームメンバー全員に同じアラートコンテキストを提供します。",
+          href: "/use-cases#team-ownership",
+        },
+      ],
     },
     breadcrumb: {
       home: "ホーム",
@@ -3445,6 +3600,39 @@ export const uiDictionary = {
           action: "Echobell herunterladen",
         },
       },
+    },
+    useCases: {
+      eyebrow: "Anwendungsfälle",
+      title: "Entwickelt für Teams, die kritische Signale nicht verpassen dürfen",
+      description:
+        "Zuverlässige Alarmierungsworkflows für On-Call-Reaktion, Trading-Alarme und Support-Eskalation.",
+      exploreAll: "Alle Anwendungsfälle erkunden",
+      items: [
+        {
+          title: "Incident Response",
+          description:
+            "Wandeln Sie Webhook-Ereignisse in Anruf-Alarme für Produktionsausfälle um.",
+          href: "/use-cases#incident-response",
+        },
+        {
+          title: "Trading-Signale",
+          description:
+            "Senden Sie TradingView-Alarme an iPhone-Benachrichtigungen, um Marktereignisse nicht zu verpassen.",
+          href: "/use-cases#trading-signals",
+        },
+        {
+          title: "Support-Eskalation",
+          description:
+            "Leiten Sie dringende Kunden-E-Mails in dedizierte Kanäle mit eskalationsfreundlicher Formatierung.",
+          href: "/use-cases#support-escalation",
+        },
+        {
+          title: "Team-Verantwortung",
+          description:
+            "Geben Sie jedem Teammitglied denselben Alarmkontext mithilfe von Kanalabonnements.",
+          href: "/use-cases#team-ownership",
+        },
+      ],
     },
     breadcrumb: {
       home: "Startseite",

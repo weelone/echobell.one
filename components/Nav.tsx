@@ -92,9 +92,25 @@ const languageNames: Record<Language, string> = {
   de: "Deutsch",
 };
 
+const useCasesLabel: Record<Language, string> = {
+  en: "Use Cases",
+  zh: "场景方案",
+  es: "Casos de uso",
+  fr: "Cas d'usage",
+  ja: "ユースケース",
+  de: "Anwendungsfälle",
+};
+
 export default function Nav({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].nav;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigationLinks = [
+    ...t.navigation.map((item) => ({ name: item.name, href: item.href })),
+    {
+      name: useCasesLabel[lang],
+      href: localizeUrl("/use-cases", lang),
+    },
+  ];
 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
@@ -126,7 +142,7 @@ export default function Nav({ lang }: { lang: Language }) {
         <div className="hidden md:flex md:gap-x-12 md:items-center">
           <NavLinks
             className="text-md font-semibold"
-            links={t.navigation.map((navItem) => ({
+            links={navigationLinks.map((navItem) => ({
               label: navItem.name,
               href: navItem.href,
             }))}
@@ -170,7 +186,7 @@ export default function Nav({ lang }: { lang: Language }) {
                   <SimpleThemeToggle />
                   <SimpleLanguageToggle lang={lang} />
                 </div>
-                {t.navigation.map((item) => (
+                {navigationLinks.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}

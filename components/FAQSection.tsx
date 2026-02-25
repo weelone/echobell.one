@@ -14,12 +14,18 @@ interface FAQSectionProps {
   lang: Language;
   title?: string;
   description?: string;
+  items?: FAQItem[];
 }
 
-export function FAQSection({ lang, title, description }: FAQSectionProps) {
+export function FAQSection({
+  lang,
+  title,
+  description,
+  items,
+}: FAQSectionProps) {
   const [openItems, setOpenItems] = useState<Set<number>>(new Set());
 
-  const faqs = echobellFAQs[lang] || echobellFAQs.en;
+  const faqs = items || echobellFAQs[lang] || echobellFAQs.en;
 
   const toggleItem = (index: number) => {
     const newOpenItems = new Set(openItems);

@@ -100,6 +100,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         } as const)
     ),
 
+    // Use-case landing page
+    ...getLocalizedUrls("/use-cases").map(
+      (item) =>
+        ({
+          url: url(item),
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.84,
+        } as const)
+    ),
+
     // Documentation and blog
     ...getLocalizedUrls("/docs").map(
       (item) =>

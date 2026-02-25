@@ -3,10 +3,12 @@ interface JsonLdProps {
 }
 
 export function JsonLd({ data }: JsonLdProps) {
+  const safeJsonLd = JSON.stringify(data).replace(/</g, "\\u003c");
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd }}
     />
   );
 }
@@ -68,7 +70,7 @@ export function SoftwareApplicationJsonLd() {
     "@context": "https://schema.org",
     "@type": "MobileApplication",
     name: "Echobell",
-    operatingSystem: "iOS 17.0 or later",
+    operatingSystem: "iOS",
     applicationCategory: "BusinessApplication",
     description:
       "Instant webhook and email alerts via calls and notifications for iOS",
@@ -76,7 +78,7 @@ export function SoftwareApplicationJsonLd() {
     downloadUrl: "https://apps.apple.com/app/id6743597198",
     installUrl: "https://apps.apple.com/app/id6743597198",
     screenshot: "https://echobell.one/images/screenshots.webp",
-    softwareVersion: "1.21",
+    isAccessibleForFree: true,
     author: {
       "@type": "Organization",
       name: "Echobell",
@@ -92,13 +94,6 @@ export function SoftwareApplicationJsonLd() {
       price: "0",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      ratingCount: "150",
-      bestRating: "5",
-      worstRating: "1",
     },
     featureList: [
       "Webhook notifications",
@@ -209,34 +204,11 @@ export function ProductJsonLd() {
       url: "https://echobell.one",
       priceCurrency: "USD",
       price: "0",
-      priceValidUntil: "2025-12-31",
       availability: "https://schema.org/InStock",
       seller: {
         "@type": "Organization",
         name: "Echobell",
       },
-      hasMerchantReturnPolicy: {
-        "@type": "MerchantReturnPolicy",
-        applicableCountry: "US",
-        returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
-      },
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingRate: {
-          "@type": "MonetaryAmount",
-          value: "0",
-          currency: "USD",
-        },
-        shippingDestination: {
-          "@type": "DefinedRegion",
-          addressCountry: "US",
-        },
-      },
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "150",
     },
   };
 

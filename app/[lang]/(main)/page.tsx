@@ -5,6 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import PricingSection from "@/components/PricingSection";
 import { FAQSection } from "@/components/FAQSection";
 import { SoftwareApplicationJsonLd, ProductJsonLd } from "@/components/JsonLd";
+import UseCasesSection from "@/components/UseCasesSection";
 import { Language } from "@/lib/i18n";
 
 export default async function Home({
@@ -20,6 +21,7 @@ export default async function Home({
       <ProductJsonLd />
       <HeroSection lang={lang} />
       <FeatureSection lang={lang} />
+      <UseCasesSection lang={lang} />
       <BentoGridsSection lang={lang} />
       <PricingSection lang={lang} />
       <FAQSection lang={lang} />
