@@ -70,7 +70,10 @@ export default async function SubscriptionPage({
           <a href={APP_STORE_LINK} target="_blank">
             <Image src={t.appStoreImage} alt="App Store" />
           </a>
-          <Link href="/docs" className="text-sm/6 font-semibold opacity-90">
+          <Link
+            href={localizeUrl("/docs", lang)}
+            className="text-sm/6 font-semibold opacity-90"
+          >
             {t.learnMore} <span aria-hidden="true">→</span>
           </Link>
         </div>

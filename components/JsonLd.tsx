@@ -13,6 +13,24 @@ export function JsonLd({ data }: JsonLdProps) {
   );
 }
 
+function getPriceValidUntil(): string {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() + 1);
+  return date.toISOString().split("T")[0];
+}
+
+const merchantReturnPolicy = {
+  "@type": "MerchantReturnPolicy",
+  applicableCountry: "US",
+  returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
+  url: "https://echobell.one/en/terms",
+};
+
+const digitalShippingDetails = {
+  "@type": "OfferShippingDetails",
+  doesNotShip: true,
+};
+
 // Organization schema for Echobell
 export function OrganizationJsonLd() {
   const organizationData = {
@@ -66,6 +84,17 @@ export function WebsiteJsonLd() {
 
 // Software Application schema for Echobell iOS app
 export function SoftwareApplicationJsonLd() {
+  const offer = {
+    "@type": "Offer",
+    url: "https://echobell.one",
+    price: "0.00",
+    priceCurrency: "USD",
+    priceValidUntil: getPriceValidUntil(),
+    availability: "https://schema.org/InStock",
+    hasMerchantReturnPolicy: merchantReturnPolicy,
+    shippingDetails: digitalShippingDetails,
+  };
+
   const appData = {
     "@context": "https://schema.org",
     "@type": "MobileApplication",
@@ -89,12 +118,7 @@ export function SoftwareApplicationJsonLd() {
       name: "Weelone",
       url: "https://weelone.com",
     },
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-    },
+    offers: offer,
     featureList: [
       "Webhook notifications",
       "Email triggers",
@@ -185,6 +209,21 @@ export function FAQJsonLd({
 
 // Product schema for Echobell service
 export function ProductJsonLd() {
+  const offer = {
+    "@type": "Offer",
+    url: "https://echobell.one",
+    priceCurrency: "USD",
+    price: "0.00",
+    priceValidUntil: getPriceValidUntil(),
+    availability: "https://schema.org/InStock",
+    hasMerchantReturnPolicy: merchantReturnPolicy,
+    shippingDetails: digitalShippingDetails,
+    seller: {
+      "@type": "Organization",
+      name: "Echobell",
+    },
+  };
+
   const productData = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -199,17 +238,7 @@ export function ProductJsonLd() {
       "@type": "Organization",
       name: "Echobell",
     },
-    offers: {
-      "@type": "Offer",
-      url: "https://echobell.one",
-      priceCurrency: "USD",
-      price: "0",
-      availability: "https://schema.org/InStock",
-      seller: {
-        "@type": "Organization",
-        name: "Echobell",
-      },
-    },
+    offers: offer,
   };
 
   return <JsonLd data={productData} />;

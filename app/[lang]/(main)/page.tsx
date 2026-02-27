@@ -4,7 +4,7 @@ import FeatureSection from "@/components/FeatureSection";
 import HeroSection from "@/components/HeroSection";
 import PricingSection from "@/components/PricingSection";
 import { FAQSection } from "@/components/FAQSection";
-import { SoftwareApplicationJsonLd, ProductJsonLd } from "@/components/JsonLd";
+import { SoftwareApplicationJsonLd } from "@/components/JsonLd";
 import UseCasesSection from "@/components/UseCasesSection";
 import { Language } from "@/lib/i18n";
 
@@ -18,7 +18,6 @@ export default async function Home({
   return (
     <main>
       <SoftwareApplicationJsonLd />
-      <ProductJsonLd />
       <HeroSection lang={lang} />
       <FeatureSection lang={lang} />
       <UseCasesSection lang={lang} />

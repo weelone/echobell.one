@@ -11,6 +11,7 @@ import { createBlogMetadata, baseUrl } from "@/lib/metadata";
 import { ArticleJsonLd } from "@/components/JsonLd";
 import { Breadcrumb, BreadcrumbJsonLd } from "@/components/Breadcrumb";
 import { languages } from "@/lib/i18n";
+import { LocalizedMdxLink } from "@/components/LocalizedMdxLink";
 
 export async function generateStaticParams() {
   const params = [];
@@ -70,6 +71,7 @@ export default async function Page(props: {
             <Mdx
               components={{
                 ...defaultMdxComponents,
+                a: (props) => <LocalizedMdxLink lang={params.lang} {...props} />,
                 File,
                 Files,
                 Folder,

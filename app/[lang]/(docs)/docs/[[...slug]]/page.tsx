@@ -9,11 +9,13 @@ import { notFound } from "next/navigation";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { createMetadata, baseUrl } from "@/lib/metadata";
 import { Language, languages } from "@/lib/i18n";
+import { LocalizedMdxLink } from "@/components/LocalizedMdxLink";
 
 export default async function Page(props: {
   params: Promise<{ lang: string; slug?: string[] }>;
 }) {
   const params = await props.params;
+  const lang = params.lang as Language;
   const page = source.getPage(params.slug, params.lang);
   if (!page) notFound();
 
@@ -28,6 +30,7 @@ export default async function Page(props: {
         <MDXContent
           components={{
             ...defaultMdxComponents,
+            a: (props) => <LocalizedMdxLink lang={lang} {...props} />,
             // you can add other MDX components here
           }}
         />

@@ -47,12 +47,20 @@ export function middleware(request: NextRequest) {
   );
 
   if (pathnameIsMissingLocale) {
-    const locale = getLocale(request);
+    // Keep root locale negotiation for user experience.
+    // For all other routes, use deterministic default-locale redirects so
+    // canonical signals stay stable for crawlers.
+    const locale = pathname === "/" ? getLocale(request) : i18n.defaultLanguage;
+    const normalizedPath =
+      pathname !== "/" && pathname.endsWith("/")
+        ? pathname.slice(0, -1)
+        : pathname;
 
-    // Redirect to the same path with the locale prefix
-    return NextResponse.redirect(
-      new URL(`/${locale}${pathname === "/" ? "" : pathname}`, request.url)
-    );
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname =
+      normalizedPath === "/" ? `/${locale}` : `/${locale}${normalizedPath}`;
+
+    return NextResponse.redirect(redirectUrl, normalizedPath === "/" ? 307 : 308);
   }
 }
 
