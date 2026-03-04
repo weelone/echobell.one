@@ -1,0 +1,163 @@
+---
+title: Notifications Directes - Clés API personnelles pour alertes instantanées
+sidebarTitle: Direct
+description: Envoyez des notifications directement via des clés API personnelles sans créer de canaux. Apprenez à créer des clés Directes, utiliser les URLs webhook et envoyer des notifications instantanées avec titre, corps et liens.
+---
+
+# Notifications Directes
+
+Les notifications directes vous permettent d'envoyer des alertes personnelles via une simple URL webhook — sans configuration de canal, de modèle ou d'abonnés. Créez simplement une clé, appelez l'URL et recevez une notification instantanée sur votre appareil.
+
+## Qu'est-ce que Direct ?
+
+Les canaux sont parfaits pour les notifications structurées avec modèles pouvant être partagées avec d'autres. Mais parfois, vous voulez simplement une notification personnelle rapide — un build terminé, un script achevé, un capteur déclenché. Direct est conçu exactement pour cela.
+
+Avec Direct, vous obtenez une clé API personnelle correspondant à une URL webhook unique. Lorsque vous appelez cette URL avec un titre et un corps, la notification vous est envoyée directement sans configuration de canal.
+
+## Pour commencer
+
+### 1. Créer une clé Directe
+
+Dans l'application Echobell, appuyez sur **Direct** en haut de votre liste de canaux. Appuyez ensuite sur **Créer** pour générer une nouvelle clé Directe et donnez-lui un nom descriptif (par exemple « Serveur CI », « Labo Maison », « Bot de Trading »).
+
+### 2. Copier l'URL Webhook
+
+Chaque clé Directe possède une URL webhook unique :
+
+```
+https://hook.echobell.one/d/{votre-token-de-clé}
+```
+
+Vous pouvez trouver et copier cette URL dans la vue détaillée de la clé Directe dans l'application. Le token est masqué par défaut pour des raisons de sécurité — appuyez pour le révéler.
+
+### 3. Envoyer une notification
+
+Appelez l'URL webhook avec un corps JSON contenant `title` et `body` :
+
+```http
+POST https://hook.echobell.one/d/VOTRE_TOKEN_DE_CLE
+Content-Type: application/json
+
+{
+  "title": "Build terminé",
+  "body": "Le projet X a été compilé avec succès en 3m 42s"
+}
+```
+
+C'est tout — vous recevrez une notification immédiatement.
+
+## Effectuer des requêtes
+
+### Requête POST (Recommandée)
+
+Envoyez un corps JSON avec le contenu de la notification :
+
+```http
+POST https://hook.echobell.one/d/VOTRE_TOKEN_DE_CLE
+Content-Type: application/json
+
+{
+  "title": "Statut du déploiement",
+  "body": "v2.1.0 déployé en production",
+  "externalLink": "https://dashboard.example.com/deploys/latest"
+}
+```
+
+### Requête GET
+
+Vous pouvez aussi passer des paramètres via la chaîne de requête :
+
+```http
+GET https://hook.echobell.one/d/VOTRE_TOKEN_DE_CLE?title=Alerte&body=CPU+à+95%25
+```
+
+### Champs de la requête
+
+Tous les noms de champs sont **insensibles à la casse** — `title`, `Title` et `TITLE` sont traités de la même manière, que ce soit via le corps JSON ou la chaîne de requête.
+
+| Champ | Type | Requis | Description |
+|---|---|---|---|
+| `title` | string | Non | Titre de la notification. Par défaut "Direct Notification" si omis. |
+| `body` | string | Non | Texte du corps de la notification. |
+| `externalLink` | string | Non | Un lien cliquable affiché dans l'enregistrement de notification. |
+| `notificationType` | string | Non | Niveau d'urgence de la notification. Accepte `active`, `time-sensitive` ou `calling`. Par défaut `time-sensitive`. Voir [Types de notification](#types-de-notification). |
+
+### Types de notification
+
+Vous pouvez contrôler le niveau d'urgence des notifications Directes avec le champ `notificationType` :
+
+| Type | Description |
+|---|---|
+| `active` | Notification standard, délivrée normalement. |
+| `time-sensitive` | Notification haute priorité pouvant traverser les modes Concentration. C'est la valeur par défaut. |
+| `calling` | Alerte de type appel pour les situations critiques. **Nécessite un abonnement premium actif.** Sans premium, revient à `time-sensitive`. |
+
+Exemple avec type de notification :
+
+```http
+POST https://hook.echobell.one/d/VOTRE_TOKEN_DE_CLE
+Content-Type: application/json
+
+{
+  "title": "Serveur en panne",
+  "body": "Le serveur de production ne répond plus",
+  "notificationType": "calling"
+}
+```
+
+## Cas d'utilisation courants
+
+### Scripts Shell
+
+```bash
+curl -X POST https://hook.echobell.one/d/VOTRE_TOKEN_DE_CLE \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Migration terminée", "body": "La migration de la base de données s'\''est terminée avec succès"}'
+```
+
+### Python
+
+```python
+import requests
+
+requests.post(
+    "https://hook.echobell.one/d/VOTRE_TOKEN_DE_CLE",
+    json={
+        "title": "Entraînement terminé",
+        "body": f"Précision du modèle : {accuracy:.2%}",
+        "externalLink": "https://wandb.ai/runs/abc123"
+    }
+)
+```
+
+## Gestion des clés Directes
+
+- **Clés multiples** : Créez plusieurs clés pour différents usages (serveur CI, domotique, tâches cron, etc.). Les enregistrements de notification sont automatiquement associés à la clé qui les a déclenchés, facilitant l'identification du service émetteur de chaque notification
+- **Réinitialiser le token** : Si l'URL webhook d'une clé est compromise, réinitialisez le token depuis la vue détaillée — l'ancienne URL sera immédiatement invalidée
+- **Supprimer une clé** : Supprimer une clé Directe invalide définitivement son URL webhook
+
+## Meilleures pratiques
+
+1. **Sécurité** : Traitez les URLs de clés Directes comme des secrets et utilisez des variables d'environnement pour stocker les tokens
+2. **Organisation** : Nommez les clés de manière descriptive et utilisez une clé séparée par service
+3. **Gestion des erreurs** : Vérifiez toujours le statut de réponse HTTP pour assurer une livraison réussie
+4. **Nettoyage** : Supprimez les clés inutilisées pour réduire les risques de sécurité
+
+## Confidentialité et sécurité
+
+- Les URLs de clés Directes doivent être traitées comme des secrets
+- N'envoyez que les données nécessaires
+- Le contenu des notifications est stocké localement sur votre appareil
+- Nos serveurs ne font que traiter la requête et router les notifications
+
+## Dépannage
+
+Si les notifications directes ne fonctionnent pas comme prévu :
+
+1. Vérifiez que l'URL webhook est correcte
+2. Vérifiez si la clé existe toujours (elle peut avoir été supprimée ou le token réinitialisé)
+3. Assurez-vous que l'application Echobell a les permissions de notification
+4. Vérifiez que le JSON est correctement formaté et que l'en-tête `Content-Type: application/json` est défini
+5. Testez avec curl pour éliminer les problèmes liés à votre client HTTP
+
+Besoin d'aide ? Visitez notre [Centre de support](/fr/docs/support) ou contactez-nous à echobell@weelone.com.

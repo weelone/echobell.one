@@ -1,0 +1,163 @@
+---
+title: Direkte Benachrichtigungen - Persönliche API-Schlüssel für sofortige Alarme
+sidebarTitle: Direkt
+description: Senden Sie Benachrichtigungen direkt über persönliche API-Schlüssel, ohne Kanäle zu erstellen. Erfahren Sie, wie Sie Direkt-Schlüssel erstellen, Webhook-URLs verwenden und sofortige Benachrichtigungen mit Titel, Text und Links senden.
+---
+
+# Direkte Benachrichtigungen
+
+Direkte Benachrichtigungen ermöglichen es Ihnen, persönliche Alarme über eine einfache Webhook-URL zu senden — ohne Kanaleinrichtung, Vorlagen oder Abonnenten. Erstellen Sie einfach einen Schlüssel, rufen Sie die URL auf und erhalten Sie sofort eine Benachrichtigung auf Ihrem Gerät.
+
+## Was ist Direkt?
+
+Kanäle eignen sich hervorragend für strukturierte, vorlagenbasierte Benachrichtigungen, die mit anderen geteilt werden können. Aber manchmal möchten Sie nur eine schnelle, persönliche Benachrichtigung — ein Build ist fertig, ein Skript abgeschlossen, ein Sensor ausgelöst. Direkt ist genau dafür konzipiert.
+
+Mit Direkt erhalten Sie einen persönlichen API-Schlüssel, der einer einzigartigen Webhook-URL entspricht. Wenn Sie diese URL mit Titel und Text aufrufen, wird die Benachrichtigung direkt an Sie gesendet — ohne Kanalkonfiguration.
+
+## Erste Schritte
+
+### 1. Direkt-Schlüssel erstellen
+
+Tippen Sie in der Echobell-App auf **Direkt** oben in Ihrer Kanalliste. Tippen Sie dann auf **Erstellen**, um einen neuen Direkt-Schlüssel zu generieren, und geben Sie ihm einen beschreibenden Namen (z.B. „CI-Server", „Heimlabor", „Trading-Bot").
+
+### 2. Webhook-URL kopieren
+
+Jeder Direkt-Schlüssel hat eine eindeutige Webhook-URL:
+
+```
+https://hook.echobell.one/d/{ihr-schlüssel-token}
+```
+
+Sie können diese URL in der Detailansicht des Direkt-Schlüssels in der App finden und kopieren. Das Token ist aus Sicherheitsgründen standardmäßig ausgeblendet — tippen Sie zum Anzeigen.
+
+### 3. Benachrichtigung senden
+
+Rufen Sie die Webhook-URL mit einem JSON-Body auf, der `title` und `body` enthält:
+
+```http
+POST https://hook.echobell.one/d/IHR_SCHLUESSEL_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Build abgeschlossen",
+  "body": "Projekt X wurde erfolgreich in 3m 42s erstellt"
+}
+```
+
+Das war's — Sie erhalten sofort eine Benachrichtigung.
+
+## Anfragen senden
+
+### POST-Anfrage (Empfohlen)
+
+Senden Sie einen JSON-Body mit Ihrem Benachrichtigungsinhalt:
+
+```http
+POST https://hook.echobell.one/d/IHR_SCHLUESSEL_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Deployment-Status",
+  "body": "v2.1.0 in Produktion bereitgestellt",
+  "externalLink": "https://dashboard.example.com/deploys/latest"
+}
+```
+
+### GET-Anfrage
+
+Sie können Parameter auch über die Abfragezeichenfolge übergeben:
+
+```http
+GET https://hook.echobell.one/d/IHR_SCHLUESSEL_TOKEN?title=Alarm&body=CPU+bei+95%25
+```
+
+### Anfragefelder
+
+Alle Feldnamen sind **groß-/kleinschreibungsunabhängig** — `title`, `Title` und `TITLE` werden gleich behandelt, egal ob sie über JSON-Body oder Abfragezeichenfolge übergeben werden.
+
+| Feld | Typ | Erforderlich | Beschreibung |
+|---|---|---|---|
+| `title` | string | Nein | Benachrichtigungstitel. Standard ist "Direct Notification" wenn weggelassen. |
+| `body` | string | Nein | Benachrichtigungstext. |
+| `externalLink` | string | Nein | Ein klickbarer Link im Benachrichtigungsprotokoll. |
+| `notificationType` | string | Nein | Dringlichkeitsstufe der Benachrichtigung. Akzeptiert `active`, `time-sensitive` oder `calling`. Standard ist `time-sensitive`. Siehe [Benachrichtigungstypen](#benachrichtigungstypen). |
+
+### Benachrichtigungstypen
+
+Sie können die Dringlichkeitsstufe von Direkt-Benachrichtigungen mit dem Feld `notificationType` steuern:
+
+| Typ | Beschreibung |
+|---|---|
+| `active` | Standard-Benachrichtigung, normal zugestellt. |
+| `time-sensitive` | Hochprioritäts-Benachrichtigung, die Fokusmodi durchbrechen kann. Dies ist der Standard. |
+| `calling` | Anrufartiger Alarm für kritische Situationen. **Erfordert ein aktives Premium-Abonnement.** Ohne Premium wird auf `time-sensitive` zurückgefallen. |
+
+Beispiel mit Benachrichtigungstyp:
+
+```http
+POST https://hook.echobell.one/d/IHR_SCHLUESSEL_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Server ausgefallen",
+  "body": "Produktionsserver antwortet nicht",
+  "notificationType": "calling"
+}
+```
+
+## Häufige Anwendungsfälle
+
+### Shell-Skripte
+
+```bash
+curl -X POST https://hook.echobell.one/d/IHR_SCHLUESSEL_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Migration abgeschlossen", "body": "Datenbankmigration wurde erfolgreich abgeschlossen"}'
+```
+
+### Python
+
+```python
+import requests
+
+requests.post(
+    "https://hook.echobell.one/d/IHR_SCHLUESSEL_TOKEN",
+    json={
+        "title": "Training abgeschlossen",
+        "body": f"Modellgenauigkeit: {accuracy:.2%}",
+        "externalLink": "https://wandb.ai/runs/abc123"
+    }
+)
+```
+
+## Direkt-Schlüssel verwalten
+
+- **Mehrere Schlüssel**: Erstellen Sie mehrere Schlüssel für verschiedene Zwecke (CI-Server, Heimautomatisierung, Cron-Jobs usw.). Benachrichtigungsprotokolle werden automatisch mit dem auslösenden Schlüssel verknüpft, sodass Sie leicht erkennen können, welcher Dienst jede Benachrichtigung gesendet hat
+- **Token zurücksetzen**: Wenn die Webhook-URL eines Schlüssels kompromittiert wurde, setzen Sie das Token in der Detailansicht zurück — die alte URL wird sofort ungültig
+- **Schlüssel löschen**: Das Löschen eines Direkt-Schlüssels macht seine Webhook-URL dauerhaft ungültig
+
+## Beste Praktiken
+
+1. **Sicherheit**: Behandeln Sie Direkt-Schlüssel-URLs als Geheimnisse und verwenden Sie Umgebungsvariablen zur Token-Speicherung
+2. **Organisation**: Benennen Sie Schlüssel beschreibend und verwenden Sie einen separaten Schlüssel pro Dienst
+3. **Fehlerbehandlung**: Überprüfen Sie immer den HTTP-Antwortstatus, um eine erfolgreiche Zustellung sicherzustellen
+4. **Aufräumen**: Löschen Sie nicht mehr verwendete Schlüssel, um Sicherheitsrisiken zu reduzieren
+
+## Datenschutz und Sicherheit
+
+- Direkt-Schlüssel-URLs sollten als Geheimnisse behandelt werden
+- Senden Sie nur notwendige Daten
+- Benachrichtigungsinhalte werden lokal auf Ihrem Gerät gespeichert
+- Unsere Server verarbeiten nur die Anfrage und leiten Benachrichtigungen weiter
+
+## Fehlerbehebung
+
+Wenn direkte Benachrichtigungen nicht wie erwartet funktionieren:
+
+1. Überprüfen Sie, ob die Webhook-URL korrekt ist
+2. Prüfen Sie, ob der Schlüssel noch existiert (er könnte gelöscht oder das Token zurückgesetzt worden sein)
+3. Stellen Sie sicher, dass die Echobell-App Benachrichtigungsberechtigungen hat
+4. Stellen Sie sicher, dass das JSON korrekt formatiert ist und der `Content-Type: application/json`-Header gesetzt ist
+5. Testen Sie mit curl, um Probleme mit Ihrem HTTP-Client auszuschließen
+
+Brauchen Sie Hilfe? Besuchen Sie unser [Support-Center](/de/docs/support) oder kontaktieren Sie uns unter echobell@weelone.com.

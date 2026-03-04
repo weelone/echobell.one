@@ -1,0 +1,293 @@
+---
+title: Direct Notifications - Personal API Keys for Instant Alerts
+sidebarTitle: Direct
+description: Send notifications directly via personal API keys without creating channels. Learn how to create Direct keys, use webhook URLs, and send instant notifications with title, body, and links.
+---
+
+# Direct Notifications
+
+Direct notifications let you send personal alerts via a simple webhook URL — no channel setup, no templates, no subscribers. Just create a key, call the URL, and get notified instantly on your device.
+
+## What is Direct?
+
+Channels are great for structured, templated notifications that can be shared with others. But sometimes you just want a quick, personal notification — a build finished, a script completed, a sensor triggered. Direct is designed for exactly that.
+
+With Direct, you get a personal API key that maps to a unique webhook URL. When you call that URL with a title and body, a notification is sent directly to you. No channel configuration needed.
+
+### When to Use Direct vs. Channels
+
+| | Direct | Channels |
+|---|---|---|
+| **Setup** | Create a key, use the URL | Create channel, configure templates |
+| **Audience** | You only | Anyone who subscribes |
+| **Templates** | None — you specify title/body per request | Configurable templates with variables |
+| **Conditions** | None | Conditional delivery supported |
+| **Best for** | Personal scripts, quick alerts, automation | Shared alerts, structured workflows |
+
+## Getting Started
+
+### 1. Create a Direct Key
+
+In the Echobell app, tap **Direct** at the top of your channels list. Then tap **Create** to generate a new Direct key. Give it a descriptive name (e.g., "Build Server", "Home Lab", "Trading Bot").
+
+### 2. Copy the Webhook URL
+
+Each Direct key has a unique webhook URL in this format:
+
+```
+https://hook.echobell.one/d/{your-key-token}
+```
+
+You can find and copy this URL from the Direct key detail view in the app. The token is hidden by default for security — tap to reveal it.
+
+### 3. Send a Notification
+
+Call the webhook URL with a JSON body containing `title` and `body`:
+
+```http
+POST https://hook.echobell.one/d/YOUR_KEY_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Build Complete",
+  "body": "Project X built successfully in 3m 42s"
+}
+```
+
+That's it — you'll receive a notification immediately.
+
+## Making Requests
+
+### POST Request (Recommended)
+
+Send a JSON body with your notification content:
+
+```http
+POST https://hook.echobell.one/d/YOUR_KEY_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Deployment Status",
+  "body": "v2.1.0 deployed to production",
+  "externalLink": "https://dashboard.example.com/deploys/latest"
+}
+```
+
+### GET Request
+
+You can also pass parameters via query string:
+
+```http
+GET https://hook.echobell.one/d/YOUR_KEY_TOKEN?title=Alert&body=CPU+at+95%25
+```
+
+### Request Fields
+
+All field names are **case-insensitive** — `title`, `Title`, and `TITLE` are all treated the same way, whether passed via JSON body or query string.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `title` | string | No | Notification title. Defaults to "Direct Notification" if omitted. |
+| `body` | string | No | Notification body text. |
+| `externalLink` | string | No | A clickable link shown in the notification record. |
+| `notificationType` | string | No | Notification urgency level. Accepts `active`, `time-sensitive`, or `calling`. Defaults to `time-sensitive`. See [Notification Types](#notification-types). |
+
+### Notification Types
+
+You can control the urgency level of Direct notifications using the `notificationType` field:
+
+| Type | Description |
+|---|---|
+| `active` | Standard notification, delivered normally. |
+| `time-sensitive` | High-priority notification that can break through Focus modes. This is the default. |
+| `calling` | Call-like alert for critical situations. **Requires an active premium subscription.** Without premium, falls back to `time-sensitive`. |
+
+Example with notification type:
+
+```http
+POST https://hook.echobell.one/d/YOUR_KEY_TOKEN
+Content-Type: application/json
+
+{
+  "title": "Server Down",
+  "body": "Production server is unresponsive",
+  "notificationType": "calling"
+}
+```
+
+## Response Format
+
+A successful request returns:
+
+```json
+{
+  "success": true,
+  "message": "Notification sent"
+}
+```
+
+If the key is invalid or not found:
+
+```json
+{
+  "success": false,
+  "message": "Direct key not found"
+}
+```
+
+## Managing Direct Keys
+
+### Multiple Keys
+
+You can create multiple Direct keys for different purposes:
+
+- **"CI Server"** — for build and deployment notifications
+- **"Home Automation"** — for IoT sensor alerts
+- **"Cron Jobs"** — for scheduled task results
+- **"Trading Bot"** — for market alerts
+
+Each key has its own independent webhook URL. Notification records are automatically associated with the key that triggered them, so you can easily identify which service sent each notification.
+
+### Reset Token
+
+If a key's webhook URL is compromised, you can reset the token from the key's detail view. This generates a new URL and immediately invalidates the old one. Update any scripts or services using the old URL.
+
+### Delete a Key
+
+Deleting a Direct key permanently invalidates its webhook URL. Any requests to the old URL will fail.
+
+## Common Use Cases
+
+### Shell Scripts
+
+```bash
+# Notify when a long-running task finishes
+./run-migration.sh && \
+curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Migration Complete", "body": "Database migration finished successfully"}'
+```
+
+### Cron Jobs
+
+```bash
+# In crontab: notify on backup completion
+0 2 * * * /usr/local/bin/backup.sh && curl -s -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN -H "Content-Type: application/json" -d '{"title": "Backup Done", "body": "Nightly backup completed"}'
+```
+
+### Python
+
+```python
+import requests
+
+requests.post(
+    "https://hook.echobell.one/d/YOUR_KEY_TOKEN",
+    json={
+        "title": "Training Complete",
+        "body": f"Model accuracy: {accuracy:.2%}",
+        "externalLink": "https://wandb.ai/runs/abc123"
+    }
+)
+```
+
+### Node.js
+
+```javascript
+await fetch("https://hook.echobell.one/d/YOUR_KEY_TOKEN", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    title: "Deploy Complete",
+    body: `Version ${version} deployed to production`,
+  }),
+});
+```
+
+### GitHub Actions
+
+```yaml
+- name: Notify via Echobell Direct
+  if: always()
+  run: |
+    curl -X POST https://hook.echobell.one/d/${{ secrets.ECHOBELL_DIRECT_KEY }} \
+      -H "Content-Type: application/json" \
+      -d '{"title": "Build ${{ job.status }}", "body": "${{ github.repository }} @ ${{ github.sha }}"}'
+```
+
+## Best Practices
+
+### Security
+
+- **Treat Direct key URLs as secrets** — anyone with the URL can send you notifications
+- **Use environment variables** to store key tokens in scripts and CI/CD
+- **Reset tokens** immediately if you suspect a key has been compromised
+- **Create separate keys** for different services so you can revoke individually
+
+### Organization
+
+- **Name keys descriptively** — you'll thank yourself when managing multiple keys
+- **Use one key per service** — makes it easy to identify notification sources and revoke access
+- **Delete unused keys** — reduce your attack surface
+
+### Error Handling
+
+When integrating Direct into your scripts:
+
+- **200 OK**: Notification sent successfully
+- **400 Bad Request**: Malformed request body
+- **404 Not Found**: Invalid or deleted Direct key
+- **429 Too Many Requests**: Rate limit exceeded, implement backoff
+
+## Privacy and Security
+
+### What Gets Stored
+
+- **On Our Servers**:
+  - Direct key metadata (name, hashed token, owner)
+  - Request payload is temporarily processed and stored for delivery
+
+- **On Your Device**:
+  - Notification content (title, body)
+  - Trigger history and timestamps
+  - External links
+
+### What Doesn't Get Stored
+
+- We don't permanently retain request payloads after delivery
+- We don't analyze notification content
+- We don't share your data with third parties
+
+## Troubleshooting
+
+### Not Receiving Notifications
+
+1. **Verify the webhook URL** — copy it directly from the app, check for extra spaces
+2. **Check the key still exists** — it may have been deleted or token reset
+3. **Ensure notification permissions** — the Echobell app needs notification permission on your device
+4. **Test with curl** — rule out issues with your HTTP client:
+   ```bash
+   curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
+     -H "Content-Type: application/json" \
+     -d '{"title": "Test", "body": "Hello from Direct"}'
+   ```
+
+### Request Errors
+
+- **JSON parse error**: Ensure `Content-Type: application/json` header is set and body is valid JSON
+- **Key not found**: The token may have been reset or the key deleted
+- **Rate limited**: Add delays between rapid consecutive requests
+
+### Still Having Issues?
+
+- Visit our [Support Center](/docs/support) for more help
+- Contact us at echobell@weelone.com with:
+  - Description of the problem
+  - Example request (with token redacted)
+  - Expected vs. actual behavior
+
+## Next Steps
+
+- **[Webhook Integration](/docs/webhook)** — For shared, templated notifications with channels
+- **[Template Syntax](/docs/template)** — Learn about channel notification templates
+- **[Email Triggers](/docs/email-trigger)** — Trigger notifications via email
+- **[Explore Integrations](/docs/features)** — Connect with tools you already use

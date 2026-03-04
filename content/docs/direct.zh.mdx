@@ -1,0 +1,163 @@
+---
+title: 直达通知 - 通过个人 API 密钥发送即时提醒
+sidebarTitle: 直达通知
+description: 无需创建频道，通过个人 API 密钥直接发送通知。了解如何创建直达密钥、使用 webhook URL 以及发送包含标题、正文和链接的即时通知。
+---
+
+# 直达通知
+
+直达通知让您通过简单的 webhook URL 发送个人提醒 — 无需设置频道、模板或订阅者。只需创建一个密钥，调用 URL，即可在设备上立即收到通知。
+
+## 什么是直达通知？
+
+频道非常适合可与他人共享的结构化模板通知。但有时您只需要一个快速的个人通知 — 构建完成、脚本执行完毕、传感器触发。直达通知正是为此设计的。
+
+使用直达通知，您可以获得一个个人 API 密钥，对应一个唯一的 webhook URL。当您使用标题和正文调用该 URL 时，通知将直接发送给您，无需配置频道。
+
+## 开始使用
+
+### 1. 创建直达密钥
+
+在 Echobell 应用中，点击频道列表顶部的**直达**。然后点击**创建**生成新的直达密钥，为其取一个描述性名称（如 "构建服务器"、"家庭实验室"、"交易机器人"）。
+
+### 2. 复制 Webhook URL
+
+每个直达密钥都有一个唯一的 webhook URL：
+
+```
+https://hook.echobell.one/d/{your-key-token}
+```
+
+您可以在应用的直达密钥详情视图中找到并复制此 URL。令牌默认隐藏以确保安全 — 点击即可显示。
+
+### 3. 发送通知
+
+使用包含 `title` 和 `body` 的 JSON 正文调用 webhook URL：
+
+```http
+POST https://hook.echobell.one/d/YOUR_KEY_TOKEN
+Content-Type: application/json
+
+{
+  "title": "构建完成",
+  "body": "项目 X 构建成功，耗时 3 分 42 秒"
+}
+```
+
+就是这么简单 — 您将立即收到通知。
+
+## 发送请求
+
+### POST 请求（推荐）
+
+发送包含通知内容的 JSON 正文：
+
+```http
+POST https://hook.echobell.one/d/YOUR_KEY_TOKEN
+Content-Type: application/json
+
+{
+  "title": "部署状态",
+  "body": "v2.1.0 已部署到生产环境",
+  "externalLink": "https://dashboard.example.com/deploys/latest"
+}
+```
+
+### GET 请求
+
+您也可以通过查询字符串传递参数：
+
+```http
+GET https://hook.echobell.one/d/YOUR_KEY_TOKEN?title=警报&body=CPU+使用率+95%25
+```
+
+### 请求字段
+
+所有字段名**不区分大小写** — `title`、`Title` 和 `TITLE` 的效果相同，无论是通过 JSON 正文还是查询字符串传递。
+
+| 字段 | 类型 | 必填 | 描述 |
+|---|---|---|---|
+| `title` | string | 否 | 通知标题。省略时默认为 "Direct Notification"。 |
+| `body` | string | 否 | 通知正文。 |
+| `externalLink` | string | 否 | 在通知记录中显示的可点击链接。 |
+| `notificationType` | string | 否 | 通知紧急程度。接受 `active`、`time-sensitive` 或 `calling`。默认为 `time-sensitive`。详见[通知类型](#通知类型)。 |
+
+### 通知类型
+
+您可以使用 `notificationType` 字段控制直达通知的紧急程度：
+
+| 类型 | 描述 |
+|---|---|
+| `active` | 标准通知，正常投递。 |
+| `time-sensitive` | 高优先级通知，可突破专注模式。这是默认值。 |
+| `calling` | 类似来电的提醒，适用于紧急情况。**需要有效的高级订阅。**没有高级订阅时，会回落到 `time-sensitive`。 |
+
+带通知类型的示例：
+
+```http
+POST https://hook.echobell.one/d/YOUR_KEY_TOKEN
+Content-Type: application/json
+
+{
+  "title": "服务器宕机",
+  "body": "生产服务器无响应",
+  "notificationType": "calling"
+}
+```
+
+## 常见用例
+
+### Shell 脚本
+
+```bash
+curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{"title": "迁移完成", "body": "数据库迁移已成功完成"}'
+```
+
+### Python
+
+```python
+import requests
+
+requests.post(
+    "https://hook.echobell.one/d/YOUR_KEY_TOKEN",
+    json={
+        "title": "训练完成",
+        "body": f"模型准确率: {accuracy:.2%}",
+        "externalLink": "https://wandb.ai/runs/abc123"
+    }
+)
+```
+
+## 管理直达密钥
+
+- **多个密钥**：可为不同用途创建多个密钥（CI 服务器、家庭自动化、定时任务等），通知记录会自动与触发它的密钥关联，方便识别每条通知的来源
+- **重置令牌**：如果密钥的 webhook URL 泄露，可在密钥详情视图中重置令牌，旧 URL 将立即失效
+- **删除密钥**：删除直达密钥将永久使其 webhook URL 失效
+
+## 最佳实践
+
+1. **安全性**：将直达密钥 URL 视为机密，使用环境变量存储令牌
+2. **组织管理**：为密钥取描述性名称，每个服务使用单独的密钥
+3. **错误处理**：始终检查 HTTP 响应状态以确保成功投递
+4. **及时清理**：删除不再使用的密钥以减少安全风险
+
+## 隐私和安全
+
+- 直达密钥 URL 应被视为机密
+- 仅发送必要的数据
+- 通知内容存储在您的设备上
+- 我们的服务器仅处理请求并路由通知
+
+## 故障排除
+
+如果直达通知未按预期工作：
+
+1. 验证 webhook URL 是否正确
+2. 检查密钥是否仍然存在（可能已被删除或重置令牌）
+3. 确保 Echobell 应用具有通知权限
+4. 确保 JSON 格式正确且设置了 `Content-Type: application/json` 请求头
+5. 使用 curl 测试以排除 HTTP 客户端问题
+
+需要帮助？访问我们的[支持中心](/zh/docs/support)或通过 echobell@weelone.com 联系我们。
