@@ -38,8 +38,26 @@ function getLocale(request: NextRequest): string {
   return i18n.defaultLanguage;
 }
 
+function getForwardedProtocol(request: NextRequest): string {
+  const forwarded = request.headers.get("x-forwarded-proto");
+  if (forwarded) {
+    return forwarded.split(",")[0].trim().toLowerCase();
+  }
+  return request.nextUrl.protocol.replace(":", "").toLowerCase();
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const protocol = getForwardedProtocol(request);
+  const hostname = request.nextUrl.hostname;
+
+  // Prevent indexation of HTTP variants on production domains.
+  const isProdHostname = hostname === "echobell.one" || hostname === "www.echobell.one";
+  if (isProdHostname && protocol === "http") {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.protocol = "https";
+    return NextResponse.redirect(redirectUrl, 308);
+  }
 
   // Check if the pathname is missing a locale
   const pathnameIsMissingLocale = languages.every(

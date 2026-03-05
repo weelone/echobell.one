@@ -112,8 +112,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "Business Impact",
         result: "Faster incident acknowledgment and lower downtime for critical services.",
         links: [
-          { label: "Call Features", href: "/features/call-notifications" },
-          { label: "Grafana Guide", href: "/docs/developer/grafana" },
+          { label: "Call Features", href: "/en/features/call-notifications" },
+          { label: "Grafana Guide", href: "/en/docs/developer/grafana" },
         ],
       },
       {
@@ -131,8 +131,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "Business Impact",
         result: "Immediate reaction to breakouts and stop-loss triggers, protecting your capital.",
         links: [
-          { label: "Templates", href: "/features/templates" },
-          { label: "TradingView Docs", href: "/docs/trader/tradingview" },
+          { label: "Templates", href: "/en/features/templates" },
+          { label: "TradingView Docs", href: "/en/docs/trader/tradingview" },
         ],
       },
       {
@@ -150,8 +150,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "Business Impact",
         result: "Improved SLA adherence and higher customer satisfaction scores.",
         links: [
-          { label: "Email Triggers", href: "/features/email-triggers" },
-          { label: "Zendesk Guide", href: "/docs/integrations/zendesk" },
+          { label: "Email Triggers", href: "/en/features/email-triggers" },
+          { label: "Email Trigger Guide", href: "/en/docs/email-trigger" },
         ],
       },
       {
@@ -169,8 +169,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "Business Impact",
         result: "Prevent massive property damage with instant, hard-to-ignore alerts.",
         links: [
-          { label: "Channels", href: "/features/channels" },
-          { label: "Home Assistant Guide", href: "/blog/home-assistant-notifications-with-echobell" },
+          { label: "Channels", href: "/en/features/channels" },
+          { label: "Home Assistant Guide", href: "/en/blog/home-assistant-notifications-with-echobell" },
         ],
       },
       {
@@ -188,8 +188,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "Business Impact",
         result: "Faster fix cycles and more reliable deployment pipelines.",
         links: [
-          { label: "Webhooks", href: "/features/webhooks" },
-          { label: "GitHub Actions Blog", href: "/blog/github-actions-notifications" },
+          { label: "Webhooks", href: "/en/features/webhooks" },
+          { label: "GitHub Actions Blog", href: "/en/blog/github-actions-notifications" },
         ],
       },
       {
@@ -207,8 +207,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "Business Impact",
         result: "Reduced MTTR and increased availability for your web applications.",
         links: [
-          { label: "Conditions", href: "/features/conditions" },
-          { label: "Upptime Blog", href: "/blog/upptime-alerts-with-echobell" },
+          { label: "Conditions", href: "/en/docs/conditions" },
+          { label: "Upptime Blog", href: "/en/blog/upptime-alerts-with-echobell" },
         ],
       },
       {
@@ -226,8 +226,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "Business Impact",
         result: "Proactive error resolution before they impact a large user base.",
         links: [
-          { label: "Developer API", href: "/docs/api/getting-started" },
-          { label: "Python/JS SDK", href: "/docs/api/libraries" },
+          { label: "Webhook API", href: "/en/docs/webhook" },
+          { label: "Developer Guides", href: "/en/docs/developer" },
         ],
       },
       {
@@ -245,8 +245,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "Business Impact",
         result: "Smoother operations and better accountability across global timezones.",
         links: [
-          { label: "Privacy", href: "/features/privacy" },
-          { label: "Channel Subscriptions", href: "/docs/app/channels" },
+          { label: "Privacy", href: "/en/privacy" },
+          { label: "Channel Subscriptions", href: "/en/features/channels" },
         ],
       },
     ],
@@ -323,8 +323,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "业务价值",
         result: "更快的事故确认速度，显著降低关键服务的停机时间。",
         links: [
-          { label: "来电通知功能", href: "/features/call-notifications" },
-          { label: "Grafana 接入指南", href: "/docs/developer/grafana" },
+          { label: "来电通知功能", href: "/zh/features/call-notifications" },
+          { label: "Grafana 接入指南", href: "/zh/docs/developer/grafana" },
         ],
       },
       {
@@ -342,8 +342,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "业务价值",
         result: "对突破和止损触发做出即时反应，有效保护您的交易资本。",
         links: [
-          { label: "模板功能", href: "/features/templates" },
-          { label: "TradingView 文档", href: "/docs/trader/tradingview" },
+          { label: "模板功能", href: "/zh/features/templates" },
+          { label: "TradingView 文档", href: "/zh/docs/trader/tradingview" },
         ],
       },
       {
@@ -361,8 +361,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "业务价值",
         result: "提升 SLA 达成率，显著提高客户满意度评分。",
         links: [
-          { label: "邮件触发功能", href: "/features/email-triggers" },
-          { label: "Zendesk 集成指南", href: "/docs/integrations/zendesk" },
+          { label: "邮件触发功能", href: "/zh/features/email-triggers" },
+          { label: "邮件触发指南", href: "/zh/docs/email-trigger" },
         ],
       },
       {
@@ -380,8 +380,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "业务价值",
         result: "通过难以被忽略的即时告警，防止重大家产损失。",
         links: [
-          { label: "频道功能", href: "/features/channels" },
-          { label: "Home Assistant 案例", href: "/blog/home-assistant-notifications-with-echobell" },
+          { label: "频道功能", href: "/zh/features/channels" },
+          { label: "Home Assistant 案例", href: "/zh/blog/home-assistant-notifications-with-echobell" },
         ],
       },
       {
@@ -399,8 +399,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "业务价值",
         result: "缩短修复周期，提升部署流水线的可靠性。",
         links: [
-          { label: "Webhook 功能", href: "/features/webhooks" },
-          { label: "GitHub Actions 博客", href: "/blog/github-actions-notifications" },
+          { label: "Webhook 功能", href: "/zh/features/webhooks" },
+          { label: "GitHub Actions 博客", href: "/zh/blog/github-actions-notifications" },
         ],
       },
       {
@@ -418,8 +418,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "业务价值",
         result: "降低平均修复时间（MTTR），提升 Web 应用的可用性。",
         links: [
-          { label: "条件规则", href: "/features/conditions" },
-          { label: "Upptime 案例", href: "/blog/upptime-alerts-with-echobell" },
+          { label: "条件规则", href: "/zh/docs/conditions" },
+          { label: "Upptime 案例", href: "/zh/blog/upptime-alerts-with-echobell" },
         ],
       },
       {
@@ -437,8 +437,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "业务价值",
         result: "在错误影响扩大之前，实现主动式的问题解决。",
         links: [
-          { label: "开发者 API", href: "/docs/api/getting-started" },
-          { label: "Python/JS SDK", href: "/docs/api/libraries" },
+          { label: "Webhook API", href: "/zh/docs/webhook" },
+          { label: "开发者指南", href: "/zh/docs/developer" },
         ],
       },
       {
@@ -456,8 +456,8 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         resultLabel: "业务价值",
         result: "更顺畅的运维流转，跨时区协作的责任归属更明确。",
         links: [
-          { label: "隐私保护", href: "/features/privacy" },
-          { label: "频道订阅", href: "/docs/app/channels" },
+          { label: "隐私保护", href: "/zh/privacy" },
+          { label: "频道订阅", href: "/zh/features/channels" },
         ],
       },
     ],
@@ -509,10 +509,193 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
       primary: "Descargar Echobell",
       secondary: "Documentación",
     },
-    useCases: [], // To be populated if needed
-    faq: { title: "Preguntas Frecuentes", items: [] },
-    howTo: { name: "Cómo implementar", description: "", steps: [] },
-    cta: { title: "Listo para empezar?", description: "", primary: "Comenzar", secondary: "Precios" },
+    useCases: [
+      {
+        id: "incident-response",
+        title: "Rotación de Guardia de Desarrollo",
+        summary: "Convierte eventos de monitoreo en llamadas urgentes cuando falla producción.",
+        problemLabel: "El reto",
+        problem: "Las notificaciones silenciosas se pierden fácilmente durante el sueño o trabajo profundo.",
+        workflowLabel: "Flujo recomendado",
+        workflowSteps: [
+          "Conecta Grafana/Prometheus a un canal Webhook de Echobell.",
+          "Configura escalado por llamada para alertas críticas.",
+          "Usa plantillas dinámicas para mostrar servicio y error en la notificación.",
+        ],
+        resultLabel: "Impacto",
+        result: "Menor tiempo de respuesta y menos inactividad en servicios críticos.",
+        links: [
+          { label: "Llamadas", href: "/es/features/call-notifications" },
+          { label: "Guía Grafana", href: "/es/docs/developer/grafana" },
+        ],
+      },
+      {
+        id: "trading-signals",
+        title: "Alertas de Trading de Alta Frecuencia",
+        summary: "Recibe señales de TradingView al instante sin revisar el móvil constantemente.",
+        problemLabel: "El reto",
+        problem: "Las alertas de mercado se entierran entre notificaciones sociales.",
+        workflowLabel: "Flujo recomendado",
+        workflowSteps: [
+          "Crea una alerta Webhook en TradingView para tus símbolos.",
+          "Envíala a un canal dedicado con prioridad Time-Sensitive.",
+          "Incluye precio e indicadores en la plantilla.",
+        ],
+        resultLabel: "Impacto",
+        result: "Reacción más rápida ante rupturas y stop-loss.",
+        links: [
+          { label: "Plantillas", href: "/es/features/templates" },
+          { label: "Docs TradingView", href: "/es/docs/trader/tradingview" },
+        ],
+      },
+      {
+        id: "support-escalation",
+        title: "Escalación de Tickets de Soporte",
+        summary: "Conecta CRM y soporte para solicitudes VIP urgentes.",
+        problemLabel: "El reto",
+        problem: "Los correos VIP pueden quedar horas sin atenderse.",
+        workflowLabel: "Flujo recomendado",
+        workflowSteps: [
+          "Reenvía correos VIP al canal de email trigger.",
+          "Filtra por palabras clave como URGENT o DOWN.",
+          "Difunde la notificación al canal completo de soporte.",
+        ],
+        resultLabel: "Impacto",
+        result: "Mejor cumplimiento de SLA y mayor satisfacción del cliente.",
+        links: [
+          { label: "Email Triggers", href: "/es/features/email-triggers" },
+          { label: "Guía Email Trigger", href: "/es/docs/email-trigger" },
+        ],
+      },
+      {
+        id: "smart-home",
+        title: "Seguridad Smart Home e IoT",
+        summary: "Recibe una llamada cuando tu sistema detecte humo o fugas.",
+        problemLabel: "El reto",
+        problem: "Las alertas de detectores suelen tratarse como baja prioridad.",
+        workflowLabel: "Flujo recomendado",
+        workflowSteps: [
+          "Configura Home Assistant para enviar un Webhook al dispararse un sensor.",
+          "Usa llamadas para atravesar modos de enfoque.",
+          "Invita a tu familia a suscribirse al mismo canal.",
+        ],
+        resultLabel: "Impacto",
+        result: "Respuesta inmediata ante incidentes domésticos críticos.",
+        links: [
+          { label: "Canales", href: "/es/features/channels" },
+          { label: "Caso Home Assistant", href: "/es/blog/home-assistant-notifications-with-echobell" },
+        ],
+      },
+      {
+        id: "cicd-monitoring",
+        title: "Fallos de Pipeline CI/CD",
+        summary: "Entérate al instante cuando falla el build de la rama principal.",
+        problemLabel: "El reto",
+        problem: "Muchos equipos descubren fallos demasiado tarde.",
+        workflowLabel: "Flujo recomendado",
+        workflowSteps: [
+          "Añade un paso post-build en GitHub Actions o GitLab CI.",
+          "Dispara un Webhook de Echobell cuando el estado sea failed.",
+          "Incluye commit y autor en el payload.",
+        ],
+        resultLabel: "Impacto",
+        result: "Ciclos de corrección más rápidos y despliegues más estables.",
+        links: [
+          { label: "Webhooks", href: "/es/features/webhooks" },
+          { label: "Blog GitHub Actions", href: "/es/blog/github-actions-notifications" },
+        ],
+      },
+      {
+        id: "uptime-monitoring",
+        title: "Alertas de Uptime",
+        summary: "Integra Upptime/UptimeRobot para llamadas cuando tu API cae.",
+        problemLabel: "El reto",
+        problem: "Los emails de monitoreo se pierden con facilidad.",
+        workflowLabel: "Flujo recomendado",
+        workflowSteps: [
+          "Apunta Webhooks de uptime a Echobell.",
+          "Usa condiciones para alertar solo en producción.",
+          "Incluye código de respuesta y latencia en la plantilla.",
+        ],
+        resultLabel: "Impacto",
+        result: "Menor MTTR y mayor disponibilidad.",
+        links: [
+          { label: "Condiciones", href: "/es/docs/conditions" },
+          { label: "Caso Upptime", href: "/es/blog/upptime-alerts-with-echobell" },
+        ],
+      },
+      {
+        id: "serverless-functions",
+        title: "Seguimiento de Errores Serverless",
+        summary: "Recibe alertas en tiempo real de excepciones en Lambda/Cloud Functions.",
+        problemLabel: "El reto",
+        problem: "Los errores serverless suelen quedar ocultos en logs.",
+        workflowLabel: "Flujo recomendado",
+        workflowSteps: [
+          "Añade un handler de errores en tu función.",
+          "Envía stack traces al Webhook de Echobell.",
+          "Configura llamadas para errores críticos.",
+        ],
+        resultLabel: "Impacto",
+        result: "Resolución proactiva antes de afectar a más usuarios.",
+        links: [
+          { label: "API Webhook", href: "/es/docs/webhook" },
+          { label: "Guías Developer", href: "/es/docs/developer" },
+        ],
+      },
+      {
+        id: "team-sync",
+        title: "Coordinación de Equipos Distribuidos",
+        summary: "Mantén sincronizados cambios de turno y handover operativo.",
+        problemLabel: "El reto",
+        problem: "Las diferencias horarias dificultan la continuidad operativa.",
+        workflowLabel: "Flujo recomendado",
+        workflowSteps: [
+          "Crea un canal de handover para operaciones.",
+          "Publica resúmenes de turno por email trigger.",
+          "Activa Time-Sensitive para asegurar lectura.",
+        ],
+        resultLabel: "Impacto",
+        result: "Operación más fluida y mejor responsabilidad entre turnos.",
+        links: [
+          { label: "Privacidad", href: "/es/privacy" },
+          { label: "Suscripciones de Canal", href: "/es/features/channels" },
+        ],
+      },
+    ],
+    faq: {
+      title: "Preguntas Frecuentes",
+      items: [
+        {
+          question: "¿Puedo usar varios triggers en un canal?",
+          answer: "No. Cada canal usa un solo origen (Webhook o Email), pero puedes crear varios canales.",
+        },
+        {
+          question: "¿Funciona en Android?",
+          answer: "Echobell está optimizado para iOS con capacidades como Time-Sensitive y alertas por llamada.",
+        },
+        {
+          question: "¿Hay límite de suscriptores?",
+          answer: "No. Puedes invitar a miembros ilimitados a canales públicos o privados.",
+        },
+      ],
+    },
+    howTo: {
+      name: "Cómo implementar un flujo",
+      description: "Guía rápida para configurar tu primer flujo de alertas.",
+      steps: [
+        { name: "Crear canal", text: "Elige Webhook o Email como origen." },
+        { name: "Configurar origen", text: "Copia la URL o dirección única a tu sistema origen." },
+        { name: "Definir prioridad", text: "Selecciona normal, time-sensitive o llamada." },
+        { name: "Probar y lanzar", text: "Envía un evento de prueba y valida la entrega." },
+      ],
+    },
+    cta: {
+      title: "¿Listo para lanzar tu flujo?",
+      description: "Descarga Echobell y no pierdas ninguna señal crítica.",
+      primary: "Comenzar",
+      secondary: "Precios",
+    },
   },
   fr: {
     meta: {
@@ -528,10 +711,193 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
       primary: "Télécharger Echobell",
       secondary: "Documentation",
     },
-    useCases: [],
-    faq: { title: "FAQ", items: [] },
-    howTo: { name: "Comment implémenter", description: "", steps: [] },
-    cta: { title: "Prêt à commencer ?", description: "", primary: "Commencer", secondary: "Tarifs" },
+    useCases: [
+      {
+        id: "incident-response",
+        title: "Astreinte Développeur",
+        summary: "Transformez les alertes de monitoring en appels urgents en cas d'incident production.",
+        problemLabel: "Le défi",
+        problem: "Les notifications silencieuses passent facilement inaperçues.",
+        workflowLabel: "Flux recommandé",
+        workflowSteps: [
+          "Connectez Grafana/Prometheus à un canal Webhook Echobell.",
+          "Activez l'escalade par appel pour les alertes critiques.",
+          "Utilisez des templates dynamiques avec service et erreur.",
+        ],
+        resultLabel: "Impact",
+        result: "Réduction du temps de prise en charge et des indisponibilités.",
+        links: [
+          { label: "Appels", href: "/fr/features/call-notifications" },
+          { label: "Guide Grafana", href: "/fr/docs/developer/grafana" },
+        ],
+      },
+      {
+        id: "trading-signals",
+        title: "Alertes Trading à Haute Fréquence",
+        summary: "Recevez instantanément les signaux TradingView.",
+        problemLabel: "Le défi",
+        problem: "Les alertes marché sont noyées dans les notifications non critiques.",
+        workflowLabel: "Flux recommandé",
+        workflowSteps: [
+          "Créez une alerte Webhook dans TradingView.",
+          "Envoyez-la vers un canal dédié en mode Time-Sensitive.",
+          "Ajoutez prix et indicateurs dans le template.",
+        ],
+        resultLabel: "Impact",
+        result: "Réaction plus rapide aux signaux de marché.",
+        links: [
+          { label: "Templates", href: "/fr/features/templates" },
+          { label: "Docs TradingView", href: "/fr/docs/trader/tradingview" },
+        ],
+      },
+      {
+        id: "support-escalation",
+        title: "Escalade des Tickets Support",
+        summary: "Reliez CRM et support pour les demandes VIP urgentes.",
+        problemLabel: "Le défi",
+        problem: "Les emails VIP peuvent rester non traités trop longtemps.",
+        workflowLabel: "Flux recommandé",
+        workflowSteps: [
+          "Transférez les emails VIP vers un canal email trigger.",
+          "Filtrez avec des conditions (URGENT, DOWN, etc.).",
+          "Diffusez l'alerte à toute l'équipe support.",
+        ],
+        resultLabel: "Impact",
+        result: "Meilleur respect des SLA et satisfaction client accrue.",
+        links: [
+          { label: "Déclencheurs Email", href: "/fr/features/email-triggers" },
+          { label: "Guide Email Trigger", href: "/fr/docs/email-trigger" },
+        ],
+      },
+      {
+        id: "smart-home",
+        title: "Sécurité Smart Home & IoT",
+        summary: "Recevez un appel en cas de fuite d'eau ou fumée.",
+        problemLabel: "Le défi",
+        problem: "Les alertes domestiques peuvent être classées en faible priorité.",
+        workflowLabel: "Flux recommandé",
+        workflowSteps: [
+          "Configurez Home Assistant pour envoyer un Webhook à l'événement.",
+          "Utilisez les appels pour contourner les modes de concentration.",
+          "Invitez votre foyer à s'abonner au même canal.",
+        ],
+        resultLabel: "Impact",
+        result: "Réaction immédiate face aux incidents critiques à domicile.",
+        links: [
+          { label: "Canaux", href: "/fr/features/channels" },
+          { label: "Cas Home Assistant", href: "/fr/blog/home-assistant-notifications-with-echobell" },
+        ],
+      },
+      {
+        id: "cicd-monitoring",
+        title: "Échec de Pipeline CI/CD",
+        summary: "Soyez notifié immédiatement en cas d'échec de build.",
+        problemLabel: "Le défi",
+        problem: "Les échecs sont souvent découverts trop tard.",
+        workflowLabel: "Flux recommandé",
+        workflowSteps: [
+          "Ajoutez une étape post-build dans GitHub Actions/GitLab CI.",
+          "Déclenchez un Webhook Echobell si le statut est failed.",
+          "Incluez commit et auteur dans le payload.",
+        ],
+        resultLabel: "Impact",
+        result: "Correction plus rapide et pipeline plus fiable.",
+        links: [
+          { label: "Webhooks", href: "/fr/features/webhooks" },
+          { label: "Blog GitHub Actions", href: "/fr/blog/github-actions-notifications" },
+        ],
+      },
+      {
+        id: "uptime-monitoring",
+        title: "Alertes de Disponibilité",
+        summary: "Intégrez Upptime/UptimeRobot pour être appelé en cas de panne.",
+        problemLabel: "Le défi",
+        problem: "Les emails de monitoring se perdent facilement.",
+        workflowLabel: "Flux recommandé",
+        workflowSteps: [
+          "Pointez les Webhooks uptime vers Echobell.",
+          "Déclenchez uniquement en production via conditions.",
+          "Ajoutez code réponse et latence au template.",
+        ],
+        resultLabel: "Impact",
+        result: "MTTR réduit et meilleure disponibilité.",
+        links: [
+          { label: "Conditions", href: "/fr/docs/conditions" },
+          { label: "Cas Upptime", href: "/fr/blog/upptime-alerts-with-echobell" },
+        ],
+      },
+      {
+        id: "serverless-functions",
+        title: "Suivi d'Erreurs Serverless",
+        summary: "Recevez en temps réel les exceptions Lambda/Cloud Functions.",
+        problemLabel: "Le défi",
+        problem: "Les erreurs serverless restent souvent cachées dans les logs.",
+        workflowLabel: "Flux recommandé",
+        workflowSteps: [
+          "Ajoutez un gestionnaire d'erreurs dans votre fonction.",
+          "Envoyez les stack traces vers Webhook Echobell.",
+          "Configurez les appels pour les erreurs critiques.",
+        ],
+        resultLabel: "Impact",
+        result: "Résolution proactive avant impact large.",
+        links: [
+          { label: "API Webhook", href: "/fr/docs/webhook" },
+          { label: "Guides Développeur", href: "/fr/docs/developer" },
+        ],
+      },
+      {
+        id: "team-sync",
+        title: "Coordination d'Équipe Distribuée",
+        summary: "Synchronisez les handovers et changements d'astreinte.",
+        problemLabel: "Le défi",
+        problem: "Les fuseaux horaires compliquent la continuité opérationnelle.",
+        workflowLabel: "Flux recommandé",
+        workflowSteps: [
+          "Créez un canal handover pour les opérations.",
+          "Publiez les résumés via email trigger.",
+          "Activez Time-Sensitive pour garantir la lecture.",
+        ],
+        resultLabel: "Impact",
+        result: "Opérations plus fluides et meilleure responsabilité d'équipe.",
+        links: [
+          { label: "Confidentialité", href: "/fr/privacy" },
+          { label: "Abonnements de Canal", href: "/fr/features/channels" },
+        ],
+      },
+    ],
+    faq: {
+      title: "FAQ",
+      items: [
+        {
+          question: "Puis-je utiliser plusieurs déclencheurs sur un canal ?",
+          answer: "Non. Un canal utilise un seul type de source (Webhook ou Email), mais vous pouvez créer plusieurs canaux.",
+        },
+        {
+          question: "Ces workflows fonctionnent-ils sur Android ?",
+          answer: "Echobell est actuellement optimisé pour iOS (Time-Sensitive et alertes par appel).",
+        },
+        {
+          question: "Y a-t-il une limite d'abonnés ?",
+          answer: "Non, vous pouvez inviter un nombre illimité de membres.",
+        },
+      ],
+    },
+    howTo: {
+      name: "Comment implémenter un workflow",
+      description: "Guide rapide pour déployer votre premier flux d'alerte.",
+      steps: [
+        { name: "Créer un canal", text: "Choisissez Webhook ou Email." },
+        { name: "Configurer la source", text: "Copiez l'URL ou l'adresse unique dans votre système source." },
+        { name: "Définir la priorité", text: "Normal, time-sensitive ou appel." },
+        { name: "Tester et déployer", text: "Envoyez un test et vérifiez la réception." },
+      ],
+    },
+    cta: {
+      title: "Prêt à lancer votre workflow ?",
+      description: "Téléchargez Echobell et ne manquez plus aucun signal critique.",
+      primary: "Commencer",
+      secondary: "Tarifs",
+    },
   },
   ja: {
     meta: {
@@ -547,10 +913,193 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
       primary: "Echobellをダウンロード",
       secondary: "ドキュメント",
     },
-    useCases: [],
-    faq: { title: "よくある質問", items: [] },
-    howTo: { name: "導入方法", description: "", steps: [] },
-    cta: { title: "準備はできましたか？", description: "", primary: "今すぐ開始", secondary: "料金表" },
+    useCases: [
+      {
+        id: "incident-response",
+        title: "開発オンコール対応",
+        summary: "本番障害時に監視イベントを緊急コールへ変換します。",
+        problemLabel: "課題",
+        problem: "サイレント通知は就寝中や集中作業中に見逃されがちです。",
+        workflowLabel: "推奨フロー",
+        workflowSteps: [
+          "Grafana/Prometheus を Echobell の Webhook チャンネルに接続。",
+          "重大アラートに対して通話エスカレーションを設定。",
+          "テンプレートでサービス名とエラー情報を表示。",
+        ],
+        resultLabel: "効果",
+        result: "初動対応が速くなり、ダウンタイムを削減できます。",
+        links: [
+          { label: "通話通知", href: "/ja/features/call-notifications" },
+          { label: "Grafana ガイド", href: "/ja/docs/developer/grafana" },
+        ],
+      },
+      {
+        id: "trading-signals",
+        title: "高頻度トレード通知",
+        summary: "TradingView の価格変動シグナルを即時に受け取ります。",
+        problemLabel: "課題",
+        problem: "相場アラートが他の通知に埋もれて機会損失が発生します。",
+        workflowLabel: "推奨フロー",
+        workflowSteps: [
+          "TradingView で Webhook アラートを設定。",
+          "Time-Sensitive の専用チャンネルへルーティング。",
+          "価格や指標をテンプレートへ埋め込む。",
+        ],
+        resultLabel: "効果",
+        result: "ブレイクアウトや損切りに素早く対応できます。",
+        links: [
+          { label: "テンプレート", href: "/ja/features/templates" },
+          { label: "TradingView ドキュメント", href: "/ja/docs/trader/tradingview" },
+        ],
+      },
+      {
+        id: "support-escalation",
+        title: "サポートチケットのエスカレーション",
+        summary: "CRM とサポートをつなぎ、VIP の緊急依頼を即時共有します。",
+        problemLabel: "課題",
+        problem: "VIP メールが担当者不在で長時間放置されることがあります。",
+        workflowLabel: "推奨フロー",
+        workflowSteps: [
+          "VIP メールを email trigger チャンネルへ転送。",
+          "URGENT/DOWN などの条件でフィルタ。",
+          "サポート全体のチャンネルへ通知を配信。",
+        ],
+        resultLabel: "効果",
+        result: "SLA 達成率と顧客満足度を向上できます。",
+        links: [
+          { label: "メールトリガー", href: "/ja/features/email-triggers" },
+          { label: "メールトリガーガイド", href: "/ja/docs/email-trigger" },
+        ],
+      },
+      {
+        id: "smart-home",
+        title: "スマートホーム / IoT セキュリティ",
+        summary: "漏水や煙を検知したら即時に電話通知を受け取れます。",
+        problemLabel: "課題",
+        problem: "家庭向け通知は優先度が低く扱われやすいです。",
+        workflowLabel: "推奨フロー",
+        workflowSteps: [
+          "Home Assistant から Webhook を送信。",
+          "通話通知でフォーカスモードを回避。",
+          "家族を同一チャンネルに招待して共有。",
+        ],
+        resultLabel: "効果",
+        result: "重大インシデントへの初動を早められます。",
+        links: [
+          { label: "チャンネル", href: "/ja/features/channels" },
+          { label: "Home Assistant 事例", href: "/ja/blog/home-assistant-notifications-with-echobell" },
+        ],
+      },
+      {
+        id: "cicd-monitoring",
+        title: "CI/CD パイプライン障害",
+        summary: "main ブランチのビルド失敗を即時に検知します。",
+        problemLabel: "課題",
+        problem: "ビルド失敗の発見が遅れて修正が後手になります。",
+        workflowLabel: "推奨フロー",
+        workflowSteps: [
+          "GitHub Actions/GitLab CI に post-build ステップを追加。",
+          "failed 時に Echobell Webhook を送信。",
+          "コミット情報と作成者を payload に含める。",
+        ],
+        resultLabel: "効果",
+        result: "修正サイクルが短くなり、配信品質が向上します。",
+        links: [
+          { label: "Webhooks", href: "/ja/features/webhooks" },
+          { label: "GitHub Actions ブログ", href: "/ja/blog/github-actions-notifications" },
+        ],
+      },
+      {
+        id: "uptime-monitoring",
+        title: "稼働監視アラート",
+        summary: "Upptime/UptimeRobot と連携し、障害時に通話通知します。",
+        problemLabel: "課題",
+        problem: "監視メールは見落とされやすく対応が遅れます。",
+        workflowLabel: "推奨フロー",
+        workflowSteps: [
+          "稼働監視の Webhook を Echobell に接続。",
+          "本番障害のみ条件で通知。",
+          "レスポンスコードと遅延をテンプレートへ追加。",
+        ],
+        resultLabel: "効果",
+        result: "MTTR を下げ、可用性を高められます。",
+        links: [
+          { label: "条件", href: "/ja/docs/conditions" },
+          { label: "Upptime 事例", href: "/ja/blog/upptime-alerts-with-echobell" },
+        ],
+      },
+      {
+        id: "serverless-functions",
+        title: "Serverless エラー追跡",
+        summary: "Lambda/Cloud Functions の例外をリアルタイムで検知します。",
+        problemLabel: "課題",
+        problem: "Serverless エラーはログ内に埋もれがちです。",
+        workflowLabel: "推奨フロー",
+        workflowSteps: [
+          "関数コードにエラーハンドラを追加。",
+          "スタックトレースを Echobell Webhook へ送信。",
+          "重大エラーには通話通知を設定。",
+        ],
+        resultLabel: "効果",
+        result: "ユーザー影響が広がる前に対応できます。",
+        links: [
+          { label: "Webhook API", href: "/ja/docs/webhook" },
+          { label: "開発者ガイド", href: "/ja/docs/developer" },
+        ],
+      },
+      {
+        id: "team-sync",
+        title: "分散チーム連携",
+        summary: "シフト交代・引き継ぎを確実に同期します。",
+        problemLabel: "課題",
+        problem: "時差により引き継ぎ漏れが発生しやすいです。",
+        workflowLabel: "推奨フロー",
+        workflowSteps: [
+          "運用チーム用の handover チャンネルを作成。",
+          "交代サマリーを email trigger で投稿。",
+          "Time-Sensitive で既読率を確保。",
+        ],
+        resultLabel: "効果",
+        result: "運用の継続性が上がり、責任分担が明確になります。",
+        links: [
+          { label: "プライバシー", href: "/ja/privacy" },
+          { label: "チャンネル購読", href: "/ja/features/channels" },
+        ],
+      },
+    ],
+    faq: {
+      title: "よくある質問",
+      items: [
+        {
+          question: "1つのチャンネルで複数トリガーを使えますか？",
+          answer: "いいえ。1チャンネルは Webhook か Email のどちらか1種類です。必要に応じて複数チャンネルを作成してください。",
+        },
+        {
+          question: "Android でも使えますか？",
+          answer: "Echobell は現在 iOS 向けに最適化されています（Time-Sensitive や通話通知）。",
+        },
+        {
+          question: "購読者数に上限はありますか？",
+          answer: "上限はありません。公開/非公開チャンネルに無制限で招待できます。",
+        },
+      ],
+    },
+    howTo: {
+      name: "ワークフロー導入手順",
+      description: "最初の通知ワークフローをすぐに構築するための手順です。",
+      steps: [
+        { name: "チャンネル作成", text: "Webhook か Email を選択します。" },
+        { name: "送信元設定", text: "発行された URL/メールアドレスを送信元に設定します。" },
+        { name: "優先度設定", text: "通常・Time-Sensitive・通話を選びます。" },
+        { name: "テスト実行", text: "テストイベントを送信して到達を確認します。" },
+      ],
+    },
+    cta: {
+      title: "ワークフローを始めますか？",
+      description: "Echobell をダウンロードして重要なシグナルを見逃さない運用へ。",
+      primary: "今すぐ開始",
+      secondary: "料金を見る",
+    },
   },
   de: {
     meta: {
@@ -566,23 +1115,195 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
       primary: "Echobell herunterladen",
       secondary: "Dokumentation",
     },
-    useCases: [],
-    faq: { title: "FAQ", items: [] },
-    howTo: { name: "Implementierung", description: "", steps: [] },
-    cta: { title: "Bereit zu starten?", description: "", primary: "Loslegen", secondary: "Preise" },
+    useCases: [
+      {
+        id: "incident-response",
+        title: "Entwickler-On-Call",
+        summary: "Wandeln Sie Monitoring-Events bei Produktionsstörungen in dringende Anrufe um.",
+        problemLabel: "Herausforderung",
+        problem: "Stille Push-Benachrichtigungen werden im Schlaf oder Fokusmodus oft übersehen.",
+        workflowLabel: "Empfohlener Ablauf",
+        workflowSteps: [
+          "Verbinden Sie Grafana/Prometheus mit einem Echobell-Webhook-Kanal.",
+          "Aktivieren Sie Anruf-Eskalation für kritische Alarme.",
+          "Nutzen Sie Templates mit Service-Name und Fehlermeldung.",
+        ],
+        resultLabel: "Nutzen",
+        result: "Schnellere Reaktion und weniger Ausfallzeit bei kritischen Diensten.",
+        links: [
+          { label: "Anruf-Funktionen", href: "/de/features/call-notifications" },
+          { label: "Grafana-Leitfaden", href: "/de/docs/developer/grafana" },
+        ],
+      },
+      {
+        id: "trading-signals",
+        title: "High-Frequency-Trading-Alarme",
+        summary: "Erhalten Sie TradingView-Signale sofort ohne ständiges Handy-Checken.",
+        problemLabel: "Herausforderung",
+        problem: "Marktsignale gehen zwischen unwichtigen Benachrichtigungen unter.",
+        workflowLabel: "Empfohlener Ablauf",
+        workflowSteps: [
+          "Richten Sie in TradingView einen Webhook-Alarm ein.",
+          "Leiten Sie ihn in einen dedizierten Time-Sensitive-Kanal.",
+          "Fügen Sie Preis und Indikatoren ins Template ein.",
+        ],
+        resultLabel: "Nutzen",
+        result: "Schnellere Reaktion auf Ausbrüche und Stop-Loss-Ereignisse.",
+        links: [
+          { label: "Templates", href: "/de/features/templates" },
+          { label: "TradingView-Doku", href: "/de/docs/trader/tradingview" },
+        ],
+      },
+      {
+        id: "support-escalation",
+        title: "Support-Ticket-Eskalation",
+        summary: "Verbinden Sie CRM und Support für dringende VIP-Anfragen.",
+        problemLabel: "Herausforderung",
+        problem: "VIP-Mails bleiben ohne Eskalation häufig zu lange unbearbeitet.",
+        workflowLabel: "Empfohlener Ablauf",
+        workflowSteps: [
+          "Leiten Sie VIP-Mails an einen Email-Trigger-Kanal weiter.",
+          "Filtern Sie mit Bedingungen wie URGENT oder DOWN.",
+          "Senden Sie die Benachrichtigung an das gesamte Support-Team.",
+        ],
+        resultLabel: "Nutzen",
+        result: "Bessere SLA-Einhaltung und höhere Kundenzufriedenheit.",
+        links: [
+          { label: "Email Trigger", href: "/de/features/email-triggers" },
+          { label: "Email-Trigger-Guide", href: "/de/docs/email-trigger" },
+        ],
+      },
+      {
+        id: "smart-home",
+        title: "Smart Home & IoT-Sicherheit",
+        summary: "Erhalten Sie einen Anruf bei Rauch- oder Wasseralarm.",
+        problemLabel: "Herausforderung",
+        problem: "Wichtige Smart-Home-Warnungen werden oft als niedrig priorisiert behandelt.",
+        workflowLabel: "Empfohlener Ablauf",
+        workflowSteps: [
+          "Konfigurieren Sie Home Assistant für Webhook-Auslösung.",
+          "Nutzen Sie Anrufe, um Fokus-Modi zu umgehen.",
+          "Laden Sie Familienmitglieder in denselben Kanal ein.",
+        ],
+        resultLabel: "Nutzen",
+        result: "Schnelle Reaktion bei kritischen Vorfällen zuhause.",
+        links: [
+          { label: "Kanäle", href: "/de/features/channels" },
+          { label: "Home-Assistant-Beispiel", href: "/de/blog/home-assistant-notifications-with-echobell" },
+        ],
+      },
+      {
+        id: "cicd-monitoring",
+        title: "CI/CD-Pipeline-Fehler",
+        summary: "Werden Sie sofort informiert, wenn Builds auf dem Hauptbranch fehlschlagen.",
+        problemLabel: "Herausforderung",
+        problem: "Build-Fehler werden oft erst spät entdeckt.",
+        workflowLabel: "Empfohlener Ablauf",
+        workflowSteps: [
+          "Fügen Sie in GitHub Actions/GitLab CI einen Post-Build-Step hinzu.",
+          "Senden Sie bei failed einen Echobell-Webhook.",
+          "Übermitteln Sie Commit und Autor im Payload.",
+        ],
+        resultLabel: "Nutzen",
+        result: "Schnellere Fixes und stabilere Deployments.",
+        links: [
+          { label: "Webhooks", href: "/de/features/webhooks" },
+          { label: "GitHub-Actions-Blog", href: "/de/blog/github-actions-notifications" },
+        ],
+      },
+      {
+        id: "uptime-monitoring",
+        title: "Uptime-Alarmierung",
+        summary: "Integrieren Sie Upptime/UptimeRobot und erhalten Sie Anrufe bei Ausfällen.",
+        problemLabel: "Herausforderung",
+        problem: "Monitoring-Mails gehen häufig unter.",
+        workflowLabel: "Empfohlener Ablauf",
+        workflowSteps: [
+          "Leiten Sie Uptime-Webhooks an Echobell weiter.",
+          "Alarmieren Sie per Bedingungen nur für Produktion.",
+          "Ergänzen Sie Statuscode und Latenz im Template.",
+        ],
+        resultLabel: "Nutzen",
+        result: "Niedrigerer MTTR und höhere Verfügbarkeit.",
+        links: [
+          { label: "Bedingungen", href: "/de/docs/conditions" },
+          { label: "Upptime-Beispiel", href: "/de/blog/upptime-alerts-with-echobell" },
+        ],
+      },
+      {
+        id: "serverless-functions",
+        title: "Serverless-Fehlerverfolgung",
+        summary: "Erkennen Sie Ausnahmen in Lambda/Cloud Functions in Echtzeit.",
+        problemLabel: "Herausforderung",
+        problem: "Serverless-Fehler bleiben oft in Logs verborgen.",
+        workflowLabel: "Empfohlener Ablauf",
+        workflowSteps: [
+          "Ergänzen Sie einen Error-Handler in Ihrer Funktion.",
+          "Senden Sie Stack-Traces an Echobell Webhook.",
+          "Aktivieren Sie Anrufe für kritische Fehler.",
+        ],
+        resultLabel: "Nutzen",
+        result: "Proaktive Fehlerbehebung vor großem Nutzerimpact.",
+        links: [
+          { label: "Webhook-API", href: "/de/docs/webhook" },
+          { label: "Entwickler-Guides", href: "/de/docs/developer" },
+        ],
+      },
+      {
+        id: "team-sync",
+        title: "Koordination Verteilter Teams",
+        summary: "Synchronisieren Sie Schichtwechsel und operative Übergaben.",
+        problemLabel: "Herausforderung",
+        problem: "Zeitzonen erschweren die lückenlose Übergabe.",
+        workflowLabel: "Empfohlener Ablauf",
+        workflowSteps: [
+          "Erstellen Sie einen Handover-Kanal fürs Ops-Team.",
+          "Posten Sie Schichtzusammenfassungen per Email Trigger.",
+          "Aktivieren Sie Time-Sensitive für hohe Lesesicherheit.",
+        ],
+        resultLabel: "Nutzen",
+        result: "Reibungslosere Abläufe und klarere Verantwortlichkeiten.",
+        links: [
+          { label: "Datenschutz", href: "/de/privacy" },
+          { label: "Kanal-Abonnements", href: "/de/features/channels" },
+        ],
+      },
+    ],
+    faq: {
+      title: "FAQ",
+      items: [
+        {
+          question: "Kann ich mehrere Trigger pro Kanal nutzen?",
+          answer: "Nein. Ein Kanal nutzt nur eine Quelle (Webhook oder Email), aber Sie können mehrere Kanäle anlegen.",
+        },
+        {
+          question: "Funktionieren diese Workflows auf Android?",
+          answer: "Echobell ist aktuell auf iOS optimiert (Time-Sensitive und Anruf-Benachrichtigungen).",
+        },
+        {
+          question: "Gibt es ein Limit für Abonnenten?",
+          answer: "Nein. Sie können unbegrenzt Teammitglieder einladen.",
+        },
+      ],
+    },
+    howTo: {
+      name: "So implementieren Sie einen Workflow",
+      description: "Kurzanleitung für Ihren ersten Alarm-Workflow.",
+      steps: [
+        { name: "Kanal erstellen", text: "Webhook oder Email als Quelle auswählen." },
+        { name: "Quelle konfigurieren", text: "URL oder Email-Adresse im Quellsystem hinterlegen." },
+        { name: "Priorität setzen", text: "Normal, Time-Sensitive oder Anruf auswählen." },
+        { name: "Testen & starten", text: "Testevent senden und Zustellung prüfen." },
+      ],
+    },
+    cta: {
+      title: "Bereit, Ihren Workflow zu starten?",
+      description: "Laden Sie Echobell herunter und verpassen Sie keine kritischen Signale mehr.",
+      primary: "Loslegen",
+      secondary: "Preise",
+    },
   },
 };
-
-// Fill placeholders for other languages with English content if they are empty
-Object.keys(pageCopy).forEach((lang) => {
-  const l = lang as Language;
-  if (l !== "en" && l !== "zh" && pageCopy[l].useCases.length === 0) {
-    pageCopy[l].useCases = pageCopy.en.useCases;
-    pageCopy[l].faq = pageCopy.en.faq;
-    pageCopy[l].howTo = pageCopy.en.howTo;
-    pageCopy[l].cta = pageCopy.en.cta;
-  }
-});
 
 const useCaseIcons = [
   BellRingIcon,
@@ -713,7 +1434,7 @@ export default async function UseCasesPage({
                         {useCase.links.map((link) => (
                           <Link
                             key={link.href}
-                            href={localizeUrl(link.href, lang)}
+                            href={link.href}
                             className="inline-flex items-center rounded-full bg-neutral-100 dark:bg-neutral-900 px-5 py-2.5 text-sm font-bold transition-all hover:bg-orange-600 hover:text-white ring-1 ring-black/5 dark:ring-white/5"
                           >
                             {link.label}
