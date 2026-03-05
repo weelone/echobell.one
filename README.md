@@ -53,6 +53,15 @@ This project deploys with **OpenNext + Cloudflare Workers**:
 - Preview: `npm run preview`
 - Deploy: `npm run deploy`
 
+## AI-Friendly Endpoints
+
+The site exposes machine-readable indexes for AI agents and tooling:
+
+- `https://echobell.one/llms.txt` (summary + crawl guidance)
+- `https://echobell.one/llms-full.txt` (full docs/blog URL index)
+- `https://echobell.one/ai-index.json` (structured JSON index)
+- `https://echobell.one/en/ai` (human-readable AI reading guide)
+
 ## Contributing
 
 PRs and feedback are welcome. Please run `npm run lint` and ensure `npm run build` passes before submitting.

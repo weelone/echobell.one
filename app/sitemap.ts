@@ -22,6 +22,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         } as const)
     ),
 
+    // AI-oriented indexes (non-localized)
+    {
+      url: url("/llms.txt"),
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    } as const,
+    {
+      url: url("/llms-full.txt"),
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.7,
+    } as const,
+    {
+      url: url("/ai-index.json"),
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.7,
+    } as const,
+
     // Main features pages
     ...getLocalizedUrls("/features/webhooks").map(
       (item) =>
@@ -108,6 +128,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: new Date(),
           changeFrequency: "monthly",
           priority: 0.84,
+        } as const)
+    ),
+
+    // AI reading guide page
+    ...getLocalizedUrls("/ai").map(
+      (item) =>
+        ({
+          url: url(item),
+          lastModified: new Date(),
+          changeFrequency: "weekly",
+          priority: 0.75,
         } as const)
     ),
 
