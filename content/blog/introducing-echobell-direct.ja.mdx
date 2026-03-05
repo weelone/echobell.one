@@ -1,0 +1,123 @@
+---
+title: "Echobell Direct 入門: 3分で使える個人向けWebhook通知（チャンネル設定不要）"
+date: 2026-03-05
+description: "Echobell Direct を使って、個人APIキーとWebhook URLで即時通知を送る方法を解説。ユースケース、3分セットアップ、DirectとChannelsの使い分け、運用のコツをまとめました。"
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+スクリプト完了、デプロイ失敗、AIタスク終了をすぐ知りたいなら、**Echobell Direct** が最短です。
+
+Directは、テンプレートや購読者の設定なしで使える個人向け通知モードです。キーを作成し、Webhook URLに `title` と `body` を送るだけで通知できます。
+
+## Echobell Direct とは
+
+[Echobell Direct](/ja/docs/direct) は、個人用途に最適化された通知機能です。アプリでDirectキーを作ると、`/d/{token}` 形式のURLが発行されます。そこへリクエストを送ると、あなたの端末へ即時通知が届きます。
+
+向いているケース:
+
+- 個人スクリプト、自動化、CIジョブの通知
+- できるだけ短時間で導入したい
+- リクエストごとに通知内容を変えたい
+
+チーム共有、テンプレート運用、条件分岐が必要なら [Webhookチャンネル](/ja/docs/webhook) を使うのが適切です。
+
+## Echobell Direct が選ばれる理由
+
+### 1. 導入が速い
+
+Shell、cron、CI/CD への組み込みが数分で終わります。
+
+### 2. 通知の緊急度を選べる
+
+`notificationType` で用途に応じて設定可能です。
+
+- `active`: 通常通知
+- `time-sensitive`: 重要通知
+- `calling`: 重大インシデント向け
+
+詳しくは [通知タイプ](/ja/docs/notification) を参照してください。
+
+### 3. `externalLink` で行動しやすい
+
+ダッシュボードやログへのリンクを同時に送れるため、通知後の対応が速くなります。
+
+### 4. AIの非同期ワークフローと相性が良い
+
+長時間タスクの完了を自動で受け取れるので、タブを何度も確認する必要がありません。関連ガイド: [WebhookMCP + Echobell](/ja/blog/get-notified-with-webhook-mcp)。
+
+## 3分セットアップ
+
+### 1. Directキーを作成
+
+Echobellアプリで **Direct** を開き、キーを作成します（例: `CI`, `Cron`, `AI Tasks`）。
+
+### 2. Webhook URLをコピー
+
+```text
+https://hook.echobell.one/d/YOUR_KEY_TOKEN
+```
+
+このURLは秘密情報として扱ってください。
+
+### 3. 最初の通知を送信
+
+```bash
+curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Deploy failed",
+    "body": "api-service failed health check",
+    "notificationType": "time-sensitive",
+    "externalLink": "https://dashboard.example.com/deploys/123"
+  }'
+```
+
+詳細なフィールド仕様は [Directドキュメント](/ja/docs/direct) を確認してください。
+
+## Direct と Channels の使い分け
+
+**Direct** が向いている場合:
+
+- 自分向け通知のみ
+- すぐに運用を始めたい
+- リクエストごとに文面を自由に決めたい
+
+**Channels** が向いている場合:
+
+- チームで通知を共有したい
+- テンプレートや条件配信が必要
+- 複数サービスをまたぐ継続運用をしたい
+
+補足: [テンプレート](/ja/docs/template)、[Echobellとは](/ja/docs/what-is-echobell)。
+
+## 運用ベストプラクティス
+
+- トークンは環境変数やシークレット管理に保存
+- サービスごとにキーを分ける
+- 漏えいの疑いがあれば即トークン再発行
+- `calling` は本当に重要な通知だけに限定
+- `title` は短く、`body` は行動につながる内容にする
+
+## FAQ
+
+### Direct は開発者専用ですか？
+
+いいえ。HTTPリクエストを送れるツールなら利用できます。
+
+### 電話のような通知は送れますか？
+
+はい。`notificationType: "calling"` を使います（プレミアム契約が必要）。
+
+### GET と POST は両方使えますか？
+
+はい。実運用ではJSONのPOST推奨です。
+
+### セキュリティは大丈夫ですか？
+
+Direct URLはAPIキー相当です。公開せず、必要に応じてローテーションしてください。
+
+## まとめ
+
+個人向けに速く確実な通知を始めるなら、**Echobell Direct が最適な出発点**です。まずは [Direct](/ja/docs/direct) を導入し、必要に応じて [Webhook連携](/ja/docs/webhook) や [通知タイプ設定](/ja/docs/notification) へ広げていくのがおすすめです。

@@ -13,17 +13,17 @@ Picture this: you're working on a critical AI project, and the model you depend 
 
 As AI developers and researchers, we've all been there. HuggingFace has revolutionized how we collaborate on machine learning projects, but keeping track of all the activity can feel overwhelming. That's where [Echobell](https://echobell.one) comes in – your personal assistant for instant notifications that ensures you never miss what matters most.
 
-With Echobell's powerful webhook notifications, you can transform how you stay connected to your HuggingFace projects. Whether it's a game-changing model update, a new team member joining your organization, or critical discussions happening in your repositories, Echobell delivers [real-time alerts](/docs/what-is-echobell) straight to your device.
+With Echobell's powerful webhook notifications, you can transform how you stay connected to your HuggingFace projects. Whether it's a game-changing model update, a new team member joining your organization, or critical discussions happening in your repositories, Echobell delivers [real-time alerts](/en/docs/what-is-echobell) straight to your device.
 
 ## Why Every AI Developer Needs HuggingFace Notifications
 
 Let me share why staying connected to your HuggingFace activity isn't just nice to have – it's essential for modern AI development:
 
 **🚀 Never Miss Critical Model Updates**  
-I learned this the hard way when a model I was using in production got a security update. By the time I noticed (three days later!), I'd already deployed vulnerable code. Now, with Echobell's [instant notifications](/docs/notification), I get alerted the moment any model I depend on changes.
+I learned this the hard way when a model I was using in production got a security update. By the time I noticed (three days later!), I'd already deployed vulnerable code. Now, with Echobell's [instant notifications](/en/docs/notification), I get alerted the moment any model I depend on changes.
 
 **👥 Keep Your Team in Sync**  
-When working with distributed teams, timing is everything. Whether it's a new contributor joining your project, fresh pull requests, or important code commits, everyone needs to stay in the loop. Echobell's [notification channels](/docs/features) make team coordination seamless.
+When working with distributed teams, timing is everything. Whether it's a new contributor joining your project, fresh pull requests, or important code commits, everyone needs to stay in the loop. Echobell's [notification channels](/en/docs/features) make team coordination seamless.
 
 **💬 Join Conversations That Matter**  
 The AI community moves fast. Important discussions, bug reports, and feature requests happen daily. Missing these conversations means missing opportunities to contribute, learn, and grow.
@@ -50,7 +50,7 @@ Think of this as setting up your mission control for HuggingFace activity:
 
 4. **Customize Your Templates** (This is where the magic happens!): 
    
-   Echobell's [template system](/docs/template) lets you create notifications that actually tell you what you need to know:
+   Echobell's [template system](/en/docs/template) lets you create notifications that actually tell you what you need to know:
    
    - **Title Template**: `🤗 {{repo.name}}: {{event.action}}`
    - **Content Template**: `{{event.scope}} was {{event.action}} in {{repo.name}}. {{event.description || "Check it out!"}}`
@@ -109,7 +109,7 @@ Not all updates are created equal. If you're using a model in production, you ne
 
 1. **Create Separate Channels**: Make one channel for production-critical repos and another for everything else.
 
-2. **Use Echobell's Priority System**: For your critical channel, set the [notification type](/docs/notification) to **"Time-sensitive"** or **"Calling"**. This ensures these alerts break through Do Not Disturb mode.
+2. **Use Echobell's Priority System**: For your critical channel, set the [notification type](/en/docs/notification) to **"Time-sensitive"** or **"Calling"**. This ensures these alerts break through Do Not Disturb mode.
 
 3. **Smart Templates**: Use conditional logic in your templates:
    ```
@@ -128,7 +128,7 @@ One of my favorite Echobell features is how easy it is to share notifications wi
 
 This approach is especially powerful for organizations where different team members need different levels of alert urgency.
 
-> **Related Reading**: If you love this team-based approach, you'll definitely want to check out our guide on [GitHub Actions notifications](/blog/github-actions-notifications) for CI/CD alerts, and our [Grafana integration tutorial](/docs/developer/grafana) for monitoring alerts. The combination of HuggingFace, GitHub Actions, and Grafana notifications gives you complete visibility into your AI development pipeline!
+> **Related Reading**: If you love this team-based approach, you'll definitely want to check out our guide on [GitHub Actions notifications](/en/blog/github-actions-notifications) for CI/CD alerts, and our [Grafana integration tutorial](/en/docs/developer/grafana) for monitoring alerts. The combination of HuggingFace, GitHub Actions, and Grafana notifications gives you complete visibility into your AI development pipeline!
 
 ## Best Practices I've Learned Along the Way
 
@@ -149,7 +149,7 @@ The key is context. Your future self (probably rushing to a meeting) will thank 
 
 ### 3. Use Echobell's Smart Filtering
 
-Instead of getting every possible notification, use [channel conditions](/docs/conditions) to filter for what matters:
+Instead of getting every possible notification, use [channel conditions](/en/docs/conditions) to filter for what matters:
 
 ```
 event.action == "update" && repo.name.includes("production")
@@ -164,9 +164,9 @@ If you're getting more than 10-15 notifications per day from a single channel, i
 ### 5. Leverage the Full Echobell Ecosystem
 
 HuggingFace notifications are just the beginning. Consider setting up:
-- [Webhook alerts](/docs/webhook) for custom services
-- [GitHub Actions notifications](/blog/github-actions-notifications) for CI/CD pipeline failures  
-- [Grafana alerts](/docs/developer/grafana) for infrastructure monitoring
+- [Webhook alerts](/en/docs/webhook) for custom services
+- [GitHub Actions notifications](/en/blog/github-actions-notifications) for CI/CD pipeline failures  
+- [Grafana alerts](/en/docs/developer/grafana) for infrastructure monitoring
 
 When combined, these create a comprehensive notification system that keeps you on top of your entire development workflow.
 
@@ -182,4 +182,4 @@ Ready to transform how you stay connected to HuggingFace? [Download Echobell](ht
 
 ---
 
-*Want to dive deeper into notification strategies? Check out our complete guides on [webhook notifications](/docs/webhook), [notification templates](/docs/template), and [what makes Echobell different](/docs/what-is-echobell). And if you're building a comprehensive monitoring system, don't miss our tutorials on [GitHub Actions alerts](/blog/github-actions-notifications) and [Grafana integration](/docs/developer/grafana).*
+*Want to dive deeper into notification strategies? Check out our complete guides on [webhook notifications](/en/docs/webhook), [notification templates](/en/docs/template), and [what makes Echobell different](/en/docs/what-is-echobell). And if you're building a comprehensive monitoring system, don't miss our tutorials on [GitHub Actions alerts](/en/blog/github-actions-notifications) and [Grafana integration](/en/docs/developer/grafana).*

@@ -22,16 +22,16 @@ This walkthrough shows how to connect Grafana to Echobell using a simple webhook
 
 Related docs if you want to skim first:
 
-- What is Echobell? → [/docs/what-is-echobell](/docs/what-is-echobell)
-- Notifications model (priorities, retries) → [/docs/notification](/docs/notification)
-- Webhooks overview → [/docs/webhook](/docs/webhook)
-- Grafana developer guide → [/docs/developer/grafana](/docs/developer/grafana)
+- What is Echobell? → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Notifications model (priorities, retries) → [/docs/notification](/en/docs/notification)
+- Webhooks overview → [/docs/webhook](/en/docs/webhook)
+- Grafana developer guide → [/docs/developer/grafana](/en/docs/developer/grafana)
 
 ## Connect Echobell to Grafana in 3 minutes
 
 ### Prerequisites
 
-1. Echobell account with an active channel and webhook URL (see [/docs/webhook](/docs/webhook))
+1. Echobell account with an active channel and webhook URL (see [/docs/webhook](/en/docs/webhook))
 2. Admin access to your Grafana instance
 3. At least one alert rule configured
 
@@ -47,7 +47,7 @@ Set the URL to your channel’s webhook, for example:
 
 `https://hook.echobell.one/t/xxxxxxxx`
 
-You can copy this from your channel settings in Echobell (details in [/docs/webhook](/docs/webhook)). Treat it like a secret and rotate it if leaked.
+You can copy this from your channel settings in Echobell (details in [/docs/webhook](/en/docs/webhook)). Treat it like a secret and rotate it if leaked.
 
 ### Step 3 — Test the integration
 
@@ -65,7 +65,7 @@ That’s it—Grafana will call you via Echobell when the policy matches.
 ## Best practices for on‑call sanity
 
 - Use phone calls for high‑priority alerts only; keep lower severities to chat/email
-- In Echobell, set retries and timeouts to avoid alert fatigue (see [/docs/notification](/docs/notification))
+- In Echobell, set retries and timeouts to avoid alert fatigue (see [/docs/notification](/en/docs/notification))
 - Configure escalation to teammates if the first call isn’t answered
 - Set quiet hours to prevent non‑urgent wake‑ups
 - Keep the on‑call roster current and shared inside Echobell
@@ -79,7 +79,7 @@ Echobell lets you fine‑tune how calls behave:
 - Customize voice content per alert type using templates
 - Set quiet hours and backup contacts for resilience
 
-See the full Grafana integration guide here: [/docs/developer/grafana](/docs/developer/grafana)
+See the full Grafana integration guide here: [/docs/developer/grafana](/en/docs/developer/grafana)
 
 ## Troubleshooting and common pitfalls
 
@@ -90,9 +90,9 @@ See the full Grafana integration guide here: [/docs/developer/grafana](/docs/dev
 
 ## Related reading
 
-- How to send webhook alerts to Echobell (great for custom systems): [/blog/get-notified-with-webhook-mcp](/blog/get-notified-with-webhook-mcp)
-- GitHub Actions failures, instantly on your phone: [/blog/github-actions-notifications](/blog/github-actions-notifications)
-- Developer docs for Grafana: [/docs/developer/grafana](/docs/developer/grafana)
+- How to send webhook alerts to Echobell (great for custom systems): [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- GitHub Actions failures, instantly on your phone: [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Developer docs for Grafana: [/docs/developer/grafana](/en/docs/developer/grafana)
 
 ## Wrap‑up
 

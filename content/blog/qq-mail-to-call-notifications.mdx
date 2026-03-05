@@ -15,11 +15,11 @@ In this guide, you'll set up QQ Mail forwarding for important emails and convert
 
 Helpful docs before you start:
 
-- QQ Mail setup doc: [/docs/email-to-call/qq](/docs/email-to-call/qq)
-- Email trigger basics: [/docs/email-trigger](/docs/email-trigger)
-- Notification types (including Calling): [/docs/notification](/docs/notification)
-- Templates and variables: [/docs/template](/docs/template)
-- Optional fallback conditions: [/docs/conditions](/docs/conditions)
+- QQ Mail setup doc: [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
+- Email trigger basics: [/docs/email-trigger](/en/docs/email-trigger)
+- Notification types (including Calling): [/docs/notification](/en/docs/notification)
+- Templates and variables: [/docs/template](/en/docs/template)
+- Optional fallback conditions: [/docs/conditions](/en/docs/conditions)
 
 ## Why use call notifications for QQ Mail?
 
@@ -41,7 +41,7 @@ For teams handling incidents, customer escalation, or billing risk, this setup r
 2. Set Notification Type to **Calling**.
 3. In app settings, enable retry options if you want stronger delivery for urgent messages.
 
-Related: [/docs/notification](/docs/notification)
+Related: [/docs/notification](/en/docs/notification)
 
 ## Step 2 - Copy the channel email and set readable templates
 
@@ -61,7 +61,7 @@ Body template:
 From {{from}}. {{text}}
 ```
 
-You can customize variables and formatting here: [/docs/template](/docs/template)
+You can customize variables and formatting here: [/docs/template](/en/docs/template)
 
 ## Step 3 - Configure QQ Mail forwarding rules
 
@@ -77,7 +77,7 @@ This should be your primary filtering layer. For privacy, filter in QQ Mail firs
 
 Tip: Start with one strict rule first, then expand. This avoids alert fatigue on day one.
 
-If you want the full QQ-specific walkthrough, use: [/docs/email-to-call/qq](/docs/email-to-call/qq)
+If you want the full QQ-specific walkthrough, use: [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
 
 ## Step 4 - Optional fallback: Echobell Conditions
 
@@ -103,7 +103,7 @@ Sender + keyword:
 (from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
 ```
 
-Condition reference: [/docs/conditions](/docs/conditions)
+Condition reference: [/docs/conditions](/en/docs/conditions)
 
 ## Privacy and disclosure responsibility
 
@@ -136,4 +136,4 @@ When you publish this workflow for users or teams, explicitly state:
 - Keep regular updates on push, reserve calls for truly urgent messages
 - Review your forwarding rules monthly
 
-More email-trigger integrations: [/docs/email-to-call](/docs/email-to-call)
+More email-trigger integrations: [/docs/email-to-call](/en/docs/email-to-call)

@@ -29,9 +29,9 @@ The default Home Assistant Companion app does send notifications, but they're of
 
 Here's what makes Echobell different for Home Assistant users:
 
-**Notification Priority Levels**: Not all home automation events are created equal. A light turning on automatically? That's informational at best. But a door opening while you're away or your freezer temperature rising to dangerous levels? Those are critical. With [Echobell's notification types](/docs/notification), you can send normal notifications for routine events, time-sensitive alerts for important updates, and actual phone calls for emergencies.
+**Notification Priority Levels**: Not all home automation events are created equal. A light turning on automatically? That's informational at best. But a door opening while you're away or your freezer temperature rising to dangerous levels? Those are critical. With [Echobell's notification types](/en/docs/notification), you can send normal notifications for routine events, time-sensitive alerts for important updates, and actual phone calls for emergencies.
 
-**Template-Based Customization**: Home Assistant already has powerful templating for automations. Echobell extends that power to your notifications. You can craft perfectly formatted alerts using [template variables](/docs/template) that pull in real-time sensor data, making every notification contextual and actionable.
+**Template-Based Customization**: Home Assistant already has powerful templating for automations. Echobell extends that power to your notifications. You can craft perfectly formatted alerts using [template variables](/en/docs/template) that pull in real-time sensor data, making every notification contextual and actionable.
 
 **Reliable Delivery**: I've tested dozens of notification solutions, and webhook-based delivery consistently outperforms push notification services in terms of reliability and speed. When a sensor triggers in Home Assistant, the webhook fires immediately, and my phone responds within seconds—even on spotty cellular connections.
 
@@ -107,7 +107,7 @@ For this channel in Echobell, I set the notification type to "Calling" so it act
 
 ### Security That Doesn't Cry Wolf
 
-I used to have my security sensors send me every single motion detection event. This resulted in alert fatigue—I'd see so many notifications that I started ignoring them all. Now I use [Echobell conditions](/docs/conditions) to be smarter about what constitutes a real security event:
+I used to have my security sensors send me every single motion detection event. This resulted in alert fatigue—I'd see so many notifications that I started ignoring them all. Now I use [Echobell conditions](/en/docs/conditions) to be smarter about what constitutes a real security event:
 
 ```yaml
 automation:
@@ -247,8 +247,8 @@ If you want to try this out, the process is straightforward:
 4. Start with one simple automation to test it out
 5. Expand to more automations as you get comfortable
 
-For detailed technical documentation including advanced templating, conditions, and troubleshooting, check out the [complete Home Assistant integration guide](/docs/developer/home-assistant).
+For detailed technical documentation including advanced templating, conditions, and troubleshooting, check out the [complete Home Assistant integration guide](/en/docs/developer/home-assistant).
 
-And if you're curious about other ways to use Echobell beyond home automation, we've got guides for everything from [GitHub Actions notifications](/blog/github-actions-notifications) to [Grafana monitoring alerts](/blog/grafana-call-notification). The webhook-based approach is surprisingly versatile.
+And if you're curious about other ways to use Echobell beyond home automation, we've got guides for everything from [GitHub Actions notifications](/en/blog/github-actions-notifications) to [Grafana monitoring alerts](/en/blog/grafana-call-notification). The webhook-based approach is surprisingly versatile.
 
 Your smart home is already smart. With Echobell, it can finally let you know when it needs your attention—in a way you won't miss.

@@ -15,10 +15,10 @@ This guide shows how to connect TradingView to Echobell using a webhook, customi
 
 Related docs if you want the big picture first:
 
-- What is Echobell → [/docs/what-is-echobell](/docs/what-is-echobell)
-- Webhooks overview → [/docs/webhook](/docs/webhook)
-- Notifications and priorities (Normal, Time Sensitive, Calling) → [/docs/notification](/docs/notification)
-- Templates and variables → [/docs/template](/docs/template)
+- What is Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Webhooks overview → [/docs/webhook](/en/docs/webhook)
+- Notifications and priorities (Normal, Time Sensitive, Calling) → [/docs/notification](/en/docs/notification)
+- Templates and variables → [/docs/template](/en/docs/template)
 
 ## Why phone call notifications for TradingView?
 
@@ -37,7 +37,7 @@ Note: this article covers TradingView alerts to phone call notifications using E
 
 1. Open the Echobell app → Create Channel. Name it something like “TradingView Calls” and pick a color you’ll recognize at a glance.
 
-2. Choose the notification type. For urgent alerts, select **Calling**. For less critical alerts, you can use **Time Sensitive** or **Normal**. See [/docs/notification](/docs/notification).
+2. Choose the notification type. For urgent alerts, select **Calling**. For less critical alerts, you can use **Time Sensitive** or **Normal**. See [/docs/notification](/en/docs/notification).
 
 3. Customize the content under Templates (optional but recommended). Your call can literally say what happened. Pair it with TradingView variables you’ll send via webhook:
 
@@ -45,9 +45,9 @@ Note: this article covers TradingView alerts to phone call notifications using E
 
    Body: `Signal: {{action}} at {{price}} on {{ticker}}`
 
-   More on variables and expressions: [/docs/template](/docs/template)
+   More on variables and expressions: [/docs/template](/en/docs/template)
 
-4. Copy your channel’s Webhook URL from the channel details. This is the address TradingView will call. Treat it like a secret. Details: [/docs/webhook](/docs/webhook)
+4. Copy your channel’s Webhook URL from the channel details. This is the address TradingView will call. Treat it like a secret. Details: [/docs/webhook](/en/docs/webhook)
 
 ## Step 2 — Connect TradingView to Echobell
 
@@ -71,7 +71,7 @@ Note: this article covers TradingView alerts to phone call notifications using E
 Notes:
 
 - Use TradingView’s variables (e.g., `{{ticker}}`, `{{close}}`).
-- `externalLink` is optional: when included, Echobell shows a clickable link in the local record. See [/docs/notification](/docs/notification).
+- `externalLink` is optional: when included, Echobell shows a clickable link in the local record. See [/docs/notification](/en/docs/notification).
 
 ## Step 3 — Test the full flow
 
@@ -92,20 +92,20 @@ Templates let you turn data into a clear script you’ll hear during the call. A
 - Include direction: `Action: {{action}}.`
 - Add a link for later review with `externalLink` (shown on your local record).
 
-Learn all template options here → [/docs/template](/docs/template)
+Learn all template options here → [/docs/template](/en/docs/template)
 
 ## Where this fits in your alerting stack
 
 Once you’ve got TradingView → Echobell calls working, it’s easy to extend the same webhook approach elsewhere:
 
-- Webhook alerts for custom systems → [/blog/get-notified-with-webhook-mcp](/blog/get-notified-with-webhook-mcp)
-- CI/CD and repo health → [/blog/github-actions-notifications](/blog/github-actions-notifications)
-- Infrastructure and monitoring → [/blog/grafana-call-notification](/blog/grafana-call-notification)
+- Webhook alerts for custom systems → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- CI/CD and repo health → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Infrastructure and monitoring → [/blog/grafana-call-notification](/en/blog/grafana-call-notification)
 
 You can also explore feature pages:
 
-- Webhooks → [/features/webhooks](/features/webhooks)
-- Call notifications → [/features/call-notifications](/features/call-notifications)
+- Webhooks → [/features/webhooks](/en/features/webhooks)
+- Call notifications → [/features/call-notifications](/en/features/call-notifications)
 
 ## Wrap‑up
 

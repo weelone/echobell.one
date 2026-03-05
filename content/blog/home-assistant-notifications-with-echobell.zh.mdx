@@ -29,9 +29,9 @@ tags:
 
 以下是 Echobell 为 Home Assistant 用户带来的不同之处：
 
-**通知优先级级别**：并非所有的家庭自动化事件都是平等的。灯光自动开启？这充其量只是信息性的。但是当您不在家时门被打开，或者您的冰箱温度升至危险水平？这些都是至关重要的。使用 [Echobell 的通知类型](/docs/notification)，您可以为常规事件发送普通通知，为重要更新发送时间敏感警报，并为紧急情况发送实际的电话呼叫。
+**通知优先级级别**：并非所有的家庭自动化事件都是平等的。灯光自动开启？这充其量只是信息性的。但是当您不在家时门被打开，或者您的冰箱温度升至危险水平？这些都是至关重要的。使用 [Echobell 的通知类型](/zh/docs/notification)，您可以为常规事件发送普通通知，为重要更新发送时间敏感警报，并为紧急情况发送实际的电话呼叫。
 
-**基于模板的自定义**：Home Assistant 已经拥有强大的自动化模板功能。Echobell 将这种能力扩展到了您的通知中。您可以使用提取实时传感器数据的[模板变量](/docs/template)来制作格式完美的警报，使每个通知都具有上下文和可操作性。
+**基于模板的自定义**：Home Assistant 已经拥有强大的自动化模板功能。Echobell 将这种能力扩展到了您的通知中。您可以使用提取实时传感器数据的[模板变量](/zh/docs/template)来制作格式完美的警报，使每个通知都具有上下文和可操作性。
 
 **可靠的交付**：我测试了几十种通知解决方案，基于 Webhook 的交付在可靠性和速度方面始终优于推送通知服务。当 Home Assistant 中的传感器触发时，Webhook 会立即触发，我的手机会在几秒钟内响应——即使在蜂窝网络连接不稳定的情况下也是如此。
 
@@ -107,7 +107,7 @@ automation:
 
 ### 不会“狼来了”的安全系统
 
-我过去常常让我的安全传感器向我发送每一个运动检测事件。这导致了警报疲劳——我看到太多的通知，以至于我开始忽略它们。现在我使用 [Echobell 条件](/docs/conditions)来更明智地判断什么构成了真正的安全事件：
+我过去常常让我的安全传感器向我发送每一个运动检测事件。这导致了警报疲劳——我看到太多的通知，以至于我开始忽略它们。现在我使用 [Echobell 条件](/zh/docs/conditions)来更明智地判断什么构成了真正的安全事件：
 
 ```yaml
 automation:
@@ -247,8 +247,8 @@ rest_command:
 4. 从一个简单的自动化开始测试
 5. 随着您越来越熟悉，扩展到更多的自动化
 
-有关包括高级模板、条件和故障排除在内的详细技术文档，请查看[完整的 Home Assistant 集成指南](/docs/developer/home-assistant)。
+有关包括高级模板、条件和故障排除在内的详细技术文档，请查看[完整的 Home Assistant 集成指南](/zh/docs/developer/home-assistant)。
 
-如果您对 Echobell 在家庭自动化之外的其他用途感到好奇，我们有从 [GitHub Actions 通知](/blog/github-actions-notifications)到 [Grafana 监控警报](/blog/grafana-call-notification)的各种指南。基于 Webhook 的方法出奇地多才多艺。
+如果您对 Echobell 在家庭自动化之外的其他用途感到好奇，我们有从 [GitHub Actions 通知](/zh/blog/github-actions-notifications)到 [Grafana 监控警报](/zh/blog/grafana-call-notification)的各种指南。基于 Webhook 的方法出奇地多才多艺。
 
 您的智能家居已经很智能了。有了 Echobell，它终于可以在需要您注意时通知您——以一种您不会错过的方式。

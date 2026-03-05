@@ -29,9 +29,9 @@ Die Standard-App von Home Assistant sendet zwar Benachrichtigungen, aber diese s
 
 Hier ist, was Echobell für Home Assistant-Nutzer anders macht:
 
-**Benachrichtigungs-Prioritätsstufen**: Nicht alle Hausautomationsereignisse sind gleich. Ein Licht, das automatisch angeht? Das ist bestenfalls informativ. Aber eine Tür, die sich öffnet, während Sie weg sind, oder Ihre Gefrierschranktemperatur, die auf gefährliche Werte steigt? Das ist kritisch. Mit [Echobells Benachrichtigungstypen](/docs/notification) können Sie normale Benachrichtigungen für Routineereignisse, zeitkritische Warnungen für wichtige Updates und tatsächliche Telefonanrufe für Notfälle senden.
+**Benachrichtigungs-Prioritätsstufen**: Nicht alle Hausautomationsereignisse sind gleich. Ein Licht, das automatisch angeht? Das ist bestenfalls informativ. Aber eine Tür, die sich öffnet, während Sie weg sind, oder Ihre Gefrierschranktemperatur, die auf gefährliche Werte steigt? Das ist kritisch. Mit [Echobells Benachrichtigungstypen](/de/docs/notification) können Sie normale Benachrichtigungen für Routineereignisse, zeitkritische Warnungen für wichtige Updates und tatsächliche Telefonanrufe für Notfälle senden.
 
-**Vorlagenbasierte Anpassung**: Home Assistant verfügt bereits über leistungsstarke Vorlagen für Automatisierungen. Echobell erweitert diese Leistung auf Ihre Benachrichtigungen. Sie können perfekt formatierte Warnungen mit [Vorlagenvariablen](/docs/template) erstellen, die Echtzeit-Sensordaten abrufen und jede Benachrichtigung kontextbezogen und handlungsrelevant machen.
+**Vorlagenbasierte Anpassung**: Home Assistant verfügt bereits über leistungsstarke Vorlagen für Automatisierungen. Echobell erweitert diese Leistung auf Ihre Benachrichtigungen. Sie können perfekt formatierte Warnungen mit [Vorlagenvariablen](/de/docs/template) erstellen, die Echtzeit-Sensordaten abrufen und jede Benachrichtigung kontextbezogen und handlungsrelevant machen.
 
 **Zuverlässige Zustellung**: Ich habe Dutzende von Benachrichtigungslösungen getestet, und die Webhook-basierte Zustellung übertrifft Push-Benachrichtigungsdienste in Bezug auf Zuverlässigkeit und Geschwindigkeit konsequent. Wenn ein Sensor in Home Assistant auslöst, wird der Webhook sofort gefeuert, und mein Telefon reagiert innerhalb von Sekunden – selbst bei schlechten Mobilfunkverbindungen.
 
@@ -107,7 +107,7 @@ Für diesen Kanal in Echobell habe ich den Benachrichtigungstyp auf "Anruf" (Cal
 
 ### Sicherheit, die keinen falschen Alarm schlägt
 
-Früher ließen mich meine Sicherheitssensoren jedes einzelne Bewegungserkennungsereignis wissen. Das führte zu Alarmmüdigkeit – ich sah so viele Benachrichtigungen, dass ich anfing, sie alle zu ignorieren. Jetzt verwende ich [Echobell-Bedingungen](/docs/conditions), um intelligenter zu entscheiden, was ein echtes Sicherheitsereignis darstellt:
+Früher ließen mich meine Sicherheitssensoren jedes einzelne Bewegungserkennungsereignis wissen. Das führte zu Alarmmüdigkeit – ich sah so viele Benachrichtigungen, dass ich anfing, sie alle zu ignorieren. Jetzt verwende ich [Echobell-Bedingungen](/de/docs/conditions), um intelligenter zu entscheiden, was ein echtes Sicherheitsereignis darstellt:
 
 ```yaml
 automation:
@@ -247,8 +247,8 @@ Wenn Sie dies ausprobieren möchten, ist der Prozess unkompliziert:
 4. Beginnen Sie mit einer einfachen Automatisierung, um es zu testen
 5. Erweitern Sie auf mehr Automatisierungen, wenn Sie sich sicher fühlen
 
-Für eine detaillierte technische Dokumentation einschließlich fortgeschrittener Vorlagen, Bedingungen und Fehlerbehebung schauen Sie sich den [vollständigen Home Assistant Integrationsleitfaden](/docs/developer/home-assistant) an.
+Für eine detaillierte technische Dokumentation einschließlich fortgeschrittener Vorlagen, Bedingungen und Fehlerbehebung schauen Sie sich den [vollständigen Home Assistant Integrationsleitfaden](/de/docs/developer/home-assistant) an.
 
-Und wenn Sie neugierig auf andere Möglichkeiten sind, Echobell über die Hausautomation hinaus zu nutzen, haben wir Anleitungen für alles, von [GitHub Actions Benachrichtigungen](/blog/github-actions-notifications) bis zu [Grafana Überwachungswarnungen](/blog/grafana-call-notification). Der Webhook-basierte Ansatz ist überraschend vielseitig.
+Und wenn Sie neugierig auf andere Möglichkeiten sind, Echobell über die Hausautomation hinaus zu nutzen, haben wir Anleitungen für alles, von [GitHub Actions Benachrichtigungen](/de/blog/github-actions-notifications) bis zu [Grafana Überwachungswarnungen](/de/blog/grafana-call-notification). Der Webhook-basierte Ansatz ist überraschend vielseitig.
 
 Ihr Smart Home ist bereits intelligent. Mit Echobell kann es Sie endlich wissen lassen, wann es Ihre Aufmerksamkeit braucht – auf eine Weise, die Sie nicht verpassen werden.

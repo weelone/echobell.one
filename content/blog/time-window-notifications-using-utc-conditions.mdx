@@ -18,7 +18,7 @@ What you’ll learn:
 - How to combine time with other rules (sender, keywords, severity)
 - Bonus: rendering time data inside templates
 
-New to conditions or templates? See the guides: [Conditions](/docs/conditions) and [Templates](/docs/template). Trigger sources: [Webhook](/docs/webhook) and [Email Triggers](/docs/email-trigger).
+New to conditions or templates? See the guides: [Conditions](/en/docs/conditions) and [Templates](/en/docs/template). Trigger sources: [Webhook](/en/docs/webhook) and [Email Triggers](/en/docs/email-trigger).
 
 ## The system time (UTC) variables
 
@@ -31,7 +31,7 @@ These read‑only variables are always available and computed in UTC:
 - `hour` (0–23), `minute` (0–59), `second` (0–59)
 - `date` (YYYY‑MM‑DD), `time` (HH:mm:ss)
 
-You can reference them directly in [Conditions](/docs/conditions) (no `{{ }}`) and in [Templates](/docs/template) (with `{{ }}`).
+You can reference them directly in [Conditions](/en/docs/conditions) (no `{{ }}`) and in [Templates](/en/docs/template) (with `{{ }}`).
 
 ## Copy‑paste recipes
 
@@ -84,7 +84,7 @@ Time windows get even more useful when combined with your data variables:
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-Remember: conditions are plain expressions—don’t wrap them in `{{ }}`. See all operators in [Conditions → Supported Operators](/docs/conditions#supported-operators).
+Remember: conditions are plain expressions—don’t wrap them in `{{ }}`. See all operators in [Conditions → Supported Operators](/en/docs/conditions#supported-operators).
 
 ## Show time in your templates (bonus)
 
@@ -96,7 +96,7 @@ Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
 Epoch: {{epochSeconds}}
 ```
 
-You can also mix time with data you send via [Webhook](/docs/webhook) or [Email Triggers](/docs/email-trigger). For example:
+You can also mix time with data you send via [Webhook](/en/docs/webhook) or [Email Triggers](/en/docs/email-trigger). For example:
 
 ```
 {{service}} {{status}} at {{time}} ({{timezone}})
@@ -110,8 +110,8 @@ You can also mix time with data you send via [Webhook](/docs/webhook) or [Email 
 
 ## Next steps
 
-- Add a time‑window condition to an existing channel: [Conditions](/docs/conditions)
-- Polish your notification content with variables: [Templates](/docs/template)
+- Add a time‑window condition to an existing channel: [Conditions](/en/docs/conditions)
+- Polish your notification content with variables: [Templates](/en/docs/template)
 - Create separate channels for business vs. on‑call hours
 - Prefer Calling notifications for urgent off‑hours alerts
 

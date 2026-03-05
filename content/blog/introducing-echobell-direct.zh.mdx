@@ -1,0 +1,133 @@
+---
+title: "Echobell Direct 介绍：3 分钟接入个人 Webhook 即时提醒（无需频道配置）"
+date: 2026-03-05
+description: "了解 Echobell Direct 如何通过个人 API 密钥和 webhook URL 快速发送即时提醒。包含适用场景、接入步骤、Direct 与频道对比及安全最佳实践。"
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+如果你经常需要在“脚本跑完、部署失败、AI 任务完成”时第一时间收到提醒，那么 **Echobell Direct** 就是最省事的方案。
+
+和频道式通知不同，Direct 不需要先搭模板、订阅者、分发规则。你只需要创建一个个人密钥，拿到 webhook URL，然后直接发 `title` 和 `body` 即可。
+
+这篇文章会讲清楚：什么是 Echobell Direct、什么时候该用、怎么 3 分钟完成接入，以及它和频道模式该如何选。
+
+## 什么是 Echobell Direct？
+
+[Echobell Direct](/zh/docs/direct) 是 Echobell 的个人直达提醒模式。你在 App 里创建 Direct Key 后，会得到一个唯一 URL（`/d/{token}`）。向这个 URL 发送请求，就会在你的设备上立即收到通知。
+
+它尤其适合：
+
+- 个人脚本、自动化任务、CI 作业的即时提醒
+- 希望低配置、快速上线的场景
+- 每次请求都自定义标题和正文，而不是固定模板
+
+如果你需要多人共享、模板复用、按条件发送，建议使用 [Webhook 频道模式](/zh/docs/webhook)。
+
+## 为什么开发者会选择 Echobell Direct
+
+很多提醒其实是“个人且临时”的，但多数通知工具要求先搭完整流程。Direct 的优势就是轻量和直接。
+
+### 1. 个人自动化接入快
+
+你可以很快接入 Shell 脚本、定时任务、CI/CD 流程，尤其适合备份结果、批处理任务和部署通知。
+
+### 2. 支持不同紧急级别
+
+Direct 支持 `notificationType`，可按事件设置提醒强度：
+
+- `active`：常规提醒
+- `time-sensitive`：高优先级提醒
+- `calling`：来电式关键提醒
+
+具体行为可以看 [通知类型文档](/zh/docs/notification)。
+
+### 3. 一条提醒就能带上上下文
+
+你可以附带 `externalLink`，直接跳转到 Dashboard、日志或工单页面，减少二次查找。
+
+### 4. 非常适合 AI 异步工作流
+
+如果你经常跑耗时 AI 任务，Direct 可以在任务完成时主动提醒你，不必反复切换标签页。相关实践可参考 [WebhookMCP + Echobell 指南](/zh/blog/get-notified-with-webhook-mcp)。
+
+## 3 分钟接入 Echobell Direct
+
+### 第一步：创建 Direct Key
+
+打开 Echobell，在频道列表顶部点击 **Direct**，新建一个密钥（例如 `CI Server`、`Cron`、`AI Tasks`）。
+
+### 第二步：复制 webhook URL
+
+每个密钥会生成一个地址：
+
+```text
+https://hook.echobell.one/d/YOUR_KEY_TOKEN
+```
+
+请把它当作密钥妥善保管。
+
+### 第三步：发送第一条通知
+
+```bash
+curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "部署失败",
+    "body": "api-service 健康检查未通过",
+    "notificationType": "time-sensitive",
+    "externalLink": "https://dashboard.example.com/deploys/123"
+  }'
+```
+
+发送后通常会立即收到提醒。
+
+更多字段和请求方式可查看 [Direct 文档](/zh/docs/direct)。
+
+## Direct 和频道模式怎么选？
+
+以下情况优先用 **Direct**：
+
+- 只给自己发提醒
+- 需要快速接入个人自动化
+- 希望每次请求自由定义通知内容
+
+以下情况优先用 **频道**：
+
+- 提醒需要团队共享
+- 需要模板、变量和条件过滤
+- 需要长期稳定运行的跨服务流程
+
+如果你要做模板化配置，可以看 [模板文档](/zh/docs/template)。产品全览可看 [什么是 Echobell](/zh/docs/what-is-echobell)。
+
+## 生产环境最佳实践
+
+- 用环境变量或密钥管理系统存储 Direct token
+- 每个服务单独建 key（如 `CI`、`Data Pipeline`、`Home Lab`）
+- 一旦怀疑泄露，立即重置 token
+- `calling` 只用于真正关键告警，避免疲劳
+- `title` 简洁、`body` 可执行，便于快速决策
+
+## 常见问题（FAQ）
+
+### Echobell Direct 只适合开发者吗？
+
+不是。只要你的工具能发 HTTP 请求，就可以用 Direct。
+
+### Direct 能发电话式提醒吗？
+
+可以，设置 `notificationType: "calling"`。该模式需要高级订阅，否则会回落到 `time-sensitive`。
+
+### Direct 支持 GET 和 POST 吗？
+
+都支持。建议优先使用 JSON POST，可读性和稳定性更好。
+
+### Direct 安全性如何？
+
+Direct URL 本质上是 API 密钥。不要公开，不要提交到公共仓库，必要时及时轮换。
+
+## 总结
+
+如果你的目标是“低成本、即时、个人可控”的提醒体验，**Echobell Direct 是最快的起点**。先用它把关键通知跑起来，再按需要升级到频道模式做多人协作和模板治理。
+
+建议从 [Direct 文档](/zh/docs/direct) 开始，再结合 [Webhook 接入](/zh/docs/webhook) 和 [通知类型设置](/zh/docs/notification) 逐步完善你的告警体系。

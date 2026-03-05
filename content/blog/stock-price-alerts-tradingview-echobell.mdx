@@ -18,10 +18,10 @@ Markets move fast. If you rely on push notifications, you’ll eventually miss t
 
 Helpful context:
 
-- What is Echobell → [/docs/what-is-echobell](/docs/what-is-echobell)
-- Webhooks overview → [/docs/webhook](/docs/webhook)
-- Notification types (Normal, Time Sensitive, Calling) → [/docs/notification](/docs/notification)
-- Templates and variables → [/docs/template](/docs/template)
+- What is Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Webhooks overview → [/docs/webhook](/en/docs/webhook)
+- Notification types (Normal, Time Sensitive, Calling) → [/docs/notification](/en/docs/notification)
+- Templates and variables → [/docs/template](/en/docs/template)
 
 ## Prerequisites
 
@@ -31,14 +31,14 @@ Helpful context:
 ## 1) Create an Echobell channel
 
 1. In Echobell, create a Channel (e.g., “Stocks: AAPL levels”).
-2. Pick a notification type. For urgent moves choose **Calling**; otherwise **Time Sensitive**. See [/docs/notification](/docs/notification).
+2. Pick a notification type. For urgent moves choose **Calling**; otherwise **Time Sensitive**. See [/docs/notification](/en/docs/notification).
 3. Set Templates so the call reads something useful:
 
    Title: `{{ticker}} hit {{price}}`
 
    Body: `Rule: {{rule}} on {{ticker}} at {{price}}`
 
-4. Copy the channel’s Webhook URL (keep it private). Details: [/docs/webhook](/docs/webhook)
+4. Copy the channel’s Webhook URL (keep it private). Details: [/docs/webhook](/en/docs/webhook)
 
 ## 2) Configure the TradingView alert
 
@@ -58,7 +58,7 @@ Helpful context:
 Tips:
 
 - Keep keys simple (`ticker`, `price`, `rule`).
-- `externalLink` is optional; Echobell will show it in the local record. See [/docs/notification](/docs/notification).
+- `externalLink` is optional; Echobell will show it in the local record. See [/docs/notification](/en/docs/notification).
 
 ## 3) Test the flow
 
@@ -70,7 +70,7 @@ Trigger the alert or use a temporary test condition. You should receive a phone 
 - Create separate channels per symbol or strategy to avoid noise.
 - Include timeframe in your template if relevant (e.g., “15m close”).
 
-Further reading: TradingView calls → [/blog/tradingview-call-notifications](/blog/tradingview-call-notifications). Features: [/features/webhooks](/features/webhooks), [/features/call-notifications](/features/call-notifications).
+Further reading: TradingView calls → [/blog/tradingview-call-notifications](/en/blog/tradingview-call-notifications). Features: [/features/webhooks](/en/features/webhooks), [/features/call-notifications](/en/features/call-notifications).
 
 Download Echobell: https://apps.apple.com/app/id6743597198
 

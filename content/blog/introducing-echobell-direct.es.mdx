@@ -1,0 +1,123 @@
+---
+title: "Echobell Direct: alertas webhook personales en 3 minutos (sin configurar canales)"
+date: 2026-03-05
+description: "Descubre cómo Echobell Direct te permite enviar alertas personales instantáneas con una clave API y una URL webhook. Incluye casos de uso, guía rápida, comparación Direct vs Channels y buenas prácticas."
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+Si necesitas enterarte al instante cuando termina un script, falla un despliegue o concluye una tarea de IA, **Echobell Direct** es la forma más rápida de hacerlo.
+
+Con Direct, no tienes que preparar plantillas, suscriptores ni flujos complejos. Creas una clave personal, copias tu URL webhook y envías `title` + `body`.
+
+## ¿Qué es Echobell Direct?
+
+[Echobell Direct](/es/docs/direct) es el modo de alertas personales de Echobell. Generas una clave y obtienes una URL única (`/d/{token}`) para enviar notificaciones directas a tu dispositivo.
+
+Es ideal para:
+
+- Scripts personales, automatizaciones y tareas de CI
+- Implementación rápida con poca configuración
+- Contenido dinámico en cada solicitud
+
+Si necesitas alertas compartidas con equipo, plantillas reutilizables y condiciones, usa [canales con webhook](/es/docs/webhook).
+
+## Por qué usar Echobell Direct
+
+### 1. Integración muy rápida
+
+Conecta cron, scripts de shell o jobs de despliegue en minutos.
+
+### 2. Niveles de urgencia por evento
+
+Con `notificationType` puedes elegir:
+
+- `active` para eventos normales
+- `time-sensitive` para alertas importantes
+- `calling` para incidentes críticos
+
+Consulta los detalles en [tipos de notificación](/es/docs/notification).
+
+### 3. Más contexto con enlaces
+
+Incluye `externalLink` para abrir directamente dashboards, logs o tickets.
+
+### 4. Excelente para flujos de IA
+
+Si ejecutas tareas largas en IA, Direct evita que tengas que revisar pestañas manualmente. También puedes revisar [WebhookMCP + Echobell](/es/blog/get-notified-with-webhook-mcp).
+
+## Configuración en 3 minutos
+
+### 1. Crea una clave Direct
+
+En la app de Echobell, entra en **Direct** y crea una clave (`CI`, `Cron`, `AI Tasks`, etc.).
+
+### 2. Copia tu URL
+
+```text
+https://hook.echobell.one/d/YOUR_KEY_TOKEN
+```
+
+Guárdala como secreto.
+
+### 3. Envía tu primera alerta
+
+```bash
+curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Deploy failed",
+    "body": "api-service failed health check",
+    "notificationType": "time-sensitive",
+    "externalLink": "https://dashboard.example.com/deploys/123"
+  }'
+```
+
+Para más campos y ejemplos, revisa la [documentación de Direct](/es/docs/direct).
+
+## Direct vs Channels
+
+Usa **Direct** cuando:
+
+- Las alertas son solo para ti
+- Quieres resultados rápidos
+- Prefieres definir título/cuerpo en cada request
+
+Usa **Channels** cuando:
+
+- Debes compartir alertas con el equipo
+- Necesitas plantillas y condiciones
+- Estás montando un flujo estable entre múltiples servicios
+
+Te puede servir [plantillas](/es/docs/template) y [qué es Echobell](/es/docs/what-is-echobell).
+
+## Buenas prácticas
+
+- Guarda tokens en variables de entorno
+- Crea una clave por servicio para revocar con facilidad
+- Rota tokens si sospechas filtración
+- Usa `calling` solo en alertas realmente críticas
+- Escribe mensajes breves y accionables
+
+## FAQ
+
+### ¿Direct es solo para desarrolladores?
+
+No. Cualquier herramienta que haga requests HTTP puede usarlo.
+
+### ¿Puedo enviar alertas tipo llamada?
+
+Sí, con `notificationType: "calling"`. Requiere suscripción premium activa.
+
+### ¿Soporta GET y POST?
+
+Sí. Se recomienda POST con JSON.
+
+### ¿Es seguro?
+
+La URL Direct funciona como una API key. Trátala como secreto y no la publiques.
+
+## Conclusión
+
+Si buscas alertas personales rápidas y fiables, **Echobell Direct** es el mejor punto de partida. Empieza con [Direct](/es/docs/direct) y amplía luego con [webhooks](/es/docs/webhook) y [tipos de notificación](/es/docs/notification).

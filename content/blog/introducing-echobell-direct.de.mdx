@@ -1,0 +1,123 @@
+---
+title: "Echobell Direct: Persönliche Webhook-Alerts in 3 Minuten (ohne Channel-Setup)"
+date: 2026-03-05
+description: "Erfahren Sie, wie Sie mit Echobell Direct über API-Key und Webhook-URL sofortige persönliche Benachrichtigungen senden. Mit Anwendungsfällen, Schnellstart, Direct-vs-Channel-Vergleich und Sicherheits-Tipps."
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+Wenn Sie sofort wissen möchten, wann ein Skript fertig ist, ein Deployment fehlschlägt oder eine KI-Aufgabe abgeschlossen wurde, ist **Echobell Direct** der schnellste Weg.
+
+Direct verzichtet auf aufwendige Einrichtung: keine Templates, keine Abonnenten, kein komplexes Routing. Schlüssel erstellen, URL aufrufen, Benachrichtigung erhalten.
+
+## Was ist Echobell Direct?
+
+[Echobell Direct](/de/docs/direct) ist der persönliche Alert-Modus von Echobell. Sie erstellen einen Direct-Key und erhalten eine eindeutige URL (`/d/{token}`). Mit `title` und `body` senden Sie sofort eine Benachrichtigung an Ihr Gerät.
+
+Ideal für:
+
+- Persönliche Skripte, Automationen und CI-Jobs
+- Sehr schnelle Inbetriebnahme
+- Frei definierte Inhalte pro Request
+
+Für Team-Alerts, wiederverwendbare Templates und Bedingungen sollten Sie [Webhook-Channels](/de/docs/webhook) nutzen.
+
+## Warum Echobell Direct?
+
+### 1. Sehr kurze Setup-Zeit
+
+Shell-Skripte, Cronjobs und Pipelines lassen sich in Minuten anbinden.
+
+### 2. Passende Dringlichkeit je Event
+
+Mit `notificationType` steuern Sie den Alert-Typ:
+
+- `active` für reguläre Updates
+- `time-sensitive` für wichtige Hinweise
+- `calling` für kritische Vorfälle
+
+Details unter [Benachrichtigungstypen](/de/docs/notification).
+
+### 3. Mehr Kontext per `externalLink`
+
+Verlinken Sie direkt auf Dashboards, Logs oder Tickets, damit die Reaktion schneller erfolgt.
+
+### 4. Gut für asynchrone KI-Workflows
+
+Bei langen KI-Tasks müssen Sie nicht ständig nachsehen. Verwandte Anleitung: [WebhookMCP + Echobell](/de/blog/get-notified-with-webhook-mcp).
+
+## Setup in 3 Minuten
+
+### 1. Direct-Key erstellen
+
+In der Echobell-App **Direct** öffnen und einen Schlüssel anlegen (`CI`, `Cron`, `AI Tasks` usw.).
+
+### 2. Webhook-URL kopieren
+
+```text
+https://hook.echobell.one/d/YOUR_KEY_TOKEN
+```
+
+Diese URL wie ein Geheimnis behandeln.
+
+### 3. Erste Benachrichtigung senden
+
+```bash
+curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Deploy failed",
+    "body": "api-service failed health check",
+    "notificationType": "time-sensitive",
+    "externalLink": "https://dashboard.example.com/deploys/123"
+  }'
+```
+
+Weitere Felder und Beispiele in der [Direct-Dokumentation](/de/docs/direct).
+
+## Direct vs. Channels
+
+Nutzen Sie **Direct**, wenn:
+
+- Alerts nur für Sie bestimmt sind
+- Sie sofort starten möchten
+- Inhalt pro Request flexibel sein soll
+
+Nutzen Sie **Channels**, wenn:
+
+- Alerts im Team geteilt werden müssen
+- Templates und Bedingungen benötigt werden
+- Ein stabiler, serviceübergreifender Workflow aufgebaut wird
+
+Hilfreich dazu: [Template-Doku](/de/docs/template), [Was ist Echobell?](/de/docs/what-is-echobell).
+
+## Best Practices
+
+- Tokens in Umgebungsvariablen oder Secret-Manager speichern
+- Pro Service einen eigenen Key verwenden
+- Token bei Verdacht auf Leck sofort zurücksetzen
+- `calling` nur für echte Kritikalität einsetzen
+- Kurze, handlungsorientierte Titel und Texte senden
+
+## FAQ
+
+### Ist Direct nur für Entwickler?
+
+Nein. Jedes Tool mit HTTP-Requests kann Direct nutzen.
+
+### Sind anrufähnliche Alerts möglich?
+
+Ja, mit `notificationType: "calling"` (aktive Premium-Mitgliedschaft erforderlich).
+
+### Unterstützt Direct GET und POST?
+
+Ja. Für Produktion ist POST mit JSON empfehlenswert.
+
+### Wie sicher ist Direct?
+
+Die URL funktioniert wie ein API-Key. Nicht öffentlich teilen und regelmäßig rotieren.
+
+## Fazit
+
+Für schnelle, verlässliche persönliche Alerts ist **Echobell Direct** der beste Einstieg. Starten Sie mit [Direct](/de/docs/direct) und erweitern Sie später mit [Webhook-Integration](/de/docs/webhook) sowie [Benachrichtigungstypen](/de/docs/notification).
