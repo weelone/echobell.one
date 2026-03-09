@@ -1,0 +1,251 @@
+---
+title: 使用 n8n + Echobell 打造个人自动化告警中心
+date: 2025-03-09
+description: 了解如何通过连接 n8n 工作流与 Echobell 创建强大的自动化告警。将任何 API、webhook 或定时任务转换为即时电话或推送通知。
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# 使用 n8n + Echobell 打造个人自动化告警中心
+
+你有没有想过，当智能家居出问题的时候，它能直接给你打电话？或者你的自定义脚本能直接联系你，而不是发送那些淹没在收件箱里的邮件？我曾经也有同样的困扰，在尝试了数十种通知工具后，我终于找到了一个完美组合：**n8n** + **Echobell**。
+
+## 为什么这个组合如此强大
+
+n8n 是一个强大的工作流自动化工具，可以连接 API、安排任务、根据事件触发操作。Echobell 则将这些事件转化为真正的通知——推送提醒或无法忽视的实际电话呼叫。
+
+这个设置的特别之处：
+
+- **灵活性**：几乎可以连接任何 API 或服务
+- **可靠性**：电话通知能穿透勿扰模式
+- **简单性**：基础工作流无需编码
+- **成本效益**：两者都有慷慨的免费套餐
+
+## 设置你的第一个告警工作流
+
+让我带你构建一个简单但实用的工作流——当服务器 CPU 使用率飙升时获得通知。
+
+### 步骤 1：创建 Echobell 频道
+
+1. 打开 Echobell → 新建频道
+2. 命名为"服务器告警"（或任何你觉得合适的名字）
+3. 从频道设置中获取你的 webhook URL
+
+### 步骤 2：设置 n8n
+
+如果你还没有运行 n8n，可以使用 n8n.cloud 或自托管。本教程假设你已访问 n8n 编辑器。
+
+### 步骤 3：构建你的第一个工作流
+
+这是一个实用示例——监控服务器健康状况并在 CPU 超过 80% 时告警：
+
+```json
+{
+  "nodes": [
+    {
+      "name": "定时触发",
+      "type": "n8n-nodes-base.cron",
+      "parameters": {
+        "rule": {
+          "interval": [{"field": "minutes", "minutesInterval": 5}]
+        }
+      }
+    },
+    {
+      "name": "HTTP 请求",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://api.your-monitoring.com/stats",
+        "method": "GET"
+      }
+    },
+    {
+      "name": "条件判断",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.cpu_usage }}",
+              "operation": "gt",
+              "value2": 80
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Echobell 告警",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "你的_ECHOBELL_WEBHOOK_URL",
+        "method": "POST",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "server_name",
+              "value": "production-01"
+            },
+            {
+              "name": "cpu_usage",
+              "value": "={{ $json.cpu_usage }}"
+            },
+            {
+              "name": "alert_type",
+              "value": "CPU 告警"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### 步骤 4：配置你的通知模板
+
+在你的 Echobell 频道中，设置一个合理的模板：
+
+```
+标题: 🔥 服务器 {{server_name}} CPU 告警！
+内容: CPU 使用率已达 {{cpu_usage}}%。需要立即关注。
+```
+
+将通知类型设置为**电话呼叫**——这会真正拨打你的电话。
+
+## 真正在用的真实工作流
+
+这些是我已经运行了几个月的工作流：
+
+### 1. GitHub Actions 失败告警
+
+不再错过失败的部署：
+
+```json
+// n8n Webhook 触发器配置
+{
+  "path": "github-actions",
+  "responseMode": "onReceived"
+}
+```
+
+将 GitHub webhook 连接到 n8n，筛选 `action: completed` 和 `conclusion: failure`，然后发送到 Echobell。
+
+### 2. 加密货币价格变动告警
+
+设置价格阈值告警：
+
+```javascript
+// 在 n8n 的 Function 节点中
+const price = $json.price;
+const threshold = 50000;
+
+if (price < threshold) {
+  return {
+    json: {
+      symbol: "BTC",
+      price: price,
+      alert: "价格跌破 50,000 美元"
+    }
+  };
+}
+return null;
+```
+
+### 3. 智能家居关键告警
+
+转发 Home Assistant 的关键事件：
+
+- 漏水传感器
+- 烟雾探测器触发
+- 离家时的门窗传感器
+
+### 4. 新闻通讯和 RSS 摘要
+
+将 RSS 订阅转化为早间简报：
+
+```json
+// Cron 触发 → RSS 读取 → 筛选新内容 → Echobell
+{
+  "cron": "0 8 * * *",  // 每天早上 8 点
+  "rss_url": "https://你喜欢的博客.com/feed",
+  "condition": "contains({{title}}, 'AI')"
+}
+```
+
+### 5. 定时任务监控
+
+监控你自己的脚本和定时任务：
+
+```javascript
+// 如果脚本未在预期时间运行
+const lastRun = new Date($json.last_execution);
+const now = new Date();
+const hoursSince = (now - lastRun) / (1000 * 60 * 60);
+
+if (hoursSince > 24) {
+  return {
+    json: {
+      job: "daily-backup",
+      status: "超时",
+      last_run: lastRun.toISOString()
+    }
+  };
+}
+```
+
+## 最大化效率的高级技巧
+
+运行这些工作流几个月后，我学到了这些：
+
+### 使用独立频道
+
+为不同的告警优先级创建不同的频道：
+
+- **紧急**：生产故障、安全告警 → 电话呼叫
+- **警告**：磁盘空间、CPU 过高 → 定时推送
+- **信息**：每日报告、摘要 → 常规推送
+
+### 利用条件功能
+
+Echobell 的条件功能非常强大：
+
+```
+// 只在非工作时间呼叫
+hour < 8 || hour > 18
+```
+
+### 模板最佳实践
+
+保持模板简洁可操作：
+
+```
+✅: 🔴 服务器-01 磁盘已满
+❌:  生产环境中一号服务器的磁盘已经完全满了
+```
+
+### 定期测试
+
+设置每周测试通知确保一切正常：
+
+```javascript
+// 每周五下午 5 点
+if (new Date().getDay() === 5 && new Date().getHours() === 17) {
+  return { json: { test: "每周系统检查" } };
+}
+```
+
+## 总结
+
+我喜欢这个设置的点是它可以随需求扩展。从简单的服务器监控开始，现在我已经有了 15+ 个工作流，涵盖从加密货币投资组合到家庭安全的方方面面。
+
+美在于简单：n8n 处理逻辑和连接，Echobell 处理通知。不再需要查看仪表盘，不再有邮件焦虑——只有真正重要的通知。
+
+**准备好了吗？** 从一个简单的工作流开始，然后逐步扩展。当凌晨 3 点的告警真正把你叫醒时，你会感谢现在的自己。
+
+[开始使用 Echobell →](https://echobell.one)
+
+---
+
+*你用 n8n 和 Echobell 构建了什么很酷的东西吗？我很想听听——联系我分享你的设置！*

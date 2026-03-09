@@ -1,0 +1,251 @@
+---
+title: Building a Personal Automation Alert Hub with n8n and Echobell
+date: 2025-03-09
+description: Learn how to create powerful automated alerts by connecting n8n workflows with Echobell. Transform any API, webhook, or scheduled task into instant phone calls or push notifications.
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Building a Personal Automation Alert Hub with n8n and Echobell
+
+Ever wished your smart home could actually call you when something goes wrong? Or that your custom scripts could reach you immediately instead of sending emails that get buried in your inbox? I've been there, and after experimenting with dozens of notification tools, I finally found a combination that just works: **n8n** + **Echobell**.
+
+## Why This Combination Rocks
+
+n8n is a powerful workflow automation tool that lets you connect APIs, schedule tasks, and trigger actions based on events. Echobell takes those events and transforms them into real notifications—push alerts or actual phone calls that you can't ignore.
+
+What makes this setup special:
+
+- **Flexibility**: Connect almost any API or service
+- **Reliability**: Phone calls that break through Do Not Disturb
+- **Simplicity**: No coding required for basic workflows
+- **Cost-effective**: Both have generous free tiers
+
+## Setting Up Your First Alert Workflow
+
+Let me walk you through building a simple but practical workflow—getting notified when your server's CPU usage spikes.
+
+### Step 1: Create an Echobell Channel
+
+1. Open Echobell → New Channel
+2. Name it "Server Alerts" (or whatever makes sense)
+3. Grab your webhook URL from the channel settings
+
+### Step 2: Set Up n8n
+
+If you don't have n8n running yet, you can use n8n.cloud or self-host it. For this tutorial, I'll assume you have access to the n8n editor.
+
+### Step 3: Build Your First Workflow
+
+Here's a practical example—monitoring a server's health and alerting when CPU exceeds 80%:
+
+```json
+{
+  "nodes": [
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "parameters": {
+        "rule": {
+          "interval": [{"field": "minutes", "minutesInterval": 5}]
+        }
+      }
+    },
+    {
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://api.your-monitoring.com/stats",
+        "method": "GET"
+      }
+    },
+    {
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.cpu_usage }}",
+              "operation": "gt",
+              "value2": 80
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Echobell Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "YOUR_ECHOBELL_WEBHOOK_URL",
+        "method": "POST",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "server_name",
+              "value": "production-01"
+            },
+            {
+              "name": "cpu_usage",
+              "value": "={{ $json.cpu_usage }}"
+            },
+            {
+              "name": "alert_type",
+              "value": "CPU Alert"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### Step 4: Configure Your Notification Template
+
+In your Echobell channel, set up a template that makes sense:
+
+```
+Title: 🔥 Server {{server_name}} CPU Critical!
+Body: CPU usage at {{cpu_usage}}%. Immediate attention needed.
+```
+
+Set the notification type to **Calling** for critical alerts—this will actually ring your phone.
+
+## Real-World Workflows That Actually Get Used
+
+Here are some workflows I've been running for months:
+
+### 1. GitHub Actions Failure Alerts
+
+Never miss a failed deployment again:
+
+```json
+// n8n Webhook trigger configuration
+{
+  "path": "github-actions",
+  "responseMode": "onReceived"
+}
+```
+
+Connect your GitHub webhook to n8n, filter for `action: completed` and `conclusion: failure`, then send to Echobell.
+
+### 2. Crypto Price Movement Alerts
+
+Set up alerts for price thresholds:
+
+```javascript
+// In n8n's Function node
+const price = $json.price;
+const threshold = 50000;
+
+if (price < threshold) {
+  return {
+    json: {
+      symbol: "BTC",
+      price: price,
+      alert: "Price dropped below $50,000"
+    }
+  };
+}
+return null;
+```
+
+### 3. Smart Home Critical Alerts
+
+Forward Home Assistant critical events:
+
+- Water leak sensors
+- Smoke detector triggers
+- Door/window sensors when away
+
+### 4. Newsletter & RSS Digest
+
+Turn RSS feeds into morning briefings:
+
+```json
+// Cron trigger → RSS Read → Filter new items → Echobell
+{
+  "cron": "0 8 * * *",  // 8 AM daily
+  "rss_url": "https://your-favorite-blog.com/feed",
+  "condition": "contains({{title}}, 'AI')"
+}
+```
+
+### 5. Cron Job Monitoring
+
+Monitor your own scripts and scheduled tasks:
+
+```javascript
+// If a script hasn't run in expected time
+const lastRun = new Date($json.last_execution);
+const now = new Date();
+const hoursSince = (now - lastRun) / (1000 * 60 * 60);
+
+if (hoursSince > 24) {
+  return {
+    json: {
+      job: "daily-backup",
+      status: "OVERDUE",
+      last_run: lastRun.toISOString()
+    }
+  };
+}
+```
+
+## Pro Tips for Maximum Effectiveness
+
+After running these workflows for months, here's what I've learned:
+
+### Use Separate Channels
+
+Create different channels for different alert priorities:
+
+- **Critical**: Production down, security alerts → Phone call
+- **Warning**: Disk space, high CPU → Time-sensitive push
+- **Info**: Daily reports, digests → Normal push
+
+### Leverage Conditions
+
+Echobell's Conditions feature is powerful:
+
+```
+// Only call during off-hours
+hour < 8 || hour > 18
+```
+
+### Template Best Practices
+
+Keep templates short and actionable:
+
+```
+Good: 🔴 Disk Full on server-01
+Bad:  The disk on server number one in the production environment has become completely full
+```
+
+### Test Regularly
+
+Set up a weekly test notification to ensure everything's working:
+
+```javascript
+// Every Friday at 5 PM
+if (new Date().getDay() === 5 && new Date().getHours() === 17) {
+  return { json: { test: "Weekly system check" } };
+}
+```
+
+## The Bottom Line
+
+What I love about this setup is that it scales with your needs. Started with simple server monitoring, now I've got 15+ workflows covering everything from my crypto portfolio to home security.
+
+The beauty is in the simplicity: n8n handles the logic and connections, Echobell handles the delivery. No more checking dashboards, no more email anxiety—just notifications that actually matter.
+
+**Ready to build yours?** Start with one simple workflow, then expand from there. Your future self will thank you when that 3 AM alert actually wakes you up.
+
+[Get started with Echobell →](https://echobell.one)
+
+---
+
+*Have you built something cool with n8n and Echobell? I'd love to hear about it—reach out and share your setup!*

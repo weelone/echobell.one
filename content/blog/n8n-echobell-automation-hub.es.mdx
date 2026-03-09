@@ -1,0 +1,251 @@
+---
+title: Construye un centro de alertas de automatización personal con n8n y Echobell
+date: 2025-03-09
+description: Aprende a crear alertas automatizadas potentes conectando flujos de trabajo de n8n con Echobell. Transforma cualquier API, webhook o tarea programada en llamadas telefónicas o notificaciones push instantáneas.
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+---
+
+# Construye un centro de alertas de automatización personal con n8n y Echobell
+
+¿Alguna vez has deseado que tu casa inteligente pudiera llamarte cuando algo sale mal? ¿O que tus scripts personalizados pudieran contactarte directamente en lugar de enviar correos electrónicos que se pierden en tu bandeja de entrada? Yo estuve ahí, y después de experimentar con docenas de herramientas de notificación, finalmente encontré una combinación que simplemente funciona: **n8n** + **Echobell**.
+
+## Por qué esta combinación es increíble
+
+n8n es una poderosa herramienta de automatización de flujos de trabajo que te permite conectar APIs, programar tareas y activar acciones basadas en eventos. Echobell toma esos eventos y los transforma en notificaciones reales: alertas push o llamadas telefónicas reales que no puedes ignorar.
+
+Lo que hace especial esta configuración:
+
+- **Flexibilidad**: Conecta casi cualquier API o servicio
+- **Confiabilidad**: Las llamadas telefónicas atraviesan el modo No molestar
+- **Simplicidad**: No se requiere código para flujos básicos
+- **Costo-efectivo**: Ambos tienen niveles gratuitos generosos
+
+## Configurando tu primer flujo de trabajo de alertas
+
+Déjame guiarte a través de la construcción de un flujo de trabajo simple pero práctico: recibir notificaciones cuando el uso de CPU de tu servidor se dispara.
+
+### Paso 1: Crear un canal en Echobell
+
+1. Abre Echobell → Nuevo Canal
+2. Nómbralo "Alertas de Servidor" (o lo que tenga sentido)
+3. Obtén tu URL de webhook de la configuración del canal
+
+### Paso 2: Configurar n8n
+
+Si aún no tienes n8n funcionando, puedes usar n8n.cloud o autoalojarlo. Para este tutorial, asumiré que tienes acceso al editor de n8n.
+
+### Paso 3: Construye tu primer flujo de trabajo
+
+Aquí hay un ejemplo práctico: monitorear la salud de un servidor y alertar cuando la CPU excede el 80%:
+
+```json
+{
+  "nodes": [
+    {
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "parameters": {
+        "rule": {
+          "interval": [{"field": "minutes", "minutesInterval": 5}]
+        }
+      }
+    },
+    {
+      "name": "Solicitud HTTP",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://api.tu-monitoreo.com/stats",
+        "method": "GET"
+      }
+    },
+    {
+      "name": "SI",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.cpu_usage }}",
+              "operation": "gt",
+              "value2": 80
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Alerta Echobell",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "TU_URL_DE_WEBHOOK_ECHOBELL",
+        "method": "POST",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "server_name",
+              "value": "production-01"
+            },
+            {
+              "name": "cpu_usage",
+              "value": "={{ $json.cpu_usage }}"
+            },
+            {
+              "name": "alert_type",
+              "value": "Alerta CPU"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### Paso 4: Configura tu plantilla de notificación
+
+En tu canal de Echobell, configura una plantilla que tenga sentido:
+
+```
+Título: 🔥 ¡Servidor {{server_name}} CPU Crítico!
+Body: Uso de CPU en {{cpu_usage}}%. Se requiere atención inmediata.
+```
+
+Establece el tipo de notificación en **Llamada** para alertas críticas: esto hará que tu teléfono suene realmente.
+
+## Flujos de trabajo del mundo real que realmente se usan
+
+Aquí hay algunos flujos de trabajo que he estado ejecutando durante meses:
+
+### 1. Alertas de fallo de GitHub Actions
+
+No vuelvas a perderte un despliegue fallido:
+
+```json
+// Configuración del disparador de Webhook de n8n
+{
+  "path": "github-actions",
+  "responseMode": "onReceived"
+}
+```
+
+Conecta tu webhook de GitHub a n8n, filtra por `action: completed` y `conclusion: failure`, luego envía a Echobell.
+
+### 2. Alertas de movimiento de precios de criptomonedas
+
+Configura alertas para umbrales de precios:
+
+```javascript
+// En el nodo Function de n8n
+const price = $json.price;
+const threshold = 50000;
+
+if (price < threshold) {
+  return {
+    json: {
+      symbol: "BTC",
+      price: price,
+      alert: "Precio cayó por debajo de $50,000"
+    }
+  };
+}
+return null;
+```
+
+### 3. Alertas críticas de casa inteligente
+
+Reenvía eventos críticos de Home Assistant:
+
+- Sensores de fuga de agua
+- Disparadores de detectores de humo
+- Sensores de puerta/ventana cuando estás fuera
+
+### 4. Resúmenes de RSS y boletines
+
+Convierte feeds RSS en briefings matutinos:
+
+```json
+// Disparador Cron → Leer RSS → Filtrar nuevos → Echobell
+{
+  "cron": "0 8 * * *",  // 8 AM diario
+  "rss_url": "https://tu-blog-favorito.com/feed",
+  "condition": "contains({{title}}, 'IA')"
+}
+```
+
+### 5. Monitoreo de trabajos Cron
+
+Monitorea tus propios scripts y tareas programadas:
+
+```javascript
+// Si un script no ha corrido en el tiempo esperado
+const lastRun = new Date($json.last_execution);
+const now = new Date();
+const hoursSince = (now - lastRun) / (1000 * 60 * 60);
+
+if (hoursSince > 24) {
+  return {
+    json: {
+      job: "daily-backup",
+      status: "VENCIDO",
+      last_run: lastRun.toISOString()
+    }
+  };
+}
+```
+
+## Consejos profesionales para máxima efectividad
+
+Después de ejecutar estos flujos de trabajo durante meses, esto es lo que he aprendido:
+
+### Usar canales separados
+
+Crea diferentes canales para diferentes prioridades de alertas:
+
+- **Crítico**: Producción abajo, alertas de seguridad → Llamada telefónica
+- **Advertencia**: Espacio en disco, CPU alta → Push sensible al tiempo
+- **Info**: Informes diarios, resúmenes → Push normal
+
+### Aprovechar las condiciones
+
+La función de Condiciones de Echobell es poderosa:
+
+```
+// Solo llamar fuera de horario laboral
+hour < 8 || hour > 18
+```
+
+### Mejores prácticas de plantillas
+
+Mantén las plantillas cortas y procesables:
+
+```
+Bien: 🔴 Disco lleno en servidor-01
+Mal:  El disco en el servidor número uno en el entorno de producción se ha llenado completamente
+```
+
+### Probar regularmente
+
+Configura una notificación de prueba semanal para asegurar que todo funcione:
+
+```javascript
+// Cada viernes a las 5 PM
+if (new Date().getDay() === 5 && new Date().getHours() === 17) {
+  return { json: { test: "Verificación semanal del sistema" } };
+}
+```
+
+## La línea de fondo
+
+Lo que me encanta de esta configuración es que escala con tus necesidades. Empecé con simple monitoreo de servidores, ahora tengo más de 15 flujos de trabajo cubriendo todo, desde mi cartera de criptomonedas hasta la seguridad del hogar.
+
+La belleza está en la simplicidad: n8n maneja la lógica y las conexiones, Echobell maneja la entrega. No más revisar paneles, no más ansiedad por correos electrónicos: solo notificaciones que realmente importan.
+
+**¿Listo para construir el tuyo?** Comienza con un flujo de trabajo simple, luego expande desde ahí. Tu yo futuro te agradecerá cuando esa alerta de las 3 AM realmente te despierte.
+
+[Comenzar con Echobell →](https://echobell.one)
+
+---
+
+*¿Has construido algo genial con n8n y Echobell? Me encantaría escucharlo, ¡contáctame y comparte tu configuración!*
