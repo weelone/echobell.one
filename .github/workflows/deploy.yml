@@ -71,16 +71,16 @@ jobs:
           ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           WORKER_NAME="echobell-one"
           
-          # First, get the account details to find the subdomain
-          ACCOUNT_RESPONSE=$(curl -s -X GET \
-            "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}" \
+          # Get the workers subdomain using the dedicated API
+          SUBDOMAIN_RESPONSE=$(curl -s -X GET \
+            "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/subdomain" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json")
           
-          echo "Account response: $ACCOUNT_RESPONSE"
+          echo "Subdomain response: $SUBDOMAIN_RESPONSE"
           
-          # Get the account subdomain (part of workers.dev URL)
-          ACCOUNT_SUBDOMAIN=$(echo $ACCOUNT_RESPONSE | jq -r '.result.meta.workers_subdomain // empty')
+          # Extract the subdomain from the response
+          ACCOUNT_SUBDOMAIN=$(echo $SUBDOMAIN_RESPONSE | jq -r '.result.subdomain // empty')
           
           if [ -z "$ACCOUNT_SUBDOMAIN" ]; then
             echo "Could not get workers subdomain, falling back to account ID"
