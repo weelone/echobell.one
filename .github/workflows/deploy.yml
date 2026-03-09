@@ -30,20 +30,12 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Deploy to Cloudflare (Preview for PR / Production for main)
+      - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: |
-            if [ "${{ github.event_name }}" = "pull_request" ]; then
-              # Deploy to preview with unique name based on PR number
-              opennextjs-cloudflare build
-              wrangler deploy --env preview --name echobell-one-pr-${{ github.event.pull_request.number }}
-            else
-              # Deploy to production
-              opennextjs-cloudflare deploy
-            fi
+          command: wrangler deploy
 
       - name: Deploy status comment
         if: github.event_name == 'pull_request'
