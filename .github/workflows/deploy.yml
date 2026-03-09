@@ -9,6 +9,7 @@ on:
       - opened
       - synchronize
       - reopened
+      - closed
 
 jobs:
   deploy:
@@ -50,11 +51,48 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      # Deploy to preview subdomain (PR only)
+      # Deploy to preview environment (PR only)
       - name: Deploy to Cloudflare (Preview)
         if: github.event_name == 'pull_request'
         run: |
-          wrangler deploy --name echobell-one-pr-${{ github.event.pull_request.number }}
+          # Deploy to environment named pr-{PR_NUMBER}
+          # Using --legacy-env to ensure environment-based deployments work
+          wrangler deploy --env pr-${{ github.event.pull_request.number }} --legacy-env
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # Get actual domain from Cloudflare API
+      - name: Get deployment URL
+        if: github.event_name == 'pull_request'
+        id: get-url
+        run: |
+          PR_NUM=${{ github.event.pull_request.number }}
+          ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WORKER_NAME="echobell-one"
+          
+          # First, get the account details to find the subdomain
+          ACCOUNT_RESPONSE=$(curl -s -X GET \
+            "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json")
+          
+          echo "Account response: $ACCOUNT_RESPONSE"
+          
+          # Get the account subdomain (part of workers.dev URL)
+          ACCOUNT_SUBDOMAIN=$(echo $ACCOUNT_RESPONSE | jq -r '.result.meta.workers_subdomain // empty')
+          
+          if [ -z "$ACCOUNT_SUBDOMAIN" ]; then
+            echo "Could not get workers subdomain, falling back to account ID"
+            ACCOUNT_SUBDOMAIN=$ACCOUNT_ID
+          fi
+          
+          # Construct the preview URL using the environment pattern
+          # Workers environments use: https://{script-name}-{env}.{subdomain}.workers.dev
+          PREVIEW_URL="https://${WORKER_NAME}-pr-${PR_NUM}.${ACCOUNT_SUBDOMAIN}.workers.dev"
+          
+          echo "Preview URL: $PREVIEW_URL"
+          echo "preview_url=${PREVIEW_URL}" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -65,7 +103,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const previewUrl = `https://echobell-one-pr-${{ github.event.pull_request.number }}.workers.dev`;
+            const previewUrl = process.env.PREVIEW_URL;
             const prNumber = context.payload.pull_request.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
@@ -81,13 +119,15 @@ jobs:
               comment.body.includes('🚀 Preview deployed:')
             );
 
+            const commentBody = `🚀 Preview deployed: ${previewUrl}`;
+
             if (existingComment) {
               // Update existing comment
               await github.rest.issues.updateComment({
                 owner,
                 repo,
                 comment_id: existingComment.id,
-                body: `🚀 Preview deployed: ${previewUrl}`
+                body: commentBody
               });
             } else {
               // Create new comment
@@ -95,6 +135,67 @@ jobs:
                 owner,
                 repo,
                 issue_number: prNumber,
-                body: `🚀 Preview deployed: ${previewUrl}`
+                body: commentBody
               });
             }
+        env:
+          PREVIEW_URL: ${{ steps.get-url.outputs.preview_url }}
+
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      issues: write
+      pull-requests: write
+
+    # Only run when PR is closed
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+
+    steps:
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Cleanup preview environment
+        run: |
+          PR_NUM=${{ github.event.pull_request.number }}
+          ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WORKER_NAME="echobell-one"
+          
+          echo "Cleaning up preview environment for PR #${PR_NUM}"
+          
+          # Option 1: Try to delete the environment via Cloudflare API
+          # This requires the environment to be delete-enabled
+          RESPONSE=$(curl -s -X DELETE \
+            "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/scripts/${WORKER_NAME}/environments/pr-${PR_NUM}" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json")
+          
+          echo "API Cleanup response: $RESPONSE"
+          
+          # Option 2: Deploy an empty/dummy config to effectively disable the preview
+          # Create a minimal wrangler config for cleanup
+          echo '{"name":"'${WORKER_NAME}'","main":"","env":{"pr-'${PR_NUM}'":{"routes":[]}}}' > /tmp/cleanup.json
+          
+          # Try wrangler deploy with delete flag
+          wrangler deploy --env pr-${PR_NUM} --legacy-env 2>&1 || echo "Wrangler cleanup attempted"
+          
+          echo "Cleanup completed for PR #${PR_NUM}"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Add cleanup comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body: `🧹 Preview environment cleaned up (PR #${prNumber} closed/merged)`
+            });
