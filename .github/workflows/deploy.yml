@@ -25,10 +25,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build Next.js
         run: npm run build
         env:
           NODE_ENV: production
+
+      - name: Build OpenNext
+        run: npx opennextjs-cloudflare build
 
       - name: Install Wrangler
         run: npm install -g wrangler
