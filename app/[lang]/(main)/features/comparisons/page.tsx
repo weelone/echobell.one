@@ -8,6 +8,46 @@ import { baseUrl, createMetadata } from "@/lib/metadata";
 import { getComparisonsIndexData } from "@/lib/competitor-comparisons";
 import { APP_STORE_LINK } from "@/constants";
 
+const comparisonsPageUi: Record<
+  Language,
+  {
+    breadcrumbFeaturesLabel: string;
+    breadcrumbCurrentLabel: string;
+    viewFullComparison: string;
+  }
+> = {
+  en: {
+    breadcrumbFeaturesLabel: "Features",
+    breadcrumbCurrentLabel: "Comparisons",
+    viewFullComparison: "View full comparison",
+  },
+  zh: {
+    breadcrumbFeaturesLabel: "功能",
+    breadcrumbCurrentLabel: "竞品对比",
+    viewFullComparison: "查看完整对比",
+  },
+  es: {
+    breadcrumbFeaturesLabel: "Funciones",
+    breadcrumbCurrentLabel: "Comparativas",
+    viewFullComparison: "Ver comparativa completa",
+  },
+  fr: {
+    breadcrumbFeaturesLabel: "Fonctionnalités",
+    breadcrumbCurrentLabel: "Comparaisons",
+    viewFullComparison: "Voir la comparaison complète",
+  },
+  ja: {
+    breadcrumbFeaturesLabel: "機能",
+    breadcrumbCurrentLabel: "比較",
+    viewFullComparison: "比較の全文を見る",
+  },
+  de: {
+    breadcrumbFeaturesLabel: "Funktionen",
+    breadcrumbCurrentLabel: "Vergleiche",
+    viewFullComparison: "Vollständigen Vergleich ansehen",
+  },
+};
+
 export default async function ComparisonsIndexPage({
   params,
 }: {
@@ -19,9 +59,7 @@ export default async function ComparisonsIndexPage({
     localizeUrl("/features/comparisons", lang),
     baseUrl
   ).toString();
-
-  const breadcrumbFeaturesLabel = lang === "zh" ? "功能" : "Features";
-  const breadcrumbCurrentLabel = lang === "zh" ? "竞品对比" : "Comparisons";
+  const ui = comparisonsPageUi[lang];
 
   return (
     <div className="min-h-screen">
@@ -36,11 +74,11 @@ export default async function ComparisonsIndexPage({
           lang={lang}
           customItems={[
             {
-              label: breadcrumbFeaturesLabel,
+              label: ui.breadcrumbFeaturesLabel,
               href: localizeUrl("/features", lang),
             },
             {
-              label: breadcrumbCurrentLabel,
+              label: ui.breadcrumbCurrentLabel,
               href: localizeUrl("/features/comparisons", lang),
               isCurrentPage: true,
             },
@@ -103,7 +141,7 @@ export default async function ComparisonsIndexPage({
                   ))}
                 </ul>
                 <div className="mt-6 flex items-center text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                  {lang === "zh" ? "查看完整对比" : "View full comparison"}
+                  {ui.viewFullComparison}
                   <ArrowRightIcon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>

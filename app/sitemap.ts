@@ -4,6 +4,14 @@ import { source, blog } from "@/lib/source";
 import { languages, localizeUrl } from "@/lib/i18n";
 import { competitorSlugs } from "@/lib/competitor-comparisons";
 
+const seoLandingPages = [
+  "/pushover-alternative",
+  "/ntfy-alternative",
+  "/focus-mode-alerts",
+  "/server-down-phone-call-alerts",
+  "/app-store-connect-review-notifications",
+] as const;
+
 // Revalidate daily to keep lastModified stable but fresh
 export const revalidate = 86400;
 
@@ -130,6 +138,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.84,
         } as const)
     ),
+    ...seoLandingPages.flatMap((path) =>
+      getSeoLandingUrls(path).map(
+        (item) =>
+          ({
+            url: url(item),
+            lastModified: new Date(),
+            changeFrequency: "monthly",
+            priority: 0.86,
+          } as const)
+      )
+    ),
 
     // AI reading guide page
     ...getLocalizedUrls("/ai").map(
@@ -209,5 +228,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 }
 
 function getLocalizedUrls(url: string): string[] {
+  return languages.map((lang) => localizeUrl(url, lang));
+}
+
+function getSeoLandingUrls(url: string): string[] {
   return languages.map((lang) => localizeUrl(url, lang));
 }

@@ -23,13 +23,10 @@ export const uiDictionary = {
   en: {
     metadata: {
       titleTemplate: "%s | Echobell",
-      // SEO: More descriptive title focusing on core value
       defaultTitle:
-        "Echobell: Instant Webhook & Email Alerts via Calls & Notifications | Privacy-Focused",
-      // SEO: Clearer value proposition, incorporating keywords naturally
+        "Echobell - Webhook & Email Alerts via Calls | Privacy-First",
       description:
-        "Never miss critical alerts. Echobell instantly converts webhooks & emails into iOS notifications or phone calls. Privacy-first design, easy team sharing. Get reliable alerts now!",
-      // SEO: Added more potential search terms
+        "Turn webhooks and emails into instant iPhone alerts. Echobell delivers server down, CI/CD, App Store Connect, and trading notifications as push alerts or phone calls.",
       keywords: [
         "Echobell",
         "webhook alert",
@@ -65,7 +62,7 @@ export const uiDictionary = {
       ),
       // Smoothness: Slightly stronger wording
       description:
-        "Echobell ensures you receive instant alerts from webhooks and emails. Create notification channels, share with your team, and never miss crucial updates from your applications and services.",
+        "Turn webhooks and emails into instant iPhone alerts. Use time-sensitive notifications, phone calls, and shared channels for server outages, CI/CD failures, App Review updates, and trading signals.",
       downloadApp: "Download App",
       getStarted: "Get Started",
       appStoreImage: appStoreImageEn,
@@ -620,7 +617,7 @@ export const uiDictionary = {
           title: "Team Ownership",
           description:
             "Give every team member the same alert context using channel subscriptions.",
-          href: "/use-cases#team-ownership",
+          href: "/use-cases#team-sync",
         },
       ],
     },
@@ -1198,7 +1195,7 @@ export const uiDictionary = {
         {
           title: "团队协作",
           description: "通过频道订阅，让团队成员快速获得一致告警上下文。",
-          href: "/use-cases#team-ownership",
+          href: "/use-cases#team-sync",
         },
       ],
     },
@@ -1815,7 +1812,7 @@ export const uiDictionary = {
           title: "Propiedad del Equipo",
           description:
             "Da a cada miembro del equipo el mismo contexto de alerta usando suscripciones a canales.",
-          href: "/use-cases#team-ownership",
+          href: "/use-cases#team-sync",
         },
       ],
     },
@@ -2434,7 +2431,7 @@ export const uiDictionary = {
           title: "Propriété d'Équipe",
           description:
             "Donnez à chaque membre de l'équipe le même contexte d'alerte grâce aux abonnements aux canaux.",
-          href: "/use-cases#team-ownership",
+          href: "/use-cases#team-sync",
         },
       ],
     },
@@ -3020,7 +3017,7 @@ export const uiDictionary = {
         {
           title: "チームでの共有",
           description: "チャンネル購読を使用して、チームメンバー全員に同じアラートコンテキストを提供します。",
-          href: "/use-cases#team-ownership",
+          href: "/use-cases#team-sync",
         },
       ],
     },
@@ -3630,7 +3627,7 @@ export const uiDictionary = {
           title: "Team-Verantwortung",
           description:
             "Geben Sie jedem Teammitglied denselben Alarmkontext mithilfe von Kanalabonnements.",
-          href: "/use-cases#team-ownership",
+          href: "/use-cases#team-sync",
         },
       ],
     },

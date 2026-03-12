@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { Language, localizeUrl } from "@/lib/i18n";
 import { createMetadata } from "@/lib/metadata";
-import { Breadcrumb } from "@/components/Breadcrumb";
 
 export async function generateMetadata({
   params,

@@ -1,14 +1,13 @@
 import type { Metadata } from "next/types";
-import { languages, i18n } from "@/lib/i18n";
+import { languages, i18n, localizeUrl } from "@/lib/i18n";
 
 // Build proper per-page hreflang alternates from a given canonical URL/path
 function buildLanguageAlternates(
   canonical?: string | URL
 ): NonNullable<Metadata["alternates"]>["languages"] {
-  // Fall back to site root if we can't infer anything
   const fallback: Record<string, string> = {
-    "x-default": "/",
-    en: "/",
+    "x-default": localizeUrl("/", i18n.defaultLanguage),
+    en: localizeUrl("/", "en"),
     zh: "/zh",
     es: "/es",
     fr: "/fr",
@@ -53,14 +52,11 @@ function buildLanguageAlternates(
   }
 
   // Compose per-language paths for the same content
-  const map: Record<string, string> = { "x-default": "/" };
+  const map: Record<string, string> = {
+    "x-default": localizeUrl(basePath, i18n.defaultLanguage),
+  };
   for (const l of languages) {
-    if (l === i18n.defaultLanguage) {
-      map[l] = basePath;
-      map["x-default"] = basePath; // point x-default to default language equivalent
-    } else {
-      map[l] = basePath === "/" ? `/${l}` : `/${l}${basePath}`;
-    }
+    map[l] = localizeUrl(basePath, l);
   }
   return map;
 }
@@ -76,6 +72,11 @@ export function createMetadata(override: Metadata): Metadata {
   const derivedLanguages =
     override.alternates?.languages ??
     buildLanguageAlternates(canonicalForLangs);
+  const openGraphUrl =
+    override.openGraph?.url ??
+    (canonicalForLangs
+      ? new URL(canonicalForLangs, baseUrl).toString()
+      : "https://echobell.one");
   return {
     itunes: {
       appId: "6743597198",
@@ -84,7 +85,7 @@ export function createMetadata(override: Metadata): Metadata {
     openGraph: {
       title: override.title ?? undefined,
       description: override.description ?? undefined,
-      url: "https://echobell.one",
+      url: openGraphUrl,
       siteName: "Echobell",
       type: "website",
       locale: "en_US",

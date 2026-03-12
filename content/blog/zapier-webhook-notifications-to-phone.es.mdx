@@ -1,0 +1,150 @@
+---
+title: Envia notificaciones webhook de Zapier a tu telefono con Echobell
+description: Aprende a enviar eventos webhook de Zapier al iPhone con Echobell y convertirlos en notificaciones normales, time-sensitive o llamadas.
+date: 2026-03-12
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Zapier
+  - webhook notifications
+  - iPhone alerts
+  - automation
+  - Echobell
+---
+
+# Envia notificaciones webhook de Zapier a tu telefono con Echobell
+
+Zapier es excelente conectando aplicaciones. Lo que no decide por ti es cuan urgente deberia sentirse un evento cuando llega al telefono.
+
+Eso importa mucho si el Zap detecta cosas como:
+
+- un lead VIP que envia un formulario
+- un fallo de pago o checkout
+- un ticket de soporte marcado como urgente
+- una oportunidad en CRM que necesita seguimiento inmediato
+- un workflow no-code que detecta una caida de servicio
+
+En esos casos, un email o un push basico suele quedarse corto. Echobell mejora la ultima milla con:
+
+- notificaciones estandar
+- alertas time-sensitive
+- alertas por llamada
+
+## Como se ve la configuracion
+
+El patron es simple:
+
+1. Zapier detecta un evento.
+2. El Zap envia un webhook a un canal de Echobell.
+3. Echobell transforma el payload en una notificacion o llamada.
+
+No reemplazas Zapier. Solo mejoras como llega el resultado al telefono.
+
+## Paso 1: crea un canal en Echobell
+
+En Echobell:
+
+1. Crea un nuevo canal
+2. Dale un nombre por workflow, por ejemplo `Soporte VIP`, `Escalaciones de ventas` o `Fallos de pago`
+3. Copia la URL webhook del canal
+
+Si quieres la base primero, mira [webhook notifications](/features/webhooks).
+
+## Paso 2: agrega una accion de Webhooks en Zapier
+
+Dentro del Zap:
+
+1. Elige el trigger como siempre
+2. Agrega `Webhooks by Zapier`
+3. Usa `POST`
+4. Pega tu URL webhook de Echobell
+
+Despues mapea campos utiles al body JSON.
+
+Ejemplo para una escalacion de soporte urgente:
+
+```json
+{
+  "title": "Ticket urgente de {{customer_name}}",
+  "message": "{{subject}}",
+  "severity": "{{priority}}",
+  "ticketId": "{{ticket_id}}",
+  "externalLink": "{{ticket_url}}"
+}
+```
+
+La plantilla del canal en Echobell podria ser:
+
+```txt
+Title: {{title}}
+Body: {{message}} (Priority: {{severity}})
+```
+
+## Paso 3: decide la urgencia correcta
+
+Aqui es donde muchos tutoriales fallan.
+
+- Usa notificaciones estandar para automatizaciones rutinarias
+- Usa time-sensitive para workflows que deben atravesar Focus Mode
+- Usa llamadas cuando perder la alerta es caro
+
+Buenos candidatos para mayor urgencia:
+
+- fraude o fallos de pago
+- escalaciones urgentes de soporte
+- caidas detectadas por workflows no-code
+- formularios que requieren devolucion de llamada inmediata
+
+Si tu problema principal es Focus Mode, sigue con [Como superar iOS Focus Mode para alertas criticas](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts).
+
+## Workflows de Zapier que encajan muy bien
+
+### 1. Leads urgentes
+
+Typeform, Tally, HubSpot o formularios personalizados pueden convertirse en alertas directas para ventas o founders.
+
+### 2. Alertas de pago y checkout
+
+Eventos de Stripe, Shopify o sistemas internos de billing suelen merecer una entrega mas fuerte que un email.
+
+### 3. Escalaciones de soporte
+
+Help Scout, Zendesk, Intercom o reglas de Gmail pueden enviar incidencias urgentes directamente al movil de la persona correcta.
+
+### 4. Flujos internos de operaciones
+
+Zapier puede vigilar herramientas SaaS, hojas de calculo o sistemas no-code y usar Echobell como capa de entrega fiable.
+
+## Buenas practicas
+
+### Un canal por workflow
+
+No metas todas las automatizaciones en el mismo flujo.
+
+Ejemplos:
+
+- `Leads urgentes`
+- `Incidentes de ingresos`
+- `Escalaciones de soporte`
+- `Operaciones internas`
+
+### Incluye un enlace de vuelta al origen
+
+Si envias `externalLink`, Echobell puede llevar al receptor de vuelta al ticket, deal o registro original mas rapido.
+
+### Reserva las llamadas para fallos caros
+
+Si cada Zap hace sonar el telefono, el equipo dejara de confiar en esa senal.
+
+## Recomendacion final
+
+Zapier ya es bueno sacando datos de las apps. La pregunta real es si esos eventos llegan al telefono con la urgencia correcta.
+
+Si tienes aunque sea una automatizacion demasiado importante para email o un push enterrado, enviala por Echobell:
+
+- [Webhook notifications for iPhone](/features/webhooks)
+- [Phone call alerts for critical incidents](/features/call-notifications)
+- [Server down phone call alerts](/server-down-phone-call-alerts)
+
+Ese pequeno cambio suele tener mas impacto que anadir otra capa de automatizacion.

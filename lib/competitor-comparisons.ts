@@ -1,6 +1,11 @@
 import { Language } from "@/lib/i18n";
 
-type ComparisonLanguage = "en" | "zh";
+type BaseComparisonLanguage = "en" | "zh";
+type ComparisonLanguage = BaseComparisonLanguage | "es" | "fr" | "ja" | "de";
+type ExtendedComparisonLanguage = Exclude<
+  ComparisonLanguage,
+  BaseComparisonLanguage
+>;
 
 export type CompetitorSlug =
   | "pagerduty"
@@ -123,10 +128,10 @@ export interface ComparisonPageData {
 }
 
 function normalizeLang(lang: Language): ComparisonLanguage {
-  return lang === "zh" ? "zh" : "en";
+  return lang;
 }
 
-const indexData: Record<ComparisonLanguage, ComparisonsIndexData> = {
+const indexData: Record<BaseComparisonLanguage, ComparisonsIndexData> = {
   en: {
     meta: {
       title: "Echobell vs Competitors",
@@ -364,9 +369,3629 @@ const indexData: Record<ComparisonLanguage, ComparisonsIndexData> = {
   },
 };
 
+const localizedComparisonPages: Record<
+  CompetitorSlug,
+  Record<ExtendedComparisonLanguage, ComparisonPageData>
+> = {
+  pagerduty: {
+    es: {
+      slug: "pagerduty",
+      competitorName: "PagerDuty",
+      meta: {
+        title: "Echobell vs PagerDuty",
+        description:
+          "Descubre cómo se compara Echobell con PagerDuty en alertas móviles, velocidad de puesta en marcha y carga operativa diaria.",
+        keywords: [
+          "Echobell vs PagerDuty",
+          "alternativa a PagerDuty",
+          "comparativa de alertas de incidentes",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs PagerDuty",
+        title: "Alertas móviles rápidas sin una implantación pesada",
+        description:
+          "PagerDuty es potente para flujos enterprise maduros. Echobell está optimizado para equipos que necesitan notificaciones y llamadas urgentes con una configuración mucho más rápida.",
+      },
+      quickSummary:
+        "Si tu prioridad es recibir incidentes críticos en iPhone de forma rápida y fiable, Echobell suele aportar valor antes.",
+      decisionHint:
+        "Elige Echobell cuando quieras un camino directo del trigger al teléfono con poca sobrecarga de políticas.",
+      atAGlance: [
+        {
+          label: "Configuración inicial",
+          echobell: "Minutos con canales por webhook o email",
+          competitor: "Suele requerir más tiempo por políticas y escalados",
+        },
+        {
+          label: "Ruta de respuesta móvil",
+          echobell: "Pensado para alertas inmediatas y estilo llamada",
+          competitor: "Potente, pero a menudo ligado a flujos de incidente más amplios",
+        },
+        {
+          label: "Mantenimiento continuo",
+          echobell: "Gestión ligera basada en canales",
+          competitor: "Puede exigir ajuste frecuente de horarios y políticas",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description:
+          "Ambos productos alertan equipos. La diferencia principal está en la complejidad operativa frente a la velocidad de ejecución.",
+        items: [
+          {
+            dimension: "Objetivo principal",
+            echobell: "Alertas móviles rápidas y accionables",
+            competitor: "Orquestación de incidentes enterprise",
+            advantage: "Echobell mantiene muy corto el camino entre el trigger y la respuesta humana.",
+          },
+          {
+            dimension: "Opciones de urgencia",
+            echobell: "Alertas estándar, time-sensitive y por llamada",
+            competitor: "Escalado basado en rutas y lógica de políticas",
+            advantage: "Echobell activa la entrega urgente sin una configuración pesada.",
+          },
+          {
+            dimension: "Velocidad de adopción",
+            echobell: "Compartes el canal y el equipo se suscribe rápido",
+            competitor: "Suele requerir más planificación de workflow",
+            advantage: "Los equipos pequeños pueden desplegar Echobell sin rediseñar procesos.",
+          },
+          {
+            dimension: "Modelo de privacidad",
+            echobell: "El contenido y el historial quedan en el dispositivo",
+            competitor: "Gestiona más datos de plataforma para workflows de incidentes",
+            advantage: "Echobell encaja mejor como capa de notificación privacy-first.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde destaca Echobell",
+        description:
+          "Echobell se centra en la fiabilidad de primera respuesta y en la claridad móvil.",
+        items: [
+          {
+            title: "Menor fricción de arranque",
+            description:
+              "Un canal, un endpoint y suscriptores suelen bastar para cubrir un servicio importante.",
+          },
+          {
+            title: "Mejor encaje para equipos ágiles",
+            description:
+              "Puedes entregar alertas urgentes sin montar primero un proceso completo de comando de incidentes.",
+          },
+          {
+            title: "Mejor señal en móvil",
+            description:
+              "Las alertas están pensadas para leerse y ejecutarse rápido en guardias reales.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description: "Echobell suele preferirse en estos casos prácticos.",
+        items: [
+          {
+            title: "Equipos de ingeniería pequeños",
+            description:
+              "Cuando el mismo equipo lleva aplicación e infraestructura y necesita visibilidad inmediata.",
+          },
+          {
+            title: "Operaciones de startup",
+            description:
+              "Cuando la velocidad importa y el overhead de proceso debe ser mínimo.",
+          },
+          {
+            title: "Sustituir solo la capa de notificaciones",
+            description:
+              "Cuando el monitoring actual está bien, pero las notificaciones son lentas o ruidosas.",
+          },
+        ],
+      },
+      migration: {
+        title: "Cómo migrar desde PagerDuty",
+        description: "Un enfoque incremental y de bajo riesgo que muchos equipos usan.",
+        steps: [
+          {
+            title: "Replica primero un servicio crítico",
+            description:
+              "Envía una fuente de alertas de producción a Echobell mientras mantienes activas las políticas actuales de PagerDuty.",
+          },
+          {
+            title: "Compara la velocidad de respuesta",
+            description:
+              "Mide durante una o dos semanas el tiempo de reconocimiento y de inicio de respuesta.",
+          },
+          {
+            title: "Amplía canal por canal",
+            description:
+              "Mueve antes los flujos de más valor y retira después los caminos de escalado redundantes.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Puede Echobell reemplazar todos los workflows de PagerDuty?",
+            answer:
+              "Echobell es especialmente fuerte como capa de notificación enfocada. Parte de la automatización enterprise puede seguir viviendo en otros sistemas.",
+          },
+          {
+            question: "¿Podemos usar ambas herramientas durante la transición?",
+            answer:
+              "Sí. Muchos equipos ejecutan entrega en paralelo para canales críticos antes de cambiar por completo.",
+          },
+          {
+            question: "¿Hace falta cambiar primero todos los monitores?",
+            answer:
+              "No. Puedes mantener tu stack actual y redirigir solo las salidas de alerta.",
+          },
+        ],
+      },
+      cta: {
+        title: "Valídalo con una semana real de guardia",
+        description:
+          "Prueba un canal de producción en Echobell y compara la calidad de señal con tu flujo actual de incidentes.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir docs",
+      },
+    },
+    fr: {
+      slug: "pagerduty",
+      competitorName: "PagerDuty",
+      meta: {
+        title: "Echobell vs PagerDuty",
+        description:
+          "Voyez comment Echobell se compare à PagerDuty pour les alertes mobiles, la rapidité de mise en place et la charge opérationnelle quotidienne.",
+        keywords: [
+          "Echobell vs PagerDuty",
+          "alternative à PagerDuty",
+          "comparaison d'alerting incident",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs PagerDuty",
+        title: "Des alertes mobiles rapides sans onboarding lourd",
+        description:
+          "PagerDuty est puissant pour des workflows enterprise matures. Echobell est optimisé pour les équipes qui ont besoin de notifications et d'appels urgents avec une mise en place plus rapide.",
+      },
+      quickSummary:
+        "Si votre priorité est de recevoir des incidents critiques sur iPhone rapidement et de façon fiable, Echobell apporte souvent de la valeur plus vite.",
+      decisionHint:
+        "Choisissez Echobell si vous voulez un chemin direct du trigger au téléphone avec très peu de surcharge liée aux politiques.",
+      atAGlance: [
+        {
+          label: "Mise en place initiale",
+          echobell: "Quelques minutes avec des canaux webhook ou email",
+          competitor: "Souvent plus long à cause des politiques et escalades",
+        },
+        {
+          label: "Parcours de réponse mobile",
+          echobell: "Pensé autour d'alertes immédiates et de type appel",
+          competitor: "Très puissant mais souvent lié à des workflows d'incident plus larges",
+        },
+        {
+          label: "Maintenance continue",
+          echobell: "Gestion légère par canaux",
+          competitor: "Peut demander un réglage régulier des politiques et plannings",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description:
+          "Les deux produits peuvent alerter des équipes. La vraie différence tient à la complexité opérationnelle face à la vitesse d'exécution.",
+        items: [
+          {
+            dimension: "Objectif principal",
+            echobell: "Alertes mobiles rapides et actionnables",
+            competitor: "Orchestration d'incidents enterprise",
+            advantage: "Echobell garde le chemin entre le trigger et la réponse humaine très court.",
+          },
+          {
+            dimension: "Options d'urgence",
+            echobell: "Alertes standard, time-sensitive et type appel",
+            competitor: "Alerte gérée par escalades et logique de routage",
+            advantage: "Echobell expose vite les modes urgents sans configuration lourde.",
+          },
+          {
+            dimension: "Vitesse d'adoption",
+            echobell: "Partage de canal et abonnement rapide",
+            competitor: "Demande souvent plus de planification de workflow",
+            advantage: "Les petites équipes peuvent déployer Echobell sans refondre leur processus.",
+          },
+          {
+            dimension: "Modèle de confidentialité",
+            echobell: "Le contenu et l'historique restent sur l'appareil",
+            competitor: "Traite plus largement des données de plateforme pour les incidents",
+            advantage: "Echobell convient mieux comme couche de notification privacy-first.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell se démarque",
+        description:
+          "Echobell se concentre sur la fiabilité de première réponse et la clarté mobile.",
+        items: [
+          {
+            title: "Moins de friction au démarrage",
+            description:
+              "Un canal, un endpoint de trigger et des abonnés suffisent souvent pour couvrir un service important.",
+          },
+          {
+            title: "Mieux adapté aux équipes légères",
+            description:
+              "Vous pouvez livrer des alertes urgentes sans construire d'abord un processus complet de gestion d'incident.",
+          },
+          {
+            title: "Meilleure qualité de signal sur mobile",
+            description:
+              "Les alertes sont pensées pour être lues et traitées rapidement en vraie astreinte.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description: "Echobell est souvent préféré dans ces cas concrets.",
+        items: [
+          {
+            title: "Petites équipes d'ingénierie",
+            description:
+              "Quand une même équipe gère application et infrastructure et a besoin d'une vision immédiate.",
+          },
+          {
+            title: "Opérations de startup",
+            description:
+              "Quand la vitesse compte et que la surcharge process doit rester basse.",
+          },
+          {
+            title: "Remplacer uniquement la couche de notification",
+            description:
+              "Quand le monitoring actuel convient mais que les notifications sont trop bruyantes ou trop lentes.",
+          },
+        ],
+      },
+      migration: {
+        title: "Comment migrer depuis PagerDuty",
+        description: "Une approche incrémentale et peu risquée souvent utilisée par les équipes.",
+        steps: [
+          {
+            title: "Dupliquez d'abord un service critique",
+            description:
+              "Envoyez une source d'alerte de production vers Echobell tout en gardant vos politiques PagerDuty actives.",
+          },
+          {
+            title: "Comparez la vitesse de réponse",
+            description:
+              "Mesurez pendant une à deux semaines le temps d'acquittement et le démarrage réel de la réponse.",
+          },
+          {
+            title: "Étendez canal par canal",
+            description:
+              "Migrez d'abord les flux à plus forte valeur, puis retirez les chemins d'escalade redondants.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Echobell peut-il remplacer tous les workflows PagerDuty ?",
+            answer:
+              "Echobell est surtout excellent comme couche de notification focalisée. Une partie de l'automatisation enterprise peut rester dans d'autres systèmes.",
+          },
+          {
+            question: "Peut-on faire tourner les deux outils pendant la transition ?",
+            answer:
+              "Oui. Beaucoup d'équipes opèrent en parallèle sur les canaux critiques avant de basculer complètement.",
+          },
+          {
+            question: "Faut-il modifier tous les moniteurs d'abord ?",
+            answer:
+              "Non. Vous pouvez garder votre stack existant et ne rerouter que les sorties d'alerte.",
+          },
+        ],
+      },
+      cta: {
+        title: "Validez-le sur une vraie semaine d'astreinte",
+        description:
+          "Pilotez un canal de production dans Echobell et comparez la qualité du signal avec votre flux actuel.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la doc",
+      },
+    },
+    ja: {
+      slug: "pagerduty",
+      competitorName: "PagerDuty",
+      meta: {
+        title: "Echobell vs PagerDuty",
+        description:
+          "モバイル向けインシデント通知、導入速度、日々の運用負荷という観点で Echobell と PagerDuty を比較します。",
+        keywords: [
+          "Echobell vs PagerDuty",
+          "PagerDuty 代替",
+          "インシデント通知 比較",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs PagerDuty",
+        title: "重いオンボーディングなしで素早いモバイルアラート",
+        description:
+          "PagerDuty は成熟したエンタープライズ運用に強力です。Echobell は、高緊急度の通知や通話をより素早く導入したいチーム向けに最適化されています。",
+      },
+      quickSummary:
+        "iPhone で重要インシデントを速く確実に受け取りたいなら、Echobell の方が早く価値を出しやすいことが多いです。",
+      decisionHint:
+        "ポリシー運用の負荷を抑えながら、トリガーから電話までを一直線にしたいなら Echobell を選んでください。",
+      atAGlance: [
+        {
+          label: "初期セットアップ",
+          echobell: "Webhook/メールのチャンネルで数分",
+          competitor: "ポリシーやエスカレーション設定で長くなりがち",
+        },
+        {
+          label: "モバイル対応の流れ",
+          echobell: "即時通知と通話風アラートが中心",
+          competitor: "強力だが、より大きなインシデント運用に結びつきやすい",
+        },
+        {
+          label: "継続運用",
+          echobell: "チャンネルベースで軽い管理",
+          competitor: "ポリシーやスケジュールの継続調整が必要になりやすい",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description:
+          "どちらもチームに通知できますが、違いは運用の重さと実行速度にあります。",
+        items: [
+          {
+            dimension: "主な設計目標",
+            echobell: "速く行動につながるモバイルアラート",
+            competitor: "エンタープライズ向けインシデント運用",
+            advantage: "Echobell はトリガーから人の反応までの経路を短く保てます。",
+          },
+          {
+            dimension: "緊急度の表現",
+            echobell: "通常・time-sensitive・通話風アラート",
+            competitor: "ルーティングやエスカレーション設定で表現",
+            advantage: "Echobell は重い設定なしで高緊急度の配信を有効にできます。",
+          },
+          {
+            dimension: "チーム導入速度",
+            echobell: "チャンネルリンク共有ですぐ購読",
+            competitor: "より広いワークフロー設計が先に必要なことが多い",
+            advantage: "小規模チームでもプロセスを作り直さずに展開できます。",
+          },
+          {
+            dimension: "プライバシーモデル",
+            echobell: "通知内容と履歴は端末内に保持",
+            competitor: "インシデント運用のためにより多くのプラットフォームデータを扱う",
+            advantage: "Echobell は privacy-first な通知レイヤーに向いています。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell が優れる点",
+        description:
+          "Echobell は一次対応の確実性とモバイルでの理解しやすさに集中しています。",
+        items: [
+          {
+            title: "立ち上げの摩擦が小さい",
+            description:
+              "チャンネル、トリガー先、購読者があれば、重要な監視をすぐ始められることが多いです。",
+          },
+          {
+            title: "少人数チームに向く",
+            description:
+              "大がかりなインシデント統制を先に作らなくても、緊急アラートを届けられます。",
+          },
+          {
+            title: "モバイルでのシグナル品質が高い",
+            description:
+              "実際のオンコールで素早く読んで動けるように設計されています。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "向いているシナリオ",
+        description: "次のような現場では Echobell が選ばれやすいです。",
+        items: [
+          {
+            title: "小規模な開発チーム",
+            description:
+              "アプリもインフラも同じチームが見ていて、即時の状況把握が必要な場合。",
+          },
+          {
+            title: "スタートアップ運用",
+            description: "速度が重要で、プロセス負荷を低く保ちたい場合。",
+          },
+          {
+            title: "通知レイヤーだけ置き換えたい場合",
+            description:
+              "監視自体は十分だが、通知が遅い・うるさいという問題を解消したい場合。",
+          },
+        ],
+      },
+      migration: {
+        title: "PagerDuty からの移行方法",
+        description: "多くのチームが使う、低リスクで段階的な進め方です。",
+        steps: [
+          {
+            title: "まず 1 つの重要サービスを並行運用する",
+            description:
+              "既存の PagerDuty ポリシーを残したまま、1 つの本番アラート元を Echobell にも流します。",
+          },
+          {
+            title: "反応速度を比較する",
+            description:
+              "1〜2 週間、ack までの時間と実際に対応を始めるまでの時間を測ります。",
+          },
+          {
+            title: "チャンネルごとに拡大する",
+            description:
+              "価値の高いアラートから移し、重複するエスカレーション経路を後で整理します。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "Echobell は PagerDuty を完全に置き換えられますか？",
+            answer:
+              "Echobell は通知レイヤーとして特に強いです。エンタープライズ向け自動化の一部は別システムに残しても構いません。",
+          },
+          {
+            question: "移行中に両方を並行運用できますか？",
+            answer:
+              "はい。多くのチームが、重要チャンネルで並行配信を行ってから完全移行します。",
+          },
+          {
+            question: "先に監視側を全部変える必要はありますか？",
+            answer:
+              "いいえ。既存の監視スタックはそのままで、アラートの送信先だけ切り替えられます。",
+          },
+        ],
+      },
+      cta: {
+        title: "本物のオンコール週間で検証する",
+        description:
+          "1 つの本番チャンネルで Echobell を試し、今のインシデントフローとシグナル品質を比較してください。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "pagerduty",
+      competitorName: "PagerDuty",
+      meta: {
+        title: "Echobell vs PagerDuty",
+        description:
+          "Sehen Sie, wie sich Echobell und PagerDuty bei mobilen Incident-Alerts, Einrichtungsdauer und täglichem Betriebsaufwand unterscheiden.",
+        keywords: [
+          "Echobell vs PagerDuty",
+          "PagerDuty Alternative",
+          "Incident-Alerting Vergleich",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs PagerDuty",
+        title: "Schnelle mobile Incident-Alerts ohne schweres Onboarding",
+        description:
+          "PagerDuty ist stark für reife Enterprise-Workflows. Echobell ist für Teams optimiert, die dringende Benachrichtigungen und Anrufe mit deutlich schnellerer Einrichtung brauchen.",
+      },
+      quickSummary:
+        "Wenn Ihr Hauptziel verlässliche Incident-Benachrichtigungen auf dem iPhone sind, liefert Echobell meist schneller echten Nutzen.",
+      decisionHint:
+        "Wählen Sie Echobell, wenn Sie einen direkten Weg vom Trigger zum Telefon mit wenig Policy-Overhead möchten.",
+      atAGlance: [
+        {
+          label: "Ersteinrichtung",
+          echobell: "Minuten mit Webhook- oder E-Mail-Kanälen",
+          competitor: "Oft länger wegen Policy- und Eskalationskonfiguration",
+        },
+        {
+          label: "Mobiler Reaktionspfad",
+          echobell: "Für sofortige Alerts und anrufähnliche Zustellung gebaut",
+          competitor: "Leistungsstark, aber oft an größere Incident-Workflows gebunden",
+        },
+        {
+          label: "Laufende Pflege",
+          echobell: "Schlanke kanalbasierte Verwaltung",
+          competitor: "Erfordert oft regelmäßige Pflege von Policies und Plänen",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description:
+          "Beide Produkte können Teams alarmieren. Der Hauptunterschied liegt in operativer Komplexität versus Ausführungsgeschwindigkeit.",
+        items: [
+          {
+            dimension: "Hauptziel des Produkts",
+            echobell: "Schnelle, handlungsfähige mobile Alerts",
+            competitor: "Enterprise-Incident-Orchestrierung",
+            advantage: "Echobell hält den Weg vom Trigger bis zur Reaktion eines Menschen sehr kurz.",
+          },
+          {
+            dimension: "Dringlichkeitsoptionen",
+            echobell: "Standard-, time-sensitive- und anrufähnliche Alerts",
+            competitor: "Alerting über Eskalations- und Routing-Logik",
+            advantage: "Echobell macht dringende Zustellung ohne schwere Einrichtung schnell verfügbar.",
+          },
+          {
+            dimension: "Adoptionsgeschwindigkeit",
+            echobell: "Kanal teilen und schnell abonnieren",
+            competitor: "Benötigt oft zuerst breitere Workflow-Planung",
+            advantage: "Kleinere Teams können Echobell ohne Prozessneudesign ausrollen.",
+          },
+          {
+            dimension: "Datenschutzmodell",
+            echobell: "Inhalt und Verlauf bleiben auf dem Gerät",
+            competitor: "Breitere Plattform-Datenverarbeitung für Incident-Workflows",
+            advantage: "Echobell passt gut zu Teams, die eine privacy-first Benachrichtigungsschicht wollen.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell heraussticht",
+        description:
+          "Echobell konzentriert sich auf zuverlässige Erstreaktion und klare mobile Signale.",
+        items: [
+          {
+            title: "Geringere Einstiegshürde",
+            description:
+              "Ein Kanal, ein Trigger-Endpoint und Abonnenten reichen oft aus, um sinnvolle Abdeckung live zu bringen.",
+          },
+          {
+            title: "Besser für schlanke Teams",
+            description:
+              "Sie können dringende Alerts ausliefern, ohne zuerst einen vollständigen Incident-Command-Prozess aufzubauen.",
+          },
+          {
+            title: "Stärkere mobile Signalqualität",
+            description:
+              "Alerts sind darauf ausgelegt, in echten Bereitschaftssituationen schnell gelesen und umgesetzt zu werden.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Passende Szenarien",
+        description: "In diesen praktischen Fällen wird Echobell häufig bevorzugt.",
+        items: [
+          {
+            title: "Kleine Engineering-Teams",
+            description:
+              "Wenn ein Team App und Infrastruktur verantwortet und sofortige Incident-Sichtbarkeit braucht.",
+          },
+          {
+            title: "Startup-Betrieb",
+            description:
+              "Wenn Geschwindigkeit zählt und Prozess-Overhead niedrig bleiben muss.",
+          },
+          {
+            title: "Ersatz nur der Benachrichtigungsschicht",
+            description:
+              "Wenn das bestehende Monitoring gut ist, aber Incident-Benachrichtigungen zu laut oder zu langsam sind.",
+          },
+        ],
+      },
+      migration: {
+        title: "So migrieren Sie von PagerDuty",
+        description: "Ein risikoarmer, inkrementeller Ansatz, den viele Teams nutzen.",
+        steps: [
+          {
+            title: "Zuerst einen kritischen Service spiegeln",
+            description:
+              "Leiten Sie eine Produktionsquelle parallel in Echobell, während die bestehenden PagerDuty-Policies aktiv bleiben.",
+          },
+          {
+            title: "Reaktionsgeschwindigkeit vergleichen",
+            description:
+              "Messen Sie ein bis zwei Wochen lang Acknowledge- und Reaktionsstartzeiten.",
+          },
+          {
+            title: "Schrittweise kanalweise erweitern",
+            description:
+              "Migrieren Sie zuerst die wertvollsten Alert-Streams und entfernen Sie danach redundante Eskalationspfade.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Kann Echobell alle PagerDuty-Workflows ersetzen?",
+            answer:
+              "Echobell ist besonders stark als fokussierte Benachrichtigungsschicht. Ein Teil der Enterprise-Automatisierung kann weiter in anderen Systemen bleiben.",
+          },
+          {
+            question: "Können wir während des Übergangs beide Tools parallel nutzen?",
+            answer:
+              "Ja. Viele Teams betreiben für kritische Kanäle zunächst eine Parallelzustellung, bevor sie vollständig umstellen.",
+          },
+          {
+            question: "Müssen wir zuerst alle Monitore ändern?",
+            answer:
+              "Nein. Sie können Ihren bestehenden Monitoring-Stack behalten und nur die Alert-Ausgänge umleiten.",
+          },
+        ],
+      },
+      cta: {
+        title: "Validieren Sie es in einer echten On-Call-Woche",
+        description:
+          "Testen Sie einen Produktionskanal in Echobell und vergleichen Sie die Signalqualität mit Ihrem aktuellen Incident-Flow.",
+        primary: "Echobell herunterladen",
+        secondary: "Docs öffnen",
+      },
+    },
+  },
+  opsgenie: {
+    es: {
+      slug: "opsgenie",
+      competitorName: "Opsgenie",
+      meta: {
+        title: "Echobell vs Opsgenie",
+        description:
+          "Compara Echobell y Opsgenie en velocidad de entrega, carga operativa y fiabilidad móvil.",
+        keywords: [
+          "Echobell vs Opsgenie",
+          "alternativa a Opsgenie",
+          "alertas de guardia",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Opsgenie",
+        title: "Ejecución móvil más rápida con menos complejidad de routing",
+        description:
+          "Opsgenie es fuerte en ecosistemas muy apoyados en Atlassian. Echobell se centra en despliegue rápido y notificaciones de alta urgencia.",
+      },
+      quickSummary:
+        "Cuando el equipo necesita entrega inmediata más que orquestación profunda, Echobell suele ser la opción más simple.",
+      decisionHint:
+        "Elige Echobell para una puesta en marcha rápida, un camino de señal transparente y menos carga cognitiva para quien responde.",
+      atAGlance: [
+        {
+          label: "Complejidad del workflow",
+          echobell: "Modelo centrado en canales, fácil de entender",
+          competitor: "Puede implicar capas de routing y escalado",
+        },
+        {
+          label: "Experiencia del responder",
+          echobell: "Presentación móvil clara y priorizada",
+          competitor: "Muy capaz, pero a menudo exige más contexto de proceso",
+        },
+        {
+          label: "Tiempo hasta valor",
+          echobell: "Camino corto desde el trigger hasta producción",
+          competitor: "Suele ser más largo en entornos guiados por políticas",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description:
+          "Opsgenie pone el foco en el routing de incidentes rico en proceso. Echobell pone el foco en entrega directa y velocidad de respuesta.",
+        items: [
+          {
+            dimension: "Mejor ajuste organizativo",
+            echobell: "Equipos ágiles con alertas muy urgentes",
+            competitor: "Equipos con dependencias enterprise maduras",
+            advantage: "Echobell reduce la configuración operativa para equipos que se mueven rápido.",
+          },
+          {
+            dimension: "Configuración del canal",
+            echobell: "Webhook y email por canal",
+            competitor: "Más capas de reglas e integraciones",
+            advantage: "Echobell minimiza los pasos entre el evento origen y la notificación.",
+          },
+          {
+            dimension: "Control de urgencia",
+            echobell: "Modos estándar, time-sensitive y llamada integrados",
+            competitor: "Se configura dentro de políticas más amplias",
+            advantage: "Echobell ofrece un mapeo directo de urgencia desde el primer día.",
+          },
+          {
+            dimension: "Onboarding de equipo",
+            echobell: "Compartir canal y suscripción simple",
+            competitor: "Puede requerir formación y mapeo de políticas",
+            advantage: "Echobell acelera la adopción entre equipos en la fase inicial.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde gana Echobell",
+        description:
+          "El producto está pensado para notificaciones rápidas, claras y accionables.",
+        items: [
+          {
+            title: "Claridad operativa directa",
+            description:
+              "Quien responde entiende la intención de la alerta sin navegar por metadatos pesados.",
+          },
+          {
+            title: "Capacidad de piloto rápida",
+            description: "Los equipos pueden probar comportamiento real en días, no meses.",
+          },
+          {
+            title: "Ejecución móvil sólida",
+            description: "La app y el modelo de canales están optimizados para actuar al momento.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description: "Echobell encaja bien en estas situaciones.",
+        items: [
+          {
+            title: "Equipos startup multifuncionales",
+            description: "Donde ingeniería y operaciones necesitan alertas simples pero urgentes.",
+          },
+          {
+            title: "Equipos que modernizan la entrega",
+            description: "Cuando ya existe tooling, pero la fiabilidad de notificación es irregular.",
+          },
+          {
+            title: "Entornos con mucho ruido",
+            description: "Cuando segmentar por canales mejora claramente la señal frente al ruido.",
+          },
+        ],
+      },
+      migration: {
+        title: "Cómo pasar desde Opsgenie",
+        description: "Mantén los cambios controlados y medibles.",
+        steps: [
+          {
+            title: "Empieza con un canal propiedad de un equipo",
+            description: "Elige un servicio con ownership claro y fuentes de alerta estables.",
+          },
+          {
+            title: "Alinea niveles de urgencia",
+            description: "Mapea las prioridades actuales a los modos de notificación de Echobell.",
+          },
+          {
+            title: "Sustituye el routing por fases",
+            description: "Migra primero los canales de alta confianza y reduce después la complejidad heredada.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Echobell sirve para equipos más allá de ingeniería?",
+            answer:
+              "Sí. Cualquier equipo que necesite alertas móviles rápidas puede usar canales compartidos y plantillas estructuradas.",
+          },
+          {
+            question: "¿Podemos mantener los workflows actuales de Atlassian?",
+            answer:
+              "Sí. Muchos equipos mantienen sus sistemas de workflow y usan Echobell como capa de entrega.",
+          },
+          {
+            question: "¿La migración es todo o nada?",
+            answer: "No. Migrar canal por canal funciona bien y reduce riesgo.",
+          },
+        ],
+      },
+      cta: {
+        title: "Haz un piloto de migración controlado",
+        description:
+          "Usa un canal de producción para validar entrega más rápida y un contexto más claro para quien responde.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir docs",
+      },
+    },
+    fr: {
+      slug: "opsgenie",
+      competitorName: "Opsgenie",
+      meta: {
+        title: "Echobell vs Opsgenie",
+        description:
+          "Comparez Echobell et Opsgenie sur la vitesse de livraison, la charge opérationnelle et la fiabilité mobile.",
+        keywords: ["Echobell vs Opsgenie", "alternative à Opsgenie", "alerting d'astreinte"],
+      },
+      hero: {
+        badge: "Echobell vs Opsgenie",
+        title: "Exécution mobile plus rapide avec moins de complexité de routage",
+        description:
+          "Opsgenie est fort dans les écosystèmes très liés à Atlassian. Echobell se concentre sur le déploiement rapide et les notifications à forte urgence.",
+      },
+      quickSummary:
+        "Quand une équipe a surtout besoin d'une livraison immédiate plutôt que d'une orchestration profonde, Echobell est souvent le choix le plus simple.",
+      decisionHint:
+        "Choisissez Echobell pour une mise en place rapide, un chemin du signal transparent et une charge cognitive plus faible côté répondant.",
+      atAGlance: [
+        {
+          label: "Complexité du workflow",
+          echobell: "Modèle centré sur les canaux, simple à raisonner",
+          competitor: "Peut impliquer plusieurs couches de routage et d'escalade",
+        },
+        {
+          label: "Expérience du répondant",
+          echobell: "Présentation mobile claire et priorisée",
+          competitor: "Très puissant, mais demande souvent davantage de contexte process",
+        },
+        {
+          label: "Temps jusqu'à la valeur",
+          echobell: "Chemin court du trigger à la production",
+          competitor: "Souvent plus long dans les environnements pilotés par politiques",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description:
+          "Opsgenie met l'accent sur un routage d'incidents riche en processus. Echobell privilégie la livraison directe et la vitesse de réponse.",
+        items: [
+          {
+            dimension: "Meilleur fit organisationnel",
+            echobell: "Équipes agiles avec alertes très urgentes",
+            competitor: "Équipes dépendantes de workflows enterprise matures",
+            advantage: "Echobell réduit l'effort de mise en place pour les équipes qui vont vite.",
+          },
+          {
+            dimension: "Configuration des canaux",
+            echobell: "Webhook et email par canal",
+            competitor: "Plus de couches de règles et d'intégrations",
+            advantage: "Echobell réduit le nombre d'étapes entre l'événement source et la notification.",
+          },
+          {
+            dimension: "Contrôle de l'urgence",
+            echobell: "Modes standard, time-sensitive et appel intégrés",
+            competitor: "Configuré dans des politiques d'incident plus larges",
+            advantage: "Echobell offre une cartographie directe de l'urgence dès le premier jour.",
+          },
+          {
+            dimension: "Onboarding des équipes",
+            echobell: "Partage de canal et abonnement très simples",
+            competitor: "Peut nécessiter formation et cartographie des politiques",
+            advantage: "Echobell accélère l'adoption inter-équipes au début du déploiement.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell gagne",
+        description:
+          "Le produit est conçu pour des notifications rapides, claires et actionnables.",
+        items: [
+          {
+            title: "Clarté opérationnelle directe",
+            description:
+              "Le répondant comprend vite l'intention de l'alerte sans parcourir une lourde couche de métadonnées.",
+          },
+          {
+            title: "Capacité de pilote rapide",
+            description: "Les équipes peuvent tester un vrai comportement en quelques jours, pas en quelques mois.",
+          },
+          {
+            title: "Exécution mobile solide",
+            description: "L'application et le modèle de canaux sont optimisés pour l'action immédiate.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description: "Echobell est un bon choix dans ces situations.",
+        items: [
+          {
+            title: "Équipes startup transverses",
+            description:
+              "Quand ingénierie et opérations ont toutes deux besoin d'alertes simples mais urgentes.",
+          },
+          {
+            title: "Équipes qui modernisent la livraison des alertes",
+            description:
+              "Quand l'outillage existe déjà mais que la fiabilité de notification reste irrégulière.",
+          },
+          {
+            title: "Environnements très bruyants",
+            description:
+              "Quand une segmentation fine par canaux améliore clairement le rapport signal/bruit.",
+          },
+        ],
+      },
+      migration: {
+        title: "Comment passer depuis Opsgenie",
+        description: "Gardez les changements contrôlés et mesurables.",
+        steps: [
+          {
+            title: "Commencez avec un canal détenu par une équipe",
+            description: "Choisissez un service à ownership clair et à sources d'alerte stables.",
+          },
+          {
+            title: "Alignez les niveaux d'urgence",
+            description: "Mappez les niveaux de priorité actuels vers les modes de notification Echobell.",
+          },
+          {
+            title: "Remplacez le routage par étapes",
+            description: "Basculez d'abord les canaux les plus sûrs puis réduisez la complexité héritée.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Echobell convient-il à d'autres équipes que l'ingénierie ?",
+            answer:
+              "Oui. Toute équipe qui a besoin d'alertes mobiles rapides peut utiliser des canaux partagés et des modèles structurés.",
+          },
+          {
+            question: "Peut-on garder les workflows Atlassian existants ?",
+            answer:
+              "Oui. Beaucoup d'équipes conservent leurs systèmes de workflow et remplacent seulement la couche de livraison par Echobell.",
+          },
+          {
+            question: "La migration est-elle tout ou rien ?",
+            answer: "Non. Une migration canal par canal fonctionne bien et limite le risque.",
+          },
+        ],
+      },
+      cta: {
+        title: "Lancez un pilote de migration contrôlé",
+        description:
+          "Utilisez un canal de production pour valider une livraison plus rapide et un contexte plus clair côté répondant.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la doc",
+      },
+    },
+    ja: {
+      slug: "opsgenie",
+      competitorName: "Opsgenie",
+      meta: {
+        title: "Echobell vs Opsgenie",
+        description:
+          "配信速度、運用負荷、モバイルでの信頼性という観点で Echobell と Opsgenie を比較します。",
+        keywords: ["Echobell vs Opsgenie", "Opsgenie 代替", "オンコール alerting"],
+      },
+      hero: {
+        badge: "Echobell vs Opsgenie",
+        title: "複雑なルーティングを抑えて、より速いモバイル実行へ",
+        description:
+          "Opsgenie は Atlassian 中心の運用に強みがあります。Echobell は、すばやい導入と高緊急度の通知に集中しています。",
+      },
+      quickSummary:
+        "チームが深いワークフロー編成よりも即時配信を重視するなら、Echobell の方がシンプルな勝ち筋になりやすいです。",
+      decisionHint:
+        "素早い導入、わかりやすいシグナル経路、対応者の認知負荷の低さを重視するなら Echobell を選んでください。",
+      atAGlance: [
+        {
+          label: "ワークフローの複雑さ",
+          echobell: "チャンネル中心で理解しやすい",
+          competitor: "多層のルーティングやエスカレーションを伴うことがある",
+        },
+        {
+          label: "対応者の体験",
+          echobell: "モバイルでの見え方が明確",
+          competitor: "機能は強いが、より深い運用文脈が必要になりやすい",
+        },
+        {
+          label: "最初の価値までの時間",
+          echobell: "トリガーから本番利用までの道のりが短い",
+          competitor: "ポリシー主導の環境では長くなりやすい",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description:
+          "Opsgenie はプロセス重視のインシデントルーティングを重視し、Echobell は直接配信と反応速度を重視します。",
+        items: [
+          {
+            dimension: "向いている組織",
+            echobell: "高緊急度アラートを扱う小回りの利くチーム",
+            competitor: "成熟した enterprise ワークフローに依存するチーム",
+            advantage: "Echobell は素早く動くチームの運用設定を軽くできます。",
+          },
+          {
+            dimension: "アラートチャネル設定",
+            echobell: "チャンネルごとに webhook とメールを設定",
+            competitor: "より広いルール設定や統合レイヤー",
+            advantage: "Echobell はイベントから通知までのステップを減らせます。",
+          },
+          {
+            dimension: "緊急度の制御",
+            echobell: "標準・time-sensitive・通話風を内蔵",
+            competitor: "より広いインシデントポリシーの中で設定",
+            advantage: "Echobell は初日から緊急度を直接マッピングできます。",
+          },
+          {
+            dimension: "チームへの展開",
+            echobell: "チャンネル共有と購読がシンプル",
+            competitor: "運用教育やポリシー整理が必要になりがち",
+            advantage: "Echobell は初期ロールアウト時の横展開を速めます。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell が勝つポイント",
+        description:
+          "この製品は、速く、明確で、行動につながる通知のために作られています。",
+        items: [
+          {
+            title: "運用の見通しがよい",
+            description:
+              "対応者は重いメタデータを掘らなくてもアラートの意図を理解しやすいです。",
+          },
+          {
+            title: "短期間で実証しやすい",
+            description: "実際の本番挙動を数日で試せます。",
+          },
+          {
+            title: "モバイル実行力が高い",
+            description: "アプリとチャンネルモデルが即時対応に最適化されています。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "向いているシナリオ",
+        description: "次のような状況で Echobell は強い選択肢です。",
+        items: [
+          {
+            title: "横断的なスタートアップチーム",
+            description: "エンジニアと運用の両方が、シンプルで緊急度の高い通知を必要とする場合。",
+          },
+          {
+            title: "アラート配信を近代化したいチーム",
+            description: "既存ツールはあるが、通知の信頼性が安定しない場合。",
+          },
+          {
+            title: "ノイズの多い環境",
+            description: "チャンネル分割でシグナル対ノイズ比を改善したい場合。",
+          },
+        ],
+      },
+      migration: {
+        title: "Opsgenie からの移行方法",
+        description: "変更をコントロールし、測定できる形で進めます。",
+        steps: [
+          {
+            title: "まず 1 つのチーム所有チャネルから始める",
+            description: "担当が明確で、アラート元が安定したサービスを選びます。",
+          },
+          {
+            title: "緊急度を揃える",
+            description: "現在の優先度を Echobell の通知モードに対応づけます。",
+          },
+          {
+            title: "段階的にルーティングを置き換える",
+            description: "確度の高いチャネルから先に切り替え、古い複雑さを減らします。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "Echobell はエンジニアリング以外のチームでも使えますか？",
+            answer:
+              "はい。素早いモバイルアラートが必要なチームなら、共有チャンネルと構造化テンプレートを使えます。",
+          },
+          {
+            question: "既存の Atlassian ワークフローは残せますか？",
+            answer:
+              "はい。ワークフロー側は残し、配信レイヤーだけ Echobell に置き換えるチームは多いです。",
+          },
+          {
+            question: "移行は一気にやる必要がありますか？",
+            answer: "いいえ。チャンネル単位の移行がうまく機能し、リスクも抑えられます。",
+          },
+        ],
+      },
+      cta: {
+        title: "制御された移行パイロットを実施する",
+        description:
+          "1 つの本番チャンネルで、より速い配信と明確な対応文脈を検証してください。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "opsgenie",
+      competitorName: "Opsgenie",
+      meta: {
+        title: "Echobell vs Opsgenie",
+        description:
+          "Vergleichen Sie Echobell und Opsgenie hinsichtlich Zustellgeschwindigkeit, Betriebsaufwand und mobiler Zuverlässigkeit.",
+        keywords: ["Echobell vs Opsgenie", "Opsgenie Alternative", "On-Call Alerting"],
+      },
+      hero: {
+        badge: "Echobell vs Opsgenie",
+        title: "Schnellere mobile Ausführung mit weniger Routing-Komplexität",
+        description:
+          "Opsgenie ist stark in stark Atlassian-geprägten Prozesslandschaften. Echobell konzentriert sich auf schnelle Einführung und Benachrichtigungen mit hoher Dringlichkeit.",
+      },
+      quickSummary:
+        "Wenn Teams vor allem sofortige Zustellung statt tiefer Workflow-Orchestrierung brauchen, ist Echobell oft der einfachere Gewinn.",
+      decisionHint:
+        "Wählen Sie Echobell für schnelle Einrichtung, transparente Signalpfade und geringere kognitive Last für Reagierende.",
+      atAGlance: [
+        {
+          label: "Workflow-Komplexität",
+          echobell: "Kanalzentriert und leicht nachvollziehbar",
+          competitor: "Kann mehrschichtiges Routing und Eskalationslogik enthalten",
+        },
+        {
+          label: "Responder-UX",
+          echobell: "Klare mobile Darstellung mit Fokus auf Reaktion",
+          competitor: "Sehr leistungsfähig, erfordert aber oft mehr Prozesskontext",
+        },
+        {
+          label: "Zeit bis zum ersten Nutzen",
+          echobell: "Kurzer Weg vom Trigger in die Produktion",
+          competitor: "In policy-getriebenen Umgebungen oft deutlich länger",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description:
+          "Opsgenie betont prozessreiches Incident-Routing. Echobell betont direkte Zustellung und Reaktionsgeschwindigkeit.",
+        items: [
+          {
+            dimension: "Bester organisatorischer Fit",
+            echobell: "Schlanke Teams mit hochdringlichen Alerts",
+            competitor: "Teams mit reifen Enterprise-Workflow-Abhängigkeiten",
+            advantage: "Echobell reduziert den operativen Setup-Aufwand für Teams mit hohem Tempo.",
+          },
+          {
+            dimension: "Einrichtung der Alarmkanäle",
+            echobell: "Webhook- und E-Mail-Trigger pro Kanal",
+            competitor: "Breitere Regelkonfigurationen und Integrationsschichten",
+            advantage: "Echobell minimiert die Schritte zwischen Quellereignis und Benachrichtigung.",
+          },
+          {
+            dimension: "Steuerung der Dringlichkeit",
+            echobell: "Integrierte Standard-, time-sensitive- und Anruf-Modi",
+            competitor: "In größeren Incident-Policies konfiguriert",
+            advantage: "Echobell liefert direktes Urgency-Mapping vom ersten Tag an.",
+          },
+          {
+            dimension: "Team-Onboarding",
+            echobell: "Einfaches Teilen und Abonnieren von Kanälen",
+            competitor: "Erfordert oft Prozesseinführung und Policy-Mapping",
+            advantage: "Echobell beschleunigt die teamübergreifende Einführung in frühen Rollouts.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell gewinnt",
+        description:
+          "Das Produkt ist für schnelle, klare und handlungsfähige Benachrichtigungen gebaut.",
+        items: [
+          {
+            title: "Direkte operative Klarheit",
+            description:
+              "Responder verstehen die Absicht eines Alerts schnell, ohne sich durch schwere Incident-Metadaten zu arbeiten.",
+          },
+          {
+            title: "Schnelle Pilotierbarkeit",
+            description: "Teams können reales Produktionsverhalten in Tagen statt Monaten testen.",
+          },
+          {
+            title: "Starke mobile Ausführung",
+            description: "App und Kanalmodell sind auf unmittelbares Handeln optimiert.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Passende Szenarien",
+        description: "In diesen Situationen ist Echobell eine starke Wahl.",
+        items: [
+          {
+            title: "Cross-funktionale Startup-Teams",
+            description:
+              "Wenn Engineering und Ops beide einfache, dringende Benachrichtigungen brauchen.",
+          },
+          {
+            title: "Teams, die die Alert-Zustellung modernisieren",
+            description:
+              "Wenn vorhandenes Tooling existiert, die Zustellzuverlässigkeit aber schwankt.",
+          },
+          {
+            title: "Umgebungen mit viel Lärm",
+            description:
+              "Wenn fokussierte Kanal-Segmentierung das Signal-Rausch-Verhältnis verbessert.",
+          },
+        ],
+      },
+      migration: {
+        title: "So wechseln Sie von Opsgenie",
+        description: "Halten Sie die Änderungen kontrolliert und messbar.",
+        steps: [
+          {
+            title: "Beginnen Sie mit einem teamverantworteten Kanal",
+            description: "Wählen Sie einen Service mit klarem Ownership und stabilen Alert-Quellen.",
+          },
+          {
+            title: "Dringlichkeitsstufen abgleichen",
+            description: "Ordnen Sie die aktuellen Prioritäten den Benachrichtigungsmodi von Echobell zu.",
+          },
+          {
+            title: "Routing phasenweise ersetzen",
+            description: "Stellen Sie zuerst Kanäle mit hoher Sicherheit um und verringern Sie danach alte Komplexität.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Unterstützt Echobell auch Teams außerhalb des Engineerings?",
+            answer:
+              "Ja. Jedes Team, das schnelle mobile Alerts braucht, kann gemeinsame Kanäle und strukturierte Vorlagen nutzen.",
+          },
+          {
+            question: "Können wir bestehende Atlassian-Workflows behalten?",
+            answer:
+              "Ja. Viele Teams behalten ihre Workflow-Systeme und setzen Echobell als Zustellungsebene ein.",
+          },
+          {
+            question: "Ist die Migration alles oder nichts?",
+            answer: "Nein. Kanalweise Migration funktioniert gut und begrenzt das Risiko.",
+          },
+        ],
+      },
+      cta: {
+        title: "Starten Sie einen kontrollierten Migrationspilot",
+        description:
+          "Nutzen Sie einen Produktionskanal, um schnellere Zustellung und klareren Responder-Kontext zu validieren.",
+        primary: "Echobell herunterladen",
+        secondary: "Docs öffnen",
+      },
+    },
+  },
+  "better-stack": {
+    es: {
+      slug: "better-stack",
+      competitorName: "Better Stack",
+      meta: {
+        title: "Echobell vs Better Stack",
+        description:
+          "Compara Echobell con Better Stack para decidir entre una capa de notificaciones enfocada o una plataforma amplia de observabilidad.",
+        keywords: [
+          "Echobell vs Better Stack",
+          "alternativa a Better Stack",
+          "entrega de notificaciones",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Better Stack",
+        title: "Velocidad dedicada de notificación frente a cobertura amplia de observabilidad",
+        description:
+          "Better Stack ofrece monitorización y status pages más amplias. Echobell se especializa en llevar alertas críticas a personas reales con rapidez y claridad.",
+      },
+      quickSummary:
+        "Si ya tienes monitorización y lo que falta es una mejor capa de entrega, Echobell suele ser la mejora con más retorno.",
+      decisionHint:
+        "Elige Echobell cuando el cuello de botella sea la calidad de entrega de la alerta y no la recogida de datos.",
+      atAGlance: [
+        {
+          label: "Alcance del producto",
+          echobell: "Entrega de alertas y notificaciones enfocada",
+          competitor: "Suite más amplia de observabilidad e incidentes",
+        },
+        {
+          label: "Objetivo de implantación",
+          echobell: "Mejorar rápido respuesta y claridad",
+          competitor: "Construir monitoring e incidentes unificados",
+        },
+        {
+          label: "Rol operativo",
+          echobell: "Capa de ejecución de notificaciones",
+          competitor: "Plataforma de monitorización e incidentes",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description:
+          "En muchos stacks se complementan, pero optimizan prioridades distintas.",
+        items: [
+          {
+            dimension: "Problema principal que resuelve",
+            echobell: "Fiabilidad de notificación para eventos críticos",
+            competitor: "Cobertura end-to-end de observabilidad",
+            advantage: "Echobell está diseñado específicamente para entregar rápido a quien responde.",
+          },
+          {
+            dimension: "Ejecución de urgencia",
+            echobell: "Selección directa del modo por canal",
+            competitor: "Configurado dentro de flujos de monitoring más amplios",
+            advantage: "Echobell hace más fácil controlar la urgencia por equipo.",
+          },
+          {
+            dimension: "Curva de adopción",
+            echobell: "Simple cuando solo sustituyes la ruta de notificación",
+            competitor: "Un alcance mayor exige más alineación",
+            advantage: "Echobell puede desplegarse sin replatformear todo.",
+          },
+          {
+            dimension: "Privacidad de datos",
+            echobell: "Contenido e historial permanecen en el dispositivo",
+            competitor: "Datasets de telemetría e incidentes a escala de plataforma",
+            advantage: "Echobell encaja con equipos que quieren mínima retención del contenido de alertas.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde brilla Echobell",
+        description:
+          "Echobell es fuerte como capa de última milla para alertas de calidad.",
+        items: [
+          {
+            title: "Mejor activación del responder",
+            description:
+              "Las alertas críticas están optimizadas para reconocimiento y acción inmediata.",
+          },
+          {
+            title: "Despliegue de bajo riesgo",
+            description: "Mantén el monitoring actual y cambia primero solo las salidas de alerta.",
+          },
+          {
+            title: "Mejor segmentación de señal",
+            description: "La organización por canales ayuda a reducir ruido entre equipos.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description:
+          "Estos equipos suelen elegir Echobell junto a su tooling de observabilidad.",
+        items: [
+          {
+            title: "Equipos con monitoring maduro",
+            description: "Las métricas y logs están bien, pero los resultados de entrega siguen siendo flojos.",
+          },
+          {
+            title: "Productos propensos a incidentes",
+            description: "Cuando los segundos importan y hacen falta canales de escalado claros.",
+          },
+          {
+            title: "Operaciones distribuidas",
+            description: "Los canales compartidos facilitan la visibilidad en equipos de varias regiones.",
+          },
+        ],
+      },
+      migration: {
+        title: "Cómo introducir Echobell",
+        description:
+          "Trátalo como una mejora de notificación encima de la observabilidad existente.",
+        steps: [
+          {
+            title: "Elige las 5 alertas más críticas",
+            description: "Ruta primero solo las señales de mayor impacto para comparar calidad de entrega.",
+          },
+          {
+            title: "Ajusta plantillas y urgencia",
+            description: "Haz cada alerta concisa, accionable y mapeada al nivel adecuado.",
+          },
+          {
+            title: "Amplía a canales compartidos",
+            description: "Usa suscripciones de canal para alinear ingeniería, operaciones y responsables de incidente.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Se puede usar Echobell junto con Better Stack?",
+            answer:
+              "Sí. Muchos equipos mantienen su stack de observabilidad y usan Echobell como capa dedicada de entrega.",
+          },
+          {
+            question: "¿Esto duplica costes de monitorización?",
+            answer:
+              "No necesariamente. Echobell puede centrarse en la calidad de notificación mientras tus herramientas actuales siguen monitorizando.",
+          },
+          {
+            question: "¿Solo sirve para alertas de infraestructura?",
+            answer:
+              "No. Las alertas de producto, negocio y seguridad pueden usar el mismo modelo de canal.",
+          },
+        ],
+      },
+      cta: {
+        title: "Mejora el resultado de las alertas, no todo tu stack",
+        description:
+          "Prueba Echobell en tus alertas más severas y compara el comportamiento real de quien responde.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir docs",
+      },
+    },
+    fr: {
+      slug: "better-stack",
+      competitorName: "Better Stack",
+      meta: {
+        title: "Echobell vs Better Stack",
+        description:
+          "Comparez Echobell à Better Stack pour choisir entre une couche de notification ciblée et une plateforme d'observabilité plus large.",
+        keywords: [
+          "Echobell vs Better Stack",
+          "alternative à Better Stack",
+          "livraison de notifications",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Better Stack",
+        title: "Vitesse dédiée de notification vs couverture large d'observabilité",
+        description:
+          "Better Stack fournit un monitoring plus large et des status pages. Echobell se spécialise dans l'envoi rapide et clair d'alertes critiques aux bonnes personnes.",
+      },
+      quickSummary:
+        "Si vous avez déjà le monitoring et qu'il vous manque surtout une meilleure couche de livraison, Echobell apporte souvent le plus de levier.",
+      decisionHint:
+        "Choisissez Echobell quand votre goulot d'étranglement est la qualité de livraison des alertes, pas la collecte de données.",
+      atAGlance: [
+        {
+          label: "Portée du produit",
+          echobell: "Livraison d'alertes et de notifications ciblée",
+          competitor: "Suite plus large d'observabilité et d'incident",
+        },
+        {
+          label: "Objectif d'implémentation",
+          echobell: "Améliorer vite la vitesse de réponse et la clarté",
+          competitor: "Construire des workflows unifiés de monitoring et d'incident",
+        },
+        {
+          label: "Rôle opérationnel",
+          echobell: "Couche d'exécution des notifications",
+          competitor: "Plateforme de monitoring et d'opérations incident",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description:
+          "Les produits sont complémentaires dans de nombreuses stacks, mais ils optimisent des priorités différentes.",
+        items: [
+          {
+            dimension: "Problème central résolu",
+            echobell: "Fiabilité de notification pour événements critiques",
+            competitor: "Largeur d'observabilité de bout en bout",
+            advantage: "Echobell est conçu pour livrer vite aux répondants.",
+          },
+          {
+            dimension: "Gestion de l'urgence",
+            echobell: "Choix direct du mode par canal",
+            competitor: "Configuré dans des workflows de monitoring plus larges",
+            advantage: "Echobell facilite le contrôle de l'urgence par équipe.",
+          },
+          {
+            dimension: "Courbe d'adoption",
+            echobell: "Simple si vous ne remplacez que le chemin de notification",
+            competitor: "La portée plus large peut demander davantage d'alignement",
+            advantage: "Echobell se déploie sans replatformer tout l'existant.",
+          },
+          {
+            dimension: "Posture de confidentialité",
+            echobell: "Contenu et historique conservés sur l'appareil",
+            competitor: "Jeux de données de télémétrie et d'incident à grande échelle",
+            advantage: "Echobell convient aux équipes qui veulent limiter la rétention des contenus d'alerte.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell brille",
+        description:
+          "Echobell est très fort comme couche de dernière étape pour des alertes de qualité.",
+        items: [
+          {
+            title: "Meilleure mobilisation des répondants",
+            description:
+              "Les alertes critiques sont optimisées pour une prise en compte et une action immédiates.",
+          },
+          {
+            title: "Déploiement peu risqué",
+            description: "Gardez le monitoring actuel et changez d'abord seulement les sorties d'alerte.",
+          },
+          {
+            title: "Meilleure segmentation du signal",
+            description: "L'organisation par canaux aide les équipes à réduire le bruit.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description:
+          "Ces équipes choisissent souvent Echobell en parallèle de leurs outils d'observabilité.",
+        items: [
+          {
+            title: "Équipes avec monitoring mature",
+            description: "Les métriques et logs sont en place, mais les résultats de livraison d'alerte doivent encore progresser.",
+          },
+          {
+            title: "Produits sujets aux incidents",
+            description: "Quand les secondes comptent et qu'il faut des canaux d'escalade clairs.",
+          },
+          {
+            title: "Opérations multi-régions",
+            description: "Les canaux partagés simplifient la visibilité d'alerte à l'échelle de l'équipe.",
+          },
+        ],
+      },
+      migration: {
+        title: "Comment introduire Echobell",
+        description:
+          "Traitez-le comme une amélioration de notification au-dessus de l'observabilité existante.",
+        steps: [
+          {
+            title: "Choisissez les 5 alertes les plus critiques",
+            description: "Ne routez d'abord que les signaux à fort impact pour comparer la qualité de livraison.",
+          },
+          {
+            title: "Ajustez modèles et niveaux d'urgence",
+            description: "Rendez chaque alerte concise, actionnable et associée au bon niveau d'urgence.",
+          },
+          {
+            title: "Étendez aux canaux partagés",
+            description: "Utilisez les abonnements de canal pour aligner ingénierie, ops et responsables d'incident.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Peut-on utiliser Echobell avec Better Stack ?",
+            answer:
+              "Oui. Beaucoup d'équipes gardent leur stack d'observabilité et utilisent Echobell comme couche dédiée de livraison.",
+          },
+          {
+            question: "Cela duplique-t-il les coûts de monitoring ?",
+            answer:
+              "Pas nécessairement. Echobell peut se concentrer sur la qualité de notification pendant que les outils existants gardent le monitoring.",
+          },
+          {
+            question: "Est-ce réservé aux alertes d'infrastructure ?",
+            answer:
+              "Non. Les alertes produit, business et sécurité peuvent utiliser le même modèle de canal.",
+          },
+        ],
+      },
+      cta: {
+        title: "Améliorez le résultat des alertes, pas toute votre stack",
+        description:
+          "Pilotez Echobell sur vos alertes les plus sévères et comparez le comportement réel des répondants.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la doc",
+      },
+    },
+    ja: {
+      slug: "better-stack",
+      competitorName: "Better Stack",
+      meta: {
+        title: "Echobell vs Better Stack",
+        description:
+          "通知レイヤーに特化した Echobell と、広いオブザーバビリティ基盤である Better Stack を比較します。",
+        keywords: [
+          "Echobell vs Better Stack",
+          "Better Stack 代替",
+          "通知配信",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Better Stack",
+        title: "専用通知の速さと広い observability の比較",
+        description:
+          "Better Stack は監視やステータスページまで広く提供します。Echobell は、重要アラートを人に速く明確に届けることに特化しています。",
+      },
+      quickSummary:
+        "監視基盤はすでにあり、通知レイヤーだけ強化したいなら、Echobell の方がレバレッジが大きいことが多いです。",
+      decisionHint:
+        "ボトルネックがデータ収集ではなく、アラート配信の質にあるなら Echobell を選んでください。",
+      atAGlance: [
+        {
+          label: "製品の守備範囲",
+          echobell: "通知とアラート配信に集中",
+          competitor: "より広い observability と incident ツール群",
+        },
+        {
+          label: "導入目的",
+          echobell: "反応速度と明確さをすばやく改善",
+          competitor: "監視と incident 運用を統合",
+        },
+        {
+          label: "運用上の役割",
+          echobell: "通知実行レイヤー",
+          competitor: "監視と incident 運用プラットフォーム",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description:
+          "多くのスタックでは補完関係にありますが、最適化している優先順位は異なります。",
+        items: [
+          {
+            dimension: "解決する中心課題",
+            echobell: "重要イベント通知の確実性",
+            competitor: "エンドツーエンドの observability の広さ",
+            advantage: "Echobell は対応者へ高速に届けるために作られています。",
+          },
+          {
+            dimension: "緊急度の実行",
+            echobell: "チャンネルごとに直接モードを選択",
+            competitor: "より大きな監視フロー内で設定",
+            advantage: "Echobell はチームごとの緊急制御を簡単にします。",
+          },
+          {
+            dimension: "導入曲線",
+            echobell: "通知経路だけ差し替えるならシンプル",
+            competitor: "守備範囲が広く、調整期間が長くなりやすい",
+            advantage: "Echobell は全体を置き換えずに導入できます。",
+          },
+          {
+            dimension: "データの扱い",
+            echobell: "内容と履歴は端末内に保持",
+            competitor: "プラットフォーム規模のテレメトリと incident データ",
+            advantage: "Echobell はアラート内容の保持を最小化したいチームに向いています。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell が光る場面",
+        description:
+          "Echobell は高品質な最後の一マイル alerting レイヤーとして強みがあります。",
+        items: [
+          {
+            title: "対応開始が速い",
+            description:
+              "重要アラートはすぐに認識され、行動に移しやすいよう最適化されています。",
+          },
+          {
+            title: "低リスクで導入できる",
+            description: "既存の監視は維持したまま、まず通知出力だけ置き換えられます。",
+          },
+          {
+            title: "シグナル分離がしやすい",
+            description: "チャンネル単位の整理で通知ノイズを減らせます。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "向いているシナリオ",
+        description:
+          "次のようなチームは observability ツールと並行して Echobell を選びやすいです。",
+        items: [
+          {
+            title: "監視は成熟しているチーム",
+            description: "メトリクスやログは揃っているが、通知の結果はまだ改善余地がある場合。",
+          },
+          {
+            title: "インシデントが事業に直結するプロダクト",
+            description: "秒単位が重要で、明確なエスカレーション経路が必要な場合。",
+          },
+          {
+            title: "複数地域で運用するチーム",
+            description: "共有チャンネルでチーム全体の認知を揃えたい場合。",
+          },
+        ],
+      },
+      migration: {
+        title: "Echobell の導入方法",
+        description:
+          "既存 observability の上に載せる通知アップグレードとして扱います。",
+        steps: [
+          {
+            title: "重要度トップ 5 のアラートを選ぶ",
+            description: "まず影響の大きい信号だけを流し、配信品質を比較します。",
+          },
+          {
+            title: "テンプレートと緊急度を調整する",
+            description: "各アラートを短く、行動しやすく、適切な緊急度に合わせます。",
+          },
+          {
+            title: "共有チャンネルへ広げる",
+            description: "チャンネル購読で開発、運用、インシデント担当を揃えます。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "Better Stack と一緒に Echobell を使えますか？",
+            answer:
+              "はい。observability はそのままにして、Echobell を専用の通知配信レイヤーとして使うチームは多いです。",
+          },
+          {
+            question: "監視コストが二重になりませんか？",
+            answer:
+              "必ずしもそうではありません。Echobell は通知品質に集中し、既存ツールは監視を続けられます。",
+          },
+          {
+            question: "インフラアラート専用ですか？",
+            answer:
+              "いいえ。プロダクト、ビジネス、セキュリティのアラートでも同じチャンネルモデルを使えます。",
+          },
+        ],
+      },
+      cta: {
+        title: "スタック全体ではなく、アラート結果を改善する",
+        description:
+          "最も重要なアラートで Echobell を試し、実際の反応行動を比較してください。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "better-stack",
+      competitorName: "Better Stack",
+      meta: {
+        title: "Echobell vs Better Stack",
+        description:
+          "Vergleichen Sie Echobell mit Better Stack, um zwischen einer fokussierten Benachrichtigungsschicht und einer breiten Observability-Plattform zu wählen.",
+        keywords: [
+          "Echobell vs Better Stack",
+          "Better Stack Alternative",
+          "Benachrichtigungszustellung",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Better Stack",
+        title: "Dedizierte Benachrichtigungsgeschwindigkeit vs breite Observability-Abdeckung",
+        description:
+          "Better Stack bietet breites Monitoring und Status-Seiten. Echobell spezialisiert sich darauf, kritische Alerts schnell und klar zu Menschen zu bringen.",
+      },
+      quickSummary:
+        "Wenn Sie bereits Monitoring haben und nur eine stärkere Zustellungsebene brauchen, ist Echobell oft die wirksamere Ergänzung.",
+      decisionHint:
+        "Wählen Sie Echobell, wenn die Qualität der Alert-Zustellung Ihr Engpass ist und nicht die Datensammlung.",
+      atAGlance: [
+        {
+          label: "Produktumfang",
+          echobell: "Fokussierte Benachrichtigungs- und Alert-Zustellung",
+          competitor: "Breiteres Observability- und Incident-Toolset",
+        },
+        {
+          label: "Einführungsziel",
+          echobell: "Reaktionsgeschwindigkeit und Klarheit schnell verbessern",
+          competitor: "Unified Monitoring- und Incident-Workflows aufbauen",
+        },
+        {
+          label: "Operative Rolle",
+          echobell: "Benachrichtigungs-Ausführungsschicht",
+          competitor: "Monitoring- und Incident-Operations-Plattform",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description:
+          "Die Produkte ergänzen sich in vielen Stacks, optimieren aber für unterschiedliche Prioritäten.",
+        items: [
+          {
+            dimension: "Gelöstes Kernproblem",
+            echobell: "Verlässliche Benachrichtigung bei kritischen Ereignissen",
+            competitor: "Breite der End-to-End-Observability",
+            advantage: "Echobell ist gezielt für schnelle Zustellung an Responder gebaut.",
+          },
+          {
+            dimension: "Umsetzung von Dringlichkeit",
+            echobell: "Direkte Moduswahl pro Kanal",
+            competitor: "In größeren Monitoring-Workflows konfiguriert",
+            advantage: "Echobell erleichtert die feine Steuerung von Dringlichkeit pro Team.",
+          },
+          {
+            dimension: "Adoptionskurve",
+            echobell: "Einfach für Teams, die nur Benachrichtigungspfade ersetzen",
+            competitor: "Der breitere Scope verlangt oft mehr Abstimmung",
+            advantage: "Echobell lässt sich einführen, ohne alles neu zu platformen.",
+          },
+          {
+            dimension: "Datenschutzhaltung",
+            echobell: "Inhalt und Verlauf bleiben auf dem Gerät",
+            competitor: "Plattformweite Telemetrie- und Incident-Datensätze",
+            advantage: "Echobell passt zu Teams, die Alarm-Inhalte minimal vorhalten wollen.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell glänzt",
+        description:
+          "Echobell ist stark als hochwertige Last-Mile-Alerting-Schicht.",
+        items: [
+          {
+            title: "Schnelleres Einbinden der Responder",
+            description:
+              "Kritische Alerts sind auf sofortiges Erkennen und Handeln optimiert.",
+          },
+          {
+            title: "Risikoarme Einführung",
+            description: "Behalten Sie Ihr bestehendes Monitoring und ersetzen Sie zuerst nur die Alert-Ausgänge.",
+          },
+          {
+            title: "Bessere Signal-Segmentierung",
+            description: "Die Organisation nach Kanälen hilft Teams, Benachrichtigungsrauschen zu reduzieren.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Passende Szenarien",
+        description:
+          "Diese Teams wählen Echobell häufig parallel zu ihrem Observability-Tooling.",
+        items: [
+          {
+            title: "Teams mit reifem Monitoring",
+            description: "Metriken und Logs sind gut, aber die Alert-Zustellung braucht noch Verbesserungen.",
+          },
+          {
+            title: "Produkte mit hohem Incident-Risiko",
+            description: "Wenn Sekunden zählen und klare Eskalationskanäle nötig sind.",
+          },
+          {
+            title: "Verteilte Operations-Teams",
+            description: "Gemeinsame Kanäle vereinfachen teamweite Alarm-Sichtbarkeit.",
+          },
+        ],
+      },
+      migration: {
+        title: "So führen Sie Echobell ein",
+        description:
+          "Behandeln Sie es als Benachrichtigungs-Upgrade auf Ihrer bestehenden Observability.",
+        steps: [
+          {
+            title: "Wählen Sie die 5 kritischsten Alerts",
+            description: "Leiten Sie zuerst nur hochrelevante Signale um, um die Zustellqualität zu vergleichen.",
+          },
+          {
+            title: "Vorlagen und Dringlichkeit abstimmen",
+            description: "Machen Sie jede Alarmmeldung knapp, handlungsfähig und passend priorisiert.",
+          },
+          {
+            title: "Auf gemeinsame Teamkanäle ausweiten",
+            description: "Nutzen Sie Kanal-Abos, um Engineering, Ops und Incident-Manager auszurichten.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Kann Echobell gemeinsam mit Better Stack genutzt werden?",
+            answer:
+              "Ja. Viele Teams behalten ihren Observability-Stack und nutzen Echobell als dedizierte Zustellungsschicht.",
+          },
+          {
+            question: "Verdoppelt das Monitoring-Kosten?",
+            answer:
+              "Nicht unbedingt. Echobell kann sich auf Benachrichtigungsqualität konzentrieren, während bestehende Tools weiter monitoren.",
+          },
+          {
+            question: "Ist das nur für Infrastruktur-Alerts?",
+            answer:
+              "Nein. Produkt-, Business- und Security-Alerts können dasselbe Kanalmodell nutzen.",
+          },
+        ],
+      },
+      cta: {
+        title: "Verbessern Sie Alarm-Ergebnisse, nicht den ganzen Stack",
+        description:
+          "Testen Sie Echobell auf Ihren Alerts mit höchster Priorität und vergleichen Sie das reale Responder-Verhalten.",
+        primary: "Echobell herunterladen",
+        secondary: "Docs öffnen",
+      },
+    },
+  },
+  pushover: {
+    es: {
+      slug: "pushover",
+      competitorName: "Pushover",
+      meta: {
+        title: "Echobell vs Pushover",
+        description:
+          "Compara Echobell y Pushover en alertas críticas para equipos, urgencia tipo llamada y workflows estructurados.",
+        keywords: [
+          "Echobell vs Pushover",
+          "alternativa a Pushover",
+          "alertas móviles críticas",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Pushover",
+        title: "Del push básico a una entrega lista para incidentes",
+        description:
+          "Pushover es directo para pushes simples. Echobell añade modos de urgencia más fuertes, canales compartidos y mayor claridad para responder incidentes.",
+      },
+      quickSummary:
+        "Para un uso personal de push, Pushover puede bastar. Para operaciones de incidentes en equipo, Echobell suele encajar mejor.",
+      decisionHint:
+        "Elige Echobell cuando las alertas necesiten ownership, control de urgencia y distribución en equipo.",
+      atAGlance: [
+        {
+          label: "Caso de uso principal",
+          echobell: "Alertas de servicio e incidentes para equipos",
+          competitor: "Notificaciones push de propósito general",
+        },
+        {
+          label: "Capacidades de urgencia",
+          echobell: "Incluye modos time-sensitive y llamada",
+          competitor: "Modelo centrado en push",
+        },
+        {
+          label: "Colaboración de equipo",
+          echobell: "Suscripción y compartición por canales",
+          competitor: "Uso individual más simple",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description:
+          "La mayor diferencia está en estar listo para incidentes de equipo frente a un simple push.",
+        items: [
+          {
+            dimension: "Profundidad del alerting",
+            echobell: "Canales estructurados con contexto del trigger",
+            competitor: "Mensajería push ligera",
+            advantage: "Echobell escala mejor cuando varias personas comparten responsabilidad.",
+          },
+          {
+            dimension: "Escalado urgente",
+            echobell: "Ruta tipo llamada para eventos muy críticos",
+            competitor: "Push con poco contexto de escalado",
+            advantage: "Echobell mejora la fiabilidad para despertar a alguien ante incidentes graves.",
+          },
+          {
+            dimension: "Organización operativa",
+            echobell: "Agrupación por servicio",
+            competitor: "Patrones más simples por app o usuario",
+            advantage: "Echobell facilita el triaje entre equipos.",
+          },
+          {
+            dimension: "Entradas de automatización",
+            echobell: "Webhook + email con plantillas",
+            competitor: "Patrones centrados en API push",
+            advantage: "Echobell soporta más fuentes con payloads mejor renderizados.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde gana Echobell",
+        description:
+          "Echobell está diseñado para equipos que tratan las alertas como infraestructura operativa.",
+        items: [
+          {
+            title: "Diseño team-first",
+            description: "Las suscripciones compartidas alinean a quien responde alrededor del ownership del servicio.",
+          },
+          {
+            title: "Notificaciones más accionables",
+            description: "El contexto basado en plantillas acelera el diagnóstico.",
+          },
+          {
+            title: "Mayor fiabilidad en eventos críticos",
+            description: "Los modos de urgencia y las alertas tipo llamada mejoran la visibilidad durante incidentes.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description: "Echobell se prefiere cuando las notificaciones son misión crítica.",
+        items: [
+          {
+            title: "Gestión de incidentes en producción",
+            description: "Cuando perder o retrasar una alerta tiene impacto inmediato en usuarios o ingresos.",
+          },
+          {
+            title: "Ownership compartido por equipos",
+            description: "Cuando varias personas necesitan el mismo contexto de canal.",
+          },
+          {
+            title: "Pipelines con múltiples fuentes",
+            description: "Cuando las alertas llegan de webhooks, emails y varios sistemas de automatización.",
+          },
+        ],
+      },
+      migration: {
+        title: "Migración desde Pushover",
+        description:
+          "Transiciona por olas para mantener continuidad y reducir fricción.",
+        steps: [
+          {
+            title: "Crea canales de servicio en Echobell",
+            description: "Modela canales por dominio: API, pagos, infra, seguridad.",
+          },
+          {
+            title: "Mueve primero las alertas más severas",
+            description: "Envía solo los pushes críticos a Echobell y compara el comportamiento del equipo.",
+          },
+          {
+            title: "Amplía con contexto basado en plantillas",
+            description: "Añade campos estructurados para mejorar la accionabilidad.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Echobell es demasiado para alertas personales?",
+            answer:
+              "Si tu caso es solo push personal simple, quizá no necesites todas las funciones de Echobell.",
+          },
+          {
+            question: "¿Podemos mantener los flujos push actuales durante la migración?",
+            answer:
+              "Sí. Ejecuta canales en paralelo mientras el equipo valida urgencia y fiabilidad.",
+          },
+          {
+            question: "¿Echobell soporta fuentes por webhook?",
+            answer:
+              "Sí. Los triggers por webhook y email son rutas principales de integración.",
+          },
+        ],
+      },
+      cta: {
+        title: "Pasa del push simple al alerting operativo",
+        description:
+          "Prueba un solo servicio de alta severidad en Echobell y evalúa la velocidad de respuesta.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir docs",
+      },
+    },
+    fr: {
+      slug: "pushover",
+      competitorName: "Pushover",
+      meta: {
+        title: "Echobell vs Pushover",
+        description:
+          "Comparez Echobell et Pushover pour les alertes critiques orientées équipe, l'urgence type appel et des workflows structurés.",
+        keywords: [
+          "Echobell vs Pushover",
+          "alternative à Pushover",
+          "alertes mobiles critiques",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Pushover",
+        title: "Du push basique à une livraison prête pour les incidents",
+        description:
+          "Pushover est simple pour des pushs légers. Echobell ajoute des modes d'urgence plus forts, le partage de canaux et une meilleure clarté pour répondre aux incidents.",
+      },
+      quickSummary:
+        "Pour un usage personnel du push, Pushover peut suffire. Pour les opérations d'incident en équipe, Echobell convient généralement mieux.",
+      decisionHint:
+        "Choisissez Echobell quand les alertes ont besoin d'ownership, de contrôle d'urgence et de distribution à l'équipe.",
+      atAGlance: [
+        {
+          label: "Cas d'usage principal",
+          echobell: "Alertes d'incident et de service pour équipes",
+          competitor: "Notifications push généralistes",
+        },
+        {
+          label: "Capacités d'urgence",
+          echobell: "Inclut des modes type appel et time-sensitive",
+          competitor: "Modèle de notification centré sur le push",
+        },
+        {
+          label: "Collaboration d'équipe",
+          echobell: "Abonnement et partage par canaux",
+          competitor: "Usage individuel plus simple",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description:
+          "Le plus grand écart concerne la préparation aux incidents d'équipe versus une simple livraison push.",
+        items: [
+          {
+            dimension: "Profondeur d'alerting",
+            echobell: "Canaux structurés avec contexte du trigger",
+            competitor: "Messagerie push légère",
+            advantage: "Echobell se scale mieux quand plusieurs répondants partagent la responsabilité.",
+          },
+          {
+            dimension: "Style d'escalade urgente",
+            echobell: "Parcours type appel pour événements très critiques",
+            competitor: "Push centré avec peu de contexte d'escalade",
+            advantage: "Echobell améliore la fiabilité de réveil sur les incidents graves.",
+          },
+          {
+            dimension: "Organisation opérationnelle",
+            echobell: "Regroupement par service",
+            competitor: "Schémas plus simples par app ou par utilisateur",
+            advantage: "Echobell facilite le triage des alertes entre équipes.",
+          },
+          {
+            dimension: "Entrées d'automatisation",
+            echobell: "Webhook + email avec modèles",
+            competitor: "Intégrations plutôt centrées sur l'API push",
+            advantage: "Echobell supporte des sources variées avec un rendu de payload plus lisible.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell gagne",
+        description:
+          "Echobell est pensé pour des équipes qui traitent les alertes comme une infrastructure opérationnelle.",
+        items: [
+          {
+            title: "Conception orientée équipe",
+            description: "Les abonnements partagés alignent les répondants sur l'ownership du service.",
+          },
+          {
+            title: "Notifications plus actionnables",
+            description: "Le contexte piloté par modèles aide à diagnostiquer plus vite.",
+          },
+          {
+            title: "Meilleure fiabilité sur événements critiques",
+            description: "Les modes d'urgence et alertes type appel améliorent la visibilité pendant les incidents.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description: "Echobell est préféré lorsque les notifications sont réellement critiques.",
+        items: [
+          {
+            title: "Gestion d'incidents de production",
+            description: "Quand rater ou retarder une alerte a un impact immédiat sur l'utilisateur ou le revenu.",
+          },
+          {
+            title: "Ownership partagé par l'équipe",
+            description: "Quand plusieurs répondants ont besoin d'un contexte de canal cohérent.",
+          },
+          {
+            title: "Pipelines multi-sources",
+            description: "Quand les alertes arrivent de webhooks, d'emails et de plusieurs systèmes d'automatisation.",
+          },
+        ],
+      },
+      migration: {
+        title: "Migration depuis Pushover",
+        description:
+          "Procédez par vagues pour préserver la continuité et réduire les perturbations.",
+        steps: [
+          {
+            title: "Créez des canaux de service dans Echobell",
+            description: "Modélisez les canaux par domaine d'incident : API, paiements, infra, sécurité.",
+          },
+          {
+            title: "Déplacez d'abord les alertes les plus sévères",
+            description: "Routez seulement les pushs critiques vers Echobell et comparez le comportement des répondants.",
+          },
+          {
+            title: "Étendez avec du contexte structuré",
+            description: "Ajoutez des champs structurés pour rendre les alertes plus actionnables.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Echobell est-il trop lourd pour des alertes personnelles ?",
+            answer:
+              "Si votre cas d'usage est du push personnel très simple, vous n'avez peut-être pas besoin de toutes les fonctions d'Echobell.",
+          },
+          {
+            question: "Peut-on garder les flux push actuels pendant la migration ?",
+            answer:
+              "Oui. Faites tourner des canaux en parallèle pendant que l'équipe valide les gains de fiabilité et d'urgence.",
+          },
+          {
+            question: "Echobell prend-il en charge les sources webhook ?",
+            answer:
+              "Oui. Les triggers webhook et email sont des voies d'intégration principales.",
+          },
+        ],
+      },
+      cta: {
+        title: "Passez du push simple à l'alerting opérationnel",
+        description:
+          "Testez un seul service critique dans Echobell et mesurez la vitesse de réponse.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la doc",
+      },
+    },
+    ja: {
+      slug: "pushover",
+      competitorName: "Pushover",
+      meta: {
+        title: "Echobell vs Pushover",
+        description:
+          "チーム向けの重要アラート、通話級の緊急度、構造化ワークフローという観点で Echobell と Pushover を比較します。",
+        keywords: [
+          "Echobell vs Pushover",
+          "Pushover 代替",
+          "重要モバイルアラート",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Pushover",
+        title: "シンプルな push から、インシデント対応向け配信へ",
+        description:
+          "Pushover は単純な push に向いています。Echobell は、より強い緊急モード、チャンネル共有、インシデント対応向けの明確な導線を追加します。",
+      },
+      quickSummary:
+        "個人利用の push なら Pushover で十分な場合があります。チームでの incident 運用なら Echobell の方が合うことが多いです。",
+      decisionHint:
+        "アラートに ownership、緊急度制御、チーム配布が必要なら Echobell を選んでください。",
+      atAGlance: [
+        {
+          label: "主な用途",
+          echobell: "チーム向けの incident / service alerts",
+          competitor: "汎用 push 通知",
+        },
+        {
+          label: "緊急度の扱い",
+          echobell: "time-sensitive と通話風モードを含む",
+          competitor: "push 中心の通知モデル",
+        },
+        {
+          label: "チーム連携",
+          echobell: "チャンネル購読と共有フロー",
+          competitor: "よりシンプルな個人利用",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description:
+          "最大の差は、チームでのインシデント対応準備ができているか、それとも単純な push 配信かです。",
+        items: [
+          {
+            dimension: "アラートの深さ",
+            echobell: "トリガー文脈付きの構造化チャンネル",
+            competitor: "軽量な push メッセージ",
+            advantage: "複数の対応者が責任を共有するとき、Echobell の方がスケールします。",
+          },
+          {
+            dimension: "緊急エスカレーション",
+            echobell: "高重要度イベント向けの通話風経路",
+            competitor: "push 中心でエスカレーション文脈が弱い",
+            advantage: "Echobell は重大インシデント時の起床確実性を高めます。",
+          },
+          {
+            dimension: "運用整理",
+            echobell: "サービス単位でチャンネルを整理",
+            competitor: "アプリごと / ユーザーごとの単純な運用",
+            advantage: "Echobell はチーム横断のトリアージをしやすくします。",
+          },
+          {
+            dimension: "自動化入力",
+            echobell: "Webhook + メール + テンプレート",
+            competitor: "Push API 中心の統合",
+            advantage: "Echobell は多様なソースに対応しつつ、内容を読みやすく保てます。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell が勝つ点",
+        description:
+          "Echobell は、アラートを運用インフラとして扱うチーム向けに設計されています。",
+        items: [
+          {
+            title: "チームファースト設計",
+            description: "共有チャンネル購読により、対応者の ownership を揃えやすいです。",
+          },
+          {
+            title: "より行動しやすい通知",
+            description: "テンプレート駆動の文脈により、対応者は早く診断できます。",
+          },
+          {
+            title: "重要イベントでの信頼性が高い",
+            description: "緊急モードと通話風アラートで incident 中の見落としを減らします。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "向いているシナリオ",
+        description: "通知がミッションクリティカルな場合、Echobell が選ばれやすいです。",
+        items: [
+          {
+            title: "本番インシデント対応",
+            description: "見逃しや遅延がユーザーや売上に直結する場合。",
+          },
+          {
+            title: "複数人でのサービス ownership",
+            description: "複数の対応者が同じチャンネル文脈を必要とする場合。",
+          },
+          {
+            title: "複数ソースのアラートパイプライン",
+            description: "Webhook、メール、さまざまな自動化からアラートが来る場合。",
+          },
+        ],
+      },
+      migration: {
+        title: "Pushover からの移行",
+        description:
+          "継続性を保ちつつ、段階的に移行して混乱を減らします。",
+        steps: [
+          {
+            title: "Echobell にサービス別チャンネルを作る",
+            description: "API、決済、インフラ、セキュリティなどのドメインごとにチャンネル化します。",
+          },
+          {
+            title: "重大アラートから先に移す",
+            description: "重要な push だけを Echobell に流し、対応速度を比較します。",
+          },
+          {
+            title: "テンプレートで文脈を強化する",
+            description: "構造化フィールドを追加し、通知の実行性を高めます。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "個人向けアラートには Echobell は重すぎますか？",
+            answer:
+              "用途がシンプルな個人 push だけなら、Echobell の全機能は不要かもしれません。",
+          },
+          {
+            question: "移行中も既存の push フローを残せますか？",
+            answer:
+              "はい。チームが信頼性と緊急度の改善を確認する間、並行運用できます。",
+          },
+          {
+            question: "Echobell は webhook ソースに対応していますか？",
+            answer:
+              "はい。Webhook とメールは中核となる統合経路です。",
+          },
+        ],
+      },
+      cta: {
+        title: "単純な push から運用アラートへ移行する",
+        description:
+          "高重要度のサービスを 1 つだけ Echobell で試し、対応速度を評価してください。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "pushover",
+      competitorName: "Pushover",
+      meta: {
+        title: "Echobell vs Pushover",
+        description:
+          "Vergleichen Sie Echobell und Pushover für teamtaugliche kritische Alerts, anrufähnliche Dringlichkeit und strukturierte Benachrichtigungs-Workflows.",
+        keywords: [
+          "Echobell vs Pushover",
+          "Pushover Alternative",
+          "kritische mobile Alerts",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Pushover",
+        title: "Vom einfachen Push zur incident-tauglichen Zustellung",
+        description:
+          "Pushover ist unkompliziert für einfache Push-Nachrichten. Echobell ergänzt stärkere Urgency-Modi, Kanalfreigabe und klarere Workflows für Incident-Response.",
+      },
+      quickSummary:
+        "Für persönliche Push-Nutzung kann Pushover ausreichen. Für Incident-Operations im Team passt Echobell meist besser.",
+      decisionHint:
+        "Wählen Sie Echobell, wenn Alerts Ownership, Dringlichkeitskontrolle und Team-Verteilung brauchen.",
+      atAGlance: [
+        {
+          label: "Primärer Anwendungsfall",
+          echobell: "Team-basierte Service- und Incident-Alerts",
+          competitor: "Allgemeine Push-Benachrichtigungen",
+        },
+        {
+          label: "Urgency-Fähigkeiten",
+          echobell: "Enthält time-sensitive- und anrufähnliche Modi",
+          competitor: "Push-zentriertes Benachrichtigungsmodell",
+        },
+        {
+          label: "Team-Zusammenarbeit",
+          echobell: "Kanal-Abos und Freigabe-Workflows",
+          competitor: "Einfachere individuelle Nutzung",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description:
+          "Die größte Lücke liegt in Team-Incident-Readiness versus einfacher Push-Zustellung.",
+        items: [
+          {
+            dimension: "Alerting-Tiefe",
+            echobell: "Strukturierte Alarmkanäle mit Trigger-Kontext",
+            competitor: "Leichte Push-Messages",
+            advantage: "Echobell skaliert besser, wenn mehrere Responder Ownership teilen.",
+          },
+          {
+            dimension: "Dringende Eskalation",
+            echobell: "Anrufähnlicher Pfad für hochkritische Ereignisse",
+            competitor: "Push-zentriert mit wenig Eskalationskontext",
+            advantage: "Echobell verbessert die Weckzuverlässigkeit bei schweren Vorfällen.",
+          },
+          {
+            dimension: "Operative Organisation",
+            echobell: "Servicebasierte Kanalgruppierung",
+            competitor: "Einfachere App- oder User-zentrierte Muster",
+            advantage: "Echobell erleichtert teamübergreifendes Triage.",
+          },
+          {
+            dimension: "Automatisierungsquellen",
+            echobell: "Webhook- und E-Mail-Trigger mit Vorlagen",
+            competitor: "Push-API-zentrierte Integrationsmuster",
+            advantage: "Echobell unterstützt verschiedene Alert-Quellen mit besserer Payload-Darstellung.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell gewinnt",
+        description:
+          "Echobell ist für Teams gebaut, die Alerts als operative Infrastruktur behandeln.",
+        items: [
+          {
+            title: "Team-first Design",
+            description: "Geteilte Kanal-Abos richten Responder an Service-Ownership aus.",
+          },
+          {
+            title: "Handlungsfähigere Benachrichtigungen",
+            description: "Vorlagenbasierter Kontext hilft Respondern schneller bei der Diagnose.",
+          },
+          {
+            title: "Höhere Zuverlässigkeit bei kritischen Ereignissen",
+            description: "Urgency-Modi und anrufähnliche Alerts erhöhen die Sichtbarkeit während Vorfällen.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Passende Szenarien",
+        description: "Echobell wird bevorzugt, wenn Benachrichtigungen missionskritisch sind.",
+        items: [
+          {
+            title: "Produktions-Incident-Handling",
+            description: "Wenn verpasste oder verspätete Alerts unmittelbare Nutzer- oder Umsatzwirkung haben.",
+          },
+          {
+            title: "Geteiltes Service-Ownership",
+            description: "Wenn mehrere Responder konsistenten Kanal-Kontext brauchen.",
+          },
+          {
+            title: "Multi-Source-Alert-Pipelines",
+            description: "Wenn Alerts aus Webhooks, E-Mails und mehreren Automatisierungssystemen kommen.",
+          },
+        ],
+      },
+      migration: {
+        title: "Migration von Pushover",
+        description:
+          "Stellen Sie schrittweise um, um Kontinuität zu bewahren und Reibung zu verringern.",
+        steps: [
+          {
+            title: "Service-Kanäle in Echobell anlegen",
+            description: "Modellieren Sie Kanäle nach Incident-Domänen wie API, Zahlungen, Infra und Security.",
+          },
+          {
+            title: "Zuerst Alerts mit hoher Schwere migrieren",
+            description: "Leiten Sie nur kritische Pushs nach Echobell und vergleichen Sie das Verhalten der Responder.",
+          },
+          {
+            title: "Mit Vorlagenkontext erweitern",
+            description: "Fügen Sie strukturierte Felder hinzu, um die Handlungsfähigkeit zu verbessern.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Ist Echobell für persönliche Alerts überdimensioniert?",
+            answer:
+              "Wenn Ihr Anwendungsfall nur aus sehr einfachen persönlichen Pushs besteht, brauchen Sie vielleicht nicht alle Funktionen von Echobell.",
+          },
+          {
+            question: "Können wir bestehende Push-Flows während der Migration behalten?",
+            answer:
+              "Ja. Betreiben Sie parallele Kanäle, während Teams die Verbesserungen bei Dringlichkeit und Zuverlässigkeit validieren.",
+          },
+          {
+            question: "Unterstützt Echobell webhook-basierte Quellen?",
+            answer:
+              "Ja. Webhook- und E-Mail-Trigger gehören zu den zentralen Integrationspfaden.",
+          },
+        ],
+      },
+      cta: {
+        title: "Vom einfachen Push zum operativen Alerting wechseln",
+        description:
+          "Testen Sie einen hochkritischen Service in Echobell und bewerten Sie die Reaktionsgeschwindigkeit.",
+        primary: "Echobell herunterladen",
+        secondary: "Docs öffnen",
+      },
+    },
+  },
+  ifttt: {
+    es: {
+      slug: "ifttt",
+      competitorName: "IFTTT",
+      meta: {
+        title: "Echobell vs IFTTT",
+        description:
+          "Compara Echobell e IFTTT en fiabilidad de alertas críticas, urgencia de entrega y preparación para respuesta en equipo.",
+        keywords: ["Echobell vs IFTTT", "alternativa a IFTTT", "alerting de incidentes"],
+      },
+      hero: {
+        badge: "Echobell vs IFTTT",
+        title: "Alerting fiable para incidentes frente a automatización general",
+        description:
+          "IFTTT es una plataforma amplia de automatización. Echobell está diseñado específicamente para una entrega urgente y fiable a quien responde.",
+      },
+      quickSummary:
+        "Usa IFTTT para automatización amplia. Usa Echobell cuando la velocidad de entrega, la urgencia y la claridad sean innegociables.",
+      decisionHint:
+        "Elige Echobell cuando perder alertas sea caro y la disciplina de respuesta del equipo importe.",
+      atAGlance: [
+        {
+          label: "Función principal",
+          echobell: "Entrega de notificaciones críticas para equipos",
+          competitor: "Automatización general trigger-action",
+        },
+        {
+          label: "Soporte de urgencia",
+          echobell: "Incluye modos urgentes y alertas tipo llamada",
+          competitor: "Acciones de notificación más generales",
+        },
+        {
+          label: "Gobernanza operativa",
+          echobell: "Ownership basado en canales",
+          competitor: "Automatizaciones estilo applet para muchos dominios",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description:
+          "Las plataformas están optimizadas para trabajos muy distintos.",
+        items: [
+          {
+            dimension: "Objetivo de optimización",
+            echobell: "Velocidad y fiabilidad en respuesta a incidentes",
+            competitor: "Flexibilidad de automatización entre servicios",
+            advantage: "Echobell prioriza el resultado del alerting frente a la amplitud de automatización.",
+          },
+          {
+            dimension: "Control de calidad de señal",
+            echobell: "Plantillas estructuradas y canales de servicio",
+            competitor: "Applets para patrones trigger-action generales",
+            advantage: "Echobell mejora la claridad del mensaje bajo presión.",
+          },
+          {
+            dimension: "Experiencia del responder",
+            echobell: "Mobile-first y consciente de la urgencia",
+            competitor: "Routing de acciones generalista",
+            advantage: "Echobell reduce retrasos y ambigüedad para los equipos de guardia.",
+          },
+          {
+            dimension: "Escalado en equipo",
+            echobell: "Pensado alrededor de canales compartidos",
+            competitor: "Workflows centrados en automatización de usuario",
+            advantage: "Echobell se alinea mejor con modelos de ownership de servicio.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde es más fuerte Echobell",
+        description:
+          "Para equipos que gestionan sistemas de producción, Echobell ofrece un valor operativo más claro.",
+        items: [
+          {
+            title: "Arquitectura orientada a incidentes",
+            description: "Diseñada para reducir alertas críticas perdidas, tardías o ambiguas.",
+          },
+          {
+            title: "Más confianza en la urgencia",
+            description: "Los modos time-sensitive y llamada elevan la fiabilidad de respuesta.",
+          },
+          {
+            title: "Modelo listo para equipos",
+            description: "Las suscripciones compartidas mejoran cobertura en guardias y handoffs.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description:
+          "Echobell se prefiere cuando las alertas forman parte de la gestión de riesgo en producción.",
+        items: [
+          {
+            title: "SRE y rotaciones on-call",
+            description: "Cuando hacen falta alertas inmediatas y claras para continuidad del servicio.",
+          },
+          {
+            title: "Servicios críticos para ingresos",
+            description: "Cuando un retraso de notificación puede tener impacto financiero directo.",
+          },
+          {
+            title: "Alerting de seguridad y compliance",
+            description: "Cuando se necesitan rutas urgentes y trazables.",
+          },
+        ],
+      },
+      migration: {
+        title: "Pasar desde alerting estilo IFTTT",
+        description: "Separa la lógica de automatización de la entrega crítica.",
+        steps: [
+          {
+            title: "Mantén la automatización donde ya funciona",
+            description: "Deja los applets no críticos y extrae primero solo las alertas de incidente.",
+          },
+          {
+            title: "Mapea triggers críticos a canales Echobell",
+            description: "Crea un canal por dominio de servicio y enruta eventos prioritarios.",
+          },
+          {
+            title: "Aplica estándares de urgencia y plantilla",
+            description: "Estandariza el contexto del payload para que siga siendo accionable bajo presión.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Puedo seguir usando IFTTT junto con Echobell?",
+            answer:
+              "Sí. Usa IFTTT para automatización amplia y Echobell para la entrega crítica.",
+          },
+          {
+            question: "¿Echobell es solo para equipos de infraestructura?",
+            answer:
+              "No. Producto, soporte, operaciones y seguridad también pueden usar alertas basadas en canales.",
+          },
+          {
+            question: "¿Qué tan rápido podemos validar valor?",
+            answer:
+              "La mayoría de equipos puede validarlo en un canal crítico en pocos días.",
+          },
+        ],
+      },
+      cta: {
+        title: "Mantén la automatización amplia y las alertas fiables",
+        description:
+          "Pilota Echobell esta semana sobre las notificaciones de mayor riesgo.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir docs",
+      },
+    },
+    fr: {
+      slug: "ifttt",
+      competitorName: "IFTTT",
+      meta: {
+        title: "Echobell vs IFTTT",
+        description:
+          "Comparez Echobell et IFTTT sur la fiabilité des alertes critiques, l'urgence de livraison et la préparation à la réponse en équipe.",
+        keywords: ["Echobell vs IFTTT", "alternative à IFTTT", "alerting incident"],
+      },
+      hero: {
+        badge: "Echobell vs IFTTT",
+        title: "Alerting fiable orienté incident vs automatisation généraliste",
+        description:
+          "IFTTT est une plateforme d'automatisation très large. Echobell est conçu pour une livraison urgente et fiable vers les répondants.",
+      },
+      quickSummary:
+        "Utilisez IFTTT pour l'automatisation large. Utilisez Echobell lorsque vitesse de livraison, urgence et clarté du message sont non négociables.",
+      decisionHint:
+        "Choisissez Echobell lorsque rater une alerte coûte cher et que la discipline de réponse d'équipe compte vraiment.",
+      atAGlance: [
+        {
+          label: "Fonction principale",
+          echobell: "Livraison de notifications critiques pour équipes",
+          competitor: "Automatisation générale trigger-action",
+        },
+        {
+          label: "Gestion de l'urgence",
+          echobell: "Modes urgents intégrés, y compris type appel",
+          competitor: "Actions de notification plus généralistes",
+        },
+        {
+          label: "Gouvernance opérationnelle",
+          echobell: "Ownership basé sur les canaux",
+          competitor: "Automatisations type applet sur de nombreux domaines",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description:
+          "Les plateformes sont optimisées pour des rôles très différents.",
+        items: [
+          {
+            dimension: "Cible d'optimisation",
+            echobell: "Vitesse et fiabilité de la réponse à incident",
+            competitor: "Flexibilité d'automatisation entre services",
+            advantage: "Echobell priorise le résultat de l'alerte plutôt que la largeur d'automatisation.",
+          },
+          {
+            dimension: "Contrôle de qualité du signal",
+            echobell: "Modèles structurés et canaux de service",
+            competitor: "Applets conçus pour des schémas trigger-action généralistes",
+            advantage: "Echobell améliore la clarté du message sous forte pression.",
+          },
+          {
+            dimension: "Expérience du répondant",
+            echobell: "Mobile-first avec conscience de l'urgence",
+            competitor: "Routage d'actions plus généraliste",
+            advantage: "Echobell réduit les délais et les ambiguïtés pour les équipes d'astreinte.",
+          },
+          {
+            dimension: "Passage à l'échelle de l'équipe",
+            echobell: "Construit autour de canaux partagés",
+            competitor: "Workflows centrés sur l'utilisateur et l'automatisation",
+            advantage: "Echobell s'aligne mieux sur les modèles d'ownership des services.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell est plus fort",
+        description:
+          "Pour les équipes qui gèrent des systèmes de production, Echobell crée une valeur opérationnelle plus directe.",
+        items: [
+          {
+            title: "Architecture orientée incident",
+            description: "Conçue pour réduire les alertes critiques ratées, tardives ou peu claires.",
+          },
+          {
+            title: "Plus de confiance dans l'urgence",
+            description: "Les modes time-sensitive et type appel augmentent la fiabilité de réponse.",
+          },
+          {
+            title: "Modèle prêt pour l'équipe",
+            description: "Les abonnements partagés améliorent la couverture pendant les rotations et handoffs.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description:
+          "Echobell est privilégié lorsque les alertes font partie de la gestion du risque de production.",
+        items: [
+          {
+            title: "SRE et rotations d'astreinte",
+            description: "Quand des alertes immédiates et claires sont nécessaires à la continuité de service.",
+          },
+          {
+            title: "Services critiques pour le revenu",
+            description: "Quand un retard de notification peut avoir un impact financier direct.",
+          },
+          {
+            title: "Alerting sécurité et conformité",
+            description: "Quand il faut des parcours urgents et traçables.",
+          },
+        ],
+      },
+      migration: {
+        title: "Passer d'un alerting type IFTTT",
+        description: "Dissociez la logique d'automatisation de la livraison critique.",
+        steps: [
+          {
+            title: "Gardez l'automatisation là où elle marche",
+            description: "Laissez les applets non critiques en place et extrayez d'abord seulement les alertes incident.",
+          },
+          {
+            title: "Mappez les triggers critiques vers des canaux Echobell",
+            description: "Créez un canal par domaine de service et routez les événements prioritaires.",
+          },
+          {
+            title: "Appliquez des standards d'urgence et de modèles",
+            description: "Standardisez le contexte des payloads pour garder des alertes actionnables sous pression.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Puis-je continuer à utiliser IFTTT avec Echobell ?",
+            answer:
+              "Oui. Utilisez IFTTT pour l'automatisation large et Echobell pour la livraison des alertes critiques.",
+          },
+          {
+            question: "Echobell est-il réservé aux équipes infra ?",
+            answer:
+              "Non. Les équipes produit, support, ops et sécurité peuvent toutes utiliser des alertes par canaux.",
+          },
+          {
+            question: "En combien de temps peut-on valider la valeur ?",
+            answer:
+              "La plupart des équipes peuvent la valider sur un canal critique en quelques jours.",
+          },
+        ],
+      },
+      cta: {
+        title: "Gardez l'automatisation large, rendez les alertes fiables",
+        description:
+          "Pilotez Echobell cette semaine sur vos notifications de service les plus risquées.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la doc",
+      },
+    },
+    ja: {
+      slug: "ifttt",
+      competitorName: "IFTTT",
+      meta: {
+        title: "Echobell vs IFTTT",
+        description:
+          "重要アラートの信頼性、配信の緊急度、チーム対応のしやすさという観点で Echobell と IFTTT を比較します。",
+        keywords: ["Echobell vs IFTTT", "IFTTT 代替", "incident alerting"],
+      },
+      hero: {
+        badge: "Echobell vs IFTTT",
+        title: "信頼性重視の incident alerting と汎用自動化の比較",
+        description:
+          "IFTTT は幅広い自動化プラットフォームです。Echobell は、対応者へ緊急かつ確実に届けることに特化しています。",
+      },
+      quickSummary:
+        "広いアプリ自動化には IFTTT。配信速度、緊急度、受信時の明確さが重要なら Echobell を使うべきです。",
+      decisionHint:
+        "アラートの見逃しコストが高く、チームの対応規律が重要なら Echobell を選んでください。",
+      atAGlance: [
+        {
+          label: "中核機能",
+          echobell: "チーム向けの重要通知配信",
+          competitor: "汎用 trigger-action 自動化",
+        },
+        {
+          label: "緊急度サポート",
+          echobell: "通話風を含む緊急モードを内蔵",
+          competitor: "より一般的な通知アクション",
+        },
+        {
+          label: "運用ガバナンス",
+          echobell: "チャンネルベースの service ownership",
+          competitor: "多領域にまたがる applet ベースの自動化",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description:
+          "両プラットフォームは、現代チームの中でまったく異なる仕事を最適化しています。",
+        items: [
+          {
+            dimension: "最適化の対象",
+            echobell: "インシデント対応の速度と信頼性",
+            competitor: "サービス横断の自動化柔軟性",
+            advantage: "Echobell は自動化の広さより alerting の結果を優先します。",
+          },
+          {
+            dimension: "シグナル品質の制御",
+            echobell: "構造化テンプレートと service channels",
+            competitor: "一般的な trigger-action 用の applets",
+            advantage: "Echobell は高圧な incident 時でもメッセージを明確にします。",
+          },
+          {
+            dimension: "対応者の体験",
+            echobell: "モバイルファーストで緊急度を考慮",
+            competitor: "汎用的な action routing",
+            advantage: "Echobell はオンコールチームの遅れと曖昧さを減らします。",
+          },
+          {
+            dimension: "チームでの拡張性",
+            echobell: "共有 incident channels を中心に設計",
+            competitor: "ユーザー自動化中心のワークフロー",
+            advantage: "Echobell は service ownership モデルにより適合します。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell がより強い点",
+        description:
+          "本番システムを扱うチームにとって、Echobell はより直接的な運用価値を提供します。",
+        items: [
+          {
+            title: "incident-first な設計",
+            description: "重要アラートの見逃し、遅延、理解不足を減らすように設計されています。",
+          },
+          {
+            title: "緊急度への確信が高い",
+            description: "time-sensitive と通話風モードで対応の確実性が上がります。",
+          },
+          {
+            title: "チーム対応のチャネルモデル",
+            description: "共有購読により、当番交代や引き継ぎ時のカバレッジが向上します。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "向いているシナリオ",
+        description:
+          "アラートが本番リスク管理の一部である場合、Echobell が好まれます。",
+        items: [
+          {
+            title: "SRE とオンコールローテーション",
+            description: "サービス継続のために、即時で明確なアラートが必要な場合。",
+          },
+          {
+            title: "売上に直結するサービス",
+            description: "通知の遅れが直接的な金銭影響を生む場合。",
+          },
+          {
+            title: "セキュリティ / コンプライアンス alerting",
+            description: "緊急かつ追跡可能な通知経路が必要な場合。",
+          },
+        ],
+      },
+      migration: {
+        title: "IFTTT 風 alerting から移行する",
+        description: "自動化ロジックと重要アラート配信を分離します。",
+        steps: [
+          {
+            title: "動いている自動化はそのまま残す",
+            description: "重要でない applet は残し、まず incident alerts だけを切り出します。",
+          },
+          {
+            title: "重要トリガーを Echobell channels に対応づける",
+            description: "サービスドメインごとにチャンネルを作り、高優先度イベントを流します。",
+          },
+          {
+            title: "緊急度とテンプレートの標準を適用する",
+            description: "payload の文脈を標準化し、プレッシャー下でも行動しやすく保ちます。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "IFTTT と Echobell を併用できますか？",
+            answer:
+              "はい。広い自動化には IFTTT を使い、ミッションクリティカルな配信には Echobell を使えます。",
+          },
+          {
+            question: "Echobell はインフラチーム専用ですか？",
+            answer:
+              "いいえ。プロダクト、サポート、オペレーション、セキュリティのチームでも使えます。",
+          },
+          {
+            question: "どれくらい早く価値を検証できますか？",
+            answer:
+              "多くのチームは、1 つの重要チャンネルで数日以内に差を確認できます。",
+          },
+        ],
+      },
+      cta: {
+        title: "自動化は広く、アラートは確実に",
+        description:
+          "今週、最もリスクの高いサービス通知で Echobell を試してください。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "ifttt",
+      competitorName: "IFTTT",
+      meta: {
+        title: "Echobell vs IFTTT",
+        description:
+          "Vergleichen Sie Echobell und IFTTT hinsichtlich Zuverlässigkeit kritischer Alerts, Dringlichkeit der Zustellung und Team-Response-Bereitschaft.",
+        keywords: ["Echobell vs IFTTT", "IFTTT Alternative", "Incident Alerting"],
+      },
+      hero: {
+        badge: "Echobell vs IFTTT",
+        title: "Zuverlässigkeitsorientiertes Incident-Alerting vs allgemeine Automatisierung",
+        description:
+          "IFTTT ist eine breite Automatisierungsplattform. Echobell ist gezielt für verlässliche, dringende Zustellung an Responder gebaut.",
+      },
+      quickSummary:
+        "Nutzen Sie IFTTT für breite App-Automatisierung. Nutzen Sie Echobell, wenn Zustellgeschwindigkeit, Dringlichkeit und Klarheit nicht verhandelbar sind.",
+      decisionHint:
+        "Wählen Sie Echobell, wenn verpasste Alerts teuer sind und Team-Response-Disziplin zählt.",
+      atAGlance: [
+        {
+          label: "Kernfunktion",
+          echobell: "Kritische Benachrichtigungszustellung für Teams",
+          competitor: "Allgemeine Trigger-Action-Automatisierung",
+        },
+        {
+          label: "Unterstützung für Dringlichkeit",
+          echobell: "Integrierte dringende Modi inklusive anrufähnlicher Alerts",
+          competitor: "Allgemeinere Benachrichtigungsaktionen",
+        },
+        {
+          label: "Operative Steuerung",
+          echobell: "Kanalbasierte Service-Ownership-Muster",
+          competitor: "Applet-zentrierte Automatisierungen über viele Domänen",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description:
+          "Die Plattformen optimieren für sehr unterschiedliche Aufgaben in modernen Teams.",
+        items: [
+          {
+            dimension: "Optimierungsziel",
+            echobell: "Incident-Reaktionsgeschwindigkeit und Zuverlässigkeit",
+            competitor: "Serviceübergreifende Automatisierungsflexibilität",
+            advantage: "Echobell priorisiert Alert-Ergebnisse über Automatisierungsbreite.",
+          },
+          {
+            dimension: "Kontrolle der Signalqualität",
+            echobell: "Strukturierte Vorlagen und Service-Kanäle",
+            competitor: "Applets für allgemeine Trigger-Action-Muster",
+            advantage: "Echobell verbessert die Klarheit der Nachricht unter Druck.",
+          },
+          {
+            dimension: "Responder-Erfahrung",
+            echobell: "Mobile-first und urgencysensitiv",
+            competitor: "Allgemeines Action-Routing",
+            advantage: "Echobell reduziert Verzögerung und Unklarheit für On-Call-Teams.",
+          },
+          {
+            dimension: "Team-Skalierung",
+            echobell: "Rund um gemeinsame Incident-Kanäle aufgebaut",
+            competitor: "Automatisierungszentrierte User-Workflows",
+            advantage: "Echobell passt besser zu Service-Ownership-Modellen.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell stärker ist",
+        description:
+          "Für Teams mit Produktionssystemen liefert Echobell klareren operativen Nutzen.",
+        items: [
+          {
+            title: "Incident-first Architektur",
+            description: "Entwickelt, um verpasste, verspätete und unklare kritische Alerts zu reduzieren.",
+          },
+          {
+            title: "Mehr Sicherheit bei Dringlichkeit",
+            description: "Time-sensitive- und anrufähnliche Optionen erhöhen die Reaktionszuverlässigkeit.",
+          },
+          {
+            title: "Team-taugliches Kanalmodell",
+            description: "Gemeinsame Abos verbessern die Abdeckung bei Schichten und Übergaben.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Passende Szenarien",
+        description:
+          "Echobell wird bevorzugt, wenn Alerts Teil des Produktions-Risikomanagements sind.",
+        items: [
+          {
+            title: "SRE- und On-Call-Rotationen",
+            description: "Wenn klare, sofortige Alerts für Servicekontinuität nötig sind.",
+          },
+          {
+            title: "Umsatzkritische Services",
+            description: "Wenn Benachrichtigungsverzögerungen direkte finanzielle Folgen haben können.",
+          },
+          {
+            title: "Security- und Compliance-Alerting",
+            description: "Wenn dringende und nachvollziehbare Zustellpfade erforderlich sind.",
+          },
+        ],
+      },
+      migration: {
+        title: "Wechsel von IFTTT-artigem Alerting",
+        description: "Entkoppeln Sie Automatisierungslogik von kritischer Alert-Zustellung.",
+        steps: [
+          {
+            title: "Behalten Sie Automatisierung dort, wo sie funktioniert",
+            description: "Lassen Sie unkritische Applets bestehen und extrahieren Sie zuerst nur Incident-Alerts.",
+          },
+          {
+            title: "Ordnen Sie kritische Trigger Echobell-Kanälen zu",
+            description: "Legen Sie pro Service-Domäne einen Kanal an und routen Sie hochpriorisierte Ereignisse.",
+          },
+          {
+            title: "Wenden Sie Standards für Dringlichkeit und Vorlagen an",
+            description: "Standardisieren Sie Payload-Kontext, damit Alerts unter Druck handlungsfähig bleiben.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Kann ich IFTTT weiterhin zusammen mit Echobell nutzen?",
+            answer:
+              "Ja. Nutzen Sie IFTTT für breite Automatisierung und Echobell für missionskritische Alert-Zustellung.",
+          },
+          {
+            question: "Ist Echobell nur für Infrastruktur-Teams gedacht?",
+            answer:
+              "Nein. Produkt-, Support-, Operations- und Security-Teams können kanalbasierte Alerts gleichermaßen nutzen.",
+          },
+          {
+            question: "Wie schnell lässt sich der Nutzen validieren?",
+            answer:
+              "Die meisten Teams können den Nutzen innerhalb weniger Tage auf einem kritischen Kanal validieren.",
+          },
+        ],
+      },
+      cta: {
+        title: "Automatisierung breit halten, Alerts verlässlich machen",
+        description:
+          "Pilotieren Sie Echobell diese Woche auf den Benachrichtigungen Ihrer risikoreichsten Services.",
+        primary: "Echobell herunterladen",
+        secondary: "Docs öffnen",
+      },
+    },
+  },
+};
+
+const extendedComparisonLanguages = ["es", "fr", "ja", "de"] as const;
+
+function isExtendedComparisonLanguage(
+  lang: ComparisonLanguage
+): lang is ExtendedComparisonLanguage {
+  return (extendedComparisonLanguages as readonly string[]).includes(lang);
+}
+
+const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexData> = {
+  es: {
+    meta: {
+      title: "Echobell vs competidores",
+      description:
+        "Compara Echobell con PagerDuty, Opsgenie, Better Stack, Pushover e IFTTT. Descubre qué herramienta encaja mejor para alertas móviles rápidas.",
+      keywords: [
+        "comparativa de Echobell",
+        "Echobell vs PagerDuty",
+        "Echobell vs Opsgenie",
+        "alternativas a Echobell",
+        "herramienta de alertas móviles",
+      ],
+    },
+    hero: {
+      badge: "Comparativas",
+      title: "Elige la pila de alertas adecuada para tu equipo",
+      subtitle: "Comparativas directas y prácticas basadas en flujos reales de alertas",
+      description:
+        "Estas páginas comparan Echobell con productos habituales de alertas según velocidad de puesta en marcha, entrega en guardia, modelo de privacidad y colaboración de equipo.",
+    },
+    cardsTitle: "Comparativas destacadas",
+    cardsDescription:
+      "Cada página muestra dónde gana Echobell, dónde sigue siendo fuerte la competencia y qué perfil de equipo encaja mejor con cada opción.",
+    cards: [
+      {
+        slug: "pagerduty",
+        competitorName: "PagerDuty",
+        tagline: "Orquestación empresarial de incidentes frente a alertas móviles ligeras",
+        summary:
+          "PagerDuty es profundo y pesado en proceso. Echobell se pone en marcha más rápido y encaja mejor con equipos pequeños que necesitan actuar ya.",
+        highlights: [
+          "Primera configuración más rápida con webhook + email",
+          "Flujo móvil más limpio para alertas directas y llamadas",
+          "Menor carga operativa para equipos ágiles",
+        ],
+      },
+      {
+        slug: "opsgenie",
+        competitorName: "Opsgenie",
+        tagline: "Rutas de incidentes centradas en Atlassian frente a notificaciones inmediatas",
+        summary:
+          "Opsgenie encaja en organizaciones muy apoyadas en Jira. Echobell encaja mejor cuando la prioridad es entregar rápido con menos configuración.",
+        highlights: [
+          "Menos complejidad para equipos no enterprise",
+          "Compartir canales sin tanta plomería de guardias",
+          "Ruta de señal más clara desde el trigger hasta el móvil",
+        ],
+      },
+      {
+        slug: "better-stack",
+        competitorName: "Better Stack",
+        tagline: "Cobertura de observabilidad frente a velocidad dedicada de notificación",
+        summary:
+          "Better Stack ofrece observabilidad amplia. Echobell se especializa en alertas móviles rápidas, claras y fáciles de compartir.",
+        highlights: [
+          "Más foco en la calidad de entrega de la alerta",
+          "Webhook/email con plantillas dinámicas",
+          "Buen ajuste para equipos que ya monitorizan en otro sistema",
+        ],
+      },
+      {
+        slug: "pushover",
+        competitorName: "Pushover",
+        tagline: "Push básico frente a canales de alertas listos para incidentes",
+        summary:
+          "Pushover es simple para push. Echobell añade urgencia tipo llamada, distribución por canales y manejo de triggers más rico.",
+        highlights: [
+          "Soporte para rutas críticas con alertas tipo llamada",
+          "Mejor estructura para suscripciones de equipo",
+          "Contenido de alerta más moderno y accionable",
+        ],
+      },
+      {
+        slug: "ifttt",
+        competitorName: "IFTTT",
+        tagline: "Automatización general frente a alertas pensadas para fiabilidad",
+        summary:
+          "IFTTT es flexible para automatizaciones. Echobell está diseñado para alertas fiables donde la velocidad y la claridad importan.",
+        highlights: [
+          "Pensado para eventos críticos",
+          "Menos ruido gracias a canales dedicados",
+          "Claridad operativa para ingeniería y operaciones",
+        ],
+      },
+    ],
+    methodology: {
+      title: "Cómo evaluamos",
+      description:
+        "Puntuamos los productos por criterios prácticos de respuesta a incidentes, no solo por número de funciones.",
+      items: [
+        {
+          title: "Tiempo hasta el valor",
+          description:
+            "Qué tan rápido un equipo puede pasar de cero a alertas fiables en producción.",
+        },
+        {
+          title: "Entrega de urgencia",
+          description:
+            "Si la herramienta soporta rutas de alta prioridad como alertas tipo llamada o notificaciones time-sensitive.",
+        },
+        {
+          title: "Carga operativa del equipo",
+          description:
+            "Cuánto mantenimiento de rutas, políticas y flujos hace falta con el tiempo.",
+        },
+        {
+          title: "Calidad de señal y contexto",
+          description:
+            "Qué tan clara es cada alerta cuando una persona de guardia la recibe en el móvil.",
+        },
+      ],
+    },
+    cta: {
+      title: "Prueba Echobell con tu stack actual",
+      description:
+        "Puedes mantener tus herramientas de monitorización y cambiar primero solo la capa de notificaciones.",
+      primary: "Descargar Echobell",
+      secondary: "Leer la documentación",
+    },
+  },
+  fr: {
+    meta: {
+      title: "Echobell vs concurrents",
+      description:
+        "Comparez Echobell à PagerDuty, Opsgenie, Better Stack, Pushover et IFTTT. Voyez quelle solution convient le mieux aux alertes mobiles rapides.",
+      keywords: [
+        "comparaison Echobell",
+        "Echobell vs PagerDuty",
+        "Echobell vs Opsgenie",
+        "alternatives à Echobell",
+        "outil d'alertes mobiles",
+      ],
+    },
+    hero: {
+      badge: "Comparaisons",
+      title: "Choisissez la bonne pile d'alertes pour votre équipe",
+      subtitle: "Des comparaisons directes et concrètes fondées sur de vrais workflows d'alerte",
+      description:
+        "Ces pages comparent Echobell à des produits d'alerte courants selon la vitesse de mise en place, le mode de livraison en astreinte, le modèle de confidentialité et le partage en équipe.",
+    },
+    cardsTitle: "Comparaisons populaires",
+    cardsDescription:
+      "Chaque page montre où Echobell se distingue, où le concurrent reste fort, et quel type d'équipe profite le plus de chaque choix.",
+    cards: [
+      {
+        slug: "pagerduty",
+        competitorName: "PagerDuty",
+        tagline: "Orchestration d'incidents entreprise vs alertes mobiles légères",
+        summary:
+          "PagerDuty est très complet mais plus lourd. Echobell se déploie vite et convient mieux aux petites équipes qui doivent agir immédiatement.",
+        highlights: [
+          "Première mise en place plus rapide via webhook + email",
+          "Workflow mobile plus direct pour appels et alertes",
+          "Moins de charge opérationnelle pour les équipes agiles",
+        ],
+      },
+      {
+        slug: "opsgenie",
+        competitorName: "Opsgenie",
+        tagline: "Routage d'incidents centré Atlassian vs notifications immédiates",
+        summary:
+          "Opsgenie convient aux organisations très liées à Jira. Echobell convient mieux aux équipes qui privilégient la livraison rapide avec moins de configuration.",
+        highlights: [
+          "Moins de complexité pour les équipes hors enterprise",
+          "Partage de canal plus simple sans lourde gestion d'astreinte",
+          "Chemin du signal plus clair entre le trigger et le téléphone",
+        ],
+      },
+      {
+        slug: "better-stack",
+        competitorName: "Better Stack",
+        tagline: "Large couverture d'observabilité vs vitesse de notification dédiée",
+        summary:
+          "Better Stack couvre largement l'observabilité. Echobell se concentre sur des alertes mobiles rapides, actionnables et faciles à partager.",
+        highlights: [
+          "Plus focalisé sur la qualité de livraison des alertes",
+          "Webhooks/emails avec modèles dynamiques",
+          "Très adapté aux équipes qui surveillent déjà ailleurs",
+        ],
+      },
+      {
+        slug: "pushover",
+        competitorName: "Pushover",
+        tagline: "Push basique vs canaux d'alerte prêts pour l'incident",
+        summary:
+          "Pushover est simple pour le push. Echobell ajoute l'urgence type appel, le partage de canaux et une gestion plus riche des triggers.",
+        highlights: [
+          "Prise en charge des chemins critiques via alertes type appel",
+          "Meilleure structure pour les abonnements d'équipe",
+          "Contenu d'alerte plus moderne et plus actionnable",
+        ],
+      },
+      {
+        slug: "ifttt",
+        competitorName: "IFTTT",
+        tagline: "Automatisation généraliste vs alertes orientées fiabilité",
+        summary:
+          "IFTTT est flexible pour l'automatisation. Echobell est conçu pour une alerte fiable, là où vitesse de livraison et clarté comptent.",
+        highlights: [
+          "Pensé pour les événements critiques",
+          "Moins de bruit grâce aux canaux dédiés",
+          "Plus de clarté opérationnelle pour l'ingénierie et l'ops",
+        ],
+      },
+    ],
+    methodology: {
+      title: "Notre méthode d'évaluation",
+      description:
+        "Nous jugeons les produits sur des critères concrets de réponse à incident, pas uniquement sur la quantité de fonctionnalités.",
+      items: [
+        {
+          title: "Temps jusqu'à la valeur",
+          description:
+            "À quelle vitesse une équipe peut passer de zéro à des alertes fiables en production.",
+        },
+        {
+          title: "Livraison de l'urgence",
+          description:
+            "Si l'outil prend en charge des parcours prioritaires comme les alertes type appel et les notifications time-sensitive.",
+        },
+        {
+          title: "Charge opérationnelle",
+          description:
+            "Quel niveau de maintenance est requis au fil du temps pour les routages, politiques et workflows.",
+        },
+        {
+          title: "Qualité du signal et contexte",
+          description:
+            "À quel point une alerte est claire lorsqu'une personne d'astreinte la reçoit sur mobile.",
+        },
+      ],
+    },
+    cta: {
+      title: "Essayez Echobell avec votre stack actuelle",
+      description:
+        "Vous pouvez conserver vos outils de monitoring et ne remplacer d'abord que la couche de notification.",
+      primary: "Télécharger Echobell",
+      secondary: "Lire la documentation",
+    },
+  },
+  ja: {
+    meta: {
+      title: "Echobell と競合比較",
+      description:
+        "Echobell を PagerDuty、Opsgenie、Better Stack、Pushover、IFTTT と比較できます。高速なモバイルアラートに最適な選択肢を確認してください。",
+      keywords: [
+        "Echobell 比較",
+        "Echobell vs PagerDuty",
+        "Echobell vs Opsgenie",
+        "Echobell 代替",
+        "モバイルアラートツール",
+      ],
+    },
+    hero: {
+      badge: "競合比較",
+      title: "チームに合うアラート基盤を選ぶ",
+      subtitle: "実際のアラート運用に基づく、実用的で率直な比較",
+      description:
+        "これらのページでは、立ち上げ速度、オンコールでの届け方、プライバシーモデル、チーム共有のしやすさといった観点で Echobell と主要製品を比較します。",
+    },
+    cardsTitle: "主要な比較ページ",
+    cardsDescription:
+      "各ページでは、Echobell が強い点、競合が強い点、そしてどんなチームに向いているかを整理しています。",
+    cards: [
+      {
+        slug: "pagerduty",
+        competitorName: "PagerDuty",
+        tagline: "エンタープライズ向けインシデント運用と軽量なモバイルアラートの比較",
+        summary:
+          "PagerDuty は高機能ですが運用も重めです。Echobell は立ち上げが速く、すぐに動きたい小規模チームに向いています。",
+        highlights: [
+          "Webhook とメールですぐに初期設定できる",
+          "通話や通知に直結するモバイル導線がわかりやすい",
+          "少人数チームでの運用負荷が低い",
+        ],
+      },
+      {
+        slug: "opsgenie",
+        competitorName: "Opsgenie",
+        tagline: "Atlassian 中心のルーティングと即時通知の比較",
+        summary:
+          "Opsgenie は Jira 中心の組織に向いています。Echobell は、少ない設定で素早く届けたいチームに向いています。",
+        highlights: [
+          "エンタープライズ以外のチームでも扱いやすい",
+          "当番設定に頼りすぎずチャンネル共有できる",
+          "トリガーから電話までの経路が明快",
+        ],
+      },
+      {
+        slug: "better-stack",
+        competitorName: "Better Stack",
+        tagline: "広いオブザーバビリティと専用通知速度の比較",
+        summary:
+          "Better Stack は観測基盤が広い一方、Echobell は素早く行動につながるモバイルアラートに特化しています。",
+        highlights: [
+          "アラート配信品質に集中している",
+          "Webhook/メールと動的テンプレートに対応",
+          "監視基盤を別で持つアプリチームに向く",
+        ],
+      },
+      {
+        slug: "pushover",
+        competitorName: "Pushover",
+        tagline: "シンプルな push とインシデント対応向けチャネルの比較",
+        summary:
+          "Pushover は単純な push に向きます。Echobell は通話級の緊急度、チャンネル共有、より豊かなトリガー処理を提供します。",
+        highlights: [
+          "重要経路で通話風アラートを使える",
+          "チーム購読の構造が整っている",
+          "アラート内容が読みやすく行動しやすい",
+        ],
+      },
+      {
+        slug: "ifttt",
+        competitorName: "IFTTT",
+        tagline: "汎用自動化レシピと信頼性重視アラートの比較",
+        summary:
+          "IFTTT は自動化に柔軟です。Echobell は、速度と明確さが重要なアラート配信に特化しています。",
+        highlights: [
+          "重要イベント処理を前提に設計",
+          "専用チャンネルでノイズを減らせる",
+          "エンジニアと運用向けに判断しやすい",
+        ],
+      },
+    ],
+    methodology: {
+      title: "評価の観点",
+      description:
+        "機能数ではなく、実際のインシデント対応で意味のある基準で評価しています。",
+      items: [
+        {
+          title: "立ち上がりの速さ",
+          description:
+            "ゼロから本番で信頼できるアラートまで、どれだけ早く到達できるか。",
+        },
+        {
+          title: "緊急度の届け方",
+          description:
+            "通話風アラートや time-sensitive 通知のような高優先度の配信経路を持っているか。",
+        },
+        {
+          title: "チームの運用負荷",
+          description:
+            "ルーティング、ポリシー、ワークフローの維持にどれだけ手間がかかるか。",
+        },
+        {
+          title: "シグナル品質と文脈",
+          description:
+            "オンコール担当がモバイルで受け取ったときに、どれだけ素早く理解して動けるか。",
+        },
+      ],
+    },
+    cta: {
+      title: "今のスタックのまま Echobell を試す",
+      description:
+        "既存の監視ツールはそのままに、まず通知レイヤーだけを置き換えることができます。",
+      primary: "Echobell をダウンロード",
+      secondary: "セットアップ資料を見る",
+    },
+  },
+  de: {
+    meta: {
+      title: "Echobell vs Wettbewerber",
+      description:
+        "Vergleichen Sie Echobell mit PagerDuty, Opsgenie, Better Stack, Pushover und IFTTT. Finden Sie heraus, welches Tool am besten zu schnellen mobilen Alarmen passt.",
+      keywords: [
+        "Echobell Vergleich",
+        "Echobell vs PagerDuty",
+        "Echobell vs Opsgenie",
+        "Echobell Alternativen",
+        "mobiles Alarmierungstool",
+      ],
+    },
+    hero: {
+      badge: "Wettbewerbsvergleiche",
+      title: "Wählen Sie den richtigen Alerting-Stack für Ihr Team",
+      subtitle: "Direkte, praxisnahe Vergleiche auf Basis realer Alarm-Workflows",
+      description:
+        "Diese Seiten vergleichen Echobell mit gängigen Alerting-Produkten nach Einrichtungsaufwand, Zustellung im Bereitschaftsdienst, Datenschutzmodell und Teamfreigabe.",
+    },
+    cardsTitle: "Beliebte Vergleiche",
+    cardsDescription:
+      "Jede Seite zeigt, wo Echobell stärker ist, wo Wettbewerber punkten und welches Teamprofil am meisten profitiert.",
+    cards: [
+      {
+        slug: "pagerduty",
+        competitorName: "PagerDuty",
+        tagline: "Enterprise-Incident-Orchestrierung vs leichte mobile Alerts",
+        summary:
+          "PagerDuty ist tief und prozesslastig. Echobell ist schneller einsatzbereit und besser für kleine Teams geeignet, die sofort handeln müssen.",
+        highlights: [
+          "Schnellerer Ersteinstieg mit Webhook- und E-Mail-Triggern",
+          "Klarerer mobiler Workflow für direkte Calls und Benachrichtigungen",
+          "Weniger operativer Aufwand für schlanke Teams",
+        ],
+      },
+      {
+        slug: "opsgenie",
+        competitorName: "Opsgenie",
+        tagline: "Atlassian-zentriertes Incident-Routing vs fokussierte Sofortbenachrichtigungen",
+        summary:
+          "Opsgenie passt zu Jira-lastigen Organisationen. Echobell passt besser zu Teams, die schnelle Zustellung mit weniger Konfiguration wollen.",
+        highlights: [
+          "Weniger Komplexität für Teams außerhalb des Enterprise-Bereichs",
+          "Schnelles Teilen von Kanälen ohne komplexe Bereitschaftslogik",
+          "Klarer Signalweg vom Trigger bis zum Telefon",
+        ],
+      },
+      {
+        slug: "better-stack",
+        competitorName: "Better Stack",
+        tagline: "Breite Observability-Suite vs dedizierte Benachrichtigungsgeschwindigkeit",
+        summary:
+          "Better Stack bietet breite Observability. Echobell spezialisiert sich auf schnelle, gut lesbare mobile Alerts mit einfacher Teamfreigabe.",
+        highlights: [
+          "Stärker auf Alert-Zustellqualität fokussiert",
+          "Webhook-/E-Mail-Flow mit dynamischen Vorlagen",
+          "Gut geeignet für Teams, die Monitoring bereits anderswo haben",
+        ],
+      },
+      {
+        slug: "pushover",
+        competitorName: "Pushover",
+        tagline: "Einfacher Push vs incident-taugliche Alarmkanäle",
+        summary:
+          "Pushover ist einfach für Push-Nachrichten. Echobell ergänzt Anruf-Dringlichkeit, Teamkanäle und reichhaltigere Trigger-Verarbeitung.",
+        highlights: [
+          "Unterstützt kritische Pfade mit anrufähnlichen Alerts",
+          "Bessere Struktur für Team-Abonnements",
+          "Modernere und handlungsfähigere Alarm-Inhalte",
+        ],
+      },
+      {
+        slug: "ifttt",
+        competitorName: "IFTTT",
+        tagline: "Allgemeine Automatisierungsrezepte vs zuverlässigkeitsorientierte Alerts",
+        summary:
+          "IFTTT ist flexibel für Automatisierung. Echobell ist für verlässliches Alerting gebaut, wenn Zustellgeschwindigkeit und Klarheit entscheidend sind.",
+        highlights: [
+          "Für kritische Ereignisse konzipiert",
+          "Weniger Rauschen durch dedizierte Alarmkanäle",
+          "Mehr operative Klarheit für Engineering und Ops",
+        ],
+      },
+    ],
+    methodology: {
+      title: "Wie wir bewerten",
+      description:
+        "Wir bewerten Produkte nach praktischen Incident-Response-Kriterien und nicht nur nach Funktionsumfang.",
+      items: [
+        {
+          title: "Zeit bis zum Nutzen",
+          description:
+            "Wie schnell ein Team von null auf verlässliche Produktionsalarme kommt.",
+        },
+        {
+          title: "Zustellung mit Dringlichkeit",
+          description:
+            "Ob das Tool priorisierte Wege wie anrufähnliche Alerts und time-sensitive Benachrichtigungen unterstützt.",
+        },
+        {
+          title: "Operativer Teamaufwand",
+          description:
+            "Wie viel Pflege für Routing, Richtlinien und Workflows langfristig nötig ist.",
+        },
+        {
+          title: "Signalqualität und Kontext",
+          description:
+            "Wie klar ein Alert ist, wenn ihn ein Bereitschaftsingenieur mobil empfängt.",
+        },
+      ],
+    },
+    cta: {
+      title: "Testen Sie Echobell mit Ihrem aktuellen Stack",
+      description:
+        "Sie können Ihre bestehenden Monitoring-Tools behalten und zuerst nur die Benachrichtigungsschicht austauschen.",
+      primary: "Echobell herunterladen",
+      secondary: "Einrichtungsdoku lesen",
+    },
+  },
+};
+
 const comparisonPages: Record<
   CompetitorSlug,
-  Record<ComparisonLanguage, ComparisonPageData>
+  Record<BaseComparisonLanguage, ComparisonPageData>
 > = {
   pagerduty: {
     en: {
@@ -1939,14 +5564,20 @@ const comparisonPages: Record<
 };
 
 export function getComparisonsIndexData(lang: Language): ComparisonsIndexData {
-  return indexData[normalizeLang(lang)];
+  const locale = normalizeLang(lang);
+  return isExtendedComparisonLanguage(locale)
+    ? localizedIndexData[locale]
+    : indexData[locale];
 }
 
 export function getComparisonPageData(
   slug: CompetitorSlug,
   lang: Language
 ): ComparisonPageData {
-  return comparisonPages[slug][normalizeLang(lang)];
+  const locale = normalizeLang(lang);
+  return isExtendedComparisonLanguage(locale)
+    ? localizedComparisonPages[slug][locale]
+    : comparisonPages[slug][locale];
 }
 
 export function isCompetitorSlug(value: string): value is CompetitorSlug {

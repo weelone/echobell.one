@@ -15,6 +15,91 @@ import {
   isCompetitorSlug,
 } from "@/lib/competitor-comparisons";
 
+const comparisonDetailUi: Record<
+  Language,
+  {
+    breadcrumbFeaturesLabel: string;
+    breadcrumbComparisonsLabel: string;
+    relatedTitle: string;
+    differenceTitle: string;
+    quickTake: string;
+    comparedAgainst: string;
+    benchmarkHelper: string;
+    dimension: string;
+    continueReading: string;
+  }
+> = {
+  en: {
+    breadcrumbFeaturesLabel: "Features",
+    breadcrumbComparisonsLabel: "Comparisons",
+    relatedTitle: "Other comparisons",
+    differenceTitle: "Echobell advantage",
+    quickTake: "Quick take",
+    comparedAgainst: "Compared against",
+    benchmarkHelper: "Benchmarked from real on-call workflows and alert outcomes.",
+    dimension: "Dimension",
+    continueReading: "Continue reading",
+  },
+  zh: {
+    breadcrumbFeaturesLabel: "功能",
+    breadcrumbComparisonsLabel: "竞品对比",
+    relatedTitle: "其他竞品对比",
+    differenceTitle: "Echobell 的核心优势",
+    quickTake: "一句话结论",
+    comparedAgainst: "对比对象",
+    benchmarkHelper: "从实际值班流程与告警落地效率出发。",
+    dimension: "维度",
+    continueReading: "继续查看",
+  },
+  es: {
+    breadcrumbFeaturesLabel: "Funciones",
+    breadcrumbComparisonsLabel: "Comparativas",
+    relatedTitle: "Otras comparativas",
+    differenceTitle: "Ventaja de Echobell",
+    quickTake: "Resumen rápido",
+    comparedAgainst: "Comparado con",
+    benchmarkHelper:
+      "Evaluado a partir de flujos reales de guardia y resultados de alertas.",
+    dimension: "Dimensión",
+    continueReading: "Seguir leyendo",
+  },
+  fr: {
+    breadcrumbFeaturesLabel: "Fonctionnalités",
+    breadcrumbComparisonsLabel: "Comparaisons",
+    relatedTitle: "Autres comparaisons",
+    differenceTitle: "Atout d'Echobell",
+    quickTake: "Résumé rapide",
+    comparedAgainst: "Comparé à",
+    benchmarkHelper:
+      "Évalué à partir de véritables workflows d'astreinte et de résultats d'alerte.",
+    dimension: "Critère",
+    continueReading: "Continuer la lecture",
+  },
+  ja: {
+    breadcrumbFeaturesLabel: "機能",
+    breadcrumbComparisonsLabel: "比較",
+    relatedTitle: "他の比較ページ",
+    differenceTitle: "Echobell の強み",
+    quickTake: "要点",
+    comparedAgainst: "比較対象",
+    benchmarkHelper: "実際のオンコール運用とアラート結果を基準に比較しています。",
+    dimension: "項目",
+    continueReading: "続きを読む",
+  },
+  de: {
+    breadcrumbFeaturesLabel: "Funktionen",
+    breadcrumbComparisonsLabel: "Vergleiche",
+    relatedTitle: "Weitere Vergleiche",
+    differenceTitle: "Echobell-Vorteil",
+    quickTake: "Kurzfazit",
+    comparedAgainst: "Verglichen mit",
+    benchmarkHelper:
+      "Bewertet anhand realer On-Call-Abläufe und tatsächlicher Alarm-Ergebnisse.",
+    dimension: "Kriterium",
+    continueReading: "Weiterlesen",
+  },
+};
+
 const accentColorMap = {
   pagerduty: "orange",
   opsgenie: "blue",
@@ -91,12 +176,7 @@ export default async function ComparisonDetailPage({
     localizeUrl(`/features/comparisons/${slug}`, lang),
     baseUrl
   ).toString();
-
-  const breadcrumbFeaturesLabel = lang === "zh" ? "功能" : "Features";
-  const breadcrumbComparisonsLabel = lang === "zh" ? "竞品对比" : "Comparisons";
-  const relatedTitle = lang === "zh" ? "其他竞品对比" : "Other comparisons";
-  const differenceTitle =
-    lang === "zh" ? "Echobell 的核心优势" : "Echobell advantage";
+  const ui = comparisonDetailUi[lang];
 
   const relatedCards = indexData.cards.filter((card) => card.slug !== slug);
 
@@ -114,11 +194,11 @@ export default async function ComparisonDetailPage({
           lang={lang}
           customItems={[
             {
-              label: breadcrumbFeaturesLabel,
+              label: ui.breadcrumbFeaturesLabel,
               href: localizeUrl("/features", lang),
             },
             {
-              label: breadcrumbComparisonsLabel,
+              label: ui.breadcrumbComparisonsLabel,
               href: localizeUrl("/features/comparisons", lang),
             },
             {
@@ -147,7 +227,7 @@ export default async function ComparisonDetailPage({
               <p
                 className={`text-sm font-semibold uppercase tracking-wider ${accentTone.text}`}
               >
-                {lang === "zh" ? "一句话结论" : "Quick take"}
+                {ui.quickTake}
               </p>
               <p className="mt-3 text-lg font-medium leading-relaxed">
                 {t.quickSummary}
@@ -160,13 +240,11 @@ export default async function ComparisonDetailPage({
               className={`rounded-2xl border p-8 ${accentTone.softBorder} ${accentTone.softBg}`}
             >
               <p className={`text-sm font-semibold uppercase tracking-wider ${accentTone.text}`}>
-                {lang === "zh" ? "对比对象" : "Compared against"}
+                {ui.comparedAgainst}
               </p>
               <p className="mt-3 text-2xl font-bold">{t.competitorName}</p>
               <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
-                {lang === "zh"
-                  ? "从实际值班流程与告警落地效率出发。"
-                  : "Benchmarked from real on-call workflows and alert outcomes."}
+                {ui.benchmarkHelper}
               </p>
             </div>
           </div>
@@ -211,10 +289,10 @@ export default async function ComparisonDetailPage({
           </div>
           <div className="mx-auto mt-12 max-w-6xl overflow-hidden rounded-2xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
             <div className="grid grid-cols-4 border-b border-neutral-200 text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
-              <div className="px-4 py-3">{lang === "zh" ? "维度" : "Dimension"}</div>
+              <div className="px-4 py-3">{ui.dimension}</div>
               <div className="px-4 py-3">Echobell</div>
               <div className="px-4 py-3">{t.competitorName}</div>
-              <div className="px-4 py-3">{differenceTitle}</div>
+              <div className="px-4 py-3">{ui.differenceTitle}</div>
             </div>
             {t.differences.items.map((item, index) => (
               <div
@@ -381,7 +459,7 @@ export default async function ComparisonDetailPage({
       <section className="border-t border-neutral-200 py-16 dark:border-neutral-800">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <h3 className="mb-6 text-lg font-semibold text-neutral-600 dark:text-neutral-400">
-            {relatedTitle}
+            {ui.relatedTitle}
           </h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {relatedCards.map((card) => (
@@ -397,7 +475,7 @@ export default async function ComparisonDetailPage({
                 <div
                   className={`mt-4 flex items-center text-sm font-semibold ${accentTone.text}`}
                 >
-                  {lang === "zh" ? "继续查看" : "Continue reading"}
+                  {ui.continueReading}
                   <ArrowRightIcon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
