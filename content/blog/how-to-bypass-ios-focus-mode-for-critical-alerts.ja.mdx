@@ -1,0 +1,142 @@
+---
+title: 重要アラートを iOS Focus Mode 越しに届ける方法
+description: Echobell の time-sensitive 通知と電話アラートを使って、重要な iPhone 通知を iOS Focus Mode 越しに届ける方法を学びます。
+date: 2026-03-12
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - iOS
+  - Focus Mode
+  - time-sensitive notifications
+  - critical alerts
+  - Echobell
+---
+
+# 重要アラートを iOS Focus Mode 越しに届ける方法
+
+iOS Focus Mode は通知を減らすには便利ですが、本当に割り込んでほしいアラートまで埋もれてしまうことがあります。
+
+たとえば次のような場面です。
+
+- 本番 API が夜中に落ちる
+- App Store Connect が緊急修正版を却下する
+- Sleep Focus 中に漏水センサーが反応する
+- すぐ対応すべきサポートメールが受信箱に埋もれる
+
+こうしたイベントが通常の push で届くと、見つかるまでに時間がかかります。大事なのは、すべてをうるさくすることではなく、「突破すべき通知だけ」を選ぶことです。
+
+Echobell では、Webhook やメールを次の 3 段階に分けて配信できます。
+
+- 標準通知
+- time-sensitive 通知
+- 電話アラート
+
+設定ページから見たい場合は [Focus Mode alerts](/focus-mode-alerts) を先に読んでください。
+
+## なぜ通常 push は失敗しやすいのか
+
+多くの監視や自動化ツールは、問題を見つけることは得意でも、その問題を「正しい緊急度で届ける」ことは苦手です。
+
+よくある流れはこうです。
+
+1. 重要なイベントが起きる
+2. 通常の push として届く
+3. Focus Mode や睡眠に隠れる
+4. チームが気付くのが遅れる
+
+軽い更新なら問題ありませんが、障害、審査結果、セキュリティ事故には不十分です。
+
+## time-sensitive 通知を使うべき場面
+
+次のようなワークフローには time-sensitive がよく合います。
+
+- デプロイ失敗
+- App Review の承認や却下
+- 緊急サポートのエスカレーション
+- 重要な TestFlight フィードバック
+- 人の判断が必要なトレードシグナル
+
+こうしたイベントだけを専用チャンネルにまとめて優先度を上げれば、他の通知は静かなままにできます。
+
+## 電話アラートを使うべき場面
+
+time-sensitive でも足りない場合があります。
+
+たとえば：
+
+- 本番が完全に落ちた時
+- 重大なセキュリティ事故
+- 漏水や煙などの安全イベント
+- 売上に直結する決済障害
+
+見逃しコストが高いなら、電話が鳴るべきです。詳しくは [Phone call alerts for critical incidents](/features/call-notifications) を見てください。
+
+## シンプルに始める方法
+
+新しい監視スタックは不要です。多くの場合、必要なのは配信レイヤーの改善だけです。
+
+### 1. 重要ワークフローごとにチャンネルを作る
+
+例：
+
+- `本番インシデント`
+- `App Store Connect`
+- `重要サポート`
+- `スマートホーム安全`
+
+各ワークフローごとにテンプレート、購読者、緊急度を分けます。
+
+### 2. トリガー元をつなぐ
+
+- Grafana、Prometheus、GitHub Actions、App Store Connect には [webhooks](/features/webhooks)
+- メールしか使えないツールには [email triggers](/features/email-triggers)
+
+### 3. 緊急度を意図的に決める
+
+- Standard: 後で見てもよい
+- Time-sensitive: Focus Mode を越えてほしい
+- Calling: 今すぐ誰かが反応すべき
+
+## 先に試すべきワークフロー
+
+### オンコール対応
+
+本番障害は最も分かりやすい例です。静かな push のまま朝まで放置されるべきではありません。
+
+関連ページ：[Server down phone call alerts](/server-down-phone-call-alerts)
+
+### App Store Connect の審査変化
+
+承認、却下、TestFlight フィードバックはリリースに直結するため時間に敏感です。
+
+関連ページ：[App Store Connect review notifications](/app-store-connect-review-notifications)
+
+### スマートホーム安全通知
+
+漏水や煙センサーは、普通のアプリ通知と同じ扱いにするべきではありません。
+
+## 本当のユーザーニーズ
+
+検索キーワードは「bypass iOS Focus Mode notification」かもしれませんが、本当のニーズはもっと単純です。
+
+> 自分のスマホで、他の何よりも重要な通知がいくつかある。
+
+Echobell は、その少数の重要なシグナルを日常ノイズから分けるために役立ちます。
+
+## 最後のおすすめ
+
+最初から全部をアップグレードしないでください。まずはコストの高い失敗を 1 つ選びます。
+
+- サーバーダウン
+- App Review の却下
+- 家の安全イベント
+- 売上に直結するエスカレーション
+
+それを Echobell に接続し、time-sensitive または calling にしてテストしてください。スマホで違いを体感すれば、他に何を同じように扱うべきかすぐ分かります。
+
+次に読むとよいページ：
+
+- [Focus Mode alerts](/focus-mode-alerts)
+- [Webhook notifications for iPhone](/features/webhooks)
+- [Phone call alerts](/features/call-notifications)

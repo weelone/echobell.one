@@ -54,45 +54,25 @@ jobs:
       # Deploy to preview environment (PR only)
       - name: Deploy to Cloudflare (Preview)
         if: github.event_name == 'pull_request'
-        run: |
-          # Deploy to environment named pr-{PR_NUMBER}
-          # Using --legacy-env to ensure environment-based deployments work
-          wrangler deploy --env pr-${{ github.event.pull_request.number }} --legacy-env
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
-      # Get actual domain from Cloudflare API
-      - name: Get deployment URL
-        if: github.event_name == 'pull_request'
-        id: get-url
+        id: deploy-preview
         run: |
           PR_NUM=${{ github.event.pull_request.number }}
-          ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          WORKER_NAME="echobell-one"
-          
-          # Get the workers subdomain using the dedicated API
-          SUBDOMAIN_RESPONSE=$(curl -s -X GET \
-            "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/subdomain" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-            -H "Content-Type: application/json")
-          
-          echo "Subdomain response: $SUBDOMAIN_RESPONSE"
-          
-          # Extract the subdomain from the response
-          ACCOUNT_SUBDOMAIN=$(echo $SUBDOMAIN_RESPONSE | jq -r '.result.subdomain // empty')
-          
-          if [ -z "$ACCOUNT_SUBDOMAIN" ]; then
-            echo "Could not get workers subdomain, falling back to account ID"
-            ACCOUNT_SUBDOMAIN=$ACCOUNT_ID
+
+          # Deploy to environment named pr-{PR_NUMBER}
+          # Using --legacy-env to ensure environment-based deployments work
+          DEPLOY_OUTPUT=$(NO_COLOR=1 wrangler deploy --env "pr-${PR_NUM}" --legacy-env 2>&1)
+          echo "$DEPLOY_OUTPUT"
+
+          # Prefer the exact workers.dev URL returned by Wrangler.
+          PREVIEW_URL=$(printf '%s\n' "$DEPLOY_OUTPUT" | grep -Eo 'https://[^[:space:]]+\.workers\.dev' | head -n 1 || true)
+
+          if [ -z "$PREVIEW_URL" ]; then
+            echo "Failed to parse preview URL from Wrangler output." >&2
+            exit 1
           fi
-          
-          # Construct the preview URL using the environment pattern
-          # Workers environments use: https://{script-name}-{env}.{subdomain}.workers.dev
-          PREVIEW_URL="https://${WORKER_NAME}-pr-${PR_NUM}.${ACCOUNT_SUBDOMAIN}.workers.dev"
-          
+
           echo "Preview URL: $PREVIEW_URL"
-          echo "preview_url=${PREVIEW_URL}" >> $GITHUB_OUTPUT
+          echo "preview_url=${PREVIEW_URL}" >> "$GITHUB_OUTPUT"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -139,7 +119,7 @@ jobs:
               });
             }
         env:
-          PREVIEW_URL: ${{ steps.get-url.outputs.preview_url }}
+          PREVIEW_URL: ${{ steps.deploy-preview.outputs.preview_url }}
 
   cleanup:
     runs-on: ubuntu-latest

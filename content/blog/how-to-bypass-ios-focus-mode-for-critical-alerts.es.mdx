@@ -1,0 +1,142 @@
+---
+title: Como superar iOS Focus Mode para alertas criticas
+description: Aprende a usar notificaciones time-sensitive y alertas por llamada en Echobell para que las alertas criticas del iPhone atraviesen iOS Focus Mode sin convertir todo en ruido.
+date: 2026-03-12
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - iOS
+  - Focus Mode
+  - time-sensitive notifications
+  - critical alerts
+  - Echobell
+---
+
+# Como superar iOS Focus Mode para alertas criticas
+
+iOS Focus Mode es genial para reducir interrupciones. El problema aparece cuando precisamente necesitas que una alerta te interrumpa.
+
+Eso ocurre a menudo cuando:
+
+- tu API de produccion cae de madrugada
+- App Store Connect rechaza un hotfix
+- un sensor de fuga se activa mientras el telefono esta en Sleep Focus
+- un email de soporte urgente acaba enterrado en la bandeja de entrada
+
+Si esos eventos llegan como pushes normales, es facil que se queden escondidos. La solucion no es hacer mas ruidosas todas las notificaciones, sino elegir cuales de verdad deben atravesar Focus Mode.
+
+Echobell permite enviar webhooks o emails a tres niveles de entrega:
+
+- notificaciones estandar
+- notificaciones time-sensitive
+- alertas por llamada
+
+Si quieres el resumen de configuracion primero, mira [Focus Mode alerts](/focus-mode-alerts).
+
+## Por que fallan los pushes normales
+
+Muchos stacks saben detectar problemas, pero no saben entregarlos con la urgencia correcta.
+
+El patron suele ser este:
+
+1. El sistema detecta un evento importante.
+2. Llega como push normal.
+3. Focus Mode o el sueno lo silencian.
+4. El equipo lo descubre demasiado tarde.
+
+Para cambios de baja prioridad, eso esta bien. Para caidas, App Review o seguridad, no.
+
+## Cuando usar alertas time-sensitive
+
+El modo time-sensitive encaja muy bien con workflows como:
+
+- despliegues fallidos
+- aprobaciones o rechazos de App Review
+- escalaciones urgentes de soporte
+- feedback importante de TestFlight
+- senales de trading que todavia necesitan criterio humano
+
+La idea es poner esos eventos en un canal dedicado y subir solo ese canal de prioridad.
+
+## Cuando usar una llamada
+
+En algunos casos ni siquiera eso basta.
+
+Usa alertas por llamada para:
+
+- caidas completas de produccion
+- incidentes graves de seguridad
+- fugas de agua, humo o riesgos fisicos
+- errores de pago que queman ingresos
+
+Si el coste de perder la alerta es alto, el telefono deberia sonar. Para eso esta [Phone call alerts for critical incidents](/features/call-notifications).
+
+## Una configuracion simple que funciona
+
+Normalmente no hace falta cambiar de sistema de monitorizacion. Solo hay que mejorar la capa de entrega.
+
+### Paso 1: un canal por workflow prioritario
+
+Ejemplos:
+
+- `Incidentes de produccion`
+- `App Store Connect`
+- `Soporte urgente`
+- `Seguridad del hogar`
+
+Cada workflow tiene su propia plantilla, suscriptores y nivel de urgencia.
+
+### Paso 2: conecta el origen del evento
+
+- Usa [webhooks](/features/webhooks) para Grafana, Prometheus, GitHub Actions o App Store Connect
+- Usa [email triggers](/features/email-triggers) si el sistema solo soporta correo
+
+### Paso 3: elige la urgencia a proposito
+
+- Estandar: puede esperar
+- Time-sensitive: debe atravesar Focus Mode
+- Calling: alguien tiene que reaccionar ya
+
+## Workflows donde mas se nota
+
+### Respuesta on-call
+
+Una caida de produccion no deberia esperar a que alguien vea un push silenciado por la manana.
+
+Relacionado: [Server down phone call alerts](/server-down-phone-call-alerts)
+
+### Cambios en App Store Connect
+
+Las decisiones de review suelen ser sensibles al tiempo porque afectan lanzamientos y fixes.
+
+Relacionado: [App Store Connect review notifications](/app-store-connect-review-notifications)
+
+### Alertas de seguridad en smart home
+
+Una fuga de agua o una alarma de humo no deberian comportarse como una notificacion mas.
+
+## La necesidad real del usuario
+
+La busqueda puede ser "bypass iOS Focus Mode notification", pero la necesidad real es:
+
+> Tengo unas pocas alertas que importan mas que todo lo demas en mi telefono.
+
+Echobell sirve justamente para separar esas senales del ruido diario.
+
+## Recomendacion final
+
+No intentes subir todas tus notificaciones de golpe. Empieza por un fallo caro:
+
+- una caida de servidor
+- un rechazo de App Review
+- un evento de seguridad domestica
+- una escalacion que afecta ingresos
+
+Conecta ese workflow a Echobell, ponlo como time-sensitive o calling y haz una prueba. En cuanto lo sientas en el telefono, veras enseguida que otros workflows merecen el mismo tratamiento.
+
+Siguientes lecturas:
+
+- [Focus Mode alerts](/focus-mode-alerts)
+- [Webhook notifications for iPhone](/features/webhooks)
+- [Phone call alerts](/features/call-notifications)

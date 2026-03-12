@@ -34,6 +34,67 @@ const advancedIconMap: Record<string, typeof CodeIcon> = {
   zap: ZapIcon,
 };
 
+const channelPreviewCopy: Record<
+  Language,
+  {
+    title: string;
+    description: string;
+    webhookLabel: string;
+    emailLabel: string;
+    notificationTypeLabel: string;
+    phoneCall: string;
+  }
+> = {
+  en: {
+    title: "Production Alerts",
+    description: "Critical server notifications",
+    webhookLabel: "Webhook URL:",
+    emailLabel: "Email:",
+    notificationTypeLabel: "Notification type:",
+    phoneCall: "Phone Call",
+  },
+  zh: {
+    title: "生产告警",
+    description: "关键服务器通知",
+    webhookLabel: "Webhook URL：",
+    emailLabel: "邮件：",
+    notificationTypeLabel: "通知类型：",
+    phoneCall: "电话通知",
+  },
+  es: {
+    title: "Alertas de producción",
+    description: "Notificaciones críticas del servidor",
+    webhookLabel: "URL del webhook:",
+    emailLabel: "Correo:",
+    notificationTypeLabel: "Tipo de notificación:",
+    phoneCall: "Llamada",
+  },
+  fr: {
+    title: "Alertes de production",
+    description: "Notifications critiques du serveur",
+    webhookLabel: "URL du webhook :",
+    emailLabel: "E-mail :",
+    notificationTypeLabel: "Type de notification :",
+    phoneCall: "Appel",
+  },
+  ja: {
+    title: "本番アラート",
+    description: "重要なサーバー通知",
+    webhookLabel: "Webhook URL:",
+    emailLabel: "メール:",
+    notificationTypeLabel: "通知タイプ:",
+    phoneCall: "電話通知",
+  },
+  de: {
+    title: "Produktionsalarme",
+    description: "Kritische Server-Benachrichtigungen",
+    webhookLabel: "Webhook-URL:",
+    emailLabel: "E-Mail:",
+    notificationTypeLabel: "Benachrichtigungstyp:",
+    phoneCall: "Anruf",
+  },
+};
+
 export default async function ChannelsPage({
   params,
 }: {
@@ -45,6 +106,7 @@ export default async function ChannelsPage({
     localizeUrl("/features/channels", lang),
     baseUrl
   ).toString();
+  const preview = channelPreviewCopy[lang];
 
   const organizationFeatures = t.organization.features.map((item) => ({
     title: item.title,
@@ -110,49 +172,29 @@ export default async function ChannelsPage({
                   <span className="text-white text-xl">🔔</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">Production Alerts</h3>
-                  <p className="text-sm text-neutral-500">Critical server notifications</p>
+                  <h3 className="font-semibold text-lg">{preview.title}</h3>
+                  <p className="text-sm text-neutral-500">{preview.description}</p>
                 </div>
               </div>
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-neutral-500">
-                    {lang === "en"
-                      ? "Webhook URL:"
-                      : lang === "zh"
-                        ? "Webhook URL："
-                        : "Webhook URL:"}
-                  </span>
+                  <span className="text-neutral-500">{preview.webhookLabel}</span>
                   <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 text-xs font-mono">
                     https://hook.echobell.one/t/abc...
                   </code>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-neutral-500">
-                    {lang === "en"
-                      ? "Email:"
-                      : lang === "zh"
-                        ? "邮件："
-                        : "Email:"}
-                  </span>
+                  <span className="text-neutral-500">{preview.emailLabel}</span>
                   <code className="rounded bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 text-xs font-mono">
                     production-abc@trigger.echobell.one
                   </code>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-neutral-500">
-                    {lang === "en"
-                      ? "Notification type:"
-                      : lang === "zh"
-                        ? "通知类型："
-                        : "Tipo:"}
+                    {preview.notificationTypeLabel}
                   </span>
                   <span className="rounded-full bg-red-100 dark:bg-red-900/30 px-2.5 py-0.5 text-xs font-medium text-red-700 dark:text-red-400">
-                    {lang === "en"
-                      ? "Phone Call"
-                      : lang === "zh"
-                        ? "电话通知"
-                        : "Llamada"}
+                    {preview.phoneCall}
                   </span>
                 </div>
               </div>

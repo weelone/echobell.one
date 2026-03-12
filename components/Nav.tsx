@@ -16,7 +16,7 @@ const gantari = Gantari({
 });
 
 function SimpleThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

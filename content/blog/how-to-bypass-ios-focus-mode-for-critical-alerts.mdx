@@ -1,0 +1,156 @@
+---
+title: How to Bypass iOS Focus Mode for Critical Alerts
+description: Learn how to use time-sensitive notifications and phone call alerts in Echobell to get critical iPhone alerts through iOS Focus Mode without turning every notification into noise.
+date: 2026-03-12
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - iOS
+  - Focus Mode
+  - time-sensitive notifications
+  - critical alerts
+  - Echobell
+---
+
+# How to Bypass iOS Focus Mode for Critical Alerts
+
+iOS Focus Mode is great when you want fewer interruptions. It is terrible when the interruption is actually the point.
+
+That tension shows up everywhere:
+
+- your production API goes down at 2 a.m.
+- App Store Connect rejects a hotfix build
+- a water leak sensor fires while your phone is on Sleep Focus
+- a critical support email lands in an inbox that nobody is actively watching
+
+If those events arrive as ordinary push notifications, they can stay buried until the damage is already done. The goal is not to make every alert louder. The goal is to decide which alerts deserve to break through and which ones should stay quiet.
+
+That is where Echobell helps. It lets you route webhooks or emails into one of three delivery modes:
+
+- Standard notifications for routine updates
+- Time-sensitive notifications for issues that should cut through Focus Mode
+- Phone call alerts for events that are urgent enough to wake someone up
+
+If you want the setup guide first, start with the dedicated page on [Focus Mode alerts](/en/focus-mode-alerts).
+
+## Why normal push notifications fail in real life
+
+Most alerting stacks are good at detecting problems but weak at delivery. They can tell you that a build failed or a server is down, but they still rely on the same notification surface as shopping apps, social apps, and every other source of background noise.
+
+That creates a bad operational pattern:
+
+1. A system emits a meaningful event.
+2. The alert reaches the phone as a standard notification.
+3. Focus Mode or sleep silences it.
+4. The team discovers the issue later than they should.
+
+For low-priority updates, that is acceptable. For outages, release blockers, or safety incidents, it is not.
+
+## When to use time-sensitive notifications
+
+Time-sensitive delivery is the sweet spot for a lot of engineering and product workflows. It is stronger than a normal push, but it does not feel as heavy as a call.
+
+Good examples:
+
+- failed deploys on the main branch
+- App Review approvals or rejections
+- VIP support escalations
+- important TestFlight feedback
+- trading signals that still need a human decision
+
+In Echobell, you can send these events into a dedicated channel and set that channel to use the higher urgency level. That keeps the rest of your day-to-day noise at normal priority.
+
+## When to use a phone call instead
+
+Sometimes even a time-sensitive notification is not enough.
+
+Use a phone call alert for events like:
+
+- production systems that are fully down
+- high-severity security incidents
+- smoke, water leak, or smart home safety events
+- payment or checkout outages that are directly burning revenue
+
+Echobell's call-style alerts are designed for the small set of incidents where "I should see this soon" is not good enough. If a missed alert is expensive, the phone should ring.
+
+The full breakdown is here: [Phone call alerts for critical incidents](/en/features/call-notifications).
+
+## A simple setup that works
+
+You do not need a new monitoring stack. In most cases, you only need a better delivery layer.
+
+### Step 1: Create one channel per high-priority workflow
+
+Separate by workflow, not by abstract category.
+
+Examples:
+
+- `Production incidents`
+- `App Store Connect`
+- `Critical support`
+- `Smart home safety`
+
+This is important because each workflow deserves different templates, subscribers, and urgency levels.
+
+### Step 2: Connect the trigger source
+
+Use whichever source already fits the workflow:
+
+- [webhooks](/en/features/webhooks) for Grafana, Prometheus, GitHub Actions, App Store Connect, or custom apps
+- [email triggers](/en/features/email-triggers) for tools that only support email notifications
+
+### Step 3: Pick the notification type on purpose
+
+Use this rule of thumb:
+
+- Standard: okay to see later
+- Time-sensitive: should break through Focus Mode
+- Calling: must get a response now
+
+That one decision is where most alerting setups go wrong. If every alert is urgent, none of them feel urgent. If nothing is urgent, important incidents get buried.
+
+## Good workflows to upgrade first
+
+If you only test one or two workflows, start here:
+
+### On-call incidents
+
+Production outages are the clearest case. Standard pushes are too easy to miss, especially during Sleep Focus. If your monitoring system can send a webhook, Echobell can escalate it.
+
+If that is your main use case, read [Server down phone call alerts](/en/server-down-phone-call-alerts).
+
+### App Store Connect review changes
+
+Review approvals, rejections, and TestFlight feedback are often time-sensitive because they affect launches, bug fixes, and comms. These are excellent candidates for time-sensitive delivery.
+
+There is a dedicated walkthrough here: [App Store Connect review notifications](/en/app-store-connect-review-notifications).
+
+### Smart home safety
+
+If a leak sensor or smoke detector fires, this should not behave like a normal app notification. A call-style alert is a much better fit.
+
+## The real SEO keyword is not the real user need
+
+People search phrases like "bypass iOS Focus Mode notification" or "time sensitive notification iOS app." The underlying need is simpler:
+
+> I have a few alerts that matter more than everything else on my phone.
+
+That is the problem to design around. Echobell is useful because it lets you keep most alerts quiet while escalating only the workflows that genuinely deserve to interrupt you.
+
+## Final recommendation
+
+Do not start by upgrading every notification path. Pick one expensive failure mode:
+
+- a server outage
+- an App Review rejection
+- a smart home safety event
+- a revenue-impacting support escalation
+
+Wire that one workflow into Echobell, set it to time-sensitive or calling, and send a test. Once you feel the difference on your phone, it becomes obvious which other workflows deserve the same treatment.
+
+If you want the short version, start here:
+
+- [Focus Mode alerts](/en/focus-mode-alerts)
+- [Webhook notifications for iPhone](/en/features/webhooks)
+- [Phone call alerts](/en/features/call-notifications)

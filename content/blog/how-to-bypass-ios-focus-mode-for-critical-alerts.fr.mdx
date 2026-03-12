@@ -1,0 +1,142 @@
+---
+title: Comment contourner iOS Focus Mode pour les alertes critiques
+description: Apprenez a utiliser les notifications time-sensitive et les alertes par appel d Echobell pour faire passer les alertes critiques sur iPhone au travers d iOS Focus Mode sans transformer tout en bruit.
+date: 2026-03-12
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - iOS
+  - Focus Mode
+  - time-sensitive notifications
+  - critical alerts
+  - Echobell
+---
+
+# Comment contourner iOS Focus Mode pour les alertes critiques
+
+iOS Focus Mode est excellent pour reduire les interruptions. Il devient un probleme quand une alerte doit justement vous interrompre.
+
+Cela arrive souvent quand :
+
+- votre API de production tombe la nuit
+- App Store Connect rejette un correctif urgent
+- un detecteur de fuite se declenche pendant le mode sommeil
+- un email de support urgent se perd dans la boite de reception
+
+Si ces evenements arrivent en push standard, ils peuvent rester caches trop longtemps. L objectif n est pas de rendre toutes les notifications plus bruyantes. L objectif est de choisir lesquelles doivent vraiment passer au travers.
+
+Echobell permet de router webhooks et emails vers trois niveaux de livraison :
+
+- notifications standard
+- notifications time-sensitive
+- alertes par appel
+
+Pour le guide de configuration rapide, commencez ici : [Focus Mode alerts](/focus-mode-alerts).
+
+## Pourquoi les pushs standard echouent
+
+Beaucoup de stacks savent detecter un probleme, mais pas livrer le signal avec la bonne urgence.
+
+Le schema est souvent le meme :
+
+1. Un evenement important se produit.
+2. Il arrive en push standard.
+3. Focus Mode ou le sommeil le masque.
+4. L equipe le decouvre trop tard.
+
+Pour des mises a jour mineures, ce n est pas grave. Pour des pannes, des reviews App Store ou des incidents de securite, ce n est pas acceptable.
+
+## Quand utiliser des alertes time-sensitive
+
+Le mode time-sensitive est ideal pour :
+
+- un deploiement casse
+- une approbation ou un rejet App Review
+- une escalation support urgente
+- un feedback TestFlight important
+- un signal de trading qui demande encore une decision humaine
+
+L idee est de reserver ce niveau d urgence a quelques workflows bien choisis.
+
+## Quand utiliser un appel
+
+Dans certains cas, meme time-sensitive ne suffit pas.
+
+Utilisez un appel pour :
+
+- une panne totale de production
+- un incident de securite grave
+- une fuite d eau, de la fumee ou un risque physique
+- un probleme de paiement qui coute du chiffre d affaires
+
+Si manquer l alerte coute cher, le telephone doit sonner. Voir aussi [Phone call alerts for critical incidents](/features/call-notifications).
+
+## Une configuration simple qui marche
+
+En general, vous n avez pas besoin de remplacer votre stack de monitoring. Vous devez seulement ameliorer la couche de livraison.
+
+### Etape 1 : un canal par workflow prioritaire
+
+Par exemple :
+
+- `Incidents de production`
+- `App Store Connect`
+- `Support urgent`
+- `Securite maison`
+
+Chaque workflow merite son propre modele, ses abonnes et son niveau d urgence.
+
+### Etape 2 : connectez la source du signal
+
+- utilisez des [webhooks](/features/webhooks) pour Grafana, Prometheus, GitHub Actions ou App Store Connect
+- utilisez des [email triggers](/features/email-triggers) si la source ne sait envoyer que des emails
+
+### Etape 3 : choisissez l urgence volontairement
+
+- Standard : peut attendre
+- Time-sensitive : doit passer Focus Mode
+- Calling : quelqu un doit reagir tout de suite
+
+## Les workflows a upgrader en premier
+
+### Astreinte on-call
+
+Une panne de production ne devrait pas attendre qu un push silencieux soit vu le matin.
+
+Voir : [Server down phone call alerts](/server-down-phone-call-alerts)
+
+### Changements App Store Connect
+
+Les decisions de review sont souvent critiques pour le calendrier de lancement.
+
+Voir : [App Store Connect review notifications](/app-store-connect-review-notifications)
+
+### Securite smart home
+
+Une fuite d eau ou une alarme fumee ne devrait pas se comporter comme une notification d application ordinaire.
+
+## Le vrai besoin derriere le mot cle
+
+La recherche peut etre "bypass iOS Focus Mode notification", mais le vrai besoin est plutot :
+
+> J ai quelques alertes qui comptent plus que tout le reste sur mon telephone.
+
+Echobell est utile parce qu il aide a separer ces quelques signaux du bruit quotidien.
+
+## Recommandation finale
+
+N essayez pas d upgrader tous vos flux d un coup. Commencez par un seul mode d echec couteux :
+
+- une panne serveur
+- un rejet App Review
+- un evenement de securite domestique
+- une escalation qui touche le revenu
+
+Branchez ce workflow dans Echobell, mettez le en time-sensitive ou en calling et faites un test. Une fois que vous aurez ressenti la difference sur le telephone, vous saurez tres vite quels autres workflows meritent le meme traitement.
+
+Pour continuer :
+
+- [Focus Mode alerts](/focus-mode-alerts)
+- [Webhook notifications for iPhone](/features/webhooks)
+- [Phone call alerts](/features/call-notifications)

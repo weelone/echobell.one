@@ -1,5 +1,4 @@
 import React from "react";
-import { Breadcrumb } from "@/components/Breadcrumb";
 import { Language, localizeUrl } from "@/lib/i18n";
 
 export default async function MdxLayout({

@@ -113,11 +113,13 @@ export const webhooksI18n: Record<
 > = {
   en: {
     meta: {
-      title: "Webhook Integration",
+      title: "Webhook Notifications for iPhone",
       description:
-        "Trigger instant notifications from any application using webhooks. Send HTTP requests to unique URLs and receive alerts via push notifications or phone calls.",
+        "Send webhook notifications to iPhone with Echobell. Turn HTTP requests into instant push alerts, time-sensitive notifications, or phone calls for critical events.",
       keywords: [
         "webhook notifications",
+        "webhook notification ios",
+        "webhook alert app",
         "HTTP triggers",
         "API alerts",
         "instant notifications",
@@ -690,22 +692,24 @@ export const emailTriggersI18n: Record<
 > = {
   en: {
     meta: {
-      title: "Email Triggers",
+      title: "Email to Push Notifications for iPhone",
       description:
-        "Convert emails into instant notifications. Forward or send emails to your channel address and receive push notifications or phone calls.",
+        "Forward email to Echobell and turn inbox messages into instant iPhone notifications or phone calls. Ideal for monitoring tools that only support email alerts.",
       keywords: [
         "email notifications",
         "email triggers",
         "email to push notification",
+        "forward email as ios notification",
+        "email alert app ios",
         "email alerts",
         "email forwarding alerts",
       ],
     },
     hero: {
       badge: "Email",
-      title: "Email-Powered Notifications",
+      title: "Email Alerts That Reach Your iPhone",
       description:
-        "Turn any email into an instant alert. Each channel has a unique email address - just forward or send emails to trigger notifications.",
+        "Turn any email into an instant alert. Forward monitoring emails, support escalations, or status updates to a channel address and receive iPhone notifications or phone calls.",
     },
     howItWorks: {
       title: "How It Works",
@@ -1224,11 +1228,13 @@ export const callNotificationsI18n: Record<
 > = {
   en: {
     meta: {
-      title: "Phone Call Alerts",
+      title: "Phone Call Alerts for Critical Incidents",
       description:
-        "Never miss critical alerts with phone call notifications. When push notifications aren't enough, Echobell calls you directly with text-to-speech alerts.",
+        "Wake up urgent incidents with iPhone phone call alerts. Use Echobell for server down notifications, trading alarms, security incidents, and other critical webhook escalations.",
       keywords: [
         "phone call alerts",
+        "server down phone call alert",
+        "webhook to phone call",
         "critical notifications",
         "emergency alerts",
         "call notifications",
@@ -1237,9 +1243,9 @@ export const callNotificationsI18n: Record<
     },
     hero: {
       badge: "Critical Alerts",
-      title: "Phone Calls for Critical Moments",
+      title: "Phone Calls for Server Down and Critical Alerts",
       description:
-        "When silent notifications won't cut it, Echobell calls you directly. Perfect for production outages, security incidents, and other emergencies.",
+        "When silent notifications won't cut it, Echobell calls you directly. Perfect for production outages, security incidents, trading alarms, and other emergencies that must break through noise.",
     },
     whenToUse: {
       title: "When to Use Call Alerts",

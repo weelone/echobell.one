@@ -11,6 +11,60 @@ import {
 import { templatesI18n, relatedFeatures } from "@/lib/features-i18n";
 import { FeatureJsonLd } from "@/components/JsonLd";
 
+const templatesPageUi: Record<
+  Language,
+  {
+    result: string;
+    exampleCondition: string;
+    incomingData: string;
+    template: string;
+    notification: string;
+  }
+> = {
+  en: {
+    result: "Result",
+    exampleCondition: "Example Condition",
+    incomingData: "Incoming Data",
+    template: "Template",
+    notification: "Notification",
+  },
+  zh: {
+    result: "结果",
+    exampleCondition: "示例条件",
+    incomingData: "传入数据",
+    template: "模板",
+    notification: "通知",
+  },
+  es: {
+    result: "Resultado",
+    exampleCondition: "Condición de ejemplo",
+    incomingData: "Datos entrantes",
+    template: "Plantilla",
+    notification: "Notificación",
+  },
+  fr: {
+    result: "Résultat",
+    exampleCondition: "Condition d'exemple",
+    incomingData: "Données entrantes",
+    template: "Modèle",
+    notification: "Notification",
+  },
+  ja: {
+    result: "結果",
+    exampleCondition: "条件の例",
+    incomingData: "入力データ",
+    template: "テンプレート",
+    notification: "通知",
+  },
+  de: {
+    result: "Ergebnis",
+    exampleCondition: "Beispielbedingung",
+    incomingData: "Eingehende Daten",
+    template: "Vorlage",
+    notification: "Benachrichtigung",
+  },
+};
+
 export default async function TemplatesPage({
   params,
 }: {
@@ -22,6 +76,7 @@ export default async function TemplatesPage({
     localizeUrl("/features/templates", lang),
     baseUrl
   ).toString();
+  const ui = templatesPageUi[lang];
 
   return (
     <div className="min-h-screen">
@@ -75,19 +130,7 @@ export default async function TemplatesPage({
                 <div className="p-6 bg-neutral-50 dark:bg-neutral-800/50 flex items-center gap-4">
                   <ArrowRightIcon className="h-5 w-5 text-neutral-400 flex-shrink-0" />
                   <div>
-                    <p className="text-sm text-neutral-500 mb-1">
-                      {lang === "en"
-                        ? "Result"
-                        : lang === "zh"
-                          ? "结果"
-                          : lang === "es"
-                            ? "Resultado"
-                            : lang === "fr"
-                              ? "Résultat"
-                              : lang === "ja"
-                                ? "結果"
-                                : "Ergebnis"}
-                    </p>
+                    <p className="text-sm text-neutral-500 mb-1">{ui.result}</p>
                     <p className="font-medium">{example.result}</p>
                     <p className="text-sm text-neutral-500 mt-2">
                       {example.description}
@@ -144,19 +187,7 @@ export default async function TemplatesPage({
           </div>
           <div className="mx-auto max-w-2xl">
             <div className="rounded-2xl border-2 border-purple-200 dark:border-purple-800 bg-white dark:bg-neutral-900 p-8 text-center">
-              <p className="text-sm text-neutral-500 mb-4">
-                {lang === "en"
-                  ? "Example Condition"
-                  : lang === "zh"
-                    ? "示例条件"
-                    : lang === "es"
-                      ? "Condición de Ejemplo"
-                      : lang === "fr"
-                        ? "Exemple de Condition"
-                        : lang === "ja"
-                          ? "条件の例"
-                          : "Beispielbedingung"}
-              </p>
+              <p className="text-sm text-neutral-500 mb-4">{ui.exampleCondition}</p>
               <code className="block text-xl font-mono text-purple-600 dark:text-purple-400 mb-6">
                 {t.conditions.example.condition}
               </code>
@@ -176,11 +207,7 @@ export default async function TemplatesPage({
               {/* Webhook data */}
               <div className="w-full md:w-auto rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6">
                 <p className="text-xs text-neutral-500 mb-2 uppercase tracking-wider">
-                  {lang === "en"
-                    ? "Incoming Data"
-                    : lang === "zh"
-                      ? "传入数据"
-                      : "Datos Entrantes"}
+                  {ui.incomingData}
                 </p>
                 <pre className="text-sm font-mono text-neutral-700 dark:text-neutral-300">
                   {`{
@@ -199,11 +226,7 @@ export default async function TemplatesPage({
               {/* Template */}
               <div className="w-full md:w-auto rounded-xl border-2 border-purple-300 dark:border-purple-700 bg-purple-50 dark:bg-purple-900/20 p-6">
                 <p className="text-xs text-purple-600 dark:text-purple-400 mb-2 uppercase tracking-wider">
-                  {lang === "en"
-                    ? "Template"
-                    : lang === "zh"
-                      ? "模板"
-                      : "Plantilla"}
+                  {ui.template}
                 </p>
                 <code className="text-sm font-mono text-purple-700 dark:text-purple-300">
                   {"{{server}}: {{status}} ({{cpu}}%)"}
@@ -218,11 +241,7 @@ export default async function TemplatesPage({
               {/* Result */}
               <div className="w-full md:w-auto rounded-xl border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 p-6">
                 <p className="text-xs text-green-600 dark:text-green-400 mb-2 uppercase tracking-wider">
-                  {lang === "en"
-                    ? "Notification"
-                    : lang === "zh"
-                      ? "通知"
-                      : "Notificación"}
+                  {ui.notification}
                 </p>
                 <p className="text-sm font-semibold text-green-700 dark:text-green-300">
                   web-01: critical (92%)
