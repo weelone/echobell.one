@@ -1,5 +1,5 @@
 {
-  "name": "echobell-one",
+  "name": "echobell-www",
   "compatibility_date": "2024-09-23",
   "compatibility_flags": ["nodejs_compat"],
   // D1 Database configuration
