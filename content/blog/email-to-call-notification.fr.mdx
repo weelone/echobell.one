@@ -1,158 +1,135 @@
 ---
-title: Transformez vos e‑mails importants en notifications d’appel avec Echobell
+title: Transformez vos emails importants en notifications d'appel avec Echobell
 date: 2025-08-22
-description: Ne manquez plus un e‑mail critique. Echobell transforme vos messages urgents en alertes de type appel et à haute priorité. Créez un canal par e‑mail, ajoutez des modèles et des Conditions.
+description: "Redirigez vos emails urgents vers Echobell et recevez des notifications sous forme d'appel sur iOS. Ce guide couvre la configuration des canaux, les modèles adaptés à la voix, les conditions de filtrage et les règles de transfert pour Gmail, iCloud et Outlook."
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Transformez vos e‑mails importants en notifications d’appel avec Echobell
+Certains emails doivent vous parvenir quoi qu'il arrive — incidents de production, échecs de facturation, expéditeurs VIP. Echobell vous permet de transférer ces emails vers un canal et de les recevoir comme des notifications d'appel qui sonnent même en mode Concentration.
 
-Il y a toujours ce message qui ne peut pas attendre. Echobell convertit ces e‑mails critiques en notifications de type appel qui font vraiment sonner votre téléphone, même en mode concentration. Parfait pour les incidents de production, les expéditeurs VIP, les échecs de paiement et les alertes d’astreinte pour les développeurs.
-
-À la fin, vous aurez :
-
-- Un canal Echobell déclenché par e‑mail
-- Des modèles clairs et concis, lus à voix haute dans les alertes d’appel
-- Des notifications d’appel (Calling) avec nouvelles tentatives optionnelles
-- Des Conditions intelligentes pour filtrer par expéditeur, objet ou mots‑clés
-- Des règles de transfert simples pour Gmail, iCloud Mail ou Outlook
-
-Confidentialité d’abord : Echobell ne stocke que votre compte, vos canaux et vos abonnements. Le contenu et l’historique des notifications restent sur vos appareils.
+Echobell ne stocke côté serveur que les comptes, les canaux et les abonnements. Le contenu des notifications reste sur vos appareils.
 
 ## Prérequis
 
-- Installez Echobell depuis l’App Store : https://apps.apple.com/app/id6743597198
-- Autorisez les notifications
+- Echobell installé ([App Store](https://apps.apple.com/app/id6743597198))
+- Autorisation de notifications accordée
 
 ## Étape 1 — Créer un canal
 
 1. Ouvrez Echobell → Nouveau canal
-2. Donnez un nom et une couleur (par exemple « Alertes e‑mail critiques »)
+2. Nommez-le (ex. « Alertes Email Critiques ») et choisissez une couleur
 3. Enregistrez
 
-## Étape 2 — Lier le déclencheur e‑mail
+## Étape 2 — Lier le déclencheur email
 
-Sur la page du canal, copiez l’adresse e‑mail dédiée. Tout e‑mail envoyé à cette adresse déclenche le canal instantanément.
+Sur la page de détail du canal, copiez l'adresse email dédiée. Tout email envoyé à cette adresse déclenche le canal.
 
-Variables disponibles dans les modèles lors d’un déclenchement par e‑mail :
+Variables de modèle disponibles pour les déclencheurs email :
 
-- `from` : adresse de l’expéditeur
-- `to` : adresse liée au canal
-- `subject` : objet
-- `text` : corps en texte brut
-- `html` : corps HTML (le cas échéant)
+- `from` — adresse de l'expéditeur
+- `to` — adresse liée au canal
+- `subject` — objet de l'email
+- `text` — corps en texte brut
+- `html` — corps HTML (si présent)
 
-## Étape 3 — Rédiger des modèles clairs et adaptés à la lecture vocale
+## Étape 3 — Rédiger des modèles adaptés à la voix
 
-Utilisez les variables pour fournir le contexte sans alourdir – les alertes d’appel lisent votre contenu à voix haute.
+Les notifications d'appel lisent ce contenu à voix haute ; soyez concis et direct.
 
-Exemple de titre :
-
-```
-[Alerte e‑mail] {{subject}}
-```
-
-Exemple de corps :
+Titre :
 
 ```
-De : {{from}}
-Aperçu : {{text}}
+[Email Alert] {{subject}}
 ```
 
-Astuces :
+Corps :
 
-- Besoin d’un lien cliquable dans les enregistrements ? Passez `externalLink` via webhook ou définissez un Modèle de lien dans les paramètres avancés.
-- Préférez des textes courts ; les longs paragraphes sont plus difficiles à suivre à l’écoute.
+```
+From: {{from}}
+Preview: {{text}}
+```
 
-## Étape 4 — Choisir le type de notification Calling
+Pour associer un lien cliquable à l'enregistrement de notification, passez `externalLink` via Webhook ou définissez un modèle de lien dans les paramètres avancés.
 
-Les abonnés choisissent leur mode d’alerte. Pour ne rien manquer :
+## Étape 4 — Définir le type de notification Appel
 
-- Type de notification : Calling
-- Réglages de l’app → Répéter le contenu vocal : Activé (optionnel)
-- Réglages de l’app → Réessayer les appels échoués : Activé (recommandé)
+Dans les paramètres de votre abonnement, configurez :
 
-Les notifications de type Calling sonnent comme un appel et peuvent percer les modes de concentration selon vos réglages iOS.
+- Type de notification : **Appel**
+- Paramètres app → Répéter le contenu vocal : Activé (optionnel)
+- Paramètres app → Réessayer l'appel échoué : Activé (recommandé)
 
-## Étape 5 — Filtrer avec des Conditions (optionnel, recommandé)
+Les notifications d'appel sonnent comme un appel téléphonique et peuvent passer outre les modes Concentration selon les paramètres iOS.
 
-Utilisez des Conditions pour n’appeler que lorsque c’est nécessaire. Ce sont des expressions évaluées sur les variables du modèle.
+## Étape 5 — Filtrer avec les Conditions (optionnel)
 
-Exemples :
+Sans Conditions, chaque email envoyé au canal déclenche une notification. Ajoutez une Condition pour restreindre les emails qui déclenchent réellement une sonnerie.
 
-- Un expéditeur précis uniquement :
-  ```
-  from == "alerts@yourcompany.com"
-  ```
-- Uniquement si l’objet contient « URGENT » :
-  ```
-  subject.toLowerCase().includes("urgent")
-  ```
-- Combinaison de règles :
-  ```
-  (from == "pager@service.com" || from == "vip@customer.com") && subject.toLowerCase().includes("fail")
-  ```
+Expéditeur spécifique uniquement :
 
-Sans Conditions, chaque e‑mail envoyé à l’adresse du canal déclenche une notification.
+```
+from == "alerts@yourcompany.com"
+```
 
-## Étape 6 — Configurer le transfert d’e‑mails (choisissez votre fournisseur)
+Objet contenant « URGENT » :
 
-Transférez les e‑mails importants vers l’adresse du canal. Options courantes :
+```
+subject.toLowerCase().includes("urgent")
+```
+
+Règles combinées :
+
+```
+(from == "pager@service.com" || from == "vip@customer.com") && subject.toLowerCase().includes("fail")
+```
+
+## Étape 6 — Configurer le transfert d'email
 
 ### Gmail
 
-- Gmail → Paramètres → Voir tous les paramètres → Filtres et adresses bloquées
-- Créez un filtre (De / Objet contient)
-- Action : Transférer vers l’adresse e‑mail du canal Echobell
-- Optionnel : Ajouter un libellé ou ignorer la boîte de réception
+1. Paramètres → Voir tous les paramètres → Filtres et adresses bloquées
+2. Créez un filtre par expéditeur ou objet
+3. Action : Transférer vers l'adresse email de votre canal Echobell
+4. Optionnel : Ignorer la boîte de réception ou appliquer un libellé
 
-Remarque : Gmail peut exiger la vérification de l’adresse de transfert. Si ce n’est pas pratique, passez via un alias de groupe que vous contrôlez.
+Gmail peut exiger la vérification de l'adresse de transfert. Si c'est contraignant, transférez via un alias de groupe que vous contrôlez.
 
 ### iCloud Mail
 
-- iCloud Mail → Réglages → Règles
-- Si : De/Objet contient vos conditions
-- Alors : Transférer vers l’adresse e‑mail du canal Echobell
+1. Paramètres → Règles
+2. Condition : L'expéditeur ou l'objet contient vos critères
+3. Action : Transférer vers l'adresse email de votre canal Echobell
 
 ### Outlook
 
-- Outlook/Exchange → Paramètres → Courrier → Règles
-- Ajoutez des conditions sur expéditeur/objet/mots‑clés
-- Action : Transférer/Rediriger vers l’adresse du canal Echobell
+1. Paramètres → Courrier → Règles
+2. Ajoutez des conditions sur l'expéditeur, l'objet ou des mots-clés
+3. Action : Transférer/Rediriger vers l'adresse email de votre canal Echobell
 
-## Étape 7 — Tester votre alerte
+## Étape 7 — Tester
 
-- Envoyez un e‑mail de test à l’adresse du canal
-- Vous devriez recevoir une alerte de type appel lisant vos modèles
-- Consultez l’enregistrement dans Echobell ; ajustez modèles/conditions si besoin
+1. Envoyez un email à l'adresse du canal (ou déclenchez votre règle de transfert)
+2. Confirmez qu'une alerte sous forme d'appel arrive
+3. Vérifiez l'enregistrement dans Echobell et ajustez les modèles ou conditions si nécessaire
 
 ## Dépannage
 
-- Pas d’appels :
-  - Vérifiez que le type de notification de votre abonnement est Calling
-  - Contrôlez les autorisations iOS et les modes de concentration
-  - Activez « Réessayer les appels échoués » dans les réglages
-- Le modèle ne s’affiche pas :
-  - Vérifiez les variables : `from`, `to`, `subject`, `text`, `html`
-  - Les Conditions sont des expressions simples — ne les entourez pas de `{{ }}`
-- Trop bruyant :
-  - Renforcez vos Conditions
-  - Ajoutez des mots‑clés d’objet ou des expéditeurs précis dans vos règles
-
-## Où c’est idéal
-
-- Alertes d’astreinte et incidents de production
-- Notifications de monitoring envoyées par e‑mail (et webhooks si besoin)
-- Messages clients/VIP à ne pas rater
+- **Pas d'appel reçu :** Vérifiez que le type de notification est défini sur Appel ; contrôlez les autorisations iOS et le mode Concentration ; activez Réessayer l'appel échoué dans les paramètres app.
+- **Le modèle ne s'est pas rendu :** Les noms de variables sont `from`, `to`, `subject`, `text`, `html`. Les Conditions utilisent des expressions simples — pas de `{{ }}`.
+- **Trop de bruit :** Resserrez les Conditions ou ajoutez des critères d'expéditeur/objet plus stricts dans vos règles de messagerie.
 
 ## Prochaines étapes
 
-- Créez des canaux distincts par équipe ou par système
-- Utilisez les webhooks pour les alertes système et l’e‑mail pour les messages humains
-- Partagez le lien d’abonnement du canal avec les collègues qui ont besoin des appels
+- Créez des canaux séparés par équipe ou système
+- Utilisez les Webhooks pour les alertes système automatisées, l'email pour les messages humains
+- Partagez le lien d'abonnement du canal avec les coéquipiers ayant besoin des mêmes alertes d'appel
 
----
+## Articles connexes
 
-Vous avez un beau workflow ? Partagez comment vous utilisez Echobell pour des notifications instantanées et des alertes développeur. On a hâte de voir ça.
+- [Documentation du déclencheur email](/en/docs/email-trigger) — référence complète des variables et options de configuration
+- [QQ Mail en notifications d'appel](/en/blog/qq-mail-to-call-notifications) — règles de transfert spécifiques à QQ Mail
+- [Comment contourner iOS Focus Mode pour les alertes critiques](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — choisir le bon niveau d'urgence
+- [Types de notifications](/en/docs/notification) — comportement des notifications Normal, Time Sensitive et Appel
+- [Conditions](/en/docs/conditions) — syntaxe des expressions pour filtrer les alertes

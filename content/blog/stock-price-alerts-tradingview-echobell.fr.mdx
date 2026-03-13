@@ -1,6 +1,6 @@
 ---
-title: Alertes de prix boursiers avec TradingView + Echobell
-description: Configurez des alertes de prix dans TradingView et recevez des appels téléphoniques ou des notifications à haute priorité avec Echobell grâce aux webhooks.
+title: Alertes de prix boursiers avec TradingView et Echobell
+description: "Configurez des alertes de prix TradingView qui déclenchent des appels téléphoniques Echobell ou des notifications urgentes via Webhook, avec des modèles JSON et la substitution de variables."
 date: 2025-10-29
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
@@ -8,69 +8,69 @@ authorLink: https://nooc.me
 tags:
   - Echobell
   - TradingView
-  - alertes de prix
+  - stock price alerts
   - webhook
 ---
 
-# Des alertes de prix impossibles à manquer : TradingView → Echobell
+# Alertes de prix boursiers avec TradingView et Echobell
 
-Les marchés bougent vite. Avec des notifications classiques, on finit par rater l’instant. Voici une configuration simple pour transformer des alertes de prix TradingView en appels Echobell (ou notifications Time Sensitive) afin d’agir quand le prix atteint votre niveau.
+Les notifications push standard sont faciles à manquer quand les marchés bougent vite. Ce guide couvre une configuration simple pour acheminer les alertes de prix TradingView vers des appels téléphoniques Echobell ou des notifications urgentes, afin d'être notifié dès que le prix atteint votre niveau.
 
-Ressources utiles :
+Documentation utile :
 
-- Qu’est‑ce qu’Echobell → [/fr/docs/what-is-echobell](/fr/docs/what-is-echobell)
-- Webhooks → [/fr/docs/webhook](/fr/docs/webhook)
-- Types de notification → [/fr/docs/notification](/fr/docs/notification)
-- Templates et variables → [/fr/docs/template](/fr/docs/template)
+- Qu'est-ce qu'Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Présentation des Webhooks → [/docs/webhook](/en/docs/webhook)
+- Types de notifications (Normal, Urgent, Appel) → [/docs/notification](/en/docs/notification)
+- Modèles et variables → [/docs/template](/en/docs/template)
 
 ## Prérequis
 
-- Echobell installé et compte créé ([App Store](https://apps.apple.com/app/id6743597198))
-- Compte TradingView (webhooks généralement réservés Pro/Pro+/Premium)
+- Echobell installé ([App Store](https://apps.apple.com/app/id6743597198))
+- Compte TradingView avec support Webhook (Pro/Pro+/Premium)
 
-## 1) Créer un canal Echobell
+## 1. Créer un canal Echobell
 
 1. Dans Echobell, créez un canal (ex. « Stocks : niveaux AAPL »).
-2. Choisissez le type. Urgent → **Calling**, sinon **Time Sensitive**. Voir [/fr/docs/notification](/fr/docs/notification).
-3. Définissez les Templates pour un message vocal clair :
+2. Réglez le type de notification. Pour les mouvements de prix urgents, utilisez **Appel** ; sinon **Urgent** ([/docs/notification](/en/docs/notification)).
+3. Configurez les modèles pour que l'appel lise un contexte utile :
 
-   Titre : `{{ticker}} a atteint {{price}}`
+   Titre : `{{ticker}} hit {{price}}`
 
-   Corps : `Règle : {{rule}} sur {{ticker}} à {{price}}`
+   Corps : `Rule: {{rule}} on {{ticker}} at {{price}}`
 
-4. Copiez l’URL de Webhook du canal (gardez‑la privée). Détails : [/fr/docs/webhook](/fr/docs/webhook)
+4. Copiez l'URL Webhook du canal et gardez-la privée ([/docs/webhook](/en/docs/webhook)).
 
-## 2) Configurer l’alerte TradingView
+## 2. Configurer l'alerte TradingView
 
-1. Créez une alerte sur le graphique (ex. close croise un prix).
-2. Activez **Webhook URL** et collez l’URL Echobell.
-3. Utilisez un message JSON pour transmettre des variables :
+1. Créez une Alerte sur votre graphique pour la condition souhaitée (ex. la clôture croise un niveau de prix).
+2. Activez **Webhook URL** et collez l'URL Echobell.
+3. Définissez le message en JSON pour qu'Echobell puisse substituer les variables via votre modèle :
 
 ```json
 {
   "ticker": "{{ticker}}",
   "price": "{{close}}",
-  "rule": "La clôture a croisé 150",
+  "rule": "Close crossed 150",
   "externalLink": "https://www.tradingview.com/chart/"
 }
 ```
 
-Conseils :
+Notes :
+- Gardez les clés JSON simples et correspondant à vos variables de modèle
+- `externalLink` est optionnel ; Echobell l'affiche comme lien cliquable dans l'enregistrement de la notification ([/docs/notification](/en/docs/notification))
 
-- Clés simples (`ticker`, `price`, `rule`).
-- `externalLink` est optionnel ; Echobell l’affiche dans l’historique local. Voir [/fr/docs/notification](/fr/docs/notification).
+## 3. Tester le flux
 
-## 3) Tester le flux
-
-Déclenchez l’alerte ou utilisez une condition temporaire. Vous devriez recevoir un appel (ou une alerte Time Sensitive) lisant votre titre/corps. Affinez le texte jusqu’à ce que ce soit limpide.
+Déclenchez l'alerte ou utilisez une condition de test temporaire. Vous devriez recevoir un appel (ou une notification urgente) qui lit le contenu de votre modèle. Ajustez la formulation jusqu'à ce qu'elle soit claire et sans ambiguïté à l'écoute.
 
 ## Bonnes pratiques
 
-- Réservez les appels aux niveaux vraiment urgents ; sinon Time Sensitive.
-- Séparez les canaux par symbole ou stratégie pour réduire le bruit.
-- Ajoutez l’unité de temps dans le template si pertinent (ex. « clôture 15m »).
+- Utilisez **Appel** uniquement pour les niveaux de prix critiques ; utilisez **Urgent** pour tout le reste
+- Créez des canaux séparés par symbole ou stratégie pour contrôler le bruit
+- Incluez l'unité de temps dans votre modèle si elle est pertinente (ex. « clôture 15m a croisé 150 »)
 
-Pour aller plus loin : Appels TradingView → [/fr/blog/tradingview-call-notifications](/fr/blog/tradingview-call-notifications). Fonctionnalités : [/fr/features/webhooks](/fr/features/webhooks), [/fr/features/call-notifications](/fr/features/call-notifications).
+Pour aller plus loin : configuration complète TradingView → [/blog/tradingview-call-notifications](/en/blog/tradingview-call-notifications)
+
+Fonctionnalités : [/features/webhooks](/en/features/webhooks), [/features/call-notifications](/en/features/call-notifications)
 
 Télécharger Echobell : https://apps.apple.com/app/id6743597198
-

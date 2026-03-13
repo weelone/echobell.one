@@ -1,63 +1,48 @@
 ---
-title: Recibe Alertas de TradingView como Llamadas Telefónicas Urgentes
-description: Transforma tus alertas de TradingView en llamadas telefónicas inmediatas con Echobell.
+title: Recibe alertas de TradingView como llamadas telefónicas con Echobell
+description: "Conecta TradingView a Echobell via webhook para recibir alertas de precio como llamadas telefónicas o notificaciones urgentes, con contenido de voz personalizado."
 date: 2025-04-19
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# No vuelvas a perderte un trade: convierte alertas de TradingView en llamadas con Echobell
+# Recibe alertas de TradingView como llamadas telefónicas con Echobell
 
-Si alguna vez dejaste pasar un setup perfecto porque no viste la notificación a tiempo, no estás solo. Yo quería algo imposible de ignorar cuando el precio tocaba mis niveles—por eso convierto mis alertas de TradingView en llamadas telefónicas reales con Echobell. Configurarlo lleva minutos y la tranquilidad se nota.
+Las notificaciones push estándar son fáciles de perder cuando una operación se está desarrollando. Esta guía muestra cómo conectar TradingView a Echobell via webhook para que las alertas de precio activen llamadas telefónicas con contenido de voz personalizable.
 
-En esta guía conectamos TradingView a Echobell con un webhook, personalizamos el contenido de voz y lo probamos de punta a punta.
+Documentación relevante:
 
-Links útiles para el panorama general:
+- Qué es Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Resumen de webhooks → [/docs/webhook](/en/docs/webhook)
+- Tipos de notificación (Normal, Urgente, Llamada) → [/docs/notification](/en/docs/notification)
+- Plantillas y variables → [/docs/template](/en/docs/template)
 
-- ¿Qué es Echobell? → [/es/docs/what-is-echobell](/es/docs/what-is-echobell)
-- Webhooks → [/es/docs/webhook](/es/docs/webhook)
-- Tipos de notificación (Normal, Time Sensitive, Llamada) → [/es/docs/notification](/es/docs/notification)
-- Plantillas y variables → [/es/docs/template](/es/docs/template)
+## Requisitos previos
 
-## ¿Por qué llamadas para TradingView?
+- App de Echobell instalada ([App Store](https://apps.apple.com/app/id6743597198))
+- Cuenta de TradingView con soporte de webhook (Pro/Pro+/Premium)
 
-- Las llamadas atraviesan modos de concentración cuando los segundos importan
-- En Echobell eliges la prioridad por canal (Normal, Time Sensitive o Llamada)
-- Las plantillas convierten datos en un guion claro y humano que escucharás en la llamada
+## Paso 1 — Crear un canal en Echobell
 
-Nota SEO: este artículo trata de alertas de TradingView a llamadas telefónicas con la integración de webhooks de Echobell.
+1. Abre Echobell → Crear Canal. Nómbralo algo como "TradingView Calls".
+2. Configura el tipo de notificación. Para alertas urgentes usa **Calling**; para las menos críticas usa **Time Sensitive** o **Normal** ([/docs/notification](/en/docs/notification)).
+3. Opcionalmente, configura plantillas para que la llamada lea datos útiles. Ejemplo:
 
-## Requisitos
+   Título: `{{ticker}} crossed {{price}}`
 
-- App de Echobell instalada y cuenta creada ([App Store](https://apps.apple.com/app/id6743597198))
-- Cuenta de TradingView (webhooks requieren normalmente Pro/Pro+/Premium)
+   Cuerpo: `Signal: {{action}} at {{price}} on {{ticker}}`
 
-## Paso 1 — Crea un canal en Echobell (y activa Llamada)
+   Referencia completa de plantillas: [/docs/template](/en/docs/template)
 
-1. En la app de Echobell → Crear canal. Nómbralo “TradingView Calls” y elige un color fácil de reconocer.
+4. Copia la URL del Webhook del canal desde la configuración. Mantenla privada. Detalles: [/docs/webhook](/en/docs/webhook)
 
-2. Elige el tipo de notificación. Para alertas urgentes, selecciona **Llamada**. Para menos urgentes, **Time Sensitive** o **Normal**. Ver [/es/docs/notification](/es/docs/notification).
+## Paso 2 — Configurar la alerta en TradingView
 
-3. Personaliza el contenido en Plantillas (recomendado). La llamada puede decir literalmente lo que pasó. Combínalo con variables de TradingView:
-
-   Título: `{{ticker}} cruzó {{price}}`
-
-   Cuerpo: `Señal: {{action}} a {{price}} en {{ticker}}`
-
-Más sobre variables y expresiones: [/es/docs/template](/es/docs/template)
-
-4. Copia la URL de Webhook del canal desde los detalles. Es la dirección que usará TradingView. Trátala como un secreto. Detalles: [/es/docs/webhook](/es/docs/webhook)
-
-## Paso 2 — Conecta TradingView con Echobell
-
-1. En TradingView, abre tu gráfico y crea/edita una alerta.
-
-2. Define la condición (precio, indicador, señal de estrategia, etc.).
-
-3. En Notificaciones/Acciones, habilita **Webhook URL** y pega la URL de Echobell del Paso 1.
-
-4. Diseña el Mensaje en JSON para pasar valores dinámicos que Echobell pueda “leer” en la llamada:
+1. Abre tu gráfico y crea o edita una alerta.
+2. Define la condición (nivel de precio, indicador, señal de estrategia, etc.).
+3. En la sección Notifications, activa **Webhook URL** y pega tu webhook de Echobell.
+4. Establece el payload del mensaje en JSON para que Echobell pueda referenciar variables en tu plantilla:
 
 ```json
 {
@@ -69,46 +54,36 @@ Más sobre variables y expresiones: [/es/docs/template](/es/docs/template)
 ```
 
 Notas:
+- Usa las variables integradas de TradingView (`{{ticker}}`, `{{close}}`, etc.)
+- `externalLink` es opcional; cuando está presente, Echobell lo muestra como enlace en el registro de la notificación ([/docs/notification](/en/docs/notification))
 
-- Usa variables de TradingView (p. ej., `{{ticker}}`, `{{close}}`).
-- `externalLink` es opcional: al incluirlo, Echobell muestra un enlace en el registro local. Ver [/es/docs/notification](/es/docs/notification).
+## Paso 3 — Probar el flujo completo
 
-## Paso 3 — Prueba de extremo a extremo
-
-Dispara la alerta (o usa una de prueba). En segundos deberías recibir una llamada de Echobell con tu contenido personalizado. Si prefieres algo menos intrusivo, prueba primero Time Sensitive y cambia a Llamada para señales realmente urgentes.
+Activa la alerta o usa una condición de prueba. En segundos deberías recibir una llamada con el contenido de tu plantilla. Si la llamada resulta demasiado intrusiva para señales de baja prioridad, cambia el canal a **Time Sensitive** y usa **Calling** solo para niveles críticos.
 
 ## Solución de problemas
 
-- ¿No hay llamada? Asegúrate de que el tipo de notificación sea Llamada y que la app tenga permisos.
-- ¿Error 4xx en el webhook? Revisa la URL exacta y que el token del canal no haya sido rotado.
-- ¿No aparecen variables? Confirma que las claves del JSON coinciden exactamente con las variables de las plantillas (sensible a mayúsculas/minúsculas).
-- ¿Demasiadas llamadas? Baja la prioridad a Time Sensitive o ajusta las condiciones de la alerta.
+- **No llega ninguna llamada**: confirma que el tipo de notificación del canal está configurado como Calling y que la app tiene permisos de notificación
+- **Error 4xx en el webhook de TradingView**: verifica la URL exacta del webhook de Echobell y que el token del canal esté vigente
+- **Las variables no aparecen en la llamada**: confirma que las claves JSON coinciden exactamente con los nombres de variables en la plantilla (distingue mayúsculas de minúsculas)
+- **Demasiadas llamadas**: reduce la prioridad a Time Sensitive o ajusta las condiciones de alerta en TradingView
 
-## Dale vida con plantillas
+## Consejos para plantillas
 
-Con plantillas conviertes datos en un guion claro para la llamada. Ideas:
+Una plantilla clara hace que la llamada sea inmediatamente accionable:
 
-- Añade contexto: `{{ticker}} cruzó {{price}} en 15m`.
-- Indica dirección: `Acción: {{action}}`.
-- Añade `externalLink` para revisar más tarde en el registro local.
+- `{{ticker}} crossed {{price}} on 15m timeframe.`
+- `Action: {{action}}.`
+- Incluye `externalLink` para un acceso rápido al gráfico desde el registro de la notificación
 
-Más opciones aquí → [/es/docs/template](/es/docs/template)
+Documentación completa de plantillas: [/docs/template](/en/docs/template)
 
-## ¿Dónde encaja en tu stack?
+## Relacionados
 
-Una vez que funcione TradingView → Echobell, es fácil extender el mismo enfoque de webhook:
+- Alertas webhook para sistemas personalizados → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- Notificaciones de CI/CD → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Monitoreo de infraestructura → [/blog/grafana-call-notification](/en/blog/grafana-call-notification)
+- Función de webhooks → [/features/webhooks](/en/features/webhooks)
+- Función de notificaciones de llamada → [/features/call-notifications](/en/features/call-notifications)
 
-- Webhooks para sistemas propios → [/es/blog/get-notified-with-webhook-mcp](/es/blog/get-notified-with-webhook-mcp)
-- CI/CD y salud del repo → [/es/blog/github-actions-notifications](/es/blog/github-actions-notifications)
-- Infraestructura y monitoreo → [/es/blog/grafana-call-notification](/es/blog/grafana-call-notification)
-
-También puedes explorar:
-
-- Webhooks → [/es/features/webhooks](/es/features/webhooks)
-- Llamadas → [/es/features/call-notifications](/es/features/call-notifications)
-
-## Cierre
-
-Las alertas de TradingView solo sirven si las ves a tiempo. Con Echobell puedes convertir las señales correctas en llamadas que atraviesan el ruido. Se configura rápido, se ajusta fácil y crece contigo.
-
-Descarga Echobell y pruébalo en tu próximo setup: https://apps.apple.com/app/id6743597198
+Descarga Echobell: https://apps.apple.com/app/id6743597198

@@ -1,101 +1,83 @@
 ---
-title: Grafanaアラートの電話通知を有効にする
-description: Echobellを使用してGrafanaアラートの電話通知を設定する方法を学びます
+title: EchobellでGrafanaアラートを電話着信として受け取る
+description: "EchobellのWebhookを使ってGrafanaアラートを電話着信に変換する方法：ステップバイステップの設定、ベストプラクティス、トラブルシューティング。"
 date: 2025-04-12
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# 深夜 3 時でも Grafana の重大アラートを逃さない
+# EchobellでGrafanaアラートを電話着信として受け取る
 
-朝起きてダッシュボード一面が赤くなっていて「電話で起こしてほしかった…」と思ったことはありませんか？メールやチャットは便利ですが、本当に重要なインシデントには“電話”が一番確実です。Echobell を使えば、Grafana のアラートを即時の電話通知に変換し、エスカレーションやおやすみ時間も柔軟に設定できます。
+インシデント発生時、メールやチャットの通知は見落とされがちです。重要なアラートについては、EchobellがGrafanaのWebhook通知をエスカレーションとリトライ機能付きの実際の電話着信に変換できます。このガイドでは完全なセットアップ手順を説明します。
 
-このガイドでは、Webhook を使って Grafana と Echobell を数分で接続する方法と、オンコールを楽にするコツを紹介します。
+関連ドキュメント:
 
-## なぜ Grafana に Echobell の電話通知？
+- Echobellとは → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- 通知タイプとリトライ → [/docs/notification](/en/docs/notification)
+- Webhookの概要 → [/docs/webhook](/en/docs/webhook)
+- Grafanaインテグレーション → [/docs/developer/grafana](/en/docs/developer/grafana)
 
-- すぐに気づく: 重要なときに電話は無視できない
-- オンコールに最適: エスカレーション、再試行、おやすみ時間でノイズを管理
-- チーム運用: チャンネル共有や担当ローテーションが簡単
-- シンプル設定: Echobell の安全な Webhook を使って数分で完了
+## 前提条件
 
-先に読みたい関連ドキュメント：
+1. アクティブなチャンネルとWebhook URLを持つEchobellアカウント（[/docs/webhook](/en/docs/webhook)参照）
+2. Grafanaインスタンスへの管理者アクセス
+3. 少なくとも1つのアラートルールが設定済み
 
-- Echobell とは → [/ja/docs/what-is-echobell](/ja/docs/what-is-echobell)
-- 通知モデル（優先度・再試行）→ [/ja/docs/notification](/ja/docs/notification)
-- Webhook の基本 → [/ja/docs/webhook](/ja/docs/webhook)
-- Grafana 連携ガイド → [/ja/docs/developer/grafana](/ja/docs/developer/grafana)
+## セットアップ
 
-## 3 分で Echobell と Grafana をつなぐ
+### ステップ1 — GrafanaでWebhookコンタクトポイントを作成する
 
-### 前提条件
+1. アラート設定 → コンタクトポイントへ移動
+2. 「新しいコンタクトポイント」をクリックし、**Webhook**を選択
+3. 識別しやすい名前を付ける（例：「Echobell Phone Calls」）
 
-1. Echobell のチャンネルと Webhook URL（詳細は [/ja/docs/webhook](/ja/docs/webhook)）
-2. Grafana の管理者アクセス
-3. 何らかのアラートルール
+### ステップ2 — EchobellのWebhook URLを追加する
 
-### ステップ 1 — Grafana に Webhook の連絡先を作成
-
-- Grafana: Alerting → Contact points
-- “New contact point” → 種別は “Webhook”
-- 名前例: 「Echobell 電話通知」
-
-### ステップ 2 — Echobell の Webhook URL を設定
-
-チャンネルの Webhook を指定します（例）:
+URLにチャンネルのWebhookを設定します:
 
 `https://hook.echobell.one/t/xxxxxxxx`
 
-URL は Echobell のチャンネル設定からコピーします（[/ja/docs/webhook](/ja/docs/webhook)）。秘密情報として取り扱いましょう。
+EchobellのチャンネルSettingsからコピーします（詳細: [/docs/webhook](/en/docs/webhook)）。このURLは秘密として扱い、漏洩した場合はローテートしてください。
 
-### ステップ 3 — 動作テスト
+### ステップ3 — インテグレーションのテスト
 
-- Grafana の「Test」からテスト通知を送信
-- 数秒で Echobell から電話がかかってくるはずです
+Grafanaで**テスト**をクリックしてサンプルアラートを送信します。数秒以内にEchobellからの電話着信が届くはずです。
 
-### ステップ 4 — 通知ポリシーに紐づけ
+### ステップ4 — 通知ポリシーへの追加
 
-- Alerting → Notification policies
-- 重大度の高いアラートに適用されるポリシーを作成/編集
-- 連絡先「Echobell 電話通知」を追加
+1. アラート設定 → 通知ポリシーへ移動
+2. 重要なアラートを対象とするポリシーを作成または編集
+3. 「Echobell Phone Calls」コンタクトポイントを追加
 
-これで、ポリシーに一致したときに Echobell が発信します。
+Grafanaはこれで該当アラートをEchobellにルーティングします。
 
-## オンコールを楽にするベストプラクティス
+## ベストプラクティス
 
-- 電話は高優先度のみ。低優先度はチャット/メールへ
-- Echobell 側で再試行とタイムアウトを調整（[/ja/docs/notification](/ja/docs/notification)）
-- 最初の電話に出ない場合はチームへエスカレーション
-- 非緊急の夜間通知を防ぐ「おやすみ時間」を設定
-- オンコール担当表を最新に保ち、Echobell で共有
+- 電話着信は高優先度アラートに限定し、低い重大度にはチャットやメールを使う
+- アラート疲れを防ぐためにEchobellでリトライとタイムアウトを設定する（[/docs/notification](/en/docs/notification)）
+- 最初の着信に応答がない場合のチームへのエスカレーションを設定する
+- 低緊急度の深夜通知を防ぐためにサイレント時間を設定する
+- オンコールチームとチャンネルを共有し、当番の担当者を常に最新の状態に保つ
 
-## 応用編：電話の体験をカスタマイズ
+## 高度なオプション
 
-Echobell では通話の挙動を細かく制御できます：
+- 広いカバレッジのためにチームとチャンネルを共有する
+- テンプレートを使用してアラートタイプごとに音声内容をカスタマイズする
+- リトライ回数とエスカレーションパスを設定する
+- 信頼性向上のためのバックアップ連絡先を設定する
 
-- チャンネルをチームと共有
-- 再試行回数やエスカレーション経路を設定
-- テンプレートでアラート種別ごとに音声内容を出し分け
-- おやすみ時間やバックアップ連絡先を設定
-
-詳しくは Grafana 連携ガイドへ： [/ja/docs/developer/grafana](/ja/docs/developer/grafana)
+完全なリファレンス: [/docs/developer/grafana](/en/docs/developer/grafana)
 
 ## トラブルシューティング
 
-- 電話が来ない: ポリシーが Echobell の連絡先へルーティングしているか確認
-- Webhook が 4xx: Webhook URL とチャンネルの有効状態を確認
-- 通話が多すぎる: ポリシーを絞る/重大度を下げる
-- 通話が少なすぎる: 重大度を上げる/フィルタを調整
+- **着信なし**: 通知ポリシーがEchobellのコンタクトポイントにルーティングされているか確認
+- **WebhookでHTTP 4xxエラー**: Webhook URLが正確か、チャンネルがアクティブかを確認
+- **着信が多すぎる**: ポリシーのスコープを絞るかアラートの重大度閾値を下げる
+- **着信が少なすぎる**: 重大度を上げるか重要なアラートがポリシーに一致するようラベルフィルタを追加
 
-## 関連記事
+## 関連リンク
 
-- Webhook で Echobell に通知を送る（自前システム向け）： [/ja/blog/get-notified-with-webhook-mcp](/ja/blog/get-notified-with-webhook-mcp)
-- GitHub Actions の失敗を即時に電話通知： [/ja/blog/github-actions-notifications](/ja/blog/github-actions-notifications)
-- Grafana の開発者向けドキュメント： [/ja/docs/developer/grafana](/ja/docs/developer/grafana)
-
-## まとめ
-
-電話通知は、Grafana のアラートに“確実さ”という人間的なレイヤーを追加します。Echobell の Webhook 連携で、適切な人に適切なタイミングで電話を届け、インシデント対応を速く落ち着いたものにしましょう。
-
-今日 5 分でつないで、今夜は少し安心して眠りましょう。
+- カスタムシステムへのWebhookアラート → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- GitHub Actionsの失敗通知 → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Grafana開発者向けドキュメント → [/docs/developer/grafana](/en/docs/developer/grafana)

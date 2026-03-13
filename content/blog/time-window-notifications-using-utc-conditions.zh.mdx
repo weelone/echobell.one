@@ -1,41 +1,34 @@
 ---
-title: 只在该提醒的时候提醒你 —— 用 UTC 条件实现时间窗口通知
+title: "用 Echobell 的 UTC 条件实现时间窗口通知"
+description: "使用 Echobell 内置的 UTC 时间变量，按工作时间、周末或维护窗口过滤通知。包含即用的条件示例。"
 date: 2025-11-06
-description: 借助 Echobell 内置的 UTC 时间变量，只在工作时间、周末或维护窗口内发送通知。文内提供常用条件示例，并说明如何在模板中复用这些变量。
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# 用 UTC 条件实现时间窗口通知
+# 用 Echobell 的 UTC 条件实现时间窗口通知
 
-只在“能处理”的时间收到提醒：工作时段、值班窗口、周末维护。现在，Echobell 的系统时间变量（UTC）让这一切变得简单。你可以在频道「条件」中直接写出诸如“工作日 09:00–17:00”“每月 1 日整点”这样的表达式。
+Echobell 内置的 UTC 时间变量可以让你直接在频道条件中限制通知的时间窗口——工作时间、值班班次、维护窗口——无需外部过滤层。
 
-你将获得：
+前提条件：[条件](/en/docs/conditions)、[模板](/en/docs/template)、[Webhook](/en/docs/webhook)、[邮件触发](/en/docs/email-trigger)。
 
-- 全局可用（条件与模板）的 UTC 变量清单
-- 常用时间窗口的可复制示例
-- 如何把时间与内容规则（发件人、关键字、严重级别）组合
-- 附：在模板里输出时间信息
+## 可用的 UTC 变量
 
-新手可先阅读：[条件](/zh/docs/conditions) · [模板](/zh/docs/template)。触发来源：[Webhook](/zh/docs/webhook) · [电子邮件触发器](/zh/docs/email-trigger)。
+这些变量只读，始终可用，以 UTC 计算：
 
-## 系统时间（UTC）变量
-
-这些只读变量始终可用，且以 UTC 计算：
-
-- `timezone`（恒为 "UTC"）、`now`/`iso`、`epochMs`、`epochSeconds`
+- `timezone`（始终为 "UTC"）、`now`/`iso`、`epochMs`、`epochSeconds`
 - `year`、`month`（1–12）、`monthName`
 - `dayOfMonth`（1–31）
 - `dayOfWeek`（0–6，周日 = 0）、`dayOfWeekName`
 - `hour`（0–23）、`minute`（0–59）、`second`（0–59）
-- `date`（YYYY‑MM‑DD）、`time`（HH:mm:ss）
+- `date`（YYYY-MM-DD）、`time`（HH:mm:ss）
 
-在[条件](/zh/docs/conditions)里直接使用（无需 `{{ }}`）；在[模板](/zh/docs/template)里用 `{{ }}` 包裹引用。
+在[条件](/en/docs/conditions)中直接使用（无需 `{{ }}`）。在[模板](/en/docs/template)中用 `{{ }}` 包裹使用。
 
-## 直接可用的示例
+## 条件示例
 
-### 工作日的工作时间（09:00–17:00）
+### 工作日的工作时间
 
 ```
 hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
@@ -47,7 +40,7 @@ hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
 dayOfWeek == 0 || dayOfWeek == 6
 ```
 
-### 非工作时段（夜间 + 周末）
+### 非工作时段（夜间和周末）
 
 ```
 (hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6
@@ -59,62 +52,58 @@ dayOfWeek == 0 || dayOfWeek == 6
 dayOfWeek == 6 && hour >= 1 && hour < 3
 ```
 
-### 每月 1 日的整点
+### 每月 1 日整点
 
 ```
 dayOfMonth == 1 && minute == 0
 ```
 
-### 季度末（3/6/9/12 月）工作时间
+### 季度末工作时间（3/6/9/12 月）
 
 ```
 (month == 3 || month == 6 || month == 9 || month == 12) && hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
 ```
 
-## 与内容和严重级别组合
+## 与内容过滤组合
 
-与现有变量组合更强大：
+时间条件可以通过标准运算符与数据变量组合使用：
 
-- 仅在夜间/周末对高严重级别升级：
+- 非工作时段仅对高严重级别升级：
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
   ```
-- 仅生产环境、工作日：
+- 生产环境，仅工作日：
   ```
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-提示：条件是普通表达式，不需要 `{{ }}`。运算符一览见：[条件 → 支持的运算符](/zh/docs/conditions#支持的运算符)。
+条件是普通表达式——不要用 `{{ }}` 包裹。运算符说明参见[条件 → 支持的运算符](/en/docs/conditions#supported-operators)。
 
-## 在模板里显示时间（附）
+## 在模板中使用时间变量
 
-同样的变量在模板中也适用（使用 `{{ }}`）：
-
-```
-发送时间 {{date}} {{time}} {{timezone}}
-今天是 {{dayOfWeekName}}，{{monthName}} {{dayOfMonth}}，{{year}}
-Epoch：{{epochSeconds}}
-```
-
-也可以与 [Webhook](/zh/docs/webhook) 或 [电子邮件触发器](/zh/docs/email-trigger) 传入的数据混用：
+相同变量也可以在模板中使用（加 `{{ }}`），适合生成审计记录和人类可读的通知：
 
 ```
-{{service}} {{status}} 于 {{time}}（{{timezone}}）
+Sent at {{date}} {{time}} {{timezone}}
+Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Epoch: {{epochSeconds}}
 ```
 
-## 最佳实践
+与来自 [Webhook](/en/docs/webhook) 或[邮件触发](/en/docs/email-trigger)的数据混合使用：
 
-- 关于 UTC：统一用 UTC 可确保跨设备一致、可预测。
-- 先用时间降噪，再用内容细化：分步优化规则。
-- 记录意图：在频道备注写明 “工作日 09–17 UTC；非工作时段仅 high/critical”。
+```
+{{service}} {{status}} at {{time}} ({{timezone}})
+```
+
+## 注意事项
+
+- 所有系统变量均为 UTC。如果团队跨多个时区，设置小时范围时请考虑时差。
+- 先用简单的时间窗口，确认生效后再叠加内容过滤条件。
+- 在频道上留一段简短说明，解释条件逻辑（如"工作日 09–17 UTC；非工作时段仅限高严重级别"）。
 
 ## 下一步
 
-- 给你的频道加上时间窗口条件：[条件](/zh/docs/conditions)
-- 用变量润色通知内容：[模板](/zh/docs/template)
-- 将工作时段与值班时段拆分成不同频道
-- 紧急的非工作时段建议用“来电式通知”
-
----
-
-有更好的时间窗口写法？欢迎分享你在 Echobell 中利用条件实现“安静、高效通知”的经验。
+- 为现有频道添加时间窗口条件：[条件](/en/docs/conditions)
+- 用变量定制通知内容：[模板](/en/docs/template)
+- 将工作时间频道与值班频道分开
+- 值班频道在非工作时段设置为来电通知类型

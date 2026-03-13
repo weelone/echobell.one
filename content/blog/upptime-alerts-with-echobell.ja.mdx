@@ -1,6 +1,6 @@
 ---
-title: "Upptime のアラートを Echobell で即時の電話通知に"
-description: "たった一つの Webhook で Upptime の障害を Echobell の時間依存プッシュや通話通知に変換。素早く設定でき、重要な場面で確実に届きます。"
+title: "UptimeアラートをEchobellで電話着信に転送する"
+description: "Upptimeの障害アラートをEchobellに転送し、1つのカスタムWebhookでタイムセンシティブなプッシュ通知や電話着信として受け取る方法。追加サーバー不要。"
 date: 2025-11-22
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
@@ -8,25 +8,26 @@ authorLink: https://nooc.me
 tags:
   - Echobell
   - Upptime
-  - uptime 監視
-  - Webhook アラート
-  - オンコール
+  - uptime monitoring
+  - webhook alerts
+  - on-call
 ---
 
-# Upptime のアラートを Echobell で即時の電話通知に
+# UptimeアラートをEchobellで電話着信に転送する
 
-Upptime は GitHub Actions でサイトを監視してくれますが、障害時には確実に気付ける信号が必要です。Echobell はそのチェックを時間依存プッシュや電話通知に変えます。追加サーバーは不要、チャンネルごとの Webhook だけでOK。
+UptimeはGitHub Actionsからサイトを監視しますが、チェックの失敗はアラートが届かなければ意味がありません。このガイドでは、Upptimeの障害通知を1つのWebhook URLを使ってEchobellのタイムセンシティブなプッシュ通知または電話着信にルーティングする方法を説明します。追加のインフラは不要です。
 
-## この組み合わせが効く理由
+## セットアップ
 
-- **本当のエスカレーション**：待てないエンドポイントは通話に切り替え、その他はプッシュで運用。  
-- **文脈込みのアラート**：サイト名、ステータス、レスポンスコード、GitHub Issue へのリンクを毎回添付。  
-- **設定が速い**：Upptime リポジトリに Secrets を 2 つ足すだけで、他の設定はそのまま。
+**1. EchobellのチャンネルWebhook URLをコピーする**
 
-## 数分で有効化
+Echobellアプリでチャンネルを開き、Webhookをコピーします: `https://hook.echobell.one/t/<channel-token>`
 
-1) Echobell でチャンネル Webhook をコピー：`https://hook.echobell.one/t/<channel-token>`（標準/時間依存/通話を選択）。  
-2) Upptime リポジトリで次の GitHub Actions Secrets を追加：
+監視するエンドポイントの緊急度に応じて、チャンネルの通知タイプを通常・タイムセンシティブ・着信のいずれかに設定します。
+
+**2. UptimeリポジトリにSecretsを追加する**
+
+GitHubリポジトリの設定で、以下のActions secretsを追加します:
 
 ```
 NOTIFICATION_CUSTOM_WEBHOOK=true
@@ -35,14 +36,16 @@ NOTIFICATIONS_DOWN_MESSAGE=$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE) – $IS
 NOTIFICATIONS_UP_MESSAGE=$EMOJI $SITE_NAME is back up – $SITE_URL
 ```
 
-3) Echobell で `{{site}}`、`{{status}}`、`{{code}}`、`{{url}}`、`{{issue}}` を使ったシンプルなテンプレートを作り、電話にするかプッシュにするか決めます。
+**3. Echobellのテンプレートを設定する**
 
-これで完了。Upptime がデータを送り、Echobell が通知スタイルを制御します。詳しい手順は[設定ガイド](/ja/docs/developer/upptime)を、Upptime 独自の設定は[公式ドキュメント](https://upptime.js.org/docs/notifications)をどうぞ。
+上記のクエリパラメータに一致する変数を使用します: `{{site}}`、`{{status}}`、`{{code}}`、`{{url}}`、`{{issue}}`。チャンネルを電話着信にするかプッシュにするかを選択してください。
+
+以上がセットアップの全手順です。Upptimeがデータを配信し、Echobellが通知を処理します。
+
+完全なウォークスルーは[Upptime設定ガイド](/en/docs/developer/upptime)を参照してください。Upptimeのその他の通知オプションについては[公式ドキュメント](https://upptime.js.org/docs/notifications)を参照してください。
 
 ## 得られるもの
 
-- エンドポイントの劣化やダウンをより早く把握  
-- 影響サイトと GitHub Issue への直接リンク  
-- 既存の Upptime 設定を崩さずに確実なエスカレーション経路
-
-まずは監視 URL を一つ選び、テストの障害を起こしてみてください。すぐに通知が届くはずです。
+- エンドポイントがダウンまたは復旧した際の即時通知
+- すべてのアラートに影響を受けたサイトとGitHubイシューへの直接リンク
+- 待てないエンドポイントへの電話着信へのエスカレーション

@@ -1,139 +1,120 @@
 ---
-title: 如何把 QQ 邮箱的重要邮件转成电话通知
+title: 用 Echobell 将 QQ 邮箱重要邮件转为来电通知
 date: 2026-02-07
-description: "手把手教你将 QQ 邮箱的重要邮件自动转发到 Echobell，并通过电话式通知第一时间接收紧急邮件。重点采用 QQ 邮箱侧过滤，并补充隐私与告知义务。"
+description: "配置 QQ 邮箱转发规则，将高优先级邮件发送到 Echobell 并接收来电通知。涵盖频道设置、模板配置、条件过滤和故障排查。"
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# 如何把 QQ 邮箱的重要邮件转成电话通知
+QQ 邮箱（QQ邮箱）是国内广泛使用的邮件服务。在开会、专注工作或手机静音时，普通推送通知很容易错过。本文介绍如何只将 QQ 邮箱中的高优先级邮件转发到 Echobell，并以来电式告警触达你的手机。
 
-很多人并不是没收到重要 QQ 邮件，而是看晚了。开会、写代码、通勤时，普通推送太容易被淹没。更稳妥的做法是：只把关键邮件转发到 Echobell，让手机以“来电”方式提醒你。
+相关文档：
 
-这篇文章会带你从 0 到 1 完成配置。
+- [QQ 邮箱设置](/en/docs/email-to-call/qq)
+- [邮件触发](/en/docs/email-trigger)
+- [通知类型](/en/docs/notification)
+- [模板与变量](/en/docs/template)
+- [条件](/en/docs/conditions)
 
-先看这些文档会更顺：
-
-- QQ 邮箱接入指南：[/zh/docs/email-to-call/qq](/zh/docs/email-to-call/qq)
-- 邮件触发基础：[/zh/docs/email-trigger](/zh/docs/email-trigger)
-- 通知类型（含 Calling）：[/zh/docs/notification](/zh/docs/notification)
-- 模板与变量：[/zh/docs/template](/zh/docs/template)
-- 条件过滤（可选兜底）：[/zh/docs/conditions](/zh/docs/conditions)
-
-## 为什么要用电话通知？
-
-- 来电提醒比普通推送更不容易错过
-- 日常邮件保持安静，只有高优先级才“打电话”
-- 语音播报让你不用盯屏幕也能理解告警内容
-
-如果你要处理生产事故、客户升级、财务异常，这套方案非常实用。
-
-## 准备工作
+## 前提条件
 
 - 已安装 Echobell（[App Store](https://apps.apple.com/app/id6743597198)）
-- 已创建一个用于紧急邮件的频道
 - 可访问 QQ 邮箱设置
 
-## 第一步 - 在 Echobell 建立“重要邮件”频道
+## 第一步——创建 QQ 紧急邮件频道
 
-1. 新建频道，例如 `QQ 关键邮件`。
-2. 通知类型设置为 **Calling**。
-3. 如需更稳妥送达，可在 App 设置中开启失败重试。
+1. 打开 Echobell，创建新频道（如 `QQ Critical Mail`）。
+2. 将通知类型设置为**来电**。
+3. 如需更强的送达保障，可在应用设置中开启重试。
 
-相关文档：[/zh/docs/notification](/zh/docs/notification)
+参考：[通知类型](/en/docs/notification)
 
-## 第二步 - 复制频道邮箱并配置模板
+## 第二步——复制频道邮件地址并配置模板
 
-在频道详情页复制专属邮箱地址。后面 QQ 邮箱规则会把重要邮件转发到这个地址。
+从频道详情页复制频道绑定的邮件地址。QQ 邮箱将转发到此地址。
 
-建议模板保持简短，便于语音播报：
+模板保持简短——来电通知会朗读这些内容。
 
 标题模板：
 
 ```txt
-[QQ 重要邮件] {{subject}}
+[QQ Important Mail] {{subject}}
 ```
 
 正文模板：
 
 ```txt
-来自 {{from}}。{{text}}
+From {{from}}. {{text}}
 ```
 
-模板进阶：[/zh/docs/template](/zh/docs/template)
+变量参考：[模板](/en/docs/template)
 
-## 第三步 - 在 QQ 邮箱配置转发规则
+## 第三步——创建 QQ 邮箱转发规则
 
-打开 QQ 邮箱设置，创建筛选/过滤规则，建议按以下条件筛选“重要邮件”：
+在 QQ 邮箱设置中，为高优先级邮件创建过滤规则：
 
-- 发件人（老板、财务、安全、核心客户）
-- 主题关键词（如 `紧急`、`发票`、`失败`、`验证`）
-- 动作：转发到 Echobell 频道邮箱
+- 按发件人匹配（如财务、安全、重要客户）
+- 按主题关键词匹配（`紧急`、`发票`、`失败`、`验证`等）
+- 操作：转发到你的 Echobell 频道邮件地址
 
-首次启用转发时，QQ 邮箱会发送一封认证邮件。你可以在 Echobell 通知右上角找到链接，点击后查看邮件正文，再点正文里的认证链接即可完成启用。
+**首次验证：** 启用转发时，QQ 邮箱会发送一封验证邮件。在 Echobell 中打开该通知，点击右上角链接查看完整邮件正文，再点击其中的验证链接即可激活转发。
 
-这一步应作为主过滤层。为了隐私，优先在 QQ 邮箱侧完成筛选，只把必要邮件发到 Echobell。
+从一条严格的规则开始，确认正常运行且没有噪音后再添加更多规则。
 
-建议先从一条严格规则开始，验证稳定后再扩展，避免通知轰炸。
+QQ 邮箱完整操作步骤：[/docs/email-to-call/qq](/en/docs/email-to-call/qq)
 
-QQ 专项步骤参考：[/zh/docs/email-to-call/qq](/zh/docs/email-to-call/qq)
+## 第四步——添加 Echobell 条件（可选）
 
-## 第四步 - 可选兜底：在 Echobell 使用 Conditions
+当 QQ 邮箱规则无法表达所需逻辑时，使用条件作为辅助过滤层。
 
-仅当 QQ 邮箱规则表达不了你的筛选逻辑时，再开启这层兜底过滤。
-
-示例：
-
-仅财务发件人触发：
+仅通知特定发件人：
 
 ```js
 from == "billing@company.com"
 ```
 
-主题包含 urgent 才触发：
+仅当主题包含"urgent"时通知：
 
 ```js
 subject.toLowerCase().includes("urgent")
 ```
 
-发件人 + 关键词组合：
+发件人与关键词组合：
 
 ```js
 (from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
 ```
 
-条件语法：[/zh/docs/conditions](/zh/docs/conditions)
+参考：[条件](/en/docs/conditions)
 
-## 隐私与告知义务（务必说明）
+## 隐私说明
 
-在对外发布这套方案时，建议明确告知用户：
+优先在 QQ 邮箱侧过滤，确保只有必要的邮件才会发送到 Echobell。如果将此方案用于团队，请告知用户：符合规则的邮件内容将被转发用于通知投递，需遵循团队内部规定和当地合规要求。
 
-- 重要条件应优先在 QQ 邮箱中配置，尽量减少转发到 Echobell 的邮件范围。
-- 用户需要知晓：被规则命中的邮件内容会被转发用于通知送达；应遵循团队制度与当地合规要求。
+## 第五步——端到端测试
 
-## 第五步 - 端到端测试
+1. 在 QQ 邮箱发送一封符合转发规则的测试邮件。
+2. 确认 QQ 邮箱已将其转发到频道邮件地址。
+3. 确认 Echobell 触发了来电通知。
+4. 根据来电播报效果调整模板和过滤规则。
 
-1. 在 QQ 邮箱发送一封符合规则的测试邮件。
-2. 确认邮件已自动转发到频道邮箱。
-3. 确认 Echobell 触发电话提醒。
-4. 根据播报效果微调模板与规则。
+## 故障排查
 
-## 常见问题排查
+- **未收到来电：** 确认订阅类型已设置为"来电"；检查 iOS 通知权限和专注模式行为。
+- **来电过多：** 先收紧 QQ 邮箱规则；如仍不够，再添加 Echobell 条件。
+- **语音内容过长：** 精简模板，只保留关键字段。
 
-- 没接到电话：
-  - 确认订阅通知类型是 Calling
-  - 检查 iOS 通知权限与专注模式设置
-- 电话太多：
-  - 先收紧 QQ 规则
-  - 若仍不足，再在 Echobell 增加 Conditions 兜底
-- 语音内容太长：
-  - 精简模板，只保留核心字段
+## 下一步
 
-## 下一步建议
+- 按主题创建独立频道（财务、安全、客户）
+- 日常更新用推送，真正紧急的消息才用来电
+- 每月复查转发规则
 
-- 按场景拆分频道（财务 / 安全 / 客户）
-- 普通信息用推送，电话仅用于真正紧急事件
-- 每月复盘并优化邮箱筛选规则
+## 相关
 
-更多邮箱触发方案：[/zh/docs/email-to-call](/zh/docs/email-to-call)
+- [通用邮件转来电通知指南](/en/blog/email-to-call-notification) — 适用于 Gmail、iCloud 和 Outlook 的相同配置方案
+- [邮件触发文档](/en/docs/email-to-call) — 所有邮件服务商的完整参考
+- [如何让关键告警突破 iOS 专注模式](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — 在推送和来电通知之间做出选择
+- [条件](/en/docs/conditions) — 过滤告警的表达式语法
+- [模板](/en/docs/template) — 邮件触发的变量参考

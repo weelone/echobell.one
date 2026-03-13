@@ -1,94 +1,75 @@
 ---
-title: "Surveiller l'activité HuggingFace avec Echobell : Mises à jour en temps réel pour les modèles d'IA et les dépôts"
-description: "Ne ratez plus jamais les mises à jour critiques de modèles HuggingFace ! Apprenez à configurer des notifications webhook instantanées avec Echobell pour surveiller les dépôts d'IA, suivre les changements de modèles et maintenir votre équipe synchronisée avec des alertes en temps réel livrées directement sur votre téléphone."
+title: "Surveiller l'activité HuggingFace avec Echobell : alertes Webhook en temps réel pour les dépôts IA"
+description: "Configurez des notifications Webhook instantanées avec Echobell pour surveiller les mises à jour de modèles HuggingFace, les changements de dépôts et l'activité de l'équipe — livrées sous forme de notifications push ou d'appels téléphoniques."
 date: 2025-04-27
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Surveiller l'activité HuggingFace avec Echobell : Mises à jour en temps réel pour les modèles d'IA et les dépôts
+# Surveiller l'activité HuggingFace avec Echobell : alertes Webhook en temps réel pour les dépôts IA
 
-Imaginez ceci : vous travaillez sur un projet d'IA critique, et le modèle dont vous dépendez vient de recevoir une mise à jour majeure qui pourrait casser votre pipeline de production. Ou peut-être que votre équipe vient de pousser une percée vers votre dépôt partagé, mais vous êtes en mode concentration et ratez la notification. Ça vous dit quelque chose ?
+HuggingFace dispose d'un système de Webhooks intégré qui se déclenche lors de mises à jour de modèles, de discussions et de pull requests. Le connecter à [Echobell](https://apps.apple.com/app/id6743597198) transforme ces événements en notifications téléphoniques instantanées — utile pour détecter les changements incompatibles dans les dépendances de production ou rester informé de l'activité des dépôts de l'équipe.
 
-En tant que développeurs et chercheurs en IA, nous sommes tous passés par là. HuggingFace a révolutionné notre façon de collaborer sur les projets de machine learning, mais suivre toute cette activité peut sembler écrasant. C'est là qu'[Echobell](https://echobell.one) entre en jeu – votre assistant personnel pour les notifications instantanées qui s'assure que vous ne ratez jamais ce qui compte le plus.
+## Étape 1 : Créer votre canal Echobell
 
-Avec les puissantes notifications webhook d'Echobell, vous pouvez transformer votre façon de rester connecté à vos projets HuggingFace. Que ce soit une mise à jour de modèle révolutionnaire, un nouveau membre d'équipe rejoignant votre organisation, ou des discussions critiques se déroulant dans vos dépôts, Echobell livre des [alertes en temps réel](/fr/docs/what-is-echobell) directement sur votre appareil.
-
-## Pourquoi surveiller l'activité HuggingFace ?
-
-Suivre les activités HuggingFace en temps réel est crucial, particulièrement dans ces scénarios :
-
-- **Suivre les mises à jour des modèles** : Recevez des notifications lorsque des modèles d'IA critiques dont vous dépendez publient de nouvelles versions ou subissent des modifications importantes.
-- **Surveiller les contributions au projet** : Sachez quand de nouveaux contributeurs rejoignent votre projet, ou quand de nouvelles Pull Requests et commits de code sont effectués.
-- **Rester informé des activités de l'organisation** : Suivez les activités à travers toute votre organisation, en vous assurant que les membres de l'équipe ne manquent aucune annonce ou changement important.
-- **Participer aux discussions communautaires** : Recevez des alertes concernant les nouveaux Issues, commentaires ou messages de discussion pour répondre et vous engager rapidement.
-- **Analyser l'utilisation** : Surveillez les téléchargements et la popularité de vos modèles ou ensembles de données pour comprendre leur impact.
-
-## Configuration de la surveillance HuggingFace avec les Webhooks Echobell
-
-Suivez ces étapes simples pour connecter Echobell à HuggingFace pour des notifications automatisées :
-
-### Étape 1 : Configurer votre canal de notification Echobell
-
-Tout d'abord, vous devez créer un canal dans l'application Echobell dédié à la réception des notifications HuggingFace :
-
-1.  Téléchargez et installez l'[application Echobell](https://apps.apple.com/app/id6743597198) sur votre appareil iOS.
-2.  Connectez-vous en utilisant votre email ou votre identifiant Apple.
-3.  Créez un nouveau canal de notification, par exemple nommé "Mises à jour HuggingFace".
-4.  (Facultatif) Configurez des modèles de notification personnalisés pour une meilleure compréhension des événements :
-    - **Modèle de titre** : `HuggingFace: {{repo.name}} {{event.action}}`
-    - **Modèle de contenu** : `{{event.scope}} a été {{event.action}} dans {{repo.name}}. Consultez le dépôt pour plus de détails.`
-5.  Copiez l'URL Webhook unique pour ce canal (allez dans les détails du canal, cliquez sur le bouton Webhook pour copier).
+1. Téléchargez [Echobell](https://apps.apple.com/app/id6743597198) et connectez-vous
+2. Créez un nouveau canal (ex. « HuggingFace Updates »)
+3. Configurez vos modèles de notification en utilisant les variables du payload Webhook de HuggingFace :
+   - **Titre** : `🤗 {{repo.name}}: {{event.action}}`
+   - **Contenu** : `{{event.scope}} was {{event.action}} in {{repo.name}}`
+4. Copiez l'URL Webhook depuis les paramètres du canal
 
 <Callout type="info">
-  Vous voulez en savoir plus sur les variables que vous pouvez utiliser dans vos modèles ? Consultez la [documentation officielle des Webhooks HuggingFace](https://huggingface.co/docs/hub/webhooks).
+  Consultez la [documentation officielle des Webhooks HuggingFace](https://huggingface.co/docs/hub/webhooks) pour la liste complète des variables de payload disponibles.
 </Callout>
 
-### Étape 2 : Configurer le Webhook dans HuggingFace
+## Étape 2 : Configurer le Webhook HuggingFace
 
-Ensuite, ajoutez le Webhook Echobell dans les paramètres de votre compte HuggingFace :
+![HuggingFace Settings](/images/blog/huggingface-settings.png)
 
-![Paramètres HuggingFace](/images/blog/huggingface-settings.png)
+1. Connectez-vous à HuggingFace → photo de profil → **Settings**
+2. Dans la barre latérale, sélectionnez **Webhooks**
+3. Cliquez sur **Add a new webhook**
+4. Dans **Target repositories**, spécifiez ce que vous souhaitez surveiller :
+   - Un dépôt spécifique : `username/my-model`
+   - Tous les dépôts d'une organisation : `my-company`
+   - Tous les dépôts personnels : `your-username`
+5. Collez votre URL Webhook Echobell
+6. Laissez le champ **Secret** vide
+7. Sélectionnez vos déclencheurs — ensemble de départ recommandé :
+   - ✅ Repo update
+   - ✅ Discussion created
+   - ✅ New PR/issues
+8. Cliquez sur **Create webhook**
 
-1.  Connectez-vous à HuggingFace, cliquez sur votre photo de profil dans le coin supérieur droit et sélectionnez **Settings**.
-2.  Dans le menu de gauche, trouvez et cliquez sur **Webhooks**.
-3.  Cliquez sur le bouton **Add a new webhook**.
-4.  Dans le champ **Target repositories**, entrez le nom spécifique du dépôt que vous souhaitez surveiller (par exemple, `nomdutilisateur/nom-depot`) ou un nom d'organisation/d'utilisateur entier (par exemple, `nom-org` ou `nomdutilisateur`). Vous pouvez ajouter plusieurs cibles.
-5.  Collez l'**URL Webhook** Echobell que vous avez copiée à l'Étape 1 dans le champ approprié.
-6.  Laissez le champ **Secret** vide.
-7.  Dans la section **Triggers**, il est recommandé de cocher au moins **Repo update**, mais vous pouvez sélectionner d'autres événements déclencheurs (comme `Discussion created`) selon vos besoins.
-8.  Cliquez sur **Create webhook** pour terminer la configuration.
+![HuggingFace webhook has been set](/images/blog/huggingface-webhook-set.png)
 
-![Le webhook HuggingFace a été configuré](/images/blog/huggingface-webhook-set.png)
+## Notifications prioritaires pour les modèles en production
 
-Une fois configuré, Echobell enverra immédiatement des notifications à votre appareil chaque fois que vos dépôts ou organisations HuggingFace spécifiés connaîtront les événements que vous avez sélectionnés !
+Toute l'activité HuggingFace ne mérite pas le même niveau d'urgence. Utilisez des canaux séparés :
 
-## Configuration et utilisation avancées
+1. **Dépôts critiques en production** → canal avec type de notification **Urgent** ou **Appel**
+2. **Activité générale** → canal de notification push standard
 
-### Surveiller les mises à jour critiques pour des modèles spécifiques
+Pour un filtrage conditionnel (ex. n'alerter que sur les événements `update` pour des dépôts spécifiques), utilisez les [conditions Echobell](/en/docs/conditions) :
 
-Si vous êtes particulièrement intéressé par un modèle spécifique, vous pouvez créer un canal Echobell dédié pour celui-ci et configurer des modèles de notification plus spécifiques ou utiliser des notifications de haute priorité (comme "Sensible au temps" ou "Appel") pour vous assurer que les mises à jour critiques ne se perdent pas.
+```
+event.action == "update" && repo.name.includes("production")
+```
 
-### Partage des notifications avec l'équipe
+## Notifications d'équipe
 
-La fonction d'abonnement aux canaux d'Echobell rend la collaboration en équipe plus pratique. Vous pouvez partager votre canal de notification HuggingFace avec les membres de l'équipe :
+Pour partager les alertes avec votre équipe sans que chacun configure des Webhooks séparés :
 
-1.  Dans l'interface des paramètres du canal Echobell, trouvez et copiez le **Lien d'abonnement**.
-2.  Envoyez ce lien aux membres de l'équipe qui ont besoin de recevoir des notifications.
-3.  Les membres peuvent cliquer sur le lien pour s'abonner au canal et choisir leur méthode de notification préférée (Régulière, Sensible au temps ou Alerte d'appel).
+1. Créez un canal partagé (ex. « Team AI Models »)
+2. Copiez le **lien d'abonnement** depuis les paramètres du canal
+3. Partagez le lien avec vos coéquipiers — chaque personne s'abonne et définit ses propres préférences de notification
 
-## Meilleures pratiques
+## Bonnes pratiques
 
-Pour tirer le meilleur parti de l'intégration HuggingFace et Echobell, considérez ces recommandations :
+- **Commencez petit :** surveillez 2 à 3 dépôts critiques en premier. Élargissez une fois que vous connaissez le volume d'alertes.
+- **Rendez les modèles exploitables :** incluez suffisamment de contexte pour agir sans ouvrir HuggingFace. `{{event.description}}` contient souvent des détails utiles.
+- **Surveillez la fatigue :** si un canal génère plus de 10 à 15 alertes par jour, resserrez les filtres de déclenchement ou ajoutez des conditions.
 
-1.  **Gestion catégorisée** : Créez différents canaux Echobell pour différents types d'activités (comme les mises à jour de modèles, les discussions communautaires, les dynamiques d'organisation) pour une gestion et une différenciation plus faciles.
-2.  **Exploitez les niveaux de priorité** : Pour les événements critiques que vous ne pouvez pas vous permettre de manquer (comme les mises à jour de modèles dépendants de la production), définissez leur type de notification sur "Appel" ou "Sensible au temps" dans Echobell.
-3.  **Optimisez les modèles** : Incluez suffisamment d'informations dans vos modèles de notification (comme le nom du dépôt, le type d'événement, le déclencheur) pour déterminer rapidement l'importance et le contenu des notifications.
-4.  **Déclencheurs précis** : Dans les paramètres Webhook de HuggingFace, sélectionnez uniquement les types d'événements que vous avez réellement besoin de surveiller pour éviter les distractions inutiles et réduire la fatigue des notifications.
-
-## Conclusion
-
-En combinant les capacités de notification en temps réel d'Echobell avec la puissante plateforme HuggingFace, vous pouvez construire un système de surveillance efficace. Cela vous aide non seulement à rester à jour avec les derniers développements dans les modèles d'IA, les ensembles de données et les projets, mais facilite également la synchronisation des informations entre les membres de l'équipe, garantissant que vous et votre équipe êtes toujours à la pointe du développement de l'IA.
-
-Commencez à utiliser Echobell pour surveiller vos activités HuggingFace dès aujourd'hui et dites adieu à la frustration de manquer des mises à jour importantes !
+Pour la référence de configuration des Webhooks, voir la [documentation Webhook Echobell](/en/docs/webhook). Pour les intégrations connexes, voir [les notifications GitHub Actions](/en/blog/github-actions-notifications) et [les alertes Grafana](/en/docs/developer/grafana).

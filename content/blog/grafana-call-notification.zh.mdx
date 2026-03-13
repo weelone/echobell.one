@@ -1,102 +1,83 @@
 ---
-title: 为 Grafana 警报启用电话通知
-description: 学习如何使用 Echobell 为 Grafana 警报设置电话通知
+title: 通过 Echobell 将 Grafana 告警转为来电通知
+description: "使用 Echobell Webhook 为 Grafana 告警配置来电通知：逐步设置、最佳实践与故障排查。"
 date: 2025-04-12
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# 再也不怕错过 Grafana 的关键告警（即便凌晨 3 点）
+# 通过 Echobell 将 Grafana 告警转为来电通知
 
-如果你也有过起床后看到满屏红色面板、心想“要是有人给我打个电话就好了”的经历——这篇文章就是为你写的。邮件和聊天很有用，但在真正紧急的时候，“电话”才最有说服力。借助 Echobell，你可以把 Grafana 告警变成即时电话通知，并支持升级、重试和安静时段。
+邮件和聊天通知在故障发生时很容易被忽略。对于关键告警，Echobell 可以将 Grafana 的 Webhook 通知转换为真实的来电，并支持升级和重试。本文带你完成完整的配置过程。
 
-下面用最短的时间带你通过 Webhook 将 Grafana 接入 Echobell，并分享一些让值班更从容的小技巧。
+相关文档：
 
-## 为什么用 Echobell 来接 Grafana 电话通知？
+- 什么是 Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- 通知类型与重试 → [/docs/notification](/en/docs/notification)
+- Webhooks 概览 → [/docs/webhook](/en/docs/webhook)
+- Grafana 集成参考 → [/docs/developer/grafana](/en/docs/developer/grafana)
 
-- 立即引起注意：关键时刻，电话不容易被忽略
-- 为值班而生：升级、重试、安静时段，控制“噪音”
-- 团队友好：频道共享、角色轮值更轻松
-- 设置简单：安全的 Echobell Webhook，几分钟就能跑通
+## 前提条件
 
-先看这些文档更快上手：
-
-- 什么是 Echobell → [/zh/docs/what-is-echobell](/zh/docs/what-is-echobell)
-- 通知模型（优先级、重试）→ [/zh/docs/notification](/zh/docs/notification)
-- Webhook 概览 → [/zh/docs/webhook](/zh/docs/webhook)
-- Grafana 开发者指南 → [/zh/docs/developer/grafana](/zh/docs/developer/grafana)
-
-## 3 分钟把 Echobell 接入 Grafana
-
-### 前提条件
-
-1. 有 Echobell 频道和 Webhook URL（见 [/zh/docs/webhook](/zh/docs/webhook)）
+1. 拥有 Echobell 账户、活跃频道和 Webhook URL（参见 [/docs/webhook](/en/docs/webhook)）
 2. 具有 Grafana 管理员权限
-3. 至少存在一条告警规则
+3. 已配置至少一条告警规则
 
-### 第 1 步 — 在 Grafana 创建 Webhook 联系点
+## 配置步骤
 
-- Grafana：Alerting → Contact points
-- “New contact point” → 类型选择 “Webhook”
-- 名称可写 “Echobell 电话通知”
+### 第一步——在 Grafana 创建 Webhook 联系点
 
-### 第 2 步 — 填入 Echobell 的 Webhook URL
+1. 进入 Alerting → Contact points
+2. 点击"New contact point"，类型选择 **Webhook**
+3. 填写易于识别的名称，如"Echobell 来电通知"
 
-把频道的 Webhook 填进去，例如：
+### 第二步——填入 Echobell Webhook URL
+
+将 URL 设置为频道的 Webhook 地址：
 
 `https://hook.echobell.one/t/xxxxxxxx`
 
-在 Echobell 的频道设置中可复制该 URL（详见 [/zh/docs/webhook](/zh/docs/webhook)）。请当作机密妥善保存，泄露时及时更换。
+从 Echobell 频道设置中复制该 URL（详见 [/docs/webhook](/en/docs/webhook)）。请将其视为密钥妥善保管，泄露时及时更换。
 
-### 第 3 步 — 测试是否打得通
+### 第三步——测试集成
 
-- 在 Grafana 点击 “Test” 发送测试告警
+在 Grafana 中点击 **Test** 发送测试告警。几秒内你应该就会收到 Echobell 来电。
 
-- 几秒钟内你应该会接到 Echobell 的电话
+### 第四步——绑定到通知策略
 
-### 第 4 步 — 绑定到通知策略
+1. 进入 Alerting → Notification policies
+2. 创建或编辑针对关键告警的策略
+3. 添加"Echobell 来电通知"联系点
 
-- Alerting → Notification policies
-- 创建或编辑用于关键告警的策略
-- 添加刚才的 “Echobell 电话通知” 联系点
+Grafana 将把匹配的告警路由到 Echobell。
 
-完成！当策略匹配时，Grafana 会通过 Echobell 给你打电话。
+## 最佳实践
 
-## 值班不抓狂的小建议
+- 来电仅用于高优先级告警；低严重程度走聊天或邮件
+- 在 Echobell 中配置重试和超时，控制告警疲劳（参见 [/docs/notification](/en/docs/notification)）
+- 设置升级机制，第一个电话未接时自动通知队友
+- 配置安静时段，避免低紧急度告警在夜间打扰
+- 与值班团队共享频道，保持排班信息最新
 
-- 把电话留给高优先级；低优先级走聊天/邮件
-- 在 Echobell 设置重试与超时（见 [/zh/docs/notification](/zh/docs/notification)）
-- 若首个电话未接听，自动升级到队友
-- 配置安静时段，避免非紧急夜间打扰
-- 维护好值班表并在 Echobell 中共享
+## 进阶选项
 
-## 进阶玩法：定制“电话体验”
+- 与团队成员共享频道，扩大覆盖范围
+- 使用模板为不同告警类型定制语音内容
+- 配置重试次数和升级路径
+- 设置备用联系人以增强可靠性
 
-Echobell 支持对通话行为进行细粒度配置：
+完整参考：[/docs/developer/grafana](/en/docs/developer/grafana)
 
-- 与团队共享频道
-- 自定义重试次数和升级路径
-- 通过模板为不同告警类型定制语音内容
-- 设置安静时段与备用联系人
+## 故障排查
 
-完整 Grafana 集成指南：[/zh/docs/developer/grafana](/zh/docs/developer/grafana)
+- **未收到来电**：确认通知策略已路由到 Echobell 联系点
+- **Webhook 返回 4xx**：验证 Webhook URL 是否正确，频道是否处于活跃状态
+- **来电过多**：缩小策略范围或降低告警严重级别阈值
+- **来电过少**：提高严重级别，或添加标签过滤器确保关键告警能匹配到策略
 
-## 常见问题排查
+## 相关资源
 
-- 没有接到电话：确认策略是否路由到 Echobell 联系点
-- Webhook 返回 4xx：检查 URL 是否正确及频道是否激活
-- 电话太频繁：收紧策略范围或降低告警严重级别
-- 电话太少：提高严重级别或调整过滤条件
-
-## 延伸阅读
-
-- 用 Webhook 向 Echobell 发送通知（适合自建系统）：[/zh/blog/get-notified-with-webhook-mcp](/zh/blog/get-notified-with-webhook-mcp)
-- GitHub Actions 失败，手机即时来电：[/zh/blog/github-actions-notifications](/zh/blog/github-actions-notifications)
-- Grafana 开发者文档：[/zh/docs/developer/grafana](/zh/docs/developer/grafana)
-
-## 小结
-
-电话通知为 Grafana 告警增加了“更可靠、更人性化”的一层保障。通过 Echobell 的 Webhook 集成，你能在关键时刻拨通正确的人，让事件响应更快、更稳。
-
-现在花 5 分钟连好，今晚就能睡得更踏实。
+- 自定义系统的 Webhook 告警 → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- GitHub Actions 失败通知 → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Grafana 开发者文档 → [/docs/developer/grafana](/en/docs/developer/grafana)

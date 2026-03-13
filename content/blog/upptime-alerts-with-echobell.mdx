@@ -1,6 +1,6 @@
 ---
-title: "Turn Upptime Alerts into Instant Calls with Echobell"
-description: "Route Upptime outages to Echobell’s time-sensitive push or phone-call alerts with one custom webhook—fast to set up, reliable when it matters."
+title: "Route Upptime Alerts to Phone Calls with Echobell"
+description: "Send Upptime outage alerts to Echobell as time-sensitive push or phone-call notifications using a single custom webhook—no extra servers required."
 date: 2025-11-22
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
@@ -13,20 +13,21 @@ tags:
   - on-call
 ---
 
-# Turn Upptime Alerts into Instant Calls with Echobell
+# Route Upptime Alerts to Phone Calls with Echobell
 
-Upptime already monitors your sites from GitHub Actions, but the moment something breaks you still need a signal that cuts through. Echobell turns those checks into time-sensitive pushes or even phone calls—no extra servers, just a single webhook URL per channel.
+Upptime monitors your sites from GitHub Actions, but a failed check only helps if the alert reaches you. This guide shows how to route Upptime outage notifications to Echobell as time-sensitive pushes or phone calls using a single webhook URL, with no additional infrastructure.
 
-## Why this pairing works
+## Setup
 
-- **Real escalation**: flip a channel to call notifications for the endpoints that cannot wait.  
-- **Structured context**: include site name, status, response code, and the GitHub issue link in every alert.  
-- **Low-effort setup**: add two secrets in your Upptime repo and keep the rest of your config unchanged.
+**1. Copy a channel webhook URL from Echobell**
 
-## Enable it in minutes
+In the Echobell app, open a channel and copy its webhook: `https://hook.echobell.one/t/<channel-token>`
 
-1) In Echobell, copy a channel webhook: `https://hook.echobell.one/t/<channel-token>` (choose standard, time-sensitive, or call).  
-2) In your Upptime repo, add GitHub Actions secrets:
+Set the channel notification type to standard, time-sensitive, or calling depending on the urgency of the monitored endpoint.
+
+**2. Add secrets to your Upptime repo**
+
+In your GitHub repository settings, add these Actions secrets:
 
 ```
 NOTIFICATION_CUSTOM_WEBHOOK=true
@@ -35,14 +36,16 @@ NOTIFICATIONS_DOWN_MESSAGE=$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE) – $IS
 NOTIFICATIONS_UP_MESSAGE=$EMOJI $SITE_NAME is back up – $SITE_URL
 ```
 
-3) In Echobell, set a simple template (`{{site}}`, `{{status}}`, `{{code}}`, `{{url}}`, `{{issue}}`) and choose whether the channel should ring your phone or stay as a push.
+**3. Set a template in Echobell**
 
-That’s it—Upptime delivers the data, and Echobell handles the notification style. If you need the full breakdown, the [configuration guide](/en/docs/developer/upptime) walks through every detail, while Upptime’s own knobs stay in the [official docs](https://upptime.js.org/docs/notifications).
+Use variables matching the query parameters above: `{{site}}`, `{{status}}`, `{{code}}`, `{{url}}`, `{{issue}}`. Choose whether the channel should call or push.
+
+That's the full setup. Upptime delivers the data; Echobell handles the notification.
+
+For a complete walkthrough see the [Upptime configuration guide](/en/docs/developer/upptime). For Upptime's own notification options, refer to the [official docs](https://upptime.js.org/docs/notifications).
 
 ## What you get
 
-- Faster awareness when an endpoint degrades or goes down  
-- Clear links back to the affected site and the GitHub issue thread  
-- A reliable escalation path without touching the rest of your Upptime setup
-
-Try it on one monitored URL, trigger a test outage, and you’ll hear (or see) the alert instantly.
+- Immediate notification when an endpoint goes down or recovers
+- Direct link to the affected site and its GitHub issue in every alert
+- Escalation to a phone call for endpoints that can't wait

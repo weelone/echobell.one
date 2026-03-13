@@ -1,101 +1,83 @@
 ---
-title: Activer les notifications d'appels pour les alertes Grafana
-description: Apprenez à configurer les notifications d'appels téléphoniques pour vos alertes Grafana avec Echobell
+title: Notifications d'appel téléphonique pour les alertes Grafana via Echobell
+description: "Configurez des notifications d'appel téléphonique pour les alertes Grafana avec les Webhooks Echobell : configuration pas à pas, bonnes pratiques et résolution des problèmes."
 date: 2025-04-12
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Ne manquez plus jamais une alerte Grafana critique (même à 3 h du matin)
+# Notifications d'appel téléphonique pour les alertes Grafana via Echobell
 
-Si vous vous êtes déjà réveillé face à des tableaux de bord rouges en vous disant « si seulement on m’avait appelé », ce guide est pour vous. L’e‑mail et le chat ont leur place, mais pour les incidents vraiment critiques, un appel vocal vous met tout de suite en mouvement. Avec Echobell, transformez vos alertes Grafana en appels téléphoniques instantanés, avec escalade et heures silencieuses.
+Les notifications par email et chat sont faciles à manquer lors d'incidents. Pour les alertes critiques, Echobell peut transformer les notifications Webhook de Grafana en véritables appels téléphoniques avec escalade et tentatives automatiques. Ce guide couvre la configuration complète.
 
-Voici comment connecter Grafana à Echobell via un simple webhook – et quelques conseils pour garder l’astreinte sereine.
+Documentation utile :
 
-## Pourquoi des appels téléphoniques Echobell pour Grafana ?
+- Qu'est-ce qu'Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Types de notifications et tentatives automatiques → [/docs/notification](/en/docs/notification)
+- Présentation des Webhooks → [/docs/webhook](/en/docs/webhook)
+- Référence d'intégration Grafana → [/docs/developer/grafana](/en/docs/developer/grafana)
 
-- Attention immédiate : quand chaque minute compte, un appel ne s’ignore pas
-- Conçu pour l’astreinte : escalade, nouvelles tentatives et heures silencieuses limitent le bruit
-- Pensé pour l’équipe : partagez les canaux et faites tourner les rôles
-- Mise en place rapide : webhook sécurisé Echobell, prêt en quelques minutes
+## Prérequis
 
-Docs utiles pour aller plus loin :
+1. Compte Echobell avec un canal actif et une URL Webhook (voir [/docs/webhook](/en/docs/webhook))
+2. Accès administrateur à votre instance Grafana
+3. Au moins une règle d'alerte configurée
 
-- Qu’est‑ce qu’Echobell ? → [/fr/docs/what-is-echobell](/fr/docs/what-is-echobell)
-- Modèle de notifications (priorités, relances) → [/fr/docs/notification](/fr/docs/notification)
-- Aperçu des webhooks → [/fr/docs/webhook](/fr/docs/webhook)
-- Guide développeur Grafana → [/fr/docs/developer/grafana](/fr/docs/developer/grafana)
-
-## Connecter Echobell à Grafana en 3 minutes
-
-### Prérequis
-
-1. Compte Echobell avec canal actif et URL de webhook (voir [/fr/docs/webhook](/fr/docs/webhook))
-2. Accès admin à votre instance Grafana
-3. Au moins une règle d’alerte configurée
+## Configuration
 
 ### Étape 1 — Créer un point de contact Webhook dans Grafana
 
-- Grafana → Alerting → Contact points
-- « New contact point » → type « Webhook »
-- Nommez‑le « Appels Echobell » (ou le nom de votre équipe)
+1. Allez dans Alerting → Contact points
+2. Cliquez sur New contact point et choisissez **Webhook**
+3. Donnez-lui un nom identifiable, ex. « Echobell Phone Calls »
 
-### Étape 2 — Ajouter l’URL de webhook Echobell
+### Étape 2 — Ajouter votre URL Webhook Echobell
 
-Renseignez l’URL de votre canal, par exemple :
+Définissez l'URL sur le Webhook de votre canal :
 
 `https://hook.echobell.one/t/xxxxxxxx`
 
-Vous la copiez depuis les paramètres du canal dans Echobell (détails : [/fr/docs/webhook](/fr/docs/webhook)). Traitez‑la comme un secret.
+Copiez-la depuis les paramètres du canal dans Echobell (détails sur [/docs/webhook](/en/docs/webhook)). Traitez-la comme un secret et faites une rotation en cas de fuite.
 
-### Étape 3 — Tester l’intégration
+### Étape 3 — Tester l'intégration
 
-- Cliquez sur « Test » dans Grafana pour envoyer une alerte d’essai
-- Vous devriez recevoir un appel Echobell en quelques secondes
+Cliquez sur **Test** dans Grafana pour envoyer une alerte d'exemple. Vous devriez recevoir un appel téléphonique Echobell en quelques secondes.
 
-### Étape 4 — Ajouter aux politiques de notification
+### Étape 4 — Rattacher aux politiques de notification
 
-- Alerting → Notification policies
-- Créez/éditez une politique pour vos alertes critiques
-- Ajoutez le point de contact « Appels Echobell »
+1. Allez dans Alerting → Notification policies
+2. Créez ou modifiez une politique ciblant vos alertes critiques
+3. Ajoutez le point de contact « Echobell Phone Calls »
 
-Et voilà : quand la politique correspond, Grafana vous appelle via Echobell.
+Grafana acheminera désormais les alertes correspondantes vers Echobell.
 
-## Bonnes pratiques pour une astreinte apaisée
+## Bonnes pratiques
 
-- Réservez les appels aux alertes prioritaires ; e‑mail/chat pour le reste
-- Dans Echobell, ajustez relances et délais (voir [/fr/docs/notification](/fr/docs/notification))
-- Configurez l’escalade si le premier appel n’est pas pris
-- Définissez des heures silencieuses pour éviter les réveils inutiles
-- Tenez à jour la liste d’astreinte et partagez‑la dans Echobell
+- Réservez les appels téléphoniques aux alertes haute priorité ; utilisez le chat ou l'email pour les sévérités moindres
+- Configurez les tentatives automatiques et les délais d'expiration dans Echobell pour limiter la fatigue des alertes ([/docs/notification](/en/docs/notification))
+- Configurez l'escalade vers vos coéquipiers si le premier appel reste sans réponse
+- Utilisez les heures silencieuses pour éviter les réveils intempestifs en dehors des urgences
+- Partagez le canal avec votre équipe d'astreinte et maintenez le roster à jour
 
-## Avancé : personnaliser l’expérience d’appel
+## Options avancées
 
-Avec Echobell, vous pouvez affiner le comportement des appels :
+- Partagez les canaux avec vos coéquipiers pour une couverture plus large
+- Personnalisez le contenu vocal par type d'alerte avec des modèles
+- Configurez les tentatives automatiques et les chemins d'escalade
+- Définissez des contacts de secours pour une résilience accrue
 
-- Partager le canal avec l’équipe
-- Définir relances et chemins d’escalade
-- Personnaliser le message vocal par type d’alerte via des modèles
-- Définir des heures calmes et des contacts de secours
+Référence complète : [/docs/developer/grafana](/en/docs/developer/grafana)
 
-Guide complet Grafana : [/fr/docs/developer/grafana](/fr/docs/developer/grafana)
+## Résolution des problèmes
 
-## Dépannage
+- **Pas d'appel reçu :** confirmez que la politique de notification achemine vers votre point de contact Echobell
+- **Erreur 4xx sur le Webhook :** vérifiez l'URL exacte du Webhook et que le canal est actif
+- **Trop d'appels :** réduisez la portée de la politique ou abaissez les seuils de sévérité des alertes
+- **Trop peu d'appels :** augmentez la sévérité ou ajoutez des filtres de labels pour que les alertes critiques correspondent à la politique
 
-- Pas d’appel reçu : vérifiez que la politique route bien vers le point de contact Echobell
-- 4xx sur le webhook : vérifiez l’URL exacte et l’activation du canal
-- Trop d’appels : restreignez la politique ou baissez la sévérité
-- Trop peu d’appels : augmentez la sévérité ou adaptez les filtres
+## Lectures connexes
 
-## Lectures liées
-
-- Envoyer des alertes webhook à Echobell (parfait pour systèmes custom) : [/fr/blog/get-notified-with-webhook-mcp](/fr/blog/get-notified-with-webhook-mcp)
-- Échecs GitHub Actions, instantanément sur votre téléphone : [/fr/blog/github-actions-notifications](/fr/blog/github-actions-notifications)
-- Docs développeur Grafana : [/fr/docs/developer/grafana](/fr/docs/developer/grafana)
-
-## Conclusion
-
-Les appels téléphoniques ajoutent une couche humaine et fiable à vos alertes Grafana. Avec l’intégration Echobell, la bonne personne reçoit l’appel à temps – et votre réponse aux incidents gagne en rapidité et en sérénité.
-
-Prenez 5 minutes pour le brancher aujourd’hui… et dormez un peu mieux cette nuit.
+- Alertes Webhook pour systèmes personnalisés → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- Notifications d'échec GitHub Actions → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Documentation développeur Grafana → [/docs/developer/grafana](/en/docs/developer/grafana)

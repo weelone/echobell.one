@@ -1,35 +1,26 @@
 ---
-title: 使用 WebhookMCP 和 Echobell，再也不错过 AI 任务完成
+title: 用 WebhookMCP 和 Echobell 在 AI 任务完成时收到通知
 date: 2025-04-24
-description: 探索 WebhookMCP 与 Echobell 结合如何通过即时通知改变您的 AI 工作流。当您的 AI 任务完成时，获得电话呼叫或推送通知。
+description: "使用 WebhookMCP 搭配 Echobell，在 Claude、Cursor、VS Code 或 Windsurf 中的长时间 AI 任务完成时，接收推送通知或来电提醒。"
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-想象这样一个场景：您刚刚要求 Claude 分析一个大规模数据集，预计需要 20 多分钟。您不再盯着屏幕，而是去拿咖啡，检查 Slack，也许开始另一个任务。然后您完全忘记了您的 AI 请求，直到几个小时后才想起来。听起来熟悉吗？
+# 用 WebhookMCP 和 Echobell 在 AI 任务完成时收到通知
 
-如果您在点头，您并不孤单。随着 AI 助手变得越来越强大，我们处理越来越复杂的任务，等待游戏已经成为现代开发工作流中最大的生产力杀手之一。
+代码生成、数据集分析、大规模重构——这些耗时的 AI 任务不需要你全程盯着。[WebhookMCP](https://github.com/noobnooc/webhook-mcp) 是一个 MCP 服务器，可以让 AI 助手在任务完成时触发 Webhook 通知。搭配 Echobell，你可以在任务刚结束时就收到推送通知或来电提醒。
 
-但好消息是——这并非必须如此。通过将 WebhookMCP 与 Echobell 的即时通知系统相结合，您可以将这些令人沮丧的等待时间转化为高效的多任务机会。无论您更喜欢关键警报的电话呼叫、快速更新的推送通知，还是通过共享 Echobell 渠道让团队保持同步，Echobell 都能确保您再也不会错过 AI 任务的完成。
+## 配置步骤
 
-## 什么是 WebhookMCP？
+### 1. 获取 Echobell Webhook URL
 
-WebhookMCP 是一个发送 webhook 通知的模型上下文协议（MCP）服务器。它与各种 AI 开发环境无缝集成，包括 VS Code、Claude、Cursor 和 Windsurf。当配置了 Echobell 的 webhook URL 后，它可以在 AI 任务完成时通过各种渠道向您发送通知。
+1. 打开 [Echobell](https://apps.apple.com/app/id6743597198)，创建一个频道（如"AI 任务"）
+2. 从频道设置中复制 Webhook URL
 
-## WebhookMCP 设置
+### 2. 配置开发环境
 
-### 步骤1：获取 Echobell webhook URL
-
-1. 登录到您的 Echobell 控制面板
-2. 创建新频道或选择现有频道
-3. 进入频道设置并复制 webhook URL
-
-### 步骤2：配置开发环境
-
-#### VS Code 用户
-
-将以下内容添加到 VS Code 的 `settings.json` 中：
+**VS Code** — 添加到 `settings.json`：
 
 ```json
 {
@@ -39,7 +30,7 @@ WebhookMCP 是一个发送 webhook 通知的模型上下文协议（MCP）服务
         "command": "npx",
         "args": ["-y", "webhook-mcp"],
         "env": {
-          "WEBHOOK_URL": "您的-Echobell-webhook-URL"
+          "WEBHOOK_URL": "your-echobell-webhook-url"
         }
       }
     }
@@ -47,9 +38,7 @@ WebhookMCP 是一个发送 webhook 通知的模型上下文协议（MCP）服务
 }
 ```
 
-#### Claude、Cursor 或 Windsurf 用户
-
-将以下配置添加到您的环境中：
+**Claude、Cursor 或 Windsurf** — 添加到 MCP 配置文件：
 
 ```json
 {
@@ -58,37 +47,37 @@ WebhookMCP 是一个发送 webhook 通知的模型上下文协议（MCP）服务
       "command": "npx",
       "args": ["-y", "webhook-mcp"],
       "env": {
-        "WEBHOOK_URL": "您的-Echobell-webhook-URL"
+        "WEBHOOK_URL": "your-echobell-webhook-url"
       }
     }
   }
 }
 ```
 
-### 步骤3：在工作流程中使用通知
+WebhookMCP 首次使用时会通过 `npx` 自动安装。
 
-完成配置后，您可以通过在提示中包含"完成后发送通知"等短语来指示 AI 助手在任务完成时通知您。WebhookMCP 服务器将自动向您配置的 Echobell 频道发送通知。
+### 3. 在提示词中请求通知
 
-## 使用场景
+配置完成后，在提示词中自然地加入通知请求即可：
 
-1. **长时间代码生成**：当 AI 助手完成复杂代码库的生成时获得通知
-2. **数据分析任务**：当 AI 完成大型数据集分析时接收提醒
-3. **内容创作**：在 AI 完成文章或文档草稿时获得通知
-4. **训练和微调**：在模型训练或微调任务完成时接收通知
+- "这个分析完成后给我发通知"
+- "代码生成好了提醒我一下"
+- "这个任务做完了通知我"
 
-## 优势
+WebhookMCP 会识别这些请求，并自动触发 Echobell 通知。
 
-- **时间效率**：无需持续检查任务进度
-- **多任务处理**：等待 AI 完成时可以处理其他任务
-- **灵活性**：通过 Echobell 的多种通知类型（普通、时间敏感、呼叫）在共享渠道中接收提醒
-- **简单设置**：轻松集成到常用开发环境
+## 通知类型
 
-## 快速安装
+根据任务紧急程度配置 Echobell 频道：
 
-对于 VS Code 用户，您可以通过点击 [GitHub 仓库](https://github.com/noobnooc/webhook-mcp) 中的"Install in VS Code"按钮快速安装 WebhookMCP 服务器。安装向导将指导您设置 Echobell webhook URL。
+- **普通推送** — 日常代码生成、文档草稿
+- **时间敏感** — 你正在等待结果的分析任务
+- **来电** — 关键任务，无论勿扰模式都需要立即处理
 
-## 结论
+对于团队，创建一个共享 Echobell 频道并分享订阅链接——当共享任务完成时，所有人都会收到通知，并可设置各自的通知偏好。
 
-WebhookMCP 与 Echobell 的组合为 AI 开发工作流程提供了强大的通知系统。通过设置这些通知，您可以使 AI 开发过程更加高效，无需手动检查即可了解任务完成情况。
+## VS Code 快速安装
 
-快来试试看，让我们知道它如何改善您的 AI 开发工作流程！
+对于 VS Code，访问 [WebhookMCP GitHub 仓库](https://github.com/noobnooc/webhook-mcp)，点击"Install in VS Code"按钮。安装向导会在设置过程中提示你输入 Echobell Webhook URL。
+
+相关集成请参考：[GitHub Actions 通知](/en/blog/github-actions-notifications) 和 [Webhook 文档](/en/docs/webhook)。

@@ -1,125 +1,74 @@
 ---
-title: Echobell est là !
+title: Présentation d'Echobell
 date: 2025-03-30
-description: Echobell est une application d’alertes instantanées axée sur la confidentialité pour développeurs et équipes — transforme webhooks ou emails en notifications sensibles au temps et alertes type appel via des canaux et des modèles.
+description: "Echobell est une application d'alertes instantanées pour iOS, axée sur la confidentialité. Envoyez des déclencheurs via Webhook ou email à des canaux et recevez des notifications normales, urgentes ou sous forme d'appel sur votre appareil."
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Echobell est là !
+# Présentation d'Echobell
 
-Nous sommes ravis de vous présenter Echobell — une application d’alertes instantanées qui vous aide à faire le tri et à ne plus rater l’essentiel. Si vous avez déjà manqué un échec de build, une alerte d’uptime ou un email important, Echobell transforme ces moments en notifications claires et ponctuelles, fiables au quotidien.
+Echobell est une application de notifications pour iOS axée sur la confidentialité. Elle reçoit des déclencheurs provenant de Webhooks ou d'emails et les achemine vers votre appareil sous forme d'alertes normales, urgentes ou simulant un appel téléphonique. Vous organisez les alertes en canaux, façonnez le contenu à l'aide de modèles et choisissez le niveau d'urgence par canal.
 
-## Qu’est‑ce qu’Echobell ?
+## Fonctionnalités principales
 
-Echobell est une application de notifications « privacy‑first » qui reçoit des déclencheurs via webhooks ou email et délivre la bonne alerte aux bonnes personnes — instantanément. Vous organisez les alertes en canaux, façonnez le contenu avec des modèles et choisissez l’urgence de chaque notification. Rapide, flexible et pensée pour les usages réels.
+### Canaux
 
-En bref : créez un canal, envoyez‑lui un webhook ou un email, et Echobell en fait une notification personnalisée — Normale, Sensible au temps, ou type appel.
+Les canaux sont l'unité de base. Chacun dispose de :
 
-## Fonctionnalités clés
+- Un nom et une couleur pour une identification rapide
+- Des modèles de titre et de corps avec variables (ex. `{{server}}`, `{{message}}`, `{{timestamp}}`)
+- Une URL Webhook ou une adresse email dédiée comme déclencheur
+- Un lien d'abonnement partageable permettant à vos coéquipiers de s'abonner
 
-### Canaux de notification
+### Déclencheurs Webhook et email
 
-Au cœur d’Echobell, des canaux simples et puissants pour vos alertes. Chaque canal inclut :
+**[Notifications Webhook](/en/features/webhooks) :** Appelez l'URL unique de votre canal avec GET ou POST. Echobell notifie tous les abonnés. Parfait pour la surveillance de serveurs, les pipelines CI/CD, les mises à jour d'état IoT et les notifications de commandes.
 
-- Nom et couleur pour une identification rapide
-- Modèles de titre et de corps avec variables comme `{{server}}`, `{{message}}` ou `{{timestamp}}`
-- Déclencheurs via webhook ou email
-- Un lien d’abonnement partageable pour inviter collègues ou abonnés
+**[Email vers notification](/en/features/email-triggers) :** Envoyez ou transférez un email à l'adresse du canal pour déclencher des alertes — sans écrire une seule ligne de code. Idéal pour transférer des emails importants, s'intégrer à des systèmes existants ou créer des flux de notifications sans développement.
 
-### Multiples méthodes de déclenchement
-
-Echobell propose deux façons fiables de déclencher des notifications :
-
-**Notifications par webhook** : Appelez votre URL unique en GET ou POST et Echobell notifie tous les abonnés du canal. Idéal pour :
-
-- Alertes de supervision serveurs
-- Notifications de pipelines CI/CD
-- Mises à jour d’état d’objets connectés (IoT)
-- Notifications de commandes e‑commerce
-
-**Email → notification** : Envoyez ou transférez un email vers l’adresse du canal pour déclencher des alertes — sans code. Parfait pour :
-
-- Transformer des emails importants en notifications
-- Créer des flux d’alertes sans développement
-- S’intégrer à des systèmes existants qui gèrent l’email mais pas les webhooks
-
-### Modèles de notification personnalisables
-
-Rendez les alertes limpides grâce aux modèles et variables :
+### Modèles et variables
 
 ```
-Titre : Alerte statut {{server}}
-Corps : {{message}} détecté à {{timestamp}}
+Title: {{server}} status alert
+Body: {{message}} detected at {{timestamp}}
 ```
 
-Passez des variables dans le corps ou la query du webhook — ou exploitez les champs email (subject, from, text) — pour des notifications personnalisées et précises.
+Passez les variables dans le corps du Webhook ou dans la chaîne de requête. Pour les déclencheurs email, des variables telles que `from`, `subject` et `text` sont disponibles automatiquement.
 
-### Types de notification flexibles
+### Types de notifications
 
-Toutes les alertes ne se valent pas. Echobell prend en charge trois types :
+- **Normal (Actif) :** Notifications standard pour les mises à jour courantes
+- **[Urgent](/en/focus-mode-alerts) :** Passe outre les modes Concentration
+- **[Appel](/en/features/call-notifications) :** Sonne comme un appel téléphonique pour les incidents critiques
 
-- **Normale (Active)** : Notifications standard pour les mises à jour de routine
-- **Sensible au temps** : Alertes prioritaires qui passent certains modes de concentration
-- **Appel** : Notifications de type appel pour incidents critiques
+### Confidentialité
 
-### Confidentialité d’abord
+Les comptes, canaux et abonnements sont stockés côté serveur. Le contenu des notifications et l'historique restent sur vos appareils.
 
-La confidentialité est intégrée :
+## Cas d'usage
 
-- Sur nos serveurs : uniquement comptes, canaux et abonnements
-- Le contenu et l’historique des notifications restent sur vos appareils
-- Vos données sensibles restent sous votre contrôle
+**Développeurs :** Surveillance de serveurs et de disponibilité ([Grafana](/en/docs/developer/grafana), [Prometheus](/en/docs/developer/prometheus)), alertes CI/CD et GitHub Actions, rapports d'erreurs en production.
 
-## Cas d’usage
+**Traders :** Alertes de seuil de prix pour actions ou cryptomonnaies, signaux par transfert d'email.
 
-Echobell s’adapte à de nombreux workflows concrets :
+**Équipes :** Un canal par projet, les coéquipiers s'abonnent selon leur niveau d'urgence préféré.
 
-### Pour les développeurs
+**Usage personnel :** Alertes de site hors ligne, notifications d'emails importants, rappels personnalisés.
 
-- Supervision serveurs et uptime via notifications webhook (Grafana, Prometheus)
-- Alertes CI/CD et GitHub Actions sur succès/échec de builds
-- Erreurs en production et pics de logs
+## Démarrage rapide
 
-### Pour les traders
+1. Téléchargez Echobell depuis l'[App Store](https://apps.apple.com/app/id6743597198)
+2. Créez un compte (email ou Connexion avec Apple)
+3. Créez un canal et définissez un modèle de titre/corps
+4. Ajoutez un déclencheur Webhook ou email
+5. Envoyez une notification de test
 
-- Alertes en temps réel sur actions ou crypto
-- Notifications sur franchissement de seuils
-- Mentions et signaux via transfert d’email
+## Pages associées
 
-### Pour les équipes
-
-- Canaux par projet ou client
-- Abonnements selon l’urgence préférée (Normal, Sensible, Appel)
-- Les alertes critiques passent le focus quand nécessaire
-
-### Usage personnel
-
-- Alertes de panne de site et pings de formulaires de contact
-- Notifications d’emails importants sans vivre dans la boîte de réception
-- Rappels personnalisés pour ce qui compte pour vous
-
-## Démarrer
-
-Mise en route en quelques minutes :
-
-1. Téléchargez Echobell sur l’[App Store](https://apps.apple.com/app/id6743597198)
-2. Créez un compte (email ou Se connecter avec Apple)
-3. Créez votre premier canal et définissez les modèles de titre/corps
-4. Ajoutez un déclencheur webhook ou email
-5. Envoyez un test — et recevez des notifications instantanées
-
-## Pages utiles pour démarrer
-
-- [Alternative à Pushover](/pushover-alternative)
-- [Alternative à ntfy](/ntfy-alternative)
-- [Alertes téléphoniques quand un serveur tombe](/server-down-phone-call-alerts)
-- [Notifications de revue App Store Connect](/app-store-connect-review-notifications)
-- [Comment faire passer des alertes critiques au travers d’iOS Focus Mode](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
-
-## Rejoignez la communauté Echobell
-
-Nous ne faisons que commencer, et nous construisons Echobell au grand jour pour les développeurs, les équipes et toutes celles et ceux qui veulent des notifications plus calmes et plus claires. Si vous valorisez la confidentialité, des webhooks fiables, des déclencheurs email simples et des canaux flexibles, Echobell est fait pour vous.
-
-Téléchargez Echobell dès aujourd’hui et reprenez le contrôle de vos alertes. Hâte de découvrir vos intégrations. Si vous comparez actuellement des outils, les meilleures suites sont [Alternative à Pushover](/pushover-alternative) et [Alternative à ntfy](/ntfy-alternative).
+- [Alternative à Pushover](/en/pushover-alternative)
+- [Alternative à ntfy](/en/ntfy-alternative)
+- [Alertes d'appel téléphonique pour serveur hors ligne](/en/server-down-phone-call-alerts)
+- [Notifications d'avis App Store Connect](/en/app-store-connect-review-notifications)
+- [Comment contourner le mode Concentration iOS pour les alertes critiques](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)

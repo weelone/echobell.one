@@ -1,101 +1,83 @@
 ---
-title: Enable Phone Call Notifications for Grafana Alerts
-description: Learn how to set up phone call notifications for your Grafana alerts using Echobell
+title: Phone Call Notifications for Grafana Alerts via Echobell
+description: "Set up phone call notifications for Grafana alerts using Echobell webhooks: step-by-step setup, best practices, and troubleshooting."
 date: 2025-04-12
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Never miss a critical Grafana alert again (even at 3 a.m.)
+# Phone Call Notifications for Grafana Alerts via Echobell
 
-If you’ve ever woken up to a wall of red dashboards and thought, “I wish someone had called me,” this guide is for you. Email and chat are great—but for truly critical incidents, a voice call cuts through the noise. With Echobell, you can turn Grafana alerts into instant phone call notifications, complete with escalation and quiet hours.
+Email and chat notifications are easy to miss during incidents. For critical alerts, Echobell can turn Grafana webhook notifications into actual phone calls with escalation and retry support. This guide walks through the full setup.
 
-This walkthrough shows how to connect Grafana to Echobell using a simple webhook, plus a few tips to keep your on‑call sane.
+Relevant docs:
 
-## Why Echobell phone call notifications for Grafana?
-
-- Immediate attention: calls are hard to ignore when minutes matter
-- Built for on‑call: escalation, retries, and quiet hours keep noise under control
-- Team‑friendly: share channels with teammates and rotate ownership
-- Simple setup: works over a secure Echobell webhook in minutes
-
-Related docs if you want to skim first:
-
-- What is Echobell? → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- Notifications model (priorities, retries) → [/docs/notification](/en/docs/notification)
+- What is Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Notification types and retries → [/docs/notification](/en/docs/notification)
 - Webhooks overview → [/docs/webhook](/en/docs/webhook)
-- Grafana developer guide → [/docs/developer/grafana](/en/docs/developer/grafana)
+- Grafana integration reference → [/docs/developer/grafana](/en/docs/developer/grafana)
 
-## Connect Echobell to Grafana in 3 minutes
-
-### Prerequisites
+## Prerequisites
 
 1. Echobell account with an active channel and webhook URL (see [/docs/webhook](/en/docs/webhook))
 2. Admin access to your Grafana instance
 3. At least one alert rule configured
 
+## Setup
+
 ### Step 1 — Create a Webhook contact point in Grafana
 
-- In Grafana, go to Alerting → Contact points
-- New contact point → choose “Webhook”
-- Name it “Echobell Phone Calls” (or your team name)
+1. Go to Alerting → Contact points
+2. Click New contact point and choose **Webhook**
+3. Name it something identifiable, e.g. "Echobell Phone Calls"
 
 ### Step 2 — Add your Echobell webhook URL
 
-Set the URL to your channel’s webhook, for example:
+Set the URL to your channel's webhook:
 
 `https://hook.echobell.one/t/xxxxxxxx`
 
-You can copy this from your channel settings in Echobell (details in [/docs/webhook](/en/docs/webhook)). Treat it like a secret and rotate it if leaked.
+Copy this from your channel settings in Echobell (details at [/docs/webhook](/en/docs/webhook)). Treat it as a secret and rotate if leaked.
 
 ### Step 3 — Test the integration
 
-- Click “Test” in Grafana to send a sample alert
-- You should get an Echobell phone call within seconds
+Click **Test** in Grafana to send a sample alert. You should receive an Echobell phone call within seconds.
 
-### Step 4 — Attach to your notification policies
+### Step 4 — Attach to notification policies
 
-- Go to Alerting → Notification policies
-- Create or edit a policy that applies to your critical alerts
-- Add your “Echobell Phone Calls” contact point
+1. Go to Alerting → Notification policies
+2. Create or edit a policy that targets your critical alerts
+3. Add the "Echobell Phone Calls" contact point
 
-That’s it—Grafana will call you via Echobell when the policy matches.
+Grafana will now route matching alerts to Echobell.
 
-## Best practices for on‑call sanity
+## Best practices
 
-- Use phone calls for high‑priority alerts only; keep lower severities to chat/email
-- In Echobell, set retries and timeouts to avoid alert fatigue (see [/docs/notification](/en/docs/notification))
-- Configure escalation to teammates if the first call isn’t answered
-- Set quiet hours to prevent non‑urgent wake‑ups
-- Keep the on‑call roster current and shared inside Echobell
+- Reserve phone calls for high-priority alerts; use chat or email for lower severities
+- Configure retries and timeouts in Echobell to limit alert fatigue ([/docs/notification](/en/docs/notification))
+- Set up escalation to teammates if the first call goes unanswered
+- Use quiet hours to prevent low-urgency wake-ups
+- Share the channel with your on-call team and keep the roster current
 
-## Advanced: tailoring the call experience
+## Advanced options
 
-Echobell lets you fine‑tune how calls behave:
-
-- Share the channel with your team for broader coverage
-- Configure retry attempts and escalation paths
+- Share channels with teammates for broader coverage
 - Customize voice content per alert type using templates
-- Set quiet hours and backup contacts for resilience
+- Configure retry attempts and escalation paths
+- Set backup contacts for resilience
 
-See the full Grafana integration guide here: [/docs/developer/grafana](/en/docs/developer/grafana)
+Full reference: [/docs/developer/grafana](/en/docs/developer/grafana)
 
-## Troubleshooting and common pitfalls
+## Troubleshooting
 
-- No call received: confirm the policy actually routes to your Echobell contact point
-- 4xx on webhook: verify the exact Echobell webhook URL and that the channel is active
-- Too many calls: narrow the policy scope or lower the alert’s severity
-- Too few calls: raise severity or add label/rule filters to make sure critical alerts match
+- **No call received**: confirm the notification policy routes to your Echobell contact point
+- **4xx on webhook**: verify the exact webhook URL and that the channel is active
+- **Too many calls**: narrow the policy scope or reduce alert severity thresholds
+- **Too few calls**: raise severity or add label filters so critical alerts match the policy
 
-## Related reading
+## Related
 
-- How to send webhook alerts to Echobell (great for custom systems): [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
-- GitHub Actions failures, instantly on your phone: [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
-- Developer docs for Grafana: [/docs/developer/grafana](/en/docs/developer/grafana)
-
-## Wrap‑up
-
-Phone call notifications add a reliable, human layer to your Grafana alerting. With Echobell’s webhook integration, you can make sure the right person gets a timely call—and your incident response gets faster and calmer.
-
-Take five minutes to wire it up today and sleep a little better tonight.
+- Webhook alerts for custom systems → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- GitHub Actions failure notifications → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Grafana developer docs → [/docs/developer/grafana](/en/docs/developer/grafana)

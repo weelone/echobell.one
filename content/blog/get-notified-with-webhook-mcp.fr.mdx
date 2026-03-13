@@ -1,35 +1,26 @@
 ---
-title: Ne Ratez Plus Jamais l'Achèvement d'une Tâche IA avec WebhookMCP et Echobell
+title: Recevez des notifications quand vos tâches IA se terminent avec WebhookMCP et Echobell
 date: 2025-04-24
-description: Découvrez comment la combinaison de WebhookMCP avec Echobell transforme votre flux de travail IA grâce aux notifications instantanées. Recevez des appels téléphoniques ou des notifications push lorsque vos tâches IA se terminent.
+description: "Utilisez WebhookMCP avec Echobell pour recevoir des notifications push ou des appels téléphoniques quand vos tâches IA de longue durée se terminent dans Claude, Cursor, VS Code ou Windsurf."
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-Imaginez la scène : Vous venez de demander à Claude d'analyser un jeu de données massif, en prévoyant 20+ minutes de traitement. Au lieu de surveiller votre écran, vous allez chercher un café, vérifiez Slack, commencez peut-être une autre tâche. Puis vous oubliez complètement votre demande IA jusqu'à des heures plus tard. Ça vous dit quelque chose ?
+# Recevez des notifications quand vos tâches IA se terminent avec WebhookMCP et Echobell
 
-Si vous hochez la tête, vous n'êtes pas seul. Alors que les assistants IA deviennent plus puissants et que nous abordons des tâches de plus en plus complexes, le jeu de l'attente est devenu l'un des plus grands tueurs de productivité dans les flux de travail de développement modernes.
+Les tâches IA longues — génération de code, analyse de jeux de données, refactorisations importantes — ne nécessitent pas une surveillance constante. [WebhookMCP](https://github.com/noobnooc/webhook-mcp) est un serveur MCP qui permet aux assistants IA de déclencher des notifications Webhook lorsque le travail est terminé. Associé à Echobell, vous recevez une notification push ou un appel téléphonique dès que votre tâche s'achève.
 
-Mais voici la bonne nouvelle – ce n'est pas obligé d'être ainsi. En combinant WebhookMCP avec le système de notifications instantanées d'Echobell, vous pouvez transformer ces périodes d'attente frustrantes en opportunités productives de multitâche. Que vous préfériez les appels téléphoniques pour les alertes critiques, les notifications push pour les mises à jour rapides ou le partage d'un canal Echobell avec votre équipe pour que chacun reste informé, Echobell garantit que vous ne raterez plus jamais l'achèvement d'une tâche IA.
+## Configuration
 
-## Qu'est-ce que WebhookMCP ?
+### 1. Obtenez votre URL Webhook Echobell
 
-WebhookMCP est un serveur Model Context Protocol (MCP) qui envoie des notifications webhook. Il s'intègre parfaitement avec divers environnements de développement IA, notamment VS Code, Claude, Cursor et Windsurf. Une fois configuré avec une URL webhook Echobell, il peut vous notifier via différents canaux lorsque vos tâches IA sont terminées.
+1. Ouvrez [Echobell](https://apps.apple.com/app/id6743597198) et créez un canal (ex. « Tâches IA »)
+2. Copiez l'URL Webhook depuis les paramètres du canal
 
-## Configuration de WebhookMCP
+### 2. Configurez votre environnement de développement
 
-### Étape 1 : Obtenir votre URL webhook Echobell
-
-1. Connectez-vous à votre tableau de bord Echobell
-2. Créez un nouveau canal ou sélectionnez un canal existant
-3. Accédez aux paramètres du canal et copiez l'URL webhook
-
-### Étape 2 : Configurer votre environnement de développement
-
-#### Pour les utilisateurs de VS Code
-
-Ajoutez ce qui suit à votre `settings.json` de VS Code :
+**VS Code** — ajoutez dans `settings.json` :
 
 ```json
 {
@@ -39,7 +30,7 @@ Ajoutez ce qui suit à votre `settings.json` de VS Code :
         "command": "npx",
         "args": ["-y", "webhook-mcp"],
         "env": {
-          "WEBHOOK_URL": "votre-url-webhook-echobell"
+          "WEBHOOK_URL": "your-echobell-webhook-url"
         }
       }
     }
@@ -47,9 +38,7 @@ Ajoutez ce qui suit à votre `settings.json` de VS Code :
 }
 ```
 
-#### Pour les utilisateurs de Claude, Cursor ou Windsurf
-
-Ajoutez cette configuration à votre environnement :
+**Claude, Cursor ou Windsurf** — ajoutez dans votre configuration MCP :
 
 ```json
 {
@@ -58,37 +47,37 @@ Ajoutez cette configuration à votre environnement :
       "command": "npx",
       "args": ["-y", "webhook-mcp"],
       "env": {
-        "WEBHOOK_URL": "votre-url-webhook-echobell"
+        "WEBHOOK_URL": "your-echobell-webhook-url"
       }
     }
   }
 }
 ```
 
-### Étape 3 : Utilisation des notifications dans votre flux de travail
+WebhookMCP s'installe automatiquement via `npx` lors de la première utilisation.
 
-Une fois configuré, vous pouvez demander à votre assistant IA de vous notifier lorsqu'une tâche est terminée en incluant des phrases comme "envoyez-moi une notification une fois terminé" dans vos prompts. Le serveur WebhookMCP enverra automatiquement une notification à votre canal Echobell configuré.
+### 3. Demandez des notifications dans vos prompts
 
-## Cas d'utilisation
+Une fois configuré, incluez des demandes de notification naturellement dans vos prompts :
 
-1. **Génération de code longue durée** : Soyez notifié lorsque votre assistant IA termine la génération d'une base de code complexe
-2. **Tâches d'analyse de données** : Recevez des alertes lorsque votre IA termine l'analyse de grands ensembles de données
-3. **Création de contenu** : Sachez quand votre IA termine la rédaction d'articles ou de documentation
-4. **Formation et ajustement** : Recevez des notifications lorsque les tâches d'entraînement ou d'ajustement de modèle sont terminées
+- « Envoie-moi une notification quand cette analyse est terminée »
+- « Alerte-moi une fois que tu as fini de générer le code »
+- « Notifie-moi quand tu as terminé cette tâche »
 
-## Avantages
+WebhookMCP reconnaît ces demandes et déclenche Echobell automatiquement.
 
-- **Efficacité temporelle** : Plus besoin de vérifier constamment l'avancement des tâches
-- **Multitâche** : Travaillez sur d'autres tâches en attendant la fin du traitement IA
-- **Flexibilité** : Recevez des notifications grâce aux types d'alerte d'Echobell (standard, sensible au temps ou appel) au sein de canaux partagés.
-- **Configuration simple** : Intégration facile avec les environnements de développement populaires
+## Types de notifications
 
-## Installation rapide
+Configurez votre canal Echobell en fonction de l'urgence des tâches :
 
-Pour les utilisateurs de VS Code, vous pouvez rapidement installer le serveur WebhookMCP en cliquant sur le bouton "Install in VS Code" depuis le [dépôt GitHub](https://github.com/noobnooc/webhook-mcp). L'assistant d'installation vous guidera dans la configuration de votre URL webhook Echobell.
+- **Push normal** — génération de code de routine, rédaction de documentation
+- **Urgent** — tâches d'analyse que vous attendez activement
+- **Appel** — tâches critiques nécessitant une attention immédiate, même en mode Ne pas déranger
 
-## Conclusion
+Pour les équipes, créez un canal Echobell partagé et partagez le lien d'abonnement — tout le monde est notifié quand une tâche partagée se termine, avec ses propres préférences de notification.
 
-La combinaison de WebhookMCP et Echobell offre un puissant système de notification pour les flux de travail de développement IA. En configurant ces notifications, vous pouvez rendre votre processus de développement IA plus efficace et rester informé de l'achèvement des tâches sans vérification manuelle constante.
+## Installation rapide pour VS Code
 
-Essayez-le et faites-nous savoir comment cela améliore votre flux de travail de développement IA !
+Pour VS Code, rendez-vous sur le [dépôt GitHub WebhookMCP](https://github.com/noobnooc/webhook-mcp) et utilisez le bouton « Install in VS Code ». L'assistant vous demande votre URL Webhook Echobell lors de la configuration.
+
+Pour les intégrations connexes, voir [les notifications GitHub Actions](/en/blog/github-actions-notifications) et la [documentation Webhook](/en/docs/webhook).

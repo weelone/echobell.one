@@ -1,185 +1,75 @@
 ---
-title: "Monitor HuggingFace Activity with Echobell: Real-time Updates for AI Models and Repositories"
-description: "Stop missing critical HuggingFace model updates! Learn how to set up instant webhook notifications with Echobell to monitor AI repositories, track model changes, and keep your team in sync with real-time alerts delivered straight to your phone."
+title: "Monitor HuggingFace Activity with Echobell: Real-time Webhook Alerts for AI Repositories"
+description: "Set up instant webhook notifications with Echobell to monitor HuggingFace model updates, repository changes, and team activity—delivered as push notifications or phone calls."
 date: 2025-04-27
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Monitor HuggingFace Activity with Echobell: Real-time Updates for AI Models and Repositories
+# Monitor HuggingFace Activity with Echobell: Real-time Webhook Alerts for AI Repositories
 
-Picture this: you're working on a critical AI project, and the model you depend on just got a major update that could break your production pipeline. Or maybe your team just pushed a breakthrough to your shared repository, but you're deep in focus mode and miss the notification. Sound familiar?
+HuggingFace has a built-in webhook system that fires on model updates, discussions, and pull requests. Connecting it to [Echobell](https://apps.apple.com/app/id6743597198) turns those events into instant phone notifications—useful for catching breaking changes in production dependencies or staying on top of team repository activity.
 
-As AI developers and researchers, we've all been there. HuggingFace has revolutionized how we collaborate on machine learning projects, but keeping track of all the activity can feel overwhelming. That's where [Echobell](https://echobell.one) comes in – your personal assistant for instant notifications that ensures you never miss what matters most.
+## Step 1: Create Your Echobell Channel
 
-With Echobell's powerful webhook notifications, you can transform how you stay connected to your HuggingFace projects. Whether it's a game-changing model update, a new team member joining your organization, or critical discussions happening in your repositories, Echobell delivers [real-time alerts](/en/docs/what-is-echobell) straight to your device.
-
-## Why Every AI Developer Needs HuggingFace Notifications
-
-Let me share why staying connected to your HuggingFace activity isn't just nice to have – it's essential for modern AI development:
-
-**🚀 Never Miss Critical Model Updates**  
-I learned this the hard way when a model I was using in production got a security update. By the time I noticed (three days later!), I'd already deployed vulnerable code. Now, with Echobell's [instant notifications](/en/docs/notification), I get alerted the moment any model I depend on changes.
-
-**👥 Keep Your Team in Sync**  
-When working with distributed teams, timing is everything. Whether it's a new contributor joining your project, fresh pull requests, or important code commits, everyone needs to stay in the loop. Echobell's [notification channels](/en/docs/features) make team coordination seamless.
-
-**💬 Join Conversations That Matter**  
-The AI community moves fast. Important discussions, bug reports, and feature requests happen daily. Missing these conversations means missing opportunities to contribute, learn, and grow.
-
-**📊 Track Your Impact**  
-Want to know how your models are performing in the wild? Monitor downloads, stars, and community feedback in real-time. It's incredibly motivating to see your work making an impact!
-
-**⚡ Respond to Issues Quickly**  
-When someone reports a bug or asks a question about your model, responding quickly builds trust and encourages more collaboration. With mobile notifications, you can engage even when you're away from your desk.
-
-## Setting Up Your HuggingFace Command Center with Echobell
-
-Ready to never miss another important update? Let's walk through setting up your personalized notification system. Don't worry – it's easier than training your first neural network!
-
-### Step 1: Create Your Notification Channel
-
-Think of this as setting up your mission control for HuggingFace activity:
-
-1. **Get Echobell**: Download the [Echobell app](https://apps.apple.com/app/id6743597198) on your iOS device. It's free and takes seconds to set up.
-
-2. **Sign In**: Use your email or Apple ID – whatever's easiest for you.
-
-3. **Create Your Channel**: Tap the "+" to create a new channel. I like to name mine "HuggingFace Updates" or "AI Model Alerts" – pick something that makes sense for your workflow.
-
-4. **Customize Your Templates** (This is where the magic happens!): 
-   
-   Echobell's [template system](/en/docs/template) lets you create notifications that actually tell you what you need to know:
-   
-   - **Title Template**: `🤗 {{repo.name}}: {{event.action}}`
-   - **Content Template**: `{{event.scope}} was {{event.action}} in {{repo.name}}. {{event.description || "Check it out!"}}`
-
-   Pro tip: The `{{}}` syntax lets you pull in data from HuggingFace webhooks. You can get creative here – add emojis, format the text however you like!
-
-5. **Grab Your Webhook URL**: This is your secret sauce. Tap on your channel, then the webhook icon to copy the URL. Keep this handy – we'll need it in the next step.
+1. Download [Echobell](https://apps.apple.com/app/id6743597198) and sign in
+2. Create a new channel (e.g., "HuggingFace Updates")
+3. Set your notification templates using HuggingFace's webhook payload variables:
+   - **Title**: `🤗 {{repo.name}}: {{event.action}}`
+   - **Content**: `{{event.scope}} was {{event.action}} in {{repo.name}}`
+4. Copy the webhook URL from channel settings
 
 <Callout type="info">
-  New to webhook variables? Check out HuggingFace's [official webhook documentation](https://huggingface.co/docs/hub/webhooks) to see all the data you can work with. Pro tip: Start simple and get fancy later!
+  See HuggingFace's [official webhook documentation](https://huggingface.co/docs/hub/webhooks) for the full list of available payload variables.
 </Callout>
 
-### Step 2: Connect HuggingFace to Your Notification System
-
-Now for the fun part – linking your HuggingFace account to your shiny new notification channel:
+## Step 2: Configure the HuggingFace Webhook
 
 ![HuggingFace Settings](/images/blog/huggingface-settings.png)
 
-1. **Navigate to Settings**: Log into HuggingFace, click your profile picture (top right), and select **Settings**.
-
-2. **Find Webhooks**: In the left sidebar, look for **Webhooks**. This is where the magic happens.
-
-3. **Create Your Webhook**: Hit **Add a new webhook** – you're about to create your first connection!
-
-4. **Target What Matters**: In **Target repositories**, you can be as specific or broad as you want:
-   - For a specific repo: `username/my-awesome-model`
-   - For everything from an org: `my-company`
-   - For all your personal repos: `your-username`
-   
-   Start with what's most important to you – you can always add more webhooks later.
-
-5. **Paste Your Webhook URL**: Remember that URL you copied from Echobell? This is where it goes. Just paste it right in.
-
-6. **Skip the Secret**: Leave the **Secret** field empty – Echobell doesn't need it.
-
-7. **Choose Your Triggers**: This is where you decide what gets your attention. I recommend starting with:
-   - ✅ **Repo update** (for model and dataset changes)
-   - ✅ **Discussion created** (for community engagement)
-   - ✅ **New PR/issues** (for collaboration)
-   
-   You can always fine-tune this later based on how many notifications you're getting.
-
-8. **Make It Live**: Click **Create webhook** and you're done!
+1. Log into HuggingFace → profile picture → **Settings**
+2. In the sidebar, select **Webhooks**
+3. Click **Add a new webhook**
+4. In **Target repositories**, specify what to watch:
+   - A specific repo: `username/my-model`
+   - All repos in an org: `my-company`
+   - All personal repos: `your-username`
+5. Paste your Echobell webhook URL
+6. Leave **Secret** empty
+7. Select your triggers — recommended starting set:
+   - ✅ Repo update
+   - ✅ Discussion created
+   - ✅ New PR/issues
+8. Click **Create webhook**
 
 ![HuggingFace webhook has been set](/images/blog/huggingface-webhook-set.png)
 
-That's it! Your notification system is now live. Within minutes, you'll start receiving real-time alerts whenever something happens in your monitored repositories. It feels pretty magical the first time you get a notification on your phone about activity that just happened on HuggingFace!
+## Priority Notifications for Production Models
 
-## Taking It to the Next Level: Advanced Tips
+Not all HuggingFace activity warrants the same urgency. Use separate channels:
 
-Once you've got the basics working (and trust me, you'll love getting those first notifications), here are some pro tips to supercharge your setup:
+1. **Production-critical repos** → channel with notification type set to **Time-sensitive** or **Calling**
+2. **General activity** → standard push notification channel
 
-### Priority Notifications for Mission-Critical Models
-
-Not all updates are created equal. If you're using a model in production, you need to know about updates *immediately*. Here's how to set up different priority levels:
-
-1. **Create Separate Channels**: Make one channel for production-critical repos and another for everything else.
-
-2. **Use Echobell's Priority System**: For your critical channel, set the [notification type](/en/docs/notification) to **"Time-sensitive"** or **"Calling"**. This ensures these alerts break through Do Not Disturb mode.
-
-3. **Smart Templates**: Use conditional logic in your templates:
-   ```
-   {{repo.name}}: {{event.action}}{{event.action == "update" ? " ⚠️ PRODUCTION IMPACT" : ""}}
-   ```
-
-### Building a Team Notification Hub
-
-One of my favorite Echobell features is how easy it is to share notifications with your team. Instead of everyone setting up their own webhooks, you can create a centralized system:
-
-1. **Set Up Team Channels**: Create channels like "Team AI Models" or "Org Updates"
-
-2. **Share Subscription Links**: In your channel settings, copy the **Subscription Link** and share it with teammates
-
-3. **Let People Choose**: Team members can subscribe and pick their own notification preferences – some want calls for everything, others prefer silent notifications
-
-This approach is especially powerful for organizations where different team members need different levels of alert urgency.
-
-> **Related Reading**: If you love this team-based approach, you'll definitely want to check out our guide on [GitHub Actions notifications](/en/blog/github-actions-notifications) for CI/CD alerts, and our [Grafana integration tutorial](/en/docs/developer/grafana) for monitoring alerts. The combination of HuggingFace, GitHub Actions, and Grafana notifications gives you complete visibility into your AI development pipeline!
-
-## Best Practices I've Learned Along the Way
-
-After setting up notifications for dozens of projects, here's what actually works in the real world:
-
-### 1. Start Small, Scale Smart
-
-**The Temptation**: Monitor everything from day one  
-**The Reality**: You'll get overwhelmed and turn off notifications  
-**The Solution**: Start with 2-3 critical repositories, then gradually expand
-
-### 2. Craft Notifications That Actually Help
-
-**Don't Do This**: `{{event.action}} happened in {{repo.name}}`  
-**Do This**: `🔥 Breaking: {{repo.name}} model updated! {{event.description}} - Check impact on your projects`
-
-The key is context. Your future self (probably rushing to a meeting) will thank you for clear, actionable notifications.
-
-### 3. Use Echobell's Smart Filtering
-
-Instead of getting every possible notification, use [channel conditions](/en/docs/conditions) to filter for what matters:
+For conditional filtering (e.g., only alert on `update` events for specific repos), use [Echobell conditions](/en/docs/conditions):
 
 ```
 event.action == "update" && repo.name.includes("production")
 ```
 
-This way, you only get alerted about updates to production-critical models.
+## Team Notifications
 
-### 4. Don't Forget About Notification Fatigue
+To share alerts with your team without everyone setting up separate webhooks:
 
-If you're getting more than 10-15 notifications per day from a single channel, it's time to refine your triggers. The goal is to stay informed, not overwhelmed.
+1. Create a shared channel (e.g., "Team AI Models")
+2. Copy the **Subscription Link** from channel settings
+3. Share the link with teammates — each person subscribes and sets their own notification preferences
 
-### 5. Leverage the Full Echobell Ecosystem
+## Best Practices
 
-HuggingFace notifications are just the beginning. Consider setting up:
-- [Webhook alerts](/en/docs/webhook) for custom services
-- [GitHub Actions notifications](/en/blog/github-actions-notifications) for CI/CD pipeline failures  
-- [Grafana alerts](/en/docs/developer/grafana) for infrastructure monitoring
+- **Start narrow**: Monitor 2-3 critical repos first. Expand once you know the alert volume.
+- **Make templates actionable**: Include enough context to act without opening HuggingFace. `{{event.description}}` often contains useful detail.
+- **Watch for fatigue**: If a channel generates more than 10-15 alerts/day, tighten the trigger filters or add conditions.
 
-When combined, these create a comprehensive notification system that keeps you on top of your entire development workflow.
-
-## Your AI Development Game Just Got an Upgrade
-
-Here's what I love most about this setup: it transforms you from a reactive developer (constantly checking HuggingFace for updates) into a proactive one (getting notified the moment something important happens).
-
-Whether you're maintaining production AI systems, collaborating on cutting-edge research, or just staying current with the latest models, Echobell keeps you connected to what matters most. No more missed updates, no more FOMO, and definitely no more discovering critical changes three days too late.
-
-The AI community moves at lightning speed, but with the right notification system, you can keep up without burning out. Your future self – the one who catches that critical model update before it impacts production – will definitely thank you.
-
-Ready to transform how you stay connected to HuggingFace? [Download Echobell](https://apps.apple.com/app/id6743597198) and set up your first notification channel today. Your AI development workflow is about to get a whole lot smoother.
-
----
-
-*Want to dive deeper into notification strategies? Check out our complete guides on [webhook notifications](/en/docs/webhook), [notification templates](/en/docs/template), and [what makes Echobell different](/en/docs/what-is-echobell). And if you're building a comprehensive monitoring system, don't miss our tutorials on [GitHub Actions alerts](/en/blog/github-actions-notifications) and [Grafana integration](/en/docs/developer/grafana).*
+For webhook configuration reference, see [Echobell webhook docs](/en/docs/webhook). For related integrations, see [GitHub Actions notifications](/en/blog/github-actions-notifications) and [Grafana alerts](/en/docs/developer/grafana).

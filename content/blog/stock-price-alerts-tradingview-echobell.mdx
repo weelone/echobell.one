@@ -1,6 +1,6 @@
 ---
-title: Get Stock Price Alerts with TradingView + Echobell
-description: Set up stock price alerts in TradingView and receive instant phone calls or time‑sensitive notifications with Echobell using simple webhooks.
+title: Stock Price Alerts with TradingView and Echobell
+description: "Set up TradingView stock price alerts that trigger Echobell phone calls or time-sensitive notifications via webhook, with JSON templates and variable substitution."
 date: 2025-10-29
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
@@ -12,11 +12,11 @@ tags:
   - webhook
 ---
 
-# Stock price alerts you can’t miss: TradingView → Echobell
+# Stock Price Alerts with TradingView and Echobell
 
-Markets move fast. If you rely on push notifications, you’ll eventually miss the moment. Here’s a straightforward setup to turn TradingView price alerts into Echobell phone calls (or time‑sensitive notifications) so you actually act when price hits your level.
+Standard push notifications are easy to miss when markets move fast. This guide covers a straightforward setup to route TradingView price alerts to Echobell phone calls or time-sensitive notifications so you're notified the moment price hits your level.
 
-Helpful context:
+Relevant docs:
 
 - What is Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
 - Webhooks overview → [/docs/webhook](/en/docs/webhook)
@@ -25,26 +25,26 @@ Helpful context:
 
 ## Prerequisites
 
-- Echobell installed with an account ([App Store](https://apps.apple.com/app/id6743597198))
-- TradingView account (webhooks typically need Pro/Pro+/Premium)
+- Echobell installed ([App Store](https://apps.apple.com/app/id6743597198))
+- TradingView account with webhook support (Pro/Pro+/Premium)
 
-## 1) Create an Echobell channel
+## 1. Create an Echobell channel
 
-1. In Echobell, create a Channel (e.g., “Stocks: AAPL levels”).
-2. Pick a notification type. For urgent moves choose **Calling**; otherwise **Time Sensitive**. See [/docs/notification](/en/docs/notification).
-3. Set Templates so the call reads something useful:
+1. In Echobell, create a channel (e.g. "Stocks: AAPL levels").
+2. Set the notification type. For urgent price moves use **Calling**; otherwise **Time Sensitive** ([/docs/notification](/en/docs/notification)).
+3. Configure templates so the call reads out useful context:
 
    Title: `{{ticker}} hit {{price}}`
 
    Body: `Rule: {{rule}} on {{ticker}} at {{price}}`
 
-4. Copy the channel’s Webhook URL (keep it private). Details: [/docs/webhook](/en/docs/webhook)
+4. Copy the channel's Webhook URL and keep it private ([/docs/webhook](/en/docs/webhook)).
 
-## 2) Configure the TradingView alert
+## 2. Configure the TradingView alert
 
-1. Create an Alert on your chart (e.g., close crosses a price).
+1. Create an Alert on your chart for the condition you want (e.g. close crosses a price level).
 2. Enable **Webhook URL** and paste the Echobell URL.
-3. Use a JSON message so Echobell can speak variables via your template:
+3. Set the message to JSON so Echobell can substitute variables via your template:
 
 ```json
 {
@@ -55,22 +55,22 @@ Helpful context:
 }
 ```
 
-Tips:
+Notes:
+- Keep JSON keys simple and matching your template variables
+- `externalLink` is optional; Echobell shows it as a tappable link in the notification record ([/docs/notification](/en/docs/notification))
 
-- Keep keys simple (`ticker`, `price`, `rule`).
-- `externalLink` is optional; Echobell will show it in the local record. See [/docs/notification](/en/docs/notification).
+## 3. Test the flow
 
-## 3) Test the flow
-
-Trigger the alert or use a temporary test condition. You should receive a phone call (or a time‑sensitive alert) saying the title/body you defined. Adjust wording until it’s clear at a glance and on a call.
+Trigger the alert or use a temporary test condition. You should receive a call (or time-sensitive notification) reading your template content. Adjust wording until it's clear and unambiguous when heard on a call.
 
 ## Best practices
 
-- Use Calling only for truly urgent price levels; otherwise Time Sensitive.
-- Create separate channels per symbol or strategy to avoid noise.
-- Include timeframe in your template if relevant (e.g., “15m close”).
+- Use **Calling** only for critical price levels; use **Time Sensitive** for everything else
+- Create separate channels per symbol or strategy to control noise
+- Include timeframe in your template if it matters (e.g. "15m close crossed 150")
 
-Further reading: TradingView calls → [/blog/tradingview-call-notifications](/en/blog/tradingview-call-notifications). Features: [/features/webhooks](/en/features/webhooks), [/features/call-notifications](/en/features/call-notifications).
+Further reading: full TradingView setup → [/blog/tradingview-call-notifications](/en/blog/tradingview-call-notifications)
+
+Features: [/features/webhooks](/en/features/webhooks), [/features/call-notifications](/en/features/call-notifications)
 
 Download Echobell: https://apps.apple.com/app/id6743597198
-

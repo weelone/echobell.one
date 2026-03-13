@@ -1,6 +1,6 @@
 ---
-title: "Upptime-Alarme als Sofortanruf mit Echobell"
-description: "Leite Upptime-Ausfälle mit einem einzigen Webhook in zeitkritische Pushs oder Telefonalarme von Echobell um – schnell eingerichtet und zuverlässig im Ernstfall."
+title: "Upptime-Alarme als Telefonanruf mit Echobell weiterleiten"
+description: "Leiten Sie Upptime-Ausfallbenachrichtigungen mit einem einzigen Webhook als zeitkritische Push-Benachrichtigungen oder Telefonanrufe über Echobell weiter – ohne zusätzliche Server."
 date: 2025-11-22
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
@@ -8,25 +8,26 @@ authorLink: https://nooc.me
 tags:
   - Echobell
   - Upptime
-  - Uptime-Monitoring
-  - Webhook-Alerts
-  - On-Call
+  - uptime monitoring
+  - webhook alerts
+  - on-call
 ---
 
-# Upptime-Alarme als Sofortanruf mit Echobell
+# Upptime-Alarme als Telefonanruf mit Echobell weiterleiten
 
-Upptime überwacht deine Sites über GitHub Actions, aber sobald etwas ausfällt brauchst du ein Signal, das wirklich durchdringt. Echobell verwandelt diese Checks in zeitkritische Pushs oder sogar Anrufe – ohne zusätzliche Server, nur mit einem Webhook pro Channel.
+Upptime überwacht Ihre Sites über GitHub Actions, aber eine fehlgeschlagene Prüfung nützt nur dann etwas, wenn der Alarm Sie auch erreicht. Diese Anleitung zeigt, wie Sie Upptime-Ausfallbenachrichtigungen als zeitkritische Push-Benachrichtigungen oder Telefonanrufe über einen einzigen Webhook-URL an Echobell weiterleiten — ohne zusätzliche Infrastruktur.
 
-## Warum diese Kombination überzeugt
+## Einrichtung
 
-- **Echte Eskalation**: Schalte für kritische Endpunkte auf Anrufe, Routine bleibt als Push.  
-- **Strukturierter Kontext**: Jede Alert enthält Site, Status, Response-Code und GitHub-Issue-Link.  
-- **Minimaler Aufwand**: Zwei Secrets im Upptime-Repo, den Rest lässt du unverändert.
+**1. Channel-Webhook-URL aus Echobell kopieren**
 
-## In wenigen Minuten aktiv
+Öffnen Sie in der Echobell-App einen Channel und kopieren Sie dessen Webhook: `https://hook.echobell.one/t/<channel-token>`
 
-1) In Echobell den Channel-Webhook kopieren: `https://hook.echobell.one/t/<channel-token>` (Standard, zeitkritisch oder Anruf).  
-2) Im Upptime-Repo diese GitHub-Actions-Secrets anlegen:
+Setzen Sie den Channel-Benachrichtigungstyp auf Standard, zeitkritisch oder Anruf, je nach Dringlichkeit des überwachten Endpunkts.
+
+**2. Secrets zum Upptime-Repository hinzufügen**
+
+Fügen Sie in den Einstellungen Ihres GitHub-Repositories folgende Actions-Secrets hinzu:
 
 ```
 NOTIFICATION_CUSTOM_WEBHOOK=true
@@ -35,14 +36,16 @@ NOTIFICATIONS_DOWN_MESSAGE=$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE) – $IS
 NOTIFICATIONS_UP_MESSAGE=$EMOJI $SITE_NAME is back up – $SITE_URL
 ```
 
-3) In Echobell ein schlankes Template mit `{{site}}`, `{{status}}`, `{{code}}`, `{{url}}`, `{{issue}}` hinterlegen und entscheiden, ob der Channel anruft oder nur pusht.
+**3. Template in Echobell festlegen**
 
-Fertig: Upptime liefert die Daten, Echobell bestimmt die Benachrichtigungsart. Alle Details findest du im [Konfigurationsleitfaden](/de/docs/developer/upptime); die Upptime-spezifischen Optionen stehen in der [offiziellen Doku](https://upptime.js.org/docs/notifications).
+Verwenden Sie Variablen, die den obigen Query-Parametern entsprechen: `{{site}}`, `{{status}}`, `{{code}}`, `{{url}}`, `{{issue}}`. Entscheiden Sie, ob der Channel anrufen oder pushen soll.
 
-## Dein Mehrwert
+Das war die vollständige Einrichtung. Upptime liefert die Daten; Echobell übernimmt die Benachrichtigung.
 
-- Schnellere Reaktion bei Degradation oder Ausfall  
-- Direkte Links zur betroffenen Site und zum GitHub-Issue  
-- Verlässliche Eskalation, ohne den Rest deiner Upptime-Konfiguration anzutasten
+Eine vollständige Anleitung finden Sie im [Upptime-Konfigurationsleitfaden](/en/docs/developer/upptime). Für Upptime-eigene Benachrichtigungsoptionen lesen Sie die [offizielle Dokumentation](https://upptime.js.org/docs/notifications).
 
-Teste es an einer überwachten URL, simuliere einen Ausfall und du siehst (oder hörst) die Alert sofort.
+## Was Sie erhalten
+
+- Sofortige Benachrichtigung, wenn ein Endpunkt ausfällt oder sich erholt
+- Direkter Link zur betroffenen Site und zum zugehörigen GitHub-Issue in jedem Alarm
+- Eskalation zu einem Telefonanruf für Endpunkte, bei denen keine Zeit zu verlieren ist
