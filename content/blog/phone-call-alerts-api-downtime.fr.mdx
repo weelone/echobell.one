@@ -1,0 +1,128 @@
+---
+title: "Alertes par Appel Téléphonique Quand Votre API Tombe"
+description: "Les notifications push standard pour les erreurs d'API se perdent dans le bruit. Apprenez à configurer des alertes par appel téléphonique qui vous réveillent vraiment lorsque des services critiques tombent en panne."
+date: 2026-03-13
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - surveillance d'API
+  - alertes téléphoniques
+  - temps d'arrêt du serveur
+  - alertes critiques
+  - webhook
+---
+
+# Alertes par Appel Téléphonique Quand Votre API Tombe
+
+Que votre API tombe en panne à 3h du matin n'est pas le problème. Le problème est de l'apprendre à 9h quand vos utilisateurs ont déjà inondé votre boîte de support.
+
+La plupart des outils de surveillance sont excellents pour détecter les pannes. Ils sont terribles pour s'assurer que quelqu'un voit vraiment l'alerte au bon moment. Une notification push standard reste sur un écran de verrouillage jusqu'à ce que quelqu'un décide de prendre son téléphone. Un message Slack se perd dans un canal que personne ne surveille la nuit. Un e-mail reste non lu jusqu'au lundi matin.
+
+Les alertes par appel téléphonique changent cette équation. Lorsque votre vérification de santé d'API échoue, votre téléphone sonne réellement — comme un appel téléphonique normal pour toute autre urgence. Vous répondez, entendez ce qui ne va pas, et pouvez commencer à résoudre immédiatement au lieu d'attendre des heures.
+
+## Pourquoi les notifications push échouent pour les services critiques
+
+Le smartphone moyen reçoit 50 à 100 notifications push par jour. Votre alerte de panne d'API est en concurrence avec les mises à jour d'applications, les notifications des réseaux sociaux, les alertes d'actualités et toutes les autres applications sur l'appareil. Quand tout est urgent, rien ne semble urgent.
+
+Cela crée un schéma dangereux :
+
+1. Votre outil de surveillance détecte que l'API renvoie des erreurs 500
+2. Il envoie une notification push sur votre téléphone
+3. Votre téléphone est sur un bureau, face cachée, avec le Mode Concentration activé
+4. L'alerte reste silencieuse jusqu'à ce quelqu'un la remarque — des heures plus tard
+
+Pour un microservice non critique, ce retard est agaçant. Pour une API de paiement, un service d'authentification ou le backend de votre produit principal, ce retard coûte de l'argent réel et de la confiance.
+
+## Comment les alertes par appel téléphonique fonctionnent avec Echobell
+
+Echobell livre les notifications en trois niveaux d'urgence :
+
+- **Normal (Actif) :** Notification push standard
+- **Temps sensible :** Traverse le Mode Concentration iOS mais ne sonne pas
+- **Appel :** Fait sonner votre téléphone comme un appel téléphonique normal
+
+Pour les pannes d'API affectant les utilisateurs, le niveau appel est approprié. Cela reflète la façon dont vous géreriez tout autre appel urgent — vous répondez parce que le téléphone sonne.
+
+La configuration est simple :
+
+1. Créez un canal dans Echobell
+2. Définissez le type de notification sur **Appel**
+3. Connectez votre outil de surveillance via webhook
+4. Quand la vérification de santé échoue, Echobell vous appelle
+
+## Configurer des alertes d'appel depuis votre outil de surveillance
+
+La plupart des plateformes de surveillance peuvent envoyer un webhook lorsqu'une vérification échoue. Voici comment le brancher.
+
+### Utiliser votre vérification de santé existante
+
+Si vous avez déjà un endpoint de santé (comme `/health` ou `/status`), configurez votre moniteur pour le vérifier à intervalles réguliers. Quand la réponse n'est pas 200, déclenchez le webhook.
+
+Echobell accepte les payloads webhook avec titre et corps :
+
+```bash
+curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "API EN PANNE : payment-service",
+    "body": "Vérification de santé échouée - erreur 500 à 03:42 UTC",
+    "notificationType": "calling",
+    "externalLink": "https://your-dashboard.example.com/incidents/123"
+  }'
+```
+
+Le champ `notificationType: calling` est ce qui fait sonner le téléphone.
+
+## Что включить в alerte
+
+Gardez le contenu de l'alerte scannable. Quand vous répondez à un appel à 3h du matin, vous devez comprendre le problème instantanément :
+
+- **Nom du service** — quelle API ou microservice est tombé en panne
+- **Type d'erreur** — timeout, 5xx, connexion refusée
+- **Horodatage** — quand la panne a commencé
+- **Lien** — où enquêter immédiatement
+
+Ce n'est pas le lieu pour des messages verbeux. Le but est un contexte instantané pour que vous puissiez décider si vous devez vous réveiller complètement ou simplement accuser réception et vous rendormir.
+
+## Choisir le bon niveau d'urgence
+
+Toutes les pannes d'API n'ont pas besoin d'un appel téléphonique. Utilisez les alertes d'appel pour :
+
+- Services de paiement et de facturation
+- Points de terminaison d'authentification et de connexion
+- APIs de produit principales avec lesquelles les utilisateurs interagissent directement
+- Services dont dépendent d'autres systèmes critiques
+
+Utilisez les notifications temps sensible pour :
+
+- Services secondaires importants mais non critiques pour les revenus
+- Environnements de développement ou de staging
+- Signaux d'alerte (taux d'erreur élevés qui ne sont pas encore des pannes complètes)
+
+Utilisez les notifications normales pour :
+
+- Tâches de fond non critiques
+- Métriques informatives ne nécessitant pas d'action
+
+Cette approche progressive vous garde alerté sans créer de fatigue d'alertes.
+
+## Passer à l'échelle sur plusieurs services
+
+Si vous exploitez plus d'une API, créez des canaux séparés pour chaque service ou groupe de services :
+
+- `production-payment-api` — niveau appel
+- `production-user-api` — niveau appel  
+- `production-analytics-api` — temps sensible
+- `staging-all` — temps sensible
+
+Cela vous permet d'ajuster l'urgence par service. Votre API de paiement mérite un appel ; votre pipeline d'analyse probablement pas.
+
+---
+
+**Pages associées :**
+
+- [Alertes d'appel pour incidents critiques](/en/features/call-notifications)
+- [Notifications webhook pour iPhone](/en/features/webhooks)
+- [Alertes Mode Concentration](/en/focus-mode-alerts)
+- [Alertes d'appel serveur hors service](/en/server-down-phone-call-alerts)
