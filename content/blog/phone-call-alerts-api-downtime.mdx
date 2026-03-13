@@ -1,0 +1,138 @@
+---
+title: "Getting Phone Call Alerts When Your API Goes Down"
+description: "Standard push notifications for API failures get lost in the noise. Learn how to set up phone call alerts that actually wake you up when critical services fail."
+date: 2026-03-13
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - API monitoring
+  - phone alerts
+  - server downtime
+  - critical alerts
+  - webhook
+---
+
+# Getting Phone Call Alerts When Your API Goes Down
+
+Your API going down at 3 a.m. is not the problem. The problem is finding out about it at 9 a.m. when your users have already flooded your support inbox.
+
+Most monitoring tools are great at detecting failures. They are terrible at making sure someone actually sees the alert at the right time. A standard push notification sits on a locked screen until someone happens to pick up their phone. A Slack message gets buried in a channel that nobody watches at night. An email goes unread until Monday morning.
+
+Phone call alerts change that equation. When your API health check fails, your phone actually rings — the same way a phone call would ring for any other urgent matter. You answer, hear what's wrong, and can start fixing it immediately rather than hours later.
+
+## Why push notifications fail for critical services
+
+The average smartphone receives 50 to 100 push notifications per day. Your API failure alert is competing with app updates, social media notifications, news alerts, and every other app on the device. When everything is urgent, nothing feels urgent.
+
+This creates a dangerous pattern:
+
+1. Your monitoring tool detects the API is returning 500 errors
+2. It sends a push notification to your phone
+3. Your phone is on a desk, face down, with Focus Mode enabled
+4. The alert sits there silently until someone notices — hours later
+
+For a non-critical microservice, that delay is annoying. For a payment API, an authentication service, or your primary product's backend, that delay costs real money and trust.
+
+## How phone call alerts work with Echobell
+
+Echobell delivers notifications in three urgency levels:
+
+- **Normal (Active):** Standard push notification
+- **Time-sensitive:** Breaks through iOS Focus Mode but does not ring
+- **Calling:** Rings your phone like a regular phone call
+
+For API failures that affect users, the calling level is appropriate. It mirrors how you would handle any other urgent phone call — you answer it because the phone is ringing.
+
+The setup is straightforward:
+
+1. Create a channel in Echobell
+2. Set the notification type to **Calling**
+3. Connect your monitoring tool via webhook
+4. When the health check fails, Echobell calls your phone
+
+## Setting up call alerts from your monitoring tool
+
+Most monitoring platforms can send a webhook when a check fails. Here is how to wire it up.
+
+### Using your existing health check
+
+If you already have a health endpoint (like `/health` or `/status`), configure your monitor to check it at regular intervals. When the response is not 200, trigger the webhook.
+
+Echobell accepts webhook payloads with title and body:
+
+```bash
+curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "API DOWN: payment-service",
+    "body": "Health check failed - 500 error at 03:42 UTC",
+    "notificationType": "calling",
+    "externalLink": "https://your-dashboard.example.com/incidents/123"
+  }'
+```
+
+The `notificationType: calling` field is what triggers the phone to ring.
+
+### What to include in the alert
+
+Keep the alert content scannable. When you answer a call at 3 a.m., you need to understand the problem instantly:
+
+- **Service name** — which API or microservice failed
+- **Error type** — timeout, 5xx, connection refused
+- **Timestamp** — when the failure started
+- **Link** — where to investigate immediately
+
+This is not the place for verbose messages. The goal is instant context so you can decide whether to wake up fully or just acknowledge it and go back to sleep.
+
+## Choosing the right urgency level
+
+Not every API failure needs a phone call. Use calling alerts for:
+
+- Payment and billing services
+- Authentication and login endpoints
+- Primary product APIs that users interact with directly
+- Services that other critical systems depend on
+
+Use time-sensitive notifications for:
+
+- Secondary services that are important but not revenue-critical
+- Development or staging environments
+- Warning signs (high error rates that are not yet full failures)
+
+Use normal notifications for:
+
+- Non-critical background jobs
+- Informational metrics that do not require action
+
+This graduated approach keeps you alerted without creating alert fatigue.
+
+## Scaling to multiple services
+
+If you run more than one API, create separate channels for each service or service group:
+
+- `production-payment-api` — calling level
+- `production-user-api` — calling level  
+- `production-analytics-api` — time-sensitive
+- `staging-all` — time-sensitive
+
+This lets you tune the urgency per service. Your payment API deserves a phone call; your analytics pipeline probably does not.
+
+## The real benefit
+
+The value of phone call alerts is not the ringing itself. It is the behavioral change it creates:
+
+- You fix problems faster because you know about them immediately
+- You sleep better knowing that if something breaks, you will actually be woken up
+- Your users experience shorter downtime because you respond in minutes instead of hours
+
+For critical services, that difference is the entire point.
+
+---
+
+**Related pages:**
+
+- [Phone call alerts for critical incidents](/en/features/call-notifications)
+- [Webhook notifications for iPhone](/en/features/webhooks)
+- [Focus Mode alerts](/en/focus-mode-alerts)
+- [Server down phone call alerts](/en/server-down-phone-call-alerts)

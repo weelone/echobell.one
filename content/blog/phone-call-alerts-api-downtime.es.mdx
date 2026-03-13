@@ -1,0 +1,128 @@
+---
+title: "Alertas de Llamada Telefónica Cuando Tu API Caiga"
+description: "Las notificaciones push estándar para fallos de API se pierden en el ruido. Aprende a configurar alertas de llamada telefónica que realmente te despierten cuando los servicios críticos fallen."
+date: 2026-03-13
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - monitorización de API
+  - alertas telefónicas
+  - tiempo de inactividad del servidor
+  - alertas críticas
+  - webhook
+---
+
+# Alertas de Llamada Telefónica Cuando Tu API Caiga
+
+Que tu API caiga a las 3 a.m. no es el problema. El problema es enterarse a las 9 a.m. cuando tus usuarios ya han inundado tu bandeja de soporte.
+
+La mayoría de las herramientas de monitoreo son excelentes detectando fallos. Son terribles asegurándose de que alguien vea la alerta en el momento correcto. Una notificación push estándar permanece en una pantalla de bloqueo hasta que alguien decide tomar su teléfono. Un mensaje de Slack se bury en un canal que nadie mira de noche. Un correo electrónico permanece sin leer hasta el lunes por la mañana.
+
+Las alertas de llamada telefónica cambian esa ecuación. Cuando la verificación de salud de tu API falla, tu teléfono realmente suena — igual que una llamada telefónica normal para cualquier otra urgencia. Respondes, escuchas qué está mal, y puedes comenzar a solucionarlo inmediatamente en lugar de horas después.
+
+## Por qué las notificaciones push fallan para servicios críticos
+
+El teléfono inteligente promedio recibe de 50 a 100 notificaciones push por día. Tu alerta de fallo de API está compitiendo con actualizaciones de aplicaciones, notificaciones de redes sociales, alertas de noticias y cada otra aplicación en el dispositivo. Cuando todo es urgente, nada se siente urgente.
+
+Esto crea un patrón peligroso:
+
+1. Tu herramienta de monitoreo detecta que la API está devolviendo errores 500
+2. Envía una notificación push a tu teléfono
+3. Tu teléfono está en un escritorio, boca abajo, con el Modo Enfoque activado
+4. La alerta permanece ahí en silencio hasta que alguien la nota — horas después
+
+Para un microservicio no crítico, esa demora es molesta. Para una API de pagos, un servicio de autenticación o el backend de tu producto principal, esa demora cuesta dinero real y confianza.
+
+## Cómo funcionan las alertas de llamada telefónica con Echobell
+
+Echobell entrega notificaciones en tres niveles de urgencia:
+
+- **Normal (Activa):** Notificación push estándar
+- **Tiempo-sensitive:** Atraviesa el Modo Enfoque de iOS pero no suena
+- **Llamada:** Hace sonar tu teléfono como una llamada telefónica normal
+
+Para fallos de API que afectan a usuarios, el nivel de llamada es apropiado. Refleja cómo tratarías cualquier otra llamada telefónica urgente — respondes porque el teléfono está sonando.
+
+La configuración es sencilla:
+
+1. Crea un canal en Echobell
+2. Establece el tipo de notificación en **Llamada**
+3. Conecta tu herramienta de monitoreo vía webhook
+4. Cuando la verificación de salud falla, Echobell te llama
+
+## Configurando alertas de llamada desde tu herramienta de monitoreo
+
+La mayoría de las plataformas de monitoreo pueden enviar un webhook cuando una verificación falla. Aquí te explicamos cómo conectarlo.
+
+### Usando tu verificación de salud existente
+
+Si ya tienes un endpoint de salud (como `/health` o `/status`), configura tu monitor para verificarlo a intervalos regulares. Cuando la respuesta no sea 200, dispara el webhook.
+
+Echobell acepta payloads de webhook con título y cuerpo:
+
+```bash
+curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "API CAÍDA: payment-service",
+    "body": "Verificación de salud fallida - error 500 a las 03:42 UTC",
+    "notificationType": "calling",
+    "externalLink": "https://your-dashboard.example.com/incidents/123"
+  }'
+```
+
+El campo `notificationType: calling` es lo que hace que el teléfono suene.
+
+## Qué incluir en la alerta
+
+Mantén el contenido de la alerta escaneable. Cuando contestes una llamada a las 3 a.m., necesitas entender el problema instantáneamente:
+
+- **Nombre del servicio** — qué API o microservicio cayó
+- **Tipo de error** — timeout, 5xx, conexión rechazada
+- **Marca de tiempo** — cuándo comenzó el fallo
+- **Enlace** — dónde investigar inmediatamente
+
+Este no es el lugar para mensajes extensos. El objetivo es contexto instantáneo para que puedas decidir si despertarte completamente o simplemente reconocer y volver a dormir.
+
+## Elegir el nivel de urgencia correcto
+
+No todo fallo de API necesita una llamada telefónica. Usa alertas de llamada para:
+
+- Servicios de pago y facturación
+- Endpoints de autenticación y login
+- APIs de producto primarias con las que los usuarios interactúan directamente
+- Servicios de los que dependen otros sistemas críticos
+
+Usa notificaciones tiempo-sensibles para:
+
+- Servicios secundarios que son importantes pero no críticos para ingresos
+- Entornos de desarrollo o staging
+- Señales de advertencia (tasas de error altas que aún no son fallos completos)
+
+Usa notificaciones normales para:
+
+- Trabajos en segundo plano no críticos
+- Métricas informativas que no requieren acción
+
+Este enfoque gradual te mantiene alertado sin crear fatiga de alertas.
+
+## Escalar a múltiples servicios
+
+Si ejecutas más de una API, crea canales separados para cada servicio o grupo de servicios:
+
+- `production-payment-api` — nivel de llamada
+- `production-user-api` — nivel de llamada  
+- `production-analytics-api` — tiempo-sensible
+- `staging-all` — tiempo-sensible
+
+Esto te permite ajustar la urgencia por servicio. Tu API de pagos merece una llamada; tu pipeline de análisis probablemente no.
+
+---
+
+**Páginas relacionadas:**
+
+- [Alertas de llamada para incidentes críticos](/en/features/call-notifications)
+- [Notificaciones webhook para iPhone](/en/features/webhooks)
+- [Alertas de Modo Enfoque](/en/focus-mode-alerts)
+- [Alertas de llamada de servidor caído](/en/server-down-phone-call-alerts)
