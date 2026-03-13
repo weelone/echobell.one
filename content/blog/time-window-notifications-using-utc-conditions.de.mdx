@@ -1,39 +1,32 @@
 ---
-title: Nur dann alarmieren, wenn es zählt — Zeitfenster‑Benachrichtigungen mit UTC‑Bedingungen
+title: "Zeitfenster-Benachrichtigungen mit UTC-Bedingungen in Echobell"
+description: "Echobells integrierte UTC-Zeitvariablen nutzen, um Benachrichtigungen nach Geschäftszeiten, Wochenenden oder Wartungsfenstern zu filtern. Enthält einsatzbereite Bedingungsrezepte."
 date: 2025-11-06
-description: Nutzen Sie die integrierten UTC‑Zeitvariablen von Echobell, um Benachrichtigungen nur während Geschäftszeiten, am Wochenende oder in Wartungsfenstern zu senden. Mit praktischen Rezepten und Tipps zur Verwendung in Vorlagen.
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Zeitfenster‑Benachrichtigungen mit UTC‑Bedingungen
+# Zeitfenster-Benachrichtigungen mit UTC-Bedingungen in Echobell
 
-Benachrichtigen Sie nur dann, wenn jemand handeln kann: Geschäftszeiten, On‑Call‑Zeiten oder Wochenend‑Wartung. Mit den integrierten Systemzeit‑Variablen (UTC) formulieren Sie klare Bedingungen wie „werktags 09:00–17:00“ oder „erster Tag im Monat zur vollen Stunde“ direkt in den Kanal‑Bedingungen.
+Echobells integrierte UTC-Zeitvariablen ermöglichen es, Benachrichtigungen auf bestimmte Zeitfenster zu beschränken – Geschäftszeiten, On-Call-Schichten, Wartungsfenster – direkt in den Channel-Bedingungen. Kein externer Filterlayer erforderlich.
 
-Was Sie hier lernen:
+Voraussetzungen: [Bedingungen](/en/docs/conditions), [Templates](/en/docs/template), [Webhook](/en/docs/webhook), [E-Mail-Trigger](/en/docs/email-trigger).
 
-- Verfügbare UTC‑Variablen (in Bedingungen und Vorlagen)
-- Copy‑&‑Paste‑Rezepte für typische Zeitfenster
-- Zeitbedingungen mit Inhalts‑ oder Schweregrad‑Regeln kombinieren
-- Bonus: Zeit in Vorlagen anzeigen
+## Verfügbare UTC-Variablen
 
-Neu bei Bedingungen oder Vorlagen? Siehe [Bedingungen](/de/docs/conditions) und [Vorlagen](/de/docs/template). Auslöser: [Webhook](/de/docs/webhook) und [E‑Mail‑Auslöser](/de/docs/email-trigger).
+Diese Variablen sind schreibgeschützt, immer verfügbar und in UTC berechnet:
 
-## Systemzeit (UTC) Variablen
-
-Diese schreibgeschützten Variablen sind immer verfügbar und werden in UTC berechnet:
-
-- `timezone` (immer "UTC"), `now`/`iso`, `epochMs`, `epochSeconds`
+- `timezone` (immer „UTC"), `now`/`iso`, `epochMs`, `epochSeconds`
 - `year`, `month` (1–12), `monthName`
 - `dayOfMonth` (1–31)
 - `dayOfWeek` (0–6, Sonntag = 0), `dayOfWeekName`
 - `hour` (0–23), `minute` (0–59), `second` (0–59)
-- `date` (YYYY‑MM‑DD), `time` (HH:mm:ss)
+- `date` (YYYY-MM-DD), `time` (HH:mm:ss)
 
-Sie können sie direkt in [Bedingungen](/de/docs/conditions) (ohne `{{ }}`) und in [Vorlagen](/de/docs/template) (mit `{{ }}`) verwenden.
+In [Bedingungen](/en/docs/conditions) direkt verwenden (ohne `{{ }}`). In [Templates](/en/docs/template) mit `{{ }}`.
 
-## Rezepte zum Einfügen
+## Bedingungsrezepte
 
 ### Werktags während der Geschäftszeiten
 
@@ -41,19 +34,19 @@ Sie können sie direkt in [Bedingungen](/de/docs/conditions) (ohne `{{ }}`) und 
 hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
 ```
 
-### Nur am Wochenende
+### Nur Wochenende
 
 ```
 dayOfWeek == 0 || dayOfWeek == 6
 ```
 
-### Außerhalb der Geschäftszeiten (Nacht und Wochenende)
+### Außerhalb der Geschäftszeiten (Nächte und Wochenenden)
 
 ```
 (hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6
 ```
 
-### Wartungsfenster (samstags 01:00–03:00)
+### Wartungsfenster (Samstags 01:00–03:00)
 
 ```
 dayOfWeek == 6 && hour >= 1 && hour < 3
@@ -65,56 +58,52 @@ dayOfWeek == 6 && hour >= 1 && hour < 3
 dayOfMonth == 1 && minute == 0
 ```
 
-### Quartalsende (März/Juni/Sept/Dez) während Geschäftszeiten
+### Quartalsende während Geschäftszeiten (März/Juni/Sept/Dez)
 
 ```
 (month == 3 || month == 6 || month == 9 || month == 12) && hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
 ```
 
-## Zeit mit Inhalt und Schwere kombinieren
+## Zeit mit Inhaltsfiltern kombinieren
 
-Noch hilfreicher mit Ihren Datenvariablen:
+Zeitbedingungen lassen sich mit Datenvariablen über Standardoperatoren kombinieren:
 
-- Nacht/Wochenende nur für Fehler eskalieren:
+- Außerhalb der Geschäftszeiten nur bei hohem Schweregrad eskalieren:
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
   ```
-- Nur Produktion, werktags:
+- Produktionsumgebung, nur werktags:
   ```
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-Hinweis: Bedingungen sind reine Ausdrücke—ohne `{{ }}`. Alle Operatoren: [Bedingungen → Unterstützte Operatoren](/de/docs/conditions#unterstützte-operatoren).
+Bedingungen sind einfache Ausdrücke – kein `{{ }}`-Wrap. Siehe [Bedingungen → Unterstützte Operatoren](/en/docs/conditions#supported-operators).
 
-## Zeit in Vorlagen anzeigen (Bonus)
+## Zeitvariablen in Templates verwenden
 
-Die gleichen Variablen funktionieren in Vorlagen (mit `{{ }}`):
+Dieselben Variablen funktionieren in Templates mit `{{ }}` – nützlich für Audit-Einträge und menschenlesbare Protokolle:
 
 ```
-Gesendet um {{date}} {{time}} {{timezone}}
-Heute ist {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Sent at {{date}} {{time}} {{timezone}}
+Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
 Epoch: {{epochSeconds}}
 ```
 
-Kombinieren Sie Zeit mit Daten aus [Webhook](/de/docs/webhook) oder [E‑Mail‑Auslöser](/de/docs/email-trigger):
+Mit Daten aus [Webhook](/en/docs/webhook) oder [E-Mail-Trigger](/en/docs/email-trigger) kombinieren:
 
 ```
-{{service}} {{status}} um {{time}} ({{timezone}})
+{{service}} {{status}} at {{time}} ({{timezone}})
 ```
 
-## Best Practices
+## Hinweise
 
-- UTC statt Lokalzeit: Systemvariablen sind in UTC, damit Ausdrücke auf allen Geräten konsistent bleiben.
-- Einfach starten, dann verfeinern: erst Zeitfenster, dann Inhaltsfilter.
-- Absicht dokumentieren: kurze Notiz im Kanal, z. B. „Werktags 09–17 UTC; außerhalb nur high/critical“.
+- Alle Systemvariablen sind UTC. Wenn Ihr Team über Zeitzonen verteilt ist, den Offset beim Setzen von Stundenbereichen berücksichtigen.
+- Mit einem einfachen Zeitfenster starten, dann Inhaltsfilter ergänzen, sobald es funktioniert.
+- Eine kurze Beschreibung im Channel hinterlassen, die die Bedingungslogik erklärt (z. B. „Werktags 09–17 UTC; außerhalb nur bei hohem Schweregrad").
 
 ## Nächste Schritte
 
-- Zeitfenster‑Bedingung zu einem bestehenden Kanal hinzufügen: [Bedingungen](/de/docs/conditions)
-- Benachrichtigungen mit Variablen verfeinern: [Vorlagen](/de/docs/template)
-- Getrennte Kanäle für Geschäfts‑ vs. On‑Call‑Zeiten
-- Für dringende Off‑Hours „Calling“‑Benachrichtigungen bevorzugen
-
----
-
-Haben Sie ein gutes Zeitfenster‑Muster? Teilen Sie, wie Sie Echobell‑Bedingungen für ruhigere, smartere Benachrichtigungen nutzen.
+- Zeitfenster-Bedingung zu einem bestehenden Channel hinzufügen: [Bedingungen](/en/docs/conditions)
+- Benachrichtigungsinhalt mit Variablen anpassen: [Templates](/en/docs/template)
+- Separate Channels für Geschäftszeiten vs. On-Call-Fenster erstellen
+- On-Call-Channels auf Anruf-Benachrichtigungstyp für außerhalb der Geschäftszeiten setzen

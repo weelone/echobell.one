@@ -1,125 +1,74 @@
 ---
-title: Echobell is here!
+title: Introducing Echobell
 date: 2025-03-30
-description: Echobell is a privacy-first instant alert app for developers and teams—turn webhook or email triggers into time-sensitive and call notifications with channels and templates.
+description: "Echobell is a privacy-first instant alert app for iOS. Send webhook or email triggers to channels and receive normal, time-sensitive, or call-style notifications on your device."
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Echobell is here!
+# Introducing Echobell
 
-We’re excited to share Echobell with you—an instant alert app that helps you cut through noise and never miss what matters. If you’ve ever missed a build failure, an uptime alert, or an important email, Echobell turns those moments into clear, timely notifications you can trust. If you want the product overview first, start with [what Echobell is](/en/docs/what-is-echobell), [webhook notifications for iPhone](/en/features/webhooks), or [phone call alerts for critical incidents](/en/features/call-notifications).
-
-## What is Echobell?
-
-Echobell is a privacy‑first notification app that receives triggers from webhooks or email and delivers the right alert to the right people—instantly. You organize alerts into channels, shape the content with templates, and pick how urgent each notification should be. It’s fast, flexible, and built for real‑world workflows.
-
-In short: create a channel, send it a webhook or an email, and Echobell turns it into a personalized app notification—Normal, Time Sensitive, or even a call‑like alert.
+Echobell is a privacy-first notification app for iOS that receives triggers from webhooks or email and delivers them to your device as normal, time-sensitive, or call-style alerts. You organize alerts into channels, shape content with templates, and choose the urgency level per channel.
 
 ## Key Features
 
-### Notification Channels
+### Channels
 
-At the heart of Echobell are Channels—simple, powerful pipelines for your alerts. Each channel includes:
+Channels are the core unit. Each one has:
 
-- Name and color for quick recognition
-- Templates for title and body, using variables like `{{server}}`, `{{message}}`, or `{{timestamp}}`
-- Triggers via webhook or email
-- A shareable subscription link so teammates or followers can subscribe
+- A name and color for quick identification
+- Title and body templates with variables (e.g. `{{server}}`, `{{message}}`, `{{timestamp}}`)
+- A webhook URL or dedicated email address as its trigger
+- A shareable subscription link so teammates can subscribe
 
-### Multiple Triggering Methods
+### Webhook and email triggers
 
-Echobell offers two reliable ways to trigger notifications:
+**[Webhook notifications](/en/features/webhooks):** Call your channel's unique URL with GET or POST. Echobell notifies all subscribers. Works well for server monitoring, CI/CD pipelines, IoT status updates, and order notifications.
 
-**[Webhook notifications](/en/features/webhooks)**: Call your unique URL with GET or POST and Echobell notifies all channel subscribers. Great for:
+**[Email-to-notification](/en/features/email-triggers):** Send or forward an email to the channel address to trigger alerts — no code required. Useful for forwarding important emails, integrating with legacy systems, or building notification flows without writing code.
 
-- Server monitoring alerts
-- CI/CD pipeline notifications
-- IoT device status updates
-- E-commerce order notifications
-
-**[Email‑to‑notification](/en/features/email-triggers)**: Send or forward an email to a channel’s address to trigger alerts—no code required. Perfect when:
-
-- Forward important emails as notifications
-- Create notification flows without coding
-- Integrate with legacy systems that support email but not webhooks
-
-### Customizable Notification Templates
-
-Make alerts meaningful with templates and variables:
+### Templates and variables
 
 ```
 Title: {{server}} status alert
 Body: {{message}} detected at {{timestamp}}
 ```
 
-Send variables in the webhook body or query string—or rely on email fields like subject, from, and text—to render clear, personalized notifications.
+Pass variables in the webhook payload or query string. For email triggers, variables like `from`, `subject`, and `text` are available automatically.
 
-### Flexible Notification Types
+### Notification types
 
-Not all alerts are equal. Echobell supports three types:
+- **Normal (Active):** Standard notifications for routine updates
+- **[Time Sensitive](/en/focus-mode-alerts):** Breaks through Focus modes
+- **[Calling](/en/features/call-notifications):** Rings like a phone call for critical incidents
 
-- **Normal (Active)**: Standard app notifications for routine updates
-- **[Time Sensitive](/en/focus-mode-alerts)**: High‑priority alerts that can break through Focus Modes
-- **[Calling](/en/features/call-notifications)**: Call‑like notifications for critical incidents
+### Privacy
 
-### Privacy-First Approach
+Accounts, channels, and subscriptions are stored server-side. Notification content and history stay on your devices.
 
-Privacy is built in:
+## Use cases
 
-- Only accounts, channels, and subscriptions live on our servers
-- Notification content and history stay on your devices
-- Your sensitive data remains under your control
+**Developers:** Server and uptime monitoring ([Grafana](/en/docs/developer/grafana), [Prometheus](/en/docs/developer/prometheus)), CI/CD and GitHub Actions alerts, production error reporting.
 
-## Use Cases
+**Traders:** Price threshold alerts for stocks or crypto, signals via email forwarding.
 
-Echobell fits many real‑world workflows:
+**Teams:** One channel per project, teammates subscribe at their preferred urgency level.
 
-### For Developers
+**Personal:** Website down alerts, important email notifications, custom reminders.
 
-- Server and uptime monitoring with webhook notifications ([Grafana](/en/docs/developer/grafana), [Prometheus](/en/docs/developer/prometheus))
-- CI/CD and GitHub Actions alerts for build success/failure
-- Error reporting and log spikes in production
-
-### For Traders
-
-- Real‑time stock or crypto price alerts
-- Threshold notifications for big moves
-- Mentions and signals via email forwarding
-
-### For Teams
-
-- Channels per project or customer
-- Teammates subscribe with their preferred urgency (Normal, Time Sensitive, Calling)
-- Critical alerts cut through focus time when needed
-
-### For Personal Use
-
-- Website down alerts and contact‑form pings
-- Important email notifications without living in your inbox
-- Custom reminders for anything that matters to you
-
-## Getting Started
-
-Getting started takes minutes:
+## Getting started
 
 1. Download Echobell from the [App Store](https://apps.apple.com/app/id6743597198)
 2. Create an account (email or Sign in with Apple)
-3. Create your first channel and set a title/body template
+3. Create a channel and set a title/body template
 4. Add a webhook or email trigger
-5. Send a test—and start receiving instant notifications
+5. Send a test notification
 
-## Useful Pages to Start With
+## Related pages
 
 - [Pushover alternative](/en/pushover-alternative)
 - [ntfy alternative](/en/ntfy-alternative)
 - [Server down phone call alerts](/en/server-down-phone-call-alerts)
 - [App Store Connect review notifications](/en/app-store-connect-review-notifications)
 - [How to bypass iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
-
-## Join the Echobell Community
-
-We’re just getting started, and we’re building Echobell in the open for developers, teams, and anyone who wants calmer, clearer notifications. If you value privacy‑first, reliable webhook notifications, simple email triggers, and flexible channels, Echobell is for you.
-
-Download Echobell today and take back control of your alerts. We can’t wait to see what you connect it to. If you are currently comparing tools, the fastest next steps are our [Pushover alternative page](/en/pushover-alternative) and [ntfy alternative page](/en/ntfy-alternative).

@@ -1,101 +1,83 @@
 ---
-title: Habilitar notificaciones de llamadas para alertas de Grafana
-description: Aprende a configurar notificaciones de llamadas telefónicas para tus alertas de Grafana usando Echobell
+title: Notificaciones de llamada telefónica para alertas de Grafana via Echobell
+description: "Configura notificaciones de llamada telefónica para alertas de Grafana usando webhooks de Echobell: configuración paso a paso, buenas prácticas y solución de problemas."
 date: 2025-04-12
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# No vuelvas a perder una alerta crítica de Grafana (ni a las 3 de la madrugada)
+# Notificaciones de llamada telefónica para alertas de Grafana via Echobell
 
-Si alguna vez te has despertado con paneles en rojo y has pensado “ojalá me hubieran llamado”, este artículo es para ti. El correo y el chat ayudan, pero para incidentes realmente críticos una llamada de voz te pone en acción. Con Echobell, conviertes las alertas de Grafana en llamadas telefónicas inmediatas, con escalado y horas de silencio.
+Las notificaciones por correo y chat son fáciles de perder durante incidentes. Para alertas críticas, Echobell puede convertir las notificaciones webhook de Grafana en llamadas telefónicas reales con soporte de escalación y reintentos. Esta guía cubre la configuración completa.
 
-Aquí verás cómo conectar Grafana con Echobell mediante un webhook en minutos, más consejos para un on‑call más llevadero.
+Documentación relevante:
 
-## ¿Por qué llamadas telefónicas con Echobell para Grafana?
+- Qué es Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Tipos de notificación y reintentos → [/docs/notification](/en/docs/notification)
+- Resumen de webhooks → [/docs/webhook](/en/docs/webhook)
+- Referencia de integración con Grafana → [/docs/developer/grafana](/en/docs/developer/grafana)
 
-- Atención inmediata: cuando cada minuto cuenta, una llamada no pasa desapercibida
-- Pensado para on‑call: escalado, reintentos y horas de silencio evitan el ruido
-- En equipo: comparte canales y rota responsabilidades
-- Configuración simple: webhook seguro de Echobell, listo en minutos
+## Requisitos previos
 
-Docs útiles para profundizar:
-
-- ¿Qué es Echobell? → [/es/docs/what-is-echobell](/es/docs/what-is-echobell)
-- Modelo de notificaciones (prioridades, reintentos) → [/es/docs/notification](/es/docs/notification)
-- Webhooks en Echobell → [/es/docs/webhook](/es/docs/webhook)
-- Guía de Grafana para desarrolladores → [/es/docs/developer/grafana](/es/docs/developer/grafana)
-
-## Conecta Echobell con Grafana en 3 minutos
-
-### Prerrequisitos
-
-1. Cuenta de Echobell con canal activo y URL de webhook (ver [/es/docs/webhook](/es/docs/webhook))
+1. Cuenta de Echobell con un canal activo y URL de webhook (ver [/docs/webhook](/en/docs/webhook))
 2. Acceso de administrador a tu instancia de Grafana
 3. Al menos una regla de alerta configurada
 
-### Paso 1 — Crea un punto de contacto Webhook en Grafana
+## Configuración
 
-- En Grafana: Alerting → Contact points
-- “New contact point” → tipo “Webhook”
-- Nómbralo “Llamadas Echobell” (o como tu equipo)
+### Paso 1 — Crear un punto de contacto Webhook en Grafana
 
-### Paso 2 — Agrega tu URL de webhook de Echobell
+1. Ve a Alerting → Contact points
+2. Haz clic en New contact point y elige **Webhook**
+3. Nómbralo de forma identificable, p. ej. "Echobell Phone Calls"
 
-Usa la URL de tu canal, por ejemplo:
+### Paso 2 — Agregar tu URL de webhook de Echobell
+
+Establece la URL al webhook de tu canal:
 
 `https://hook.echobell.one/t/xxxxxxxx`
 
-La copias desde la configuración del canal en Echobell (detalle en [/es/docs/webhook](/es/docs/webhook)). Trátala como secreto y rótala si se filtra.
+Cópiala desde la configuración de tu canal en Echobell (detalles en [/docs/webhook](/en/docs/webhook)). Trátala como un secreto y rótala si se filtra.
 
-### Paso 3 — Prueba la integración
+### Paso 3 — Probar la integración
 
-- Pulsa “Test” en Grafana para enviar un aviso de prueba
-- Deberías recibir una llamada de Echobell en segundos
+Haz clic en **Test** en Grafana para enviar una alerta de muestra. Deberías recibir una llamada de Echobell en segundos.
 
-### Paso 4 — Añádelo a tus políticas de notificación
+### Paso 4 — Vincular a las políticas de notificación
 
-- Alerting → Notification policies
-- Crea o edita la política aplicada a alertas críticas
-- Añade el contacto “Llamadas Echobell”
+1. Ve a Alerting → Notification policies
+2. Crea o edita una política que apunte a tus alertas críticas
+3. Agrega el punto de contacto "Echobell Phone Calls"
 
-Listo: cuando la política coincida, Grafana te llamará vía Echobell.
+Grafana ahora enrutará las alertas coincidentes a Echobell.
 
-## Buenas prácticas para un on‑call más tranquilo
+## Buenas prácticas
 
-- Reserva las llamadas para alta prioridad; usa chat/correo para menor severidad
-- En Echobell, ajusta reintentos y timeouts (ver [/es/docs/notification](/es/docs/notification))
-- Configura escalado si la primera llamada no se atiende
-- Define horas de silencio para evitar despertarte sin motivo
-- Mantén el roster de on‑call actualizado y compartido
+- Reserva las llamadas telefónicas para alertas de alta prioridad; usa chat o correo para severidades menores
+- Configura reintentos y tiempos de espera en Echobell para limitar la fatiga de alertas ([/docs/notification](/en/docs/notification))
+- Configura la escalación a compañeros si la primera llamada no es contestada
+- Usa horas de silencio para evitar interrupciones innecesarias de baja urgencia
+- Comparte el canal con tu equipo de guardia y mantén el registro actualizado
 
-## Avanzado: personaliza la experiencia de llamada
+## Opciones avanzadas
 
-En Echobell puedes afinar el comportamiento de las llamadas:
+- Comparte canales con compañeros para mayor cobertura
+- Personaliza el contenido de voz por tipo de alerta usando plantillas
+- Configura intentos de reintento y rutas de escalación
+- Establece contactos de respaldo para mayor resiliencia
 
-- Compartir el canal con tu equipo
-- Definir reintentos y rutas de escalado
-- Personalizar el mensaje de voz por tipo de alerta con plantillas
-- Establecer horas de silencio y contactos de respaldo
-
-Guía completa de Grafana: [/es/docs/developer/grafana](/es/docs/developer/grafana)
+Referencia completa: [/docs/developer/grafana](/en/docs/developer/grafana)
 
 ## Solución de problemas
 
-- No recibes llamadas: confirma que la política enruta al contacto de Echobell
-- 4xx en el webhook: revisa la URL exacta y que el canal esté activo
-- Demasiadas llamadas: acota el alcance de la política o baja la severidad
-- Pocas llamadas: sube la severidad o ajusta filtros para que coincidan alertas críticas
+- **No se recibe ninguna llamada**: confirma que la política de notificación enruta hacia tu punto de contacto de Echobell
+- **Error 4xx en el webhook**: verifica la URL exacta del webhook y que el canal esté activo
+- **Demasiadas llamadas**: reduce el alcance de la política o baja los umbrales de severidad de alerta
+- **Muy pocas llamadas**: sube la severidad o agrega filtros de etiqueta para que las alertas críticas coincidan con la política
 
-## Lecturas relacionadas
+## Relacionados
 
-- Cómo enviar alertas por webhook a Echobell (ideal para sistemas propios): [/es/blog/get-notified-with-webhook-mcp](/es/blog/get-notified-with-webhook-mcp)
-- Fallos de GitHub Actions, al instante en tu teléfono: [/es/blog/github-actions-notifications](/es/blog/github-actions-notifications)
-- Documentación de Grafana para desarrolladores: [/es/docs/developer/grafana](/es/docs/developer/grafana)
-
-## Conclusión
-
-Las llamadas telefónicas añaden una capa humana y fiable a tu alerting en Grafana. Con la integración de Echobell, la persona adecuada recibe una llamada a tiempo y tu respuesta a incidentes es más rápida y serena.
-
-Tómate cinco minutos para configurarlo hoy y duerme un poco mejor esta noche.
+- Alertas webhook para sistemas personalizados → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- Notificaciones de fallos en GitHub Actions → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Documentación para desarrolladores de Grafana → [/docs/developer/grafana](/en/docs/developer/grafana)

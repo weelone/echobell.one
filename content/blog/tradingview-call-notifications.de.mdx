@@ -1,63 +1,48 @@
 ---
-title: TradingView-Alarme als dringende Telefonanrufe empfangen
-description: Verwandeln Sie Ihre TradingView-Alarme mit Echobell in sofortige Telefonanrufe.
+title: TradingView-Alarme als Telefonanrufe empfangen mit Echobell
+description: "TradingView per Webhook mit Echobell verbinden, um Kursalarme als Telefonanrufe oder zeitkritische Benachrichtigungen mit angepasstem Sprachinhalt zu erhalten."
 date: 2025-04-19
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Nie wieder einen Trade verpassen: TradingView-Alarme als Telefonanruf mit Echobell
+# TradingView-Alarme als Telefonanrufe empfangen mit Echobell
 
-Wenn ein perfektes Setup vorbeizieht, weil eine Benachrichtigung untergeht, ist das frustrierend. Ich wollte etwas, das ich nicht übersehen kann—also werden meine TradingView-Alarme mit Echobell zu echten Telefonanrufen. Die Einrichtung dauert Minuten und bringt spürbar Ruhe.
+Standard-Push-Benachrichtigungen sind leicht zu übersehen, wenn sich ein Trade-Setup entwickelt. Diese Anleitung zeigt, wie Sie TradingView per Webhook mit Echobell verbinden, sodass Kursalarme Telefonanrufe mit anpassbarem Sprachinhalt auslösen.
 
-In diesem Leitfaden verbinden wir TradingView per Webhook mit Echobell, passen die Sprachinhalte an und testen die komplette Kette.
+Relevante Dokumentation:
 
-Zum Einstieg die wichtigsten Links:
-
-- Was ist Echobell → [/de/docs/what-is-echobell](/de/docs/what-is-echobell)
-- Webhooks Überblick → [/de/docs/webhook](/de/docs/webhook)
-- Benachrichtigungen & Prioritäten (Normal, Zeitkritisch, Anruf) → [/de/docs/notification](/de/docs/notification)
-- Vorlagen & Variablen → [/de/docs/template](/de/docs/template)
-
-## Warum Telefonanrufe für TradingView?
-
-- Anrufe durchbrechen Fokusmodi, wenn Sekunden zählen
-- In Echobell wählst du pro Kanal die Priorität (Normal, Zeitkritisch, Anruf)
-- Vorlagen machen aus Rohdaten einen klaren, menschenlesbaren Text für den Anruf
-
-SEO-Hinweis: Dieser Artikel behandelt TradingView-Alarme als Telefonanruf über die Echobell-Webhook-Integration.
+- Was ist Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
+- Webhooks-Übersicht → [/docs/webhook](/en/docs/webhook)
+- Benachrichtigungstypen (Normal, Zeitkritisch, Anruf) → [/docs/notification](/en/docs/notification)
+- Templates und Variablen → [/docs/template](/en/docs/template)
 
 ## Voraussetzungen
 
-- Echobell-App installiert, Account eingerichtet ([App Store](https://apps.apple.com/app/id6743597198))
-- TradingView-Account (Webhooks erfordern meist Pro/Pro+/Premium)
+- Echobell-App installiert ([App Store](https://apps.apple.com/app/id6743597198))
+- TradingView-Konto mit Webhook-Unterstützung (Pro/Pro+/Premium)
 
-## Schritt 1 — Echobell-Kanal anlegen (mit Anruf-Priorität)
+## Schritt 1 — Echobell-Channel erstellen
 
-1. In der Echobell-App → Kanal erstellen. Nenne ihn z. B. „TradingView Calls“ und wähle eine markante Farbe.
+1. Echobell öffnen → Channel erstellen. Namen wie „TradingView Calls" vergeben.
+2. Benachrichtigungstyp festlegen. Bei dringenden Alarmen **Anruf**; bei weniger kritischen **Zeitkritisch** oder **Normal** ([/docs/notification](/en/docs/notification)).
+3. Optional Templates konfigurieren, damit der Anruf nützliche Daten vorliest. Beispiel:
 
-2. Benachrichtigungstyp wählen. Für kritische Alarme **Anruf** wählen. Für weniger dringende Alarme eignen sich **Zeitkritisch** oder **Normal**. Siehe [/de/docs/notification](/de/docs/notification).
+   Titel: `{{ticker}} crossed {{price}}`
 
-3. Inhalte unter „Vorlagen“ anpassen (empfohlen). Der Anruf kann wörtlich sagen, was passiert ist. Kombiniere das mit Variablen aus TradingView:
+   Body: `Signal: {{action}} at {{price}} on {{ticker}}`
 
-   Titel: `{{ticker}} überschreitet {{price}}`
+   Vollständige Template-Referenz: [/docs/template](/en/docs/template)
 
-   Text: `Signal: {{action}} bei {{price}} auf {{ticker}}`
+4. Webhook-URL des Channels aus den Channel-Einstellungen kopieren. Privat halten. Details: [/docs/webhook](/en/docs/webhook)
 
-Mehr zu Variablen/Ausdrücken: [/de/docs/template](/de/docs/template)
+## Schritt 2 — TradingView-Alarm konfigurieren
 
-4. Webhook-URL des Kanals aus den Kanaldetails kopieren. Diese Adresse ruft TradingView auf. Behandle sie wie ein Geheimnis. Details: [/de/docs/webhook](/de/docs/webhook)
-
-## Schritt 2 — TradingView mit Echobell verbinden
-
-1. In TradingView Chart öffnen und Alarm erstellen/bearbeiten.
-
-2. Bedingung definieren (Preis, Indikator, Strategie-Signal usw.).
-
-3. Im Bereich Benachrichtigungen/Aktionen **Webhook URL** aktivieren und die Echobell-URL aus Schritt 1 einfügen.
-
-4. Nachricht als JSON gestalten, um dynamische Werte an Echobell zu übergeben:
+1. Chart öffnen und Alarm erstellen oder bearbeiten.
+2. Bedingung definieren (Preisniveau, Indikator, Strategie-Signal usw.).
+3. Im Bereich Benachrichtigungen **Webhook URL** aktivieren und den Echobell-Webhook einfügen.
+4. Nachricht-Payload als JSON setzen, damit Echobell Variablen im Template referenzieren kann:
 
 ```json
 {
@@ -69,46 +54,36 @@ Mehr zu Variablen/Ausdrücken: [/de/docs/template](/de/docs/template)
 ```
 
 Hinweise:
+- TradingViews integrierte Variablen verwenden (`{{ticker}}`, `{{close}}` usw.)
+- `externalLink` ist optional; wenn vorhanden, zeigt Echobell es als anklickbaren Link im Benachrichtigungseintrag an ([/docs/notification](/en/docs/notification))
 
-- Verwende TradingView-Variablen (z. B. `{{ticker}}`, `{{close}}`).
-- `externalLink` ist optional und erscheint als Link im lokalen Datensatz. Siehe [/de/docs/notification](/de/docs/notification).
+## Schritt 3 — Gesamten Ablauf testen
 
-## Schritt 3 — Ende-zu-Ende testen
-
-Löse den Alarm aus (oder verwende einen Test). Innerhalb von Sekunden solltest du einen Echobell-Anruf mit deinem Text erhalten. Für weniger intrusive Alarme probiere zuerst „Zeitkritisch“ und wechsle bei Bedarf zu „Anruf“.
+Alarm auslösen oder Testbedingung verwenden. Innerhalb von Sekunden sollten Sie einen Telefonanruf mit Ihrem Template-Inhalt erhalten. Falls der Anruf für weniger kritische Signale zu störend ist, Channel auf **Zeitkritisch** umstellen und **Anruf** nur für kritische Niveaus verwenden.
 
 ## Fehlerbehebung
 
-- Kein Anruf? Prüfe, ob der Benachrichtigungstyp „Anruf“ gewählt ist und die App Berechtigungen hat.
-- 4xx-Fehler am Webhook? URL exakt prüfen und ob das Kanal-Token nicht rotiert wurde.
-- Variablen fehlen? JSON-Schlüssel müssen exakt den Vorlagenvariablen entsprechen (Groß-/Kleinschreibung).
-- Zu viele Anrufe? Priorität senken oder Alarmbedingungen in TradingView schärfen.
+- **Kein Anruf:** Prüfen, ob der Channel-Benachrichtigungstyp auf Anruf gesetzt ist und die App Benachrichtigungsberechtigungen hat
+- **4xx-Webhook-Fehler in TradingView:** Genaue Echobell-Webhook-URL prüfen und sicherstellen, dass das Channel-Token aktuell ist
+- **Variablen erscheinen nicht im Anruf:** JSON-Keys müssen exakt den Template-Variablennamen entsprechen (Groß-/Kleinschreibung beachten)
+- **Zu viele Anrufe:** Priorität auf Zeitkritisch senken oder TradingView-Alarmbedingungen verschärfen
 
-## Vorlagen: mehr Aussage, weniger Rätsel
+## Template-Tipps
 
-Mit Vorlagen formst du Daten zu einem klaren Skript für den Anruf:
+Ein klares Template macht den Anruf sofort handlungsfähig:
 
-- Kontext: `{{ticker}} überschreitet {{price}} im 15‑Min‑Zeitfenster.`
-- Richtung: `Aktion: {{action}}.`
-- Link per `externalLink` für die spätere Analyse.
+- `{{ticker}} crossed {{price}} on 15m timeframe.`
+- `Action: {{action}}.`
+- `externalLink` für einen Tap-to-Chart-Shortcut im Benachrichtigungseintrag einschließen
 
-Alle Optionen: [/de/docs/template](/de/docs/template)
+Vollständige Template-Dokumentation: [/docs/template](/en/docs/template)
 
-## Wohin passt das im Stack?
+## Verwandte Beiträge
 
-Ist TradingView → Echobell eingerichtet, kannst du dieselbe Webhook-Strategie leicht erweitern:
+- Webhook-Alarme für eigene Systeme → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
+- CI/CD-Benachrichtigungen → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
+- Infrastruktur-Monitoring → [/blog/grafana-call-notification](/en/blog/grafana-call-notification)
+- Webhooks-Feature → [/features/webhooks](/en/features/webhooks)
+- Anruf-Benachrichtigungen-Feature → [/features/call-notifications](/en/features/call-notifications)
 
-- Webhook‑Alerts für eigene Systeme → [/de/blog/get-notified-with-webhook-mcp](/de/blog/get-notified-with-webhook-mcp)
-- CI/CD & Repos → [/de/blog/github-actions-notifications](/de/blog/github-actions-notifications)
-- Infrastruktur/Monitoring → [/de/blog/grafana-call-notification](/de/blog/grafana-call-notification)
-
-Weitere Feature‑Seiten:
-
-- Webhooks → [/de/features/webhooks](/de/features/webhooks)
-- Telefonanrufe → [/de/features/call-notifications](/de/features/call-notifications)
-
-## Fazit
-
-TradingView-Alarme sind nur dann wertvoll, wenn du sie rechtzeitig bemerkst. Mit Echobell werden die wirklich wichtigen Signale zu Telefonanrufen, die durch jeden Lärm dringen. Schnell eingerichtet, flexibel anpassbar und skalierbar mit deiner Strategie.
-
-Echobell laden und beim nächsten Setup ausprobieren: https://apps.apple.com/app/id6743597198
+Echobell herunterladen: https://apps.apple.com/app/id6743597198

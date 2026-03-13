@@ -1,48 +1,26 @@
 ---
-title: Never Miss an AI Task Completion Again with WebhookMCP and Echobell
+title: Get Notified When AI Tasks Complete with WebhookMCP and Echobell
 date: 2025-04-24
-description: Discover how combining WebhookMCP with Echobell transforms your AI workflow with instant notifications. Get phone calls or push notifications when your AI tasks complete.
+description: "Use WebhookMCP with Echobell to receive push notifications or phone calls when long-running AI tasks finish in Claude, Cursor, VS Code, or Windsurf."
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-Picture this: You've just asked Claude to analyze a massive dataset, expecting it to take 20+ minutes. Instead of babysitting your screen, you grab coffee, check Slack, maybe start another task. Then you completely forget about your AI request until hours later. Sound familiar?
+# Get Notified When AI Tasks Complete with WebhookMCP and Echobell
 
-If you're nodding along, you're not alone. As AI assistants become more powerful and we tackle increasingly complex tasks, the waiting game has become one of the biggest productivity killers in modern development workflows. 
+Long AI tasks—code generation, dataset analysis, large refactors—don't need babysitting. [WebhookMCP](https://github.com/noobnooc/webhook-mcp) is an MCP server that lets AI assistants trigger webhook notifications when work is done. Paired with Echobell, you get a push notification or phone call the moment your task completes.
 
-But here's the thing – it doesn't have to be this way. By combining WebhookMCP with Echobell's instant notification system, you can transform those frustrating waiting periods into productive multitasking opportunities. Whether you prefer phone calls for critical alerts, push notifications for quick updates, or want to keep teammates in the loop by sharing an Echobell channel, Echobell ensures you'll never miss another AI task completion.
+## Setup
 
-## What is WebhookMCP, and Why Should You Care?
+### 1. Get Your Echobell Webhook URL
 
-WebhookMCP is a game-changing Model Context Protocol (MCP) server that bridges the gap between your AI assistants and the real world through webhook notifications. Think of it as your AI's way of tapping you on the shoulder when work is done.
+1. Open [Echobell](https://apps.apple.com/app/id6743597198) and create a channel (e.g., "AI Tasks")
+2. Copy the webhook URL from channel settings
 
-The brilliance lies in its simplicity: WebhookMCP integrates seamlessly with your favorite AI development environments – VS Code, Claude, Cursor, and Windsurf – and when paired with Echobell's flexible notification channels, it creates the perfect notification system for modern AI workflows.
+### 2. Configure Your Development Environment
 
-Here's what makes this combination special: Echobell doesn't just send you a boring email notification. Instead, you get instant alerts exactly how you want them – phone calls that break through Do Not Disturb mode for critical tasks, push notifications for quick updates, or team-wide alerts that keep everyone in the loop. It's the difference between hoping you remember to check back later and knowing instantly when your AI has delivered results.
-
-## Setting Up Your AI Notification System
-
-Getting WebhookMCP and Echobell working together is surprisingly straightforward. Let me walk you through each step – I promise it's easier than debugging a React component!
-
-### Step 1: Grab Your Echobell Webhook URL
-
-First things first, you'll need your personal webhook URL from Echobell. This is like giving your AI assistant your phone number so it can reach you when needed:
-
-1. Head over to your [Echobell dashboard](https://echobell.one) and sign in
-2. Create a new notification channel (maybe call it "AI Tasks" or "Development Alerts") 
-3. Navigate to your channel settings – you'll find your unique webhook URL waiting for you
-4. Copy that URL and keep it handy – you're about to put it to work
-
-**Pro tip**: Create different channels for different types of AI work. I use separate channels for code generation, data analysis, and content creation. This way, I can customize notification types based on urgency and context.
-
-### Step 2: Configure Your Development Environment
-
-Now comes the fun part – connecting WebhookMCP to your AI tools. The configuration varies slightly depending on your preferred environment, but don't worry, I've got you covered for all the popular options.
-
-#### For VS Code Users (The Easy Path)
-
-If you're a VS Code person, you're in luck. Add this configuration to your VS Code `settings.json`:
+**VS Code** — add to `settings.json`:
 
 ```json
 {
@@ -60,11 +38,7 @@ If you're a VS Code person, you're in luck. Add this configuration to your VS Co
 }
 ```
 
-**Quick tip**: Replace `"your-echobell-webhook-url"` with the actual URL you copied from step 1. I know it seems obvious, but we've all been there!
-
-#### For Claude, Cursor, or Windsurf Users
-
-These platforms use a slightly different configuration format, but the principle is the same. Add this to your environment configuration:
+**Claude, Cursor, or Windsurf** — add to your MCP configuration:
 
 ```json
 {
@@ -80,83 +54,30 @@ These platforms use a slightly different configuration format, but the principle
 }
 ```
 
-The beauty of this setup is that WebhookMCP will automatically install when needed – no manual package management required.
+WebhookMCP installs automatically via `npx` on first use.
 
-### Step 3: Making Your AI Assistant Notification-Aware
+### 3. Request Notifications in Your Prompts
 
-Here's where the magic happens. Once everything is configured, using notifications becomes as natural as asking your AI to explain code. Simply include phrases like these in your prompts:
+Once configured, include notification requests naturally in your prompts:
 
 - "Send me a notification when this analysis is complete"
 - "Alert me once you finish generating the code"
 - "Notify me when you're done with this task"
-- "Let me know when this is finished"
 
-The WebhookMCP server recognizes these natural language requests and automatically triggers Echobell notifications to your configured channels. No special syntax to memorize, no complex commands to remember – just speak to your AI like you would to a helpful colleague.
+WebhookMCP recognizes these requests and triggers Echobell automatically.
 
-**Real-world example**: I often say something like, "Please analyze this customer data and send me a phone call notification when you find the key insights – I'll be in a meeting for the next hour." This way, even if I'm away from my computer, I get an immediate alert on my phone when the analysis is ready for review.
+## Notification Types
 
-## Real-World Scenarios Where This Setup Shines
+Configure your Echobell channel based on task urgency:
 
-Let me share some scenarios from my own development workflow where this WebhookMCP + Echobell combination has been a complete game-changer:
+- **Normal push** — routine code generation, documentation drafts
+- **Time-sensitive** — analysis tasks you're actively waiting on
+- **Calling** — critical tasks where you need immediate attention regardless of Do Not Disturb
 
-### 1. **Complex Codebase Generation**
-Picture asking Claude to build an entire Next.js application with API routes, components, and tests. Instead of checking back every few minutes (and inevitably forgetting), I get an instant push notification when my new project is ready. I've used this for everything from React components to Python data processing scripts.
+For teams, create a shared Echobell channel and share the subscription link — everyone gets notified when a shared task completes, with their own notification preferences.
 
-### 2. **Deep Data Analysis and Processing**  
-When working with large datasets – think CSV files with millions of rows or complex JSON structures – the analysis can take 15-30 minutes. With Echobell's phone call notifications, I can grab lunch knowing I'll get an actual call when the insights are ready. No more coming back to discover the analysis finished an hour ago.
+## VS Code Quick Install
 
-### 3. **Content Creation and Documentation**
-I frequently ask AI to draft comprehensive documentation, blog posts, or technical guides. These tasks can take a while, especially for complex topics. Having instant notifications means I can switch to other work without the mental overhead of remembering to check back.
+For VS Code, head to the [WebhookMCP GitHub repository](https://github.com/noobnooc/webhook-mcp) and use the "Install in VS Code" button. The wizard prompts for your Echobell webhook URL during setup.
 
-### 4. **Model Fine-tuning and Training Workflows**
-For teams working on machine learning projects, training completion notifications through Echobell can be shared across the entire team. Set up team channels in Echobell, and everyone gets notified when that overnight training run finally completes.
-
-### 5. **Code Review and Refactoring Tasks**
-When asking AI to refactor large codebases or perform comprehensive code reviews, the wait time can be unpredictable. Echobell's flexible notification options mean you can choose push notifications for quick refactoring tasks or phone calls for critical security reviews.
-
-## Why This Combination is a Developer's Dream
-
-After using this setup for several months, I can honestly say it's transformed how I work with AI assistants. Here's what makes it so powerful:
-
-### **Reclaim Your Mental Bandwidth**
-The biggest win? No more task-switching anxiety. You know that nagging feeling when you're working on something new but keep wondering if your AI task is done? Gone. Your brain stays focused on the current task because you trust that Echobell will alert you instantly when results are ready.
-
-### **True Multitasking Freedom**
-This setup enables genuine parallel productivity. Start an AI task, get absorbed in something completely different, and seamlessly return when notified. I regularly kick off multiple AI tasks across different projects and let Echobell orchestrate my workflow.
-
-### **Flexible Alert Channels for Every Context**
-Echobell's strength lies in its adaptability. Push notifications for routine tasks, phone calls for urgent analysis, shared channels so every teammate's device gets the alert, or even custom webhook integrations with your existing tools. The notification fits the context, not the other way around.
-
-### **Zero Learning Curve**
-Unlike complex workflow automation tools, this just works. If you can ask an AI a question, you can use this system. The natural language integration means no new syntax to learn or commands to remember.
-
-### **Perfect for Remote and Distributed Teams**
-When working across time zones or during focus blocks, instant notifications keep everyone synchronized without interrupting deep work sessions.
-
-## Quick Start Guide
-
-Ready to jump in? If you're using VS Code, getting started is incredibly simple:
-
-1. **One-Click Installation**: Head to the [WebhookMCP GitHub repository](https://github.com/noobnooc/webhook-mcp) and click the "Install in VS Code" button. The installation wizard handles everything automatically.
-
-2. **Echobell Setup**: While the extension installs, create your free Echobell account and set up your first notification channel. The whole process takes about 2 minutes.
-
-3. **Connect the Dots**: The installation wizard will prompt you for your Echobell webhook URL – just paste it in, and you're ready to go.
-
-For other platforms (Claude, Cursor, Windsurf), the setup is just as straightforward with the configuration snippets I provided earlier.
-
-## Transform Your AI Workflow Today
-
-The combination of WebhookMCP and Echobell represents something bigger than just notifications – it's about reclaiming control over your development workflow and maximizing the potential of AI assistants.
-
-In a world where AI capabilities are expanding rapidly, the bottleneck isn't usually the AI's ability to complete tasks – it's our ability to manage multiple AI workflows efficiently. This setup eliminates that bottleneck entirely.
-
-Whether you're a solo developer juggling multiple projects, part of a distributed team coordinating AI-assisted work, or a data scientist running complex analyses, the instant notification system adapts to your needs. Phone calls for critical alerts, push notifications for quick updates, team channels for collaborative projects – Echobell ensures the right people get the right information at exactly the right time.
-
-**Ready to stop babysitting your AI tasks?** Set up WebhookMCP with Echobell today and experience the freedom of truly asynchronous AI collaboration. Your productivity (and sanity) will thank you.
-
-[Get started with Echobell →](https://echobell.one)
-
----
-
-*Have you tried this setup? I'd love to hear how it's impacted your workflow. Connect with me on my website [nooc.me](https://nooc.me) and share your experience!*
+For related integrations, see [GitHub Actions notifications](/en/blog/github-actions-notifications) and the [webhook docs](/en/docs/webhook).

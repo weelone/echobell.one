@@ -1,67 +1,45 @@
 ---
-title: "Echobell Direct: alertas webhook personales en 3 minutos (sin configurar canales)"
+title: "Echobell Direct: alertas webhook personales sin configurar canales"
 date: 2026-03-05
-description: "Descubre cómo Echobell Direct te permite enviar alertas personales instantáneas con una clave API y una URL webhook. Incluye casos de uso, guía rápida, comparación Direct vs Channels y buenas prácticas."
+description: "Echobell Direct te da una URL de webhook personal para recibir notificaciones instantáneas desde scripts, trabajos de CI y herramientas de automatización — sin necesidad de configurar canales ni plantillas. Aquí te explicamos cómo usarlo."
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-Si necesitas enterarte al instante cuando termina un script, falla un despliegue o concluye una tarea de IA, **Echobell Direct** es la forma más rápida de hacerlo.
+[Echobell Direct](/en/docs/direct) es un modo de alerta personal que omite la configuración de canales por completo. Creas una clave Direct, obtienes una URL de webhook y envías un `title` + `body` via POST para recibir una notificación instantánea en tu dispositivo. Sin suscriptores, sin plantillas, sin configuración de enrutamiento.
 
-Con Direct, no tienes que preparar plantillas, suscriptores ni flujos complejos. Creas una clave personal, copias tu URL webhook y envías `title` + `body`.
+Esta guía explica qué es Direct, cómo configurarlo y cuándo usarlo en lugar de los Canales.
 
 ## ¿Qué es Echobell Direct?
 
-[Echobell Direct](/es/docs/direct) es el modo de alertas personales de Echobell. Generas una clave y obtienes una URL única (`/d/{token}`) para enviar notificaciones directas a tu dispositivo.
+Cada clave Direct genera una URL de webhook única (`/d/{token}`). Envía una solicitud a esa URL y la notificación llega a tu dispositivo de inmediato.
 
-Es ideal para:
+Usa Direct cuando necesites:
 
-- Scripts personales, automatizaciones y tareas de CI
-- Implementación rápida con poca configuración
-- Contenido dinámico en cada solicitud
+- Notificaciones personales desde scripts, cron jobs o pipelines de CI
+- Título y cuerpo personalizados por solicitud en lugar de plantillas fijas
+- Configuración rápida sin tener que crear un canal completo
 
-Si necesitas alertas compartidas con equipo, plantillas reutilizables y condiciones, usa [canales con webhook](/es/docs/webhook).
+Si necesitas notificaciones compartidas, plantillas reutilizables o entrega condicional, usa [Canales via Webhooks](/en/docs/webhook) en su lugar.
 
-## Por qué usar Echobell Direct
+## Configuración en 3 pasos
 
-### 1. Integración muy rápida
+### Paso 1: Crea una clave Direct
 
-Conecta cron, scripts de shell o jobs de despliegue en minutos.
+Abre Echobell, toca **Direct** en la lista de canales y crea una clave. Nómbrala según el servicio al que pertenece (p. ej. `CI Server`, `Cron`, `AI Tasks`).
 
-### 2. Niveles de urgencia por evento
+### Paso 2: Copia tu URL de webhook
 
-Con `notificationType` puedes elegir:
-
-- `active` para eventos normales
-- `time-sensitive` para alertas importantes
-- `calling` para incidentes críticos
-
-Consulta los detalles en [tipos de notificación](/es/docs/notification).
-
-### 3. Más contexto con enlaces
-
-Incluye `externalLink` para abrir directamente dashboards, logs o tickets.
-
-### 4. Excelente para flujos de IA
-
-Si ejecutas tareas largas en IA, Direct evita que tengas que revisar pestañas manualmente. También puedes revisar [WebhookMCP + Echobell](/es/blog/get-notified-with-webhook-mcp).
-
-## Configuración en 3 minutos
-
-### 1. Crea una clave Direct
-
-En la app de Echobell, entra en **Direct** y crea una clave (`CI`, `Cron`, `AI Tasks`, etc.).
-
-### 2. Copia tu URL
+Cada clave tiene una URL con el formato:
 
 ```text
 https://hook.echobell.one/d/YOUR_KEY_TOKEN
 ```
 
-Guárdala como secreto.
+Trata esta URL como un secreto — cualquier persona que la tenga puede enviarte notificaciones.
 
-### 3. Envía tu primera alerta
+### Paso 3: Envía tu primera notificación
 
 ```bash
 curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
@@ -74,50 +52,58 @@ curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
   }'
 ```
 
-Para más campos y ejemplos, revisa la [documentación de Direct](/es/docs/direct).
+Referencia completa de campos: [API de Direct](/en/docs/direct)
 
-## Direct vs Channels
+## Niveles de urgencia
 
-Usa **Direct** cuando:
+Direct admite `notificationType` para que puedas adaptar la urgencia al evento:
 
-- Las alertas son solo para ti
-- Quieres resultados rápidos
-- Prefieres definir título/cuerpo en cada request
+- `active` — actualizaciones regulares
+- `time-sensitive` — alertas importantes que atraviesan el modo de concentración (Focus)
+- `calling` — incidentes críticos (requiere suscripción premium activa; si no, cae a time-sensitive)
 
-Usa **Channels** cuando:
+Consulta [Tipos de notificación](/en/docs/notification) para ver el comportamiento completo.
 
-- Debes compartir alertas con el equipo
-- Necesitas plantillas y condiciones
-- Estás montando un flujo estable entre múltiples servicios
+## Agregar contexto a las alertas
 
-Te puede servir [plantillas](/es/docs/template) y [qué es Echobell](/es/docs/what-is-echobell).
+Incluye `externalLink` en el cuerpo de la solicitud para adjuntar una URL a la notificación — útil para enlazar directamente a un log de deploy, un dashboard o un pull request.
 
-## Buenas prácticas
+Para agentes de IA y tareas asíncronas de larga duración, Direct es una forma directa de recibir notificaciones cuando el trabajo termina, en lugar de hacer polling manualmente. Consulta también: [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp).
 
-- Guarda tokens en variables de entorno
-- Crea una clave por servicio para revocar con facilidad
-- Rota tokens si sospechas filtración
-- Usa `calling` solo en alertas realmente críticas
-- Escribe mensajes breves y accionables
+## Direct vs Canales
 
-## FAQ
+| | Direct | Canales |
+|---|---|---|
+| Audiencia | Solo personal | Compartido con compañeros |
+| Plantillas | Contenido por solicitud | Plantillas reutilizables y fijas |
+| Tiempo de configuración | Menos de un minuto | Requiere configurar el canal |
+| Condiciones | No admitido | Admitido |
 
-### ¿Direct es solo para desarrolladores?
+Usa Canales cuando las alertas deban llegar a varias personas o cuando quieras formato consistente en un servicio. [Documentación de plantillas](/en/docs/template) · [Qué es Echobell](/en/docs/what-is-echobell)
 
-No. Cualquier herramienta que haga requests HTTP puede usarlo.
+## Prácticas de seguridad
 
-### ¿Puedo enviar alertas tipo llamada?
+- Almacena los tokens de Direct en variables de entorno o un gestor de secretos, no en el código
+- Crea una clave por servicio para poder revocarlas individualmente
+- Rota los tokens inmediatamente si una URL puede haberse filtrado
+- Reserva `calling` para incidentes reales — el uso excesivo causa fatiga de alertas
 
-Sí, con `notificationType: "calling"`. Requiere suscripción premium activa.
+## Preguntas frecuentes
 
-### ¿Soporta GET y POST?
+**¿Direct es solo para desarrolladores?** No. Cualquier persona con una herramienta que pueda enviar solicitudes HTTP puede usarlo.
 
-Sí. Se recomienda POST con JSON.
+**¿Direct admite solicitudes GET?** Sí, pero se recomienda POST con JSON.
 
-### ¿Es seguro?
+**¿Qué ocurre si mi suscripción caduca y uso `calling`?** Cae automáticamente a `time-sensitive`.
 
-La URL Direct funciona como una API key. Trátala como secreto y no la publiques.
+---
 
-## Conclusión
+Comienza con la [guía de Direct](/en/docs/direct). Cuando tu flujo de trabajo crezca y necesite colaboración o plantillas, los [Canales](/en/docs/webhook) son el siguiente paso natural.
 
-Si buscas alertas personales rápidas y fiables, **Echobell Direct** es el mejor punto de partida. Empieza con [Direct](/es/docs/direct) y amplía luego con [webhooks](/es/docs/webhook) y [tipos de notificación](/es/docs/notification).
+## Artículos relacionados
+
+- [Documentación de la API de Direct](/en/docs/direct) — referencia completa de campos y ejemplos
+- [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp) — notificaciones para tareas de IA con Direct
+- [Cómo superar iOS Focus Mode para alertas críticas](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — elegir la urgencia de notificación correcta
+- [Notificaciones webhook de Zapier](/en/blog/zapier-webhook-notifications-to-phone) — flujos de automatización para no desarrolladores
+- [Tipos de notificación](/en/docs/notification) — comportamiento de las notificaciones Normal, Time Sensitive y Calling

@@ -1,6 +1,6 @@
 ---
-title: "Transformez votre maison intelligente en système d'alerte intelligent avec Echobell et Home Assistant"
-description: "Découvrez comment transformer votre installation Home Assistant en un système de notification intelligent avec Echobell. Recevez des alertes instantanées pour les événements de sécurité, les changements de température et les déclencheurs d'automatisation, ou même des appels téléphoniques pour les événements critiques de la maison intelligente."
+title: "Notifications Home Assistant avec Echobell : alertes instantanées pour votre maison connectée"
+description: "Connectez Home Assistant à Echobell via des commandes REST et des Webhooks pour recevoir des notifications push prioritaires ou des appels téléphoniques pour les événements de sécurité, les alertes de température et les déclencheurs d'automatisation."
 date: 2025-12-01
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
@@ -8,59 +8,34 @@ authorLink: https://nooc.me
 tags:
   - Echobell
   - Home Assistant
-  - Maison Intelligente
-  - Domotique
-  - Notifications Webhook
+  - Smart Home
+  - Home Automation
+  - Webhook Notifications
 ---
 
-# Transformez votre maison intelligente en système d'alerte intelligent avec Echobell et Home Assistant
+# Notifications Home Assistant avec Echobell : alertes instantanées pour votre maison connectée
 
-Je vais être honnête : lorsque j'ai installé Home Assistant pour la première fois dans mon appartement, j'étais ravi de toutes les possibilités d'automatisation. Des lumières qui s'allumaient automatiquement, des thermostats qui s'ajustaient en fonction de mon emploi du temps, et des capteurs de sécurité surveillant chaque porte et fenêtre. J'avais l'impression de vivre dans le futur.
+Les notifications mobiles intégrées de Home Assistant se noient parmi toutes les autres sur votre téléphone. Echobell ajoute des niveaux de priorité — push, urgent ou véritable appel téléphonique — afin que les événements critiques de votre maison connectée ne passent pas inaperçus. L'intégration ne nécessite aucun composant personnalisé : seulement une commande REST et votre URL Webhook.
 
-Mais il y avait un problème persistant : je manquais constamment des alertes importantes. La machine à laver finissait son cycle pendant que j'étais dans une autre pièce, la température du congélateur montait en flèche pendant que j'étais au travail, ou pire encore, un capteur de sécurité se déclenchait pendant que je dormais avec mon téléphone en mode silencieux. Les notifications intégrées de l'application mobile Home Assistant se perdaient souvent dans la masse des autres alertes d'applications, et j'avais besoin de quelque chose de plus... assertif.
+## Configuration de base
 
-C'est alors que j'ai découvert qu'[Echobell](https://apps.apple.com/app/id6743597198) pouvait s'intégrer parfaitement à Home Assistant, transformant ma maison intelligente en un véritable système d'alerte intelligent. Maintenant, je ne suis pas seulement notifié, je reçois le *bon* type de notification au *bon* niveau de priorité. Et pour les événements critiques comme les failles de sécurité ou les urgences de température ? Echobell peut réellement appeler mon téléphone, garantissant que je ne manque jamais ce qui compte.
-
-## Pourquoi Home Assistant a besoin de meilleures notifications
-
-Si vous utilisez Home Assistant, vous savez déjà que c'est une plateforme incroyablement puissante. Avec des centaines d'intégrations et des possibilités d'automatisation infinies, c'est devenu la référence en matière de domotique axée sur la confidentialité. Mais parlons de l'éléphant dans la pièce : la gestion des notifications.
-
-L'application compagnon par défaut de Home Assistant envoie bien des notifications, mais elles sont souvent trop subtiles. Elles se fondent avec tout le reste sur votre téléphone. Vous pourriez jeter un coup d'œil à votre écran de verrouillage et voir "Mouvement détecté" juste entre un e-mail promotionnel et une mise à jour de réseau social. Les événements importants de la maison intelligente ne devraient pas entrer en concurrence pour votre attention avec les notifications de soldes de l'App Store.
-
-Voici ce qui rend Echobell différent pour les utilisateurs de Home Assistant :
-
-**Niveaux de priorité des notifications** : Tous les événements domotiques ne se valent pas. Une lumière qui s'allume automatiquement ? C'est informatif au mieux. Mais une porte qui s'ouvre pendant votre absence ou la température de votre congélateur qui atteint des niveaux dangereux ? C'est critique. Avec les [types de notification d'Echobell](/fr/docs/notification), vous pouvez envoyer des notifications normales pour les événements de routine, des alertes urgentes pour les mises à jour importantes, et de véritables appels téléphoniques pour les urgences.
-
-**Personnalisation basée sur des modèles** : Home Assistant dispose déjà d'un système de modèles puissant pour les automatisations. Echobell étend cette puissance à vos notifications. Vous pouvez créer des alertes parfaitement formatées en utilisant des [variables de modèle](/fr/docs/template) qui récupèrent les données des capteurs en temps réel, rendant chaque notification contextuelle et exploitable.
-
-**Livraison fiable** : J'ai testé des dizaines de solutions de notification, et la livraison basée sur les webhooks surpasse constamment les services de notification push en termes de fiabilité et de rapidité. Lorsqu'un capteur se déclenche dans Home Assistant, le webhook se déclenche immédiatement et mon téléphone répond en quelques secondes, même sur des connexions cellulaires instables.
-
-**Approche axée sur la confidentialité** : Tout comme Home Assistant, Echobell garde vos données locales. L'historique des notifications reste sur votre appareil, pas sur le serveur de quelqu'un d'autre. Vous envoyez simplement des déclencheurs à vos propres canaux, ce qui s'aligne parfaitement avec la philosophie de confidentialité qui vous a probablement attiré vers Home Assistant en premier lieu.
-
-## La configuration : Plus simple que vous ne le pensez
-
-L'une des meilleures choses à propos de l'intégration d'Echobell avec Home Assistant est sa simplicité. Contrairement à certaines intégrations de maison intelligente qui nécessitent des composants personnalisés, des installations HACS ou des fichiers de configuration complexes, Echobell fonctionne via des fonctionnalités standard de Home Assistant que vous utilisez probablement déjà : les commandes REST et la plateforme de notification.
-
-### Le démarrage rapide (Littéralement 5 minutes)
-
-Voici ce qui m'a permis de démarrer :
-
-Tout d'abord, j'ai ouvert l'[application Echobell](https://apps.apple.com/app/id6743597198) et créé un canal appelé "Alertes Maison". L'application a généré une URL de webhook pour moi, quelque chose comme `https://hook.echobell.one/t/ABC123`. J'ai copié cette URL.
-
-Ensuite, dans mon fichier `configuration.yaml` de Home Assistant, j'ai ajouté une simple commande REST :
+1. [Téléchargez Echobell](https://apps.apple.com/app/id6743597198) et créez un canal (ex. « Home Alerts »)
+2. Copiez l'URL Webhook depuis les paramètres du canal
+3. Ajoutez une commande REST dans `configuration.yaml` :
 
 ```yaml
 rest_command:
   echobell_home:
-    url: "https://hook.echobell.one/t/ABC123"
+    url: "https://hook.echobell.one/t/YOUR_TOKEN"
     method: POST
     content_type: "application/json"
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
 ```
 
-Après avoir redémarré Home Assistant, je pouvais appeler ce service depuis n'importe quelle automatisation. C'est tout. Pas de plugins, pas de configuration complexe, pas de maux de tête d'authentification.
+4. Redémarrez Home Assistant
+5. Appelez le service depuis n'importe quelle automatisation
 
-Pour tester, j'ai créé une automatisation simple :
+Testez avec une automatisation simple pour un capteur de porte :
 
 ```yaml
 automation:
@@ -76,15 +51,11 @@ automation:
           message: "Door opened at {{ now().strftime('%H:%M') }}"
 ```
 
-Lorsque j'ai ouvert ma porte d'entrée, mon téléphone a vibré instantanément avec une notification parfaitement formatée. J'ai été honnêtement surpris que cela fonctionne si bien du premier coup.
+## Exemples d'automatisation pratiques
 
-## Cas d'utilisation réels qui comptent vraiment
+### Surveillance de température avec alerte d'appel
 
-Laissez-moi partager quelques scénarios où cette intégration a véritablement amélioré ma vie quotidienne :
-
-### Le congélateur qui s'est sauvé lui-même
-
-J'ai un capteur de température dans mon congélateur de garage (parce que qui ne laisse pas occasionnellement la porte du congélateur légèrement entrouverte ?). J'ai mis en place une automatisation qui surveille la température et envoie des notifications de plus en plus urgentes en fonction de la durée pendant laquelle il fait chaud :
+Pour les capteurs protégeant des aliments, des équipements ou la sécurité — configurez le type de canal Echobell sur **Appel** afin qu'il sonne comme un téléphone :
 
 ```yaml
 automation:
@@ -103,11 +74,9 @@ automation:
           severity: "critical"
 ```
 
-Pour ce canal dans Echobell, j'ai réglé le type de notification sur "Appel" (Calling) afin qu'il fasse sonner mon téléphone comme un appel entrant. Il y a trois mois, cela a détecté un compresseur de congélateur défaillant avant que je ne perde des centaines de dollars de nourriture. La sonnerie forte m'a réveillé à 2 heures du matin, et j'ai pu tout transférer dans un congélateur de secours. Ça en valait la peine.
+### Alertes de sécurité intelligentes
 
-### La sécurité qui ne crie pas au loup
-
-J'avais l'habitude de faire en sorte que mes capteurs de sécurité m'envoient chaque événement de détection de mouvement. Cela a entraîné une fatigue des alertes : je voyais tellement de notifications que j'ai commencé à toutes les ignorer. Maintenant, j'utilise les [conditions Echobell](/fr/docs/conditions) pour être plus intelligent sur ce qui constitue un véritable événement de sécurité :
+Envoyez des variables contextuelles avec le Webhook, puis utilisez les [conditions Echobell](/en/docs/conditions) pour filtrer côté canal :
 
 ```yaml
 automation:
@@ -127,13 +96,11 @@ automation:
           hour: "{{ now().hour }}"
 ```
 
-Dans mon canal Echobell, j'ai défini une condition : `alarm_state == "armed_away" || (hour >= 22 || hour <= 7)`
+Condition du canal : `alarm_state == "armed_away" || (hour >= 22 || hour <= 7)`
 
-Cela signifie que je ne reçois des notifications que si l'alarme est armée (ce qui signifie que je ne suis pas à la maison) OU s'il est entre 22h et 7h (quand je ne m'attends pas à du mouvement). Pendant les heures normales de la journée quand je suis à la maison, les automatisations s'exécutent toujours dans Home Assistant, mais Echobell filtre le bruit. Ça change la donne.
+Cela n'envoie des alertes que lorsque l'alarme est armée ou qu'il fait nuit — filtrant le bruit de mouvement en journée sans désactiver l'automatisation.
 
-### La machine à laver qui se dénonce
-
-C'est presque embarrassant à admettre, mais j'avais l'habitude d'oublier le linge dans la machine à laver pendant des heures (parfois des jours). Ma prise intelligente de surveillance de l'énergie peut détecter quand le cycle de la machine à laver est terminé en fonction de la consommation d'énergie :
+### Alertes de fin d'appareil ménager
 
 ```yaml
 automation:
@@ -151,30 +118,7 @@ automation:
           message: "Washing machine finished. Don't let it sit!"
 ```
 
-Simple, efficace, et mes vêtements sentent meilleur parce qu'ils ne restent pas dans le tambour pendant une demi-journée.
-
-## Au-delà des notifications de base : Astuces avancées
-
-Une fois que vous avez la configuration de base qui fonctionne, il existe des moyens astucieux d'améliorer votre intégration Home Assistant + Echobell :
-
-### Liens contextuels
-
-Echobell prend en charge une variable spéciale `externalLink` qui ajoute un lien cliquable à vos enregistrements de notification. Je l'utilise pour créer un lien direct vers les tableaux de bord Home Assistant pertinents ou les flux de caméra :
-
-```yaml
-action:
-  - service: rest_command.echobell_home
-    data:
-      title: "Motion at Front Door"
-      message: "Check the camera feed"
-      externalLink: "https://my-home-assistant.duckdns.org/lovelace/security"
-```
-
-Lorsque j'appuie sur la notification dans l'historique d'Echobell, elle s'ouvre directement sur mon tableau de bord de sécurité.
-
-### Rapports récapitulatifs quotidiens
-
-Au lieu de recevoir des mises à jour constantes tout au long de la journée, j'ai mis en place un résumé matinal qui me donne un aperçu de l'état de ma maison :
+### Résumé du matin
 
 ```yaml
 automation:
@@ -193,25 +137,32 @@ automation:
             All windows: {% if is_state('binary_sensor.window_group', 'off') %}Closed{% else %}OPEN{% endif %}
 ```
 
-C'est comme avoir un majordome de maison intelligente qui vous fait un briefing matinal.
+## Fonctionnalités avancées
+
+### Liens contextuels
+
+La variable `externalLink` ajoute un lien cliquable à votre historique de notifications dans Echobell :
+
+```yaml
+action:
+  - service: rest_command.echobell_home
+    data:
+      title: "Motion at Front Door"
+      message: "Check the camera feed"
+      externalLink: "https://my-home-assistant.duckdns.org/lovelace/security"
+```
 
 ### Stratégie multi-canaux
 
-J'ai en fait trois canaux Echobell distincts pour différentes catégories d'événements domestiques :
+Utilisez des canaux séparés avec différents types de notifications :
 
-1. **Routine Maison** (notifications normales) : Machine à laver, lave-vaisselle, résumés quotidiens
-2. **Surveillance Maison** (sensible au temps) : Alertes de température, problèmes d'humidité, pics d'énergie
-3. **Sécurité Maison** (appel) : Mouvement quand armé, capteurs porte/fenêtre, pannes critiques
+1. **Routine maison** (normal) : appareils ménagers, résumés quotidiens
+2. **Surveillance maison** (urgent) : température, humidité, pics d'énergie
+3. **Sécurité maison** (appel) : mouvement en mode armé, capteurs de porte, pannes critiques
 
-De cette façon, je peux définir des types de notification appropriés pour chaque catégorie et même abonner différents membres de la famille à différents canaux en fonction de ce qui les intéresse.
+### Sécuriser les URL Webhook
 
-## Qu'en est-il de la confidentialité et de la sécurité ?
-
-Je sais que certaines personnes s'inquiètent d'envoyer leurs données de maison intelligente via des webhooks externes. Voici le truc : avec Echobell, vous contrôlez exactement quelles données sont envoyées. Contrairement aux plateformes de maison intelligente basées sur le cloud qui collectent tout, vous choisissez explicitement quoi inclure dans chaque charge utile de webhook.
-
-Quelques bonnes pratiques que je suis :
-
-**Utilisez les secrets Home Assistant** pour vos URL de webhook afin qu'elles ne soient pas exposées dans les fichiers de configuration :
+Utilisez les secrets Home Assistant pour éviter d'exposer votre URL Webhook dans les fichiers de configuration :
 
 ```yaml
 # secrets.yaml
@@ -223,32 +174,4 @@ rest_command:
     url: !secret echobell_webhook
 ```
 
-**N'envoyez pas de données sensibles** comme les codes de sécurité, les mots de passe ou les flux de caméra dans le contenu de la notification. Gardez-le informatif : "Mouvement détecté" plutôt que "Le code de sécurité est 1234".
-
-**Faites tourner les jetons périodiquement** : Echobell vous permet de réinitialiser vos jetons de webhook si vous soupçonnez qu'ils ont été compromis. Cela invalide l'ancienne URL et en génère une nouvelle.
-
-Le contenu de la notification lui-même est transmis via HTTPS, et Echobell ne stocke que des métadonnées sur ses serveurs — l'historique réel des notifications reste sur votre appareil, tout comme Home Assistant garde vos données de maison intelligente locales.
-
-## Est-ce que ça vaut le coup ?
-
-Écoutez, je ne vais pas prétendre que tout le monde a besoin d'alertes par appel téléphonique lorsque sa machine à laver a fini. Mais si vous utilisez Home Assistant, vous avez déjà investi du temps dans la création d'une maison intelligente sophistiquée. La capacité d'obtenir des notifications fiables et priorisées sur ce qui se passe — en particulier les événements critiques — rend l'ensemble du système plus utile.
-
-La configuration prend peut-être 15 minutes, et une fois que ça marche, ça marche... tout simplement. Pas de maintenance, pas de bricolage, pas de moments "pourquoi n'ai-je pas reçu cette notification ?".
-
-Pour moi, le vrai test est venu pendant des vacances. J'étais à 800 km de chez moi quand j'ai reçu une notification d'appel Echobell concernant ma pompe de puisard qui fonctionnait en continu (indiquant un problème potentiel d'inondation). J'ai pu appeler un voisin et éviter ce qui aurait pu être des milliers de dollars de dégâts des eaux. Cela a justifié à lui seul chaque minute passée sur cette intégration.
-
-## Commencer
-
-Si vous voulez essayer, le processus est simple :
-
-1. Téléchargez [Echobell sur l'App Store](https://apps.apple.com/app/id6743597198)
-2. Créez un canal et récupérez votre URL de webhook
-3. Ajoutez la commande REST à votre configuration Home Assistant
-4. Commencez avec une automatisation simple pour tester
-5. Étendez à plus d'automatisations à mesure que vous vous sentez à l'aise
-
-Pour une documentation technique détaillée incluant les modèles avancés, les conditions et le dépannage, consultez le [guide complet d'intégration Home Assistant](/fr/docs/developer/home-assistant).
-
-Et si vous êtes curieux d'autres façons d'utiliser Echobell au-delà de la domotique, nous avons des guides pour tout, des [notifications GitHub Actions](/fr/blog/github-actions-notifications) aux [alertes de surveillance Grafana](/fr/blog/grafana-call-notification). L'approche basée sur les webhooks est étonnamment polyvalente.
-
-Votre maison intelligente est déjà intelligente. Avec Echobell, elle peut enfin vous faire savoir quand elle a besoin de votre attention — d'une manière que vous ne manquerez pas.
+Pour la documentation technique complète incluant les modèles avancés et la résolution des problèmes, consultez le [guide d'intégration Home Assistant](/en/docs/developer/home-assistant). Pour d'autres intégrations, voir [les notifications GitHub Actions](/en/blog/github-actions-notifications) et [les alertes de monitoring Grafana](/en/blog/grafana-call-notification).

@@ -1,35 +1,26 @@
 ---
-title: WebhookMCPとEchobellで二度とAIタスクの完了を見逃さない
+title: WebhookMCPとEchobellでAIタスク完了を通知する
 date: 2025-04-24
-description: "WebhookMCPとEchobellの組み合わせが、即座の通知でAIワークフローをどう変革するかを発見しましょう。AIタスクが完了したとき、電話やプッシュ通知を受け取れます。"
+description: "WebhookMCPとEchobellを組み合わせて、Claude・Cursor・VS Code・WindsurfでAIの長時間タスクが完了したときにプッシュ通知や電話を受け取る方法を解説します。"
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-こんなシーンを想像してください：大規模なデータセットの分析を Claude に依頼し、20 分以上かかることを覚悟しています。画面を見続ける代わりに、コーヒーを取りに行き、Slack をチェックし、別のタスクを始めるかもしれません。そして、数時間後まで自分の AI リクエストを完全に忘れてしまいます。身に覚えがありませんか？
+# WebhookMCPとEchobellでAIタスク完了を通知する
 
-うなずいているなら、あなたは一人ではありません。AI アシスタントがより強力になり、私たちがますます複雑なタスクに取り組むにつれて、待機ゲームは現代の開発ワークフローにおける最大の生産性キラーの一つになっています。
+コード生成、データセット分析、大規模リファクタリングなど、長時間のAIタスクをずっと見張っている必要はありません。[WebhookMCP](https://github.com/noobnooc/webhook-mcp)は、AIアシスタントが作業完了時にWebhook通知をトリガーできるMCPサーバーです。Echobellと組み合わせることで、タスクが完了した瞬間にプッシュ通知または電話を受け取れます。
 
-しかし、良いニュースがあります ── そうである必要はありません。WebhookMCP と Echobell の即座通知システムを組み合わせることで、これらの苛立たしい待機期間を生産的なマルチタスクの機会に変えることができます。重要なアラートのための電話、クイック更新のためのプッシュ通知、あるいは共有の Echobell チャンネルを通じてチーム全体を同期させたい場合でも、Echobell は AI タスクの完了を二度と見逃さないことを保証します。
+## セットアップ
 
-## WebhookMCP とは？
+### 1. EchobellのWebhook URLを取得する
 
-WebhookMCP は、webhook 通知を送信する Model Context Protocol（MCP）サーバーです。VS Code、Claude、Cursor、Windsurf などの様々な AI 開発環境とシームレスに統合されます。Echobell の webhookURL で設定すると、AI タスクが完了したときに様々なチャンネルを通じて通知を受け取ることができます。
+1. [Echobell](https://apps.apple.com/app/id6743597198)を開いてチャンネルを作成（例：「AI Tasks」）
+2. チャンネル設定からWebhook URLをコピー
 
-## WebhookMCP のセットアップ
+### 2. 開発環境の設定
 
-### ステップ 1：Echobell の webhook URL を取得する
-
-1. Echobell ダッシュボードにログイン
-2. 新しいチャンネルを作成するか、既存のチャンネルを選択
-3. チャンネル設定に移動して webhook URL をコピー
-
-### ステップ 2：開発環境の設定
-
-#### VS Code ユーザーの場合
-
-VS Code の`settings.json`に以下を追加します：
+**VS Code** — `settings.json`に追加:
 
 ```json
 {
@@ -39,7 +30,7 @@ VS Code の`settings.json`に以下を追加します：
         "command": "npx",
         "args": ["-y", "webhook-mcp"],
         "env": {
-          "WEBHOOK_URL": "あなたのEchobell-webhook-URL"
+          "WEBHOOK_URL": "your-echobell-webhook-url"
         }
       }
     }
@@ -47,9 +38,7 @@ VS Code の`settings.json`に以下を追加します：
 }
 ```
 
-#### Claude、Cursor、または Windsurf ユーザーの場合
-
-環境に以下の設定を追加します：
+**Claude、Cursor、またはWindsurf** — MCP設定ファイルに追加:
 
 ```json
 {
@@ -58,37 +47,37 @@ VS Code の`settings.json`に以下を追加します：
       "command": "npx",
       "args": ["-y", "webhook-mcp"],
       "env": {
-        "WEBHOOK_URL": "あなたのEchobell-webhook-URL"
+        "WEBHOOK_URL": "your-echobell-webhook-url"
       }
     }
   }
 }
 ```
 
-### ステップ 3：ワークフローでの通知の使用
+WebhookMCPは初回使用時に`npx`経由で自動インストールされます。
 
-設定が完了したら、プロンプトに「完了したら通知を送信してください」などのフレーズを含めることで、タスクが完了したときに AI アシスタントに通知を指示できます。WebhookMCP サーバーは、設定された Echobell チャンネルに自動的に通知を送信します。
+### 3. プロンプトに通知リクエストを含める
 
-## ユースケース
+設定が完了したら、プロンプトに自然な形で通知リクエストを含めるだけです。
 
-1. **長時間のコード生成**: AI アシスタントが複雑なコードベースの生成を完了したときに通知を受け取る
-2. **データ分析タスク**: AI が大規模なデータセットの分析を完了したときにアラートを受け取る
-3. **コンテンツ作成**: AI が記事やドキュメントの作成を完了したときに知らせを受ける
-4. **トレーニングとファインチューニング**: モデルのトレーニングやファインチューニングタスクが完了したときに通知を受け取る
+- 「この分析が完了したら通知して」
+- 「コード生成が終わったらアラートを送って」
+- 「このタスクが終わったら知らせて」
 
-## メリット
+WebhookMCPがこれらのリクエストを認識し、Echobellを自動的にトリガーします。
 
-- **時間効率**: タスクの進捗を常にチェックする必要がない
-- **マルチタスク**: AI 処理の完了を待つ間に他のタスクに取り組める
-- **柔軟性**: Echobell の通知タイプ（通常・タイムセンシティブ・通話）を活用し、共有チャンネル経由で通知を受け取れる
-- **簡単なセットアップ**: 一般的な開発環境との容易な統合
+## 通知タイプ
 
-## クイックインストール
+タスクの緊急度に応じてEchobellチャンネルを設定します。
 
-VS Code ユーザーは、[GitHub リポジトリ](https://github.com/noobnooc/webhook-mcp)から「VS Code にインストール」ボタンをクリックすることで、WebhookMCP サーバーをすぐにインストールできます。インストールウィザードが、Echobell webhook URL の設定をガイドします。
+- **通常プッシュ** — ルーティンなコード生成、ドキュメント作成
+- **タイムセンシティブ** — 積極的に待っている分析タスク
+- **着信（Calling）** — おやすみモード中でも即座に対応が必要な重要タスク
 
-## まとめ
+チームで使う場合は、Echobellの共有チャンネルを作成して購読リンクを共有することで、共有タスク完了時に全員が自分の通知設定で通知を受け取れます。
 
-WebhookMCP と Echobell の組み合わせは、AI 開発ワークフロー向けの強力な通知システムを提供します。これらの通知を設定することで、AI 開発プロセスをより効率的にし、手動での確認なしにタスクの完了状況を把握できます。
+## VS Codeへのクイックインストール
 
-ぜひ試してみて、AI 開発ワークフローがどのように改善されるか教えてください！
+VS Codeの場合は、[WebhookMCP GitHubリポジトリ](https://github.com/noobnooc/webhook-mcp)の「Install in VS Code」ボタンを使用してください。セットアップウィザードでEchobellのWebhook URLを入力します。
+
+関連するインテグレーションについては、[GitHub Actions通知](/en/blog/github-actions-notifications)と[Webhookドキュメント](/en/docs/webhook)を参照してください。

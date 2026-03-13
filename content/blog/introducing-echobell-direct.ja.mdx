@@ -1,67 +1,45 @@
 ---
-title: "Echobell Direct 入門: 3分で使える個人向けWebhook通知（チャンネル設定不要）"
+title: "Echobell Direct：チャンネル設定不要の個人向けWebhookアラート"
 date: 2026-03-05
-description: "Echobell Direct を使って、個人APIキーとWebhook URLで即時通知を送る方法を解説。ユースケース、3分セットアップ、DirectとChannelsの使い分け、運用のコツをまとめました。"
+description: "Echobell Directはスクリプト、CIジョブ、自動化ツールからの即時通知を受け取るための個人用Webhook URLを提供します。チャンネルやテンプレートの設定は不要。使い方を解説します。"
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-スクリプト完了、デプロイ失敗、AIタスク終了をすぐ知りたいなら、**Echobell Direct** が最短です。
+[Echobell Direct](/en/docs/direct)はチャンネル設定を完全にスキップできる個人向けアラートモードです。Directキーを作成してWebhook URLを取得し、`title`と`body`をPOSTするだけでデバイスに即時通知が届きます。購読者の管理、テンプレート設定、ルーティング設定は一切不要です。
 
-Directは、テンプレートや購読者の設定なしで使える個人向け通知モードです。キーを作成し、Webhook URLに `title` と `body` を送るだけで通知できます。
+このガイドでは、Directとは何か、セットアップ方法、そしてチャンネルの代わりにいつ使うべきかを説明します。
 
-## Echobell Direct とは
+## Echobell Directとは？
 
-[Echobell Direct](/ja/docs/direct) は、個人用途に最適化された通知機能です。アプリでDirectキーを作ると、`/d/{token}` 形式のURLが発行されます。そこへリクエストを送ると、あなたの端末へ即時通知が届きます。
+各Directキーは固有のWebhook URL（`/d/{token}`）を生成します。そのURLにリクエストを送ると、すぐにデバイスに通知が届きます。
 
-向いているケース:
+Directを使うべき場面:
 
-- 個人スクリプト、自動化、CIジョブの通知
-- できるだけ短時間で導入したい
-- リクエストごとに通知内容を変えたい
+- スクリプト、cronジョブ、CIパイプラインからの個人通知
+- 固定テンプレートではなくリクエストごとのカスタムタイトルと本文
+- フルチャンネル設定なしの高速セットアップ
 
-チーム共有、テンプレート運用、条件分岐が必要なら [Webhookチャンネル](/ja/docs/webhook) を使うのが適切です。
+共有通知、再利用可能なテンプレート、条件付き配信が必要な場合は、代わりに[Webhookを使ったチャンネル](/en/docs/webhook)を使用してください。
 
-## Echobell Direct が選ばれる理由
+## 3ステップのセットアップ
 
-### 1. 導入が速い
+### ステップ1：Directキーの作成
 
-Shell、cron、CI/CD への組み込みが数分で終わります。
+Echobellを開き、チャンネルリストの**Direct**をタップしてキーを作成します。所属するサービスの名前を付けましょう（例：`CI Server`、`Cron`、`AI Tasks`）。
 
-### 2. 通知の緊急度を選べる
+### ステップ2：Webhook URLのコピー
 
-`notificationType` で用途に応じて設定可能です。
-
-- `active`: 通常通知
-- `time-sensitive`: 重要通知
-- `calling`: 重大インシデント向け
-
-詳しくは [通知タイプ](/ja/docs/notification) を参照してください。
-
-### 3. `externalLink` で行動しやすい
-
-ダッシュボードやログへのリンクを同時に送れるため、通知後の対応が速くなります。
-
-### 4. AIの非同期ワークフローと相性が良い
-
-長時間タスクの完了を自動で受け取れるので、タブを何度も確認する必要がありません。関連ガイド: [WebhookMCP + Echobell](/ja/blog/get-notified-with-webhook-mcp)。
-
-## 3分セットアップ
-
-### 1. Directキーを作成
-
-Echobellアプリで **Direct** を開き、キーを作成します（例: `CI`, `Cron`, `AI Tasks`）。
-
-### 2. Webhook URLをコピー
+各キーには以下の形式のURLがあります:
 
 ```text
 https://hook.echobell.one/d/YOUR_KEY_TOKEN
 ```
 
-このURLは秘密情報として扱ってください。
+このURLは秘密として扱ってください — 持っている人なら誰でも通知を送れます。
 
-### 3. 最初の通知を送信
+### ステップ3：最初の通知を送信する
 
 ```bash
 curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
@@ -74,50 +52,58 @@ curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
   }'
 ```
 
-詳細なフィールド仕様は [Directドキュメント](/ja/docs/direct) を確認してください。
+フィールドの全リファレンス: [Direct API](/en/docs/direct)
 
-## Direct と Channels の使い分け
+## 緊急度レベル
 
-**Direct** が向いている場合:
+Directはイベントに応じた緊急度を設定できる`notificationType`をサポートしています:
 
-- 自分向け通知のみ
-- すぐに運用を始めたい
-- リクエストごとに文面を自由に決めたい
+- `active` — 通常の更新
+- `time-sensitive` — 集中モードを突き破る重要なアラート
+- `calling` — 重大なインシデント（アクティブなプレミアム購読が必要。なければtime-sensitiveにフォールバック）
 
-**Channels** が向いている場合:
+動作の詳細は[通知タイプ](/en/docs/notification)を参照してください。
 
-- チームで通知を共有したい
-- テンプレートや条件配信が必要
-- 複数サービスをまたぐ継続運用をしたい
+## アラートへのコンテキスト追加
 
-補足: [テンプレート](/ja/docs/template)、[Echobellとは](/ja/docs/what-is-echobell)。
+リクエスト本文に`externalLink`を含めると、通知にURLを添付できます。デプロイログ、ダッシュボード、プルリクエストへの直接リンクに便利です。
 
-## 運用ベストプラクティス
+AIエージェントや長時間の非同期タスクには、手動でポーリングする代わりにDirectを使うとジョブ完了時に通知を受け取れます。参照: [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp)
 
-- トークンは環境変数やシークレット管理に保存
-- サービスごとにキーを分ける
-- 漏えいの疑いがあれば即トークン再発行
-- `calling` は本当に重要な通知だけに限定
-- `title` は短く、`body` は行動につながる内容にする
+## DirectとChannelsの比較
+
+| | Direct | チャンネル |
+|---|---|---|
+| 対象者 | 個人のみ | チームメンバーと共有 |
+| テンプレート | リクエストごとのコンテンツ | 再利用可能な固定テンプレート |
+| セットアップ時間 | 1分以内 | チャンネル設定が必要 |
+| 条件 | 非対応 | 対応 |
+
+アラートを複数のユーザーに届ける必要がある場合や、サービス全体で一貫したフォーマットが欲しい場合はチャンネルを使用してください。[テンプレートドキュメント](/en/docs/template) · [Echobellとは](/en/docs/what-is-echobell)
+
+## セキュリティのベストプラクティス
+
+- Directトークンはコードではなく環境変数またはシークレットマネージャーに保存する
+- URLを個別に失効できるよう、サービスごとに1つのキーを作成する
+- URLが漏洩した可能性がある場合はトークンを即座にローテートする
+- `calling`は本当のインシデントのみに使用する — 多用するとアラート疲れを引き起こす
 
 ## FAQ
 
-### Direct は開発者専用ですか？
+**Directは開発者専用ですか？** いいえ。HTTPリクエストを送れるツールを持つ人なら誰でも使えます。
 
-いいえ。HTTPリクエストを送れるツールなら利用できます。
+**DirectはGETリクエストに対応していますか？** 対応しています。ただしJSONでのPOSTが推奨されます。
 
-### 電話のような通知は送れますか？
+**購読が切れていて`calling`を使った場合はどうなりますか？** 自動的に`time-sensitive`にフォールバックします。
 
-はい。`notificationType: "calling"` を使います（プレミアム契約が必要）。
+---
 
-### GET と POST は両方使えますか？
+まずは[Directガイド](/en/docs/direct)から始めてください。ワークフローがコラボレーションやテンプレートを必要とするほど成長したら、[チャンネル](/en/docs/webhook)が次の自然なステップです。
 
-はい。実運用ではJSONのPOST推奨です。
+## 関連
 
-### セキュリティは大丈夫ですか？
-
-Direct URLはAPIキー相当です。公開せず、必要に応じてローテーションしてください。
-
-## まとめ
-
-個人向けに速く確実な通知を始めるなら、**Echobell Direct が最適な出発点**です。まずは [Direct](/ja/docs/direct) を導入し、必要に応じて [Webhook連携](/ja/docs/webhook) や [通知タイプ設定](/ja/docs/notification) へ広げていくのがおすすめです。
+- [Direct APIドキュメント](/en/docs/direct) — フィールドの全リファレンスと例
+- [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp) — DirectでAIタスク完了を通知する
+- [重要アラートをiOS Focus Mode越しに届ける方法](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — 適切な通知の緊急度を選ぶ
+- [Zapier Webhook通知](/en/blog/zapier-webhook-notifications-to-phone) — 非開発者向けの自動化ワークフロー
+- [通知タイプ](/en/docs/notification) — 通常、time-sensitive、着信の動作説明

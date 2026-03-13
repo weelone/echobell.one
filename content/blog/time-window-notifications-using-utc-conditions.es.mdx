@@ -1,41 +1,34 @@
 ---
-title: Recibe alertas solo cuando importa — notificaciones por ventanas de tiempo con condiciones UTC
+title: "Notificaciones por ventana de tiempo con condiciones UTC en Echobell"
+description: "Usa las variables de tiempo UTC integradas de Echobell para filtrar notificaciones por horario laboral, fines de semana o ventanas de mantenimiento. Incluye recetas de condiciones listas para usar."
 date: 2025-11-06
-description: Usa las variables de tiempo UTC integradas de Echobell para enviar notificaciones solo en horario laboral, fines de semana o ventanas de mantenimiento. Recetas prácticas y cómo reutilizarlas en plantillas.
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Notificaciones por ventanas de tiempo con condiciones UTC
+# Notificaciones por ventana de tiempo con condiciones UTC en Echobell
 
-Si quieres alertas solo cuando son accionables—horario laboral, guardias u operaciones de fin de semana—Echobell lo simplifica. Con las variables de tiempo del sistema (UTC) puedes expresar condiciones claras como “lunes a viernes 09:00–17:00” o “primer día del mes en el minuto 00”.
+Las variables de tiempo UTC integradas de Echobell te permiten restringir las notificaciones a ventanas de tiempo específicas — horario laboral, turnos de guardia, ventanas de mantenimiento — directamente en las condiciones del canal. Sin necesidad de una capa de filtrado externa.
 
-Lo que aprenderás:
+Requisitos previos: [Condiciones](/en/docs/conditions), [Plantillas](/en/docs/template), [Webhook](/en/docs/webhook), [Disparadores de correo](/en/docs/email-trigger).
 
-- Variables UTC disponibles en todas partes (condiciones y plantillas)
-- Recetas listas para pegar para ventanas de tiempo comunes
-- Cómo combinar tiempo con otras reglas (remitente, palabras clave, severidad)
-- Bonus: renderizar tiempo en plantillas
+## Variables UTC disponibles
 
-¿Nuevo en condiciones o plantillas? Guías: [Condiciones](/es/docs/conditions) y [Plantillas](/es/docs/template). Orígenes: [Webhook](/es/docs/webhook) y [Activadores de correo](/es/docs/email-trigger).
-
-## Variables de tiempo del sistema (UTC)
-
-Siempre disponibles y calculadas en UTC:
+Son de solo lectura, siempre disponibles y se calculan en UTC:
 
 - `timezone` (siempre "UTC"), `now`/`iso`, `epochMs`, `epochSeconds`
 - `year`, `month` (1–12), `monthName`
 - `dayOfMonth` (1–31)
 - `dayOfWeek` (0–6, domingo = 0), `dayOfWeekName`
 - `hour` (0–23), `minute` (0–59), `second` (0–59)
-- `date` (YYYY‑MM‑DD), `time` (HH:mm:ss)
+- `date` (YYYY-MM-DD), `time` (HH:mm:ss)
 
-Úsalas directamente en [Condiciones](/es/docs/conditions) (sin `{{ }}`) y en [Plantillas](/es/docs/template) (con `{{ }}`).
+Úsalas directamente en [Condiciones](/en/docs/conditions) (sin `{{ }}`). Úsalas con `{{ }}` en [Plantillas](/en/docs/template).
 
-## Recetas para copiar y pegar
+## Recetas de condiciones
 
-### Horario laboral de lunes a viernes
+### Días laborables en horario de oficina
 
 ```
 hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
@@ -53,68 +46,64 @@ dayOfWeek == 0 || dayOfWeek == 6
 (hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6
 ```
 
-### Ventana de mantenimiento (sábados 01:00–03:00)
+### Ventana de mantenimiento (sábados de 01:00 a 03:00)
 
 ```
 dayOfWeek == 6 && hour >= 1 && hour < 3
 ```
 
-### Primer día de cada mes al minuto 00
+### Primer día de cada mes a la hora en punto
 
 ```
 dayOfMonth == 1 && minute == 0
 ```
 
-### Fin de trimestre (mar/jun/sep/dic) en horario laboral
+### Fin de trimestre en horario laboral (mar/jun/sep/dic)
 
 ```
 (month == 3 || month == 6 || month == 9 || month == 12) && hour >= 9 && hour < 17 && dayOfWeek >= 1 && dayOfWeek <= 5
 ```
 
-## Combina tiempo con contenido y severidad
+## Combinar tiempo con filtros de contenido
 
-Más útil aún con tus datos:
+Las condiciones de tiempo se combinan con variables de datos usando operadores estándar:
 
-- Escalar de noche/fines de semana solo para errores:
+- Escalaciones fuera de horario solo para alta severidad:
   ```
   ((hour < 9 || hour >= 17) || dayOfWeek == 0 || dayOfWeek == 6) && (severity == "high" || severity == "critical")
   ```
-- Solo producción, días laborables:
+- Entorno de producción, solo días laborables:
   ```
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-Recuerda: las condiciones son expresiones simples—sin `{{ }}`. Operadores: [Condiciones → Operadores admitidos](/es/docs/conditions#operadores-admitidos).
+Las condiciones son expresiones simples — no las envuelvas en `{{ }}`. Consulta [Condiciones → Operadores admitidos](/en/docs/conditions#supported-operators).
 
-## Mostrar tiempo en las plantillas (bonus)
+## Usar variables de tiempo en plantillas
 
-Las mismas variables funcionan en plantillas (con `{{ }}`):
-
-```
-Enviado a las {{date}} {{time}} {{timezone}}
-Hoy es {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
-Época: {{epochSeconds}}
-```
-
-Mezcla tiempo con datos enviados por [Webhook](/es/docs/webhook) o [Activadores de correo](/es/docs/email-trigger):
+Las mismas variables funcionan en plantillas con `{{ }}`, útil para registros de auditoría y recibos legibles:
 
 ```
-{{service}} {{status}} a las {{time}} ({{timezone}})
+Sent at {{date}} {{time}} {{timezone}}
+Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
+Epoch: {{epochSeconds}}
 ```
 
-## Buenas prácticas
+Combínalas con datos de [Webhook](/en/docs/webhook) o [Disparadores de correo](/en/docs/email-trigger):
 
-- UTC vs. local: las variables del sistema están en UTC para mantener coherencia entre dispositivos.
-- Empieza simple, añade complejidad después: primero la ventana de tiempo, luego filtros de contenido.
-- Documenta la intención: deja una nota breve en el canal, p. ej., “L‑V 09–17 UTC; fuera de horario solo high/critical”.
+```
+{{service}} {{status}} at {{time}} ({{timezone}})
+```
 
-## Próximos pasos
+## Notas
 
-- Añade una condición de ventana de tiempo a un canal: [Condiciones](/es/docs/conditions)
-- Mejora el contenido con variables: [Plantillas](/es/docs/template)
-- Crea canales separados para horario laboral vs. guardias
-- Usa notificaciones de tipo “Llamada” para alertas urgentes fuera de horario
+- Todas las variables del sistema están en UTC. Si tu equipo abarca varios husos horarios, considera el desplazamiento al establecer los rangos horarios.
+- Empieza con una ventana de tiempo simple y luego agrega filtros de contenido una vez que funcione.
+- Deja una descripción breve en el canal que explique la lógica de la condición (p. ej. "Días laborables 09–17 UTC; fuera de horario solo para alta severidad").
 
----
+## Siguientes pasos
 
-¿Tienes un patrón de ventana de tiempo genial? Cuéntanos cómo usas condiciones en Echobell para notificaciones más inteligentes y tranquilas.
+- Agrega una condición de ventana de tiempo a un canal existente: [Condiciones](/en/docs/conditions)
+- Personaliza el contenido de las notificaciones con variables: [Plantillas](/en/docs/template)
+- Crea canales separados para horario laboral frente a turnos de guardia
+- Configura los canales de guardia con el tipo de notificación Calling para urgencia fuera de horario

@@ -1,158 +1,135 @@
 ---
-title: Turn important emails into call notifications with Echobell
+title: Turn Important Emails into Call Notifications with Echobell
 date: 2025-08-22
-description: "Convert urgent emails into time‑sensitive, call‑style alerts with Echobell. Set up an email-triggered channel, add templates and conditions, and never miss a critical message."
+description: "Route urgent emails to Echobell and receive call-style notifications on iOS. This guide covers channel setup, spoken-friendly templates, conditions for filtering, and forwarding rules for Gmail, iCloud, and Outlook."
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Turn important emails into call notifications with Echobell
+Some emails need to reach you regardless of what you're doing — production incidents, billing failures, VIP senders. Echobell lets you forward those emails to a channel and deliver them as call-style notifications that ring through Focus mode.
 
-We all have that one email we simply can’t miss. Echobell turns those critical emails into call-style, time‑sensitive notifications that actually ring your phone—so you hear them even when you’re heads‑down or in a focus mode. Perfect for production incidents, VIP senders, billing failures, and on‑call developer alerts.
-
-What you’ll get by the end:
-
-- An Echobell channel triggered by email
-- Human‑friendly templates that get read aloud in call notifications
-- Time‑sensitive calling notifications with optional retries
-- Smart Conditions to filter by sender, subject, or keywords
-- Simple mail forwarding rules for Gmail, iCloud Mail, or Outlook
-
-A quick note on privacy: Echobell is privacy‑first. We store only your account, channels, and subscriptions; notification content and records stay on your devices.
+Echobell stores only accounts, channels, and subscriptions server-side. Notification content stays on your devices.
 
 ## Prerequisites
 
-- Install Echobell from the App Store: https://apps.apple.com/app/id6743597198
-- Allow notification permission
+- Echobell installed ([App Store](https://apps.apple.com/app/id6743597198))
+- Notifications permission granted
 
 ## Step 1 — Create a channel
 
 1. Open Echobell → New Channel
-2. Give it a name and color (for example, “Critical Email Alerts”)
+2. Name it (e.g. "Critical Email Alerts") and pick a color
 3. Save
 
 ## Step 2 — Bind the email trigger
 
-On the channel detail page, copy the dedicated email address. Any email sent to this address triggers the channel instantly.
+On the channel detail page, copy the dedicated email address. Any email sent to this address triggers the channel.
 
-When an email triggers a channel, these template variables are available:
+Available template variables for email triggers:
 
-- `from`: sender address
-- `to`: channel‑bound address
-- `subject`: email subject
-- `text`: plain‑text body
-- `html`: HTML body (when present)
+- `from` — sender address
+- `to` — channel-bound address
+- `subject` — email subject
+- `text` — plain-text body
+- `html` — HTML body (when present)
 
-## Step 3 — Write clear, spoken‑friendly templates
+## Step 3 — Write spoken-friendly templates
 
-Use variables to make alerts useful and concise—remember, call notifications will speak this content.
+Call notifications read this content aloud, so keep it short and direct.
 
-Title template example:
+Title:
 
 ```
 [Email Alert] {{subject}}
 ```
 
-Body template example:
+Body:
 
 ```
 From: {{from}}
 Preview: {{text}}
 ```
 
-Tips:
+To attach a clickable link to the notification record, pass `externalLink` via webhook or set a Link Template in Advanced Settings.
 
-- Want a clickable link on records? Pass `externalLink` via webhook or set a Link Template in Advanced Settings.
-- Keep it short and scannable; long bodies are harder to follow when read aloud.
+## Step 4 — Set the Calling notification type
 
-## Step 4 — Choose the Calling notification type
+In your subscription settings, configure:
 
-Subscribers can choose how they’re notified. For never‑miss moments, pick:
-
-- Notification Type: Calling
+- Notification Type: **Calling**
 - App Settings → Repeat Voice Content: On (optional)
 - App Settings → Retry Failed Call: On (recommended)
 
-Calling notifications ring like a phone call and can break through focus modes depending on your iOS settings.
+Calling notifications ring like a phone call and can break through Focus modes depending on iOS settings.
 
-## Step 5 — Filter with Conditions (optional, recommended)
+## Step 5 — Filter with Conditions (optional)
 
-Use Conditions to call only for the emails that matter. Conditions are expressions evaluated against template variables.
+Without Conditions, every email to the channel triggers a notification. Add a Condition to restrict which emails actually ring.
 
-Examples:
+Only a specific sender:
 
-- Only call for a certain sender:
-  ```
-  from == "alerts@yourcompany.com"
-  ```
-- Only call when subject contains “URGENT”:
-  ```
-  subject.toLowerCase().includes("urgent")
-  ```
-- Combine multiple rules:
-  ```
-  (from == "pager@service.com" || from == "vip@customer.com") && subject.toLowerCase().includes("fail")
-  ```
+```
+from == "alerts@yourcompany.com"
+```
 
-If Conditions are empty, every email to the channel triggers a notification.
+Subject contains "URGENT":
 
-## Step 6 — Set up mail forwarding (pick your provider)
+```
+subject.toLowerCase().includes("urgent")
+```
 
-Forward the important emails to your channel address. Common options:
+Combined rules:
+
+```
+(from == "pager@service.com" || from == "vip@customer.com") && subject.toLowerCase().includes("fail")
+```
+
+## Step 6 — Set up mail forwarding
 
 ### Gmail
 
-- Gmail → Settings → See all settings → Filters and Blocked Addresses
-- Create a filter (From / Subject contains)
-- Action: Forward to your Echobell channel email address
-- Optional: Add a label or skip the inbox
+1. Settings → See all settings → Filters and Blocked Addresses
+2. Create a filter by From or Subject
+3. Action: Forward to your Echobell channel email address
+4. Optional: Skip inbox or apply a label
 
-Note: Gmail may require verifying the forwarding address. If that’s inconvenient, forward via a group alias you control.
+Gmail may require verifying the forwarding address. If that's inconvenient, forward via a group alias you control.
 
 ### iCloud Mail
 
-- iCloud Mail → Settings → Rules
-- If: From/Subject contains your conditions
-- Then: Forward to your Echobell channel email address
+1. Settings → Rules
+2. Condition: From or Subject contains your criteria
+3. Action: Forward to your Echobell channel email address
 
 ### Outlook
 
-- Outlook/Exchange → Settings → Mail → Rules
-- Add conditions for sender/subject/keywords
-- Action: Forward/Redirect to your Echobell channel email address
+1. Settings → Mail → Rules
+2. Add conditions for sender, subject, or keywords
+3. Action: Forward/Redirect to your Echobell channel email address
 
-## Step 7 — Test your alert
+## Step 7 — Test
 
-- Send a test email to the channel address
-- You should receive a call‑style alert that reads your templates
-- Check the record in Echobell; tweak templates/conditions if needed
+1. Send an email to the channel address (or trigger your forwarding rule)
+2. Confirm a call-style alert arrives
+3. Check the record in Echobell and adjust templates or conditions as needed
 
 ## Troubleshooting
 
-- Not receiving calls:
-  - Make sure your subscription’s Notification Type is set to Calling
-  - Check iOS notification permissions and focus mode settings
-  - Turn on “Retry Failed Call” in App Settings
-- Template didn’t render:
-  - Verify variable names: `from`, `to`, `subject`, `text`, `html`
-  - Conditions are plain expressions—don’t wrap them in `{{ }}`
-- Too noisy:
-  - Tighten your Conditions
-  - Add subject keywords or specific senders in your mail rules
-
-## Where this shines
-
-- On‑call developer alerts and production incidents
-- Monitoring notifications from tools that email (and webhooks if you want both)
-- Customer/VIP messages you can’t afford to miss
+- **Not receiving calls:** Confirm Notification Type is set to Calling; check iOS notification permissions and Focus mode; enable Retry Failed Call in App Settings.
+- **Template didn't render:** Variable names are `from`, `to`, `subject`, `text`, `html`. Conditions use plain expressions — no `{{ }}` wrapping.
+- **Too noisy:** Tighten Conditions or add stricter sender/subject criteria in your mail rules.
 
 ## Next steps
 
-- Create separate channels for different teams or systems
-- Use webhooks for automated system alerts and email for human messages
-- Share the channel’s subscription link with teammates who also need calling notifications
+- Create separate channels per team or system
+- Use webhooks for automated system alerts, email for human-sent messages
+- Share the channel subscription link with teammates who need the same calling alerts
 
----
+## Related
 
-Have a workflow you’re proud of? Share how you use Echobell for instant notifications and developer alerts—we’d love to learn from it.
+- [Email trigger docs](/en/docs/email-trigger) — full variable reference and configuration options
+- [QQ Mail to call notifications](/en/blog/qq-mail-to-call-notifications) — forwarding rules specific to QQ Mail
+- [How to bypass iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — choosing the right urgency level
+- [Notification types](/en/docs/notification) — Normal, Time Sensitive, and Calling behavior
+- [Conditions](/en/docs/conditions) — expression syntax for filtering alerts

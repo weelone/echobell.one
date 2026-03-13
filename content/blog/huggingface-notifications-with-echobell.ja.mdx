@@ -1,94 +1,75 @@
 ---
-title: "Echobell で HuggingFace のアクティビティを監視：AI モデルとリポジトリのリアルタイム更新"
-description: "重要なHuggingFaceモデルの更新を見逃すのはもうやめましょう！EchobellでインスタントWebhook通知を設定してAIリポジトリを監視し、モデルの変更を追跡し、リアルタイムアラートを直接あなたの電話に送信してチームを同期させる方法を学びましょう。"
+title: "EchobellでHuggingFaceの活動をリアルタイム監視：AIリポジトリのWebhook通知"
+description: "EchobellのWebhook通知を設定してHuggingFaceのモデル更新、リポジトリ変更、チームの活動をプッシュ通知や電話着信で即時受け取る方法を解説します。"
 date: 2025-04-27
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Echobell で HuggingFace のアクティビティを監視：AI モデルとリポジトリのリアルタイム更新
+# EchobellでHuggingFaceの活動をリアルタイム監視：AIリポジトリのWebhook通知
 
-こんなシーンを想像してみてください：あなたは重要なAIプロジェクトに取り組んでいて、依存しているモデルが本番パイプラインを壊す可能性のある大きな更新を受けたばかりです。あるいは、チームが共有リポジトリに画期的な進歩をプッシュしたものの、集中モードでその通知を見逃してしまいました。聞き覚えがありませんか？
+HuggingFaceにはモデルの更新、ディスカッション、プルリクエストで発火するWebhookシステムが組み込まれています。これを[Echobell](https://apps.apple.com/app/id6743597198)に接続することで、これらのイベントを即時のスマートフォン通知に変換できます。本番依存関係の破壊的変更を早期に察知したり、チームのリポジトリ活動を把握するのに役立ちます。
 
-AI開発者や研究者として、私たちは皆そんな経験があります。HuggingFaceは機械学習プロジェクトでの協働方法に革命をもたらしましたが、すべてのアクティビティを追跡するのは圧倒的に感じられることがあります。そこで[Echobell](https://echobell.one)の出番です。最も重要なことを決して見逃さないようにするインスタント通知のパーソナルアシスタントです。
+## ステップ1：Echobellチャンネルの作成
 
-Echobellの強力なWebhook通知により、HuggingFaceプロジェクトとのつながり方を変革できます。画期的なモデル更新、組織に参加する新しいチームメンバー、リポジトリで起こる重要な議論など、Echobellは[リアルタイムアラート](/ja/docs/what-is-echobell)をデバイスに直接配信します。
-
-## なぜ HuggingFace のアクティビティを監視するのか？
-
-HuggingFace のアクティビティをリアルタイムで追跡することは、特に以下のシナリオで重要です：
-
-- **モデルの更新を追跡**：依存している重要な AI モデルが新しいバージョンをリリースしたり、重要な変更が行われたりした場合に通知を受け取ります。
-- **プロジェクトへの貢献を監視**：新しい貢献者がプロジェクトに参加した場合や、新しいプルリクエストやコードコミットが行われた場合に知ることができます。
-- **組織のアクティビティに関する情報を常に把握**：組織全体のアクティビティを追跡し、チームメンバーが重要なお知らせや変更を見逃さないようにします。
-- **コミュニティディスカッションに参加**：新しい Issue、コメント、またはディスカッション投稿に関するアラートを受け取り、迅速に対応して参加できます。
-- **使用状況を分析**：モデルやデータセットのダウンロード数と人気を監視して、その影響を理解します。
-
-## Echobell Webhook で HuggingFace の監視を設定する
-
-以下の簡単な手順に従って、自動通知のために Echobell と HuggingFace を接続しましょう：
-
-### ステップ 1：Echobell 通知チャンネルを設定する
-
-まず、HuggingFace 通知を受信するための専用チャンネルを Echobell アプリで作成する必要があります：
-
-1.  iOS デバイスに [Echobell アプリ](https://apps.apple.com/app/id6743597198) をダウンロードしてインストールします。
-2.  メールまたは Apple ID を使用してログインします。
-3.  「HuggingFace 更新」などの名前で新しい通知チャンネルを作成します。
-4.  （オプション）イベントをより明確に理解するためのカスタム通知テンプレートを設定します：
-    - **タイトルテンプレート**：`HuggingFace: {{repo.name}} {{event.action}}`
-    - **コンテンツテンプレート**：`{{repo.name}} で {{event.scope}} が {{event.action}} されました。詳細はリポジトリをご確認ください。`
-5.  このチャンネルの一意の Webhook URL をコピーします（チャンネルの詳細に移動し、Webhook ボタンをクリックしてコピーします）。
+1. [Echobell](https://apps.apple.com/app/id6743597198)をダウンロードしてサインイン
+2. 新しいチャンネルを作成（例：「HuggingFace Updates」）
+3. HuggingFaceのWebhookペイロード変数を使って通知テンプレートを設定:
+   - **タイトル**: `🤗 {{repo.name}}: {{event.action}}`
+   - **内容**: `{{event.scope}} was {{event.action}} in {{repo.name}}`
+4. チャンネル設定からWebhook URLをコピー
 
 <Callout type="info">
-  テンプレートで使用できる変数についてもっと知りたいですか？[HuggingFace 公式 Webhook ドキュメント](https://huggingface.co/docs/hub/webhooks)をご確認ください。
+  利用可能なペイロード変数の全リストはHuggingFaceの[公式Webhookドキュメント](https://huggingface.co/docs/hub/webhooks)を参照してください。
 </Callout>
 
-### ステップ 2：HuggingFace で Webhook を設定する
+## ステップ2：HuggingFaceのWebhookを設定する
 
-次に、HuggingFace アカウント設定に Echobell Webhook を追加します：
+![HuggingFace Settings](/images/blog/huggingface-settings.png)
 
-![HuggingFace 設定](/images/blog/huggingface-settings.png)
+1. HuggingFaceにログイン → プロフィール画像 → **Settings**
+2. サイドバーで**Webhooks**を選択
+3. **Add a new webhook**をクリック
+4. **Target repositories**で監視対象を指定:
+   - 特定のリポジトリ: `username/my-model`
+   - 組織内の全リポジトリ: `my-company`
+   - 個人の全リポジトリ: `your-username`
+5. EchobellのWebhook URLを貼り付け
+6. **Secret**は空欄のまま
+7. トリガーを選択（推奨初期セット）:
+   - ✅ Repo update
+   - ✅ Discussion created
+   - ✅ New PR/issues
+8. **Create webhook**をクリック
 
-1.  HuggingFace にログインし、右上隅のプロフィール画像をクリックして、**Settings** を選択します。
-2.  左側のメニューで、**Webhooks** を見つけてクリックします。
-3.  **Add a new webhook** ボタンをクリックします。
-4.  **Target repositories** フィールドに、監視したい特定のリポジトリ名（例：`username/repo-name`）または組織/ユーザー全体の名前（例：`org-name` または `username`）を入力します。複数のターゲットを追加できます。
-5.  ステップ 1 でコピーした Echobell **Webhook URL** を適切なフィールドに貼り付けます。
-6.  **Secret** フィールドは空のままにしておきます。
-7.  **Triggers** セクションでは、少なくとも **Repo update** にチェックを入れることをお勧めしますが、必要に応じて他のトリガーイベント（`Discussion created` など）を選択することもできます。
-8.  **Create webhook** をクリックして設定を完了します。
+![HuggingFace webhook has been set](/images/blog/huggingface-webhook-set.png)
 
-![HuggingFace webhook が設定されました](/images/blog/huggingface-webhook-set.png)
+## 本番モデルへの優先通知
 
-設定が完了すると、指定した HuggingFace リポジトリや組織で選択したイベントが発生するたびに、Echobell がデバイスに即座に通知を送信します！
+HuggingFaceの活動すべてが同じ緊急度を必要とするわけではありません。チャンネルを分けて使いましょう。
 
-## 高度な設定と使用方法
+1. **本番環境のクリティカルなリポジトリ** → 通知タイプを**タイムセンシティブ**または**着信（Calling）**に設定したチャンネル
+2. **一般的な活動** → 標準プッシュ通知チャンネル
 
-### 特定のモデルの重要な更新を監視する
+条件付きフィルタリング（特定のリポジトリの`update`イベントのみ通知するなど）には[Echobellの条件](/en/docs/conditions)を使用:
 
-特定のモデルに特に関心がある場合は、そのための専用 Echobell チャンネルを作成し、より具体的な通知テンプレートを設定したり、重要な更新が見逃されないように高優先度の通知（「時間敏感」や「通話」など）を使用したりすることができます。
+```
+event.action == "update" && repo.name.includes("production")
+```
 
-### チーム通知の共有
+## チーム通知
 
-Echobell のチャンネル購読機能により、チームコラボレーションがより便利になります。HuggingFace 通知チャンネルをチームメンバーと共有できます：
+全員が別々のWebhookを設定しなくてもチームでアラートを共有するには:
 
-1.  Echobell のチャンネル設定インターフェースで、**購読リンク**を見つけてコピーします。
-2.  このリンクを通知を受け取る必要があるチームメンバーに送信します。
-3.  メンバーはリンクをクリックしてチャンネルを購読し、好みの通知方法（通常、時間敏感、または通話アラート）を選択できます。
+1. 共有チャンネルを作成（例：「Team AI Models」）
+2. チャンネル設定から**購読リンク**をコピー
+3. チームメンバーにリンクを共有 — 各自が購読して自分の通知設定を行う
 
 ## ベストプラクティス
 
-HuggingFace と Echobell の統合を最大限に活用するために、以下の推奨事項を検討してください：
+- **小さく始める**: まず重要なリポジトリを2〜3件監視し、アラートの量を把握してから拡張する
+- **テンプレートをアクション可能に**: HuggingFaceを開かずに対応できる十分なコンテキストを含める。`{{event.description}}`には有用な詳細が含まれることが多い
+- **通知疲れに注意**: チャンネルが1日に10〜15件以上のアラートを生成する場合は、トリガーフィルターを絞るか条件を追加する
 
-1.  **カテゴリ別管理**：異なるタイプのアクティビティ（モデル更新、コミュニティディスカッション、組織のダイナミクスなど）に対して異なる Echobell チャンネルを作成し、管理と区別を容易にします。
-2.  **優先レベルを活用する**：見逃すことができない重要なイベント（本番環境に依存するモデルの更新など）については、Echobell でその通知タイプを「通話」または「時間敏感」に設定します。
-3.  **テンプレートを最適化する**：通知テンプレートに十分な情報（リポジトリ名、イベントタイプ、トリガーなど）を含めて、通知の重要性とコンテンツを迅速に判断できるようにします。
-4.  **正確なトリガー**：HuggingFace Webhook 設定では、不要な気散じを避け、通知疲れを減らすために、本当に監視する必要があるイベントタイプのみを選択してください。
-
-## 結論
-
-Echobell のリアルタイム通知機能と HuggingFace の強力なプラットフォームを組み合わせることで、効率的な監視システムを構築できます。これにより、AI モデル、データセット、プロジェクトの最新の開発に常に対応できるだけでなく、チームメンバー間の情報同期も容易になり、あなたとあなたのチームが常に AI 開発の最前線にいることを確実にします。
-
-今すぐ Echobell を使って HuggingFace のアクティビティを監視し始め、重要な更新を見逃す frustration にさよならしましょう！
+Webhook設定のリファレンスは[EchobellのWebhookドキュメント](/en/docs/webhook)を参照してください。関連するインテグレーションについては[GitHub Actions通知](/en/blog/github-actions-notifications)と[Grafanaアラート](/en/docs/developer/grafana)をご覧ください。

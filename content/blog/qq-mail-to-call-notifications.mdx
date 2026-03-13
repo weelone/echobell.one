@@ -1,53 +1,40 @@
 ---
-title: How to Forward Important QQ Mail to Phone Call Notifications
+title: Forward QQ Mail to Phone Call Notifications with Echobell
 date: 2026-02-07
-description: "Learn how to forward important QQ Mail messages to Echobell and receive phone call notifications for urgent emails. Includes setup steps, templates, conditions, and troubleshooting."
+description: "Set up QQ Mail forwarding rules to send high-priority emails to Echobell and receive phone call notifications. Covers channel setup, templates, conditions, and troubleshooting."
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# How to Forward Important QQ Mail to Phone Call Notifications
+QQ Mail push notifications are easy to miss during calls, deep work, or when your phone is on silent. This guide shows how to forward only high-priority QQ Mail messages to Echobell and have them trigger a call-style alert on your phone.
 
-Important QQ emails are easy to miss when you're in meetings, coding, or away from your desk. A better setup is to forward only high-priority messages to Echobell and let your phone ring with a call-style alert.
+Relevant docs:
 
-In this guide, you'll set up QQ Mail forwarding for important emails and convert them into phone call notifications in minutes.
-
-Helpful docs before you start:
-
-- QQ Mail setup doc: [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
-- Email trigger basics: [/docs/email-trigger](/en/docs/email-trigger)
-- Notification types (including Calling): [/docs/notification](/en/docs/notification)
-- Templates and variables: [/docs/template](/en/docs/template)
-- Optional fallback conditions: [/docs/conditions](/en/docs/conditions)
-
-## Why use call notifications for QQ Mail?
-
-- Calls are much harder to ignore than normal push notifications
-- You can keep daily emails quiet and only escalate critical ones
-- Voice content makes alerts understandable even when you cannot look at the screen
-
-For teams handling incidents, customer escalation, or billing risk, this setup removes most "I saw it too late" moments.
+- [QQ Mail setup](/en/docs/email-to-call/qq)
+- [Email trigger](/en/docs/email-trigger)
+- [Notification types](/en/docs/notification)
+- [Templates and variables](/en/docs/template)
+- [Conditions](/en/docs/conditions)
 
 ## Prerequisites
 
-- Echobell app installed ([App Store](https://apps.apple.com/app/id6743597198))
-- One Echobell channel for urgent mail alerts
+- Echobell installed ([App Store](https://apps.apple.com/app/id6743597198))
 - Access to QQ Mail settings
 
-## Step 1 - Create an Echobell channel for QQ important mail
+## Step 1 — Create a channel for QQ urgent mail
 
-1. Open Echobell and create a new channel, for example: `QQ Critical Mail`.
+1. Open Echobell and create a new channel (e.g. `QQ Critical Mail`).
 2. Set Notification Type to **Calling**.
-3. In app settings, enable retry options if you want stronger delivery for urgent messages.
+3. Optionally enable retry in app settings for stronger delivery on critical messages.
 
-Related: [/docs/notification](/en/docs/notification)
+See: [Notification types](/en/docs/notification)
 
-## Step 2 - Copy the channel email and set readable templates
+## Step 2 — Copy the channel email and configure templates
 
-In your channel details, copy the channel-bound email address. This is where QQ Mail will forward important messages.
+From the channel detail page, copy the channel-bound email address. QQ Mail will forward to this address.
 
-Use concise templates so call playback is clear:
+Keep templates short — call notifications speak this content aloud.
 
 Title template:
 
@@ -61,31 +48,27 @@ Body template:
 From {{from}}. {{text}}
 ```
 
-You can customize variables and formatting here: [/docs/template](/en/docs/template)
+Variable reference: [Templates](/en/docs/template)
 
-## Step 3 - Configure QQ Mail forwarding rules
+## Step 3 — Create QQ Mail forwarding rules
 
-In QQ Mail, go to settings and create a rule/filter for high-priority messages:
+In QQ Mail settings, create a filter for high-priority messages:
 
-- Match by sender (for example, boss, finance, security, key clients)
+- Match by sender (e.g. finance, security, key clients)
 - Match by subject keywords (`urgent`, `invoice`, `failure`, `verification`)
 - Action: Forward to your Echobell channel email address
 
-When forwarding is enabled for the first time, QQ Mail sends a verification email. In Echobell, open that notification and use the top-right link to view the full email body, then click the verification link inside to activate forwarding.
+**First-time verification:** When you enable forwarding, QQ Mail sends a verification email. Open that notification in Echobell, tap the top-right link to view the full email body, then click the verification link inside to activate forwarding.
 
-This should be your primary filtering layer. For privacy, filter in QQ Mail first so only necessary emails are sent to Echobell.
+Start with one strict rule. Add more after confirming the first works without noise.
 
-Tip: Start with one strict rule first, then expand. This avoids alert fatigue on day one.
+Full QQ-specific walkthrough: [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
 
-If you want the full QQ-specific walkthrough, use: [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
+## Step 4 — Add Echobell Conditions (optional)
 
-## Step 4 - Optional fallback: Echobell Conditions
+Use Conditions as a secondary filter when QQ Mail rules cannot express the logic you need.
 
-Use this only as a backup layer when QQ Mail rules cannot fully express your logic.
-
-Examples:
-
-Only notify for finance sender:
+Only notify for a specific sender:
 
 ```js
 from == "billing@company.com"
@@ -97,43 +80,41 @@ Only notify when subject includes "urgent":
 subject.toLowerCase().includes("urgent")
 ```
 
-Sender + keyword:
+Sender and keyword combined:
 
 ```js
 (from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
 ```
 
-Condition reference: [/docs/conditions](/en/docs/conditions)
+Reference: [Conditions](/en/docs/conditions)
 
-## Privacy and disclosure responsibility
+## Privacy note
 
-When you publish this workflow for users or teams, explicitly state:
+Filter in QQ Mail first so only necessary emails reach Echobell. If you deploy this for a team, inform users that selected email content is forwarded for notification delivery, in line with your internal policy and local compliance requirements.
 
-- Important filtering should be done in QQ Mail first, so only necessary messages are forwarded to Echobell.
-- Users should be informed that selected email content may be forwarded for notification delivery, according to internal policy and local compliance requirements.
+## Step 5 — Test end to end
 
-## Step 5 - Test end to end
-
-1. Send a test email in QQ Mail that matches your rule.
-2. Confirm QQ forwards to your channel email.
+1. Send a test email in QQ Mail that matches your forwarding rule.
+2. Confirm QQ forwards it to your channel email.
 3. Confirm Echobell triggers a call notification.
-4. Adjust template and filters based on the call content.
+4. Adjust templates and filters based on what the call reads out.
 
 ## Troubleshooting
 
-- No call received:
-  - Check subscription type is set to Calling
-  - Check iOS notification permissions and focus mode behavior
-- Too many calls:
-  - Tighten QQ forwarding rules first
-  - Add Echobell Conditions only if QQ rules are still not enough
-- Voice content is too long:
-  - Shorten template text and keep only key fields
+- **No call received:** Check that the subscription type is set to Calling; check iOS notification permissions and Focus mode behavior.
+- **Too many calls:** Tighten QQ Mail rules first. Add Echobell Conditions only if that's still not enough.
+- **Voice content too long:** Shorten the template and keep only key fields.
 
-## Recommended next steps
+## Next steps
 
-- Create separate channels by topic (finance/security/customer)
-- Keep regular updates on push, reserve calls for truly urgent messages
-- Review your forwarding rules monthly
+- Create separate channels by topic (finance, security, customers)
+- Use push for routine updates, reserve calls for truly urgent messages
+- Review forwarding rules monthly
 
-More email-trigger integrations: [/docs/email-to-call](/en/docs/email-to-call)
+## Related
+
+- [Email to call notification guide](/en/blog/email-to-call-notification) — same setup for Gmail, iCloud, and Outlook
+- [Email trigger docs](/en/docs/email-to-call) — full reference for all providers
+- [How to bypass iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — choosing between push and call alerts
+- [Conditions](/en/docs/conditions) — expression syntax for filtering alerts
+- [Templates](/en/docs/template) — variable reference for email triggers

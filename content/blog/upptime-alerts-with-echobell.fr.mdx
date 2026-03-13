@@ -1,6 +1,6 @@
 ---
-title: "Faites sonner vos alertes Upptime avec Echobell"
-description: "Envoyez les pannes Upptime vers les pushes sensibles au temps ou les appels d’Echobell avec un seul webhook : rapide à activer, fiable quand c’est critique."
+title: "Acheminez les alertes Upptime vers des appels téléphoniques avec Echobell"
+description: "Envoyez les alertes de panne Upptime vers Echobell sous forme de push urgents ou d'appels téléphoniques grâce à un seul Webhook personnalisé — sans serveur supplémentaire."
 date: 2025-11-22
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
@@ -8,25 +8,26 @@ authorLink: https://nooc.me
 tags:
   - Echobell
   - Upptime
-  - supervision uptime
-  - alertes webhook
-  - astreinte
+  - uptime monitoring
+  - webhook alerts
+  - on-call
 ---
 
-# Faites sonner vos alertes Upptime avec Echobell
+# Acheminez les alertes Upptime vers des appels téléphoniques avec Echobell
 
-Upptime surveille déjà vos sites via GitHub Actions, mais quand ça casse il faut un signal qui tranche. Echobell transforme ces vérifications en pushes sensibles au temps ou en appels, sans serveur supplémentaire : un webhook par canal suffit.
+Upptime surveille vos sites depuis GitHub Actions, mais un contrôle échoué n'est utile que si l'alerte vous parvient. Ce guide montre comment acheminer les notifications de panne Upptime vers Echobell sous forme de push urgents ou d'appels téléphoniques grâce à une seule URL Webhook, sans infrastructure supplémentaire.
 
-## Pourquoi ce duo fonctionne
+## Configuration
 
-- **Escalade réelle** : basculez en appels pour les endpoints qui ne peuvent pas attendre.  
-- **Contexte structuré** : chaque alerte inclut site, statut, code de réponse et lien vers l’issue GitHub.  
-- **Effort minimal** : deux secrets dans le dépôt Upptime, le reste de la config reste intact.
+**1. Copiez l'URL Webhook d'un canal depuis Echobell**
 
-## Activation en quelques minutes
+Dans l'application Echobell, ouvrez un canal et copiez son Webhook : `https://hook.echobell.one/t/<channel-token>`
 
-1) Dans Echobell, copiez le webhook du canal : `https://hook.echobell.one/t/<channel-token>` (standard, sensible au temps ou appel).  
-2) Dans votre dépôt Upptime, ajoutez ces secrets GitHub Actions :
+Réglez le type de notification du canal sur standard, urgent ou appel selon l'importance de l'endpoint surveillé.
+
+**2. Ajoutez des secrets à votre dépôt Upptime**
+
+Dans les paramètres de votre dépôt GitHub, ajoutez ces secrets Actions :
 
 ```
 NOTIFICATION_CUSTOM_WEBHOOK=true
@@ -35,14 +36,16 @@ NOTIFICATIONS_DOWN_MESSAGE=$EMOJI $SITE_NAME is $STATUS ($RESPONSE_CODE) – $IS
 NOTIFICATIONS_UP_MESSAGE=$EMOJI $SITE_NAME is back up – $SITE_URL
 ```
 
-3) Dans Echobell, définissez un gabarit simple (`{{site}}`, `{{status}}`, `{{code}}`, `{{url}}`, `{{issue}}`) et choisissez si le canal doit appeler ou rester en push.
+**3. Définissez un modèle dans Echobell**
 
-C’est tout : Upptime fournit les données, Echobell gère le style de notification. Pour chaque détail, voyez le [guide de configuration](/fr/docs/developer/upptime), et pour les réglages Upptime reportez-vous à la [documentation officielle](https://upptime.js.org/docs/notifications).
+Utilisez les variables correspondant aux paramètres de requête ci-dessus : `{{site}}`, `{{status}}`, `{{code}}`, `{{url}}`, `{{issue}}`. Choisissez si le canal doit appeler ou rester en push.
+
+C'est tout. Upptime fournit les données ; Echobell gère la notification.
+
+Pour un guide complet, voir le [guide de configuration Upptime](/en/docs/developer/upptime). Pour les options de notification d'Upptime, consultez la [documentation officielle](https://upptime.js.org/docs/notifications).
 
 ## Ce que vous y gagnez
 
-- Détection plus rapide des dégradations ou pannes  
-- Liens directs vers le site concerné et l’issue GitHub  
-- Un chemin d’escalade fiable sans toucher au reste de votre configuration Upptime
-
-Testez sur une URL surveillée, provoquez une panne de test et vous verrez (ou entendrez) l’alerte immédiatement.
+- Notification immédiate quand un endpoint tombe en panne ou se rétablit
+- Lien direct vers le site concerné et son issue GitHub dans chaque alerte
+- Escalade vers un appel téléphonique pour les endpoints qui ne peuvent pas attendre

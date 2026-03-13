@@ -1,125 +1,74 @@
 ---
-title: Echobellが登場！
+title: Echobellのご紹介
 date: 2025-03-30
-description: Echobellはプライバシー重視のインスタントアラートアプリ。Webhookやメールのトリガーを、チャンネルとテンプレートで時間依存や通話型の通知に変換します。
+description: "EchobellはiOS向けのプライバシー重視の即時アラートアプリです。WebhookやメールでチャンネルをトリガーしてNormal・Time Sensitive・通話スタイルの通知をデバイスに届けます。"
 author: Nooc
 authorAvatarLink: /images/avatars/nooc.webp
 authorLink: https://nooc.me
 ---
 
-# Echobell が登場！
+# Echobellのご紹介
 
-Echobell をご紹介します。大事なものを見逃さないためのインスタントアラートアプリです。ビルド失敗、稼働監視のダウン、重要メール——見落としがちな出来事を、信頼できるタイムリーな通知に変えます。
-
-## Echobell とは？
-
-Echobell は、webhook やメールをトリガーに受け取り、必要な人に必要な通知を即時に届ける、プライバシー‑ファーストな通知アプリです。通知はチャンネルで整理し、テンプレートで内容を整え、通知の緊急度（通常・時間重視・通話）を選べます。実運用に耐える、素早く柔軟なワークフローに最適です。
-
-要するに：チャンネルを作り、webhook かメールを送るだけ。Echobell がパーソナライズされたアプリ通知にして届けます。
+EchobellはiOS向けのプライバシー重視の通知アプリです。WebhookやメールからトリガーをReceiveし、Normal・Time Sensitive・通話スタイルのアラートとしてデバイスに届けます。アラートはチャンネルで整理し、テンプレートでコンテンツを整形し、チャンネルごとに緊急度レベルを設定できます。
 
 ## 主な機能
 
-### 通知チャンネル
+### チャンネル
 
-Echobell の中心はチャンネル。シンプルで強力なアラートのパイプラインです。各チャンネルは以下を備えます：
+チャンネルはEchobellの中心的な単位です。各チャンネルには以下が含まれます。
 
-- 名前と色（すぐに識別）
-- タイトル/本文テンプレート（`{{server}}`、`{{message}}`、`{{timestamp}}` などの変数に対応）
-- webhook またはメールでのトリガー
-- チームやフォロワーが購読できる共有用リンク
+- すぐに識別できる名前とカラー
+- 変数を使ったタイトルと本文テンプレート（例：`{{server}}`、`{{message}}`、`{{timestamp}}`）
+- トリガーとなるWebhook URLまたは専用メールアドレス
+- チームメンバーが購読できる共有サブスクリプションリンク
 
-### 複数のトリガー方法
+### WebhookとメールトリガーのWebhook通知
 
-Echobell は 2 つの確実な方法で通知を起動できます：
+**[Webhook通知](/en/features/webhooks):** チャンネルの固有URLにGETまたはPOSTで呼び出すと、Echobellがすべての購読者に通知します。サーバー監視、CI/CDパイプライン、IoTのステータス更新、注文通知などに活用できます。
 
-**Webhook 通知**：固有の URL を GET/POST で呼び出すだけで、チャンネル購読者へ通知。用途：
+**[メール→通知](/en/features/email-triggers):** チャンネルアドレスにメールを送信または転送するだけでアラートがトリガーされます。コード不要で、重要メールの転送、レガシーシステムとの連携、コードなしの通知フロー構築に便利です。
 
-- サーバー監視アラート
-- CI/CD パイプライン通知
-- IoT デバイスのステータス更新
-- EC の注文通知
-
-**メール → 通知**：チャンネルのアドレスにメールを送信/転送して通知を起動（コード不要）。用途：
-
-- 重要メールの通知化
-- コーディング不要の通知フロー構築
-- メールは対応だが webhook 非対応のレガシー連携
-
-### カスタマイズ可能なテンプレート
-
-テンプレートと変数で、わかりやすい通知に：
+### テンプレートと変数
 
 ```
-タイトル：{{server}} ステータスアラート
-本文：{{message}} を {{timestamp}} に検出
+Title: {{server}} status alert
+Body: {{message}} detected at {{timestamp}}
 ```
 
-Webhook の body や query の変数、あるいはメールの subject/from/text を使って、明確でパーソナライズされた通知を生成できます。
+変数はWebhookのペイロードまたはクエリ文字列で渡します。メールトリガーの場合は`from`、`subject`、`text`などの変数が自動的に利用できます。
 
-### 柔軟な通知タイプ
+### 通知タイプ
 
-アラートは 3 種類：
+- **Normal（Active）:** 日常的な更新向けの標準通知
+- **[Time Sensitive](/en/focus-mode-alerts):** フォーカスモードを突き破って届く通知
+- **[Calling](/en/features/call-notifications):** 重大なインシデント向けに電話のように鳴る通知
 
-- **通常（Active）**：日常の更新に最適な標準通知
-- **時間重視**：一部の集中モードを突破する高優先度通知
-- **通話**：重大インシデント向けの電話のような通知
+### プライバシー
 
-### プライバシー重視
-
-プライバシーは設計に組み込み済み：
-
-- サーバーに保存するのはアカウント・チャンネル・購読情報のみ
-- 通知内容と履歴は端末上にのみ保存
-- センシティブなデータは常にあなたの管理下
+アカウント、チャンネル、サブスクリプション情報はサーバー側に保存されます。通知のコンテンツと履歴はデバイス上にのみ保持されます。
 
 ## ユースケース
 
-Echobell は様々な現場のワークフローにフィットします：
+**開発者:** サーバー・稼働時間の監視（[Grafana](/en/docs/developer/grafana)、[Prometheus](/en/docs/developer/prometheus)）、CI/CDやGitHub Actionsのアラート、本番環境のエラーレポート。
 
-### 開発者向け
+**トレーダー:** 株式・暗号資産の価格閾値アラート、メール転送によるシグナル通知。
 
-- Webhook 通知でのサーバー/稼働監視（Grafana、Prometheus）
-- CI/CD・GitHub Actions のビルド成功/失敗アラート
-- 本番障害やログスパイクの検知
+**チーム:** プロジェクトごとに1チャンネルを作成し、チームメンバーが希望の緊急度レベルで購読。
 
-### トレーダー向け
-
-- 株式/暗号資産のリアルタイム価格アラート
-- 大きな変動のしきい値通知
-- メール転送を使ったメンション/シグナルの捕捉
-
-### チーム向け
-
-- プロジェクト/顧客ごとのチャンネル
-- 希望する緊急度（通常・時間重視・通話）で購読
-- 必要なときは集中モード中でも重要通知を通す
-
-### 個人利用
-
-- サイトダウン通知や問い合わせフォームの通知
-- 受信箱に張り付かず重要メールの通知を受け取る
-- 自分にとって大切な事柄のリマインド
+**個人向け:** Webサイトのダウンアラート、重要なメール通知、カスタムリマインダー。
 
 ## はじめ方
 
-数分で始められます：
+1. [App Store](https://apps.apple.com/app/id6743597198)からEchobellをダウンロード
+2. アカウントを作成（メールまたはAppleでサインイン）
+3. チャンネルを作成してタイトル・本文テンプレートを設定
+4. WebhookまたはメールトリガーをAddする
+5. テスト通知を送信
 
-1. [App Store](https://apps.apple.com/app/id6743597198) から Echobell をダウンロード
-2. メールまたは「Apple でサインイン」でアカウント作成
-3. 最初のチャンネルを作成し、タイトル/本文テンプレートを設定
-4. webhook またはメールのトリガーを追加
-5. テスト送信して、インスタント通知を受け取り開始
+## 関連ページ
 
-## まず読むとよいページ
-
-- [Pushover の代替](/pushover-alternative)
-- [ntfy の代替](/ntfy-alternative)
-- [サーバーダウン時の電話アラート](/server-down-phone-call-alerts)
-- [App Store Connect 審査通知](/app-store-connect-review-notifications)
-- [重要アラートを iOS Focus Mode で通す方法](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
-
-## Echobell コミュニティに参加しよう
-
-Echobell はこれからもっと良くなります。開発者・チーム・「静かでわかりやすい通知」を求めるすべての人に向けてオープンに作っています。プライバシー重視、信頼できる webhook 通知、シンプルなメールトリガー、柔軟なチャンネルに価値を感じるなら、Echobell をお試しください。
-
-今すぐ Echobell をダウンロードして、通知の主導権を取り戻しましょう。どんな連携をされるのか、楽しみにしています。いま比較検討中なら、次は [Pushover の代替](/pushover-alternative) と [ntfy の代替](/ntfy-alternative) を見るのが最短です。
+- [Pushoverの代替](/en/pushover-alternative)
+- [ntfyの代替](/en/ntfy-alternative)
+- [サーバーダウン時の電話アラート](/en/server-down-phone-call-alerts)
+- [App Store Connectのレビュー通知](/en/app-store-connect-review-notifications)
+- [iOSのフォーカスモードをバイパスして重要なアラートを受け取る方法](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
