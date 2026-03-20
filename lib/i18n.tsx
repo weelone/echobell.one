@@ -192,7 +192,7 @@ export const uiDictionary = {
         ],
       },
       currency: "USD",
-      period: "/month", // Clarify if annual price is shown per month
+      period: "per month",
       startTrial: "Start Free Trial", // Consider changing if there's no trial, e.g., "Get Started Free"
     },
     cta: {
@@ -801,7 +801,7 @@ export const uiDictionary = {
         ],
       },
       currency: "CNY",
-      period: "/月",
+      period: "每月",
       startTrial: "开始免费试用", // Or "免费开始使用"
     },
     cta: {
@@ -1385,7 +1385,7 @@ export const uiDictionary = {
         ],
       },
       currency: "USD",
-      period: "/mes",
+      period: "al mes",
       startTrial: "Iniciar Prueba Gratuita", // Or "Comenzar Gratis"
     },
     cta: {
@@ -2002,7 +2002,7 @@ export const uiDictionary = {
         ],
       },
       currency: "USD",
-      period: "/mois",
+      period: "par mois",
       startTrial: "Commencer l'Essai Gratuit", // Or "Commencer Gratuitement"
     },
     cta: {
@@ -2609,7 +2609,7 @@ export const uiDictionary = {
         ],
       },
       currency: "JPY", // Update if needed
-      period: "/月",
+      period: "月額",
       startTrial: "無料トライアルを開始",
     },
     cta: {
@@ -3196,7 +3196,7 @@ export const uiDictionary = {
         ],
       },
       currency: "EUR",
-      period: "/Monat",
+      period: "pro Monat",
       startTrial: "Kostenlose Testversion starten",
     },
     cta: {

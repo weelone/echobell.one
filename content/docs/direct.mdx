@@ -208,8 +208,10 @@ await fetch("https://hook.echobell.one/d/YOUR_KEY_TOKEN", {
 ```yaml
 - name: Notify via Echobell Direct
   if: always()
+  env:
+    ECHOBELL_DIRECT_URL: ${{ secrets.ECHOBELL_DIRECT_URL }}
   run: |
-    curl -X POST https://hook.echobell.one/d/${{ secrets.ECHOBELL_DIRECT_KEY }} \
+    curl -X POST "$ECHOBELL_DIRECT_URL" \
       -H "Content-Type: application/json" \
       -d '{"title": "Build ${{ job.status }}", "body": "${{ github.repository }} @ ${{ github.sha }}"}'
 ```
