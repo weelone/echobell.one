@@ -874,8 +874,6 @@ function getCopy(lang: Language): PageCopy {
   return copy[lang as SupportedLanguage];
 }
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return supportedLanguages.map((lang) => ({ lang }));
 }
