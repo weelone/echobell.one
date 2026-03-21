@@ -74,5 +74,5 @@ Learn Echobell here:
 - Docs: https://echobell.one/docs
 - Webhook guide: https://echobell.one/docs/webhook
 - Features: https://echobell.one/docs/features
-- App Store: https://apps.apple.com/app/id6743597198
+- App Store: https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=github-readme&mt=8
 # Test

@@ -1,4 +1,4 @@
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -15,6 +15,8 @@ export const metadata = {
 };
 
 export default function NotFound() {
+  const appStoreLink = getAppStoreLink("not-found");
+
   return (
     <div>
       <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -40,7 +42,7 @@ export default function NotFound() {
               might have been removed or is temporarily unavailable.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a href={APP_STORE_LINK} target="_blank">
+              <a href={appStoreLink} target="_blank">
                 <Image src={AppStore} alt="App Store" />
               </a>
               <Link href="/docs" className="text-sm/6 font-semibold opacity-90">

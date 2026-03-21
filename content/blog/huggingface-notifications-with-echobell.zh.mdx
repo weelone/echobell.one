@@ -9,11 +9,11 @@ authorLink: https://nooc.me
 
 # 用 Echobell 监控 HuggingFace 动态：AI 仓库实时 Webhook 告警
 
-HuggingFace 内置了 Webhook 系统，可在模型更新、讨论和 Pull Request 时触发。将其连接到 [Echobell](https://apps.apple.com/app/id6743597198)，这些事件就会变成即时手机通知——适合捕捉生产依赖的破坏性变更，或及时跟进团队仓库动态。
+HuggingFace 内置了 Webhook 系统，可在模型更新、讨论和 Pull Request 时触发。将其连接到 [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9z7b&mt=8)，这些事件就会变成即时手机通知——适合捕捉生产依赖的破坏性变更，或及时跟进团队仓库动态。
 
 ## 第一步：创建 Echobell 频道
 
-1. 下载 [Echobell](https://apps.apple.com/app/id6743597198) 并登录
+1. 下载 [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9z7b&mt=8) 并登录
 2. 创建新频道（如"HuggingFace 更新"）
 3. 使用 HuggingFace Webhook 载荷变量设置通知模板：
    - **标题**：`🤗 {{repo.name}}: {{event.action}}`

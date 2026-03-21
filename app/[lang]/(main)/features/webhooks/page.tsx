@@ -15,6 +15,7 @@ import {
   CodeBlock,
   RelatedFeatures,
 } from "@/components/features";
+import { getAppStoreLink } from "@/constants";
 import { webhooksI18n, relatedFeatures } from "@/lib/features-i18n";
 import { FeatureJsonLd, HowToJsonLd } from "@/components/JsonLd";
 
@@ -65,6 +66,7 @@ export default async function WebhooksPage({
         description={t.hero.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink(["features", "webhooks", "hero", lang])}
         accentColor="orange"
       />
 
@@ -175,6 +177,7 @@ export default async function WebhooksPage({
         description={t.cta.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink(["features", "webhooks", "cta", lang])}
         accentColor="orange"
       />
 

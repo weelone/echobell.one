@@ -13,7 +13,7 @@ import {
   Code2Icon,
 } from "lucide-react";
 import type { Metadata } from "next";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { FAQJsonLd, FeatureJsonLd, HowToJsonLd } from "@/components/JsonLd";
 import { Language, languages, localizeUrl, uiDictionary } from "@/lib/i18n";
@@ -1377,7 +1377,11 @@ export default async function UseCasesPage({
             {t.hero.description}
           </p>
           <div className="mt-12 flex items-center justify-center gap-x-8">
-            <Link href={APP_STORE_LINK} target="_blank" className="hover:scale-105 transition-transform duration-200">
+            <Link
+              href={getAppStoreLink(["use-cases", "hero", lang])}
+              target="_blank"
+              className="hover:scale-105 transition-transform duration-200"
+            >
               <Image src={dict.hero.appStoreImage} alt="App Store" width={160} height={48} />
             </Link>
             <Link

@@ -5,7 +5,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { FAQSection } from "@/components/FAQSection";
 import { FeatureHero } from "@/components/features";
 import { FeatureJsonLd } from "@/components/JsonLd";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { baseUrl, createMetadata } from "@/lib/metadata";
 import { Language, localizeUrl } from "@/lib/i18n";
 
@@ -954,6 +954,7 @@ export default async function NtfyAlternativePage({
         description={t.hero.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink(["ntfy-alternative", "hero", lang])}
         accentColor="green"
       />
 
@@ -1058,7 +1059,7 @@ export default async function NtfyAlternativePage({
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
-                href={APP_STORE_LINK}
+                href={getAppStoreLink(["ntfy-alternative", "cta", lang])}
                 target="_blank"
                 className="rounded-full bg-green-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-green-500"
               >

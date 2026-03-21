@@ -9,11 +9,11 @@ authorLink: https://nooc.me
 
 # Surveiller l'activité HuggingFace avec Echobell : alertes Webhook en temps réel pour les dépôts IA
 
-HuggingFace dispose d'un système de Webhooks intégré qui se déclenche lors de mises à jour de modèles, de discussions et de pull requests. Le connecter à [Echobell](https://apps.apple.com/app/id6743597198) transforme ces événements en notifications téléphoniques instantanées — utile pour détecter les changements incompatibles dans les dépendances de production ou rester informé de l'activité des dépôts de l'équipe.
+HuggingFace dispose d'un système de Webhooks intégré qui se déclenche lors de mises à jour de modèles, de discussions et de pull requests. Le connecter à [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9yqd&mt=8) transforme ces événements en notifications téléphoniques instantanées — utile pour détecter les changements incompatibles dans les dépendances de production ou rester informé de l'activité des dépôts de l'équipe.
 
 ## Étape 1 : Créer votre canal Echobell
 
-1. Téléchargez [Echobell](https://apps.apple.com/app/id6743597198) et connectez-vous
+1. Téléchargez [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9yqd&mt=8) et connectez-vous
 2. Créez un nouveau canal (ex. « HuggingFace Updates »)
 3. Configurez vos modèles de notification en utilisant les variables du payload Webhook de HuggingFace :
    - **Titre** : `🤗 {{repo.name}}: {{event.action}}`

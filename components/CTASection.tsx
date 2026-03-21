@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { Language, uiDictionary } from "@/lib/i18n";
 
 export default function CTASection({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].cta;
+  const appStoreLink = getAppStoreLink(["home", "cta", lang]);
 
   return (
     <div className="py-24 sm:py-32">
@@ -16,7 +17,7 @@ export default function CTASection({ lang }: { lang: Language }) {
             {t.description}
           </p>
           <div className="mt-10 flex items-center justify-center">
-            <a href={APP_STORE_LINK} target="_blank">
+            <a href={appStoreLink} target="_blank">
               <Image src={t.appStoreImage} alt="App Store" />
             </a>
           </div>

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
-import { APP_STORE_LINK } from "@/constants";
 
 interface FeatureCTAProps {
   lang: Language;
@@ -9,6 +8,7 @@ interface FeatureCTAProps {
   description: string;
   primaryCta: string;
   secondaryCta: string;
+  appStoreLink: string;
   accentColor?: string;
 }
 
@@ -18,6 +18,7 @@ export function FeatureCTA({
   description,
   primaryCta,
   secondaryCta,
+  appStoreLink,
   accentColor = "orange",
 }: FeatureCTAProps) {
   const t = uiDictionary[lang];
@@ -64,7 +65,7 @@ export function FeatureCTA({
             {description}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href={APP_STORE_LINK} target="_blank">
+            <Link href={appStoreLink} target="_blank">
               <Image
                 src={appStoreImage}
                 alt={primaryCta}

@@ -1,5 +1,5 @@
 import { fetchChannelBySubscriptionToken } from "@/app/actions/channel";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
 import { Breadcrumb } from "@/components/Breadcrumb";
@@ -20,6 +20,7 @@ export default async function SubscriptionPage({
   const { slug: subscriptionToken, lang } = await params;
   const t = uiDictionary[lang as keyof typeof uiDictionary].subscription;
   const channel = await fetchChannelBySubscriptionToken(subscriptionToken);
+  const appStoreLink = getAppStoreLink(["subscription", "page", lang]);
 
   return (
     <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -67,7 +68,7 @@ export default async function SubscriptionPage({
         <p className="mt-5">{t.subscriptionTips}</p>
         <p className="mt-2">{t.downloadTips}</p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <a href={APP_STORE_LINK} target="_blank">
+          <a href={appStoreLink} target="_blank">
             <Image src={t.appStoreImage} alt="App Store" />
           </a>
           <Link

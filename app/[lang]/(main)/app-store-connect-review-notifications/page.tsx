@@ -5,7 +5,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { FAQSection } from "@/components/FAQSection";
 import { FeatureHero } from "@/components/features";
 import { FeatureJsonLd, HowToJsonLd } from "@/components/JsonLd";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { baseUrl, createMetadata } from "@/lib/metadata";
 import { Language, localizeUrl } from "@/lib/i18n";
 
@@ -922,6 +922,11 @@ export default async function AppStoreConnectReviewNotificationsPage({
         description={t.hero.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink([
+          "app-store-connect-review-notifications",
+          "hero",
+          lang,
+        ])}
         accentColor="blue"
       />
 
@@ -1034,7 +1039,11 @@ export default async function AppStoreConnectReviewNotificationsPage({
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
-                href={APP_STORE_LINK}
+                href={getAppStoreLink([
+                  "app-store-connect-review-notifications",
+                  "cta",
+                  lang,
+                ])}
                 target="_blank"
                 className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
               >

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 import { Language, localizeUrl } from "@/lib/i18n";
-import { APP_STORE_LINK } from "@/constants";
 
 interface FeatureHeroProps {
   lang: Language;
@@ -10,6 +9,7 @@ interface FeatureHeroProps {
   description: string;
   primaryCta: string;
   secondaryCta: string;
+  appStoreLink: string;
   accentColor?: string;
 }
 
@@ -20,6 +20,7 @@ export function FeatureHero({
   description,
   primaryCta,
   secondaryCta,
+  appStoreLink,
   accentColor = "orange",
 }: FeatureHeroProps) {
   const colorClasses: Record<string, { badge: string; button: string }> = {
@@ -64,7 +65,7 @@ export function FeatureHero({
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
-              href={APP_STORE_LINK}
+              href={appStoreLink}
               target="_blank"
               className={`rounded-full px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors ${colors.button}`}
             >

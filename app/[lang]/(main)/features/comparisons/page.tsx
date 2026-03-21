@@ -6,7 +6,7 @@ import { FeatureJsonLd } from "@/components/JsonLd";
 import { Language, languages, localizeUrl } from "@/lib/i18n";
 import { baseUrl, createMetadata } from "@/lib/metadata";
 import { getComparisonsIndexData } from "@/lib/competitor-comparisons";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 
 const comparisonsPageUi: Record<
   Language,
@@ -187,7 +187,7 @@ export default async function ComparisonsIndexPage({
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href={APP_STORE_LINK}
+                href={getAppStoreLink(["features", "comparisons", "cta", lang])}
                 target="_blank"
                 className="rounded-full bg-orange-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-500"
               >

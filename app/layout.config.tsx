@@ -1,5 +1,5 @@
 import { Logo } from "@/components/Logo";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { i18n, Language, localizeUrl, uiDictionary } from "@/lib/i18n";
 import { SiAppstore } from "@icons-pack/react-simple-icons";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
@@ -35,7 +35,7 @@ export function baseOptions(locale: Language): BaseLayoutProps {
         type: "icon",
         icon: <SiAppstore />,
         text: "App Store",
-        url: APP_STORE_LINK,
+        url: getAppStoreLink(["nav", "app-store", locale]),
       },
     ],
     githubUrl: "https://github.com/weelone/echobell.one",

@@ -1,13 +1,12 @@
 "use client";
 
-import { APP_STORE_LINK } from "@/constants";
 import { QRCodeSVG } from "qrcode.react";
 
-export function AppStoreQRCode() {
+export function AppStoreQRCode({ value }: { value: string }) {
   return (
     <QRCodeSVG
       className="w-20 h-20"
-      value={APP_STORE_LINK}
+      value={value}
       bgColor="transparent"
       fgColor="currentColor"
     />

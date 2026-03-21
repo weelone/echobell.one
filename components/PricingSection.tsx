@@ -1,4 +1,4 @@
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { Language, uiDictionary } from "@/lib/i18n";
 import { CheckIcon } from "lucide-react";
 import { BorderBeam } from "./magicui/border-beam";
@@ -93,7 +93,7 @@ export default function PricingSection({ lang }: { lang: Language }) {
                 ))}
               </ul>
               <a
-                href={APP_STORE_LINK}
+                href={getAppStoreLink(["home", "pricing", tier.id, lang])}
                 target="_blank"
                 aria-describedby={tier.id}
                 className={classNames(

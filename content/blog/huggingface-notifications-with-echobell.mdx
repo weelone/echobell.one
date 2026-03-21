@@ -9,11 +9,11 @@ authorLink: https://nooc.me
 
 # Monitor HuggingFace Activity with Echobell: Real-time Webhook Alerts for AI Repositories
 
-HuggingFace has a built-in webhook system that fires on model updates, discussions, and pull requests. Connecting it to [Echobell](https://apps.apple.com/app/id6743597198) turns those events into instant phone notifications—useful for catching breaking changes in production dependencies or staying on top of team repository activity.
+HuggingFace has a built-in webhook system that fires on model updates, discussions, and pull requests. Connecting it to [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9ype&mt=8) turns those events into instant phone notifications—useful for catching breaking changes in production dependencies or staying on top of team repository activity.
 
 ## Step 1: Create Your Echobell Channel
 
-1. Download [Echobell](https://apps.apple.com/app/id6743597198) and sign in
+1. Download [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9ype&mt=8) and sign in
 2. Create a new channel (e.g., "HuggingFace Updates")
 3. Set your notification templates using HuggingFace's webhook payload variables:
    - **Title**: `🤗 {{repo.name}}: {{event.action}}`

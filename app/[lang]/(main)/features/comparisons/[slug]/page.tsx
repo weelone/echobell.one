@@ -7,7 +7,7 @@ import { FeatureHero } from "@/components/features";
 import { FAQJsonLd, FeatureJsonLd } from "@/components/JsonLd";
 import { Language, languages, localizeUrl } from "@/lib/i18n";
 import { baseUrl, createMetadata } from "@/lib/metadata";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import {
   competitorSlugs,
   getComparisonPageData,
@@ -217,6 +217,13 @@ export default async function ComparisonDetailPage({
         description={t.hero.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink([
+          "features",
+          "comparison",
+          slug,
+          "hero",
+          lang,
+        ])}
         accentColor={accentColor}
       />
 
@@ -439,7 +446,13 @@ export default async function ComparisonDetailPage({
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href={APP_STORE_LINK}
+                href={getAppStoreLink([
+                  "features",
+                  "comparison",
+                  slug,
+                  "cta",
+                  lang,
+                ])}
                 target="_blank"
                 className={`rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors ${accentTone.solidButton}`}
               >

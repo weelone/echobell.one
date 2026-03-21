@@ -24,7 +24,7 @@ import {
   templatesI18n,
 } from "@/lib/features-i18n";
 import { FeatureJsonLd } from "@/components/JsonLd";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 
 const features = [
   {
@@ -380,7 +380,7 @@ export default async function FeaturesIndexPage({
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href={APP_STORE_LINK}
+                href={getAppStoreLink(["features", "index", "cta", lang])}
                 target="_blank"
                 className="rounded-full bg-orange-600 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 transition-colors"
               >

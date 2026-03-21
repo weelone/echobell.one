@@ -14,6 +14,7 @@ import {
   FeatureCTA,
   RelatedFeatures,
 } from "@/components/features";
+import { getAppStoreLink } from "@/constants";
 import { emailTriggersI18n, relatedFeatures } from "@/lib/features-i18n";
 import { FeatureJsonLd, HowToJsonLd } from "@/components/JsonLd";
 
@@ -66,6 +67,12 @@ export default async function EmailTriggersPage({
         description={t.hero.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink([
+          "features",
+          "email-triggers",
+          "hero",
+          lang,
+        ])}
         accentColor="green"
       />
 
@@ -209,6 +216,12 @@ export default async function EmailTriggersPage({
         description={t.cta.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink([
+          "features",
+          "email-triggers",
+          "cta",
+          lang,
+        ])}
         accentColor="green"
       />
 

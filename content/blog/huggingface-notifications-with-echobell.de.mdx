@@ -9,11 +9,11 @@ authorLink: https://nooc.me
 
 # HuggingFace-Aktivitäten mit Echobell überwachen: Echtzeit-Webhook-Alarme für KI-Repositories
 
-HuggingFace besitzt ein integriertes Webhook-System, das bei Modell-Updates, Diskussionen und Pull Requests auslöst. Die Anbindung an [Echobell](https://apps.apple.com/app/id6743597198) verwandelt diese Ereignisse in sofortige Telefon-Benachrichtigungen – nützlich, um Breaking Changes in Produktionsabhängigkeiten frühzeitig zu erkennen oder Team-Repository-Aktivitäten im Blick zu behalten.
+HuggingFace besitzt ein integriertes Webhook-System, das bei Modell-Updates, Diskussionen und Pull Requests auslöst. Die Anbindung an [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9yoa&mt=8) verwandelt diese Ereignisse in sofortige Telefon-Benachrichtigungen – nützlich, um Breaking Changes in Produktionsabhängigkeiten frühzeitig zu erkennen oder Team-Repository-Aktivitäten im Blick zu behalten.
 
 ## Schritt 1: Echobell-Channel erstellen
 
-1. [Echobell](https://apps.apple.com/app/id6743597198) herunterladen und anmelden
+1. [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9yoa&mt=8) herunterladen und anmelden
 2. Neuen Channel erstellen (z. B. „HuggingFace Updates")
 3. Benachrichtigungs-Templates mit den Webhook-Payload-Variablen von HuggingFace konfigurieren:
    - **Titel**: `🤗 {{repo.name}}: {{event.action}}`

@@ -18,6 +18,7 @@ import {
   FeatureGrid,
   RelatedFeatures,
 } from "@/components/features";
+import { getAppStoreLink } from "@/constants";
 import { channelsI18n, relatedFeatures } from "@/lib/features-i18n";
 import { FeatureJsonLd, HowToJsonLd } from "@/components/JsonLd";
 
@@ -150,6 +151,7 @@ export default async function ChannelsPage({
         description={t.hero.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink(["features", "channels", "hero", lang])}
         accentColor="blue"
       />
 
@@ -229,6 +231,7 @@ export default async function ChannelsPage({
         description={t.cta.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink(["features", "channels", "cta", lang])}
         accentColor="blue"
       />
 

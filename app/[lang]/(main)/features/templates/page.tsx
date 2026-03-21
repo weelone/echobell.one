@@ -8,6 +8,7 @@ import {
   FeatureCTA,
   RelatedFeatures,
 } from "@/components/features";
+import { getAppStoreLink } from "@/constants";
 import { templatesI18n, relatedFeatures } from "@/lib/features-i18n";
 import { FeatureJsonLd } from "@/components/JsonLd";
 
@@ -99,6 +100,7 @@ export default async function TemplatesPage({
         description={t.hero.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink(["features", "templates", "hero", lang])}
         accentColor="purple"
       />
 
@@ -259,6 +261,7 @@ export default async function TemplatesPage({
         description={t.cta.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink(["features", "templates", "cta", lang])}
         accentColor="purple"
       />
 

@@ -1,3 +1,5 @@
+import { getAppStoreLink } from "@/constants";
+
 interface JsonLdProps {
   data: object;
 }
@@ -104,8 +106,8 @@ export function SoftwareApplicationJsonLd() {
     description:
       "Instant webhook and email alerts via calls and notifications for iOS",
     url: "https://echobell.one",
-    downloadUrl: "https://apps.apple.com/app/id6743597198",
-    installUrl: "https://apps.apple.com/app/id6743597198",
+    downloadUrl: getAppStoreLink(["seo", "software-application"]),
+    installUrl: getAppStoreLink(["seo", "software-application"]),
     screenshot: "https://echobell.one/images/screenshots.webp",
     isAccessibleForFree: true,
     author: {

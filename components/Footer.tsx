@@ -1,7 +1,7 @@
 import { AppStoreQRCode } from "./QRCode";
 import { Logo } from "./Logo";
 import { NavLinks } from "./NavLinks";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { uiDictionary, Language } from "@/lib/i18n";
 
 function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
@@ -18,6 +18,8 @@ function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
 
 export function Footer({ lang }: { lang: Language }) {
   const t = uiDictionary[lang as keyof typeof uiDictionary].footer;
+  const footerLink = getAppStoreLink(["footer", "link", lang]);
+  const footerQrLink = getAppStoreLink(["footer", "qr", lang]);
 
   return (
     <footer className="border-t border-neutral-200 dark:border-neutral-800 overflow-hidden relative isolate p-6 lg:p-8">
@@ -34,11 +36,11 @@ export function Footer({ lang }: { lang: Language }) {
             <div className="group relative mt-8 flex items-center self-stretch transition-colors sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto">
               <div className="relative flex h-24 w-24 flex-none items-center justify-center">
                 <QrCodeBorder className="absolute inset-0 h-full w-full stroke-neutral-300 transition-colors group-hover:stroke-orange-500" />
-                <AppStoreQRCode />
+                <AppStoreQRCode value={footerQrLink} />
               </div>
               <div className="ml-8 lg:w-64">
                 <p className="text-base font-semibold opacity-90">
-                  <a href={APP_STORE_LINK} target="_blank">
+                  <a href={footerLink} target="_blank">
                     <span className="absolute inset-0 sm:rounded-2xl" />
                     {t.downloadFromAppStore}
                   </a>

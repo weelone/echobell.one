@@ -5,7 +5,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { FAQSection } from "@/components/FAQSection";
 import { FeatureHero } from "@/components/features";
 import { FeatureJsonLd } from "@/components/JsonLd";
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { baseUrl, createMetadata } from "@/lib/metadata";
 import { Language, localizeUrl } from "@/lib/i18n";
 
@@ -958,6 +958,7 @@ export default async function PushoverAlternativePage({
         description={t.hero.description}
         primaryCta={t.cta.primary}
         secondaryCta={t.cta.secondary}
+        appStoreLink={getAppStoreLink(["pushover-alternative", "hero", lang])}
         accentColor="orange"
       />
 
@@ -1062,7 +1063,7 @@ export default async function PushoverAlternativePage({
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
-                href={APP_STORE_LINK}
+                href={getAppStoreLink(["pushover-alternative", "cta", lang])}
                 target="_blank"
                 className="rounded-full bg-orange-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-500"
               >

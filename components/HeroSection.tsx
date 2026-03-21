@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
 
-import { APP_STORE_LINK } from "@/constants";
+import { getAppStoreLink } from "@/constants";
 import { AnimatedShinyText } from "./magicui/animated-shiny-text";
 import { ArrowRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ import BentoGridsSectionNotificationList from "./BentoGridsSectionNotificationLi
 
 export default function HeroSection({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].hero;
+  const appStoreLink = getAppStoreLink(["home", "hero", lang]);
   const posts = [...blog.getPages(lang)].sort(
     (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
   );
@@ -46,7 +47,7 @@ export default function HeroSection({ lang }: { lang: Language }) {
               {t.description}
             </p>
             <div className="mt-6 flex items-center justify-center lg:justify-start gap-x-6">
-              <a href={APP_STORE_LINK} target="_blank">
+              <a href={appStoreLink} target="_blank">
                 <Image src={t.appStoreImage} alt="App Store" />
               </a>
               <Link

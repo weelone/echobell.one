@@ -9,11 +9,11 @@ authorLink: https://nooc.me
 
 # EchobellでHuggingFaceの活動をリアルタイム監視：AIリポジトリのWebhook通知
 
-HuggingFaceにはモデルの更新、ディスカッション、プルリクエストで発火するWebhookシステムが組み込まれています。これを[Echobell](https://apps.apple.com/app/id6743597198)に接続することで、これらのイベントを即時のスマートフォン通知に変換できます。本番依存関係の破壊的変更を早期に察知したり、チームのリポジトリ活動を把握するのに役立ちます。
+HuggingFaceにはモデルの更新、ディスカッション、プルリクエストで発火するWebhookシステムが組み込まれています。これを[Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9ytc&mt=8)に接続することで、これらのイベントを即時のスマートフォン通知に変換できます。本番依存関係の破壊的変更を早期に察知したり、チームのリポジトリ活動を把握するのに役立ちます。
 
 ## ステップ1：Echobellチャンネルの作成
 
-1. [Echobell](https://apps.apple.com/app/id6743597198)をダウンロードしてサインイン
+1. [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-huggingface-notifications-wi-2e9ytc&mt=8)をダウンロードしてサインイン
 2. 新しいチャンネルを作成（例：「HuggingFace Updates」）
 3. HuggingFaceのWebhookペイロード変数を使って通知テンプレートを設定:
    - **タイトル**: `🤗 {{repo.name}}: {{event.action}}`
