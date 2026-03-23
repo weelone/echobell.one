@@ -31,17 +31,22 @@ export function middleware(request: NextRequest) {
   );
 
   if (pathnameIsMissingLocale) {
-    // Always redirect to the default locale so the homepage and all
-    // alternate-language paths have a single stable canonical entry point.
+    // Keep a stable locale-prefixed canonical path, but serve the bare
+    // homepage without a redirect so social crawlers can read its metadata.
     const locale = i18n.defaultLanguage;
     const normalizedPath =
       pathname !== "/" && pathname.endsWith("/")
         ? pathname.slice(0, -1)
         : pathname;
 
+    if (normalizedPath === "/") {
+      const rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = `/${locale}`;
+      return NextResponse.rewrite(rewriteUrl);
+    }
+
     const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname =
-      normalizedPath === "/" ? `/${locale}` : `/${locale}${normalizedPath}`;
+    redirectUrl.pathname = `/${locale}${normalizedPath}`;
 
     return NextResponse.redirect(redirectUrl, 308);
   }
