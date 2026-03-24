@@ -56,7 +56,7 @@ export function Footer({ lang }: { lang: Language }) {
                   {group.label}
                 </h4>
                 <ul className="mt-3 space-y-2.5 flex flex-col">
-                  <NavLinks links={group.links} />
+                  <NavLinks links={group.links} hoverBackground={false} />
                 </ul>
               </div>
             ))}
