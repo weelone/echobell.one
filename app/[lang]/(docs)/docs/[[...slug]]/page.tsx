@@ -30,7 +30,7 @@ export default async function Page(props: {
         <MDXContent
           components={{
             ...defaultMdxComponents,
-            a: (props) => <LocalizedMdxLink lang={lang} {...props} />,
+            a: (props) => <LocalizedMdxLink {...props} lang={lang} />,
             // you can add other MDX components here
           }}
         />

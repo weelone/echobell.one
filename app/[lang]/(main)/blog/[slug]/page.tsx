@@ -71,7 +71,7 @@ export default async function Page(props: {
             <Mdx
               components={{
                 ...defaultMdxComponents,
-                a: (props) => <LocalizedMdxLink lang={params.lang} {...props} />,
+                a: (props) => <LocalizedMdxLink {...props} lang={params.lang} />,
                 File,
                 Files,
                 Folder,
