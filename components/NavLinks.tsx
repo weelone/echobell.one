@@ -8,12 +8,14 @@ import { cn } from "@/lib/utils";
 export function NavLinks({
   links,
   className,
+  hoverBackground = true,
 }: {
   links: {
     label: string;
     href: string;
   }[];
   className?: string;
+  hoverBackground?: boolean;
 }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const timeoutRef = useRef<number | null>(null);
@@ -38,20 +40,22 @@ export function NavLinks({
         }, 200);
       }}
     >
-      <AnimatePresence>
-        {hoveredIndex === index && (
-          <motion.span
-            className="absolute inset-0 rounded-lg bg-neutral-500/20"
-            layoutId="hoverBackground"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.15 } }}
-            exit={{
-              opacity: 0,
-              transition: { duration: 0.15 },
-            }}
-          />
-        )}
-      </AnimatePresence>
+      {hoverBackground && (
+        <AnimatePresence>
+          {hoveredIndex === index && (
+            <motion.span
+              className="absolute inset-0 rounded-lg bg-neutral-500/20"
+              layoutId="hoverBackground"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.15 } }}
+              exit={{
+                opacity: 0,
+                transition: { duration: 0.15 },
+              }}
+            />
+          )}
+        </AnimatePresence>
+      )}
       <span className="relative z-10">{label}</span>
     </Link>
   ));
