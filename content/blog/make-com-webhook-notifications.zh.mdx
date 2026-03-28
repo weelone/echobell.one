@@ -1,0 +1,179 @@
+---
+title: "Make.com + Echobell：把任何自动化变成即时手机提醒"
+description: "学习如何将 Make.com 与 Echobell 连接，从任何自动化流程实时接收电话或推送通知——Shopify 订单、CRM 更新、支付失败等。"
+date: 2026-03-27
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Make.com
+  - 自动化
+  - Webhook 通知
+  - 无代码
+  - 集成
+---
+
+# Make.com + Echobell：把任何自动化变成即时手机提醒
+
+Make.com（前身是 Integromat）就是那种用着用着就会越来越离不开的工具。Make 的应用库里有超过 1,800 个应用，你可以把它们连接起来做到手工操作要花好几天的事情。
+
+Make 单独无法解决的一件事：自动化执行后，结果怎么才能真正通知到你？
+
+邮件太慢。Slack 消息堆着堆着就被忽略了。普通推送通知呢——如果手机屏幕朝下或者开着专注模式，跟没通知没什么区别。
+
+这就是 Echobell 的用武之地。一旦把 Make 的场景连接到 Echobell 频道，你就拥有了完整的选项：普通推送、能穿透专注模式的紧急提醒，或者真实的来电提醒——用于那些等不起的情况。
+
+下面是具体的配置方法，以及几个值得搭建的真实场景。
+
+## 配置步骤（约 3 分钟）
+
+**第一步：创建 Echobell 频道**
+
+在 Echobell 应用里新建一个频道，取一个能反映用途的名字——比如 `Shopify 紧急订单`、`Stripe 支付失败`，或者符合你业务的命名。复制 Webhook URL。
+
+**第二步：在 Make 中添加 HTTP 模块**
+
+在 Make 场景中添加一个新模块，搜索 **HTTP > 发起请求**。配置如下：
+
+- **URL**：你的 Echobell Webhook URL
+- **方法**：POST
+- **请求体类型**：Raw
+- **内容类型**：application/json
+
+**第三步：设置 payload**
+
+请求体格式如下：
+
+```json
+{
+  "title": "你的提醒标题",
+  "body": "发生了什么的详细信息",
+  "notificationType": "time-sensitive"
+}
+```
+
+你可以使用 Make 的动态变量，把场景前面步骤中的数据填进去，让通知真正有用。
+
+这就是核心模式。其余的只是选对触发器和合适的紧急级别。
+
+---
+
+## 五个值得搭建的场景
+
+### 1. 高价值电商订单
+
+**触发器**：Shopify / WooCommerce / Wix Stores——超过特定金额的新订单，或需要人工审核的订单
+
+经营网店的话，你大概不想整天盯着后台。但你确实希望第一时间知道：大额订单进来了，高风险订单需要复核，或者出现了履单问题。
+
+```json
+{
+  "title": "新订单：{{order.name}}",
+  "body": "{{customer.first_name}} {{customer.last_name}} — {{order.total_price}} {{order.currency}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+对于被标记为欺诈嫌疑的订单，换用 `calling`，让手机真的响起来。
+
+### 2. 新线索通知
+
+**触发器**：Typeform、HubSpot、Salesforce、Pipedrive——新联系人创建，或一个商机进入了热门阶段
+
+对于创始人主导销售或者小型销售团队来说，快速响应新线索往往决定成败。在潜在客户提交 demo 申请的那一刻，手机就震动了，意味着你可以在他还记着你的时候跟进。
+
+```json
+{
+  "title": "新 demo 申请：{{contact.name}}",
+  "body": "{{contact.email}} — {{form.company}} — 注册时间 {{now}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+### 3. 支付失败通知
+
+**触发器**：Stripe、Paddle、Chargebee——订阅扣款失败、退款申请创建
+
+支付失败看起来是小事，但积少成多。用 Make 监控支付处理器，在问题发生时立即触发 Echobell 通知，你就能赶在客户流失或提出争议之前快速处理。
+
+```json
+{
+  "title": "支付失败：{{customer.email}}",
+  "body": "{{invoice.amount_due}} {{invoice.currency}} — {{failure_message}}",
+  "notificationType": "calling"
+}
+```
+
+这个场景值得用 `calling`——收入损失是打断手头工作的充分理由。
+
+### 4. 库存与运营提醒
+
+**触发器**：Airtable、Google Sheets、Notion——某行数据发生变化、某字段超过阈值、某状态发生切换
+
+很多业务运转依赖电子表格和数据库。Make 可以持续监控这些系统，在需要你处理的时候第一时间通知你：库存低于最低水位、配送状态变成"失败"、计划任务被标记为超期……
+
+```json
+{
+  "title": "库存不足：{{item.name}}",
+  "body": "仅剩 {{item.quantity}} 件——补货点为 {{item.reorder_level}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+### 5. 通过第三方服务进行监控和可用性检测
+
+**触发器**：Datadog、Better Uptime、PagerDuty、Freshping——当 Make 收到监控服务发来的 Webhook，且你想升级为来电提醒时
+
+如果你的监控工具向 Make 发送 Webhook，你可以先丰富告警内容——拉取额外上下文、查一下状态页面、写入数据库——再发出带有完整信息的 Echobell 通知。
+
+```json
+{
+  "title": "告警：{{monitor.name}} 宕机了",
+  "body": "错误：{{monitor.error}} — 故障开始时间 {{monitor.started_at}}",
+  "notificationType": "calling"
+}
+```
+
+---
+
+## 选对通知类型
+
+共有三种选项，选对了可以让提醒保持有用而不是令人烦躁：
+
+| 类型 | 行为 | 适用场景 |
+|---|---|---|
+| `active` | 普通推送通知 | 日常信息性更新 |
+| `time-sensitive` | 穿透 iOS 专注模式 | 需要在几分钟内处理的重要事项 |
+| `calling` | 像真实来电一样响铃 | 生产故障或影响收入的严重问题 |
+
+`calling` 类型需要高级订阅——把它当成火警对待。如果什么都会触发来电，来电就失去了意义。
+
+---
+
+## 与团队共享提醒
+
+如果一个通知需要同时发给多人，Echobell 的频道模型天然支持这种方式。创建一个频道，把订阅链接分享给需要接收通知的人，所有订阅者在场景触发时都会收到提醒。
+
+对于小团队来说，这是一种干净的共享监控方式，无需配置复杂的路由规则。值班人员换班时，老值班人退订，新值班人订阅，搞定。
+
+---
+
+## 还有一件事：Make + 邮件触发
+
+并非所有系统都能接入 Make，有些只支持发邮件。Echobell 为每个频道提供唯一的 `@echobell.app` 邮箱地址。你可以用 Make 监控 Gmail 收件箱，按发件人或主题过滤，再将匹配的邮件转发给 Echobell——或者完全不经过 Make，直接将邮件转发给频道地址。
+
+无论哪种方式，一封邮件就能变成 Echobell 通知，变成推送或来电。
+
+---
+
+## 从哪里开始
+
+如果你已经在用 Make，最简单的起点是：挑一个现有的场景——错过事件会真正带来损失的那个——在末尾加一个 HTTP 模块。五分钟的事。感受一下对那件具体的事情收到一条可靠、难以忽视的通知是什么感觉。
+
+然后从那里慢慢扩展。
+
+- [iPhone 的 Webhook 通知](/en/features/webhooks)
+- [重大事件的来电提醒](/en/features/call-notifications)
+- [Zapier Webhook 通知到手机](/en/blog/zapier-webhook-notifications-to-phone)
+- [n8n 自动化与 Echobell 集成](/en/blog/n8n-echobell-automation-hub)
+- [如何为紧急告警绕过 iOS 专注模式](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)

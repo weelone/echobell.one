@@ -1,0 +1,179 @@
+---
+title: "Make.com + Echobell: Jede Automatisierung in eine sofortige Benachrichtigung verwandeln"
+description: "So verbindest du Make.com mit Echobell und erhältst Echtzeit-Telefonanrufe oder Push-Benachrichtigungen aus jeder Automatisierung — Shopify-Bestellungen, CRM-Updates, Zahlungsfehler und mehr."
+date: 2026-03-27
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Make.com
+  - Automatisierung
+  - Webhook-Benachrichtigungen
+  - No-Code
+  - Integrationen
+---
+
+# Make.com + Echobell: Jede Automatisierung in eine sofortige Benachrichtigung verwandeln
+
+Make.com (früher Integromat) ist eines dieser Tools, die man immer öfter benutzt, je länger man dabei ist. Es gibt über 1.800 Apps in der Make-Bibliothek, und man kann sie auf Arten verknüpfen, die manuell tagelang dauern würden.
+
+Was Make allein nicht gut löst: Wie dich diese Automatisierungen erreichen, wenn wirklich etwas passiert.
+
+E-Mails fühlen sich langsam an. Slack-Benachrichtigungen häufen sich an und werden ignoriert. Und eine einfache Push-Benachrichtigung — wenn dein Handy mit dem Display nach unten liegt oder im Fokus-Modus ist, hättest du genauso gut gar nicht benachrichtigt werden können.
+
+Hier kommt Echobell ins Spiel. Sobald du ein Make-Szenario mit einem Echobell-Kanal verbindest, hast du die volle Bandbreite: eine Standard-Push-Nachricht, eine zeitkritische Benachrichtigung, die den Fokus-Modus durchbricht, oder ein echter Telefonanruf für Dinge, die nicht warten können.
+
+So richtest du es ein — und einige konkrete Szenarien, die sich lohnen.
+
+## Die Einrichtung (dauert etwa 3 Minuten)
+
+**Schritt 1: Einen Echobell-Kanal erstellen**
+
+Erstelle in der Echobell-App einen neuen Kanal und gib ihm einen Namen, der widerspiegelt, was er übertragen wird — `Shopify Dringende Bestellungen`, `Stripe-Fehler` oder was auch immer passt. Kopiere die Webhook-URL.
+
+**Schritt 2: Ein HTTP-Modul in Make hinzufügen**
+
+Füge in deinem Make-Szenario ein neues Modul hinzu. Suche nach **HTTP > Anfrage stellen**. Konfiguriere es:
+
+- **URL**: deine Echobell-Webhook-URL
+- **Methode**: POST
+- **Body-Typ**: Raw
+- **Content-Type**: application/json
+
+**Schritt 3: Das Payload festlegen**
+
+Der Body sollte so aussehen:
+
+```json
+{
+  "title": "Dein Benachrichtigungstitel",
+  "body": "Details darüber, was passiert ist",
+  "notificationType": "time-sensitive"
+}
+```
+
+Du kannst die dynamischen Werte von Make verwenden — Daten aus früheren Schritten im Szenario einbinden, damit die Benachrichtigung wirklich etwas Nützliches sagt.
+
+Das ist das Grundmuster. Alles andere ist nur die Wahl des richtigen Triggers und der richtigen Dringlichkeitsstufe.
+
+---
+
+## Fünf Szenarien, die sich lohnen
+
+### 1. Hochwertige E-Commerce-Bestellungen
+
+**Trigger**: Shopify / WooCommerce / Wix Stores — neue Bestellung über einem bestimmten Wert oder zur manuellen Überprüfung markiert.
+
+Wenn du einen Online-Shop betreibst, willst du wahrscheinlich nicht den ganzen Tag auf das Dashboard starren. Aber du willst sofort wissen, wenn eine große Bestellung eingeht, wenn eine risikobehaftete Bestellung überprüft werden muss oder wenn ein Fulfillment-Problem auftritt.
+
+```json
+{
+  "title": "Neue Bestellung: {{order.name}}",
+  "body": "{{customer.first_name}} {{customer.last_name}} — {{order.total_price}} {{order.currency}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+Für betrugsverdächtige Bestellungen wechsle zu `calling`, damit es wirklich klingelt.
+
+### 2. Neue Lead-Benachrichtigungen
+
+**Trigger**: Typeform, HubSpot, Salesforce, Pipedrive — neuer Kontakt erstellt oder ein Deal wechselt in eine heiße Phase.
+
+Für jeden, der Founder-geführten Vertrieb betreibt oder ein kleines Sales-Team führt, kann eine schnelle Reaktion auf einen neuen Lead einen Deal entscheiden. Eine Handy-Vibration in dem Moment, in dem ein Lead eine Demo-Anfrage stellt, bedeutet, dass du nachfassen kannst, während er noch an dich denkt.
+
+```json
+{
+  "title": "Neue Demo-Anfrage: {{contact.name}}",
+  "body": "{{contact.email}} — {{form.company}} — angemeldet {{now}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+### 3. Zahlungsfehler
+
+**Trigger**: Stripe, Paddle, Chargebee — Abonnementzahlung fehlgeschlagen, Rückbuchung erstellt.
+
+Fehlgeschlagene Zahlungen sehen klein aus, summieren sich aber schnell. Ein Make-Szenario, das deinen Zahlungsdienstleister überwacht, kann eine sofortige Echobell-Benachrichtigung auslösen, damit du schnell handeln kannst — bevor der Kunde abwandert oder den Betrag anficht.
+
+```json
+{
+  "title": "Zahlung fehlgeschlagen: {{customer.email}}",
+  "body": "{{invoice.amount_due}} {{invoice.currency}} — {{failure_message}}",
+  "notificationType": "calling"
+}
+```
+
+Hier lohnt es sich, `calling` zu verwenden — Umsatzverlust ist ein guter Grund, die aktuelle Tätigkeit zu unterbrechen.
+
+### 4. Lager- und Betriebsbenachrichtigungen
+
+**Trigger**: Airtable, Google Sheets, Notion — eine Zeile ändert sich, ein Feld überschreitet einen Schwellenwert, ein Status kippt.
+
+Viele Abläufe laufen über Tabellenkalkulationen und Datenbanken. Make kann diese überwachen und dich benachrichtigen, sobald etwas deine Aufmerksamkeit braucht: Der Bestand fällt unter das Minimum, ein Lieferstatus springt auf "fehlgeschlagen" oder eine geplante Aufgabe wird als überfällig markiert.
+
+```json
+{
+  "title": "Niedriger Bestand: {{item.name}}",
+  "body": "Nur noch {{item.quantity}} übrig — Nachbestellpunkt war {{item.reorder_level}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+### 5. Monitoring und Uptime über Drittanbieter-Dienste
+
+**Trigger**: Datadog, Better Uptime, PagerDuty, Freshping — wenn Make einen Webhook von deinem Monitoring-Dienst empfängt und du auf einen Telefonanruf eskalieren möchtest.
+
+Wenn dein Monitoring-Tool einen Webhook an Make sendet, kannst du den Alert anreichern — zusätzlichen Kontext hinzuziehen, eine Statusseite prüfen, in eine Datenbank loggen — und dann eine Echobell-Benachrichtigung mit dem vollständigen Bild auslösen.
+
+```json
+{
+  "title": "ALERT: {{monitor.name}} ist ausgefallen",
+  "body": "Fehler: {{monitor.error}} — Ausfall begann {{monitor.started_at}}",
+  "notificationType": "calling"
+}
+```
+
+---
+
+## Die richtige Benachrichtigungsart wählen
+
+Es gibt drei Optionen, und die richtige Wahl hält Alerts nützlich statt lästig:
+
+| Typ | Was er tut | Am besten für |
+|---|---|---|
+| `active` | Standard-Push-Benachrichtigung | Routinemäßige informative Updates |
+| `time-sensitive` | Durchbricht den iOS Fokus-Modus | Dinge, auf die du innerhalb von Minuten reagieren solltest |
+| `calling` | Vollständiges Klingeln wie ein eingehender Anruf | Umsatzkritische oder Produktionsfehler |
+
+Der `calling`-Typ erfordert ein Premium-Abonnement — behandle ihn wie einen Feueralarm. Wenn alles klingelt, bedeutet nichts mehr etwas.
+
+---
+
+## Alerts mit einem Team teilen
+
+Wenn eine Benachrichtigung mehrere Personen erreichen soll, löst das das Kanal-Modell von Echobell ganz natürlich. Erstelle einen Kanal, teile den Abonnement-Link mit denjenigen, die ihn erhalten sollen, und jeder, der abonniert, bekommt den Alert, wenn das Szenario ausgelöst wird.
+
+Das ist eine übersichtliche Methode für ein kleines Team, gemeinsames Monitoring zu betreiben, ohne komplexe Routing-Regeln einzurichten. Wenn die Bereitschaftsperson wechselt, kündigt die alte das Abonnement und die neue abonniert. Das war's.
+
+---
+
+## Noch etwas: Make + E-Mail-Trigger
+
+Nicht alle Systeme sprechen mit Make. Manche senden nur E-Mails. Echobell gibt jedem Kanal eine eindeutige `@echobell.app`-E-Mail-Adresse. Du kannst Make einen Gmail-Posteingang überwachen lassen, nach bestimmten Absendern oder Betreffzeilen filtern und passende E-Mails an Echobell weiterleiten — oder E-Mails direkt an die Kanaladresse weiterleiten, ohne Make dazwischen.
+
+So oder so: Eine E-Mail wird zu einer Echobell-Benachrichtigung, die zu einem Push oder einem Klingeln wird.
+
+---
+
+## Wo anfangen
+
+Wenn du Make bereits nutzt, ist der einfachste Weg, ein vorhandenes Szenario zu nehmen — das eine, bei dem ein verpasstes Ereignis wirklich etwas kostet — und am Ende ein HTTP-Modul hinzuzufügen. Fünf Minuten Arbeit. Schau, wie es sich anfühlt, für genau dieses Ding eine zuverlässige, schwer zu ignorierende Benachrichtigung zu bekommen.
+
+Dann von dort aus erweitern.
+
+- [Webhook-Benachrichtigungen für iPhone](/en/features/webhooks)
+- [Telefonanruf-Alerts für kritische Vorfälle](/en/features/call-notifications)
+- [Zapier-Webhook-Benachrichtigungen aufs Telefon](/en/blog/zapier-webhook-notifications-to-phone)
+- [n8n Automatisierungs-Hub mit Echobell](/en/blog/n8n-echobell-automation-hub)
+- [Wie man iOS Fokus-Modus für kritische Alerts umgeht](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)

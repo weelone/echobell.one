@@ -1,0 +1,179 @@
+---
+title: "Make.com + Echobell: Turn Any Automation Into an Instant Phone Alert"
+description: "Learn how to connect Make.com with Echobell to get real-time phone call or push notifications from any automation — Shopify orders, CRM updates, payment failures, and more."
+date: 2026-03-27
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Make.com
+  - automation
+  - webhook notifications
+  - no-code
+  - integrations
+---
+
+# Make.com + Echobell: Turn Any Automation Into an Instant Phone Alert
+
+Make.com (formerly Integromat) is one of those tools that, once you start using it, you keep finding new reasons to use it. There are over 1,800 apps in the Make library, and you can wire them together in ways that would take days to build manually.
+
+The one thing Make doesn't solve well on its own: how those automations reach you when something actually happens.
+
+Email feels slow. Slack notifications pile up and get ignored. And a basic push notification — well, if your phone is face-down or in Focus Mode, you might as well have not been notified at all.
+
+This is where Echobell plugs in. Once you connect a Make scenario to an Echobell channel, you get the full range: a standard push, a time-sensitive alert that punches through Focus Mode, or an actual phone call for the things that can't wait.
+
+Here's how to set it up, and some concrete scenarios worth building.
+
+## The Setup (It Takes About 3 Minutes)
+
+**Step 1: Create an Echobell channel**
+
+In the Echobell app, create a new channel and give it a name that reflects what it will carry — `Shopify Urgent Orders`, `Stripe Failures`, or whatever fits. Copy the webhook URL.
+
+**Step 2: Add an HTTP module in Make**
+
+In your Make scenario, add a new module. Search for **HTTP > Make a request**. Configure it:
+
+- **URL**: your Echobell webhook URL
+- **Method**: POST
+- **Body type**: Raw
+- **Content type**: application/json
+
+**Step 3: Set the payload**
+
+The body should look like this:
+
+```json
+{
+  "title": "Your alert title here",
+  "body": "Details about what happened",
+  "notificationType": "time-sensitive"
+}
+```
+
+You can use Make's dynamic values — pull in data from earlier in the scenario so the notification actually says something useful.
+
+That's the core pattern. Everything else is just picking the right trigger and the right urgency level.
+
+---
+
+## Five Scenarios Worth Building
+
+### 1. High-Priority E-Commerce Orders
+
+**Trigger**: Shopify / WooCommerce / Wix Stores — new order over a certain value, or flagged for manual review.
+
+If you run an online store, you probably don't want to stare at the dashboard all day. But you do want to know immediately when a large order comes in, when a high-risk order needs review, or when a fulfillment issue appears.
+
+```json
+{
+  "title": "New order: {{order.name}}",
+  "body": "{{customer.first_name}} {{customer.last_name}} — {{order.total_price}} {{order.currency}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+For fraud-flagged orders, switch to `calling` so it actually rings.
+
+### 2. New Lead Notifications
+
+**Trigger**: Typeform, HubSpot, Salesforce, Pipedrive — new contact created, or a deal moves into a hot stage.
+
+For anyone doing founder-led sales or running a small sales team, a fast response to a new lead can make or break a deal. Getting a phone buzz the moment a lead submits a demo request means you can follow up while they're still thinking about you.
+
+```json
+{
+  "title": "New demo request: {{contact.name}}",
+  "body": "{{contact.email}} — {{form.company}} — signed up {{now}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+### 3. Payment Failures
+
+**Trigger**: Stripe, Paddle, Chargebee — subscription payment failed, chargeback created.
+
+Failed payments are one of those things that look small but add up fast. A Make scenario watching your payment processor can fire an immediate Echobell notification so you can act quickly — before the customer churns or disputes the charge.
+
+```json
+{
+  "title": "Payment failed: {{customer.email}}",
+  "body": "{{invoice.amount_due}} {{invoice.currency}} — {{failure_message}}",
+  "notificationType": "calling"
+}
+```
+
+This one is worth using `calling` for — revenue loss is a pretty good reason to interrupt what you're doing.
+
+### 4. Inventory and Ops Alerts
+
+**Trigger**: Airtable, Google Sheets, Notion — a row changes, a field crosses a threshold, a status flips.
+
+Lots of operations run on spreadsheets and databases. Make can watch those and notify you the moment something needs attention: stock drops below minimum, a delivery status flips to "failed", or a scheduled task gets marked overdue.
+
+```json
+{
+  "title": "Low stock: {{item.name}}",
+  "body": "Only {{item.quantity}} left — reorder point was {{item.reorder_level}}",
+  "notificationType": "time-sensitive"
+}
+```
+
+### 5. Monitoring and Uptime via Third-Party Services
+
+**Trigger**: Datadog, Better Uptime, PagerDuty, Freshping — when Make receives a webhook from your monitoring service and you want to escalate to a phone call.
+
+If your monitoring tool sends a webhook to Make, you can enrich the alert — pull in additional context, check a status page, log to a database — and then fire an Echobell notification with the full picture.
+
+```json
+{
+  "title": "ALERT: {{monitor.name}} is down",
+  "body": "Error: {{monitor.error}} — downtime started {{monitor.started_at}}",
+  "notificationType": "calling"
+}
+```
+
+---
+
+## Picking the Right Notification Type
+
+There are three options, and choosing correctly keeps alerts useful instead of annoying:
+
+| Type | What it does | Best for |
+|---|---|---|
+| `active` | Standard push notification | Routine informational updates |
+| `time-sensitive` | Breaks through iOS Focus Mode | Things you should act on within minutes |
+| `calling` | Full phone ring like an incoming call | Revenue-critical or production failures |
+
+The `calling` type requires a premium subscription — treat it like a fire alarm. If everything rings, nothing means anything.
+
+---
+
+## Sharing Alerts With a Team
+
+If a notification should reach multiple people, Echobell channels handle that naturally. Create a channel, share the subscription link with whoever should receive it, and everyone who subscribes gets the alert when the scenario fires.
+
+This is a clean way to run shared monitoring for a small team without setting up complex routing rules. When the on-call person changes, they unsubscribe and the next person subscribes. That's it.
+
+---
+
+## One More Thing: Make + Email Trigger
+
+Not all systems talk to Make. Some only send emails. Echobell gives each channel a unique `@echobell.app` email address. You can have Make watch a Gmail inbox, filter for specific senders or subject lines, and forward matching emails to Echobell — or just forward emails directly to the channel address without Make in the loop at all.
+
+Either way, an email becomes an Echobell notification, which becomes a push or a phone ring.
+
+---
+
+## Where to Start
+
+If you're already using Make, the easiest path is to pick one scenario you have today — the one where a missed event actually costs something — and add an HTTP module at the end. Five minutes of work. See how it feels to get a reliable, hard-to-ignore notification for that specific thing.
+
+Then expand from there.
+
+- [Webhook notifications for iPhone](/en/features/webhooks)
+- [Phone call alerts for critical incidents](/en/features/call-notifications)
+- [Zapier webhook notifications to phone](/en/blog/zapier-webhook-notifications-to-phone)
+- [n8n automation hub with Echobell](/en/blog/n8n-echobell-automation-hub)
+- [How to bypass iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
