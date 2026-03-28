@@ -1,0 +1,99 @@
+---
+title: "Grafana OnCall Is Shutting Down: How to Keep Phone Call Alerts Working"
+description: "Grafana OnCall OSS Cloud Connection shut down on March 24, 2026. Here is what that means for your on-call setup and how to restore phone call alerts with Echobell."
+date: 2026-03-28
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Grafana OnCall
+  - on-call management
+  - alert notifications
+  - phone call alerts
+  - migration
+---
+
+# Grafana OnCall Is Shutting Down: How to Keep Phone Call Alerts Working
+
+On March 24, 2026, Grafana Labs deactivated the Cloud Connection that powers SMS, phone calls, and mobile push notifications for self-hosted Grafana OnCall deployments. If you are running Grafana OnCall OSS, your phone call alerts stopped working four days ago.
+
+This was not sudden. Grafana announced the maintenance mode transition back in March 2025, giving teams a year to plan. But the options on the table — migrate to Grafana Cloud IRM or find something else — both require real work, and the deadline has now passed.
+
+Here is what happened, what breaks, and what you can do today.
+
+## What Grafana OnCall's shutdown actually means
+
+Grafana OnCall OSS has been in maintenance mode since March 11, 2025. The repository is still open source under AGPLv3 and you can still fork it, but Grafana Labs stopped adding features and limited fixes to critical CVEs only.
+
+The more important cutoff was March 24, 2026: the Cloud Connection service was permanently deactivated. This service handled all outbound notifications that required Grafana infrastructure:
+
+- SMS alerts
+- Phone call escalations
+- Mobile push notifications via the Grafana OnCall app
+
+If you relied on any of these to wake people up during incidents, those channels are now gone.
+
+Webhook-based notifications to Slack, PagerDuty, or custom endpoints still work since they never depended on the Cloud Connection — but for teams that used on-call phone calls as their last line of defense against a missed alert, there is now a gap.
+
+## The official path and its tradeoffs
+
+Grafana's recommended migration path is Grafana Cloud IRM. It consolidates the old OnCall and Incident functionality into a single cloud product, and migration tooling exists for teams coming from PagerDuty, Opsgenie, and Splunk OnCall.
+
+The tradeoff is cost and architecture. Grafana Cloud IRM is cloud-only — there is no self-hosted option. Pricing runs roughly $419/month for a 20-person team. For small teams or organizations with strict data residency requirements, that changes the calculus significantly.
+
+If you are happy to move your entire on-call operation to Grafana Cloud IRM, that is a complete solution. But if your goal is narrower — specifically, getting phone call alerts for critical Grafana alerts without overhauling your setup — there is a lighter path.
+
+## Restoring phone call alerts with Echobell
+
+[Echobell](https://apps.apple.com/app/apple-store/id6743748445?ct=blog-grafana-oncall-sunset-en) is a mobile app that turns webhook calls into phone call alerts, time-sensitive notifications, or standard pushes. It does not replace your entire on-call management workflow, but it does replace the specific piece that the Cloud Connection handled: making your phone ring when something important breaks.
+
+The setup works with your existing Grafana alert rules unchanged.
+
+### Step 1 — Create a channel in Echobell
+
+Download Echobell and create a new channel. Set the notification type to **Calling** — this is what makes your phone ring rather than silently delivering a push.
+
+### Step 2 — Add Echobell as a Grafana contact point
+
+In Grafana, go to Alerting → Contact points → New contact point. Choose **Webhook** and paste your Echobell channel's webhook URL:
+
+`https://hook.echobell.one/t/YOUR_CHANNEL_ID`
+
+You can find this URL in your channel settings inside the app.
+
+### Step 3 — Route critical alerts to Echobell
+
+Update your notification policies to route high-severity alerts to the Echobell contact point. Keep your existing Slack or email contact points for lower-priority alerts — Echobell is for the alerts that need to wake someone up.
+
+### Step 4 — Test it
+
+Click **Test** on the contact point. Your phone should ring within a few seconds.
+
+That is the core setup. From this point, your Grafana alerts fire → Echobell receives the webhook → your phone rings.
+
+## Handling escalation and team coverage
+
+For on-call rotations, Echobell channels can be shared with multiple team members. Everyone subscribed to a channel gets notified when an alert fires. You can configure retry behavior so that if the first person does not respond, the call repeats.
+
+Echobell also supports three urgency tiers you can map to different alert severities:
+
+- **Calling** — rings like a phone call, breaks through iOS Focus Mode and Do Not Disturb
+- **Time-sensitive** — appears immediately on the lock screen without ringing
+- **Normal** — standard push notification
+
+Map these to your Grafana alert severity levels: `critical` to calling, `warning` to time-sensitive, `info` to normal.
+
+## What you lose versus Grafana OnCall
+
+Echobell is not a full on-call management platform. It does not have rotation schedules, escalation trees, or incident timelines. If you need those, you need a dedicated platform — PagerDuty, All Quiet, or Grafana Cloud IRM itself.
+
+What Echobell covers is the notification delivery layer: making sure that when your alerting system fires, the right people actually hear about it. For teams where that was the primary value of Grafana OnCall's Cloud Connection, Echobell can fill that gap with minimal setup and no per-seat infrastructure cost.
+
+---
+
+## Related
+
+- [Phone call notifications for Grafana alerts](/en/blog/grafana-call-notification)
+- [Getting phone call alerts when your API goes down](/en/blog/phone-call-alerts-api-downtime)
+- [Bypassing iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Grafana integration docs](/en/docs/developer/grafana)

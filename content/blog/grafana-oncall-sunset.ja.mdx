@@ -1,0 +1,99 @@
+---
+title: "Grafana OnCallのサービス終了：電話アラートを維持する方法"
+description: "Grafana OnCall OSSのCloud Connectionが2026年3月24日に停止しました。オンコール体制への影響と、Echobellで電話アラートを復旧する方法を解説します。"
+date: 2026-03-28
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Grafana OnCall
+  - オンコール管理
+  - アラート通知
+  - 電話アラート
+  - 移行
+---
+
+# Grafana OnCallのサービス終了：電話アラートを維持する方法
+
+2026年3月24日、Grafana Labsはセルフホスト型Grafana OnCallデプロイメントのSMS・電話・モバイルプッシュ通知を提供するCloud Connectionを永久停止しました。Grafana OnCall OSSを運用している場合、4日前から電話アラートが機能しなくなっています。
+
+これは突然の出来事ではありませんでした。GrafanaはメンテナンスモードへのTransitionを2025年3月に発表し、チームに1年間の準備期間を与えました。しかし、選択肢として提示されたGrafana Cloud IRMへの移行または代替手段の模索は、いずれも相当の作業量を必要とします。そして期限はすでに過ぎています。
+
+何が起きたのか、何が動かなくなったのか、そして今日から何ができるかを説明します。
+
+## Grafana OnCall停止が実際に意味すること
+
+Grafana OnCall OSSは2025年3月11日からメンテナンスモードに入っています。リポジトリはAGPLv3でオープンソースとして継続されており、フォークも可能ですが、Grafana Labsは新機能の追加を停止し、修正をCVSSスコア7.0以上の重大CVEのみに限定しました。
+
+より重要な節目は2026年3月24日で、Cloud Connectionサービスが永久停止されました。このサービスはGrafanaのインフラストラクチャを必要とするすべての送信通知を処理していました：
+
+- SMSアラート
+- 電話エスカレーション
+- Grafana OnCallアプリ経由のモバイルプッシュ通知
+
+インシデント発生時にチームを呼び起こすためにこれらのチャネルに依存していた場合、それらは今や使えなくなっています。
+
+Slack、PagerDutyやカスタムエンドポイントへのWebhookベースの通知は、Cloud Connectionに依存していなかったため引き続き機能しています。しかし、見逃しアラートへの最後の防衛線として電話アラートを使用していたチームには、今や空白が生まれています。
+
+## 公式移行パスとそのトレードオフ
+
+Grafanaが推奨する移行パスはGrafana Cloud IRMです。旧来のOnCallとIncident機能を単一のクラウド製品に統合し、PagerDuty、Opsgenie、Splunk OnCallからの移行ツールも提供されています。
+
+トレードオフはコストとアーキテクチャです。Grafana Cloud IRMはクラウド専用で、セルフホストオプションは存在しません。20名チームの場合、月額約419ドルが必要です。小規模チームや厳格なデータレジデンシー要件がある組織にとっては、コスト計算が大きく変わります。
+
+オンコール運用全体をGrafana Cloud IRMに移行するつもりであれば、それは完全なソリューションです。しかし、目標がより限定的な場合——つまり、既存の設定を大幅に変更せずにGrafanaの重要アラートに対する電話通知を復旧させたいだけであれば——より軽量なパスが存在します。
+
+## Echobellで電話アラートを復旧する
+
+[Echobell](https://apps.apple.com/app/apple-store/id6743748445?ct=blog-grafana-oncall-sunset-ja)は、Webhookコールを電話アラート、時間的に重要な通知、または標準プッシュに変換するモバイルアプリです。オンコール管理ワークフロー全体を置き換えるものではありませんが、Cloud Connectionが担っていた具体的な役割——重要な障害発生時に電話を鳴らすこと——を置き換えます。
+
+既存のGrafanaアラートルールを変更する必要はありません。
+
+### ステップ1 — Echobellでチャンネルを作成
+
+Echobellをダウンロードして新しいチャンネルを作成します。通知タイプを**着信音**に設定します——これにより、サイレントプッシュではなく実際に電話が鳴ります。
+
+### ステップ2 — GrafanaにEchobellをContact Pointとして追加
+
+Grafanaで、Alerting → Contact points → New contact pointに移動します。**Webhook**を選択し、EchobellチャンネルのWebhook URLを貼り付けます：
+
+`https://hook.echobell.one/t/YOUR_CHANNEL_ID`
+
+このURLはアプリ内のチャンネル設定で確認できます。
+
+### ステップ3 — 重要アラートをEchobellにルーティング
+
+高重要度のアラートをEchobell Contact Pointにルーティングするよう通知ポリシーを更新します。優先度の低いアラートには既存のSlackやメールのContact Pointを維持します——Echobellは誰かを呼び起こす必要があるアラートのためのものです。
+
+### ステップ4 — テスト
+
+Contact Pointの**テスト**をクリックします。数秒以内に電話が鳴るはずです。
+
+これが基本設定です。この時点から：Grafanaアラートが発火 → EchobellがWebhookを受信 → 電話が鳴る。
+
+## エスカレーションとチームカバレッジの管理
+
+オンコールローテーションには、Echobellのチャンネルを複数のチームメンバーと共有できます。チャンネルを購読しているすべての人がアラート発火時に通知を受け取ります。最初の人が応答しなかった場合に呼び出しを繰り返すリトライ動作を設定できます。
+
+Echobellは異なるアラート重要度にマッピングできる3段階の緊急度もサポートしています：
+
+- **着信音** — 電話のように鳴り、iOSの集中モードおよびおやすみモードを突破する
+- **時間的に重要** — 鳴動なしでロック画面に即座に表示される
+- **通常** — 標準プッシュ通知
+
+Grafanaのアラート重要度をこのようにマッピングします：`critical` → 着信音、`warning` → 時間的に重要、`info` → 通常。
+
+## Grafana OnCallと比較して失うもの
+
+Echobellは完全なオンコール管理プラットフォームではありません。ローテーションスケジュール、エスカレーションツリー、インシデントタイムラインはありません。それらが必要な場合は、専用プラットフォーム——PagerDuty、All Quiet、またはGrafana Cloud IRM自体——が必要です。
+
+Echobellがカバーするのは通知デリバリー層です：アラートシステムが発火したとき、適切な人々が実際に通知を受け取れるようにすること。Grafana OnCallのCloud Connectionの主な価値がそこにあったチームにとって、Echobellは最小限のセットアップとユーザーあたりのインフラコストなしにそのギャップを埋めることができます。
+
+---
+
+## 関連記事
+
+- [GrafanaアラートへのEchobellによる電話通知](/ja/blog/grafana-call-notification)
+- [APIダウン時に電話アラートを受け取る](/ja/blog/phone-call-alerts-api-downtime)
+- [重要アラートのためiOS集中モードを回避する](/ja/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Grafana統合ドキュメント](/ja/docs/developer/grafana)

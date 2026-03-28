@@ -1,0 +1,99 @@
+---
+title: "Grafana OnCall 即将关闭：如何继续接收电话告警"
+description: "Grafana OnCall OSS 云连接于 2026 年 3 月 24 日停止服务。本文介绍这对你的值班体系意味着什么，以及如何用 Echobell 恢复电话告警功能。"
+date: 2026-03-28
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Grafana OnCall
+  - 值班管理
+  - 告警通知
+  - 电话告警
+  - 迁移
+---
+
+# Grafana OnCall 即将关闭：如何继续接收电话告警
+
+2026 年 3 月 24 日，Grafana Labs 永久停用了为自托管 Grafana OnCall 部署提供短信、电话和移动推送通知的云连接（Cloud Connection）服务。如果你正在运行 Grafana OnCall OSS，你的电话告警在四天前就已停止工作。
+
+这并非突如其来。Grafana 早在 2025 年 3 月就宣布进入维护模式，给了各团队一年的时间来规划迁移。但摆在面前的两个选择——迁移到 Grafana Cloud IRM 或寻找其他方案——都需要实质性的工作量，而截止日期已经过去。
+
+以下是事情的来龙去脉、受影响的功能，以及你今天可以采取的行动。
+
+## Grafana OnCall 关闭究竟意味着什么
+
+Grafana OnCall OSS 自 2025 年 3 月 11 日起进入维护模式。该代码仓库仍以 AGPLv3 开源协议运行，你可以 fork 它继续使用，但 Grafana Labs 已停止新功能开发，修复工作仅限于 CVSS 评分 7.0 以上的严重安全漏洞。
+
+更关键的截止点是 2026 年 3 月 24 日：云连接服务被永久停用。该服务负责处理所有依赖 Grafana 基础设施的出站通知：
+
+- 短信告警
+- 电话升级通知
+- 通过 Grafana OnCall 应用发送的移动推送通知
+
+如果你依赖这些方式在事故发生时叫醒值班人员，这些渠道现在已经全部失效。
+
+基于 Webhook 的通知（发往 Slack、PagerDuty 或自定义端点）仍然正常工作，因为它们从未依赖云连接——但对于那些将电话告警作为最后一道防线的团队来说，现在出现了一个缺口。
+
+## 官方迁移路径及其取舍
+
+Grafana 推荐的迁移路径是 Grafana Cloud IRM，它将原有的 OnCall 和 Incident 功能整合为一个云端产品，并为从 PagerDuty、Opsgenie 和 Splunk OnCall 迁移过来的团队提供了迁移工具。
+
+但代价是成本和架构层面的改变。Grafana Cloud IRM 仅提供云端版本，没有自托管选项。一个 20 人团队的费用约为每月 419 美元。对于小团队或有严格数据驻留要求的组织而言，这会显著改变决策权衡。
+
+如果你愿意将整个值班运营迁移到 Grafana Cloud IRM，那是一个完整的解决方案。但如果你的目标更为具体——仅仅是在不大幅改变现有体系的情况下，为关键 Grafana 告警恢复电话通知功能——那么有一条更轻量的路径。
+
+## 用 Echobell 恢复电话告警
+
+[Echobell](https://apps.apple.com/app/apple-store/id6743748445?ct=blog-grafana-oncall-sunset-zh) 是一款移动应用，可将 Webhook 调用转换为电话告警、紧急通知或普通推送。它不会取代你完整的值班管理工作流，但它确实替代了云连接所承担的那个具体功能：在重要故障发生时让你的手机真正响起来。
+
+整个设置过程完全兼容你现有的 Grafana 告警规则，无需修改。
+
+### 第一步 — 在 Echobell 中创建频道
+
+下载 Echobell 并创建一个新频道。将通知类型设置为**来电铃声**——这才是让手机真正响铃的设置，而不仅仅是静默推送。
+
+### 第二步 — 在 Grafana 中添加 Echobell 联系点
+
+在 Grafana 中，进入 Alerting → Contact points → New contact point，选择 **Webhook**，然后粘贴你的 Echobell 频道 Webhook 地址：
+
+`https://hook.echobell.one/t/YOUR_CHANNEL_ID`
+
+你可以在应用内的频道设置中找到这个地址。
+
+### 第三步 — 将关键告警路由到 Echobell
+
+更新你的通知策略，将高严重级别的告警路由到 Echobell 联系点。对于优先级较低的告警，保留现有的 Slack 或邮件联系点——Echobell 专门用于那些需要叫醒人的告警。
+
+### 第四步 — 测试
+
+点击联系点上的**测试**按钮，你的手机应在几秒内响起。
+
+核心配置就这些。从此以后：Grafana 告警触发 → Echobell 接收 Webhook → 你的手机响铃。
+
+## 处理升级和团队覆盖
+
+对于值班轮换，Echobell 频道可以与多位团队成员共享。所有订阅该频道的人都会在告警触发时收到通知。你可以配置重试行为，如果第一个人没有响应，通知会自动重复。
+
+Echobell 还支持三个紧急级别，可以映射到不同的告警严重程度：
+
+- **来电铃声** — 像电话一样响铃，能穿透 iOS 专注模式和勿扰模式
+- **紧急通知** — 立即显示在锁屏上，但不响铃
+- **普通通知** — 标准推送通知
+
+建议这样映射你的 Grafana 告警严重级别：`critical` 对应来电铃声，`warning` 对应紧急通知，`info` 对应普通通知。
+
+## 与 Grafana OnCall 相比你会失去什么
+
+Echobell 不是一个完整的值班管理平台，它没有轮班日程、升级树或事故时间线。如果你需要这些功能，你需要一个专门的平台——PagerDuty、All Quiet 或 Grafana Cloud IRM 本身。
+
+Echobell 覆盖的是通知传递层：确保你的告警系统触发时，相关人员真的能收到通知。对于那些将云连接的主要价值定位于此的团队，Echobell 可以以最少的配置和无需按席位付费的方式填补这个缺口。
+
+---
+
+## 相关内容
+
+- [Grafana 告警的电话通知](/zh/blog/grafana-call-notification)
+- [API 宕机时接收电话告警](/zh/blog/phone-call-alerts-api-downtime)
+- [绕过 iOS 专注模式接收关键告警](/zh/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Grafana 集成文档](/zh/docs/developer/grafana)
