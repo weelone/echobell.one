@@ -38,7 +38,7 @@ export async function GET(
     <id>${link}</id>
     <updated>${updated}</updated>
     <summary>${escape(data.description ?? data.title)}</summary>
-    <author><name>${escape(data.author)}</name></author>
+    ${data.author ? `<author><name>${escape(data.author)}</name></author>` : ""}
   </entry>`;
     })
     .join("");
