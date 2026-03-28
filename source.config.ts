@@ -21,9 +21,9 @@ export const blog = defineCollections({
   type: "doc",
   dir: "content/blog",
   schema: frontmatterSchema.extend({
-    author: z.string(),
-    authorAvatarLink: z.string().url().or(z.string()),
-    authorLink: z.string().url(),
+    author: z.string().optional(),
+    authorAvatarLink: z.string().url().or(z.string()).optional(),
+    authorLink: z.string().url().optional(),
     date: z.date(),
     // Optional SEO fields
     image: z.string().url().optional(),

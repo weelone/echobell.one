@@ -60,22 +60,6 @@ export default async function Page({
                   {post.data.description}
                 </p>
               </div>
-              <div className="relative mt-8 flex items-center gap-x-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  alt={`${post.data.author} avatar`}
-                  src={post.data.authorAvatarLink}
-                  className="size-10 rounded-full bg-neutral-50"
-                />
-                <div className="text-sm/6">
-                  <p className="font-semibold opacity-90">
-                    <a href={post.data.authorLink}>
-                      <span className="absolute inset-0" />
-                      {post.data.author}
-                    </a>
-                  </p>
-                </div>
-              </div>
             </article>
           ))}
         </div>

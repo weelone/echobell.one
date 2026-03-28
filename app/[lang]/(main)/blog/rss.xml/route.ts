@@ -38,7 +38,7 @@ export async function GET(
       <guid isPermaLink="true">${link}</guid>
       <pubDate>${pub}</pubDate>
       <description>${escape(data.description ?? data.title)}</description>
-      <author>${escape(data.author)}</author>
+      ${data.author ? `<author>${escape(data.author)}</author>` : ""}
     </item>`;
     })
     .join("");

@@ -5,7 +5,7 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import { blog } from "@/lib/source";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import { Language, uiDictionary, localizeUrl, i18n } from "@/lib/i18n";
+import { Language, localizeUrl, i18n } from "@/lib/i18n";
 import { displayDate } from "@/lib/date";
 import { createBlogMetadata, baseUrl } from "@/lib/metadata";
 import { ArticleJsonLd } from "@/components/JsonLd";
@@ -32,7 +32,6 @@ export default async function Page(props: {
 }) {
   const params = await props.params;
   const page = blog.getPage([params.slug], params.lang);
-  const t = uiDictionary[params.lang].blog;
 
   if (!page) notFound();
 
@@ -46,7 +45,7 @@ export default async function Page(props: {
 
   return (
     <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-3xl">
         <Breadcrumb lang={params.lang} />
         <BreadcrumbJsonLd lang={params.lang} />
         {/* Structured data for the article */}
@@ -59,14 +58,20 @@ export default async function Page(props: {
           url={canonical}
           imageUrl={data.image}
         />
-        <div className="container px-0">
-          <h2 className="text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl">
+        <div>
+          <time
+            dateTime={new Date(data.date).toISOString()}
+            className="text-sm opacity-60"
+          >
+            {displayDate(new Date(data.date), params.lang)}
+          </time>
+          <h2 className="mt-2 text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl">
             {data.title}
           </h2>
           <p className="mt-2 text-lg/8 opacity-60">{data.description}</p>
         </div>
-        <article className="container flex flex-col px-0 py-8 lg:flex-row">
-          <div className="prose min-w-0 flex-1 lg:pr-8">
+        <article className="py-8">
+          <div className="prose">
             <InlineTOC className="mb-8" items={toc} />
             <Mdx
               components={{
@@ -79,18 +84,6 @@ export default async function Page(props: {
                 Tab,
               }}
             />
-          </div>
-          <div className="flex flex-col gap-4 border-l p-4 text-sm lg:w-[250px]">
-            <div>
-              <p className="mb-1 text-fd-muted-foreground">{t.writtenBy}</p>
-              <p className="font-medium">{data.author}</p>
-            </div>
-            <div>
-              <p className="mb-1 text-sm text-fd-muted-foreground">{t.at}</p>
-              <p className="font-medium">
-                {displayDate(new Date(data.date), params.lang)}
-              </p>
-            </div>
           </div>
         </article>
       </div>
@@ -133,7 +126,7 @@ export async function generateMetadata(props: {
     description: data.description ?? data.title,
     publishedTime,
     modifiedTime,
-    authors: [data.author],
+    authors: data.author ? [data.author] : [],
     tags,
     image: ogImageUrl,
     url: canonical,
