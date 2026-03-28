@@ -1,0 +1,99 @@
+---
+title: "Grafana OnCall wird eingestellt: So bleiben Telefonbenachrichtigungen erhalten"
+description: "Die Cloud Connection von Grafana OnCall OSS wurde am 24. März 2026 deaktiviert. Was das für dein On-Call-Setup bedeutet und wie du Telefonbenachrichtigungen mit Echobell wiederherstellen kannst."
+date: 2026-03-28
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Grafana OnCall
+  - On-Call-Management
+  - Alert-Benachrichtigungen
+  - Telefonbenachrichtigungen
+  - Migration
+---
+
+# Grafana OnCall wird eingestellt: So bleiben Telefonbenachrichtigungen erhalten
+
+Am 24. März 2026 hat Grafana Labs die Cloud Connection deaktiviert, die SMS-, Telefon- und mobile Push-Benachrichtigungen für selbst gehostete Grafana OnCall-Deployments bereitgestellt hat. Wer Grafana OnCall OSS betreibt, hat seit vier Tagen keine funktionierenden Telefonbenachrichtigungen mehr.
+
+Das kam nicht überraschend. Grafana kündigte den Wartungsmodus bereits im März 2025 an und gab Teams ein Jahr Zeit für die Planung. Die Optionen — Migration zu Grafana Cloud IRM oder eine andere Lösung finden — erfordern jedoch echten Aufwand, und die Frist ist nun abgelaufen.
+
+Was passiert ist, was nicht mehr funktioniert und was du heute tun kannst.
+
+## Was die Abschaltung von Grafana OnCall konkret bedeutet
+
+Grafana OnCall OSS befindet sich seit dem 11. März 2025 im Wartungsmodus. Das Repository ist weiterhin unter AGPLv3 Open Source und kann geforkt werden, aber Grafana Labs hat die Entwicklung neuer Funktionen eingestellt und Fixes auf kritische CVEs beschränkt.
+
+Der wichtigere Stichtag war der 24. März 2026: Der Cloud-Connection-Dienst wurde dauerhaft deaktiviert. Dieser Dienst verwaltete alle ausgehenden Benachrichtigungen, die Grafana-Infrastruktur benötigten:
+
+- SMS-Benachrichtigungen
+- Telefonische Eskalationen
+- Mobile Push-Benachrichtigungen über die Grafana OnCall App
+
+Wer diese Kanäle genutzt hat, um Teams bei Vorfällen zu alarmieren, hat jetzt eine Lücke im System.
+
+Webhook-basierte Benachrichtigungen an Slack, PagerDuty oder eigene Endpunkte funktionieren weiterhin, da sie nie von der Cloud Connection abhingen. Für Teams, die Telefonbenachrichtigungen als letzte Sicherheitsnetz gegen verpasste Alerts eingesetzt haben, ist jedoch eine Lücke entstanden.
+
+## Der offizielle Migrationspfad und seine Kompromisse
+
+Grafanas empfohlener Migrationspfad ist Grafana Cloud IRM. Es konsolidiert die alte OnCall- und Incident-Funktionalität in einem einzigen Cloud-Produkt, mit Migrationswerkzeugen für Teams aus PagerDuty, Opsgenie und Splunk OnCall.
+
+Der Kompromiss liegt bei Kosten und Architektur. Grafana Cloud IRM ist ausschließlich cloud-basiert — es gibt keine selbst gehostete Option. Der Preis liegt bei rund 419 USD/Monat für ein 20-Personen-Team. Für kleine Teams oder Organisationen mit strengen Datenschutzanforderungen verändert das die Kosten-Nutzen-Rechnung erheblich.
+
+Wer den gesamten On-Call-Betrieb zu Grafana Cloud IRM migrieren möchte, findet dort eine vollständige Lösung. Wer jedoch nur eine Sache braucht — Telefonbenachrichtigungen für kritische Grafana-Alerts ohne kompletten Umbau des bestehenden Setups — hat einen leichteren Weg.
+
+## Telefonbenachrichtigungen mit Echobell wiederherstellen
+
+[Echobell](https://apps.apple.com/app/apple-store/id6743748445?ct=blog-grafana-oncall-sunset-de) ist eine mobile App, die Webhook-Aufrufe in Telefonbenachrichtigungen, zeitkritische Benachrichtigungen oder normale Pushes umwandelt. Sie ersetzt nicht den gesamten On-Call-Workflow, aber sie ersetzt genau den Teil, den die Cloud Connection übernommen hatte: das Klingeln des Telefons, wenn etwas Wichtiges ausfällt.
+
+Das Setup funktioniert mit deinen bestehenden Grafana-Alert-Regeln ohne Änderungen.
+
+### Schritt 1 — Kanal in Echobell erstellen
+
+Echobell herunterladen und einen neuen Kanal erstellen. Den Benachrichtigungstyp auf **Anruf** setzen — das ist es, was das Telefon zum Klingeln bringt, anstatt still eine Push-Benachrichtigung zu senden.
+
+### Schritt 2 — Echobell als Grafana Contact Point hinzufügen
+
+In Grafana zu Alerting → Contact points → New contact point navigieren. **Webhook** auswählen und die Webhook-URL des Echobell-Kanals einfügen:
+
+`https://hook.echobell.one/t/YOUR_CHANNEL_ID`
+
+Diese URL ist in den Kanaleinstellungen in der App zu finden.
+
+### Schritt 3 — Kritische Alerts zu Echobell routen
+
+Die Benachrichtigungsrichtlinien aktualisieren, um Alerts mit hohem Schweregrad zum Echobell Contact Point zu routen. Bestehende Slack- oder E-Mail-Kontaktpunkte für niedrigpriorisierte Alerts beibehalten — Echobell ist für die Alerts, bei denen jemand geweckt werden muss.
+
+### Schritt 4 — Testen
+
+Auf **Test** beim Contact Point klicken. Das Telefon sollte innerhalb weniger Sekunden klingeln.
+
+Das ist das Grundsetup. Von diesem Punkt an: Grafana Alert feuert → Echobell empfängt den Webhook → Telefon klingelt.
+
+## Eskalation und Teamabdeckung
+
+Für On-Call-Rotationen können Echobell-Kanäle mit mehreren Teammitgliedern geteilt werden. Alle Abonnenten eines Kanals werden benachrichtigt, wenn ein Alert ausgelöst wird. Das Wiederholungsverhalten lässt sich konfigurieren, sodass der Anruf wiederholt wird, wenn die erste Person nicht antwortet.
+
+Echobell unterstützt drei Dringlichkeitsstufen, die verschiedenen Alert-Schweregraden zugeordnet werden können:
+
+- **Anruf** — klingelt wie ein Telefonanruf, durchbricht den iOS-Fokusmodus und Nicht-Stören
+- **Zeitkritisch** — erscheint sofort auf dem Sperrbildschirm ohne Klingeln
+- **Normal** — Standard-Push-Benachrichtigung
+
+Empfohlene Zuordnung: `critical` → Anruf, `warning` → Zeitkritisch, `info` → Normal.
+
+## Was im Vergleich zu Grafana OnCall fehlt
+
+Echobell ist keine vollständige On-Call-Management-Plattform. Sie bietet keine Schichtpläne, Eskalationsbäume oder Incident-Timelines. Wer das benötigt, braucht eine dedizierte Plattform — PagerDuty, All Quiet oder Grafana Cloud IRM selbst.
+
+Was Echobell abdeckt, ist die Benachrichtigungs-Lieferschicht: sicherstellen, dass die richtigen Personen tatsächlich informiert werden, wenn das Alarmsystem anschlägt. Für Teams, bei denen das der Hauptwert der Cloud Connection von Grafana OnCall war, kann Echobell diese Lücke mit minimalem Aufwand und ohne laufende Infrastrukturkosten schließen.
+
+---
+
+## Verwandte Beiträge
+
+- [Telefonbenachrichtigungen für Grafana-Alerts](/de/blog/grafana-call-notification)
+- [Telefonbenachrichtigungen bei API-Ausfällen](/de/blog/phone-call-alerts-api-downtime)
+- [iOS-Fokusmodus für kritische Alerts umgehen](/de/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Grafana-Integrationsdokumentation](/de/docs/developer/grafana)
