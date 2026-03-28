@@ -54,7 +54,7 @@ export default async function Page(props: {
           description={data.description ?? data.title}
           datePublished={new Date(data.date).toISOString()}
           dateModified={new Date(data.lastModified ?? data.date).toISOString()}
-          authorName={data.author}
+          authorName={data.author ?? ""}
           url={canonical}
           imageUrl={data.image}
         />
