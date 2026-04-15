@@ -1,8 +1,10 @@
-import { access, readFile } from "node:fs/promises";
-import path from "node:path";
 import { Language } from "@/lib/i18n";
+import rawContentFiles from "@/lib/rawContent.generated.json";
 
 type ContentKind = "docs" | "blog";
+type RawContentManifest = Record<ContentKind, Record<string, string>>;
+
+const rawContentManifest = rawContentFiles as RawContentManifest;
 
 function getLocaleSuffix(lang: Language): string {
   return lang === "en" ? "" : `.${lang}`;
@@ -17,7 +19,7 @@ function isSafeSlug(slug?: string[]): boolean {
         !part.includes("..") &&
         !part.includes("/") &&
         !part.includes("\\") &&
-        !part.includes(path.sep)
+        !part.includes(":")
     )
   );
 }
@@ -36,15 +38,6 @@ function getRelativePathCandidates(
   return [`${basePath}${localeSuffix}.mdx`, `${basePath}/index${localeSuffix}.mdx`];
 }
 
-async function fileExists(filePath: string): Promise<boolean> {
-  try {
-    await access(filePath);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 export function getRawMarkdownPath(pagePath: string): string {
   const normalized = pagePath.endsWith("/") ? pagePath.slice(0, -1) : pagePath;
   return `/raw${normalized}`;
@@ -57,16 +50,15 @@ export async function readRawContentFile(
 ): Promise<{ content: string; filePath: string } | undefined> {
   if (!isSafeSlug(slug)) return undefined;
 
-  const contentRoot = path.join(process.cwd(), "content", kind);
+  const files = rawContentManifest[kind];
 
   for (const relativePath of getRelativePathCandidates(slug, lang)) {
-    const filePath = path.join(contentRoot, relativePath);
-
-    if (!(await fileExists(filePath))) continue;
+    const content = files[relativePath];
+    if (content === undefined) continue;
 
     return {
-      content: await readFile(filePath, "utf8"),
-      filePath,
+      content,
+      filePath: `content/${kind}/${relativePath}`,
     };
   }
 

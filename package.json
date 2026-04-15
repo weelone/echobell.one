@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "content:prepare": "fumadocs-mdx && npm run generate:raw-content",
+    "generate:raw-content": "node scripts/generate-raw-content.mjs",
+    "dev": "npm run content:prepare && next dev --turbopack",
+    "build": "npm run content:prepare && next build",
     "start": "next start",
     "lint": "eslint .",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "postinstall": "fumadocs-mdx"
+    "postinstall": "npm run content:prepare"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
