@@ -1,6 +1,6 @@
 "use client";
 
-import createGlobe, { COBEOptions } from "cobe";
+import createGlobe from "cobe";
 import { useMotionValue, useSpring } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
@@ -8,7 +8,52 @@ import { cn } from "@/lib/utils";
 
 const MOVEMENT_DAMPING = 1400;
 
-type GlobeConfig = Omit<COBEOptions, "width" | "height" | "onRender">;
+type GlobeMarker = {
+  location: [number, number];
+  size: number;
+  color?: [number, number, number];
+};
+
+type GlobeConfig = {
+  devicePixelRatio: number;
+  phi: number;
+  theta: number;
+  dark: number;
+  diffuse: number;
+  mapSamples: number;
+  mapBrightness: number;
+  baseColor: [number, number, number];
+  markerColor: [number, number, number];
+  glowColor: [number, number, number];
+  markers: GlobeMarker[];
+  mapBaseBrightness?: number;
+  opacity?: number;
+  offset?: [number, number];
+  scale?: number;
+  context?: WebGLContextAttributes;
+};
+
+type GlobeRenderState = {
+  phi?: number;
+  width?: number;
+  height?: number;
+};
+
+type GlobeInitOptions = GlobeConfig & {
+  width: number;
+  height: number;
+  onRender?: (state: GlobeRenderState) => void;
+};
+
+type GlobeInstance = {
+  destroy: () => void;
+  update?: (state: GlobeRenderState) => void;
+};
+
+const createGlobeCompat = createGlobe as unknown as (
+  canvas: HTMLCanvasElement,
+  options: GlobeInitOptions
+) => GlobeInstance;
 
 const GLOBE_CONFIG: GlobeConfig = {
   devicePixelRatio: 2,
@@ -90,20 +135,38 @@ export function Globe({
       return;
     }
 
-    const globe = createGlobe(canvasRef.current!, {
+    const nextFrameState = (): Required<GlobeRenderState> => {
+      if (pointerInteracting.current === null) {
+        phiRef.current += 0.005;
+      }
+
+      return {
+        phi: phiRef.current + rs.get(),
+        width: width * 2,
+        height: width * 2,
+      };
+    };
+
+    const globe = createGlobeCompat(canvasRef.current, {
       ...config,
       width: width * 2,
       height: width * 2,
       onRender: (state) => {
-        if (pointerInteracting.current === null) {
-          phiRef.current += 0.005;
-        }
-
-        state.phi = phiRef.current + rs.get();
-        state.width = width * 2;
-        state.height = width * 2;
+        Object.assign(state, nextFrameState());
       },
     });
+    let frameId: number | undefined;
+
+    const update = globe.update;
+
+    if (typeof update === "function") {
+      const animate = () => {
+        update(nextFrameState());
+        frameId = window.requestAnimationFrame(animate);
+      };
+
+      animate();
+    }
 
     const opacityTimeoutId = window.setTimeout(() => {
       if (canvasRef.current) {
@@ -113,6 +176,9 @@ export function Globe({
 
     return () => {
       window.clearTimeout(opacityTimeoutId);
+      if (frameId !== undefined) {
+        window.cancelAnimationFrame(frameId);
+      }
       globe.destroy();
     };
   }, [rs, config, width]);
