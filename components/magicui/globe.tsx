@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 const MOVEMENT_DAMPING = 1400;
 
-const GLOBE_CONFIG: COBEOptions = {
-  width: 800,
-  height: 800,
+type GlobeConfig = Omit<COBEOptions, "width" | "height" | "onRender">;
+
+const GLOBE_CONFIG: GlobeConfig = {
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
@@ -40,7 +40,7 @@ export function Globe({
   config = GLOBE_CONFIG,
 }: {
   className?: string;
-  config?: COBEOptions;
+  config?: GlobeConfig;
 }) {
   const phiRef = useRef(0);
   const [width, setWidth] = useState(0);
@@ -80,29 +80,40 @@ export function Globe({
     window.addEventListener("resize", onResize);
     onResize();
 
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!canvasRef.current || width <= 0) {
+      return;
+    }
+
     const globe = createGlobe(canvasRef.current!, {
       ...config,
       width: width * 2,
       height: width * 2,
+      onRender: (state) => {
+        if (pointerInteracting.current === null) {
+          phiRef.current += 0.005;
+        }
+
+        state.phi = phiRef.current + rs.get();
+        state.width = width * 2;
+        state.height = width * 2;
+      },
     });
 
-    let rafId: number;
-    function animate() {
-      if (!pointerInteracting.current) phiRef.current += 0.005;
-      globe.update({
-        phi: phiRef.current + rs.get(),
-        width: width * 2,
-        height: width * 2,
-      });
-      rafId = requestAnimationFrame(animate);
-    }
-    rafId = requestAnimationFrame(animate);
+    const opacityTimeoutId = window.setTimeout(() => {
+      if (canvasRef.current) {
+        canvasRef.current.style.opacity = "1";
+      }
+    }, 0);
 
-    setTimeout(() => (canvasRef.current!.style.opacity = "1"), 0);
     return () => {
-      cancelAnimationFrame(rafId);
+      window.clearTimeout(opacityTimeoutId);
       globe.destroy();
-      window.removeEventListener("resize", onResize);
     };
   }, [rs, config, width]);
 
@@ -119,7 +130,6 @@ export function Globe({
         )}
         ref={canvasRef}
         onPointerDown={(e) => {
-          pointerInteracting.current = e.clientX;
           updatePointerInteraction(e.clientX);
         }}
         onPointerUp={() => updatePointerInteraction(null)}

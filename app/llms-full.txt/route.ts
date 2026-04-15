@@ -11,26 +11,58 @@ function toAbsoluteUrl(path: string): string {
   return new URL(path, baseUrl).toString();
 }
 
+function formatFileListItem(
+  label: string,
+  url: string,
+  note?: string
+): string {
+  return note ? `- [${label}](${url}): ${note}` : `- [${label}](${url})`;
+}
+
 export async function GET(): Promise<NextResponse> {
   const items = getAiContentItems();
   const docs = items.filter((item) => item.kind === "docs");
   const blogPosts = items.filter((item) => item.kind === "blog");
 
   const lines = [
-    "# Echobell Full LLM Index",
+    "# Echobell",
     "",
-    `- Generated from: ${toAbsoluteUrl("/llms-full.txt")}`,
-    `- Summary index: ${toAbsoluteUrl("/llms.txt")}`,
-    `- JSON index: ${toAbsoluteUrl("/ai-index.json")}`,
+    "> Exhaustive markdown URL index for Echobell documentation and blog content.",
     "",
-    `- Total docs pages: ${docs.length}`,
-    `- Total blog pages: ${blogPosts.length}`,
+    "Use this file when you need broad coverage instead of the curated `/llms.txt` subset.",
+    "",
+    `Total docs pages: ${docs.length}.`,
+    `Total blog pages: ${blogPosts.length}.`,
+    "",
+    "## Entry Points",
+    formatFileListItem(
+      "Summary index",
+      toAbsoluteUrl("/llms.txt"),
+      "Curated starting point with the highest-value docs."
+    ),
+    formatFileListItem(
+      "JSON index",
+      toAbsoluteUrl("/ai-index.json"),
+      "Structured manifest for programmatic ingestion."
+    ),
     "",
     "## Docs",
-    ...docs.map((item) => `- [${item.lang}] ${item.title}: ${item.url}`),
+    ...docs.map((item) =>
+      formatFileListItem(
+        `${item.lang.toUpperCase()} ${item.title}`,
+        item.rawMarkdownUrl,
+        item.description
+      )
+    ),
     "",
     "## Blog",
-    ...blogPosts.map((item) => `- [${item.lang}] ${item.title}: ${item.url}`),
+    ...blogPosts.map((item) =>
+      formatFileListItem(
+        `${item.lang.toUpperCase()} ${item.title}`,
+        item.rawMarkdownUrl,
+        item.description
+      )
+    ),
   ];
 
   return new NextResponse(lines.join("\n"), {

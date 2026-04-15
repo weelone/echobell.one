@@ -1,5 +1,6 @@
 import { Language, languages, localizeUrl } from "@/lib/i18n";
 import { baseUrl } from "@/lib/metadata";
+import { getRawMarkdownPath } from "@/lib/rawContent";
 import { blog, source } from "@/lib/source";
 
 export interface AiContentItem {
@@ -8,6 +9,7 @@ export interface AiContentItem {
   title: string;
   description?: string;
   url: string;
+  rawMarkdownUrl: string;
   lastModified?: string;
 }
 
@@ -18,6 +20,10 @@ function normalizeText(value?: string): string | undefined {
 
 function toAbsoluteUrl(path: string): string {
   return new URL(path, baseUrl).toString();
+}
+
+function toAbsoluteRawMarkdownUrl(path: string): string {
+  return toAbsoluteUrl(getRawMarkdownPath(path));
 }
 
 function normalizeDate(value?: Date | string): string | undefined {
@@ -40,6 +46,7 @@ function getDocsItems(lang: Language): AiContentItem[] {
     title: normalizeText(page.data.title) ?? "Untitled",
     description: normalizeText(page.data.description),
     url: toAbsoluteUrl(page.url),
+    rawMarkdownUrl: toAbsoluteRawMarkdownUrl(page.url),
     lastModified: normalizeDate(page.data.lastModified),
   }));
 }
@@ -51,6 +58,7 @@ function getBlogItems(lang: Language): AiContentItem[] {
     title: normalizeText(page.data.title) ?? "Untitled",
     description: normalizeText(page.data.description),
     url: toAbsoluteUrl(page.url),
+    rawMarkdownUrl: toAbsoluteRawMarkdownUrl(page.url),
     lastModified: normalizeDate(page.data.lastModified ?? page.data.date),
   }));
 }
@@ -76,7 +84,12 @@ const priorityDocPaths = [
 
 export function getAiPriorityDocs(
   lang: Language = "en"
-): Array<{ title: string; url: string }> {
+): Array<{
+  title: string;
+  url: string;
+  rawMarkdownUrl: string;
+  description?: string;
+}> {
   return priorityDocPaths.map((path) => {
     const slug = path === "/docs" ? undefined : path.replace("/docs/", "");
     const page = source.getPage(slug ? [slug] : undefined, lang);
@@ -86,12 +99,15 @@ export function getAiPriorityDocs(
       return {
         title: path === "/docs" ? "Documentation Home" : slug ?? "Document",
         url: toAbsoluteUrl(localizedPath),
+        rawMarkdownUrl: toAbsoluteRawMarkdownUrl(localizedPath),
       };
     }
 
     return {
       title: normalizeText(page.data.title) ?? "Untitled",
+      description: normalizeText(page.data.description),
       url: toAbsoluteUrl(page.url),
+      rawMarkdownUrl: toAbsoluteRawMarkdownUrl(page.url),
     };
   });
 }
@@ -99,7 +115,13 @@ export function getAiPriorityDocs(
 export function getAiLatestBlogPosts(
   lang: Language = "en",
   limit = 8
-): Array<{ title: string; url: string; date: string }> {
+): Array<{
+  title: string;
+  url: string;
+  rawMarkdownUrl: string;
+  date: string;
+  description?: string;
+}> {
   return blog
     .getPages(lang)
     .sort(
@@ -110,13 +132,20 @@ export function getAiLatestBlogPosts(
     .map((post) => ({
       title: normalizeText(post.data.title) ?? "Untitled",
       url: toAbsoluteUrl(post.url),
+      rawMarkdownUrl: toAbsoluteRawMarkdownUrl(post.url),
       date: normalizeDate(post.data.date) ?? "",
+      description: normalizeText(post.data.description),
     }));
 }
 
-export function getLocalizedDocsRoots(): Array<{ lang: Language; url: string }> {
+export function getLocalizedDocsRoots(): Array<{
+  lang: Language;
+  url: string;
+  rawMarkdownUrl: string;
+}> {
   return languages.map((lang) => ({
     lang,
     url: toAbsoluteUrl(localizeUrl("/docs", lang)),
+    rawMarkdownUrl: toAbsoluteRawMarkdownUrl(localizeUrl("/docs", lang)),
   }));
 }

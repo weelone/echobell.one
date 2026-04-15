@@ -1,0 +1,234 @@
+---
+title: "Tu teléfono debería sonar cuando realmente importa: La guía completa de Echobell"
+description: "Desde el on-call de desarrolladores hasta traders de criptomonedas y configuraciones de hogar inteligente — una guía práctica para recibir alertas por llamada desde cada plataforma que ya usas."
+date: 2026-04-03
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - guía
+  - integraciones
+  - casos de uso
+  - webhook
+  - automatización
+---
+
+# Tu teléfono debería sonar cuando realmente importa: La guía completa de Echobell
+
+Hay una situación que la mayoría ha vivido al menos una vez: algo falla a las 2 de la madrugada, la alerta llega a Slack, Slack tiene activado "No molestar", y a las 8 de la mañana abres la bandeja de entrada y encuentras el desastre.
+
+La tecnología para enviar alertas no es el problema. El problema es que las alertas terminan en lugares que la gente no mira realmente — o lugares que han aprendido a ignorar. Echobell lo soluciona enrutando lo que genuinamente importa directamente a tu teléfono como una llamada. El tipo que realmente contestas.
+
+Esta guía cubre cómo diferentes tipos de personas usan Echobell y cómo conectarlo con las herramientas que ya están usando.
+
+---
+
+## Desarrolladores: Deja de enterarte de las caídas por tus usuarios
+
+Si gestionas cualquier servicio en producción, probablemente has recibido un mensaje de un usuario que empieza con "oye, ¿está caída vuestra web?" Lo compruebas, y sí, lleva 40 minutos caída. La alerta de monitorización se disparó, fue a un canal, nadie la vio.
+
+Echobell se conecta a tu sistema de monitorización existente via webhook. Cuando algo falla, tu teléfono suena.
+
+La integración más rápida es un único comando curl al final de un health check:
+
+```bash
+curl -X POST https://hook.echobell.one/TU_CHANNEL_ID \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "payment-service caído",
+    "body": "Health check fallido a las 03:42 UTC",
+    "notificationType": "calling"
+  }'
+```
+
+Con **Grafana**, añade Echobell como punto de contacto webhook — tus reglas de alerta existentes no cambian, simplemente añades un nuevo canal de entrega. Lo mismo con **UptimeRobot**, **Freshping** o **Better Uptime**: pega la URL del webhook y listo.
+
+Para **GitHub Actions**, añade un paso de notificación al final de tu flujo de trabajo:
+
+```yaml
+- name: Notificar via Echobell
+  if: always()
+  run: |
+    curl -X POST https://hook.echobell.one/TU_KEY \
+      -H "Content-Type: application/json" \
+      -d "{
+        \"title\": \"${{ github.workflow }} — ${{ job.status }}\",
+        \"body\": \"${{ github.repository }}\",
+        \"notificationType\": \"time-sensitive\"
+      }"
+```
+
+No más refrescar la pestaña de Actions. El build termina, el teléfono vibra.
+
+Para las rotaciones de guardia, usa canales compartidos: quien está de guardia se suscribe, los demás no. Cuando cambia la rotación, cambias el suscriptor. Más sencillo que configurar PagerDuty para un equipo de 3 personas.
+
+---
+
+## Traders e inversores: Saber el segundo exacto en que se activa tu setup
+
+Para cualquiera que opere — acciones, cripto o materias primas — el timing lo es todo. Las alertas de precio por email son básicamente inútiles si no estás mirando la pantalla.
+
+**TradingView** tiene alertas webhook integradas. Configura tu condición de alerta, apunta la URL del webhook a tu canal de Echobell, y tu teléfono suena cuando se cumple la condición.
+
+Un mensaje típico de alerta de TradingView se ve así:
+
+```json
+{
+  "title": "BTC rompió los $70k",
+  "body": "Precio: {{close}} en {{ticker}}",
+  "notificationType": "calling"
+}
+```
+
+Para setups personalizados — bots, scripts o cualquier cosa que tire de la API de un exchange — añade una llamada a Echobell cuando se dispare una condición:
+
+```python
+import httpx
+
+def alert_price_hit(symbol: str, price: float, target: float):
+    httpx.post(
+        "https://hook.echobell.one/TU_CHANNEL_ID",
+        json={
+            "title": f"{symbol} alcanzó tu objetivo",
+            "body": f"Actual: ${price:.2f} | Objetivo era: ${target:.2f}",
+            "notificationType": "calling"
+        }
+    )
+```
+
+Para setups menos urgentes — por ejemplo, un resumen diario de cartera — usa `time-sensitive` en vez de `calling`. Sigue atravesando el Modo Concentración, pero sin despertarte de golpe.
+
+---
+
+## Usuarios de hogar inteligente: Cuando tu casa realmente te necesita
+
+La automatización del hogar es genial hasta que estás a 200 km de casa y no tienes ni idea de si el sensor de agua acaba de dispararse, si el detector de humo ha saltado o si la puerta principal se abrió a las 3 de la madrugada.
+
+**Home Assistant** se integra con Echobell mediante un comando REST. En `configuration.yaml`:
+
+```yaml
+rest_command:
+  echobell_alert:
+    url: "https://hook.echobell.one/TU_CHANNEL_ID"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    payload: '{"title": "{{ title }}", "body": "{{ body }}", "notificationType": "{{ type }}"}'
+```
+
+Y en tus automatizaciones:
+
+```yaml
+action:
+  - service: rest_command.echobell_alert
+    data:
+      title: "Fuga de agua detectada"
+      body: "Sensor del sótano activado — revisar inmediatamente"
+      type: "calling"
+```
+
+El modelo por niveles funciona bien aquí:
+- Humo, agua, monóxido de carbono → `calling`
+- Puerta/ventana abierta cuando estás fuera → `time-sensitive`
+- Detección de movimiento → `active` (o no configurarlo si no quieres interrupciones constantes)
+
+---
+
+## Sin código y low-code: Zapier, Make.com, n8n
+
+No todo es un problema de desarrollador. La mayoría de los disparadores de negocio viven en herramientas que ya tienen automatización de flujos de trabajo integrada.
+
+**Zapier** tiene miles de disparadores: nuevo formulario, pago fallido en Stripe, cambio de etapa en CRM, nueva fila en Google Sheets. Cualquiera de ellos puede hacer POST a un webhook de Echobell:
+
+- Nuevo lead de alto valor → llamada de teléfono
+- Pago fallido en Stripe → push urgente
+- Violación de SLA en soporte → calling
+
+**Make.com** funciona igual. Añade un módulo HTTP a cualquier escenario, apunta al canal de Echobell, y cualquier automatización que construyas puede llegar al teléfono en tiempo real.
+
+**n8n** (autoalojado o en la nube) permite lógica compleja antes de que se dispare la alerta — filtrar, enriquecer, deduplicar, limitar velocidad. Así llega menos ruido a Echobell.
+
+Para los tres, el formato del webhook de Echobell es el mismo:
+
+```json
+{
+  "title": "Título de la alerta",
+  "body": "Contexto adicional",
+  "notificationType": "active | time-sensitive | calling"
+}
+```
+
+La plantilla de mensajes del canal admite variables dinámicas, para que el contenido de la alerta pueda extraerse directamente de los datos del evento que lo dispara.
+
+---
+
+## IA y flujos de trabajo asíncronos: Deja de mirar el terminal
+
+Si ejecutas trabajos de larga duración — entrenamientos, procesamiento por lotes, tareas de agentes IA, pipelines ETL — ya conoces la sensación de observar una barra de progreso o refrescar ventanas de terminal sin parar. Hay una forma mejor.
+
+[Echobell Direct](/en/docs/direct) te da un webhook personal sin necesidad de configurar un canal completo. Añade una llamada al final de cualquier script:
+
+```python
+import httpx
+
+def notify_done(job: str, summary: str):
+    httpx.post(
+        "https://hook.echobell.one/d/TU_DIRECT_KEY",
+        json={
+            "title": f"{job} completado",
+            "body": summary,
+            "notificationType": "time-sensitive"
+        }
+    )
+
+# Al final del script
+notify_done("embedding_generation", f"Procesados 50.000 documentos en {elapsed:.1f}s")
+```
+
+Si trabajas con Claude u otros agentes IA via [WebhookMCP](/en/blog/get-notified-with-webhook-mcp), el propio agente puede disparar la notificación cuando completa una tarea. Lanzas el trabajo, te pones a hacer otra cosa, y el teléfono vibra cuando termina.
+
+---
+
+## Elegir el nivel de urgencia correcto
+
+Una de las decisiones más importantes en cualquier configuración de alertas es hacer coincidir la urgencia con la gravedad real del evento. Echobell tiene tres niveles:
+
+| Tipo | Qué hace | Cuándo usarlo |
+|---|---|---|
+| `active` | Notificación push normal | Actualizaciones de baja prioridad, eventos informativos |
+| `time-sensitive` | Atraviesa el Modo Concentración de iOS | Importante, requiere atención pronto |
+| `calling` | El teléfono suena como una llamada real | Producción caída, riesgo de ingresos, seguridad física |
+
+El tipo `calling` requiere suscripción Pro, y es intencionado — está reservado para las cosas que genuinamente no pueden esperar. Usa `time-sensitive` para la mayoría de las alertas, reserva `calling` para los pocos eventos donde una respuesta tardía tiene consecuencias reales.
+
+Con la función de [Condiciones](/en/docs/conditions) puedes añadir lógica a nivel de entrega: por ejemplo, llamar solo fuera del horario laboral, o alertar solo cuando un valor supera un umbral.
+
+---
+
+## Sistemas solo por email: La salida olvidada
+
+Algunos sistemas — herramientas de monitorización antiguas, software empresarial legacy, informes automáticos — solo saben enviar emails. Sin problema. Cada canal de Echobell tiene una dirección de bandeja de entrada única `@echobell.app`.
+
+Envía un email a esa dirección, o configura una regla de reenvío desde una bandeja existente, y dispara una notificación igual que cualquier otra fuente. El asunto se convierte en el título, el cuerpo en el mensaje. Sin código necesario.
+
+---
+
+## Por dónde empezar
+
+La forma más rápida de sacarle valor a Echobell es identificar una notificación que actualmente te pierdes — un cron job fallido, un resultado de despliegue, una alerta de monitorización — y enrutarla al teléfono.
+
+Eso es todo. Una integración. Ver cómo se siente saber algo en tiempo real en vez de enterarte una hora después.
+
+Desde ahí, expandir es sencillo. La mayoría de integraciones tardan menos de 15 minutos una vez que tienes el canal y la URL del webhook.
+
+---
+
+## Relacionado
+
+- [Echobell Direct — webhooks personales sin configurar canal](/en/docs/direct)
+- [Notificaciones Zapier webhook al teléfono](/en/blog/zapier-webhook-notifications-to-phone)
+- [Notificaciones de llamada de Grafana](/en/blog/grafana-call-notification)
+- [Alertas de llamada de TradingView](/en/blog/tradingview-call-notifications)
+- [Notificaciones de Home Assistant con Echobell](/en/blog/home-assistant-notifications-with-echobell)
+- [Hub de automatización con n8n y Echobell](/en/blog/n8n-echobell-automation-hub)
+- [WebhookMCP — recibe notificaciones cuando terminan las tareas IA](/en/blog/get-notified-with-webhook-mcp)

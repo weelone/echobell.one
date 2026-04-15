@@ -1,0 +1,234 @@
+---
+title: "本当に大事な時だけ鳴らす：Echobell 完全活用ガイド"
+description: "開発者のオンコール対応からクリプトトレーダー、スマートホームまで——すでに使っているすべてのプラットフォームから電話アラートを受け取る実践ガイド。"
+date: 2026-04-03
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - ガイド
+  - インテグレーション
+  - ユースケース
+  - webhook
+  - 自動化
+---
+
+# 本当に大事な時だけ鳴らす：Echobell 完全活用ガイド
+
+ほとんどの人が一度は経験したことがある状況がある。深夜2時に何かが壊れ、アラートがSlackに飛んで、Slackはおやすみモードで、朝8時にメールを開いたら火事になっていた、というやつだ。
+
+アラートを送る技術そのものは問題じゃない。問題は、アラートが誰も実際には見ていない場所に届いてしまうことだ——あるいは無視するように訓練してしまった場所に。Echobell はこれを解決するために、本当に重要なことを電話として直接スマホに届ける。ちゃんと出るやつ。
+
+このガイドでは、様々なタイプのユーザーがどう Echobell を使っているか、そしてすでに使っているツールとどうつなぐかを紹介する。
+
+---
+
+## 開発者：ユーザーから障害を知らされる前に気づく
+
+本番サービスを運用しているなら、こんな経験があるはずだ。ユーザーから「サイト落ちてますか？」というメッセージが来る。確認すると、確かに40分間落ちていた。監視ツールはアラートを発していた。チャンネルに流れた。誰も見ていなかった。
+
+Echobell はwebhookで既存の監視スタックに接続する。何かまずいことが起きたら、スマホが鳴る。
+
+一番素早い統合は、ヘルスチェックの末尾に curl を一行追加するだけだ：
+
+```bash
+curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "payment-service がダウン",
+    "body": "03:42 UTC にヘルスチェック失敗",
+    "notificationType": "calling"
+  }'
+```
+
+**Grafana** を使っているなら、Echobell をwebhookコンタクトポイントとして追加すればいい——既存のアラートルールはそのまま、出力先が増えるだけ。**UptimeRobot**、**Freshping**、**Better Uptime** も同様に、webhook URLを貼れば完了だ。
+
+**GitHub Actions** には、ワークフローの末尾に通知ステップを追加する：
+
+```yaml
+- name: Echobell 通知
+  if: always()
+  run: |
+    curl -X POST https://hook.echobell.one/YOUR_KEY \
+      -H "Content-Type: application/json" \
+      -d "{
+        \"title\": \"${{ github.workflow }} — ${{ job.status }}\",
+        \"body\": \"${{ github.repository }}\",
+        \"notificationType\": \"time-sensitive\"
+      }"
+```
+
+もうActionsタブを更新し続ける必要はない。ビルドが完了したらスマホが振動する。
+
+オンコールローテーションには共有チャンネルを使う。当番の人がチャンネルを購読し、他の人はしない。ローテーションが変わったら購読者を変えるだけ。3人チームのためにPagerDutyを設定するよりずっとシンプルだ。
+
+---
+
+## トレーダー・投資家：セットアップが発動した瞬間を知る
+
+株、クリプト、コモディティを問わず、トレーディングにおいてタイミングがすべてだ。画面を見ていなければ、メールの価格アラートは基本的に役に立たない。
+
+**TradingView** にはwebhookアラートが組み込まれている。アラート条件を設定して、webhook URLをEchobellチャンネルに向けるだけ。条件が成立したらスマホが鳴る。
+
+TradingViewのアラートメッセージは典型的にこんな感じだ：
+
+```json
+{
+  "title": "BTC が70,000ドルを突破",
+  "body": "価格：{{close}} on {{ticker}}",
+  "notificationType": "calling"
+}
+```
+
+カスタムセットアップ——ボット、スクリプト、取引所APIからデータを引いてくるものなど——には、条件が発動したときにEchobellを呼び出せばいい：
+
+```python
+import httpx
+
+def alert_price_hit(symbol: str, price: float, target: float):
+    httpx.post(
+        "https://hook.echobell.one/YOUR_CHANNEL_ID",
+        json={
+            "title": f"{symbol} が目標価格に到達",
+            "body": f"現在値：${price:.2f} | 目標：${target:.2f}",
+            "notificationType": "calling"
+        }
+    )
+```
+
+緊急性の低いセットアップ——たとえば毎日のポートフォリオサマリー——には `calling` ではなく `time-sensitive` を使う。それでも集中モードを突破するが、睡眠中に飛び起きることはない。
+
+---
+
+## スマートホームユーザー：家が本当に助けを必要とする時
+
+ホームオートメーションは素晴らしい。ただし、200km離れた場所にいて、水センサーが鳴ったのか、煙感知器が作動したのか、深夜3時に玄関が開いたのかまったくわからない状況になるまでは。
+
+**Home Assistant** は REST コマンドで Echobell と統合できる。`configuration.yaml` で：
+
+```yaml
+rest_command:
+  echobell_alert:
+    url: "https://hook.echobell.one/YOUR_CHANNEL_ID"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    payload: '{"title": "{{ title }}", "body": "{{ body }}", "notificationType": "{{ type }}"}'
+```
+
+オートメーションでは：
+
+```yaml
+action:
+  - service: rest_command.echobell_alert
+    data:
+      title: "水漏れを検知"
+      body: "地下センサーが作動——すぐに確認が必要"
+      type: "calling"
+```
+
+深刻度でレベル分けするパターンがここでは効果的だ：
+- 煙、水漏れ、一酸化炭素 → `calling`
+- 外出中にドア・窓が開く → `time-sensitive`
+- モーション検知 → `active`（常に通知されたくなければ設定しなくてもいい）
+
+---
+
+## ノーコード・ローコード：Zapier、Make.com、n8n
+
+すべてが開発者の問題というわけではない。ほとんどのビジネストリガーは、ワークフロー自動化がすでに組み込まれているツールに存在する。
+
+**Zapier** には数千のトリガーがある：新しいフォーム送信、Stripeの支払い失敗、CRMのステージ変更、Googleスプレッドシートへの新規行追加。これらのどれもが Echobell webhook へ POST できる：
+
+- 高価値リードが来た → 電話アラート
+- Stripeの支払いが失敗 → タイムセンシティブなプッシュ
+- サポートツールのSLA違反 → calling
+
+**Make.com** も同様だ。シナリオに HTTP モジュールを追加し、Echobellチャンネルに向ければ、作った自動化がリアルタイムでスマホに届く。
+
+**n8n**（セルフホストまたはクラウド）はアラートが発火する前に複雑なロジックを実行できる——フィルタリング、エンリッチメント、重複除去、レート制限。Echobellに届くノイズをあらかじめ減らせる。
+
+三つ共通して、Echobell webhook が受け付けるフォーマットは同じだ：
+
+```json
+{
+  "title": "アラートタイトル",
+  "body": "追加のコンテキスト",
+  "notificationType": "active | time-sensitive | calling"
+}
+```
+
+チャンネルのメッセージテンプレートは動的変数をサポートしており、アラートの内容をトリガーイベントのデータから直接引っ張ることができる。
+
+---
+
+## AI・非同期ワークフロー：ターミナルを凝視するのをやめる
+
+長時間かかるジョブ——学習、バッチ処理、AIエージェントのタスク、ETLパイプライン——を走らせているなら、プログレスバーを眺めたりターミナルを更新し続ける感覚はよくわかるはずだ。もっといい方法がある。
+
+[Echobell Direct](/en/docs/direct) はチャンネルを設定しなくても使えるパーソナルwebhookだ。どんなスクリプトの末尾にも呼び出しを追加できる：
+
+```python
+import httpx
+
+def notify_done(job: str, summary: str):
+    httpx.post(
+        "https://hook.echobell.one/d/YOUR_DIRECT_KEY",
+        json={
+            "title": f"{job} が完了しました",
+            "body": summary,
+            "notificationType": "time-sensitive"
+        }
+    )
+
+# スクリプトの末尾で
+notify_done("embedding_generation", f"50,000件のドキュメントを {elapsed:.1f}s で処理完了")
+```
+
+[WebhookMCP](/en/blog/get-notified-with-webhook-mcp) 経由でClaudeや他のAIエージェントと作業しているなら、タスクが完了したときにエージェント自身が通知を発火できる。ジョブを起動して別のことをやり、完了したらスマホが振動する。
+
+---
+
+## 緊急度レベルを正しく選ぶ
+
+どんなアラートセットアップでも最も重要な決断のひとつは、緊急度を実際のイベントの深刻さに合わせることだ。Echobellには三つのレベルがある：
+
+| タイプ | 何をするか | いつ使うか |
+|---|---|---|
+| `active` | 通常のプッシュ通知 | 低優先度の更新、情報共有 |
+| `time-sensitive` | iOS集中モードを突破 | 重要、近いうちに対応が必要 |
+| `calling` | 着信と同じように電話が鳴る | 本番障害、収益リスク、人身の安全 |
+
+`calling` タイプはProサブスクリプションが必要で、これは意図的な設計だ。本当に待てないことのために取っておく。ほとんどのアラートには `time-sensitive` を使い、`calling` は遅れた対応が実際の結果をもたらす少数のイベントに絞る。
+
+[条件](/en/docs/conditions)機能を使えば、配信レベルでロジックを追加できる。たとえば、勤務時間外のみ電話する、または値がしきい値を超えた場合のみアラートを送るといった設定が可能だ。
+
+---
+
+## メール専用システム：忘れられた抜け道
+
+一部のシステム——古い監視ツール、レガシーなビジネスソフト、自動レポート——はメールしか送れない。問題ない。すべてのEchobellチャンネルには専用の `@echobell.app` メールアドレスがある。
+
+そのアドレスにメールを送るか、既存のメールボックスから転送ルールを設定すれば、他のソースと同じように通知が発動する。件名がタイトルになり、本文がメッセージになる。コードは不要だ。
+
+---
+
+## どこから始めるか
+
+Echobell から価値を引き出す最速の方法は、現在見逃している通知をひとつ特定すること——失敗したcronジョブ、デプロイの結果、監視アラート——それをスマホに流すことだ。
+
+それだけだ。インテグレーション一つ。1時間後に気づくのではなく、リアルタイムで知るとはどういうことかを体感する。
+
+そこから拡張するのは簡単だ。チャンネルとwebhook URLさえあれば、ほとんどのインテグレーションは15分以内に終わる。
+
+---
+
+## 関連記事
+
+- [Echobell Direct — チャンネル設定なしの個人向けwebhook](/en/docs/direct)
+- [Zapier webhook でスマホに通知](/en/blog/zapier-webhook-notifications-to-phone)
+- [Grafana の電話アラート通知](/en/blog/grafana-call-notification)
+- [TradingView の電話アラート](/en/blog/tradingview-call-notifications)
+- [Home Assistant と Echobell の連携](/en/blog/home-assistant-notifications-with-echobell)
+- [n8n と Echobell で自動化ハブを構築](/en/blog/n8n-echobell-automation-hub)
+- [WebhookMCP — AIタスク完了時に通知を受け取る](/en/blog/get-notified-with-webhook-mcp)

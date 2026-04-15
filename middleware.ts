@@ -4,6 +4,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { i18n, languages } from "./lib/i18n";
 
+const NON_LOCALIZED_PATHS = new Set([
+  "/llms.txt",
+  "/llms-full.txt",
+  "/ai-index.json",
+]);
+
 function getForwardedProtocol(request: NextRequest): string {
   const forwarded = request.headers.get("x-forwarded-proto");
   if (forwarded) {
@@ -16,6 +22,10 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const protocol = getForwardedProtocol(request);
   const hostname = request.nextUrl.hostname;
+
+  if (NON_LOCALIZED_PATHS.has(pathname) || pathname.startsWith("/raw/")) {
+    return NextResponse.next();
+  }
 
   // Prevent indexation of HTTP variants on production domains.
   const isProdHostname = hostname === "echobell.one" || hostname === "www.echobell.one";

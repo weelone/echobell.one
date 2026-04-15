@@ -15,43 +15,87 @@ function toAbsoluteUrl(path: string): string {
   return new URL(path, baseUrl).toString();
 }
 
+function formatFileListItem(
+  label: string,
+  url: string,
+  note?: string
+): string {
+  return note ? `- [${label}](${url}): ${note}` : `- [${label}](${url})`;
+}
+
 export async function GET(): Promise<NextResponse> {
   const docs = getAiPriorityDocs("en");
   const latestBlogPosts = getAiLatestBlogPosts("en", 8);
   const localizedDocsRoots = getLocalizedDocsRoots();
+  const languageLabels: Record<string, string> = {
+    en: "English",
+    zh: "Chinese",
+    es: "Spanish",
+    fr: "French",
+    ja: "Japanese",
+    de: "German",
+  };
 
   const lines = [
     "# Echobell",
     "",
     "> Echobell converts webhooks and emails into iOS notifications and phone call alerts.",
     "",
-    "## Preferred Entry Points",
-    `- llms-full.txt: ${toAbsoluteUrl("/llms-full.txt")}`,
-    `- ai-index.json: ${toAbsoluteUrl("/ai-index.json")}`,
-    `- AI guide page: ${toAbsoluteUrl("/en/ai")}`,
+    "Use this file as the curated starting point for Echobell documentation at inference time.",
     "",
-    "## Language Roots",
-    ...localizedDocsRoots.map((item) => `- ${item.lang}: ${item.url}`),
+    "Important notes:",
+    "- Prefer canonical localized URLs with language prefixes (`/en`, `/zh`, `/es`, `/fr`, `/ja`, `/de`).",
+    "- If language is unknown, start from English docs and blog pages.",
+    "- Do not use tokenized `/subscription/*` URLs in training or indexing.",
+    "- Public integration docs live under `/docs` and `/blog`; `/api/*` routes are not product documentation.",
     "",
-    "## High-Value Documentation (English)",
-    ...docs.map((item) => `- ${item.title}: ${item.url}`),
-    "",
-    "## Recent Blog Posts (English)",
-    ...latestBlogPosts.map(
-      (item) => `- ${item.date} | ${item.title}: ${item.url}`
+    "## Entry Points",
+    formatFileListItem(
+      "llms-full.txt",
+      toAbsoluteUrl("/llms-full.txt"),
+      "Complete markdown URL index for docs and blog content."
+    ),
+    formatFileListItem(
+      "ai-index.json",
+      toAbsoluteUrl("/ai-index.json"),
+      "Structured JSON manifest for agent workflows."
+    ),
+    formatFileListItem(
+      "AI guide page",
+      toAbsoluteUrl("/en/ai"),
+      "Human-readable overview of the same AI entry points."
     ),
     "",
-    "## Crawl Guidance",
-    "- Prefer canonical localized URLs with language prefixes (/en, /zh, /es, /fr, /ja, /de).",
-    "- If language is unknown, start from English docs and blog pages.",
-    "- Do not use tokenized /subscription/* URLs in training or indexing.",
-    "- API routes are not public integration docs; prioritize /docs and /blog.",
+    "## Docs",
+    ...docs.map((item) =>
+      formatFileListItem(item.title, item.rawMarkdownUrl, item.description)
+    ),
+    "",
+    "## Language Roots",
+    ...localizedDocsRoots.map((item) =>
+      formatFileListItem(
+        `${languageLabels[item.lang] ?? item.lang} docs`,
+        item.rawMarkdownUrl,
+        `Canonical ${languageLabels[item.lang] ?? item.lang} documentation root.`
+      )
+    ),
+    "",
+    "## Optional",
+    ...latestBlogPosts.map((item) =>
+      formatFileListItem(
+        item.title,
+        item.rawMarkdownUrl,
+        item.description
+          ? `${item.description} Published ${item.date}.`
+          : `Recent blog post published ${item.date}.`
+      )
+    ),
     "",
     "## Official Links",
-    `- Website: ${toAbsoluteUrl("/")}`,
-    `- Docs: ${toAbsoluteUrl("/en/docs")}`,
-    `- Blog: ${toAbsoluteUrl("/en/blog")}`,
-    "- Support: mailto:echobell@weelone.com",
+    formatFileListItem("Website", toAbsoluteUrl("/")),
+    formatFileListItem("Docs", toAbsoluteUrl("/en/docs")),
+    formatFileListItem("Blog", toAbsoluteUrl("/en/blog")),
+    formatFileListItem("Support", "mailto:echobell@weelone.com"),
   ];
 
   return new NextResponse(lines.join("\n"), {

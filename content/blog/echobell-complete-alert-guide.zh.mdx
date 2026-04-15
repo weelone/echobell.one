@@ -1,0 +1,234 @@
+---
+title: "该响的时候才响：Echobell 全场景使用指南"
+description: "从开发者值班到加密货币交易，再到智能家居——这份指南告诉你如何让 Echobell 接管你已经在用的每一个平台的关键通知。"
+date: 2026-04-03
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - 指南
+  - 集成
+  - 使用场景
+  - webhook
+  - 自动化
+---
+
+# 该响的时候才响：Echobell 全场景使用指南
+
+这种事大多数人都遇到过至少一次：凌晨 2 点出了问题，告警发到了 Slack，Slack 开着勿扰，早上 8 点你打开收件箱，发现它已经烧了。
+
+发送告警的技术本身并不是问题。问题在于告警最终落到了人们根本不看的地方——或者是那些他们已经训练自己忽略的地方。Echobell 的解决思路很直接：把真正重要的事情以电话的形式打到你手机上。就是那种你会接的铃声。
+
+这份指南介绍不同类型的人如何使用 Echobell，以及如何把它接入他们已经在跑的工具。
+
+---
+
+## 开发者：别等用户来告诉你宕机了
+
+如果你维护着任何生产服务，你大概体验过这种情况：收到用户消息"你们网站挂了吗？"，一查，确实挂了，已经挂了 40 分钟。监控告警发出去了，进了某个频道，没人看。
+
+Echobell 通过 Webhook 嵌入你现有的监控体系。出了问题，手机响。
+
+最快的接入方式是在健康检查脚本末尾加一条 curl：
+
+```bash
+curl -X POST https://hook.echobell.one/你的CHANNEL_ID \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "payment-service 已宕机",
+    "body": "健康检查失败，时间 03:42 UTC",
+    "notificationType": "calling"
+  }'
+```
+
+用 **Grafana** 的话，把 Echobell 加为 Webhook 联系点——你的现有告警规则不需要动，只是多了一个输出。**UptimeRobot**、**Freshping**、**Better Uptime** 同理，粘贴 Webhook URL 就搞定了。
+
+**GitHub Actions** 的话，在工作流末尾加一个通知步骤：
+
+```yaml
+- name: Echobell 通知
+  if: always()
+  run: |
+    curl -X POST https://hook.echobell.one/你的KEY \
+      -H "Content-Type: application/json" \
+      -d "{
+        \"title\": \"${{ github.workflow }} — ${{ job.status }}\",
+        \"body\": \"${{ github.repository }}\",
+        \"notificationType\": \"time-sensitive\"
+      }"
+```
+
+不用再刷 Actions 页面。构建完成，手机震动。
+
+轮班值守的话，用共享频道：当班的人订阅，其他人不订。轮换时换个订阅者，比给三人团队配 PagerDuty 简单多了。
+
+---
+
+## 交易者：信号触发的那一秒就知道
+
+对于交易股票、加密货币或大宗商品的人来说，时机就是一切。价格告警发到邮件，如果你没盯着屏幕，基本上没用。
+
+**TradingView** 内置 Webhook 告警功能。设好告警条件，把 Webhook URL 指向你的 Echobell 频道，条件触发时手机就响。
+
+TradingView 告警消息格式大致如下：
+
+```json
+{
+  "title": "BTC 突破 70000 美元",
+  "body": "价格：{{close}}，标的：{{ticker}}",
+  "notificationType": "calling"
+}
+```
+
+自定义场景——交易机器人、脚本、从交易所 API 拉数据——在条件触发时加一个 Echobell 调用：
+
+```python
+import httpx
+
+def alert_price_hit(symbol: str, price: float, target: float):
+    httpx.post(
+        "https://hook.echobell.one/你的CHANNEL_ID",
+        json={
+            "title": f"{symbol} 触达目标价",
+            "body": f"当前价格：${price:.2f} | 目标价：${target:.2f}",
+            "notificationType": "calling"
+        }
+    )
+```
+
+不那么紧急的场景——比如每日持仓汇总——用 `time-sensitive` 代替 `calling`。同样能穿透专注模式，但不会把你从睡眠中惊醒。
+
+---
+
+## 智能家居：家里真正需要你的时候
+
+家庭自动化很好用，直到你在几百公里外不知道水位传感器刚不刚报警、烟雾传感器有没有触发、凌晨 3 点大门是不是开了。
+
+**Home Assistant** 通过 REST 命令与 Echobell 集成。在 `configuration.yaml` 中：
+
+```yaml
+rest_command:
+  echobell_alert:
+    url: "https://hook.echobell.one/你的CHANNEL_ID"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    payload: '{"title": "{{ title }}", "body": "{{ body }}", "notificationType": "{{ type }}"}'
+```
+
+在自动化中使用：
+
+```yaml
+action:
+  - service: rest_command.echobell_alert
+    data:
+      title: "检测到漏水"
+      body: "地下室传感器触发——请立即检查"
+      type: "calling"
+```
+
+按严重程度分级的方案效果很好：
+- 烟雾、漏水、一氧化碳 → `calling`
+- 外出时门窗打开 → `time-sensitive`
+- 运动检测 → `active`（或者干脆不推，避免不停震动）
+
+---
+
+## 无代码 / 低代码：Zapier、Make.com、n8n
+
+不是所有场景都需要写代码。大多数业务触发器都在已经自带流程自动化的工具里。
+
+**Zapier** 有几千个触发器：新表单提交、Stripe 支付失败、CRM 阶段变更、Google 表格新增一行。任何一个都可以 POST 到 Echobell Webhook：
+
+- 新高价值线索 → 电话响铃
+- Stripe 支付失败 → 时效性推送
+- 支持工单 SLA 超时 → calling
+
+**Make.com** 同理。在任何场景中加一个 HTTP 模块，指向你的 Echobell 频道，你搭建的任何自动化都可以实时触达你的手机。
+
+**n8n**（自托管或云端）允许你在告警触发前加入复杂的逻辑——过滤、去重、限频。这样到达 Echobell 之前就把噪音过滤掉了，大幅减少虚假告警。
+
+以上三种方案，Echobell Webhook 接受的格式都一样：
+
+```json
+{
+  "title": "告警标题",
+  "body": "补充上下文",
+  "notificationType": "active | time-sensitive | calling"
+}
+```
+
+频道消息模板还支持动态变量，告警内容可以直接从触发事件的数据中取值。
+
+---
+
+## AI 与异步工作流：别盯着终端了
+
+如果你跑长时间任务——模型训练、批量处理、AI 智能体任务、ETL 流水线——你肯定体验过盯着进度条或反复刷终端的感觉。有更好的办法。
+
+[Echobell Direct](/en/docs/direct) 给你一个个人 Webhook，不需要建频道。在任何脚本末尾加上通知：
+
+```python
+import httpx
+
+def notify_done(job: str, summary: str):
+    httpx.post(
+        "https://hook.echobell.one/d/你的DIRECT_KEY",
+        json={
+            "title": f"{job} 已完成",
+            "body": summary,
+            "notificationType": "time-sensitive"
+        }
+    )
+
+# 在脚本末尾调用
+notify_done("embedding_generation", f"已处理 50,000 条文档，耗时 {elapsed:.1f}s")
+```
+
+如果你通过 [WebhookMCP](/en/blog/get-notified-with-webhook-mcp) 使用 Claude 或其他 AI 智能体，智能体自身可以在任务完成时触发通知。你启动任务，去做别的事，手机震动时任务已经跑完了。
+
+---
+
+## 把紧急程度用对
+
+告警配置最重要的决策之一，是把告警等级和事件的实际严重程度匹配起来。Echobell 有三个层级：
+
+| 类型 | 行为 | 适用场景 |
+|---|---|---|
+| `active` | 普通推送通知 | 低优先级更新、信息性事件 |
+| `time-sensitive` | 穿透 iOS 专注模式 | 重要，需要尽快处理 |
+| `calling` | 手机像来电一样响铃 | 生产宕机、收入受损、人身安全 |
+
+`calling` 类型需要 Pro 订阅，这是有意为之——它是留给那些真的不能等的事情的。大多数告警用 `time-sensitive`，把 `calling` 留给少数几个延误响应会有实际后果的事件。
+
+Echobell 还有[条件](/en/docs/conditions)功能，可以在通知投递层加逻辑。比如只在非工作时间触发电话，或者只有数值超过阈值才告警。上游系统过滤能力不足时，在 Echobell 这一层处理也完全没问题。
+
+---
+
+## 只支持邮件的系统：被遗忘的逃生通道
+
+有些系统——老监控工具、遗留业务软件、自动报告——只会发邮件。没关系。每个 Echobell 频道都有一个专属的 `@echobell.app` 邮箱地址。
+
+把邮件发到这个地址，或者从现有邮箱设一条转发规则，就能像其他触发源一样触发通知。邮件主题变标题，正文变内容。不需要写代码。
+
+---
+
+## 从哪里开始
+
+让 Echobell 发挥价值最快的方式，是找到一个你现在会错过的通知——失败的 Cron 任务、部署结果、某个监控告警——然后把它路由到手机上。
+
+就这样。一个集成。感受一下实时知道某件事是什么感觉，而不是一小时后才发现。
+
+从那里往外扩展很容易。大多数集成，一旦有了频道和 Webhook URL，15 分钟以内就能搭好。
+
+---
+
+## 相关内容
+
+- [Echobell Direct — 无需频道配置的个人 Webhook](/en/docs/direct)
+- [Zapier Webhook 通知到手机](/en/blog/zapier-webhook-notifications-to-phone)
+- [Grafana 来电通知](/en/blog/grafana-call-notification)
+- [TradingView 来电提醒](/en/blog/tradingview-call-notifications)
+- [Home Assistant 与 Echobell 集成](/en/blog/home-assistant-notifications-with-echobell)
+- [用 n8n 和 Echobell 搭建自动化告警中心](/en/blog/n8n-echobell-automation-hub)
+- [WebhookMCP — AI 任务完成时收到通知](/en/blog/get-notified-with-webhook-mcp)
