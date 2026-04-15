@@ -12,6 +12,7 @@ import { ArticleJsonLd } from "@/components/JsonLd";
 import { Breadcrumb, BreadcrumbJsonLd } from "@/components/Breadcrumb";
 import { languages } from "@/lib/i18n";
 import { LocalizedMdxLink } from "@/components/LocalizedMdxLink";
+import { getRawMarkdownPath } from "@/lib/rawContent";
 
 export async function generateStaticParams() {
   const params = [];
@@ -105,6 +106,7 @@ export async function generateMetadata(props: {
     localizeUrl(`/blog/${params.slug}`, params.lang),
     baseUrl
   ).toString();
+  const rawMarkdownUrl = new URL(getRawMarkdownPath(page.url), baseUrl).toString();
 
   const publishedTime = new Date(data.date).toISOString();
   const modifiedTime = new Date(data.lastModified ?? data.date).toISOString();
@@ -144,6 +146,9 @@ export async function generateMetadata(props: {
         ...Object.fromEntries(
           languages.map((l) => [l, localizeUrl(`/blog/${params.slug}`, l)])
         ),
+      },
+      types: {
+        "text/markdown": rawMarkdownUrl,
       },
     },
   };

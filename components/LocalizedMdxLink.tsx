@@ -3,12 +3,15 @@ import type { ComponentPropsWithoutRef } from "react";
 import { Language, languages } from "@/lib/i18n";
 
 type AnchorProps = ComponentPropsWithoutRef<"a">;
-const ROOT_SCOPED_PATH_PREFIXES = ["/api/", "/images/", "/_next/"] as const;
+const ROOT_SCOPED_PATH_PREFIXES = ["/api/", "/images/", "/_next/", "/raw/"] as const;
 const ROOT_SCOPED_EXACT_PATHS = [
   "/favicon.ico",
   "/icon.png",
   "/robots.txt",
   "/sitemap.xml",
+  "/llms.txt",
+  "/llms-full.txt",
+  "/ai-index.json",
 ] as const;
 
 function hasLocalePrefix(pathname: string): boolean {

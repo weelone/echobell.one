@@ -10,6 +10,7 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import { createMetadata, baseUrl } from "@/lib/metadata";
 import { Language, languages } from "@/lib/i18n";
 import { LocalizedMdxLink } from "@/components/LocalizedMdxLink";
+import { getRawMarkdownPath } from "@/lib/rawContent";
 
 export default async function Page(props: {
   params: Promise<{ lang: string; slug?: string[] }>;
@@ -61,6 +62,7 @@ export async function generateMetadata(props: {
   if (!page) notFound();
 
   const canonical = new URL(page.url, baseUrl).toString();
+  const rawMarkdownUrl = new URL(getRawMarkdownPath(page.url), baseUrl).toString();
   const slugPath = params.slug ? `/docs/${params.slug.join("/")}` : "/docs";
 
   const data = page.data;
@@ -85,6 +87,9 @@ export async function generateMetadata(props: {
       languages: {
         "x-default": `/en${slugPath}`,
         ...Object.fromEntries(languages.map((l) => [l, `/${l}${slugPath}`])),
+      },
+      types: {
+        "text/markdown": rawMarkdownUrl,
       },
     },
     openGraph: {

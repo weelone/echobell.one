@@ -21,7 +21,11 @@ export default function robots(): MetadataRoute.Robots {
           "/de/subscription/",
         ],
       },
-      // Crawl delay for aggressive bots
+      {
+        userAgent: ["OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "ClaudeBot"],
+        allow: "/",
+        disallow: ["/api/", "/_next/", "/private/", "/subscription/"],
+      },
       {
         userAgent: "GPTBot",
         allow: "/",

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Language, languages } from "@/lib/i18n";
 import { readRawContentFile } from "@/lib/rawContent";
 import { blog } from "@/lib/source";
+import { baseUrl } from "@/lib/metadata";
 
 const CACHE_CONTROL =
   "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400";
@@ -38,6 +39,8 @@ export async function GET(
     headers: {
       "content-type": "text/markdown; charset=utf-8",
       "cache-control": CACHE_CONTROL,
+      "x-robots-tag": "noindex, follow, noarchive",
+      link: `<${new URL(page.url, baseUrl).toString()}>; rel="canonical"`,
     },
   });
 }
