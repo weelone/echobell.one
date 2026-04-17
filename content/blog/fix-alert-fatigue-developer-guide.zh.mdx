@@ -1,0 +1,169 @@
+---
+title: "告警疲劳是真实存在的：聪明的开发者如何应对"
+description: "当每个告警看起来都同样紧急时，就没有什么感觉紧急了。以下是如何通过分级通知改进你的监控设置——以及哪些工具与 Echobell 配合良好。"
+date: 2026-04-17
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - 告警疲劳
+  - 监控
+  - Sentry
+  - Prometheus
+  - CloudWatch
+  - DevOps
+---
+
+# 告警疲劳是真实存在的：聪明的开发者如何应对
+
+这个现象有个名字：告警疲劳。当你的监控工具发出太多通知，以至于你的大脑开始自动过滤它们——即使是那些真正重要的通知，这就是告警疲劳。
+
+通常从小事开始。你为每个 5xx 错误设置了邮件告警，然后为每个失败的构建设置了 Slack 通知，接着又有 Datadog 的 ping、Sentry 的邮件、UptimeRobot 的短信。一个月后，你的手机每天振动 50 次，没有任何事情感觉是紧急的。最糟糕的是：当某些事情真的出了问题，你已经训练自己去忽略这些通知了。
+
+告警疲劳会摧毁响应时间。而慢响应会摧毁产品。
+
+## 为什么大多数监控设置产生的噪音多于信号
+
+根本问题在于，大多数告警工具对所有事件一视同仁。一个 10% 概率失败的不稳定测试和"支付 API 对每个用户都返回 500"收到相同格式的通知。其中一个需要凌晨 2 点打电话。另一个也许应该出现在周报里。
+
+当所有事情都得到相同对待，人们开始忽略所有事情。
+
+解决方案不是减少告警——而是更智能的投递。相同的事件在不同严重程度或频率下，应该在你的手机上产生不同的紧急级别。
+
+## 三级分层方法
+
+Echobell 提供三种投递模式，把这三种模式都用好才是关键：
+
+- **活跃（普通）：** 标准推送通知。适合不需要立即行动的信息性事件。
+- **时间敏感：** 突破 iOS 专注模式。适合需要在一两小时内处理的事情。
+- **来电：** 像来电一样让你的手机响铃。只在"现在必须修复，否则会有真实后果"的情况下使用。
+
+目标是把来电级别保留给那些响应延迟会有实际后果的事件——损失的收入、级联故障、用户数据风险。其他所有事情降级为时间敏感或更低。
+
+## Sentry：别让每个 Python 异常都叫醒你
+
+Sentry 是告警疲劳的典型案例。默认情况下，它会为每种新的 issue 类型发送邮件。在一个活跃的代码库上，一周下来那就是洪水。
+
+更智能的设置方法：
+
+1. 在 Sentry 中：**告警 → 创建告警 → Issue 告警**
+2. 添加条件：`在 1 小时内被看到超过 10 次`
+3. 添加操作：**通过 webhook 发送通知** → 粘贴你的 Echobell 频道 URL
+4. 将频道的通知类型设置为`时间敏感`
+
+对于真正关键的路径——支付流程中的未处理异常、认证失败、数据损坏——创建一个单独的告警，使用更低的阈值和`来电`级别的 Echobell 频道。那个频道只在该特定路径出现问题时才会响铃。
+
+结果：日常 issue 在你的 Sentry 仪表盘中静静积累。破坏生产环境的问题会给你打电话。
+
+## Prometheus 和 AlertManager：按严重程度路由
+
+如果你在使用 Prometheus，你已经有了用于路由的 AlertManager。通过将 Echobell 添加为 webhook 接收器，你可以将告警直接发送到 Echobell。
+
+在你的 `alertmanager.yml` 中：
+
+```yaml
+receivers:
+  - name: echobell-critical
+    webhook_configs:
+      - url: https://hook.echobell.one/YOUR_CHANNEL_ID
+        send_resolved: true
+
+  - name: slack-warnings
+    slack_configs:
+      - api_url: YOUR_SLACK_WEBHOOK
+
+route:
+  group_by: ['alertname', 'job']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: slack-warnings
+  routes:
+    - match:
+        severity: critical
+      receiver: echobell-critical
+```
+
+有了这个设置，`severity: critical` 的告警会去 Echobell 并让你的手机响铃；警告去 Slack，可以等到早上再处理。你不需要更改任何 Prometheus 规则——只需在 AlertManager 中添加路由层。
+
+将 Echobell 频道本身设置为**来电**。如果 AlertManager 认为它是关键的，那就值得一个真实的铃声。
+
+## AWS CloudWatch：SNS → Lambda → Echobell
+
+CloudWatch 没有原生的 webhook 输出，但你可以用 SNS 和一个小型 Lambda 函数在几分钟内实现。
+
+1. 创建一个 SNS 主题并将其附加到你的 CloudWatch 告警
+2. 创建一个订阅该主题的 Lambda 函数：
+
+```python
+import json
+import urllib.request
+
+def lambda_handler(event, context):
+    message = json.loads(event['Records'][0]['Sns']['Message'])
+    alarm_state = message.get('NewStateValue', 'UNKNOWN')
+
+    payload = {
+        "title": f"AWS: {message['AlarmName']}",
+        "body": message.get('NewStateReason', '无详情'),
+        "notificationType": "calling" if alarm_state == "ALARM" else "active"
+    }
+
+    req = urllib.request.Request(
+        'https://hook.echobell.one/YOUR_CHANNEL_ID',
+        data=json.dumps(payload).encode(),
+        headers={'Content-Type': 'application/json'},
+        method='POST'
+    )
+    urllib.request.urlopen(req)
+```
+
+这个模式适用于任何支持 SNS 的 AWS 服务：RDS 事件、ECS 服务故障、账单阈值告警、EC2 实例状态变更。配置一个 Lambda，连接到 SNS，每个 CloudWatch 告警真正触发时就会变成电话。
+
+## 让告警路由成为团队决策
+
+分级告警的真正杠杆在于使路由决策显式化——而不是某人在某时配置了一次，没有人能找到的东西。
+
+小型工程团队的实用结构：
+
+| 频道 | 类型 | 谁订阅 |
+|---|---|---|
+| `production-api-critical` | 来电 | 值班工程师 |
+| `production-api-warnings` | 时间敏感 | 整个开发团队 |
+| `staging-all` | 活跃 | 开发团队（可选） |
+| `background-jobs` | 活跃 | 有兴趣的人 |
+
+当值班轮换时，离任的人取消订阅关键频道，接任的人订阅。这就是整个轮换交接——不需要编辑配置文件，不需要管理员面板。
+
+Echobell 频道可以通过链接共享，新成员订阅只需约 10 秒。
+
+## 信噪比测试
+
+在添加任何新告警之前，问自己一个问题：如果这个在周五凌晨 3 点触发，我实际上会怎么做？
+
+- "起床立即修复" → 来电
+- "明天早上第一件事处理" → 时间敏感或活跃
+- "可能什么都不做，继续睡觉" → 重新考虑这个告警是否应该存在
+
+大多数监控设置在第一类别中有太多东西，在第二类别中太少。大多数事件的正确答案是"明天处理"，而一个静静出现在锁屏上的时间敏感通知正是为此准备的合适工具。
+
+## 一次只改一个
+
+如果你当前的设置正在产生告警疲劳，最快的解决方案不是全面重构。选择你最嘈杂的来源——可能是 Sentry 邮件或一个每个人都静音的 Slack 频道——然后将每种事件类型归类为来电、时间敏感或活跃。
+
+一个来源。一周时间。看看噪音是否在不失去信号的情况下降低。
+
+然后处理下一个。
+
+一个调整良好的告警设置是那些不声不响地改善你日常工作生活的东西之一。你不再害怕手机响。你开始相信，当它响的时候，那真的是重要的事情。
+
+---
+
+## 相关链接
+
+- [当 API 宕机时获取电话警报](/en/blog/phone-call-alerts-api-downtime)
+- [Grafana 电话通知与 Echobell](/en/blog/grafana-call-notification)
+- [如何让关键告警突破 iOS 专注模式](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [使用时间窗口条件实现更智能的告警投递](/en/blog/time-window-notifications-using-utc-conditions)
+- [使用 n8n 和 Echobell 构建自动化中枢](/en/blog/n8n-echobell-automation-hub)
+- [iPhone 的 Webhook 通知](/en/features/webhooks)
