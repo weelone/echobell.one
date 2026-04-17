@@ -1,0 +1,169 @@
+---
+title: "アラート疲れは本物：賢い開発者がどうやって解決しているか"
+description: "すべてのアラートが同じように緊急に見えると、何も本当に緊急とは感じられなくなります。段階的な通知でモニタリング設定を改善する方法と、Echobellとの相性が良いツールを紹介します。"
+date: 2026-04-17
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - アラート疲れ
+  - モニタリング
+  - Sentry
+  - Prometheus
+  - CloudWatch
+  - DevOps
+---
+
+# アラート疲れは本物：賢い開発者がどうやって解決しているか
+
+これには名前があります。「アラート疲れ」です。モニタリングツールが大量の通知を送り続けた結果、脳が自動的にそれらをフィルタリングし始める現象のことです。本当に重要な通知でさえも。
+
+たいてい、小さなことから始まります。すべての5xxエラーにメールアラートを設定する。次に、失敗したビルドごとにSlack通知。そしてDatadogのping、Sentryのメール、UptimeRobotのテキスト。1ヶ月も経てば、電話が1日に50回振動するようになり、何も緊急に感じられなくなります。本当に怖いのはここです。何かが実際に壊れたとき、すでにそれを無視するよう自分を訓練してしまっているのです。
+
+アラート疲れは対応時間を破壊します。そして対応時間の遅さはプロダクトを破壊します。
+
+## なぜほとんどのモニタリング設定はシグナルよりもノイズを多く生むのか
+
+根本的な問題は、ほとんどのアラートツールがすべてのイベントを同じように扱うことです。10%の確率で失敗する不安定なテストが、「すべてのユーザーに対して決済APIが500を返している」と同じ通知フォーマットで届きます。片方は深夜2時に電話が必要な事態。もう片方は週次レポートで十分かもしれません。
+
+すべてが同じ扱いを受けると、人間はすべてを無視するようになります。
+
+解決策は、アラートを減らすことではありません。より賢い配信方法です。同じイベントでも、重大度や頻度が異なれば、電話での緊急度も異なるべきです。
+
+## 3段階アプローチ
+
+Echobellには3つの配信モードがあり、この3つをうまく使いこなすことが重要です。
+
+- **アクティブ（通常）：** 標準のプッシュ通知。即時対応を必要としない情報提供イベントに最適。
+- **時間的制約あり：** iOSの集中モードを突破します。1〜2時間以内の対応が必要な場合に適しています。
+- **通話：** 着信のように電話が鳴ります。「今すぐ修正しないと本当の問題になる」ケースのためだけに使います。
+
+目標は、対応が遅れると実際の影響が出るイベント（収益損失、連鎖障害、ユーザーデータのリスクなど）のためだけに通話レベルを残しておくことです。それ以外はすべて時間的制約あり以下に落とします。
+
+## Sentry：すべてのPython例外で呼び出されるのをやめる
+
+Sentryはアラート疲れの典型例です。デフォルトでは、新しい問題タイプごとにメールを送信します。活発なコードベースで普通の1週間を過ごすと、それは洪水のようになります。
+
+よりスマートな設定方法：
+
+1. Sentryで：**アラート → アラートを作成 → Issue アラート**
+2. 条件を追加：`1時間以内に10回以上見られたissue`
+3. アクションを追加：**Webhookで通知を送信** → EchobellチャンネルのURLを貼り付ける
+4. チャンネルの通知タイプを`時間的制約あり`に設定
+
+決済フローの未処理例外、認証失敗、データ破損など本当にクリティカルなパスには、より低い閾値と`通話`レベルのEchobellチャンネルを持つ別のアラートを作成してください。そのチャンネルは、その特定のパスで何かが壊れたときだけ鳴ります。
+
+結果：日常的なissueはSentryダッシュボードに静かに蓄積されます。プロダクションを壊す問題はあなたに電話してきます。
+
+## PrometheusとAlertManager：重大度でルーティング
+
+Prometheusを使っているなら、すでにルーティング用のAlertManagerがあります。EchobellをWebhookレシーバーとして追加することで、アラートを直接Echobellに送ることができます。
+
+`alertmanager.yml`の設定：
+
+```yaml
+receivers:
+  - name: echobell-critical
+    webhook_configs:
+      - url: https://hook.echobell.one/YOUR_CHANNEL_ID
+        send_resolved: true
+
+  - name: slack-warnings
+    slack_configs:
+      - api_url: YOUR_SLACK_WEBHOOK
+
+route:
+  group_by: ['alertname', 'job']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: slack-warnings
+  routes:
+    - match:
+        severity: critical
+      receiver: echobell-critical
+```
+
+この設定では、`severity: critical`のアラートがEchobellに行き電話が鳴り、warningはSlackに行って翌朝まで待機できます。Prometheusのルールを1つも変更する必要はありません。AlertManagerにルーティング層を追加するだけです。
+
+Echobellチャンネル自体は**通話**に設定してください。AlertManagerがcriticalと判断したなら、本物の着信音に値します。
+
+## AWS CloudWatch：SNS → Lambda → Echobell
+
+CloudWatchにはネイティブのWebhook出力がありませんが、SNSと小さなLambda関数を使えば数分で実現できます。
+
+1. SNSトピックを作成してCloudWatchアラームに接続する
+2. そのトピックをサブスクライブするLambda関数を作成する：
+
+```python
+import json
+import urllib.request
+
+def lambda_handler(event, context):
+    message = json.loads(event['Records'][0]['Sns']['Message'])
+    alarm_state = message.get('NewStateValue', 'UNKNOWN')
+
+    payload = {
+        "title": f"AWS: {message['AlarmName']}",
+        "body": message.get('NewStateReason', '詳細なし'),
+        "notificationType": "calling" if alarm_state == "ALARM" else "active"
+    }
+
+    req = urllib.request.Request(
+        'https://hook.echobell.one/YOUR_CHANNEL_ID',
+        data=json.dumps(payload).encode(),
+        headers={'Content-Type': 'application/json'},
+        method='POST'
+    )
+    urllib.request.urlopen(req)
+```
+
+このパターンはSNSをサポートするすべてのAWSサービスで機能します：RDSイベント、ECSサービス障害、請求閾値アラート、EC2インスタンス状態変更。Lambda1つを設定してSNSに接続するだけで、すべてのCloudWatchアラームが実際に発火したときに電話になります。
+
+## アラートルーティングをチームの意思決定にする
+
+段階的アラートの真の力は、ルーティングの決定を明示的にすること、つまり誰かが1回設定してもう誰も見つけられない、という状況をなくすことです。
+
+小規模なエンジニアリングチームへの実用的な構造：
+
+| チャンネル | タイプ | 誰がサブスクライブするか |
+|---|---|---|
+| `production-api-critical` | 通話 | オンコールエンジニア |
+| `production-api-warnings` | 時間的制約あり | 開発チーム全員 |
+| `staging-all` | アクティブ | 開発チーム（任意） |
+| `background-jobs` | アクティブ | 興味ある人 |
+
+オンコールのローテーションが変わったとき、交代する人がクリティカルチャンネルのサブスクリプションを解除し、引き継ぐ人がサブスクライブします。それがローテーション引き継ぎの全てです。設定ファイルも管理パネルも必要ありません。
+
+Echobellチャンネルはリンクで共有できるので、新しいメンバーのサブスクリプションは約10秒で完了します。
+
+## シグナル対ノイズテスト
+
+新しいアラートを追加する前に、1つの質問を自分に問いかけてください：金曜の深夜3時にこれが発火したら、実際に何をするか？
+
+- 「起きてすぐに直す」→ 通話
+- 「翌朝一番に対応する」→ 時間的制約あり、またはアクティブ
+- 「たぶん何もしない、また眠る」→ このアラートが本当に必要か再考する
+
+ほとんどのモニタリング設定は、最初のカテゴリに多すぎるものが入り、2番目のカテゴリには少なすぎます。ほとんどのイベントに対する正解は「明日対応する」であり、時間的制約ありの通知が静かにロック画面に表示されるのは、まさにそのための適切なツールです。
+
+## 一度に1つの変更
+
+現在の設定がアラート疲れを生んでいるなら、最も速い解決策は全面的な見直しではありません。最もうるさいソース（おそらくSentryのメールか、全員がミュートしたSlackチャンネル）を選んで、各イベントタイプを通話、時間的制約あり、またはアクティブに分類してください。
+
+1つのソース。1週間。シグナルを失わずにノイズが減るか確認する。
+
+次は次のソースへ。
+
+よく調整されたアラート設定は、毎日の仕事を静かに改善するものの一つです。大げさではありません。あなたは電話を恐れるのをやめます。鳴るときには本当に重要なことが起きているという信頼が生まれます。
+
+---
+
+## 関連リンク
+
+- [APIが落ちたときに電話で通知を受ける](/en/blog/phone-call-alerts-api-downtime)
+- [GrafanaとEchobellで通話通知を設定する](/en/blog/grafana-call-notification)
+- [重要なアラートでiOSの集中モードを突破する方法](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [よりスマートなアラート配信のための時間窓条件](/en/blog/time-window-notifications-using-utc-conditions)
+- [n8nとEchobellで自動化ハブを構築する](/en/blog/n8n-echobell-automation-hub)
+- [iPhoneへのWebhook通知](/en/features/webhooks)

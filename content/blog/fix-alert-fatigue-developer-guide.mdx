@@ -1,0 +1,169 @@
+---
+title: "Alert Fatigue Is Real: How Smart Developers Actually Fix It"
+description: "When every alert looks equally urgent, nothing feels urgent. Here's how to fix your monitoring setup with tiered notifications — and which tools play nicely with Echobell."
+date: 2026-04-17
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - alert fatigue
+  - monitoring
+  - Sentry
+  - Prometheus
+  - CloudWatch
+  - DevOps
+---
+
+# Alert Fatigue Is Real: How Smart Developers Actually Fix It
+
+There's a name for it: alert fatigue. It's what happens when your monitoring tools send so many notifications that your brain starts filtering them out automatically — even the ones that matter.
+
+It usually starts small. You set up email alerts for every 5xx error. Then Slack notifications for every failed build. Then Datadog pings, Sentry emails, UptimeRobot texts. Within a month, your phone buzzes 50 times a day and none of it feels urgent. The really bad part? When something actually breaks, you've already trained yourself to ignore it.
+
+Alert fatigue kills response time. And slow response time kills products.
+
+## Why most monitoring setups create more noise than signal
+
+The fundamental problem is that most alerting tools treat all events the same. A flaky test that fails 10% of the time gets the same notification format as "the payment API is returning 500s for every user." One of those needs a phone call at 2 a.m. The other should probably show up in a weekly digest.
+
+When everything gets the same treatment, humans start ignoring everything.
+
+The fix isn't fewer alerts — it's smarter delivery. The same event at different severity levels, or with different frequency, should produce different urgency levels on your phone.
+
+## The three-tier approach
+
+Echobell gives you three delivery modes, and using all three well is the whole game:
+
+- **Active (Normal):** Standard push notification. Fine for informational events that don't need immediate action.
+- **Time-sensitive:** Breaks through iOS Focus Mode. Good for things that need attention within the next hour or two.
+- **Calling:** Rings your phone like an incoming call. Reserve this for "fix it right now or real consequences follow."
+
+The goal is to preserve the calling level for events where a delayed response has actual consequences — lost revenue, cascading failures, user data at risk. Everything else drops to time-sensitive or lower.
+
+## Sentry: Stop getting paged for every Python exception
+
+Sentry is the canonical example of alert fatigue. By default it emails you for every new issue type. On an active codebase during a normal week, that's a firehose.
+
+Here's a smarter setup:
+
+1. In Sentry, go to **Alerts → Create Alert → Issue Alert**
+2. Add a condition: `The issue is seen more than 10 times in 1 hour`
+3. Add action: **Send a notification via webhook** → paste your Echobell channel URL
+4. Set the channel's notification type to `time-sensitive`
+
+For truly critical paths — unhandled exceptions in payment flows, auth failures, data corruption — create a separate alert with a lower threshold and a `calling`-level Echobell channel. That channel only rings when something in that specific path breaks.
+
+The result: routine issues accumulate quietly in your Sentry dashboard. Production-breaking problems ring your phone.
+
+## Prometheus and AlertManager: Route by severity
+
+If you're running Prometheus, you already have AlertManager handling routing. You can send alerts directly to Echobell by adding it as a webhook receiver.
+
+In your `alertmanager.yml`:
+
+```yaml
+receivers:
+  - name: echobell-critical
+    webhook_configs:
+      - url: https://hook.echobell.one/YOUR_CHANNEL_ID
+        send_resolved: true
+
+  - name: slack-warnings
+    slack_configs:
+      - api_url: YOUR_SLACK_WEBHOOK
+
+route:
+  group_by: ['alertname', 'job']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: slack-warnings
+  routes:
+    - match:
+        severity: critical
+      receiver: echobell-critical
+```
+
+With this setup, `severity: critical` alerts go to Echobell and ring your phone; warnings go to Slack where they can wait until morning. You don't need to change a single Prometheus rule — just add the routing layer in AlertManager.
+
+Set the Echobell channel itself to **Calling**. If AlertManager labels it critical, it warrants a real ring.
+
+## AWS CloudWatch: SNS → Lambda → Echobell
+
+CloudWatch doesn't have native webhook output, but you can get there in a few minutes with SNS and a small Lambda function.
+
+1. Create an SNS topic and attach it to your CloudWatch alarm
+2. Create a Lambda function subscribed to that topic:
+
+```python
+import json
+import urllib.request
+
+def lambda_handler(event, context):
+    message = json.loads(event['Records'][0]['Sns']['Message'])
+    alarm_state = message.get('NewStateValue', 'UNKNOWN')
+
+    payload = {
+        "title": f"AWS: {message['AlarmName']}",
+        "body": message.get('NewStateReason', 'No details'),
+        "notificationType": "calling" if alarm_state == "ALARM" else "active"
+    }
+
+    req = urllib.request.Request(
+        'https://hook.echobell.one/YOUR_CHANNEL_ID',
+        data=json.dumps(payload).encode(),
+        headers={'Content-Type': 'application/json'},
+        method='POST'
+    )
+    urllib.request.urlopen(req)
+```
+
+This pattern works for any AWS service that supports SNS: RDS events, ECS service failures, billing threshold alerts, EC2 instance state changes. Add one Lambda, wire it to SNS, and every CloudWatch alarm becomes a phone call when it actually fires.
+
+## Making alert routing a team decision
+
+The real leverage with tiered alerts is making the routing decision explicit — not just something one person configured once and nobody can find.
+
+A practical structure for a small engineering team:
+
+| Channel | Type | Who subscribes |
+|---|---|---|
+| `production-api-critical` | Calling | On-call engineer |
+| `production-api-warnings` | Time-sensitive | Whole dev team |
+| `staging-all` | Active | Dev team (optional) |
+| `background-jobs` | Active | Anyone interested |
+
+When the on-call rotation changes, the outgoing person unsubscribes from the critical channel and the incoming person subscribes. That's the whole rotation handoff — no config files, no admin panels.
+
+Echobell channels are shareable via link, so subscribing takes about 10 seconds for each new team member.
+
+## The signal-to-noise test
+
+Before adding any new alert, ask one question: if this fires at 3 a.m. on a Friday, what do I actually do?
+
+- "Wake up and fix it immediately" → Calling
+- "Handle it first thing in the morning" → Time-sensitive or Active
+- "Probably nothing, I'd go back to sleep" → reconsider whether the alert should exist at all
+
+Most monitoring setups have too many things in the first category and not enough in the second. The right answer for the majority of events is "handle it tomorrow," and a time-sensitive notification that shows up on your lock screen without ringing is exactly the right tool for that.
+
+## One change at a time
+
+If your current setup is producing alert fatigue, the fastest fix isn't a full overhaul. Pick your noisiest source — probably Sentry emails or a Slack channel everyone has muted — and categorize each event type into calling, time-sensitive, or active.
+
+One source. One week. See if the noise drops without losing signal.
+
+Then do the next one.
+
+A well-tuned alert setup is one of those things that quietly improves your daily work life without being dramatic about it. You stop dreading your phone. You start trusting that when it rings, it actually matters.
+
+---
+
+## Related
+
+- [Getting phone call alerts when your API goes down](/en/blog/phone-call-alerts-api-downtime)
+- [Grafana call notifications with Echobell](/en/blog/grafana-call-notification)
+- [Bypassing iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Time-window conditions for smarter alert delivery](/en/blog/time-window-notifications-using-utc-conditions)
+- [Building an automation hub with n8n and Echobell](/en/blog/n8n-echobell-automation-hub)
+- [Webhook notifications for iPhone](/en/features/webhooks)
