@@ -64,7 +64,7 @@ function SimpleLanguageToggle({ lang }: { lang: Language }) {
               {languages.map((locale) => (
                 <Link
                   key={locale}
-                  href={pathname.replace(`/${lang}`, `/${locale}`)}
+                  href={pathname === "/" ? `/${locale}` : pathname.replace(`/${lang}`, `/${locale}`)}
                   className={`block px-4 py-2 text-sm transition-colors ${
                     locale === lang
                       ? "bg-orange-50 dark:bg-orange-950/50 font-medium text-orange-600 dark:text-orange-400"

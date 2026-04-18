@@ -175,6 +175,10 @@ export default async function Layout({
 
   return (
     <html lang={lang} suppressHydrationWarning>
+      <head>
+        <OrganizationJsonLd />
+        <WebsiteJsonLd />
+      </head>
       <body
         className="bg-neutral-100 dark:bg-neutral-900"
         style={{
@@ -183,9 +187,6 @@ export default async function Layout({
           minHeight: "100vh",
         }}
       >
-        {/* Site-wide structured data */}
-        <OrganizationJsonLd />
-        <WebsiteJsonLd />
         <RootProvider
           i18n={{
             locale: lang,
