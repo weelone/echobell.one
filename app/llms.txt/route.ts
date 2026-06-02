@@ -39,7 +39,7 @@ export async function GET(): Promise<NextResponse> {
   const lines = [
     "# Echobell",
     "",
-    "> Echobell converts webhooks and emails into iOS notifications and phone call alerts.",
+    "> Echobell converts webhooks and emails into mobile notifications and phone call alerts.",
     "",
     "Use this file as the curated starting point for Echobell documentation at inference time.",
     "",

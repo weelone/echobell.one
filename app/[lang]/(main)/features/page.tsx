@@ -25,6 +25,7 @@ import {
 } from "@/lib/features-i18n";
 import { FeatureJsonLd } from "@/components/JsonLd";
 import { getAppStoreLink } from "@/constants";
+import { GooglePlayTextLink } from "@/components/StoreDownloadLinks";
 
 const features = [
   {
@@ -386,6 +387,7 @@ export default async function FeaturesIndexPage({
               >
                 {t.getStarted}
               </Link>
+              <GooglePlayTextLink className="rounded-full border-2 border-neutral-300 px-8 py-3 text-sm font-semibold transition-colors hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-600" />
               <Link
                 href={localizeUrl("/docs", lang)}
                 className="rounded-full border-2 border-neutral-300 dark:border-neutral-700 px-8 py-3 text-sm font-semibold hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors"

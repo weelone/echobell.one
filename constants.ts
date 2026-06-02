@@ -1,5 +1,7 @@
 const APP_STORE_BASE_URL =
   "https://apps.apple.com/app/apple-store/id6743597198";
+const GOOGLE_PLAY_BASE_URL =
+  "https://play.google.com/store/apps/details?id=one.echobell.echobellandroid";
 const APP_STORE_PROVIDER_TOKEN = "128151925";
 const APP_STORE_MEDIA_TYPE = "8";
 const APP_STORE_CAMPAIGN_TOKEN_MAX_LENGTH = 40;
@@ -47,4 +49,9 @@ export function getAppStoreLink(source: string | string[]): string {
   return url.toString();
 }
 
+export function getGooglePlayLink(): string {
+  return GOOGLE_PLAY_BASE_URL;
+}
+
 export const APP_STORE_LINK = getAppStoreLink("site-default");
+export const GOOGLE_PLAY_LINK = getGooglePlayLink();

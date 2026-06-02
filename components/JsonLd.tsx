@@ -1,4 +1,4 @@
-import { getAppStoreLink } from "@/constants";
+import { getAppStoreLink, getGooglePlayLink } from "@/constants";
 
 interface JsonLdProps {
   data: object;
@@ -71,7 +71,7 @@ export function WebsiteJsonLd() {
     name: "Echobell",
     url: "https://echobell.one",
     description:
-      "Never miss critical alerts. Echobell instantly converts webhooks & emails into iOS notifications or phone calls.",
+      "Never miss critical alerts. Echobell instantly converts webhooks & emails into mobile notifications or phone calls.",
     // Keep potentialAction simple to avoid invalid URLs if no search page exists
     // You can re-enable a dedicated search endpoint later
     potentialAction: undefined,
@@ -84,8 +84,10 @@ export function WebsiteJsonLd() {
   return <JsonLd data={websiteData} />;
 }
 
-// Software Application schema for Echobell iOS app
+// Software Application schema for Echobell mobile app
 export function SoftwareApplicationJsonLd() {
+  const appStoreLink = getAppStoreLink(["seo", "software-application"]);
+  const googlePlayLink = getGooglePlayLink();
   const offer = {
     "@type": "Offer",
     url: "https://echobell.one",
@@ -101,13 +103,13 @@ export function SoftwareApplicationJsonLd() {
     "@context": "https://schema.org",
     "@type": "MobileApplication",
     name: "Echobell",
-    operatingSystem: "iOS",
+    operatingSystem: "iOS, Android",
     applicationCategory: "BusinessApplication",
     description:
-      "Instant webhook and email alerts via calls and notifications for iOS",
+      "Instant webhook and email alerts via calls and notifications for mobile devices",
     url: "https://echobell.one",
-    downloadUrl: getAppStoreLink(["seo", "software-application"]),
-    installUrl: getAppStoreLink(["seo", "software-application"]),
+    downloadUrl: [appStoreLink, googlePlayLink],
+    installUrl: [appStoreLink, googlePlayLink],
     screenshot: "https://echobell.one/images/screenshots.webp",
     isAccessibleForFree: true,
     author: {

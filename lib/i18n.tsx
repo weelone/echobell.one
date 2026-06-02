@@ -26,7 +26,7 @@ export const uiDictionary = {
       defaultTitle:
         "Echobell - Webhook & Email Alerts via Calls | Privacy-First",
       description:
-        "Turn webhooks and emails into instant iPhone alerts. Echobell delivers server down, CI/CD, App Store Connect, and trading notifications as push alerts or phone calls.",
+        "Turn webhooks and emails into instant mobile alerts. Echobell delivers server down, CI/CD, App Store Connect, and trading notifications as push alerts or phone calls.",
       keywords: [
         "Echobell",
         "webhook alert",
@@ -62,7 +62,7 @@ export const uiDictionary = {
       ),
       // Smoothness: Slightly stronger wording
       description:
-        "Turn webhooks and emails into instant iPhone alerts. Use time-sensitive notifications, phone calls, and shared channels for server outages, CI/CD failures, App Review updates, and trading signals.",
+        "Turn webhooks and emails into instant mobile alerts. Use time-sensitive notifications, phone calls, and shared channels for server outages, CI/CD failures, App Review updates, and trading signals.",
       downloadApp: "Download App",
       getStarted: "Get Started",
       appStoreImage: appStoreImageEn,
@@ -255,7 +255,7 @@ export const uiDictionary = {
       subscriptionTips:
         "Open this link in the Echobell app to subscribe, or copy the link and paste it into the 'Add Subscription' section within the app.",
       downloadTips:
-        "Don't have Echobell yet? Download it free from the App Store.",
+        "Don't have Echobell yet? Download it free from the App Store or Google Play.",
       learnMore: "Learn More",
       appStoreImage: appStoreImageEn,
     },
@@ -859,7 +859,7 @@ export const uiDictionary = {
       // Clarity
       subscriptionTips:
         "在回声铃 App 中打开此链接以订阅，或复制链接并将其粘贴到 App 内的“添加订阅”部分。",
-      downloadTips: "还没有回声铃？从 App Store 免费下载。",
+      downloadTips: "还没有回声铃？从 App Store 或 Google Play 免费下载。",
       learnMore: "了解更多",
       appStoreImage: appStoreImageZh,
     },
@@ -1448,7 +1448,7 @@ export const uiDictionary = {
       subscriptionTips:
         "Abre este enlace en la app Echobell para suscribirte, o copia el enlace y pégalo en la sección 'Añadir Suscripción' dentro de la app.",
       downloadTips:
-        "¿Aún no tienes Echobell? Descárgala gratis desde la App Store.",
+        "¿Aún no tienes Echobell? Descárgala gratis desde la App Store o Google Play.",
       learnMore: "Saber Más",
       appStoreImage: appStoreImageEn,
     },
@@ -2062,7 +2062,7 @@ export const uiDictionary = {
       subscriptionTips:
         "Ouvrez ce lien dans l'app Echobell pour vous abonner, ou copiez le lien et collez-le dans la section 'Ajouter un Abonnement' de l'app.",
       downloadTips:
-        "Vous n'avez pas encore Echobell ? Téléchargez-la gratuitement sur l'App Store.",
+        "Vous n'avez pas encore Echobell ? Téléchargez-la gratuitement sur l'App Store ou Google Play.",
       learnMore: "En Savoir Plus",
       appStoreImage: appStoreImageEn,
     },
@@ -2669,7 +2669,7 @@ export const uiDictionary = {
       subscriptionTips:
         "このリンクをEchobellアプリで開いて購読するか、リンクをコピーしてアプリ内の「購読を追加」セクションに貼り付けます。",
       downloadTips:
-        "まだEchobellをお持ちではありませんか？App Storeから無料でダウンロードしてください。",
+        "まだEchobellをお持ちではありませんか？App StoreまたはGoogle Playから無料でダウンロードしてください。",
       learnMore: "詳細を見る",
       appStoreImage: appStoreImageEn,
     },
@@ -3256,7 +3256,7 @@ export const uiDictionary = {
       subscriptionTips:
         "Öffnen Sie diesen Link in der Echobell-App, um zu abonnieren, oder kopieren Sie den Link und fügen Sie ihn im Abschnitt 'Abonnement hinzufügen' in der App ein.",
       downloadTips:
-        "Haben Sie Echobell noch nicht? Laden Sie es kostenlos im App Store herunter.",
+        "Haben Sie Echobell noch nicht? Laden Sie es kostenlos im App Store oder bei Google Play herunter.",
       learnMore: "Mehr erfahren",
       appStoreImage: appStoreImageEn,
     },

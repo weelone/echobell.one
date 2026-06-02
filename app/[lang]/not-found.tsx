@@ -1,6 +1,6 @@
 import { getAppStoreLink } from "@/constants";
 import Link from "next/link";
-import Image from "next/image";
+import { StoreDownloadLinks } from "@/components/StoreDownloadLinks";
 
 import AppStore from "@/public/images/app-store.en.svg";
 
@@ -41,10 +41,11 @@ export default function NotFound() {
               Sorry, we couldn&apos;t find the page you were looking for. It
               might have been removed or is temporarily unavailable.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a href={appStoreLink} target="_blank">
-                <Image src={AppStore} alt="App Store" />
-              </a>
+            <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row">
+              <StoreDownloadLinks
+                appStoreImage={AppStore}
+                appStoreLink={appStoreLink}
+              />
               <Link href="/docs" className="text-sm/6 font-semibold opacity-90">
                 Docs <span aria-hidden="true">→</span>
               </Link>

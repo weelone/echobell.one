@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   ArrowRightIcon,
   BellRingIcon,
@@ -21,6 +20,7 @@ import { baseUrl, createMetadata } from "@/lib/metadata";
 import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
 import { FAQSection } from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
+import { StoreDownloadLinks } from "@/components/StoreDownloadLinks";
 
 type UseCaseLink = {
   label: string;
@@ -259,7 +259,7 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         },
         {
           question: "Do these workflows work on Android?",
-          answer: "Echobell is currently optimized for iOS to provide deep system integration like Time-Sensitive notifications and Call alerts.",
+          answer: "Yes. Echobell now supports iOS and Android, so the same webhook and email workflows can reach both platforms.",
         },
         {
           question: "Is there a limit to the number of subscribers?",
@@ -470,7 +470,7 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         },
         {
           question: "这些流程支持安卓系统吗？",
-          answer: "Echobell 目前专注于 iOS 平台的深度优化，以提供“时间敏感”通知和“来电告警”等核心系统级能力。",
+          answer: "支持。Echobell 现在支持 iOS 和 Android，同一套 Webhook 与邮件工作流可以触达两个平台。",
         },
         {
           question: "频道订阅人数有限制吗？",
@@ -672,7 +672,7 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         },
         {
           question: "¿Funciona en Android?",
-          answer: "Echobell está optimizado para iOS con capacidades como Time-Sensitive y alertas por llamada.",
+          answer: "Sí. Echobell ahora es compatible con iOS y Android, por lo que los mismos workflows webhook y email pueden llegar a ambas plataformas.",
         },
         {
           question: "¿Hay límite de suscriptores?",
@@ -874,7 +874,7 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         },
         {
           question: "Ces workflows fonctionnent-ils sur Android ?",
-          answer: "Echobell est actuellement optimisé pour iOS (Time-Sensitive et alertes par appel).",
+          answer: "Oui. Echobell prend désormais en charge iOS et Android, afin que les mêmes workflows webhook et email atteignent les deux plateformes.",
         },
         {
           question: "Y a-t-il une limite d'abonnés ?",
@@ -1076,7 +1076,7 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         },
         {
           question: "Android でも使えますか？",
-          answer: "Echobell は現在 iOS 向けに最適化されています（Time-Sensitive や通話通知）。",
+          answer: "はい。Echobell は iOS と Android に対応しており、同じ Webhook とメールのワークフローを両方のプラットフォームに届けられます。",
         },
         {
           question: "購読者数に上限はありますか？",
@@ -1278,7 +1278,7 @@ const pageCopy: Record<Language, UseCasePageCopy> = {
         },
         {
           question: "Funktionieren diese Workflows auf Android?",
-          answer: "Echobell ist aktuell auf iOS optimiert (Time-Sensitive und Anruf-Benachrichtigungen).",
+          answer: "Ja. Echobell unterstützt jetzt iOS und Android, sodass dieselben Webhook- und E-Mail-Workflows beide Plattformen erreichen können.",
         },
         {
           question: "Gibt es ein Limit für Abonnenten?",
@@ -1376,14 +1376,11 @@ export default async function UseCasesPage({
           <p className="mx-auto mt-4 max-w-2xl text-lg opacity-40 leading-relaxed">
             {t.hero.description}
           </p>
-          <div className="mt-12 flex items-center justify-center gap-x-8">
-            <Link
-              href={getAppStoreLink(["use-cases", "hero", lang])}
-              target="_blank"
-              className="hover:scale-105 transition-transform duration-200"
-            >
-              <Image src={dict.hero.appStoreImage} alt="App Store" width={160} height={48} />
-            </Link>
+          <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row">
+            <StoreDownloadLinks
+              appStoreImage={dict.hero.appStoreImage}
+              appStoreLink={getAppStoreLink(["use-cases", "hero", lang])}
+            />
             <Link
               href={localizeUrl("/docs", lang)}
               className="text-sm font-bold opacity-90 group flex items-center gap-1.5 py-3"

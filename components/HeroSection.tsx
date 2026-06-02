@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
 
 import { getAppStoreLink } from "@/constants";
+import { StoreDownloadLinks } from "./StoreDownloadLinks";
 import { AnimatedShinyText } from "./magicui/animated-shiny-text";
 import { ArrowRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -46,10 +46,12 @@ export default function HeroSection({ lang }: { lang: Language }) {
             <p className="mt-4 text-lg font-medium text-pretty opacity-60 sm:text-xl/8">
               {t.description}
             </p>
-            <div className="mt-6 flex items-center justify-center lg:justify-start gap-x-6">
-              <a href={appStoreLink} target="_blank">
-                <Image src={t.appStoreImage} alt="App Store" />
-              </a>
+            <div className="mt-6 flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-start">
+              <StoreDownloadLinks
+                appStoreImage={t.appStoreImage}
+                appStoreLink={appStoreLink}
+                className="lg:justify-start"
+              />
               <Link
                 href={localizeUrl("/docs", lang)}
                 className="text-sm/6 font-semibold opacity-90"

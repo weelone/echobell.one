@@ -23,7 +23,7 @@ export async function GET(): Promise<NextResponse> {
         name: "Echobell",
         url: toAbsoluteUrl("/"),
         description:
-          "Echobell converts webhooks and emails into iOS notifications and phone call alerts.",
+          "Echobell converts webhooks and emails into mobile notifications and phone call alerts.",
       },
       generatedAt: new Date().toISOString(),
       preferredLanguage: "en",

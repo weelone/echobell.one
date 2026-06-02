@@ -1,7 +1,7 @@
 import { fetchChannelBySubscriptionToken } from "@/app/actions/channel";
+import { StoreDownloadLinks } from "@/components/StoreDownloadLinks";
 import { getAppStoreLink } from "@/constants";
 import Link from "next/link";
-import Image from "next/image";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Language, uiDictionary, localizeUrl } from "@/lib/i18n";
 import type { Metadata } from "next";
@@ -67,10 +67,11 @@ export default async function SubscriptionPage({
 
         <p className="mt-5">{t.subscriptionTips}</p>
         <p className="mt-2">{t.downloadTips}</p>
-        <div className="mt-10 flex items-center justify-center gap-x-6">
-          <a href={appStoreLink} target="_blank">
-            <Image src={t.appStoreImage} alt="App Store" />
-          </a>
+        <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row">
+          <StoreDownloadLinks
+            appStoreImage={t.appStoreImage}
+            appStoreLink={appStoreLink}
+          />
           <Link
             href={localizeUrl("/docs", lang)}
             className="text-sm/6 font-semibold opacity-90"

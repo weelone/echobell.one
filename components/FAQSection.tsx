@@ -117,7 +117,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "What is Echobell?",
       answer:
-        "Echobell is an iOS application that provides instant custom notifications from webhooks and emails. You can receive normal notifications, time-sensitive notifications, and even phone calls based on your triggers.",
+        "Echobell is a mobile app that provides instant custom notifications from webhooks and emails. You can receive normal notifications, time-sensitive notifications, and even phone calls based on your triggers.",
     },
     {
       question: "How do I set up webhook notifications?",
@@ -147,7 +147,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "What platforms does Echobell support?",
       answer:
-        "Currently, Echobell is available for iOS devices. You can download it from the App Store.",
+        "Echobell supports iOS and Android. You can download it from the App Store or Google Play.",
     },
     {
       question: "Is there a free version?",
@@ -159,7 +159,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "什么是 Echobell？",
       answer:
-        "Echobell 是一个 iOS 应用程序，通过 webhooks 和电子邮件提供即时自定义通知。您可以根据触发器接收普通通知、时间敏感通知，甚至电话呼叫。",
+        "Echobell 是一个移动应用程序，通过 webhooks 和电子邮件提供即时自定义通知。您可以根据触发器接收普通通知、时间敏感通知，甚至电话呼叫。",
     },
     {
       question: "如何设置 webhook 通知？",
@@ -188,7 +188,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     },
     {
       question: "Echobell 支持哪些平台？",
-      answer: "目前，Echobell 适用于 iOS 设备。您可以从 App Store 下载。",
+      answer: "Echobell 支持 iOS 和 Android。您可以从 App Store 或 Google Play 下载。",
     },
     {
       question: "有免费版本吗？",
@@ -200,7 +200,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "¿Qué es Echobell?",
       answer:
-        "Echobell es una aplicación iOS que proporciona notificaciones personalizadas instantáneas desde webhooks y emails. Puedes recibir notificaciones normales, notificaciones urgentes e incluso llamadas telefónicas basadas en tus triggers.",
+        "Echobell es una aplicación móvil que proporciona notificaciones personalizadas instantáneas desde webhooks y emails. Puedes recibir notificaciones normales, notificaciones urgentes e incluso llamadas telefónicas basadas en tus triggers.",
     },
     {
       question: "¿Cómo configuro las notificaciones webhook?",
@@ -230,7 +230,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "¿Qué plataformas soporta Echobell?",
       answer:
-        "Actualmente, Echobell está disponible para dispositivos iOS. Puedes descargarlo desde el App Store.",
+        "Echobell es compatible con iOS y Android. Puedes descargarlo desde el App Store o Google Play.",
     },
     {
       question: "¿Hay una versión gratuita?",
@@ -242,7 +242,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "Qu'est-ce qu'Echobell ?",
       answer:
-        "Echobell est une application iOS qui fournit des notifications personnalisées instantanées depuis les webhooks et emails. Vous pouvez recevoir des notifications normales, des notifications urgentes et même des appels téléphoniques basés sur vos triggers.",
+        "Echobell est une application mobile qui fournit des notifications personnalisées instantanées depuis les webhooks et emails. Vous pouvez recevoir des notifications normales, des notifications urgentes et même des appels téléphoniques basés sur vos triggers.",
     },
     {
       question: "Comment configurer les notifications webhook ?",
@@ -273,7 +273,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "Quelles plateformes Echobell supporte-t-il ?",
       answer:
-        "Actuellement, Echobell est disponible pour les appareils iOS. Vous pouvez le télécharger depuis l'App Store.",
+        "Echobell prend en charge iOS et Android. Vous pouvez le télécharger depuis l'App Store ou Google Play.",
     },
     {
       question: "Y a-t-il une version gratuite ?",
@@ -285,7 +285,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "Echobell とは何ですか？",
       answer:
-        "Echobell は、webhook とメールからの即座なカスタム通知を提供する iOS アプリケーションです。トリガーに基づいて、通常の通知、時間制限のある通知、さらには電話をかけることもできます。",
+        "Echobell は、webhook とメールからの即座なカスタム通知を提供するモバイルアプリです。トリガーに基づいて、通常の通知、時間制限のある通知、さらには電話をかけることもできます。",
     },
     {
       question: "webhook 通知はどのように設定しますか？",
@@ -315,7 +315,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "Echobell はどのプラットフォームをサポートしていますか？",
       answer:
-        "現在、Echobell は iOS デバイスで利用できます。App Store からダウンロードできます。",
+        "Echobell は iOS と Android に対応しています。App Store または Google Play からダウンロードできます。",
     },
     {
       question: "無料版はありますか？",
@@ -327,7 +327,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "Was ist Echobell?",
       answer:
-        "Echobell ist eine iOS-Anwendung, die sofortige benutzerdefinierte Benachrichtigungen von Webhooks und E-Mails bereitstellt. Sie können normale Benachrichtigungen, zeitkritische Benachrichtigungen und sogar Telefonanrufe basierend auf Ihren Triggern erhalten.",
+        "Echobell ist eine mobile Anwendung, die sofortige benutzerdefinierte Benachrichtigungen von Webhooks und E-Mails bereitstellt. Sie können normale Benachrichtigungen, zeitkritische Benachrichtigungen und sogar Telefonanrufe basierend auf Ihren Triggern erhalten.",
     },
     {
       question: "Wie richte ich Webhook-Benachrichtigungen ein?",
@@ -357,7 +357,7 @@ export const echobellFAQs: Record<Language, FAQItem[]> = {
     {
       question: "Welche Plattformen unterstützt Echobell?",
       answer:
-        "Derzeit ist Echobell für iOS-Geräte verfügbar. Sie können es aus dem App Store herunterladen.",
+        "Echobell unterstützt iOS und Android. Sie können es aus dem App Store oder Google Play herunterladen.",
     },
     {
       question: "Gibt es eine kostenlose Version?",

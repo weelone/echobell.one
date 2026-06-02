@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 import { Language, localizeUrl } from "@/lib/i18n";
+import { GooglePlayTextLink } from "../StoreDownloadLinks";
 
 interface FeatureHeroProps {
   lang: Language;
@@ -63,7 +64,7 @@ export function FeatureHero({
           <p className="mt-6 text-lg leading-8 text-neutral-600 dark:text-neutral-400">
             {description}
           </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href={appStoreLink}
               target="_blank"
@@ -71,6 +72,7 @@ export function FeatureHero({
             >
               {primaryCta}
             </Link>
+            <GooglePlayTextLink className="rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:border-neutral-400 dark:border-neutral-700 dark:text-neutral-100 dark:hover:border-neutral-600" />
             <Link
               href={localizeUrl("/docs", lang)}
               className="group flex items-center text-sm font-semibold text-neutral-900 dark:text-neutral-100"

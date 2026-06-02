@@ -2,6 +2,7 @@ import { getAppStoreLink } from "@/constants";
 import { Language, uiDictionary } from "@/lib/i18n";
 import { CheckIcon } from "lucide-react";
 import { BorderBeam } from "./magicui/border-beam";
+import { GooglePlayTextLink } from "./StoreDownloadLinks";
 
 export default function PricingSection({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].pricing;
@@ -105,6 +106,15 @@ export default function PricingSection({ lang }: { lang: Language }) {
               >
                 {t.startTrial}
               </a>
+              <GooglePlayTextLink
+                aria-describedby={tier.id}
+                className={classNames(
+                  tier.featured
+                    ? "text-white ring-1 ring-white/20 ring-inset hover:bg-white/10 focus-visible:outline-white"
+                    : "text-neutral-700 ring-1 ring-neutral-900/10 ring-inset hover:ring-neutral-900/20 focus-visible:outline-neutral-600 dark:text-neutral-200 dark:ring-white/10 dark:hover:ring-white/20",
+                  "mt-3 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+                )}
+              />
               {tier.featured && (
                 <BorderBeam
                   duration={10}

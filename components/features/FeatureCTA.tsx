@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Language, localizeUrl, uiDictionary } from "@/lib/i18n";
+import { StoreDownloadLinks } from "../StoreDownloadLinks";
 
 interface FeatureCTAProps {
   lang: Language;
@@ -65,13 +65,11 @@ export function FeatureCTA({
             {description}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href={appStoreLink} target="_blank">
-              <Image
-                src={appStoreImage}
-                alt={primaryCta}
-                className="h-12 w-auto"
-              />
-            </Link>
+            <StoreDownloadLinks
+              appStoreImage={appStoreImage}
+              appStoreLink={appStoreLink}
+              appStoreAlt={primaryCta}
+            />
             <Link
               href={localizeUrl("/docs", lang)}
               className={`rounded-full border-2 px-6 py-2.5 text-sm font-semibold transition-colors ${colors.button}`}

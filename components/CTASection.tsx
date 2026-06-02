@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { getAppStoreLink } from "@/constants";
 import { Language, uiDictionary } from "@/lib/i18n";
+import { StoreDownloadLinks } from "./StoreDownloadLinks";
 
 export default function CTASection({ lang }: { lang: Language }) {
   const t = uiDictionary[lang].cta;
@@ -16,11 +16,11 @@ export default function CTASection({ lang }: { lang: Language }) {
           <p className="mx-auto mt-6 max-w-xl text-lg/8 opacity-60">
             {t.description}
           </p>
-          <div className="mt-10 flex items-center justify-center">
-            <a href={appStoreLink} target="_blank">
-              <Image src={t.appStoreImage} alt="App Store" />
-            </a>
-          </div>
+          <StoreDownloadLinks
+            appStoreImage={t.appStoreImage}
+            appStoreLink={appStoreLink}
+            className="mt-10"
+          />
         </div>
       </div>
     </div>

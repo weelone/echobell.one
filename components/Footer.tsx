@@ -3,6 +3,7 @@ import { Logo } from "./Logo";
 import { NavLinks } from "./NavLinks";
 import { getAppStoreLink } from "@/constants";
 import { uiDictionary, Language } from "@/lib/i18n";
+import { GooglePlayTextLink } from "./StoreDownloadLinks";
 
 function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
@@ -40,10 +41,12 @@ export function Footer({ lang }: { lang: Language }) {
               </div>
               <div className="ml-8 lg:w-64">
                 <p className="text-base font-semibold opacity-90">
-                  <a href={footerLink} target="_blank">
-                    <span className="absolute inset-0 sm:rounded-2xl" />
+                  <a href={footerLink} target="_blank" rel="noopener noreferrer">
                     {t.downloadFromAppStore}
                   </a>
+                </p>
+                <p className="mt-1 text-sm font-semibold opacity-90">
+                  <GooglePlayTextLink className="hover:text-orange-500" />
                 </p>
                 <p className="mt-1 text-sm opacity-60">{t.scanQRCode}</p>
               </div>

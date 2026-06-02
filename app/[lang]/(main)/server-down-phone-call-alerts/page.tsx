@@ -6,6 +6,7 @@ import { FAQSection } from "@/components/FAQSection";
 import { FeatureHero } from "@/components/features";
 import { FeatureJsonLd, HowToJsonLd } from "@/components/JsonLd";
 import { getAppStoreLink } from "@/constants";
+import { GooglePlayTextLink } from "@/components/StoreDownloadLinks";
 import { baseUrl, createMetadata } from "@/lib/metadata";
 import { Language, localizeUrl } from "@/lib/i18n";
 
@@ -1072,6 +1073,7 @@ export default async function ServerDownPhoneCallAlertsPage({
               >
                 {t.cta.primary}
               </Link>
+              <GooglePlayTextLink className="rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold transition-colors hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-600" />
               <Link
                 href={localizeUrl("/docs", lang)}
                 className="rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold transition-colors hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-600"
