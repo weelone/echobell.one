@@ -12,7 +12,11 @@ export type CompetitorSlug =
   | "opsgenie"
   | "better-stack"
   | "pushover"
-  | "ifttt";
+  | "ifttt"
+  | "slack"
+  | "telegram"
+  | "discord"
+  | "healthchecks";
 
 export const competitorSlugs: CompetitorSlug[] = [
   "pagerduty",
@@ -20,6 +24,10 @@ export const competitorSlugs: CompetitorSlug[] = [
   "better-stack",
   "pushover",
   "ifttt",
+  "slack",
+  "telegram",
+  "discord",
+  "healthchecks",
 ];
 
 export interface ComparisonItem {
@@ -136,7 +144,7 @@ const indexData: Record<BaseComparisonLanguage, ComparisonsIndexData> = {
     meta: {
       title: "Echobell vs Competitors",
       description:
-        "Compare Echobell with PagerDuty, Opsgenie, Better Stack, Pushover, and IFTTT. See which tool fits fast mobile incident alerts best.",
+        "Compare Echobell with PagerDuty, Opsgenie, Better Stack, Pushover, IFTTT, and Slack. See which tool fits fast mobile incident alerts best.",
       keywords: [
         "Echobell comparison",
         "Echobell vs PagerDuty",
@@ -216,6 +224,51 @@ const indexData: Record<BaseComparisonLanguage, ComparisonsIndexData> = {
           "Operational clarity for engineering and ops teams",
         ],
       },
+      {
+        slug: "slack",
+        competitorName: "Slack",
+        tagline: "Team chat alerts vs dedicated critical-alert delivery",
+        summary:
+          "Slack is great for team conversation, but critical alerts get buried under chatter and muted after hours. Echobell delivers urgent alerts as phone calls and time-sensitive notifications that actually break through.",
+        highlights: [
+          "Phone-call escalation for severity-one incidents",
+          "Alerts that cut through mute, Focus, and Do Not Disturb",
+          "Per-service channels without conversation noise",
+        ],
+      },
+      {
+        slug: "telegram",
+        competitorName: "Telegram",
+        tagline: "Bot messages vs dedicated critical-alert delivery",
+        summary: "Telegram bots are a popular way to pipe alerts, but bot messages are easy to mute and can't call you. Echobell delivers urgent alerts as phone calls and time-sensitive notifications.",
+        highlights: [
+          "Phone-call escalation that bots can't do",
+          "Time-sensitive alerts that bypass mute",
+          "No bot tokens or chat plumbing to maintain",
+        ],
+      },
+      {
+        slug: "discord",
+        competitorName: "Discord",
+        tagline: "Webhook posts in a busy server vs urgent alert delivery",
+        summary: "Discord webhooks are easy to set up, but alerts drown in busy channels and mobile pings get muted. Echobell delivers alerts as phone calls and time-sensitive notifications.",
+        highlights: [
+          "Phone-call escalation for severity-one events",
+          "Alerts that bypass mute and Do Not Disturb",
+          "Dedicated channels instead of a noisy server",
+        ],
+      },
+      {
+        slug: "healthchecks",
+        competitorName: "Healthchecks.io",
+        tagline: "Cron monitoring vs the urgent delivery layer",
+        summary: "Healthchecks.io is great at detecting missed cron jobs, but delivery is email and chat. Echobell adds the phone-call layer so a dead job actually wakes you up.",
+        highlights: [
+          "Phone calls when a job goes silent",
+          "Time-sensitive alerts that bypass mute",
+          "Pairs with Healthchecks via webhook",
+        ],
+      },
     ],
     methodology: {
       title: "How we evaluate",
@@ -256,7 +309,7 @@ const indexData: Record<BaseComparisonLanguage, ComparisonsIndexData> = {
     meta: {
       title: "Echobell 与竞品对比",
       description:
-        "对比 Echobell 与 PagerDuty、Opsgenie、Better Stack、Pushover、IFTTT。快速了解哪个方案更适合高时效告警。",
+        "对比 Echobell 与 PagerDuty、Opsgenie、Better Stack、Pushover、IFTTT、Slack。快速了解哪个方案更适合高时效告警。",
       keywords: [
         "Echobell 竞品对比",
         "Echobell vs PagerDuty",
@@ -333,6 +386,51 @@ const indexData: Record<BaseComparisonLanguage, ComparisonsIndexData> = {
           "以关键事件响应为核心",
           "专用频道降低噪音",
           "工程/运维协作链路更清楚",
+        ],
+      },
+      {
+        slug: "slack",
+        competitorName: "Slack",
+        tagline: "团队聊天里的告警 vs 专用关键告警触达",
+        summary:
+          "Slack 适合团队沟通，但关键告警容易被聊天淹没、下班后被静音。Echobell 用电话和时效通知把紧急告警真正送达。",
+        highlights: [
+          "严重故障可升级为电话呼叫",
+          "可穿透静音、专注模式与勿扰",
+          "按服务划分频道，远离闲聊噪音",
+        ],
+      },
+      {
+        slug: "telegram",
+        competitorName: "Telegram",
+        tagline: "机器人消息 vs 专用关键告警触达",
+        summary: "用 Telegram 机器人转发告警很常见，但机器人消息容易被静音、也不会打电话。Echobell 用电话和时效通知送达紧急告警。",
+        highlights: [
+          "机器人做不到的电话升级",
+          "可绕过静音的时效告警",
+          "无需维护 bot token 与转发链路",
+        ],
+      },
+      {
+        slug: "discord",
+        competitorName: "Discord",
+        tagline: "嘈杂服务器里的 webhook 消息 vs 紧急告警触达",
+        summary: "Discord webhook 很好配，但告警容易淹没在嘈杂频道里、手机提醒也被静音。Echobell 用电话和时效通知送达告警。",
+        highlights: [
+          "严重事件可电话升级",
+          "可绕过静音与勿扰",
+          "专用频道而非嘈杂服务器",
+        ],
+      },
+      {
+        slug: "healthchecks",
+        competitorName: "Healthchecks.io",
+        tagline: "定时任务监控 vs 紧急触达层",
+        summary: "Healthchecks.io 擅长发现漏跑的定时任务，但送达靠邮件和聊天。Echobell 补上电话层，让任务挂掉真的能把你叫醒。",
+        highlights: [
+          "任务静默时来电",
+          "绕过静音的时效告警",
+          "通过 webhook 与 Healthchecks 配合",
         ],
       },
     ],
@@ -3496,6 +3594,2397 @@ const localizedComparisonPages: Record<
       },
     },
   },
+  slack: {
+    es: {
+      slug: "slack",
+      competitorName: "Slack",
+      meta: {
+        title: "Echobell vs Slack",
+        description:
+          "Compara Echobell y Slack para la entrega de alertas críticas: escalado a llamada, notificaciones que saltan el silencio y No molestar, y canales de alerta por servicio.",
+        keywords: [
+          "Echobell vs Slack",
+          "alternativa de alertas a Slack",
+          "alertas críticas por llamada",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Slack",
+        title: "Cuando un mensaje de Slack no suena lo suficiente",
+        description:
+          "Slack está hecho para conversar en equipo. Echobell está hecho para que las alertas críticas se vean — con llamadas y notificaciones urgentes que atraviesan el silencio y No molestar.",
+      },
+      quickSummary:
+        "Mantén Slack para colaborar y ChatOps. Añade Echobell para las alertas que nunca deben perderse: incidentes, caídas y avisos fuera de horario.",
+      decisionHint:
+        "Elige Echobell cuando una alerta deba despertar a alguien, no solo aparecer en un canal saturado.",
+      atAGlance: [
+        {
+          label: "Propósito principal",
+          echobell: "Entrega dedicada de alertas críticas",
+          competitor: "Chat y colaboración de equipo",
+        },
+        {
+          label: "Gestión de urgencia",
+          echobell: "Llamadas y notificaciones urgentes",
+          competitor: "Notificaciones de mensaje normales, fáciles de silenciar",
+        },
+        {
+          label: "Fiabilidad fuera de horario",
+          echobell: "Atraviesa Modo Concentración y No molestar",
+          competitor: "Silenciada por mute, horarios y No molestar",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description:
+          "Las notificaciones de Slack compiten con cualquier otro mensaje; las alertas de Echobell están hechas para destacar.",
+        items: [
+          {
+            dimension: "Visibilidad de la alerta",
+            echobell: "Llamadas y alertas urgentes que sí llegan",
+            competitor: "Una notificación más en una app saturada",
+            advantage: "Echobell hace que los incidentes graves sean imposibles de ignorar.",
+          },
+          {
+            dimension: "Ruta de escalado",
+            echobell: "Llamadas repetidas para eventos críticos sin confirmar",
+            competitor: "Sin escalado nativo a llamada para los mensajes",
+            advantage: "Echobell despierta al ingeniero de guardia cuando los segundos cuentan.",
+          },
+          {
+            dimension: "Señal frente a ruido",
+            echobell: "Canales dedicados por servicio solo para alertas",
+            competitor: "Alertas mezcladas con conversación e hilos",
+            advantage: "Echobell mantiene los canales de alerta sin charla.",
+          },
+          {
+            dimension: "Fuentes de disparo",
+            echobell: "Triggers de webhook y email con plantillas dinámicas",
+            competitor: "Webhooks entrantes e integraciones de apps",
+            advantage: "Echobell convierte el mismo webhook en una llamada, no solo en un mensaje.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde gana Echobell",
+        description:
+          "Echobell se centra en una sola tarea: asegurar que las alertas urgentes se entregan y se confirman.",
+        items: [
+          {
+            title: "Escalado a llamada",
+            description:
+              "Los eventos de severidad uno suenan como una llamada real, incluso en silencio.",
+          },
+          {
+            title: "Atraviesa No molestar",
+            description:
+              "Las alertas urgentes y críticas saltan el silencio, los horarios y los modos de concentración.",
+          },
+          {
+            title: "Canales de alerta sin ruido",
+            description:
+              "Los canales por servicio solo llevan alertas, así nada importante queda enterrado.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description:
+          "Echobell complementa a Slack cuando perder una alerta no es una opción.",
+        items: [
+          {
+            title: "Guardia fuera de horario",
+            description:
+              "Despierta al ingeniero adecuado cuando un incidente de producción salta a las 3 de la madrugada.",
+          },
+          {
+            title: "Respuesta a incidentes Sev-1",
+            description:
+              "Escala con llamadas en vez de esperar que alguien vea un canal.",
+          },
+          {
+            title: "Fundadores en solitario y equipos pequeños",
+            description:
+              "Recibe avisos fiables sin montar una plataforma de incidentes pesada.",
+          },
+        ],
+      },
+      migration: {
+        title: "Añade Echobell junto a Slack",
+        description:
+          "No tienes que dejar Slack: enruta solo el camino crítico a Echobell.",
+        steps: [
+          {
+            title: "Mantén Slack para colaborar",
+            description:
+              "Deja las actualizaciones rutinarias y la discusión donde tu equipo ya trabaja.",
+          },
+          {
+            title: "Reenvía las alertas críticas a Echobell",
+            description:
+              "Apunta tus webhooks y correos de alerta de mayor severidad a un canal de Echobell.",
+          },
+          {
+            title: "Activa el escalado a llamada",
+            description:
+              "Habilita la entrega por llamada y urgente para los incidentes que no pueden esperar.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Echobell reemplaza a Slack?",
+            answer:
+              "No. Slack sigue siendo tu centro de colaboración; Echobell se encarga de la capa de entrega crítica para que no se pierdan las alertas urgentes.",
+          },
+          {
+            question: "¿Por qué no usar solo las notificaciones de Slack?",
+            answer:
+              "Los mensajes de Slack son fáciles de silenciar y perder fuera de horario. Echobell usa llamadas y alertas urgentes que atraviesan No molestar.",
+          },
+          {
+            question: "¿Puedo enviar el mismo webhook a ambos?",
+            answer:
+              "Sí. Sigue publicando en Slack y dispara también un canal de Echobell para las alertas que necesitan una llamada.",
+          },
+        ],
+      },
+      cta: {
+        title: "Asegúrate de que las alertas críticas lleguen",
+        description:
+          "Enruta un servicio de alta severidad a Echobell y nota la diferencia a las 3 de la madrugada.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir documentación",
+      },
+    },
+    fr: {
+      slug: "slack",
+      competitorName: "Slack",
+      meta: {
+        title: "Echobell vs Slack",
+        description:
+          "Comparez Echobell et Slack pour la livraison d'alertes critiques : escalade en appel, notifications qui percent le silence et Ne pas déranger, et canaux d'alerte par service.",
+        keywords: [
+          "Echobell vs Slack",
+          "alternative d'alerte à Slack",
+          "alertes critiques par appel",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Slack",
+        title: "Quand un message Slack ne suffit pas",
+        description:
+          "Slack est fait pour les échanges d'équipe. Echobell est fait pour que les alertes critiques soient vues — avec des appels et des notifications urgentes qui percent le silence et Ne pas déranger.",
+      },
+      quickSummary:
+        "Gardez Slack pour la collaboration et le ChatOps. Ajoutez Echobell pour les alertes à ne jamais manquer : incidents, pannes et appels hors horaires.",
+      decisionHint:
+        "Choisissez Echobell quand une alerte doit réveiller quelqu'un, pas seulement apparaître dans un canal surchargé.",
+      atAGlance: [
+        {
+          label: "Objectif principal",
+          echobell: "Livraison dédiée d'alertes critiques",
+          competitor: "Chat et collaboration d'équipe",
+        },
+        {
+          label: "Gestion de l'urgence",
+          echobell: "Appels et notifications urgentes",
+          competitor: "Notifications de message classiques, faciles à couper",
+        },
+        {
+          label: "Fiabilité hors horaires",
+          echobell: "Perce le Mode Concentration et Ne pas déranger",
+          competitor: "Coupée par le silence, les horaires et NPD",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description:
+          "Les notifications Slack rivalisent avec tous les autres messages ; les alertes Echobell sont conçues pour se démarquer.",
+        items: [
+          {
+            dimension: "Visibilité de l'alerte",
+            echobell: "Appels et alertes urgentes qui passent",
+            competitor: "Une notification de plus dans une app saturée",
+            advantage: "Echobell rend les incidents graves impossibles à manquer.",
+          },
+          {
+            dimension: "Chemin d'escalade",
+            echobell: "Appels répétés pour les événements critiques non acquittés",
+            competitor: "Pas d'escalade native en appel pour les messages",
+            advantage: "Echobell réveille l'ingénieur d'astreinte quand chaque seconde compte.",
+          },
+          {
+            dimension: "Signal vs bruit",
+            echobell: "Canaux dédiés par service, réservés aux alertes",
+            competitor: "Alertes mêlées aux conversations et fils",
+            advantage: "Echobell garde les canaux d'alerte sans bavardage.",
+          },
+          {
+            dimension: "Sources de déclenchement",
+            echobell: "Déclencheurs webhook et email avec modèles dynamiques",
+            competitor: "Webhooks entrants et intégrations d'apps",
+            advantage: "Echobell transforme le même webhook en appel, pas seulement en message.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell gagne",
+        description:
+          "Echobell se concentre sur une seule tâche : s'assurer que les alertes urgentes sont livrées et acquittées.",
+        items: [
+          {
+            title: "Escalade en appel",
+            description:
+              "Les événements de gravité un font sonner votre téléphone comme un vrai appel, même en silencieux.",
+          },
+          {
+            title: "Perce Ne pas déranger",
+            description:
+              "Les alertes urgentes et critiques contournent le silence, les horaires et les modes de concentration.",
+          },
+          {
+            title: "Canaux d'alerte sans bruit",
+            description:
+              "Les canaux par service ne portent que des alertes, rien d'important n'est enseveli.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description:
+          "Echobell complète Slack quand manquer une alerte n'est pas une option.",
+        items: [
+          {
+            title: "Astreinte hors horaires",
+            description:
+              "Réveillez le bon ingénieur quand un incident de production survient à 3 h du matin.",
+          },
+          {
+            title: "Réponse aux incidents Sev-1",
+            description:
+              "Escaladez avec des appels au lieu d'espérer que quelqu'un voie un canal.",
+          },
+          {
+            title: "Fondateurs solo et petites équipes",
+            description:
+              "Soyez alerté de façon fiable sans déployer une lourde plateforme d'incidents.",
+          },
+        ],
+      },
+      migration: {
+        title: "Ajoutez Echobell à côté de Slack",
+        description:
+          "Pas besoin de quitter Slack — routez seulement le chemin critique vers Echobell.",
+        steps: [
+          {
+            title: "Gardez Slack pour la collaboration",
+            description:
+              "Laissez les mises à jour de routine et les discussions là où votre équipe travaille déjà.",
+          },
+          {
+            title: "Transférez les alertes critiques vers Echobell",
+            description:
+              "Pointez vos webhooks et emails d'alerte les plus critiques vers un canal Echobell.",
+          },
+          {
+            title: "Activez l'escalade en appel",
+            description:
+              "Activez la livraison par appel et urgente pour les incidents qui ne peuvent pas attendre.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Echobell remplace-t-il Slack ?",
+            answer:
+              "Non. Slack reste votre hub de collaboration ; Echobell gère la couche de livraison critique pour que les alertes urgentes ne soient pas manquées.",
+          },
+          {
+            question: "Pourquoi ne pas se contenter des notifications Slack ?",
+            answer:
+              "Les messages Slack sont faciles à couper et à manquer hors horaires. Echobell utilise des appels et des alertes urgentes qui percent Ne pas déranger.",
+          },
+          {
+            question: "Puis-je envoyer le même webhook aux deux ?",
+            answer:
+              "Oui. Continuez à publier dans Slack et déclenchez aussi un canal Echobell pour les alertes qui nécessitent un appel.",
+          },
+        ],
+      },
+      cta: {
+        title: "Assurez-vous que les alertes critiques passent",
+        description:
+          "Routez un service à forte sévérité vers Echobell et sentez la différence à 3 h du matin.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la documentation",
+      },
+    },
+    ja: {
+      slug: "slack",
+      competitorName: "Slack",
+      meta: {
+        title: "Echobell vs Slack",
+        description:
+          "重大アラート配信における Echobell と Slack の比較：電話エスカレーション、ミュートやおやすみモードを貫通する通知、サービス単位のアラートチャンネル。",
+        keywords: ["Echobell vs Slack", "Slack アラート代替", "重大アラートを電話で"],
+      },
+      hero: {
+        badge: "Echobell vs Slack",
+        title: "Slack のメッセージだけでは足りないとき",
+        description:
+          "Slack はチームの会話のために作られています。Echobell は重大アラートを確実に見てもらうために——ミュートやおやすみモードを貫通する電話と時間指定通知で。",
+      },
+      quickSummary:
+        "コラボレーションと ChatOps には Slack を。絶対に見逃せないアラート（インシデント、障害、時間外の呼び出し）には Echobell を追加しましょう。",
+      decisionHint:
+        "アラートが誰かを起こす必要があるとき、ただ混雑したチャンネルに表示されるだけでは不十分なとき、Echobell を選びましょう。",
+      atAGlance: [
+        {
+          label: "主な目的",
+          echobell: "重大アラート配信に特化",
+          competitor: "チームのチャットとコラボレーション",
+        },
+        {
+          label: "緊急度の扱い",
+          echobell: "電話と時間指定通知",
+          competitor: "通常のメッセージ通知、簡単にミュートされる",
+        },
+        {
+          label: "時間外の信頼性",
+          echobell: "集中モードとおやすみモードを貫通",
+          competitor: "ミュート・スケジュール・通知オフで消される",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description:
+          "Slack の通知は他のすべてのメッセージと注目を奪い合います。Echobell のアラートは際立つように設計されています。",
+        items: [
+          {
+            dimension: "アラートの可視性",
+            echobell: "貫通する電話と時間指定アラート",
+            competitor: "混雑したアプリ内のもう一つの通知",
+            advantage: "Echobell は重大インシデントを見逃せないものにします。",
+          },
+          {
+            dimension: "エスカレーション経路",
+            echobell: "未確認の重大イベントへ繰り返し電話",
+            competitor: "メッセージにネイティブな電話エスカレーションなし",
+            advantage: "一刻を争うとき、Echobell は当番エンジニアを起こします。",
+          },
+          {
+            dimension: "シグナルとノイズ",
+            echobell: "アラート専用のサービス単位チャンネル",
+            competitor: "アラートが会話やスレッドに混在",
+            advantage: "Echobell はアラートチャンネルを雑談から守ります。",
+          },
+          {
+            dimension: "トリガーソース",
+            echobell: "動的テンプレート付きの Webhook とメールトリガー",
+            competitor: "Incoming Webhook とアプリ連携",
+            advantage: "Echobell は同じ Webhook を投稿だけでなく電話に変えます。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell の強み",
+        description:
+          "Echobell は一つのことに集中します：緊急アラートを確実に届け、確認してもらうこと。",
+        items: [
+          {
+            title: "電話エスカレーション",
+            description:
+              "重大度1のイベントは、サイレントでも本物の電話のように鳴ります。",
+          },
+          {
+            title: "おやすみモードを貫通",
+            description:
+              "時間指定と重大アラートはミュート・スケジュール・集中モードを回避します。",
+          },
+          {
+            title: "ノイズのないアラートチャンネル",
+            description:
+              "サービス単位のチャンネルはアラートのみを運ぶため、重要なものが埋もれません。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "最適なシナリオ",
+        description: "アラートを見逃せない場面で、Echobell は Slack を補完します。",
+        items: [
+          {
+            title: "時間外オンコール",
+            description:
+              "深夜3時に本番インシデントが発生したとき、適切なエンジニアを起こします。",
+          },
+          {
+            title: "Sev-1 インシデント対応",
+            description:
+              "誰かがチャンネルを見るのを期待する代わりに、電話でエスカレーションします。",
+          },
+          {
+            title: "個人開発者と小規模チーム",
+            description:
+              "重いインシデント基盤を立てずに、確実に呼び出しを受け取れます。",
+          },
+        ],
+      },
+      migration: {
+        title: "Slack と並べて Echobell を追加",
+        description:
+          "Slack を離れる必要はありません——重要な経路だけを Echobell に流します。",
+        steps: [
+          {
+            title: "コラボレーションは Slack のまま",
+            description:
+              "日常の更新や議論は、チームがすでに使う場所に残します。",
+          },
+          {
+            title: "重大アラートを Echobell へ転送",
+            description:
+              "最も重大度の高い Webhook とアラートメールを Echobell チャンネルに向けます。",
+          },
+          {
+            title: "電話エスカレーションを有効化",
+            description:
+              "待てないインシデントには電話と時間指定配信を有効にします。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "Echobell は Slack を置き換えますか？",
+            answer:
+              "いいえ。Slack はコラボレーションの拠点のままで、Echobell は重大配信レイヤーを担い、緊急アラートを見逃しません。",
+          },
+          {
+            question: "Slack の通知だけではだめですか？",
+            answer:
+              "Slack のメッセージは時間外に簡単にミュートされ見逃されます。Echobell はおやすみモードを貫通する電話と時間指定アラートを使います。",
+          },
+          {
+            question: "同じ Webhook を両方に送れますか？",
+            answer:
+              "はい。Slack への投稿を続けつつ、電話が必要なアラートには Echobell チャンネルもトリガーできます。",
+          },
+        ],
+      },
+      cta: {
+        title: "重大アラートを確実に届ける",
+        description:
+          "高重大度のサービスを一つ Echobell に流して、深夜3時に違いを実感してください。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "slack",
+      competitorName: "Slack",
+      meta: {
+        title: "Echobell vs Slack",
+        description:
+          "Vergleichen Sie Echobell und Slack für die Zustellung kritischer Alerts: Eskalation per Anruf, Benachrichtigungen, die Stummschaltung und Nicht stören durchbrechen, und Alarmkanäle pro Service.",
+        keywords: [
+          "Echobell vs Slack",
+          "Slack-Alarm-Alternative",
+          "kritische Alerts per Anruf",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Slack",
+        title: "Wenn eine Slack-Nachricht nicht laut genug ist",
+        description:
+          "Slack ist für Team-Gespräche gebaut. Echobell ist dafür gebaut, dass kritische Alerts gesehen werden — mit Anrufen und zeitkritischen Benachrichtigungen, die Stummschaltung und Nicht stören durchbrechen.",
+      },
+      quickSummary:
+        "Behalten Sie Slack für Zusammenarbeit und ChatOps. Ergänzen Sie Echobell für die Alerts, die nie verpasst werden dürfen: Vorfälle, Ausfälle und Pages außerhalb der Arbeitszeit.",
+      decisionHint:
+        "Wählen Sie Echobell, wenn ein Alert jemanden wecken muss und nicht nur in einem überfüllten Kanal erscheinen soll.",
+      atAGlance: [
+        {
+          label: "Hauptzweck",
+          echobell: "Dedizierte Zustellung kritischer Alerts",
+          competitor: "Team-Chat und Zusammenarbeit",
+        },
+        {
+          label: "Umgang mit Dringlichkeit",
+          echobell: "Anrufe und zeitkritische Benachrichtigungen",
+          competitor: "Normale Nachrichten-Benachrichtigungen, leicht stummgeschaltet",
+        },
+        {
+          label: "Zuverlässigkeit außerhalb der Arbeitszeit",
+          echobell: "Durchbricht Fokus und Nicht stören",
+          competitor: "Durch Stummschaltung, Zeitpläne und NS unterdrückt",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description:
+          "Slack-Benachrichtigungen konkurrieren mit jeder anderen Nachricht; Echobell-Alerts sind darauf ausgelegt, herauszustechen.",
+        items: [
+          {
+            dimension: "Sichtbarkeit des Alerts",
+            echobell: "Anrufe und zeitkritische Alerts, die durchkommen",
+            competitor: "Eine weitere Benachrichtigung in einer vollen App",
+            advantage: "Echobell macht schwere Vorfälle unmöglich zu übersehen.",
+          },
+          {
+            dimension: "Eskalationsweg",
+            echobell: "Wiederholte Anrufe bei unbestätigten kritischen Ereignissen",
+            competitor: "Keine native Anruf-Eskalation für Nachrichten",
+            advantage: "Echobell weckt den Bereitschaftsingenieur, wenn jede Sekunde zählt.",
+          },
+          {
+            dimension: "Signal vs Rauschen",
+            echobell: "Dedizierte Kanäle pro Service, nur für Alerts",
+            competitor: "Alerts vermischt mit Gesprächen und Threads",
+            advantage: "Echobell hält Alarmkanäle frei von Geplauder.",
+          },
+          {
+            dimension: "Auslösequellen",
+            echobell: "Webhook- und E-Mail-Trigger mit dynamischen Vorlagen",
+            competitor: "Eingehende Webhooks und App-Integrationen",
+            advantage: "Echobell verwandelt denselben Webhook in einen Anruf, nicht nur in einen Beitrag.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell gewinnt",
+        description:
+          "Echobell konzentriert sich auf eine Aufgabe: sicherzustellen, dass dringende Alerts zugestellt und bestätigt werden.",
+        items: [
+          {
+            title: "Eskalation per Anruf",
+            description:
+              "Ereignisse der Stufe eins klingeln wie ein echter Anruf, sogar im Lautlos-Modus.",
+          },
+          {
+            title: "Durchbricht Nicht stören",
+            description:
+              "Zeitkritische und kritische Alerts umgehen Stummschaltung, Zeitpläne und Fokus-Modi.",
+          },
+          {
+            title: "Rauschfreie Alarmkanäle",
+            description:
+              "Kanäle pro Service tragen nur Alerts, sodass nichts Wichtiges untergeht.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Ideale Szenarien",
+        description:
+          "Echobell ergänzt Slack, wenn das Verpassen eines Alerts keine Option ist.",
+        items: [
+          {
+            title: "Bereitschaft außerhalb der Arbeitszeit",
+            description:
+              "Wecken Sie den richtigen Ingenieur, wenn ein Produktionsvorfall um 3 Uhr morgens auftritt.",
+          },
+          {
+            title: "Sev-1-Vorfallreaktion",
+            description:
+              "Eskalieren Sie mit Anrufen, statt zu hoffen, dass jemand einen Kanal sieht.",
+          },
+          {
+            title: "Einzelgründer und kleine Teams",
+            description:
+              "Werden Sie zuverlässig benachrichtigt, ohne eine schwere Incident-Plattform aufzubauen.",
+          },
+        ],
+      },
+      migration: {
+        title: "Echobell neben Slack einsetzen",
+        description:
+          "Sie müssen Slack nicht verlassen — leiten Sie nur den kritischen Pfad zu Echobell.",
+        steps: [
+          {
+            title: "Slack für Zusammenarbeit behalten",
+            description:
+              "Lassen Sie Routine-Updates und Diskussionen dort, wo Ihr Team bereits arbeitet.",
+          },
+          {
+            title: "Kritische Alerts an Echobell weiterleiten",
+            description:
+              "Richten Sie Ihre Webhooks und Alarm-E-Mails mit höchster Schwere auf einen Echobell-Kanal.",
+          },
+          {
+            title: "Anruf-Eskalation aktivieren",
+            description:
+              "Aktivieren Sie Anruf- und zeitkritische Zustellung für Vorfälle, die nicht warten können.",
+          },
+        ],
+      },
+      faq: {
+        title: "Häufige Fragen",
+        items: [
+          {
+            question: "Ersetzt Echobell Slack?",
+            answer:
+              "Nein. Slack bleibt Ihr Kollaborations-Hub; Echobell übernimmt die kritische Zustellschicht, damit dringende Alerts nicht verpasst werden.",
+          },
+          {
+            question: "Warum nicht einfach Slack-Benachrichtigungen nutzen?",
+            answer:
+              "Slack-Nachrichten lassen sich außerhalb der Arbeitszeit leicht stummschalten und übersehen. Echobell nutzt Anrufe und zeitkritische Alerts, die Nicht stören durchbrechen.",
+          },
+          {
+            question: "Kann ich denselben Webhook an beide senden?",
+            answer:
+              "Ja. Posten Sie weiter in Slack und lösen Sie zusätzlich einen Echobell-Kanal für die Alerts aus, die einen Anruf brauchen.",
+          },
+        ],
+      },
+      cta: {
+        title: "Stellen Sie sicher, dass kritische Alerts durchkommen",
+        description:
+          "Leiten Sie einen Service mit hoher Schwere zu Echobell und spüren Sie den Unterschied um 3 Uhr morgens.",
+        primary: "Echobell herunterladen",
+        secondary: "Dokumentation öffnen",
+      },
+    },
+  },
+  telegram: {
+    es: {
+      slug: "telegram",
+      competitorName: "Telegram",
+      meta: {
+        title: "Echobell vs Telegram",
+        description: "Compara Echobell y las alertas de bots de Telegram: escalado a llamada, notificaciones urgentes que saltan el silencio y triggers de webhook/email sin fontanería de bots.",
+        keywords: [
+          "Echobell vs Telegram",
+          "alternativa de alertas de bot de Telegram",
+          "alertas críticas por llamada",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Telegram",
+        title: "Cuando un aviso de bot de Telegram no basta",
+        description: "Los bots de Telegram relayan alertas rápido, pero no pueden llamarte y se silencian fácil. Echobell está hecho para la entrega urgente: llamadas y notificaciones urgentes que sí llegan.",
+      },
+      quickSummary: "Usa bots de Telegram para avisos informales. Usa Echobell cuando una alerta deba despertar a alguien, no solo sumar a un contador de no leídos.",
+      decisionHint: "Elige Echobell cuando perder una alerta tenga consecuencias reales y necesites urgencia de nivel llamada.",
+      atAGlance: [
+        {
+          label: "Propósito principal",
+          echobell: "Entrega dedicada de alertas críticas",
+          competitor: "Chat general con APIs de bot",
+        },
+        {
+          label: "Gestión de urgencia",
+          echobell: "Llamadas y notificaciones urgentes",
+          competitor: "Mensajes de bot, fáciles de silenciar",
+        },
+        {
+          label: "Configuración",
+          echobell: "Trigger de webhook o email en minutos",
+          competitor: "Token de bot, chat IDs y montaje de mensajes",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description: "Un mensaje de bot y una llamada no son el mismo nivel de urgencia.",
+        items: [
+          {
+            dimension: "Escalado urgente",
+            echobell: "Llamadas para eventos críticos sin confirmar",
+            competitor: "Sin escalado nativo a llamada para mensajes de bot",
+            advantage: "Echobell despierta a la persona de guardia cuando los segundos cuentan.",
+          },
+          {
+            dimension: "Atravesar el silencio",
+            echobell: "Las alertas urgentes saltan el silencio y Concentración",
+            competitor: "Los chats silenciados siguen mudos",
+            advantage: "Echobell te alcanza incluso con las notificaciones apagadas.",
+          },
+          {
+            dimension: "Mantenimiento",
+            echobell: "Sin tokens de bot ni chat IDs que gestionar",
+            competitor: "Bots, tokens y formato de mensajes que mantener",
+            advantage: "Echobell elimina el código pegamento de la entrega.",
+          },
+          {
+            dimension: "Fuentes de disparo",
+            echobell: "Triggers de webhook y email con plantillas",
+            competitor: "Llamadas a la API de bot desde tu propio código",
+            advantage: "Echobell acepta el mismo webhook y lo convierte en llamada.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde gana Echobell",
+        description: "Echobell se centra en que las alertas urgentes se vean y se atiendan.",
+        items: [
+          {
+            title: "Escalado a llamada",
+            description: "Los eventos de severidad uno suenan como una llamada real, incluso en silencio.",
+          },
+          {
+            title: "Atraviesa No molestar",
+            description: "Las alertas urgentes saltan el silencio, los horarios y los modos de concentración.",
+          },
+          {
+            title: "Sin fontanería de bots",
+            description: "Envía un webhook o reenvía un email: sin tokens, chat IDs ni hosting de bots.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description: "Echobell encaja cuando un aviso de bot de Telegram sería demasiado fácil de perder.",
+        items: [
+          {
+            title: "Guardia fuera de horario",
+            description: "Despierta a la persona adecuada cuando producción falla a las 3 de la madrugada.",
+          },
+          {
+            title: "Operadores en solitario",
+            description: "Avisos fiables sin ejecutar un bot ni un espacio de chat.",
+          },
+          {
+            title: "Alertas de servicios críticos",
+            description: "Caídas, trabajos fallidos y eventos de seguridad que no esperan a un vistazo al chat.",
+          },
+        ],
+      },
+      migration: {
+        title: "Pasa de los bots de Telegram a Echobell",
+        description: "Mantén Telegram para chatear; enruta las alertas que importan a Echobell.",
+        steps: [
+          {
+            title: "Crea un canal de Echobell",
+            description: "Obtén al instante una URL de webhook y un email de trigger único.",
+          },
+          {
+            title: "Apunta las alertas críticas ahí",
+            description: "Envía tus webhooks o correos de alerta de mayor severidad a Echobell en vez del bot.",
+          },
+          {
+            title: "Activa el escalado a llamada",
+            description: "Habilita la entrega por llamada y urgente para los eventos que no pueden esperar.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Puede un bot de Telegram hacer llamadas?",
+            answer: "No. Los bots envían mensajes de chat; no pueden llamar. Echobell sí puede llamarte para alertas críticas.",
+          },
+          {
+            question: "¿Por qué no usar un chat de Telegram sin silenciar?",
+            answer: "Incluso sin silenciar es un contador pasivo. Echobell usa llamadas y alertas urgentes que atraviesan de forma activa.",
+          },
+          {
+            question: "¿Tengo que escribir código de bot?",
+            answer: "No. Echobell acepta un webhook o email directamente, sin tokens de bot ni chat IDs.",
+          },
+        ],
+      },
+      cta: {
+        title: "Haz que las alertas críticas sean imposibles de perder",
+        description: "Enruta un servicio de alta severidad a Echobell y nota la diferencia a las 3 de la madrugada.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir documentación",
+      },
+    },
+    fr: {
+      slug: "telegram",
+      competitorName: "Telegram",
+      meta: {
+        title: "Echobell vs Telegram",
+        description: "Comparez Echobell et les alertes de bots Telegram : escalade en appel, notifications urgentes qui ignorent le silence, et déclencheurs webhook/email sans tuyauterie de bot.",
+        keywords: [
+          "Echobell vs Telegram",
+          "alternative aux alertes de bot Telegram",
+          "alertes critiques par appel",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Telegram",
+        title: "Quand un ping de bot Telegram ne suffit pas",
+        description: "Les bots Telegram relaient vite les alertes, mais ne peuvent pas vous appeler et se coupent facilement. Echobell est conçu pour la livraison urgente : appels et notifications urgentes qui passent.",
+      },
+      quickSummary: "Utilisez les bots Telegram pour des avis informels. Utilisez Echobell quand une alerte doit réveiller quelqu'un, pas seulement gonfler un compteur de non-lus.",
+      decisionHint: "Choisissez Echobell quand manquer une alerte a de vraies conséquences et qu'il faut une urgence de niveau appel.",
+      atAGlance: [
+        {
+          label: "Objectif principal",
+          echobell: "Livraison dédiée d'alertes critiques",
+          competitor: "Chat généraliste avec API de bot",
+        },
+        {
+          label: "Gestion de l'urgence",
+          echobell: "Appels et notifications urgentes",
+          competitor: "Messages de bot, faciles à couper",
+        },
+        {
+          label: "Mise en place",
+          echobell: "Déclencheur webhook ou email en minutes",
+          competitor: "Token de bot, chat IDs et montage de messages",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description: "Un message de bot et un appel ne sont pas le même niveau d'urgence.",
+        items: [
+          {
+            dimension: "Escalade urgente",
+            echobell: "Appels pour les événements critiques non acquittés",
+            competitor: "Pas d'escalade native en appel pour les messages de bot",
+            advantage: "Echobell réveille l'astreinte quand chaque seconde compte.",
+          },
+          {
+            dimension: "Percer le silence",
+            echobell: "Les alertes urgentes ignorent le silence et Concentration",
+            competitor: "Les discussions coupées restent muettes",
+            advantage: "Echobell vous atteint même notifications éteintes.",
+          },
+          {
+            dimension: "Maintenance",
+            echobell: "Aucun token de bot ni chat ID à gérer",
+            competitor: "Bots, tokens et formatage de messages à maintenir",
+            advantage: "Echobell supprime le code de liaison autour de la livraison.",
+          },
+          {
+            dimension: "Sources de déclenchement",
+            echobell: "Déclencheurs webhook et email avec modèles",
+            competitor: "Appels à l'API de bot depuis votre propre code",
+            advantage: "Echobell accepte le même webhook et le transforme en appel.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell gagne",
+        description: "Echobell se concentre sur la visibilité et le traitement des alertes urgentes.",
+        items: [
+          {
+            title: "Escalade en appel",
+            description: "Les événements de gravité un font sonner votre téléphone comme un vrai appel, même en silencieux.",
+          },
+          {
+            title: "Perce Ne pas déranger",
+            description: "Les alertes urgentes contournent le silence, les horaires et les modes de concentration.",
+          },
+          {
+            title: "Sans tuyauterie de bot",
+            description: "Envoyez un webhook ou transférez un email : ni tokens, ni chat IDs, ni hébergement de bot.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description: "Echobell convient quand un ping de bot Telegram serait trop facile à manquer.",
+        items: [
+          {
+            title: "Astreinte hors horaires",
+            description: "Réveillez la bonne personne quand la production casse à 3 h du matin.",
+          },
+          {
+            title: "Opérateurs solo",
+            description: "Des alertes fiables sans faire tourner un bot ni un espace de chat.",
+          },
+          {
+            title: "Alertes de services critiques",
+            description: "Pannes, tâches échouées et événements de sécurité qui n'attendent pas un coup d'œil au chat.",
+          },
+        ],
+      },
+      migration: {
+        title: "Passez des bots Telegram à Echobell",
+        description: "Gardez Telegram pour discuter ; routez les alertes qui comptent vers Echobell.",
+        steps: [
+          {
+            title: "Créez un canal Echobell",
+            description: "Obtenez instantanément une URL de webhook et un email de déclenchement unique.",
+          },
+          {
+            title: "Pointez-y les alertes critiques",
+            description: "Envoyez vos webhooks ou emails d'alerte les plus critiques à Echobell plutôt qu'au bot.",
+          },
+          {
+            title: "Activez l'escalade en appel",
+            description: "Activez la livraison par appel et urgente pour les événements qui ne peuvent pas attendre.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Un bot Telegram peut-il passer des appels ?",
+            answer: "Non. Les bots envoient des messages de chat ; ils ne peuvent pas appeler. Echobell peut vous appeler pour les alertes critiques.",
+          },
+          {
+            question: "Pourquoi pas un chat Telegram non coupé ?",
+            answer: "Même non coupé, c'est un compteur passif. Echobell utilise des appels et alertes urgentes qui percent activement.",
+          },
+          {
+            question: "Dois-je écrire du code de bot ?",
+            answer: "Non. Echobell accepte un webhook ou un email directement, sans tokens de bot ni chat IDs.",
+          },
+        ],
+      },
+      cta: {
+        title: "Rendez les alertes critiques impossibles à manquer",
+        description: "Routez un service à forte sévérité vers Echobell et sentez la différence à 3 h du matin.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la documentation",
+      },
+    },
+    ja: {
+      slug: "telegram",
+      competitorName: "Telegram",
+      meta: {
+        title: "Echobell vs Telegram",
+        description: "Echobell と Telegram ボットアラートの比較：電話エスカレーション、ミュートを回避する時間指定通知、bot 基盤不要の Webhook/メールトリガー。",
+        keywords: [
+          "Echobell vs Telegram",
+          "Telegram ボットアラート代替",
+          "重大アラートを電話で",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Telegram",
+        title: "Telegram ボットの通知だけでは足りないとき",
+        description: "Telegram ボットはアラート転送に手軽ですが、電話はできず簡単にミュートされます。Echobell は緊急配信に特化——貫通する電話と時間指定通知で。",
+      },
+      quickSummary: "カジュアルな通知には Telegram ボットを。アラートが誰かを起こす必要があるとき、ただ未読を増やすだけでは足りないときは Echobell を。",
+      decisionHint: "アラートを見逃すと実害があり、電話レベルの緊急度が必要なとき、Echobell を選びましょう。",
+      atAGlance: [
+        {
+          label: "主な目的",
+          echobell: "重大アラート配信に特化",
+          competitor: "ボット API 付きの汎用チャット",
+        },
+        {
+          label: "緊急度の扱い",
+          echobell: "電話と時間指定通知",
+          competitor: "ボットのメッセージ、簡単にミュートされる",
+        },
+        {
+          label: "セットアップ",
+          echobell: "数分で Webhook かメールトリガー",
+          competitor: "bot トークン・chat ID・メッセージ組み立て",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description: "ボットのメッセージと電話は、緊急度のレベルが違います。",
+        items: [
+          {
+            dimension: "緊急エスカレーション",
+            echobell: "未確認の重大イベントへ電話",
+            competitor: "ボットメッセージにネイティブな電話エスカレーションなし",
+            advantage: "一刻を争うとき、Echobell は当番者を起こします。",
+          },
+          {
+            dimension: "サイレントを貫通",
+            echobell: "時間指定アラートがミュートと集中モードを回避",
+            competitor: "ミュートしたチャットは無音のまま",
+            advantage: "通知を切っていても Echobell は届きます。",
+          },
+          {
+            dimension: "保守",
+            echobell: "bot トークンや chat ID の管理が不要",
+            competitor: "ボット・トークン・メッセージ整形を保守",
+            advantage: "Echobell は配信まわりの接着コードをなくします。",
+          },
+          {
+            dimension: "トリガーソース",
+            echobell: "テンプレート付きの Webhook とメールトリガー",
+            competitor: "自前コードからのボット API 呼び出し",
+            advantage: "同じ Webhook を Echobell が電話に変えます。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell の強み",
+        description: "Echobell は緊急アラートを見てもらい、対応してもらうことに集中します。",
+        items: [
+          {
+            title: "電話エスカレーション",
+            description: "重大度1のイベントは、サイレントでも本物の電話のように鳴ります。",
+          },
+          {
+            title: "おやすみモードを貫通",
+            description: "時間指定アラートはミュート・スケジュール・集中モードを回避します。",
+          },
+          {
+            title: "ボット基盤が不要",
+            description: "Webhook を送るかメールを転送するだけ——トークンも chat ID もボットのホスティングも不要。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "最適なシナリオ",
+        description: "Telegram ボットの通知では見逃しやすい場面に Echobell が合います。",
+        items: [
+          {
+            title: "時間外オンコール",
+            description: "深夜3時に本番が壊れたとき、適切な人を起こします。",
+          },
+          {
+            title: "個人運用者",
+            description: "ボットやチャットワークスペースを動かさずに、確実に呼び出しを受け取れます。",
+          },
+          {
+            title: "重要サービスのアラート",
+            description: "障害・失敗ジョブ・セキュリティイベントは、チャットを覗く余裕を待ちません。",
+          },
+        ],
+      },
+      migration: {
+        title: "Telegram ボットから Echobell へ",
+        description: "チャットは Telegram のまま、重要なアラートを Echobell に流します。",
+        steps: [
+          {
+            title: "Echobell チャンネルを作成",
+            description: "Webhook URL と固有のトリガーメールをすぐに取得。",
+          },
+          {
+            title: "重大アラートをそこへ向ける",
+            description: "最も重大度の高い Webhook やアラートメールを、ボットではなく Echobell へ。",
+          },
+          {
+            title: "電話エスカレーションを有効化",
+            description: "待てないイベントに電話と時間指定配信を有効化。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "Telegram ボットは電話をかけられますか？",
+            answer: "いいえ。ボットはチャットメッセージを送るだけで、電話はできません。Echobell は重大アラートで電話できます。",
+          },
+          {
+            question: "ミュートしない Telegram チャットではだめですか？",
+            answer: "ミュートしなくても受動的な未読です。Echobell は能動的に貫通する電話と時間指定アラートを使います。",
+          },
+          {
+            question: "ボットのコードを書く必要は？",
+            answer: "ありません。Echobell は Webhook やメールを直接受け取るので、bot トークンや chat ID は不要です。",
+          },
+        ],
+      },
+      cta: {
+        title: "重大アラートを見逃せないものにする",
+        description: "高重大度のサービスを一つ Echobell に流して、深夜3時に違いを実感してください。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "telegram",
+      competitorName: "Telegram",
+      meta: {
+        title: "Echobell vs Telegram",
+        description: "Vergleichen Sie Echobell und Telegram-Bot-Alerts: Eskalation per Anruf, zeitkritische Benachrichtigungen, die Stummschaltung umgehen, und Webhook-/E-Mail-Trigger ohne Bot-Plumbing.",
+        keywords: [
+          "Echobell vs Telegram",
+          "Telegram-Bot-Alarm-Alternative",
+          "kritische Alerts per Anruf",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Telegram",
+        title: "Wenn ein Telegram-Bot-Ping nicht reicht",
+        description: "Telegram-Bots leiten Alerts schnell weiter, können Sie aber nicht anrufen und sind leicht stummgeschaltet. Echobell ist für dringende Zustellung gebaut: Anrufe und zeitkritische Benachrichtigungen, die durchkommen.",
+      },
+      quickSummary: "Nutzen Sie Telegram-Bots für beiläufige Hinweise. Nutzen Sie Echobell, wenn ein Alert jemanden wecken muss und nicht nur einen Ungelesen-Zähler erhöht.",
+      decisionHint: "Wählen Sie Echobell, wenn verpasste Alerts echte Folgen haben und Sie Dringlichkeit auf Anruf-Niveau brauchen.",
+      atAGlance: [
+        {
+          label: "Hauptzweck",
+          echobell: "Dedizierte Zustellung kritischer Alerts",
+          competitor: "Allgemeiner Chat mit Bot-APIs",
+        },
+        {
+          label: "Umgang mit Dringlichkeit",
+          echobell: "Anrufe und zeitkritische Benachrichtigungen",
+          competitor: "Bot-Nachrichten, leicht stummgeschaltet",
+        },
+        {
+          label: "Einrichtung",
+          echobell: "Webhook- oder E-Mail-Trigger in Minuten",
+          competitor: "Bot-Token, Chat-IDs und Nachrichten-Aufbau",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description: "Eine Bot-Nachricht und ein Anruf sind nicht dieselbe Dringlichkeitsstufe.",
+        items: [
+          {
+            dimension: "Dringende Eskalation",
+            echobell: "Anrufe bei unbestätigten kritischen Ereignissen",
+            competitor: "Keine native Anruf-Eskalation für Bot-Nachrichten",
+            advantage: "Echobell weckt die Bereitschaft, wenn jede Sekunde zählt.",
+          },
+          {
+            dimension: "Stille durchbrechen",
+            echobell: "Zeitkritische Alerts umgehen Stummschaltung und Fokus",
+            competitor: "Stummgeschaltete Chats bleiben lautlos",
+            advantage: "Echobell erreicht Sie auch bei ausgeschalteten Benachrichtigungen.",
+          },
+          {
+            dimension: "Wartung",
+            echobell: "Keine Bot-Tokens oder Chat-IDs zu verwalten",
+            competitor: "Bots, Tokens und Nachrichtenformatierung zu pflegen",
+            advantage: "Echobell entfernt den Klebecode rund um die Zustellung.",
+          },
+          {
+            dimension: "Auslösequellen",
+            echobell: "Webhook- und E-Mail-Trigger mit Vorlagen",
+            competitor: "Bot-API-Aufrufe aus eigenem Code",
+            advantage: "Echobell nimmt denselben Webhook und macht daraus einen Anruf.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell gewinnt",
+        description: "Echobell konzentriert sich darauf, dass dringende Alerts gesehen und bearbeitet werden.",
+        items: [
+          {
+            title: "Eskalation per Anruf",
+            description: "Ereignisse der Stufe eins klingeln wie ein echter Anruf, sogar im Lautlos-Modus.",
+          },
+          {
+            title: "Durchbricht Nicht stören",
+            description: "Zeitkritische Alerts umgehen Stummschaltung, Zeitpläne und Fokus-Modi.",
+          },
+          {
+            title: "Kein Bot-Plumbing",
+            description: "Senden Sie einen Webhook oder leiten Sie eine E-Mail weiter — keine Tokens, Chat-IDs oder Bot-Hosting.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Ideale Szenarien",
+        description: "Echobell passt, wenn ein Telegram-Bot-Ping zu leicht zu übersehen wäre.",
+        items: [
+          {
+            title: "Bereitschaft außerhalb der Arbeitszeit",
+            description: "Wecken Sie die richtige Person, wenn die Produktion um 3 Uhr morgens ausfällt.",
+          },
+          {
+            title: "Solo-Betreiber",
+            description: "Zuverlässige Benachrichtigung, ohne einen Bot oder Chat-Workspace zu betreiben.",
+          },
+          {
+            title: "Alerts kritischer Services",
+            description: "Ausfälle, fehlgeschlagene Jobs und Sicherheitsereignisse, die nicht auf einen Blick in den Chat warten.",
+          },
+        ],
+      },
+      migration: {
+        title: "Von Telegram-Bots zu Echobell wechseln",
+        description: "Behalten Sie Telegram für den Chat; leiten Sie die wichtigen Alerts zu Echobell.",
+        steps: [
+          {
+            title: "Echobell-Kanal erstellen",
+            description: "Erhalten Sie sofort eine Webhook-URL und eine eindeutige Trigger-E-Mail.",
+          },
+          {
+            title: "Kritische Alerts dorthin lenken",
+            description: "Senden Sie Ihre Webhooks und Alarm-E-Mails höchster Schwere an Echobell statt an den Bot.",
+          },
+          {
+            title: "Anruf-Eskalation aktivieren",
+            description: "Aktivieren Sie Anruf- und zeitkritische Zustellung für Ereignisse, die nicht warten können.",
+          },
+        ],
+      },
+      faq: {
+        title: "Häufige Fragen",
+        items: [
+          {
+            question: "Kann ein Telegram-Bot anrufen?",
+            answer: "Nein. Bots senden Chat-Nachrichten; sie können nicht anrufen. Echobell kann Sie bei kritischen Alerts anrufen.",
+          },
+          {
+            question: "Warum nicht ein nicht stummgeschalteter Telegram-Chat?",
+            answer: "Auch ohne Stummschaltung ist es ein passiver Zähler. Echobell nutzt Anrufe und zeitkritische Alerts, die aktiv durchbrechen.",
+          },
+          {
+            question: "Muss ich Bot-Code schreiben?",
+            answer: "Nein. Echobell nimmt einen Webhook oder eine E-Mail direkt an — keine Bot-Tokens oder Chat-IDs.",
+          },
+        ],
+      },
+      cta: {
+        title: "Machen Sie kritische Alerts unmöglich zu übersehen",
+        description: "Leiten Sie einen Service mit hoher Schwere zu Echobell und spüren Sie den Unterschied um 3 Uhr morgens.",
+        primary: "Echobell herunterladen",
+        secondary: "Dokumentation öffnen",
+      },
+    },
+  },
+  discord: {
+    es: {
+      slug: "discord",
+      competitorName: "Discord",
+      meta: {
+        title: "Echobell vs Discord",
+        description: "Compara Echobell y las alertas por webhook de Discord: escalado a llamada, notificaciones que saltan el silencio y No molestar, y canales de alerta dedicados por servicio.",
+        keywords: [
+          "Echobell vs Discord",
+          "alternativa de alertas por webhook de Discord",
+          "alertas críticas por llamada",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Discord",
+        title: "Cuando un webhook de Discord se pierde en el ruido",
+        description: "Los webhooks de Discord van bien para publicar novedades, pero las alertas se entierran en servidores ruidosos y los avisos móviles se silencian fácil. Echobell entrega las urgencias como llamadas que sí llegan.",
+      },
+      quickSummary: "Mantén Discord para comunidad y chat. Añade Echobell para las alertas que deben alcanzarte, aunque el servidor esté ruidoso y el teléfono en silencio.",
+      decisionHint: "Elige Echobell cuando una alerta no pueda permitirse pasar de largo en un canal saturado.",
+      atAGlance: [
+        {
+          label: "Propósito principal",
+          echobell: "Entrega dedicada de alertas críticas",
+          competitor: "Chat de comunidad con webhooks",
+        },
+        {
+          label: "Gestión de urgencia",
+          echobell: "Llamadas y notificaciones urgentes",
+          competitor: "Mensajes de canal, fáciles de silenciar",
+        },
+        {
+          label: "Señal frente a ruido",
+          echobell: "Canales por servicio solo para alertas",
+          competitor: "Alertas mezcladas con el ruido del servidor",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description: "Un webhook en un servidor ruidoso no es lo mismo que una alerta que te alcanza.",
+        items: [
+          {
+            dimension: "Visibilidad de la alerta",
+            echobell: "Llamadas y alertas urgentes que sí llegan",
+            competitor: "Un mensaje que pasa de largo en un canal saturado",
+            advantage: "Echobell hace que los incidentes graves sean imposibles de ignorar.",
+          },
+          {
+            dimension: "Ruta de escalado",
+            echobell: "Llamadas para eventos críticos sin confirmar",
+            competitor: "Sin escalado nativo a llamada para webhooks",
+            advantage: "Echobell despierta a la persona de guardia cuando los segundos cuentan.",
+          },
+          {
+            dimension: "Fiabilidad fuera de horario",
+            echobell: "Las alertas urgentes saltan el silencio y Concentración",
+            competitor: "Los servidores silenciados quedan mudos de noche",
+            advantage: "Echobell te alcanza cuando Discord está silenciado.",
+          },
+          {
+            dimension: "Fuentes de disparo",
+            echobell: "Triggers de webhook y email con plantillas",
+            competitor: "Webhooks entrantes publicados en un canal",
+            advantage: "Echobell convierte el mismo webhook en llamada, no en un mensaje.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde gana Echobell",
+        description: "Echobell se centra en que las alertas urgentes se vean, no solo se publiquen.",
+        items: [
+          {
+            title: "Escalado a llamada",
+            description: "Los eventos de severidad uno suenan como una llamada real, incluso en silencio.",
+          },
+          {
+            title: "Atraviesa No molestar",
+            description: "Las alertas urgentes saltan el silencio, los horarios y los modos de concentración.",
+          },
+          {
+            title: "Canales de alerta sin ruido",
+            description: "Los canales por servicio solo llevan alertas, así nada importante queda enterrado.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description: "Echobell encaja cuando un mensaje en Discord pasaría de largo sin verse.",
+        items: [
+          {
+            title: "Guardia fuera de horario",
+            description: "Despierta a la persona adecuada cuando producción falla a las 3 de la madrugada.",
+          },
+          {
+            title: "Equipos indie de juegos y apps",
+            description: "Recibe avisos de cierres y caídas sin vigilar un servidor saturado.",
+          },
+          {
+            title: "Alertas de servicios críticos",
+            description: "Caídas, trabajos fallidos y eventos de seguridad que no esperan a un scroll.",
+          },
+        ],
+      },
+      migration: {
+        title: "Añade Echobell junto a Discord",
+        description: "No tienes que dejar Discord: enruta solo el camino crítico a Echobell.",
+        steps: [
+          {
+            title: "Mantén Discord para chatear",
+            description: "Deja las novedades de comunidad y la discusión donde ya ocurren.",
+          },
+          {
+            title: "Reenvía las alertas críticas a Echobell",
+            description: "Apunta tus webhooks y correos de alerta de mayor severidad a un canal de Echobell.",
+          },
+          {
+            title: "Activa el escalado a llamada",
+            description: "Habilita la entrega por llamada y urgente para los incidentes que no pueden esperar.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Un webhook de Discord puede llamar a mi teléfono?",
+            answer: "No. Los webhooks de Discord publican mensajes en un canal; no pueden llamar. Echobell sí puede llamarte para alertas críticas.",
+          },
+          {
+            question: "¿Por qué se pierden las alertas en Discord?",
+            answer: "Los servidores ruidosos hacen scroll rápido y los avisos móviles se silencian. Echobell usa llamadas y alertas urgentes que atraviesan.",
+          },
+          {
+            question: "¿Puedo enviar el mismo webhook a ambos?",
+            answer: "Sí. Sigue publicando en Discord y dispara también un canal de Echobell para las alertas que necesitan una llamada.",
+          },
+        ],
+      },
+      cta: {
+        title: "Asegúrate de que las alertas críticas lleguen",
+        description: "Enruta un servicio de alta severidad a Echobell y nota la diferencia a las 3 de la madrugada.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir documentación",
+      },
+    },
+    fr: {
+      slug: "discord",
+      competitorName: "Discord",
+      meta: {
+        title: "Echobell vs Discord",
+        description: "Comparez Echobell et les alertes par webhook Discord : escalade en appel, notifications qui ignorent le silence et Ne pas déranger, et canaux d'alerte dédiés par service.",
+        keywords: [
+          "Echobell vs Discord",
+          "alternative aux alertes par webhook Discord",
+          "alertes critiques par appel",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Discord",
+        title: "Quand un webhook Discord se perd dans le bruit",
+        description: "Les webhooks Discord conviennent pour publier des mises à jour, mais les alertes s'enterrent dans des serveurs bruyants et les pings mobiles se coupent facilement. Echobell délivre les urgences en appels qui passent.",
+      },
+      quickSummary: "Gardez Discord pour la communauté et le chat. Ajoutez Echobell pour les alertes qui doivent vous atteindre, même quand le serveur est bruyant et le téléphone en silencieux.",
+      decisionHint: "Choisissez Echobell quand une alerte ne peut pas se permettre de défiler dans un canal surchargé.",
+      atAGlance: [
+        {
+          label: "Objectif principal",
+          echobell: "Livraison dédiée d'alertes critiques",
+          competitor: "Chat communautaire avec webhooks",
+        },
+        {
+          label: "Gestion de l'urgence",
+          echobell: "Appels et notifications urgentes",
+          competitor: "Messages de canal, faciles à couper",
+        },
+        {
+          label: "Signal vs bruit",
+          echobell: "Canaux par service, réservés aux alertes",
+          competitor: "Alertes mêlées au bruit du serveur",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description: "Un webhook dans un serveur bruyant n'est pas une alerte qui vous atteint.",
+        items: [
+          {
+            dimension: "Visibilité de l'alerte",
+            echobell: "Appels et alertes urgentes qui passent",
+            competitor: "Un message qui défile dans un canal surchargé",
+            advantage: "Echobell rend les incidents graves impossibles à manquer.",
+          },
+          {
+            dimension: "Chemin d'escalade",
+            echobell: "Appels pour les événements critiques non acquittés",
+            competitor: "Pas d'escalade native en appel pour les webhooks",
+            advantage: "Echobell réveille l'astreinte quand chaque seconde compte.",
+          },
+          {
+            dimension: "Fiabilité hors horaires",
+            echobell: "Les alertes urgentes ignorent le silence et Concentration",
+            competitor: "Les serveurs coupés restent muets la nuit",
+            advantage: "Echobell vous atteint quand Discord est coupé.",
+          },
+          {
+            dimension: "Sources de déclenchement",
+            echobell: "Déclencheurs webhook et email avec modèles",
+            competitor: "Webhooks entrants publiés dans un canal",
+            advantage: "Echobell transforme le même webhook en appel, pas en message.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell gagne",
+        description: "Echobell se concentre sur la visibilité des alertes urgentes, pas seulement leur publication.",
+        items: [
+          {
+            title: "Escalade en appel",
+            description: "Les événements de gravité un font sonner votre téléphone comme un vrai appel, même en silencieux.",
+          },
+          {
+            title: "Perce Ne pas déranger",
+            description: "Les alertes urgentes contournent le silence, les horaires et les modes de concentration.",
+          },
+          {
+            title: "Canaux d'alerte sans bruit",
+            description: "Les canaux par service ne portent que des alertes, rien d'important n'est enseveli.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description: "Echobell convient quand un message Discord défilerait sans être vu.",
+        items: [
+          {
+            title: "Astreinte hors horaires",
+            description: "Réveillez la bonne personne quand la production casse à 3 h du matin.",
+          },
+          {
+            title: "Équipes indie de jeux et d'apps",
+            description: "Soyez alerté des plantages et pannes sans surveiller un serveur bruyant.",
+          },
+          {
+            title: "Alertes de services critiques",
+            description: "Pannes, tâches échouées et événements de sécurité qui n'attendent pas un défilement.",
+          },
+        ],
+      },
+      migration: {
+        title: "Ajoutez Echobell à côté de Discord",
+        description: "Pas besoin de quitter Discord — routez seulement le chemin critique vers Echobell.",
+        steps: [
+          {
+            title: "Gardez Discord pour le chat",
+            description: "Laissez les mises à jour communautaires et la discussion là où elles se passent déjà.",
+          },
+          {
+            title: "Transférez les alertes critiques vers Echobell",
+            description: "Pointez vos webhooks et emails d'alerte les plus critiques vers un canal Echobell.",
+          },
+          {
+            title: "Activez l'escalade en appel",
+            description: "Activez la livraison par appel et urgente pour les incidents qui ne peuvent pas attendre.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Un webhook Discord peut-il appeler mon téléphone ?",
+            answer: "Non. Les webhooks Discord publient des messages dans un canal ; ils ne peuvent pas appeler. Echobell peut vous appeler pour les alertes critiques.",
+          },
+          {
+            question: "Pourquoi les alertes se perdent-elles dans Discord ?",
+            answer: "Les serveurs bruyants défilent vite et les pings mobiles se coupent facilement. Echobell utilise des appels et alertes urgentes qui percent.",
+          },
+          {
+            question: "Puis-je envoyer le même webhook aux deux ?",
+            answer: "Oui. Continuez à publier dans Discord et déclenchez aussi un canal Echobell pour les alertes qui nécessitent un appel.",
+          },
+        ],
+      },
+      cta: {
+        title: "Assurez-vous que les alertes critiques passent",
+        description: "Routez un service à forte sévérité vers Echobell et sentez la différence à 3 h du matin.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la documentation",
+      },
+    },
+    ja: {
+      slug: "discord",
+      competitorName: "Discord",
+      meta: {
+        title: "Echobell vs Discord",
+        description: "Echobell と Discord の Webhook アラートの比較：電話エスカレーション、ミュートやおやすみモードを貫通する通知、サービス単位の専用アラートチャンネル。",
+        keywords: [
+          "Echobell vs Discord",
+          "Discord Webhook アラート代替",
+          "重大アラートを電話で",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Discord",
+        title: "Discord の Webhook がノイズに埋もれるとき",
+        description: "Discord の Webhook は更新の投稿に便利ですが、アラートはにぎやかなサーバーに埋もれ、モバイル通知は簡単にミュートされます。Echobell は緊急アラートを貫通する電話で届けます。",
+      },
+      quickSummary: "コミュニティとチャットには Discord を。サーバーがにぎやかでも電話がサイレントでも届く必要があるアラートには Echobell を追加。",
+      decisionHint: "アラートがにぎやかなチャンネルで流れてしまっては困るとき、Echobell を選びましょう。",
+      atAGlance: [
+        {
+          label: "主な目的",
+          echobell: "重大アラート配信に特化",
+          competitor: "Webhook 投稿付きのコミュニティチャット",
+        },
+        {
+          label: "緊急度の扱い",
+          echobell: "電話と時間指定通知",
+          competitor: "チャンネルのメッセージ、簡単にミュートされる",
+        },
+        {
+          label: "シグナルとノイズ",
+          echobell: "アラート専用のサービス単位チャンネル",
+          competitor: "アラートがサーバーの雑談に混在",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description: "にぎやかなサーバーの Webhook 投稿と、あなたに届くアラートは別物です。",
+        items: [
+          {
+            dimension: "アラートの可視性",
+            echobell: "貫通する電話と時間指定アラート",
+            competitor: "にぎやかなチャンネルで流れていくメッセージ",
+            advantage: "Echobell は重大インシデントを見逃せないものにします。",
+          },
+          {
+            dimension: "エスカレーション経路",
+            echobell: "未確認の重大イベントへ電話",
+            competitor: "Webhook 投稿にネイティブな電話エスカレーションなし",
+            advantage: "一刻を争うとき、Echobell は当番者を起こします。",
+          },
+          {
+            dimension: "時間外の信頼性",
+            echobell: "時間指定アラートがミュートと集中モードを回避",
+            competitor: "ミュートしたサーバーは夜間無音",
+            advantage: "Discord をミュート中でも Echobell は届きます。",
+          },
+          {
+            dimension: "トリガーソース",
+            echobell: "テンプレート付きの Webhook とメールトリガー",
+            competitor: "チャンネルに投稿される Incoming Webhook",
+            advantage: "同じ Webhook を Echobell が投稿でなく電話に変えます。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell の強み",
+        description: "Echobell は緊急アラートを投稿するだけでなく見てもらうことに集中します。",
+        items: [
+          {
+            title: "電話エスカレーション",
+            description: "重大度1のイベントは、サイレントでも本物の電話のように鳴ります。",
+          },
+          {
+            title: "おやすみモードを貫通",
+            description: "時間指定アラートはミュート・スケジュール・集中モードを回避します。",
+          },
+          {
+            title: "ノイズのないアラートチャンネル",
+            description: "サービス単位のチャンネルはアラートのみを運ぶため、重要なものが埋もれません。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "最適なシナリオ",
+        description: "Discord の投稿が見られず流れてしまう場面に Echobell が合います。",
+        items: [
+          {
+            title: "時間外オンコール",
+            description: "深夜3時に本番が壊れたとき、適切な人を起こします。",
+          },
+          {
+            title: "インディーのゲーム/アプリチーム",
+            description: "にぎやかなサーバーを見張らずに、クラッシュや障害で呼び出されます。",
+          },
+          {
+            title: "重要サービスのアラート",
+            description: "障害・失敗ジョブ・セキュリティイベントは、スクロールを待ちません。",
+          },
+        ],
+      },
+      migration: {
+        title: "Discord と並べて Echobell を追加",
+        description: "Discord を離れる必要はありません——重要な経路だけを Echobell に流します。",
+        steps: [
+          {
+            title: "チャットは Discord のまま",
+            description: "コミュニティの更新や議論は、起きている場所に残します。",
+          },
+          {
+            title: "重大アラートを Echobell へ転送",
+            description: "最も重大度の高い Webhook とアラートメールを Echobell チャンネルに向けます。",
+          },
+          {
+            title: "電話エスカレーションを有効化",
+            description: "待てないインシデントに電話と時間指定配信を有効にします。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "Discord の Webhook は電話をかけられますか？",
+            answer: "いいえ。Discord の Webhook はチャンネルに投稿するだけで、電話はできません。Echobell は重大アラートで電話できます。",
+          },
+          {
+            question: "なぜ Discord でアラートを見逃すのですか？",
+            answer: "にぎやかなサーバーは速く流れ、モバイル通知も簡単にミュートされます。Echobell は貫通する電話と時間指定アラートを使います。",
+          },
+          {
+            question: "同じ Webhook を両方に送れますか？",
+            answer: "はい。Discord への投稿を続けつつ、電話が必要なアラートには Echobell チャンネルもトリガーできます。",
+          },
+        ],
+      },
+      cta: {
+        title: "重大アラートを確実に届ける",
+        description: "高重大度のサービスを一つ Echobell に流して、深夜3時に違いを実感してください。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "discord",
+      competitorName: "Discord",
+      meta: {
+        title: "Echobell vs Discord",
+        description: "Vergleichen Sie Echobell und Discord-Webhook-Alerts: Eskalation per Anruf, Benachrichtigungen, die Stummschaltung und Nicht stören umgehen, und dedizierte Alarmkanäle pro Service.",
+        keywords: [
+          "Echobell vs Discord",
+          "Discord-Webhook-Alarm-Alternative",
+          "kritische Alerts per Anruf",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Discord",
+        title: "Wenn ein Discord-Webhook im Lärm untergeht",
+        description: "Discord-Webhooks eignen sich gut zum Posten von Updates, aber Alerts gehen in vollen Servern unter und mobile Pings sind leicht stummgeschaltet. Echobell stellt dringende Alerts per Anruf zu, der durchkommt.",
+      },
+      quickSummary: "Behalten Sie Discord für Community und Chat. Ergänzen Sie Echobell für die Alerts, die Sie erreichen müssen — auch wenn der Server laut und das Telefon lautlos ist.",
+      decisionHint: "Wählen Sie Echobell, wenn ein Alert nicht in einem vollen Kanal vorbeiscrollen darf.",
+      atAGlance: [
+        {
+          label: "Hauptzweck",
+          echobell: "Dedizierte Zustellung kritischer Alerts",
+          competitor: "Community-Chat mit Webhook-Posts",
+        },
+        {
+          label: "Umgang mit Dringlichkeit",
+          echobell: "Anrufe und zeitkritische Benachrichtigungen",
+          competitor: "Kanal-Nachrichten, leicht stummgeschaltet",
+        },
+        {
+          label: "Signal vs Rauschen",
+          echobell: "Kanäle pro Service, nur für Alerts",
+          competitor: "Alerts vermischt mit Server-Geplauder",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description: "Ein Webhook-Post in einem vollen Server ist nicht dasselbe wie ein Alert, der Sie erreicht.",
+        items: [
+          {
+            dimension: "Sichtbarkeit des Alerts",
+            echobell: "Anrufe und zeitkritische Alerts, die durchkommen",
+            competitor: "Eine Nachricht, die im vollen Kanal vorbeiscrollt",
+            advantage: "Echobell macht schwere Vorfälle unmöglich zu übersehen.",
+          },
+          {
+            dimension: "Eskalationsweg",
+            echobell: "Anrufe bei unbestätigten kritischen Ereignissen",
+            competitor: "Keine native Anruf-Eskalation für Webhook-Posts",
+            advantage: "Echobell weckt die Bereitschaft, wenn jede Sekunde zählt.",
+          },
+          {
+            dimension: "Zuverlässigkeit außerhalb der Arbeitszeit",
+            echobell: "Zeitkritische Alerts umgehen Stummschaltung und Fokus",
+            competitor: "Stummgeschaltete Server bleiben nachts lautlos",
+            advantage: "Echobell erreicht Sie, wenn Discord stummgeschaltet ist.",
+          },
+          {
+            dimension: "Auslösequellen",
+            echobell: "Webhook- und E-Mail-Trigger mit Vorlagen",
+            competitor: "Eingehende Webhooks, in einen Kanal gepostet",
+            advantage: "Echobell macht aus demselben Webhook einen Anruf, keinen Post.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell gewinnt",
+        description: "Echobell konzentriert sich darauf, dass dringende Alerts gesehen und nicht nur gepostet werden.",
+        items: [
+          {
+            title: "Eskalation per Anruf",
+            description: "Ereignisse der Stufe eins klingeln wie ein echter Anruf, sogar im Lautlos-Modus.",
+          },
+          {
+            title: "Durchbricht Nicht stören",
+            description: "Zeitkritische Alerts umgehen Stummschaltung, Zeitpläne und Fokus-Modi.",
+          },
+          {
+            title: "Rauschfreie Alarmkanäle",
+            description: "Kanäle pro Service tragen nur Alerts, sodass nichts Wichtiges untergeht.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Ideale Szenarien",
+        description: "Echobell passt, wenn ein Discord-Post ungesehen vorbeiscrollen würde.",
+        items: [
+          {
+            title: "Bereitschaft außerhalb der Arbeitszeit",
+            description: "Wecken Sie die richtige Person, wenn die Produktion um 3 Uhr morgens ausfällt.",
+          },
+          {
+            title: "Indie-Game- und App-Teams",
+            description: "Werden Sie bei Abstürzen und Ausfällen benachrichtigt, ohne einen vollen Server zu beobachten.",
+          },
+          {
+            title: "Alerts kritischer Services",
+            description: "Ausfälle, fehlgeschlagene Jobs und Sicherheitsereignisse, die nicht auf ein Scrollen warten.",
+          },
+        ],
+      },
+      migration: {
+        title: "Echobell neben Discord einsetzen",
+        description: "Sie müssen Discord nicht verlassen — leiten Sie nur den kritischen Pfad zu Echobell.",
+        steps: [
+          {
+            title: "Discord für Chat behalten",
+            description: "Lassen Sie Community-Updates und Diskussionen dort, wo sie bereits stattfinden.",
+          },
+          {
+            title: "Kritische Alerts an Echobell weiterleiten",
+            description: "Richten Sie Ihre Webhooks und Alarm-E-Mails höchster Schwere auf einen Echobell-Kanal.",
+          },
+          {
+            title: "Anruf-Eskalation aktivieren",
+            description: "Aktivieren Sie Anruf- und zeitkritische Zustellung für Vorfälle, die nicht warten können.",
+          },
+        ],
+      },
+      faq: {
+        title: "Häufige Fragen",
+        items: [
+          {
+            question: "Kann ein Discord-Webhook mein Telefon anrufen?",
+            answer: "Nein. Discord-Webhooks posten Nachrichten in einen Kanal; sie können nicht anrufen. Echobell kann Sie bei kritischen Alerts anrufen.",
+          },
+          {
+            question: "Warum werden Alerts in Discord verpasst?",
+            answer: "Volle Server scrollen schnell und mobile Pings sind leicht stummgeschaltet. Echobell nutzt Anrufe und zeitkritische Alerts, die durchbrechen.",
+          },
+          {
+            question: "Kann ich denselben Webhook an beide senden?",
+            answer: "Ja. Posten Sie weiter in Discord und lösen Sie zusätzlich einen Echobell-Kanal für die Alerts aus, die einen Anruf brauchen.",
+          },
+        ],
+      },
+      cta: {
+        title: "Stellen Sie sicher, dass kritische Alerts durchkommen",
+        description: "Leiten Sie einen Service mit hoher Schwere zu Echobell und spüren Sie den Unterschied um 3 Uhr morgens.",
+        primary: "Echobell herunterladen",
+        secondary: "Dokumentation öffnen",
+      },
+    },
+  },
+  healthchecks: {
+    es: {
+      slug: "healthchecks",
+      competitorName: "Healthchecks.io",
+      meta: {
+        title: "Echobell vs Healthchecks.io",
+        description: "Compara Echobell y Healthchecks.io para alertas de cron y heartbeat: escalado a llamada, notificaciones urgentes y cómo se combinan por webhook.",
+        keywords: [
+          "Echobell vs Healthchecks.io",
+          "alerta por llamada de Healthchecks.io",
+          "alerta por llamada de cron fallido",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Healthchecks.io",
+        title: "Detecta el cron muerto — y que de verdad te despierte",
+        description: "Healthchecks.io es excelente detectando cron y heartbeats fallidos. Echobell añade lo que no hace: llamadas y alertas urgentes para que un trabajo en silencio te alcance.",
+      },
+      quickSummary: "Usa Healthchecks.io para detectar trabajos fallidos. Usa Echobell para que esa detección se convierta en una llamada que no puedas dormir.",
+      decisionHint: "Elige Echobell como capa de entrega cuando un email sobre un trabajo muerto no sea bastante urgente.",
+      atAGlance: [
+        {
+          label: "Fuerza principal",
+          echobell: "Entrega urgente: llamadas y alertas urgentes",
+          competitor: "Monitorización de cron y heartbeat",
+        },
+        {
+          label: "Fiabilidad de despertar",
+          echobell: "Llamadas que atraviesan el modo silencio",
+          competitor: "Notificaciones por email, chat y webhook",
+        },
+        {
+          label: "Juntos",
+          echobell: "Recibe el webhook de Healthchecks y te llama",
+          competitor: "Dispara un webhook cuando un check cae",
+        },
+      ],
+      differences: {
+        title: "Diferencias clave",
+        description: "Healthchecks sabe que el trabajo murió; Echobell se asegura de que tú también.",
+        items: [
+          {
+            dimension: "Urgencia de entrega",
+            echobell: "Llamadas y alertas urgentes",
+            competitor: "Email, Slack y otros canales pasivos",
+            advantage: "Echobell convierte una detección en un aviso imposible de ignorar.",
+          },
+          {
+            dimension: "Alcance fuera de horario",
+            echobell: "Salta el silencio y No molestar",
+            competitor: "Las notificaciones pueden silenciarse o perderse",
+            advantage: "Echobell te despierta cuando falla un trabajo nocturno.",
+          },
+          {
+            dimension: "Alcance funcional",
+            echobell: "Entrega general por webhook y email",
+            competitor: "Centrado en checks de cron y heartbeat",
+            advantage: "Echobell también gestiona alertas de cualquier otra fuente.",
+          },
+          {
+            dimension: "Montaje conjunto",
+            echobell: "Añade Echobell como integración por webhook",
+            competitor: "Ya soporta webhooks salientes",
+            advantage: "Echobell encaja como capa de llamada en minutos.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Dónde gana Echobell",
+        description: "Echobell es la capa de entrega urgente encima de la monitorización en la que ya confías.",
+        items: [
+          {
+            title: "Escalado a llamada",
+            description: "Un trabajo fallido suena como una llamada real, incluso en silencio.",
+          },
+          {
+            title: "Atraviesa No molestar",
+            description: "Las alertas urgentes saltan el silencio, los horarios y los modos de concentración.",
+          },
+          {
+            title: "Funciona con lo que ya tienes",
+            description: "Combínalo con Healthchecks por webhook: sin cambiar de monitorización.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Escenarios ideales",
+        description: "Echobell encaja cuando un cron fallido debe despertar a alguien, no solo enviar un email.",
+        items: [
+          {
+            title: "Lotes y backups nocturnos",
+            description: "Recibe una llamada cuando el trabajo de las 3 falla en silencio.",
+          },
+          {
+            title: "Interruptor de hombre muerto",
+            description: "Escala a una llamada en cuanto deja de llegar un heartbeat.",
+          },
+          {
+            title: "Operaciones pequeñas y en solitario",
+            description: "Avisos fiables sin construir una plataforma de escalado.",
+          },
+        ],
+      },
+      migration: {
+        title: "Combina Echobell con Healthchecks.io",
+        description: "Mantén Healthchecks para detectar; añade Echobell para la llamada.",
+        steps: [
+          {
+            title: "Crea un canal de Echobell",
+            description: "Obtén al instante una URL de webhook para tus alertas.",
+          },
+          {
+            title: "Añádelo a las integraciones de Healthchecks",
+            description: "Apunta el webhook de caída a tu canal de Echobell.",
+          },
+          {
+            title: "Activa el escalado a llamada",
+            description: "Habilita la entrega por llamada para los checks que no pueden fallar en silencio.",
+          },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Echobell reemplaza a Healthchecks.io?",
+            answer: "No. Healthchecks detecta trabajos fallidos; Echobell es la capa de entrega urgente que convierte una detección en una llamada.",
+          },
+          {
+            question: "¿Cómo funcionan juntos?",
+            answer: "Healthchecks dispara un webhook cuando un check cae. Apúntalo a un canal de Echobell y Echobell te llama.",
+          },
+          {
+            question: "¿Puede Echobell llamarme por un cron fallido?",
+            answer: "Sí. Ese es el punto: alertas urgentes y de tipo llamada para que un trabajo en silencio te alcance de verdad.",
+          },
+        ],
+      },
+      cta: {
+        title: "Convierte un trabajo fallido en una llamada que no puedas ignorar",
+        description: "Conecta un check crítico a Echobell y deja de dormir entre fallos.",
+        primary: "Descargar Echobell",
+        secondary: "Abrir documentación",
+      },
+    },
+    fr: {
+      slug: "healthchecks",
+      competitorName: "Healthchecks.io",
+      meta: {
+        title: "Echobell vs Healthchecks.io",
+        description: "Comparez Echobell et Healthchecks.io pour les alertes cron et heartbeat : escalade en appel, notifications urgentes, et comment ils se combinent par webhook.",
+        keywords: [
+          "Echobell vs Healthchecks.io",
+          "alerte par appel Healthchecks.io",
+          "alerte par appel pour tâche cron échouée",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Healthchecks.io",
+        title: "Détectez la tâche cron morte — puis soyez vraiment réveillé",
+        description: "Healthchecks.io repère très bien les tâches cron et heartbeats manqués. Echobell ajoute ce qu'il ne fait pas : appels et alertes urgentes pour qu'une tâche silencieuse vous atteigne.",
+      },
+      quickSummary: "Utilisez Healthchecks.io pour détecter les tâches manquées. Utilisez Echobell pour que cette détection devienne un appel qui vous réveille.",
+      decisionHint: "Choisissez Echobell comme couche de livraison quand un email sur une tâche morte n'est pas assez urgent.",
+      atAGlance: [
+        {
+          label: "Force principale",
+          echobell: "Livraison urgente : appels et alertes urgentes",
+          competitor: "Surveillance cron et heartbeat",
+        },
+        {
+          label: "Fiabilité du réveil",
+          echobell: "Appels qui percent le mode silencieux",
+          competitor: "Notifications par email, chat et webhook",
+        },
+        {
+          label: "Ensemble",
+          echobell: "Reçoit le webhook de Healthchecks et vous appelle",
+          competitor: "Déclenche un webhook quand un check tombe",
+        },
+      ],
+      differences: {
+        title: "Différences clés",
+        description: "Healthchecks sait que la tâche est morte ; Echobell s'assure que vous aussi.",
+        items: [
+          {
+            dimension: "Urgence de livraison",
+            echobell: "Appels et alertes urgentes",
+            competitor: "Email, Slack et autres canaux passifs",
+            advantage: "Echobell transforme une détection en alerte impossible à manquer.",
+          },
+          {
+            dimension: "Portée hors horaires",
+            echobell: "Ignore le silence et Ne pas déranger",
+            competitor: "Les notifications peuvent être coupées ou manquées",
+            advantage: "Echobell vous réveille quand une tâche nocturne échoue.",
+          },
+          {
+            dimension: "Périmètre",
+            echobell: "Livraison générale par webhook et email",
+            competitor: "Centré sur les checks cron et heartbeat",
+            advantage: "Echobell gère aussi les alertes de toute autre source.",
+          },
+          {
+            dimension: "Mise en place commune",
+            echobell: "Ajoutez Echobell comme intégration webhook",
+            competitor: "Supporte déjà les webhooks sortants",
+            advantage: "Echobell s'intègre comme couche d'appel en quelques minutes.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Là où Echobell gagne",
+        description: "Echobell est la couche de livraison urgente par-dessus la surveillance que vous utilisez déjà.",
+        items: [
+          {
+            title: "Escalade en appel",
+            description: "Une tâche manquée fait sonner votre téléphone comme un vrai appel, même en silencieux.",
+          },
+          {
+            title: "Perce Ne pas déranger",
+            description: "Les alertes urgentes contournent le silence, les horaires et les modes de concentration.",
+          },
+          {
+            title: "Fonctionne avec l'existant",
+            description: "Combinez-le avec Healthchecks par webhook : pas besoin de changer de surveillance.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Scénarios idéaux",
+        description: "Echobell convient quand une tâche cron manquée doit réveiller quelqu'un, pas juste envoyer un email.",
+        items: [
+          {
+            title: "Lots et sauvegardes nocturnes",
+            description: "Soyez appelé quand la tâche de 3 h échoue en silence.",
+          },
+          {
+            title: "Dispositif d'homme mort",
+            description: "Escaladez vers un appel dès qu'un heartbeat cesse d'arriver.",
+          },
+          {
+            title: "Petites équipes et solo",
+            description: "Des alertes fiables sans construire une plateforme d'escalade.",
+          },
+        ],
+      },
+      migration: {
+        title: "Associez Echobell à Healthchecks.io",
+        description: "Gardez Healthchecks pour la détection ; ajoutez Echobell pour l'appel.",
+        steps: [
+          {
+            title: "Créez un canal Echobell",
+            description: "Obtenez instantanément une URL de webhook pour vos alertes.",
+          },
+          {
+            title: "Ajoutez-le aux intégrations Healthchecks",
+            description: "Pointez le webhook de panne vers votre canal Echobell.",
+          },
+          {
+            title: "Activez l'escalade en appel",
+            description: "Activez la livraison par appel pour les checks qui ne peuvent pas échouer en silence.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Echobell remplace-t-il Healthchecks.io ?",
+            answer: "Non. Healthchecks détecte les tâches manquées ; Echobell est la couche de livraison urgente qui transforme une détection en appel.",
+          },
+          {
+            question: "Comment fonctionnent-ils ensemble ?",
+            answer: "Healthchecks déclenche un webhook quand un check tombe. Pointez-le vers un canal Echobell et Echobell vous appelle.",
+          },
+          {
+            question: "Echobell peut-il m'appeler pour une tâche cron échouée ?",
+            answer: "Oui. C'est tout l'intérêt : des alertes urgentes et de type appel pour qu'une tâche silencieuse vous atteigne vraiment.",
+          },
+        ],
+      },
+      cta: {
+        title: "Transformez une tâche manquée en un appel que vous ne pouvez ignorer",
+        description: "Branchez un check critique sur Echobell et arrêtez de dormir pendant les pannes.",
+        primary: "Télécharger Echobell",
+        secondary: "Ouvrir la documentation",
+      },
+    },
+    ja: {
+      slug: "healthchecks",
+      competitorName: "Healthchecks.io",
+      meta: {
+        title: "Echobell vs Healthchecks.io",
+        description: "cron / ハートビートのアラートにおける Echobell と Healthchecks.io の比較：電話エスカレーション、時間指定通知、Webhook での連携方法。",
+        keywords: [
+          "Echobell vs Healthchecks.io",
+          "Healthchecks.io 電話アラート",
+          "cron 失敗の電話通知",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Healthchecks.io",
+        title: "止まった cron を検知し、そして本当に起こされる",
+        description: "Healthchecks.io は cron やハートビートの未実行検知が得意です。Echobell はそれができないこと——電話と時間指定アラートで、沈黙したジョブをあなたに届けます。",
+      },
+      quickSummary: "Healthchecks.io で未実行のジョブを検知し、Echobell でその検知を眠っていられない電話に変えます。",
+      decisionHint: "止まったジョブのメールでは緊急度が足りないとき、Echobell を配信レイヤーに選びましょう。",
+      atAGlance: [
+        {
+          label: "得意分野",
+          echobell: "緊急配信：電話と時間指定アラート",
+          competitor: "cron とハートビートの監視",
+        },
+        {
+          label: "起こす信頼性",
+          echobell: "サイレントを貫通する電話",
+          competitor: "メール・チャット・Webhook 通知",
+        },
+        {
+          label: "組み合わせ",
+          echobell: "Healthchecks の Webhook を受けて電話します",
+          competitor: "チェック異常時に Webhook を発火",
+        },
+      ],
+      differences: {
+        title: "主な違い",
+        description: "Healthchecks はジョブが死んだことを知る；Echobell はあなたも知るようにします。",
+        items: [
+          {
+            dimension: "配信の緊急度",
+            echobell: "電話と時間指定アラート",
+            competitor: "メール・Slack など受動的なチャンネル",
+            advantage: "Echobell は検知を見逃せない呼び出しに変えます。",
+          },
+          {
+            dimension: "時間外の到達",
+            echobell: "ミュートとおやすみモードを回避",
+            competitor: "通知はミュートや見逃しが起こりうる",
+            advantage: "夜間ジョブの失敗時に Echobell が起こします。",
+          },
+          {
+            dimension: "対象範囲",
+            echobell: "Webhook とメールの汎用アラート配信",
+            competitor: "cron とハートビートのチェックに特化",
+            advantage: "Echobell は他のどんな来源のアラートも扱えます。",
+          },
+          {
+            dimension: "連携の設定",
+            echobell: "Echobell を Webhook 連携として追加",
+            competitor: "すでにアウトバウンド Webhook に対応",
+            advantage: "Echobell は電話レイヤーとして数分で組み込めます。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell の強み",
+        description: "Echobell は、すでに信頼している監視の上に乗る緊急配信レイヤーです。",
+        items: [
+          {
+            title: "電話エスカレーション",
+            description: "未実行のジョブが、サイレントでも本物の電話のように鳴ります。",
+          },
+          {
+            title: "おやすみモードを貫通",
+            description: "時間指定アラートはミュート・スケジュール・集中モードを回避します。",
+          },
+          {
+            title: "今の構成のまま使える",
+            description: "Webhook で Healthchecks と連携——監視を乗り換える必要はありません。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "最適なシナリオ",
+        description: "未実行の cron が、メールだけでなく誰かを起こす必要がある場面に Echobell が合います。",
+        items: [
+          {
+            title: "夜間バッチとバックアップ",
+            description: "深夜3時のジョブが静かに失敗したら電話が来ます。",
+          },
+          {
+            title: "デッドマンスイッチ",
+            description: "ハートビートが届かなくなった瞬間に電話へエスカレーション。",
+          },
+          {
+            title: "個人・小規模運用",
+            description: "エスカレーション基盤を作らずに、確実に呼び出されます。",
+          },
+        ],
+      },
+      migration: {
+        title: "Echobell と Healthchecks.io を組み合わせる",
+        description: "検知は Healthchecks のまま、電話は Echobell に任せます。",
+        steps: [
+          {
+            title: "Echobell チャンネルを作成",
+            description: "アラート用の Webhook URL をすぐに取得。",
+          },
+          {
+            title: "Healthchecks の連携に追加",
+            description: "ダウン時の Webhook を Echobell チャンネルに向けます。",
+          },
+          {
+            title: "電話エスカレーションを有効化",
+            description: "静かに失敗しては困るチェックに電話配信を有効化。",
+          },
+        ],
+      },
+      faq: {
+        title: "よくある質問",
+        items: [
+          {
+            question: "Echobell は Healthchecks.io を置き換えますか？",
+            answer: "いいえ。Healthchecks は未実行のジョブを検知し、Echobell はその検知を電話に変える緊急配信レイヤーです。",
+          },
+          {
+            question: "どう連携しますか？",
+            answer: "Healthchecks はチェック異常時に Webhook を発火します。それを Echobell チャンネルに向ければ、Echobell が電話します。",
+          },
+          {
+            question: "cron の失敗で Echobell は電話してくれますか？",
+            answer: "はい。まさにそれが狙いです——時間指定と電話式のアラートで、沈黙したジョブを確実に届けます。",
+          },
+        ],
+      },
+      cta: {
+        title: "未実行のジョブを、無視できない電話に変える",
+        description: "重要なチェックを一つ Echobell につなぎ、障害を寝過ごすのをやめましょう。",
+        primary: "Echobell をダウンロード",
+        secondary: "ドキュメントを開く",
+      },
+    },
+    de: {
+      slug: "healthchecks",
+      competitorName: "Healthchecks.io",
+      meta: {
+        title: "Echobell vs Healthchecks.io",
+        description: "Vergleichen Sie Echobell und Healthchecks.io für Cron- und Heartbeat-Alerts: Eskalation per Anruf, zeitkritische Benachrichtigungen und wie sie sich per Webhook kombinieren.",
+        keywords: [
+          "Echobell vs Healthchecks.io",
+          "Healthchecks.io Anruf-Alarm",
+          "Anruf-Alarm bei fehlgeschlagenem Cron-Job",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Healthchecks.io",
+        title: "Den toten Cron-Job erkennen — und wirklich geweckt werden",
+        description: "Healthchecks.io erkennt verpasste Cron-Jobs und Heartbeats hervorragend. Echobell ergänzt, was es nicht tut: Anrufe und zeitkritische Alerts, damit ein stummer Job Sie erreicht.",
+      },
+      quickSummary: "Nutzen Sie Healthchecks.io zum Erkennen verpasster Jobs. Nutzen Sie Echobell, damit diese Erkennung zu einem Anruf wird, den Sie nicht verschlafen.",
+      decisionHint: "Wählen Sie Echobell als Zustellschicht, wenn eine E-Mail über einen toten Job nicht dringend genug ist.",
+      atAGlance: [
+        {
+          label: "Kernstärke",
+          echobell: "Dringende Zustellung: Anrufe und zeitkritische Alerts",
+          competitor: "Cron- und Heartbeat-Überwachung",
+        },
+        {
+          label: "Weck-Zuverlässigkeit",
+          echobell: "Anrufe, die den Lautlos-Modus durchbrechen",
+          competitor: "E-Mail-, Chat- und Webhook-Benachrichtigungen",
+        },
+        {
+          label: "Zusammen",
+          echobell: "Empfängt den Healthchecks-Webhook und ruft Sie an",
+          competitor: "Löst einen Webhook aus, wenn ein Check ausfällt",
+        },
+      ],
+      differences: {
+        title: "Wesentliche Unterschiede",
+        description: "Healthchecks weiß, dass der Job tot ist; Echobell sorgt dafür, dass Sie es auch wissen.",
+        items: [
+          {
+            dimension: "Zustell-Dringlichkeit",
+            echobell: "Anrufe und zeitkritische Alerts",
+            competitor: "E-Mail, Slack und andere passive Kanäle",
+            advantage: "Echobell macht aus einer Erkennung eine unübersehbare Meldung.",
+          },
+          {
+            dimension: "Erreichbarkeit außerhalb der Arbeitszeit",
+            echobell: "Umgeht Stummschaltung und Nicht stören",
+            competitor: "Benachrichtigungen können stummgeschaltet oder verpasst werden",
+            advantage: "Echobell weckt Sie, wenn ein nächtlicher Job fehlschlägt.",
+          },
+          {
+            dimension: "Umfang",
+            echobell: "Allgemeine Webhook- und E-Mail-Alert-Zustellung",
+            competitor: "Fokus auf Cron- und Heartbeat-Checks",
+            advantage: "Echobell verarbeitet auch Alerts aus jeder anderen Quelle.",
+          },
+          {
+            dimension: "Gemeinsame Einrichtung",
+            echobell: "Echobell als Webhook-Integration hinzufügen",
+            competitor: "Unterstützt bereits ausgehende Webhooks",
+            advantage: "Echobell fügt sich in Minuten als Anruf-Schicht ein.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Wo Echobell gewinnt",
+        description: "Echobell ist die dringende Zustellschicht über der Überwachung, der Sie bereits vertrauen.",
+        items: [
+          {
+            title: "Eskalation per Anruf",
+            description: "Ein verpasster Job klingelt wie ein echter Anruf, sogar im Lautlos-Modus.",
+          },
+          {
+            title: "Durchbricht Nicht stören",
+            description: "Zeitkritische Alerts umgehen Stummschaltung, Zeitpläne und Fokus-Modi.",
+          },
+          {
+            title: "Funktioniert mit Ihrem Setup",
+            description: "Kombinieren Sie es per Webhook mit Healthchecks — kein Wechsel der Überwachung nötig.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Ideale Szenarien",
+        description: "Echobell passt, wenn ein verpasster Cron-Job jemanden wecken muss, nicht nur eine E-Mail senden.",
+        items: [
+          {
+            title: "Nächtliche Batches und Backups",
+            description: "Werden Sie angerufen, wenn der 3-Uhr-Job still fehlschlägt.",
+          },
+          {
+            title: "Totmannschalter",
+            description: "Eskalieren Sie zu einem Anruf, sobald ein Heartbeat ausbleibt.",
+          },
+          {
+            title: "Solo- und kleine Ops",
+            description: "Zuverlässige Benachrichtigung ohne den Bau einer Eskalationsplattform.",
+          },
+        ],
+      },
+      migration: {
+        title: "Echobell mit Healthchecks.io kombinieren",
+        description: "Behalten Sie Healthchecks für die Erkennung; ergänzen Sie Echobell für den Anruf.",
+        steps: [
+          {
+            title: "Echobell-Kanal erstellen",
+            description: "Erhalten Sie sofort eine Webhook-URL für Ihre Alerts.",
+          },
+          {
+            title: "Zu den Healthchecks-Integrationen hinzufügen",
+            description: "Richten Sie den Ausfall-Webhook auf Ihren Echobell-Kanal.",
+          },
+          {
+            title: "Anruf-Eskalation aktivieren",
+            description: "Aktivieren Sie Anruf-Zustellung für die Checks, die nicht still fehlschlagen dürfen.",
+          },
+        ],
+      },
+      faq: {
+        title: "Häufige Fragen",
+        items: [
+          {
+            question: "Ersetzt Echobell Healthchecks.io?",
+            answer: "Nein. Healthchecks erkennt verpasste Jobs; Echobell ist die dringende Zustellschicht, die eine Erkennung in einen Anruf verwandelt.",
+          },
+          {
+            question: "Wie arbeiten sie zusammen?",
+            answer: "Healthchecks löst einen Webhook aus, wenn ein Check ausfällt. Richten Sie ihn auf einen Echobell-Kanal, und Echobell ruft Sie an.",
+          },
+          {
+            question: "Kann Echobell mich bei einem fehlgeschlagenen Cron-Job anrufen?",
+            answer: "Ja. Genau darum geht es — zeitkritische und anrufartige Alerts, damit ein stummer Job Sie wirklich erreicht.",
+          },
+        ],
+      },
+      cta: {
+        title: "Machen Sie aus einem verpassten Job einen Anruf, den Sie nicht ignorieren können",
+        description: "Verdrahten Sie einen kritischen Check mit Echobell und verschlafen Sie keine Ausfälle mehr.",
+        primary: "Echobell herunterladen",
+        secondary: "Dokumentation öffnen",
+      },
+    },
+  },
 };
 
 const extendedComparisonLanguages = ["es", "fr", "ja", "de"] as const;
@@ -3511,7 +6000,7 @@ const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexDat
     meta: {
       title: "Echobell vs competidores",
       description:
-        "Compara Echobell con PagerDuty, Opsgenie, Better Stack, Pushover e IFTTT. Descubre qué herramienta encaja mejor para alertas móviles rápidas.",
+        "Compara Echobell con PagerDuty, Opsgenie, Better Stack, Pushover, IFTTT y Slack. Descubre qué herramienta encaja mejor para alertas móviles rápidas.",
       keywords: [
         "comparativa de Echobell",
         "Echobell vs PagerDuty",
@@ -3591,6 +6080,51 @@ const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexDat
           "Claridad operativa para ingeniería y operaciones",
         ],
       },
+      {
+        slug: "slack",
+        competitorName: "Slack",
+        tagline: "Alertas en el chat de equipo vs entrega dedicada de alertas críticas",
+        summary:
+          "Slack es genial para conversar, pero las alertas críticas quedan enterradas entre mensajes y silenciadas fuera de horario. Echobell entrega las urgencias como llamadas y notificaciones urgentes que sí llegan.",
+        highlights: [
+          "Escalado a llamada telefónica para incidentes de severidad uno",
+          "Alertas que atraviesan silencio, Modo Concentración y No molestar",
+          "Canales por servicio sin ruido de conversación",
+        ],
+      },
+      {
+        slug: "telegram",
+        competitorName: "Telegram",
+        tagline: "Mensajes de bot vs entrega dedicada de alertas críticas",
+        summary: "Los bots de Telegram son una forma popular de canalizar alertas, pero los mensajes de bot se silencian fácil y no pueden llamarte. Echobell entrega las urgencias como llamadas y notificaciones urgentes.",
+        highlights: [
+          "Escalado a llamada que los bots no pueden hacer",
+          "Alertas urgentes que saltan el silencio",
+          "Sin tokens de bot ni fontanería que mantener",
+        ],
+      },
+      {
+        slug: "discord",
+        competitorName: "Discord",
+        tagline: "Webhooks en un servidor ruidoso vs entrega de alertas urgentes",
+        summary: "Los webhooks de Discord son fáciles de montar, pero las alertas se ahogan en canales ruidosos y los avisos móviles se silencian. Echobell entrega alertas como llamadas y notificaciones urgentes.",
+        highlights: [
+          "Escalado a llamada para eventos de severidad uno",
+          "Alertas que saltan el silencio y No molestar",
+          "Canales dedicados en vez de un servidor ruidoso",
+        ],
+      },
+      {
+        slug: "healthchecks",
+        competitorName: "Healthchecks.io",
+        tagline: "Monitorización de cron vs la capa de entrega urgente",
+        summary: "Healthchecks.io detecta muy bien los cron fallidos, pero entrega por email y chat. Echobell añade la capa de llamada para que un trabajo muerto te despierte de verdad.",
+        highlights: [
+          "Llamadas cuando un trabajo se queda en silencio",
+          "Alertas urgentes que saltan el silencio",
+          "Se combina con Healthchecks por webhook",
+        ],
+      },
     ],
     methodology: {
       title: "Cómo evaluamos",
@@ -3631,7 +6165,7 @@ const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexDat
     meta: {
       title: "Echobell vs concurrents",
       description:
-        "Comparez Echobell à PagerDuty, Opsgenie, Better Stack, Pushover et IFTTT. Voyez quelle solution convient le mieux aux alertes mobiles rapides.",
+        "Comparez Echobell à PagerDuty, Opsgenie, Better Stack, Pushover, IFTTT et Slack. Voyez quelle solution convient le mieux aux alertes mobiles rapides.",
       keywords: [
         "comparaison Echobell",
         "Echobell vs PagerDuty",
@@ -3711,6 +6245,51 @@ const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexDat
           "Plus de clarté opérationnelle pour l'ingénierie et l'ops",
         ],
       },
+      {
+        slug: "slack",
+        competitorName: "Slack",
+        tagline: "Alertes dans le chat d'équipe vs livraison dédiée d'alertes critiques",
+        summary:
+          "Slack est parfait pour échanger, mais les alertes critiques se noient dans les messages et sont coupées le soir. Echobell délivre les urgences sous forme d'appels et de notifications urgentes qui passent vraiment.",
+        highlights: [
+          "Escalade en appel téléphonique pour les incidents de gravité un",
+          "Des alertes qui percent silence, Mode Concentration et Ne pas déranger",
+          "Des canaux par service, sans le bruit des conversations",
+        ],
+      },
+      {
+        slug: "telegram",
+        competitorName: "Telegram",
+        tagline: "Messages de bot vs livraison dédiée d'alertes critiques",
+        summary: "Les bots Telegram sont un moyen courant de relayer des alertes, mais leurs messages se coupent facilement et ne peuvent pas vous appeler. Echobell délivre les urgences en appels et notifications urgentes.",
+        highlights: [
+          "Escalade en appel impossible pour les bots",
+          "Alertes urgentes qui ignorent le silence",
+          "Aucun token de bot ni tuyauterie à maintenir",
+        ],
+      },
+      {
+        slug: "discord",
+        competitorName: "Discord",
+        tagline: "Webhooks dans un serveur bruyant vs livraison d'alertes urgentes",
+        summary: "Les webhooks Discord sont faciles à mettre en place, mais les alertes se noient dans des canaux bruyants et les pings mobiles sont coupés. Echobell délivre les alertes en appels et notifications urgentes.",
+        highlights: [
+          "Escalade en appel pour les événements de gravité un",
+          "Alertes qui ignorent le silence et Ne pas déranger",
+          "Canaux dédiés plutôt qu'un serveur bruyant",
+        ],
+      },
+      {
+        slug: "healthchecks",
+        competitorName: "Healthchecks.io",
+        tagline: "Surveillance de cron vs la couche de livraison urgente",
+        summary: "Healthchecks.io détecte très bien les tâches cron manquées, mais la livraison passe par email et chat. Echobell ajoute la couche d'appel pour qu'une tâche morte vous réveille vraiment.",
+        highlights: [
+          "Appels quand une tâche devient silencieuse",
+          "Alertes urgentes qui ignorent le silence",
+          "Se combine avec Healthchecks via webhook",
+        ],
+      },
     ],
     methodology: {
       title: "Notre méthode d'évaluation",
@@ -3751,7 +6330,7 @@ const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexDat
     meta: {
       title: "Echobell と競合比較",
       description:
-        "Echobell を PagerDuty、Opsgenie、Better Stack、Pushover、IFTTT と比較できます。高速なモバイルアラートに最適な選択肢を確認してください。",
+        "Echobell を PagerDuty、Opsgenie、Better Stack、Pushover、IFTTT、Slack と比較できます。高速なモバイルアラートに最適な選択肢を確認してください。",
       keywords: [
         "Echobell 比較",
         "Echobell vs PagerDuty",
@@ -3831,6 +6410,51 @@ const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexDat
           "エンジニアと運用向けに判断しやすい",
         ],
       },
+      {
+        slug: "slack",
+        competitorName: "Slack",
+        tagline: "チャット内アラートと専用の重大アラート配信の比較",
+        summary:
+          "Slack はチームの会話に最適ですが、重大アラートはメッセージに埋もれ、時間外はミュートされがちです。Echobell は緊急アラートを電話や時間指定通知として確実に届けます。",
+        highlights: [
+          "重大インシデントは電話呼び出しにエスカレーション",
+          "ミュート・集中モード・おやすみモードを貫通",
+          "会話ノイズのないサービス単位のチャンネル",
+        ],
+      },
+      {
+        slug: "telegram",
+        competitorName: "Telegram",
+        tagline: "ボットのメッセージと専用の重大アラート配信",
+        summary: "Telegram ボットはアラート転送に人気ですが、ボットのメッセージは簡単にミュートでき、電話もできません。Echobell は緊急アラートを電話と時間指定通知で届けます。",
+        highlights: [
+          "ボットにできない電話エスカレーション",
+          "ミュートを回避する時間指定アラート",
+          "bot トークンや転送基盤の保守が不要",
+        ],
+      },
+      {
+        slug: "discord",
+        competitorName: "Discord",
+        tagline: "にぎやかなサーバーの Webhook 投稿と緊急アラート配信",
+        summary: "Discord の Webhook は手軽ですが、アラートはにぎやかなチャンネルに埋もれ、モバイル通知はミュートされます。Echobell はアラートを電話と時間指定通知で届けます。",
+        highlights: [
+          "重大度1イベントの電話エスカレーション",
+          "ミュートとおやすみモードを回避",
+          "にぎやかなサーバーではなく専用チャンネル",
+        ],
+      },
+      {
+        slug: "healthchecks",
+        competitorName: "Healthchecks.io",
+        tagline: "cron 監視と緊急配信レイヤー",
+        summary: "Healthchecks.io は cron の未実行検知が得意ですが、配信はメールとチャットです。Echobell は電話レイヤーを足し、止まったジョブで本当に起こします。",
+        highlights: [
+          "ジョブが沈黙したら電話",
+          "ミュートを回避する時間指定アラート",
+          "Webhook で Healthchecks と連携",
+        ],
+      },
     ],
     methodology: {
       title: "評価の観点",
@@ -3871,7 +6495,7 @@ const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexDat
     meta: {
       title: "Echobell vs Wettbewerber",
       description:
-        "Vergleichen Sie Echobell mit PagerDuty, Opsgenie, Better Stack, Pushover und IFTTT. Finden Sie heraus, welches Tool am besten zu schnellen mobilen Alarmen passt.",
+        "Vergleichen Sie Echobell mit PagerDuty, Opsgenie, Better Stack, Pushover, IFTTT und Slack. Finden Sie heraus, welches Tool am besten zu schnellen mobilen Alarmen passt.",
       keywords: [
         "Echobell Vergleich",
         "Echobell vs PagerDuty",
@@ -3949,6 +6573,51 @@ const localizedIndexData: Record<ExtendedComparisonLanguage, ComparisonsIndexDat
           "Für kritische Ereignisse konzipiert",
           "Weniger Rauschen durch dedizierte Alarmkanäle",
           "Mehr operative Klarheit für Engineering und Ops",
+        ],
+      },
+      {
+        slug: "slack",
+        competitorName: "Slack",
+        tagline: "Alerts im Team-Chat vs dedizierte Zustellung kritischer Alerts",
+        summary:
+          "Slack ist großartig für Gespräche, aber kritische Alerts gehen im Chat unter und werden nach Feierabend stummgeschaltet. Echobell stellt dringende Alerts als Anrufe und zeitkritische Benachrichtigungen zu, die wirklich durchkommen.",
+        highlights: [
+          "Eskalation zum Telefonanruf bei Vorfällen der Stufe eins",
+          "Alerts, die Stummschaltung, Fokus und Nicht stören durchbrechen",
+          "Kanäle pro Service, ohne Gesprächsrauschen",
+        ],
+      },
+      {
+        slug: "telegram",
+        competitorName: "Telegram",
+        tagline: "Bot-Nachrichten vs dedizierte Zustellung kritischer Alerts",
+        summary: "Telegram-Bots sind beliebt, um Alerts weiterzuleiten, aber Bot-Nachrichten lassen sich leicht stummschalten und können Sie nicht anrufen. Echobell stellt dringende Alerts per Anruf und zeitkritisch zu.",
+        highlights: [
+          "Anruf-Eskalation, die Bots nicht können",
+          "Zeitkritische Alerts, die Stummschaltung umgehen",
+          "Keine Bot-Tokens oder Weiterleitungs-Plumbing",
+        ],
+      },
+      {
+        slug: "discord",
+        competitorName: "Discord",
+        tagline: "Webhook-Posts in einem vollen Server vs dringende Alert-Zustellung",
+        summary: "Discord-Webhooks sind leicht einzurichten, aber Alerts gehen in vollen Kanälen unter und mobile Pings werden stummgeschaltet. Echobell stellt Alerts per Anruf und zeitkritisch zu.",
+        highlights: [
+          "Anruf-Eskalation für Ereignisse der Stufe eins",
+          "Alerts, die Stummschaltung und Nicht stören umgehen",
+          "Dedizierte Kanäle statt eines lauten Servers",
+        ],
+      },
+      {
+        slug: "healthchecks",
+        competitorName: "Healthchecks.io",
+        tagline: "Cron-Überwachung vs die dringende Zustellschicht",
+        summary: "Healthchecks.io erkennt verpasste Cron-Jobs hervorragend, liefert aber per E-Mail und Chat. Echobell ergänzt die Anruf-Schicht, damit ein toter Job Sie wirklich weckt.",
+        highlights: [
+          "Anrufe, wenn ein Job verstummt",
+          "Zeitkritische Alerts, die Stummschaltung umgehen",
+          "Kombiniert mit Healthchecks per Webhook",
         ],
       },
     ],
@@ -5556,6 +8225,1192 @@ const comparisonPages: Record<
       cta: {
         title: "保留自动化广度，升级告警可靠性",
         description: "本周先在最高风险服务上试点 Echobell。",
+        primary: "下载 Echobell",
+        secondary: "查看文档",
+      },
+    },
+  },
+  slack: {
+    en: {
+      slug: "slack",
+      competitorName: "Slack",
+      meta: {
+        title: "Echobell vs Slack",
+        description:
+          "Compare Echobell and Slack for critical alert delivery: phone-call escalation, notifications that bypass mute and Do Not Disturb, and per-service alert channels.",
+        keywords: [
+          "Echobell vs Slack",
+          "Slack alert alternative",
+          "critical alerts to phone call",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Slack",
+        title: "When a Slack message isn't loud enough",
+        description:
+          "Slack is built for team conversation. Echobell is built to make sure critical alerts are seen — with phone calls and time-sensitive notifications that break through mute and Do Not Disturb.",
+      },
+      quickSummary:
+        "Keep Slack for collaboration and ChatOps. Add Echobell for the alerts that must never be missed — incidents, outages, and after-hours pages.",
+      decisionHint:
+        "Choose Echobell when an alert needs to wake someone up, not just appear in a busy channel.",
+      atAGlance: [
+        {
+          label: "Primary purpose",
+          echobell: "Dedicated critical-alert delivery",
+          competitor: "Team chat and collaboration",
+        },
+        {
+          label: "Urgency handling",
+          echobell: "Phone calls and time-sensitive notifications",
+          competitor: "Standard message notifications, easily muted",
+        },
+        {
+          label: "After-hours reliability",
+          echobell: "Breaks through Focus and Do Not Disturb",
+          competitor: "Silenced by mute, schedules, and DND",
+        },
+      ],
+      differences: {
+        title: "Key differences",
+        description:
+          "Slack notifications compete with every other message; Echobell alerts are purpose-built to stand out.",
+        items: [
+          {
+            dimension: "Alert visibility",
+            echobell: "Calls and time-sensitive alerts that cut through",
+            competitor: "One more notification in a crowded app",
+            advantage: "Echobell makes severe incidents impossible to miss.",
+          },
+          {
+            dimension: "Escalation path",
+            echobell: "Repeated phone calls for unacknowledged critical events",
+            competitor: "No native call escalation for messages",
+            advantage: "Echobell wakes the on-call engineer when seconds matter.",
+          },
+          {
+            dimension: "Signal vs noise",
+            echobell: "Dedicated per-service channels for alerts only",
+            competitor: "Alerts mixed with conversation and threads",
+            advantage: "Echobell keeps alert channels free of chatter.",
+          },
+          {
+            dimension: "Trigger sources",
+            echobell: "Webhook and email triggers with dynamic templates",
+            competitor: "Incoming webhooks and app integrations",
+            advantage: "Echobell turns the same webhook into a call, not just a post.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Where Echobell wins",
+        description:
+          "Echobell focuses on one job: making sure urgent alerts are delivered and acknowledged.",
+        items: [
+          {
+            title: "Phone-call escalation",
+            description:
+              "Severity-one events ring your phone like a real call, even on silent.",
+          },
+          {
+            title: "Cuts through Do Not Disturb",
+            description:
+              "Time-sensitive and critical alerts bypass mute, schedules, and Focus modes.",
+          },
+          {
+            title: "Noise-free alert channels",
+            description:
+              "Per-service channels carry only alerts, so nothing important gets buried.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Best-fit scenarios",
+        description:
+          "Echobell complements Slack when missing an alert is not an option.",
+        items: [
+          {
+            title: "After-hours on-call",
+            description:
+              "Wake the right engineer when a production incident fires at 3 a.m.",
+          },
+          {
+            title: "Sev-1 incident response",
+            description:
+              "Escalate with phone calls instead of hoping someone sees a channel.",
+          },
+          {
+            title: "Solo founders and small teams",
+            description:
+              "Get paged reliably without standing up a heavy incident platform.",
+          },
+        ],
+      },
+      migration: {
+        title: "Add Echobell alongside Slack",
+        description:
+          "You don't have to leave Slack — route only the critical path to Echobell.",
+        steps: [
+          {
+            title: "Keep Slack for collaboration",
+            description:
+              "Leave routine updates and discussion where your team already works.",
+          },
+          {
+            title: "Forward critical alerts to Echobell",
+            description:
+              "Point your highest-severity webhooks and alert emails to an Echobell channel.",
+          },
+          {
+            title: "Turn on call escalation",
+            description:
+              "Enable phone-call and time-sensitive delivery for incidents that can't wait.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Does Echobell replace Slack?",
+            answer:
+              "No. Slack stays your collaboration hub; Echobell handles the critical-delivery layer so urgent alerts aren't missed.",
+          },
+          {
+            question: "Why not just use Slack notifications?",
+            answer:
+              "Slack messages are easy to mute and miss after hours. Echobell uses phone calls and time-sensitive alerts that break through Do Not Disturb.",
+          },
+          {
+            question: "Can I send the same webhook to both?",
+            answer:
+              "Yes. Keep posting to Slack and also trigger an Echobell channel for the alerts that need a call.",
+          },
+        ],
+      },
+      cta: {
+        title: "Make sure critical alerts get through",
+        description:
+          "Route one high-severity service to Echobell and feel the difference at 3 a.m.",
+        primary: "Download Echobell",
+        secondary: "Open docs",
+      },
+    },
+    zh: {
+      slug: "slack",
+      competitorName: "Slack",
+      meta: {
+        title: "Echobell vs Slack",
+        description:
+          "对比 Echobell 与 Slack 在关键告警触达上的差异：电话升级、穿透静音与勿扰的通知，以及按服务划分的告警频道。",
+        keywords: ["Echobell vs Slack", "Slack 告警替代", "关键告警来电提醒"],
+      },
+      hero: {
+        badge: "Echobell vs Slack",
+        title: "当一条 Slack 消息还不够响时",
+        description:
+          "Slack 为团队沟通而生，Echobell 则专注于让关键告警被看见——用电话和时效通知穿透静音与勿扰。",
+      },
+      quickSummary:
+        "Slack 继续负责协作与 ChatOps；用 Echobell 兜住绝不能错过的告警——故障、宕机和下班后的呼叫。",
+      decisionHint:
+        "当告警需要把人叫醒、而不只是出现在嘈杂频道里时，选择 Echobell。",
+      atAGlance: [
+        {
+          label: "核心定位",
+          echobell: "专用的关键告警触达",
+          competitor: "团队聊天与协作",
+        },
+        {
+          label: "紧急度处理",
+          echobell: "电话呼叫与时效通知",
+          competitor: "普通消息通知，容易被静音",
+        },
+        {
+          label: "下班后可靠性",
+          echobell: "可穿透专注模式与勿扰",
+          competitor: "会被静音、排程与勿扰挡掉",
+        },
+      ],
+      differences: {
+        title: "核心差异",
+        description:
+          "Slack 通知要和其他所有消息抢注意力；Echobell 告警则天生为脱颖而出而设计。",
+        items: [
+          {
+            dimension: "告警可见性",
+            echobell: "能穿透的来电与时效告警",
+            competitor: "嘈杂应用里的又一条通知",
+            advantage: "Echobell 让严重故障无法被忽略。",
+          },
+          {
+            dimension: "升级路径",
+            echobell: "对未确认的关键事件重复来电",
+            competitor: "消息没有原生的来电升级",
+            advantage: "争分夺秒时，Echobell 能叫醒值班工程师。",
+          },
+          {
+            dimension: "信噪比",
+            echobell: "按服务划分、只承载告警的专用频道",
+            competitor: "告警与对话、话题混在一起",
+            advantage: "Echobell 让告警频道远离闲聊。",
+          },
+          {
+            dimension: "触发来源",
+            echobell: "Webhook 与邮件触发 + 动态模板",
+            competitor: "Incoming webhook 与应用集成",
+            advantage: "同一个 webhook，Echobell 能转成来电而不只是一条消息。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell 优势",
+        description:
+          "Echobell 只专注一件事：确保紧急告警被送达并被确认。",
+        items: [
+          {
+            title: "电话升级",
+            description: "严重事件像真实来电一样响铃，即便处于静音状态。",
+          },
+          {
+            title: "穿透勿扰",
+            description: "时效与关键告警可绕过静音、排程与专注模式。",
+          },
+          {
+            title: "无噪音告警频道",
+            description: "按服务划分的频道只承载告警，重要信息不会被淹没。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "适用场景",
+        description: "当错过告警不是一个选项时，Echobell 是 Slack 的补充。",
+        items: [
+          {
+            title: "下班后值班",
+            description: "凌晨三点生产故障触发时，叫醒该负责的工程师。",
+          },
+          {
+            title: "Sev-1 故障响应",
+            description: "用电话升级，而不是寄希望于有人看到频道。",
+          },
+          {
+            title: "独立开发者与小团队",
+            description: "无需搭建笨重的事件平台，也能可靠收到呼叫。",
+          },
+        ],
+      },
+      migration: {
+        title: "在 Slack 之外加上 Echobell",
+        description: "无需离开 Slack——只把关键路径导给 Echobell。",
+        steps: [
+          {
+            title: "Slack 继续负责协作",
+            description: "日常更新和讨论仍留在团队已经习惯的地方。",
+          },
+          {
+            title: "把关键告警转发到 Echobell",
+            description: "将最高严重度的 webhook 和告警邮件指向一个 Echobell 频道。",
+          },
+          {
+            title: "开启来电升级",
+            description: "为不能等待的事件启用电话与时效送达。",
+          },
+        ],
+      },
+      faq: {
+        title: "常见问题",
+        items: [
+          {
+            question: "Echobell 会取代 Slack 吗？",
+            answer:
+              "不会。Slack 仍是协作中心；Echobell 负责关键触达层，确保紧急告警不被错过。",
+          },
+          {
+            question: "为什么不直接用 Slack 通知？",
+            answer:
+              "Slack 消息下班后很容易被静音和错过。Echobell 用电话和时效告警穿透勿扰。",
+          },
+          {
+            question: "同一个 webhook 能同时发给两边吗？",
+            answer:
+              "可以。继续发到 Slack，同时为需要来电的告警触发一个 Echobell 频道。",
+          },
+        ],
+      },
+      cta: {
+        title: "确保关键告警送达",
+        description: "把一个高严重度服务导到 Echobell，凌晨三点就能感受到差别。",
+        primary: "下载 Echobell",
+        secondary: "查看文档",
+      },
+    },
+  },
+  telegram: {
+    en: {
+      slug: "telegram",
+      competitorName: "Telegram",
+      meta: {
+        title: "Echobell vs Telegram",
+        description: "Compare Echobell and Telegram bot alerts: phone-call escalation, time-sensitive notifications that bypass mute, and webhook/email triggers without bot plumbing.",
+        keywords: [
+          "Echobell vs Telegram",
+          "Telegram bot alert alternative",
+          "critical alerts to phone call",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Telegram",
+        title: "When a Telegram bot ping isn't enough",
+        description: "Telegram bots are a quick way to relay alerts, but they can't call you and are easy to mute. Echobell is purpose-built for urgent delivery — phone calls and time-sensitive notifications that break through.",
+      },
+      quickSummary: "Use Telegram bots for casual notifications. Use Echobell when an alert has to wake someone up, not just add to an unread badge.",
+      decisionHint: "Choose Echobell when missed alerts have real consequences and you need call-level urgency.",
+      atAGlance: [
+        {
+          label: "Primary purpose",
+          echobell: "Dedicated critical-alert delivery",
+          competitor: "General chat with bot APIs",
+        },
+        {
+          label: "Urgency handling",
+          echobell: "Phone calls and time-sensitive notifications",
+          competitor: "Bot messages, easily muted",
+        },
+        {
+          label: "Setup",
+          echobell: "Webhook or email trigger in minutes",
+          competitor: "Bot token, chat IDs, and message plumbing",
+        },
+      ],
+      differences: {
+        title: "Key differences",
+        description: "A bot message and a phone call are not the same level of urgency.",
+        items: [
+          {
+            dimension: "Urgent escalation",
+            echobell: "Phone calls for unacknowledged critical events",
+            competitor: "No native call escalation for bot messages",
+            advantage: "Echobell wakes the on-call person when seconds matter.",
+          },
+          {
+            dimension: "Cutting through silence",
+            echobell: "Time-sensitive alerts bypass mute and Focus",
+            competitor: "Muted chats stay silent",
+            advantage: "Echobell reaches you even when notifications are off.",
+          },
+          {
+            dimension: "Maintenance",
+            echobell: "No bot tokens or chat IDs to manage",
+            competitor: "Bots, tokens, and message formatting to maintain",
+            advantage: "Echobell removes the glue code around delivery.",
+          },
+          {
+            dimension: "Trigger sources",
+            echobell: "Webhook and email triggers with templates",
+            competitor: "Bot API calls from your own code",
+            advantage: "Echobell accepts the same webhook and turns it into a call.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Where Echobell wins",
+        description: "Echobell focuses on getting urgent alerts seen and acted on.",
+        items: [
+          {
+            title: "Phone-call escalation",
+            description: "Severity-one events ring your phone like a real call, even on silent.",
+          },
+          {
+            title: "Cuts through Do Not Disturb",
+            description: "Time-sensitive alerts bypass mute, schedules, and Focus modes.",
+          },
+          {
+            title: "No bot plumbing",
+            description: "Send a webhook or forward an email — no tokens, chat IDs, or bot hosting.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Best-fit scenarios",
+        description: "Echobell fits when a Telegram bot ping would be too easy to miss.",
+        items: [
+          {
+            title: "After-hours on-call",
+            description: "Wake the right person when production breaks at 3 a.m.",
+          },
+          {
+            title: "Solo and indie operators",
+            description: "Reliable paging without running a bot or a chat workspace.",
+          },
+          {
+            title: "Critical service alerts",
+            description: "Outages, failed jobs, and security events that can't wait for a glance at chat.",
+          },
+        ],
+      },
+      migration: {
+        title: "Move from Telegram bots to Echobell",
+        description: "Keep Telegram for chat; route the alerts that matter to Echobell.",
+        steps: [
+          {
+            title: "Create an Echobell channel",
+            description: "Get a webhook URL and a unique trigger email instantly.",
+          },
+          {
+            title: "Point critical alerts to it",
+            description: "Send your highest-severity webhooks or alert emails to Echobell instead of the bot.",
+          },
+          {
+            title: "Enable call escalation",
+            description: "Turn on phone-call and time-sensitive delivery for events that can't wait.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Can a Telegram bot make phone calls?",
+            answer: "No. Telegram bots send chat messages; they can't place a phone call. Echobell can call you for critical alerts.",
+          },
+          {
+            question: "Why not just use a muted-exempt Telegram chat?",
+            answer: "Even unmuted chats are a passive badge. Echobell uses calls and time-sensitive alerts that actively break through.",
+          },
+          {
+            question: "Do I need to write any bot code?",
+            answer: "No. Echobell takes a webhook or email directly, so there are no bot tokens or chat IDs to manage.",
+          },
+        ],
+      },
+      cta: {
+        title: "Make critical alerts impossible to miss",
+        description: "Route one high-severity service to Echobell and feel the difference at 3 a.m.",
+        primary: "Download Echobell",
+        secondary: "Open docs",
+      },
+    },
+    zh: {
+      slug: "telegram",
+      competitorName: "Telegram",
+      meta: {
+        title: "Echobell vs Telegram",
+        description: "对比 Echobell 与 Telegram 机器人告警：电话升级、绕过静音的时效通知，以及无需 bot 链路的 webhook/邮件触发。",
+        keywords: [
+          "Echobell vs Telegram",
+          "Telegram 机器人告警替代",
+          "关键告警来电提醒",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Telegram",
+        title: "当 Telegram 机器人提醒还不够时",
+        description: "用 Telegram 机器人转发告警很快，但它不会打电话、也容易被静音。Echobell 专为紧急触达而生——用能穿透的电话和时效通知。",
+      },
+      quickSummary: "日常通知用 Telegram 机器人；当告警必须把人叫醒、而不只是多一个未读时，用 Echobell。",
+      decisionHint: "当错过告警会带来真实后果、需要电话级紧急度时，选择 Echobell。",
+      atAGlance: [
+        {
+          label: "核心定位",
+          echobell: "专用的关键告警触达",
+          competitor: "通用聊天 + 机器人 API",
+        },
+        {
+          label: "紧急度处理",
+          echobell: "电话与时效通知",
+          competitor: "机器人消息，容易被静音",
+        },
+        {
+          label: "搭建",
+          echobell: "几分钟配好 webhook 或邮件触发",
+          competitor: "需要 bot token、chat ID 和消息拼装",
+        },
+      ],
+      differences: {
+        title: "核心差异",
+        description: "一条机器人消息和一通电话，紧急度根本不在一个层级。",
+        items: [
+          {
+            dimension: "紧急升级",
+            echobell: "对未确认的关键事件来电",
+            competitor: "机器人消息无原生来电升级",
+            advantage: "争分夺秒时，Echobell 能叫醒值班人。",
+          },
+          {
+            dimension: "穿透静音",
+            echobell: "时效告警绕过静音与专注模式",
+            competitor: "被静音的会话一直无声",
+            advantage: "即便关了通知，Echobell 也能触达你。",
+          },
+          {
+            dimension: "维护成本",
+            echobell: "无需管理 bot token 和 chat ID",
+            competitor: "要维护机器人、token 和消息格式",
+            advantage: "Echobell 省掉了触达环节的胶水代码。",
+          },
+          {
+            dimension: "触发来源",
+            echobell: "Webhook 与邮件触发 + 模板",
+            competitor: "需自己写代码调 bot API",
+            advantage: "同一个 webhook，Echobell 直接转成来电。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell 优势",
+        description: "Echobell 专注于让紧急告警被看见、被处理。",
+        items: [
+          {
+            title: "电话升级",
+            description: "严重事件像真实来电一样响铃，即便静音。",
+          },
+          {
+            title: "穿透勿扰",
+            description: "时效告警可绕过静音、排程与专注模式。",
+          },
+          {
+            title: "无机器人链路",
+            description: "发个 webhook 或转发邮件即可——无需 token、chat ID 或托管机器人。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "适用场景",
+        description: "当 Telegram 机器人提醒太容易被忽略时，Echobell 更合适。",
+        items: [
+          {
+            title: "下班后值班",
+            description: "凌晨三点生产出问题时叫醒该负责的人。",
+          },
+          {
+            title: "独立开发者",
+            description: "无需运行机器人或聊天工作区，也能可靠被呼叫。",
+          },
+          {
+            title: "关键服务告警",
+            description: "宕机、任务失败、安全事件——等不及你瞄一眼聊天。",
+          },
+        ],
+      },
+      migration: {
+        title: "从 Telegram 机器人迁移到 Echobell",
+        description: "聊天继续用 Telegram；把重要告警导给 Echobell。",
+        steps: [
+          {
+            title: "创建 Echobell 频道",
+            description: "立即获得 webhook URL 和唯一触发邮箱。",
+          },
+          {
+            title: "把关键告警指过去",
+            description: "将最高严重度的 webhook 或告警邮件发给 Echobell，而非机器人。",
+          },
+          {
+            title: "开启来电升级",
+            description: "为等不及的事件启用电话与时效送达。",
+          },
+        ],
+      },
+      faq: {
+        title: "常见问题",
+        items: [
+          {
+            question: "Telegram 机器人能打电话吗？",
+            answer: "不能。机器人只能发聊天消息，无法拨打电话。Echobell 可以为关键告警给你来电。",
+          },
+          {
+            question: "用一个不静音的 Telegram 会话不行吗？",
+            answer: "即便不静音也只是被动的未读。Echobell 用电话和时效告警主动穿透。",
+          },
+          {
+            question: "需要写机器人代码吗？",
+            answer: "不需要。Echobell 直接接收 webhook 或邮件，无需管理 bot token 或 chat ID。",
+          },
+        ],
+      },
+      cta: {
+        title: "让关键告警无法被错过",
+        description: "把一个高严重度服务导到 Echobell，凌晨三点就能感受到差别。",
+        primary: "下载 Echobell",
+        secondary: "查看文档",
+      },
+    },
+  },
+  discord: {
+    en: {
+      slug: "discord",
+      competitorName: "Discord",
+      meta: {
+        title: "Echobell vs Discord",
+        description: "Compare Echobell and Discord webhook alerts: phone-call escalation, notifications that bypass mute and Do Not Disturb, and dedicated per-service alert channels.",
+        keywords: [
+          "Echobell vs Discord",
+          "Discord webhook alert alternative",
+          "critical alerts to phone call",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Discord",
+        title: "When a Discord webhook gets lost in the noise",
+        description: "Discord webhooks are great for posting updates, but alerts get buried in busy servers and mobile pings are easy to mute. Echobell delivers urgent alerts as phone calls that break through.",
+      },
+      quickSummary: "Keep Discord for community and chat. Add Echobell for the alerts that have to reach you, even when the server is loud and the phone is silent.",
+      decisionHint: "Choose Echobell when an alert can't afford to scroll past in a busy channel.",
+      atAGlance: [
+        {
+          label: "Primary purpose",
+          echobell: "Dedicated critical-alert delivery",
+          competitor: "Community chat with webhook posts",
+        },
+        {
+          label: "Urgency handling",
+          echobell: "Phone calls and time-sensitive notifications",
+          competitor: "Channel messages, easily muted",
+        },
+        {
+          label: "Signal vs noise",
+          echobell: "Per-service channels for alerts only",
+          competitor: "Alerts mixed into server chatter",
+        },
+      ],
+      differences: {
+        title: "Key differences",
+        description: "A webhook post in a busy server is not the same as an alert that reaches you.",
+        items: [
+          {
+            dimension: "Alert visibility",
+            echobell: "Calls and time-sensitive alerts that cut through",
+            competitor: "A message that scrolls past in a busy channel",
+            advantage: "Echobell makes severe incidents impossible to miss.",
+          },
+          {
+            dimension: "Escalation path",
+            echobell: "Phone calls for unacknowledged critical events",
+            competitor: "No native call escalation for webhook posts",
+            advantage: "Echobell wakes the on-call person when seconds matter.",
+          },
+          {
+            dimension: "After-hours reliability",
+            echobell: "Time-sensitive alerts bypass mute and Focus",
+            competitor: "Muted servers stay silent overnight",
+            advantage: "Echobell reaches you when Discord is muted.",
+          },
+          {
+            dimension: "Trigger sources",
+            echobell: "Webhook and email triggers with templates",
+            competitor: "Incoming webhooks posted to a channel",
+            advantage: "Echobell turns the same webhook into a call, not a post.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Where Echobell wins",
+        description: "Echobell focuses on getting urgent alerts seen, not just posted.",
+        items: [
+          {
+            title: "Phone-call escalation",
+            description: "Severity-one events ring your phone like a real call, even on silent.",
+          },
+          {
+            title: "Cuts through Do Not Disturb",
+            description: "Time-sensitive alerts bypass mute, schedules, and Focus modes.",
+          },
+          {
+            title: "Noise-free alert channels",
+            description: "Per-service channels carry only alerts, so nothing important gets buried.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Best-fit scenarios",
+        description: "Echobell fits when a Discord post would scroll past unseen.",
+        items: [
+          {
+            title: "After-hours on-call",
+            description: "Wake the right person when production breaks at 3 a.m.",
+          },
+          {
+            title: "Indie game and app teams",
+            description: "Get paged for crashes and outages without watching a busy server.",
+          },
+          {
+            title: "Critical service alerts",
+            description: "Outages, failed jobs, and security events that can't wait for a scroll.",
+          },
+        ],
+      },
+      migration: {
+        title: "Add Echobell alongside Discord",
+        description: "You don't have to leave Discord — route only the critical path to Echobell.",
+        steps: [
+          {
+            title: "Keep Discord for chat",
+            description: "Leave community updates and discussion where they already happen.",
+          },
+          {
+            title: "Forward critical alerts to Echobell",
+            description: "Point your highest-severity webhooks and alert emails to an Echobell channel.",
+          },
+          {
+            title: "Turn on call escalation",
+            description: "Enable phone-call and time-sensitive delivery for incidents that can't wait.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Can a Discord webhook call my phone?",
+            answer: "No. Discord webhooks post messages to a channel; they can't place a call. Echobell can call you for critical alerts.",
+          },
+          {
+            question: "Why do alerts get missed in Discord?",
+            answer: "Busy servers scroll fast and mobile notifications are easy to mute. Echobell uses calls and time-sensitive alerts that break through.",
+          },
+          {
+            question: "Can I send the same webhook to both?",
+            answer: "Yes. Keep posting to Discord and also trigger an Echobell channel for the alerts that need a call.",
+          },
+        ],
+      },
+      cta: {
+        title: "Make sure critical alerts get through",
+        description: "Route one high-severity service to Echobell and feel the difference at 3 a.m.",
+        primary: "Download Echobell",
+        secondary: "Open docs",
+      },
+    },
+    zh: {
+      slug: "discord",
+      competitorName: "Discord",
+      meta: {
+        title: "Echobell vs Discord",
+        description: "对比 Echobell 与 Discord webhook 告警：电话升级、绕过静音与勿扰的通知，以及按服务划分的专用告警频道。",
+        keywords: [
+          "Echobell vs Discord",
+          "Discord webhook 告警替代",
+          "关键告警来电提醒",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Discord",
+        title: "当 Discord webhook 淹没在噪音里",
+        description: "Discord webhook 很适合发更新，但告警容易埋在嘈杂服务器里、手机提醒也容易被静音。Echobell 用能穿透的电话送达紧急告警。",
+      },
+      quickSummary: "社区和聊天继续用 Discord；用 Echobell 兜住必须触达你的告警——哪怕服务器很吵、手机静音。",
+      decisionHint: "当告警不能在嘈杂频道里被刷过去时，选择 Echobell。",
+      atAGlance: [
+        {
+          label: "核心定位",
+          echobell: "专用的关键告警触达",
+          competitor: "社区聊天 + webhook 消息",
+        },
+        {
+          label: "紧急度处理",
+          echobell: "电话与时效通知",
+          competitor: "频道消息，容易被静音",
+        },
+        {
+          label: "信噪比",
+          echobell: "按服务划分、只承载告警的频道",
+          competitor: "告警混在服务器闲聊里",
+        },
+      ],
+      differences: {
+        title: "核心差异",
+        description: "嘈杂服务器里的一条 webhook 消息，和真正触达你的告警，不是一回事。",
+        items: [
+          {
+            dimension: "告警可见性",
+            echobell: "能穿透的来电与时效告警",
+            competitor: "在嘈杂频道里被刷过去的消息",
+            advantage: "Echobell 让严重故障无法被忽略。",
+          },
+          {
+            dimension: "升级路径",
+            echobell: "对未确认的关键事件来电",
+            competitor: "webhook 消息无原生来电升级",
+            advantage: "争分夺秒时，Echobell 能叫醒值班人。",
+          },
+          {
+            dimension: "下班后可靠性",
+            echobell: "时效告警绕过静音与专注模式",
+            competitor: "被静音的服务器整夜无声",
+            advantage: "Discord 静音时，Echobell 仍能触达你。",
+          },
+          {
+            dimension: "触发来源",
+            echobell: "Webhook 与邮件触发 + 模板",
+            competitor: "Incoming webhook 发到频道",
+            advantage: "同一个 webhook，Echobell 转成来电而非消息。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell 优势",
+        description: "Echobell 专注于让紧急告警被看见，而不只是被发出。",
+        items: [
+          {
+            title: "电话升级",
+            description: "严重事件像真实来电一样响铃，即便静音。",
+          },
+          {
+            title: "穿透勿扰",
+            description: "时效告警可绕过静音、排程与专注模式。",
+          },
+          {
+            title: "无噪音告警频道",
+            description: "按服务划分的频道只承载告警，重要信息不会被淹没。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "适用场景",
+        description: "当 Discord 消息会被刷过去而无人看到时，Echobell 更合适。",
+        items: [
+          {
+            title: "下班后值班",
+            description: "凌晨三点生产出问题时叫醒该负责的人。",
+          },
+          {
+            title: "独立游戏/应用团队",
+            description: "无需盯着嘈杂服务器，也能被崩溃和宕机呼叫。",
+          },
+          {
+            title: "关键服务告警",
+            description: "宕机、任务失败、安全事件——等不及你往下刷。",
+          },
+        ],
+      },
+      migration: {
+        title: "在 Discord 之外加上 Echobell",
+        description: "无需离开 Discord——只把关键路径导给 Echobell。",
+        steps: [
+          {
+            title: "聊天继续用 Discord",
+            description: "社区更新和讨论仍留在原处。",
+          },
+          {
+            title: "把关键告警转发到 Echobell",
+            description: "将最高严重度的 webhook 和告警邮件指向一个 Echobell 频道。",
+          },
+          {
+            title: "开启来电升级",
+            description: "为不能等待的事件启用电话与时效送达。",
+          },
+        ],
+      },
+      faq: {
+        title: "常见问题",
+        items: [
+          {
+            question: "Discord webhook 能给我打电话吗？",
+            answer: "不能。Discord webhook 只能往频道发消息，无法拨打电话。Echobell 可以为关键告警给你来电。",
+          },
+          {
+            question: "为什么 Discord 里告警容易被错过？",
+            answer: "嘈杂服务器刷得快，手机通知也容易被静音。Echobell 用能穿透的电话和时效告警。",
+          },
+          {
+            question: "同一个 webhook 能同时发给两边吗？",
+            answer: "可以。继续发到 Discord，同时为需要来电的告警触发一个 Echobell 频道。",
+          },
+        ],
+      },
+      cta: {
+        title: "确保关键告警送达",
+        description: "把一个高严重度服务导到 Echobell，凌晨三点就能感受到差别。",
+        primary: "下载 Echobell",
+        secondary: "查看文档",
+      },
+    },
+  },
+  healthchecks: {
+    en: {
+      slug: "healthchecks",
+      competitorName: "Healthchecks.io",
+      meta: {
+        title: "Echobell vs Healthchecks.io",
+        description: "Compare Echobell and Healthchecks.io for cron and heartbeat alerts: phone-call escalation, time-sensitive notifications, and how they pair via webhook.",
+        keywords: [
+          "Echobell vs Healthchecks.io",
+          "Healthchecks.io phone call alert",
+          "cron job failure phone alert",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Healthchecks.io",
+        title: "Detect the dead cron job — then actually get woken up",
+        description: "Healthchecks.io is excellent at spotting missed cron jobs and heartbeats. Echobell adds what it doesn't do: phone calls and time-sensitive alerts so a silent job reaches you.",
+      },
+      quickSummary: "Use Healthchecks.io to detect missed jobs. Use Echobell so that detection turns into a phone call you can't sleep through.",
+      decisionHint: "Choose Echobell as the delivery layer when an email about a dead job isn't urgent enough.",
+      atAGlance: [
+        {
+          label: "Core strength",
+          echobell: "Urgent delivery: calls and time-sensitive alerts",
+          competitor: "Cron and heartbeat monitoring",
+        },
+        {
+          label: "Wake-up reliability",
+          echobell: "Phone calls that break through silent mode",
+          competitor: "Email, chat, and webhook notifications",
+        },
+        {
+          label: "Together",
+          echobell: "Receives the Healthchecks webhook and calls you",
+          competitor: "Fires a webhook when a check goes down",
+        },
+      ],
+      differences: {
+        title: "Key differences",
+        description: "Healthchecks knows the job died; Echobell makes sure you do too.",
+        items: [
+          {
+            dimension: "Delivery urgency",
+            echobell: "Phone calls and time-sensitive alerts",
+            competitor: "Email, Slack, and other passive channels",
+            advantage: "Echobell turns a detection into an unmissable page.",
+          },
+          {
+            dimension: "After-hours reach",
+            echobell: "Bypasses mute and Do Not Disturb",
+            competitor: "Notifications can be muted or missed",
+            advantage: "Echobell wakes you when a nightly job fails.",
+          },
+          {
+            dimension: "Scope",
+            echobell: "General webhook and email alert delivery",
+            competitor: "Focused on cron and heartbeat checks",
+            advantage: "Echobell also handles alerts from any other source.",
+          },
+          {
+            dimension: "Setup together",
+            echobell: "Add Echobell as a webhook integration",
+            competitor: "Already supports outbound webhooks",
+            advantage: "Echobell slots in as the call layer in minutes.",
+          },
+        ],
+      },
+      advantages: {
+        title: "Where Echobell wins",
+        description: "Echobell is the urgent-delivery layer on top of monitoring you already trust.",
+        items: [
+          {
+            title: "Phone-call escalation",
+            description: "A missed job rings your phone like a real call, even on silent.",
+          },
+          {
+            title: "Cuts through Do Not Disturb",
+            description: "Time-sensitive alerts bypass mute, schedules, and Focus modes.",
+          },
+          {
+            title: "Works with what you have",
+            description: "Pair it with Healthchecks via webhook — no need to switch monitoring.",
+          },
+        ],
+      },
+      scenarios: {
+        title: "Best-fit scenarios",
+        description: "Echobell fits when a missed cron job has to wake someone, not just send an email.",
+        items: [
+          {
+            title: "Nightly batch and backups",
+            description: "Get called when the 3 a.m. job silently fails to run.",
+          },
+          {
+            title: "Dead man's switch",
+            description: "Escalate to a call the moment a heartbeat stops arriving.",
+          },
+          {
+            title: "Solo and small ops",
+            description: "Reliable paging without building an escalation platform.",
+          },
+        ],
+      },
+      migration: {
+        title: "Pair Echobell with Healthchecks.io",
+        description: "Keep Healthchecks for detection; add Echobell for the call.",
+        steps: [
+          {
+            title: "Create an Echobell channel",
+            description: "Get a webhook URL for your alerts instantly.",
+          },
+          {
+            title: "Add it to Healthchecks integrations",
+            description: "Point the on-down webhook at your Echobell channel.",
+          },
+          {
+            title: "Enable call escalation",
+            description: "Turn on phone-call delivery for the checks that can't fail silently.",
+          },
+        ],
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          {
+            question: "Does Echobell replace Healthchecks.io?",
+            answer: "No. Healthchecks detects missed jobs; Echobell is the urgent-delivery layer that turns a detection into a phone call.",
+          },
+          {
+            question: "How do they work together?",
+            answer: "Healthchecks fires a webhook when a check goes down. Point it at an Echobell channel and Echobell calls you.",
+          },
+          {
+            question: "Can Echobell call me for a failed cron job?",
+            answer: "Yes. That's the point — time-sensitive and call-style alerts so a silent job actually reaches you.",
+          },
+        ],
+      },
+      cta: {
+        title: "Turn a missed job into a call you can't ignore",
+        description: "Wire one critical check to Echobell and stop sleeping through failures.",
+        primary: "Download Echobell",
+        secondary: "Open docs",
+      },
+    },
+    zh: {
+      slug: "healthchecks",
+      competitorName: "Healthchecks.io",
+      meta: {
+        title: "Echobell vs Healthchecks.io",
+        description: "对比 Echobell 与 Healthchecks.io 在定时任务/心跳告警上的差异：电话升级、时效通知，以及两者如何通过 webhook 配合。",
+        keywords: [
+          "Echobell vs Healthchecks.io",
+          "Healthchecks.io 电话告警",
+          "定时任务失败来电提醒",
+        ],
+      },
+      hero: {
+        badge: "Echobell vs Healthchecks.io",
+        title: "发现挂掉的定时任务——然后真的被叫醒",
+        description: "Healthchecks.io 擅长发现漏跑的定时任务和心跳。Echobell 补上它不做的部分：用电话和时效告警，让静默的任务真正触达你。",
+      },
+      quickSummary: "用 Healthchecks.io 发现漏跑的任务；用 Echobell 把这种发现变成一通让你睡不过去的电话。",
+      decisionHint: "当一封「任务挂了」的邮件还不够紧急时，把 Echobell 作为触达层。",
+      atAGlance: [
+        {
+          label: "核心强项",
+          echobell: "紧急触达：电话与时效告警",
+          competitor: "定时任务与心跳监控",
+        },
+        {
+          label: "唤醒可靠性",
+          echobell: "能穿透静音的电话",
+          competitor: "邮件、聊天与 webhook 通知",
+        },
+        {
+          label: "配合方式",
+          echobell: "接收 Healthchecks 的 webhook 并给你来电",
+          competitor: "检查异常时触发 webhook",
+        },
+      ],
+      differences: {
+        title: "核心差异",
+        description: "Healthchecks 知道任务挂了；Echobell 确保你也知道。",
+        items: [
+          {
+            dimension: "送达紧急度",
+            echobell: "电话与时效告警",
+            competitor: "邮件、Slack 等被动渠道",
+            advantage: "Echobell 把一次发现变成无法忽略的呼叫。",
+          },
+          {
+            dimension: "下班后触达",
+            echobell: "绕过静音与勿扰",
+            competitor: "通知可能被静音或错过",
+            advantage: "夜间任务失败时，Echobell 能叫醒你。",
+          },
+          {
+            dimension: "覆盖范围",
+            echobell: "通用的 webhook 与邮件告警送达",
+            competitor: "聚焦定时任务与心跳检查",
+            advantage: "Echobell 也能处理任意其他来源的告警。",
+          },
+          {
+            dimension: "配合搭建",
+            echobell: "把 Echobell 加为一个 webhook 集成",
+            competitor: "已支持出站 webhook",
+            advantage: "Echobell 几分钟即可作为电话层接入。",
+          },
+        ],
+      },
+      advantages: {
+        title: "Echobell 优势",
+        description: "Echobell 是叠加在你已信任的监控之上的紧急触达层。",
+        items: [
+          {
+            title: "电话升级",
+            description: "漏跑的任务像真实来电一样响铃，即便静音。",
+          },
+          {
+            title: "穿透勿扰",
+            description: "时效告警可绕过静音、排程与专注模式。",
+          },
+          {
+            title: "与现有工具配合",
+            description: "通过 webhook 与 Healthchecks 配合——无需更换监控。",
+          },
+        ],
+      },
+      scenarios: {
+        title: "适用场景",
+        description: "当漏跑的定时任务必须把人叫醒、而不只是发封邮件时，Echobell 更合适。",
+        items: [
+          {
+            title: "夜间批处理与备份",
+            description: "凌晨三点的任务静默失败时给你来电。",
+          },
+          {
+            title: "死人开关（心跳）",
+            description: "心跳一停止到达，立即升级为电话。",
+          },
+          {
+            title: "个人与小型运维",
+            description: "无需搭建升级平台，也能可靠被呼叫。",
+          },
+        ],
+      },
+      migration: {
+        title: "让 Echobell 与 Healthchecks.io 配合",
+        description: "检测继续用 Healthchecks；用 Echobell 负责那一通电话。",
+        steps: [
+          {
+            title: "创建 Echobell 频道",
+            description: "立即获得用于告警的 webhook URL。",
+          },
+          {
+            title: "加进 Healthchecks 集成",
+            description: "把异常时的 webhook 指向你的 Echobell 频道。",
+          },
+          {
+            title: "开启来电升级",
+            description: "为不能静默失败的检查启用电话送达。",
+          },
+        ],
+      },
+      faq: {
+        title: "常见问题",
+        items: [
+          {
+            question: "Echobell 会取代 Healthchecks.io 吗？",
+            answer: "不会。Healthchecks 负责发现漏跑的任务；Echobell 是把这种发现变成电话的紧急触达层。",
+          },
+          {
+            question: "两者怎么配合？",
+            answer: "Healthchecks 在检查异常时触发 webhook。把它指向一个 Echobell 频道，Echobell 就会给你来电。",
+          },
+          {
+            question: "定时任务失败时 Echobell 能给我打电话吗？",
+            answer: "可以，这正是重点——用时效和来电式告警，让静默的任务真正触达你。",
+          },
+        ],
+      },
+      cta: {
+        title: "把漏跑的任务变成你无法忽略的电话",
+        description: "把一个关键检查接到 Echobell，别再睡过故障。",
         primary: "下载 Echobell",
         secondary: "查看文档",
       },

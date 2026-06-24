@@ -51,6 +51,15 @@ const LogoSvg = () => (
   </svg>
 );
 
+const footerTaglines: Record<Language, string> = {
+  en: "Instant Webhook & Email Alerts",
+  zh: "Webhook 与邮件即时警报",
+  es: "Alertas instantáneas por Webhook y Email",
+  fr: "Alertes instantanées Webhook & Email",
+  ja: "Webhookとメールの即時アラート",
+  de: "Sofortige Webhook- & E-Mail-Benachrichtigungen",
+};
+
 function getBadgeText(type: string, lang: Language): string {
   const badges: Record<string, Record<Language, string>> = {
     blog: {
@@ -225,7 +234,7 @@ export async function GET(request: NextRequest) {
               color: "#94a3b8",
             }}
           >
-            Instant Webhook & Email Alerts
+            {footerTaglines[lang] || footerTaglines.en}
           </span>
         </div>
 

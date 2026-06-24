@@ -107,6 +107,10 @@ const accentColorMap = {
   "better-stack": "green",
   pushover: "purple",
   ifttt: "red",
+  slack: "violet",
+  telegram: "sky",
+  discord: "indigo",
+  healthchecks: "teal",
 } as const;
 
 type AccentColor = (typeof accentColorMap)[keyof typeof accentColorMap];
@@ -155,6 +159,34 @@ const accentToneMap: Record<
     softBorder: "border-red-200 dark:border-red-800",
     solidBadge: "bg-red-600",
     solidButton: "bg-red-600 hover:bg-red-500",
+  },
+  violet: {
+    text: "text-violet-600 dark:text-violet-400",
+    softBg: "bg-violet-50 dark:bg-violet-950/20",
+    softBorder: "border-violet-200 dark:border-violet-800",
+    solidBadge: "bg-violet-600",
+    solidButton: "bg-violet-600 hover:bg-violet-500",
+  },
+  sky: {
+    text: "text-sky-600 dark:text-sky-400",
+    softBg: "bg-sky-50 dark:bg-sky-950/20",
+    softBorder: "border-sky-200 dark:border-sky-800",
+    solidBadge: "bg-sky-600",
+    solidButton: "bg-sky-600 hover:bg-sky-500",
+  },
+  indigo: {
+    text: "text-indigo-600 dark:text-indigo-400",
+    softBg: "bg-indigo-50 dark:bg-indigo-950/20",
+    softBorder: "border-indigo-200 dark:border-indigo-800",
+    solidBadge: "bg-indigo-600",
+    solidButton: "bg-indigo-600 hover:bg-indigo-500",
+  },
+  teal: {
+    text: "text-teal-600 dark:text-teal-400",
+    softBg: "bg-teal-50 dark:bg-teal-950/20",
+    softBorder: "border-teal-200 dark:border-teal-800",
+    solidBadge: "bg-teal-600",
+    solidButton: "bg-teal-600 hover:bg-teal-500",
   },
 };
 
