@@ -12,6 +12,7 @@ import { ArticleJsonLd } from "@/components/JsonLd";
 import { Breadcrumb, BreadcrumbJsonLd } from "@/components/Breadcrumb";
 import { languages } from "@/lib/i18n";
 import { LocalizedMdxLink } from "@/components/LocalizedMdxLink";
+import { RelatedPosts } from "@/components/RelatedPosts";
 import { getRawMarkdownPath } from "@/lib/rawContent";
 
 export async function generateStaticParams() {
@@ -87,6 +88,11 @@ export default async function Page(props: {
             />
           </div>
         </article>
+        <RelatedPosts
+          lang={params.lang}
+          currentSlug={params.slug}
+          tags={data.tags}
+        />
       </div>
     </div>
   );
