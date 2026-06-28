@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAiContentItems } from "@/lib/aiIndex";
 import { baseUrl } from "@/lib/metadata";
+import { getAppStoreLink, getGooglePlayLink } from "@/constants";
 
 const CACHE_CONTROL =
   "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400";
@@ -23,11 +24,13 @@ export async function GET(): Promise<NextResponse> {
   const items = getAiContentItems();
   const docs = items.filter((item) => item.kind === "docs");
   const blogPosts = items.filter((item) => item.kind === "blog");
+  const appStoreLink = getAppStoreLink(["llms-full", "app-store"]);
+  const googlePlayLink = getGooglePlayLink();
 
   const lines = [
     "# Echobell",
     "",
-    "> Exhaustive markdown URL index for Echobell documentation and blog content.",
+    "> Exhaustive markdown URL index for Echobell documentation and blog content. Echobell turns webhooks and emails into mobile push notifications, time-sensitive alerts, and phone call alerts.",
     "",
     "Use this file when you need broad coverage instead of the curated `/llms.txt` subset.",
     "",
@@ -44,6 +47,16 @@ export async function GET(): Promise<NextResponse> {
       "JSON index",
       toAbsoluteUrl("/ai-index.json"),
       "Structured manifest for programmatic ingestion."
+    ),
+    formatFileListItem(
+      "App Store",
+      appStoreLink,
+      "Official iOS app listing."
+    ),
+    formatFileListItem(
+      "Google Play",
+      googlePlayLink,
+      "Official Android app listing."
     ),
     "",
     "## Docs",

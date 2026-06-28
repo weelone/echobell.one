@@ -75,10 +75,18 @@ const priorityDocPaths = [
   "/docs",
   "/docs/what-is-echobell",
   "/docs/webhook",
+  "/docs/direct",
   "/docs/email-trigger",
+  "/docs/email-to-call",
   "/docs/notification",
   "/docs/features",
   "/docs/template",
+  "/docs/developer",
+  "/docs/developer/app-store-connect",
+  "/docs/developer/github",
+  "/docs/developer/grafana",
+  "/docs/trader",
+  "/docs/trader/tradingview",
   "/docs/support",
 ] as const;
 
@@ -91,13 +99,15 @@ export function getAiPriorityDocs(
   description?: string;
 }> {
   return priorityDocPaths.map((path) => {
-    const slug = path === "/docs" ? undefined : path.replace("/docs/", "");
-    const page = source.getPage(slug ? [slug] : undefined, lang);
+    const slug =
+      path === "/docs" ? undefined : path.replace("/docs/", "").split("/");
+    const page = source.getPage(slug, lang);
 
     if (!page) {
       const localizedPath = localizeUrl(path, lang);
       return {
-        title: path === "/docs" ? "Documentation Home" : slug ?? "Document",
+        title:
+          path === "/docs" ? "Documentation Home" : slug?.join("/") ?? "Document",
         url: toAbsoluteUrl(localizedPath),
         rawMarkdownUrl: toAbsoluteRawMarkdownUrl(localizedPath),
       };

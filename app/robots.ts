@@ -1,5 +1,15 @@
 import type { MetadataRoute } from "next";
 
+const subscriptionDisallows = [
+  "/subscription/",
+  "/en/subscription/",
+  "/zh/subscription/",
+  "/es/subscription/",
+  "/fr/subscription/",
+  "/ja/subscription/",
+  "/de/subscription/",
+];
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -12,24 +22,23 @@ export default function robots(): MetadataRoute.Robots {
           "/_next/",
           "/private/",
           // Do not index token-based subscription pages (all locales)
-          "/subscription/",
-          "/en/subscription/",
-          "/zh/subscription/",
-          "/es/subscription/",
-          "/fr/subscription/",
-          "/ja/subscription/",
-          "/de/subscription/",
+          ...subscriptionDisallows,
         ],
       },
       {
-        userAgent: ["OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "ClaudeBot"],
+        userAgent: [
+          "OAI-SearchBot",
+          "ChatGPT-User",
+          "PerplexityBot",
+          "ClaudeBot",
+        ],
         allow: "/",
-        disallow: ["/api/", "/_next/", "/private/", "/subscription/"],
+        disallow: ["/api/", "/_next/", "/private/", ...subscriptionDisallows],
       },
       {
         userAgent: "GPTBot",
         allow: "/",
-        disallow: ["/api/", "/_next/", "/private/", "/subscription/"],
+        disallow: ["/api/", "/_next/", "/private/", ...subscriptionDisallows],
       },
       {
         userAgent: "Google-Extended",
