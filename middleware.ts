@@ -8,6 +8,7 @@ const NON_LOCALIZED_PATHS = new Set([
   "/llms.txt",
   "/llms-full.txt",
   "/ai-index.json",
+  "/manifest.webmanifest",
 ]);
 
 function getForwardedProtocol(request: NextRequest): string {
@@ -65,6 +66,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

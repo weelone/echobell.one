@@ -12,16 +12,17 @@ const seoLandingPages = [
   "/app-store-connect-review-notifications",
 ] as const;
 
-// Revalidate daily to keep lastModified stable but fresh
+const SITE_LAST_MODIFIED = new Date("2026-07-07");
+
+// Revalidate daily while keeping lastModified tied to source content changes.
 export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const url = (path: string): string => new URL(path, baseUrl).toString();
-  const generatedAt = new Date();
   const entries: MetadataRoute.Sitemap = [
     // Homepage - highest priority
     ...createLocalizedEntries(url, "/", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 1,
     }),
@@ -29,57 +30,57 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // AI-oriented indexes (non-localized)
     {
       url: url("/llms.txt"),
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "daily",
       priority: 0.8,
     } as const,
     {
       url: url("/llms-full.txt"),
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "daily",
       priority: 0.7,
     } as const,
     {
       url: url("/ai-index.json"),
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "daily",
       priority: 0.7,
     } as const,
 
     // Main features pages
     ...createLocalizedEntries(url, "/features/webhooks", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.9,
     }),
     ...createLocalizedEntries(url, "/features/email-triggers", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.9,
     }),
     ...createLocalizedEntries(url, "/features/call-notifications", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.9,
     }),
     ...createLocalizedEntries(url, "/features/channels", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.8,
     }),
     ...createLocalizedEntries(url, "/features/templates", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.8,
     }),
     ...createLocalizedEntries(url, "/features/comparisons", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.85,
     }),
     ...competitorSlugs.flatMap((slug) =>
       createLocalizedEntries(url, `/features/comparisons/${slug}`, {
-        lastModified: generatedAt,
+        lastModified: SITE_LAST_MODIFIED,
         changeFrequency: "monthly",
         priority: 0.8,
       })
@@ -87,20 +88,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Features index page
     ...createLocalizedEntries(url, "/features", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.85,
     }),
 
     // Use-case landing page
     ...createLocalizedEntries(url, "/use-cases", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.84,
     }),
     ...seoLandingPages.flatMap((path) =>
       createLocalizedEntries(url, path, {
-        lastModified: generatedAt,
+        lastModified: SITE_LAST_MODIFIED,
         changeFrequency: "monthly",
         priority: 0.86,
       })
@@ -108,19 +109,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // AI reading guide page
     ...createLocalizedEntries(url, "/ai", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.75,
     }),
 
     // Documentation and blog
     ...createLocalizedEntries(url, "/docs", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.8,
     }),
     ...createLocalizedEntries(url, "/blog", {
-      lastModified: generatedAt,
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.8,
     }),
@@ -143,7 +144,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const lastModified = page.data.lastModified;
         return {
           url: url(page.url),
-          lastModified: lastModified ? new Date(lastModified) : new Date(),
+          lastModified: lastModified
+            ? new Date(lastModified)
+            : SITE_LAST_MODIFIED,
           changeFrequency: "weekly",
           priority: 0.6,
           alternates: getLocalizedAlternates(url, page.url),
@@ -155,7 +158,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const lastModified = page.data.lastModified;
         return {
           url: url(page.url),
-          lastModified: lastModified ? new Date(lastModified) : new Date(),
+          lastModified: lastModified
+            ? new Date(lastModified)
+            : new Date(page.data.date),
           changeFrequency: "monthly",
           priority: 0.7,
           alternates: getLocalizedAlternates(url, page.url),

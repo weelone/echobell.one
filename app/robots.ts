@@ -15,7 +15,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/api/og", "/_next/static/"],
+        allow: ["/", "/api/og", "/_next/static/", "/_next/image"],
         disallow: [
           "/api/",
           "/admin/",
@@ -32,12 +32,12 @@ export default function robots(): MetadataRoute.Robots {
           "PerplexityBot",
           "ClaudeBot",
         ],
-        allow: "/",
+        allow: ["/", "/_next/static/", "/_next/image"],
         disallow: ["/api/", "/_next/", "/private/", ...subscriptionDisallows],
       },
       {
         userAgent: "GPTBot",
-        allow: "/",
+        allow: ["/", "/_next/static/", "/_next/image"],
         disallow: ["/api/", "/_next/", "/private/", ...subscriptionDisallows],
       },
       {

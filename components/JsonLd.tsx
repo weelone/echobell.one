@@ -1,5 +1,12 @@
 import { getAppStoreLink, getGooglePlayLink } from "@/constants";
 
+const SITE_URL = "https://echobell.one";
+const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+const APP_ID = `${SITE_URL}/#mobile-application`;
+const LOGO_URL = `${SITE_URL}/images/banner.png`;
+const SCREENSHOT_URL = `${SITE_URL}/images/screenshots.webp`;
+
 interface JsonLdProps {
   data: object;
 }
@@ -25,7 +32,7 @@ const merchantReturnPolicy = {
   "@type": "MerchantReturnPolicy",
   applicableCountry: "US",
   returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
-  url: "https://echobell.one/en/terms",
+  url: `${SITE_URL}/en/terms`,
 };
 
 const digitalShippingDetails = {
@@ -33,22 +40,39 @@ const digitalShippingDetails = {
   doesNotShip: true,
 };
 
+const echobellOrganization = {
+  "@type": "Organization",
+  "@id": ORGANIZATION_ID,
+  name: "Echobell",
+  url: SITE_URL,
+};
+
+const echobellLogo = {
+  "@type": "ImageObject",
+  url: LOGO_URL,
+  width: 1200,
+  height: 675,
+};
+
 // Organization schema for Echobell
 export function OrganizationJsonLd() {
   const organizationData = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORGANIZATION_ID,
     name: "Echobell",
-    url: "https://echobell.one",
-    logo: "https://echobell.one/images/banner.png",
+    url: SITE_URL,
+    logo: echobellLogo,
     description: "Instant webhook and email alerts via calls and notifications",
     sameAs: [
-      "https://twitter.com/EchobellApp",
+      "https://x.com/EchobellApp",
       "https://github.com/weelone/echobell.one",
     ],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
+      email: "echobell@weelone.com",
+      url: `${SITE_URL}/en/docs/support`,
       availableLanguage: [
         "English",
         "Chinese",
@@ -68,17 +92,13 @@ export function WebsiteJsonLd() {
   const websiteData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
     name: "Echobell",
-    url: "https://echobell.one",
+    url: SITE_URL,
     description:
       "Never miss critical alerts. Echobell instantly converts webhooks & emails into mobile notifications or phone calls.",
-    // Keep potentialAction simple to avoid invalid URLs if no search page exists
-    // You can re-enable a dedicated search endpoint later
-    potentialAction: undefined,
-    publisher: {
-      "@type": "Organization",
-      name: "Echobell",
-    },
+    inLanguage: ["en", "zh", "es", "fr", "ja", "de"],
+    publisher: echobellOrganization,
   };
 
   return <JsonLd data={websiteData} />;
@@ -90,7 +110,7 @@ export function SoftwareApplicationJsonLd() {
   const googlePlayLink = getGooglePlayLink();
   const offer = {
     "@type": "Offer",
-    url: "https://echobell.one",
+    url: SITE_URL,
     price: "0.00",
     priceCurrency: "USD",
     priceValidUntil: getPriceValidUntil(),
@@ -102,21 +122,20 @@ export function SoftwareApplicationJsonLd() {
   const appData = {
     "@context": "https://schema.org",
     "@type": "MobileApplication",
+    "@id": APP_ID,
     name: "Echobell",
     operatingSystem: "iOS, Android",
     applicationCategory: "BusinessApplication",
     description:
       "Instant webhook and email alerts via calls and notifications for mobile devices",
-    url: "https://echobell.one",
+    url: SITE_URL,
+    mainEntityOfPage: SITE_URL,
     downloadUrl: [appStoreLink, googlePlayLink],
     installUrl: [appStoreLink, googlePlayLink],
-    screenshot: "https://echobell.one/images/screenshots.webp",
+    image: LOGO_URL,
+    screenshot: SCREENSHOT_URL,
     isAccessibleForFree: true,
-    author: {
-      "@type": "Organization",
-      name: "Echobell",
-      url: "https://echobell.one",
-    },
+    author: echobellOrganization,
     publisher: {
       "@type": "Organization",
       name: "Weelone",
@@ -157,22 +176,23 @@ export function ArticleJsonLd({
   const articleData = {
     "@context": "https://schema.org",
     "@type": "Article",
+    "@id": `${url}#article`,
     headline: title,
     description: description,
     url: url,
     datePublished: datePublished,
     dateModified: dateModified || datePublished,
-    author: {
-      "@type": "Person",
-      name: authorName,
-    },
+    author: authorName.trim()
+      ? {
+          "@type": "Person",
+          name: authorName,
+        }
+      : echobellOrganization,
     publisher: {
       "@type": "Organization",
+      "@id": ORGANIZATION_ID,
       name: "Echobell",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://echobell.one/images/banner.png",
-      },
+      logo: echobellLogo,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -215,7 +235,7 @@ export function FAQJsonLd({
 export function ProductJsonLd() {
   const offer = {
     "@type": "Offer",
-    url: "https://echobell.one",
+    url: SITE_URL,
     priceCurrency: "USD",
     price: "0.00",
     priceValidUntil: getPriceValidUntil(),
@@ -231,8 +251,9 @@ export function ProductJsonLd() {
   const productData = {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${SITE_URL}/#product`,
     name: "Echobell",
-    image: "https://echobell.one/images/banner.png",
+    image: LOGO_URL,
     description: "Instant webhook and email alerts via calls and notifications",
     brand: {
       "@type": "Brand",
@@ -261,16 +282,19 @@ export function FeatureJsonLd({
   const featureData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    "@id": `${url}#webpage`,
     name: name,
     description: description,
     url: url,
     isPartOf: {
       "@type": "WebSite",
+      "@id": WEBSITE_ID,
       name: "Echobell",
-      url: "https://echobell.one",
+      url: SITE_URL,
     },
     about: {
       "@type": "SoftwareApplication",
+      "@id": APP_ID,
       name: "Echobell",
       applicationCategory: "BusinessApplication",
     },
@@ -279,11 +303,7 @@ export function FeatureJsonLd({
       name: `${name} Features`,
       description: description,
     },
-    publisher: {
-      "@type": "Organization",
-      name: "Echobell",
-      url: "https://echobell.one",
-    },
+    publisher: echobellOrganization,
   };
 
   return <JsonLd data={featureData} />;
@@ -315,8 +335,9 @@ export function HowToJsonLd({
     })),
     tool: {
       "@type": "SoftwareApplication",
+      "@id": APP_ID,
       name: "Echobell",
-      url: "https://echobell.one",
+      url: SITE_URL,
     },
   };
 

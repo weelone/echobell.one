@@ -1,5 +1,19 @@
 import type { Metadata } from "next/types";
-import { languages, i18n, localizeUrl } from "@/lib/i18n";
+import { languages, i18n, localizeUrl, type Language } from "@/lib/i18n";
+
+const APP_STORE_ID = "6743597198";
+const ANDROID_PACKAGE_NAME = "one.echobell.echobellandroid";
+const SITE_NAME = "Echobell";
+const SITE_ORIGIN = "https://echobell.one";
+
+const openGraphLocales: Record<Language, string> = {
+  en: "en_US",
+  zh: "zh_CN",
+  es: "es_ES",
+  fr: "fr_FR",
+  ja: "ja_JP",
+  de: "de_DE",
+};
 
 // Build proper per-page hreflang alternates from a given canonical URL/path
 function buildLanguageAlternates(
@@ -61,6 +75,44 @@ function buildLanguageAlternates(
   return map;
 }
 
+function getLanguageFromCanonical(canonical?: string | URL): Language {
+  if (!canonical) return i18n.defaultLanguage;
+
+  let pathname = "/";
+  try {
+    pathname =
+      typeof canonical === "string"
+        ? new URL(canonical, SITE_ORIGIN).pathname
+        : canonical.pathname;
+  } catch {
+    pathname = typeof canonical === "string" ? canonical : "/";
+  }
+
+  const maybeLanguage = pathname.split("/").filter(Boolean)[0] as
+    | Language
+    | undefined;
+
+  return maybeLanguage && languages.includes(maybeLanguage)
+    ? maybeLanguage
+    : i18n.defaultLanguage;
+}
+
+function normalizeOpenGraphLocale(
+  locale: string | undefined,
+  canonical?: string | URL
+): string {
+  if (locale && locale in openGraphLocales) {
+    return openGraphLocales[locale as Language];
+  }
+  if (locale) return locale;
+
+  return openGraphLocales[getLanguageFromCanonical(canonical)];
+}
+
+function buildAlternateOpenGraphLocales(locale: string): string[] {
+  return Object.values(openGraphLocales).filter((value) => value !== locale);
+}
+
 export function createMetadata(override: Metadata): Metadata {
   // Next's type for alternates.canonical can be a descriptor; we only need a path/URL.
   const canonicalForLangs =
@@ -76,20 +128,70 @@ export function createMetadata(override: Metadata): Metadata {
     override.openGraph?.url ??
     (canonicalForLangs
       ? new URL(canonicalForLangs, baseUrl).toString()
-      : "https://echobell.one");
+      : SITE_ORIGIN);
+  const openGraphLocale = normalizeOpenGraphLocale(
+    override.openGraph?.locale,
+    canonicalForLangs
+  );
+  const alternateOpenGraphLocales =
+    override.openGraph?.alternateLocale ??
+    buildAlternateOpenGraphLocales(openGraphLocale);
+
   return {
-    itunes: {
-      appId: "6743597198",
-    },
     ...override,
+    metadataBase: override.metadataBase ?? baseUrl,
+    applicationName: override.applicationName ?? SITE_NAME,
+    authors: override.authors ?? [{ name: SITE_NAME, url: SITE_ORIGIN }],
+    creator: override.creator ?? SITE_NAME,
+    publisher: override.publisher ?? SITE_NAME,
+    category: override.category ?? "technology",
+    manifest: override.manifest ?? "/manifest.webmanifest",
+    icons: override.icons ?? {
+      icon: [
+        { url: "/favicon.ico" },
+        { url: "/icon.png", sizes: "1024x1024", type: "image/png" },
+      ],
+      apple: [{ url: "/icon.png", sizes: "1024x1024", type: "image/png" }],
+    },
+    appleWebApp: override.appleWebApp ?? {
+      capable: true,
+      title: SITE_NAME,
+      statusBarStyle: "default",
+    },
+    formatDetection: override.formatDetection ?? {
+      telephone: false,
+      email: false,
+      address: false,
+    },
+    itunes: override.itunes ?? {
+      appId: APP_STORE_ID,
+      appArgument: SITE_ORIGIN,
+    },
+    appLinks: override.appLinks ?? {
+      ios: {
+        url: "echobell://",
+        app_store_id: APP_STORE_ID,
+        app_name: SITE_NAME,
+      },
+      android: {
+        package: ANDROID_PACKAGE_NAME,
+        url: "echobell://",
+        app_name: SITE_NAME,
+      },
+      web: {
+        url: SITE_ORIGIN,
+        should_fallback: true,
+      },
+    },
     openGraph: {
       title: override.title ?? undefined,
       description: override.description ?? undefined,
       url: openGraphUrl,
-      siteName: "Echobell",
+      siteName: SITE_NAME,
       type: "website",
-      locale: "en_US",
       ...override.openGraph,
+      locale: openGraphLocale,
+      alternateLocale: alternateOpenGraphLocales,
     },
     twitter: {
       card: "summary_large_image",
@@ -152,6 +254,11 @@ export function createBlogMetadata({
   return createMetadata({
     title,
     description,
+    authors: authors?.length
+      ? authors.map((name) => ({
+          name,
+        }))
+      : undefined,
     keywords: tags,
     openGraph: {
       type: "article",
