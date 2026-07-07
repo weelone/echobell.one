@@ -62,7 +62,7 @@ Echobell以三种紧急级别交付通知：
 Echobell接受带有标题和正文的Webhook负载：
 
 ```bash
-curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{
     "title": "API宕机: payment-service",

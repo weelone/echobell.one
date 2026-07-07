@@ -60,13 +60,13 @@ Lors du déclenchement via webhook, vous pouvez fournir des variables via :
 1. **Paramètres de chaîne de requête** :
 
    ```http
-   GET https://hook.echobell.one/t/votre-id-de-canal?montant=100&statut=termine
+   GET https://hook.echobell.one/t/<channel-token>?montant=100&statut=termine
    ```
 
 2. **Corps JSON** (pour les requêtes POST) :
 
    ```http
-   POST https://hook.echobell.one/t/votre-id-de-canal
+   POST https://hook.echobell.one/t/<channel-token>
    Content-Type: application/json
 
    {

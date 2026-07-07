@@ -139,11 +139,11 @@ Echobell 采用简单但强大的工作流程：
 通过 HTTP 请求触发频道，变量可以在查询字符串或 JSON 正文中传递：
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 
 # 或者
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

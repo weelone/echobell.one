@@ -139,11 +139,11 @@ When triggered with the appropriate variables, these templates generate personal
 Trigger channels via HTTP requests with variables in query strings or JSON bodies:
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 
 # OR
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

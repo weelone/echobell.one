@@ -32,7 +32,7 @@ The webhook method is the most flexible approach, allowing you to send custom da
 1. Open the Echobell app and navigate to your channel
 2. Tap on the channel to view details
 3. Find the **Webhook URL** in the Triggers section
-4. Copy the URL—it will look like: `https://hook.echobell.one/t/YOUR_TOKEN`
+4. Copy the URL—it will look like: `https://hook.echobell.one/t/<channel-token>`
 </Step>
 <Step>
 
@@ -43,7 +43,7 @@ In Home Assistant, you can trigger Echobell notifications using the `rest_comman
 ```yaml
 rest_command:
   echobell_notify:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     content_type: "application/json"
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
@@ -99,7 +99,7 @@ Add the following to your `configuration.yaml`:
 notify:
   - name: echobell
     platform: rest
-    resource: https://hook.echobell.one/t/YOUR_TOKEN
+    resource: https://hook.echobell.one/t/<channel-token>
     method: POST_JSON
     data:
       title: "{{ title }}"
@@ -135,7 +135,7 @@ Use [notification types](/docs/notification) to send critical temperature alerts
 ```yaml
 rest_command:
   echobell_critical:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     content_type: "application/json"
     payload: '{"temperature": "{{ temperature }}", "location": "{{ location }}", "severity": "critical"}'
@@ -242,7 +242,7 @@ You can pass any Home Assistant sensor data to your Echobell notifications:
 ```yaml
 rest_command:
   echobell_sensor_update:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     content_type: "application/json"
     payload: >
@@ -262,7 +262,7 @@ Echobell can access HTTP headers from webhook requests. This is useful for authe
 ```yaml
 rest_command:
   echobell_with_headers:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     headers:
       X-Home-Assistant-Instance: "{{ instance_name }}"
@@ -367,7 +367,7 @@ Using secrets in `configuration.yaml`:
 
 ```yaml
 # secrets.yaml
-echobell_webhook: "https://hook.echobell.one/t/YOUR_TOKEN"
+echobell_webhook: "https://hook.echobell.one/t/<channel-token>"
 
 # configuration.yaml
 rest_command:

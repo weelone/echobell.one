@@ -366,7 +366,7 @@ Wenn Sie keine Warnungen erhalten, arbeiten Sie diese Diagnoseschritte durch:
 1. **Testen Sie den Webhook direkt**
 
    ```bash
-   curl -X POST https://hook.echobell.one/t/YOUR_TOKEN \
+   curl -X POST https://hook.echobell.one/t/<channel-token> \
      -H "Content-Type: application/json" \
      -d '{"alertName": "Test", "status": "firing"}'
    ```

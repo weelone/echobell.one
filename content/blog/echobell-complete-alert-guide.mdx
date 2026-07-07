@@ -32,7 +32,7 @@ Echobell slots into your existing monitoring setup via webhook. When something g
 The quickest integration is a single curl command at the end of a health check:
 
 ```bash
-curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{
     "title": "payment-service is down",
@@ -87,7 +87,7 @@ import httpx
 
 def alert_price_hit(symbol: str, price: float, target: float):
     httpx.post(
-        "https://hook.echobell.one/YOUR_CHANNEL_ID",
+        "https://hook.echobell.one/t/<channel-token>",
         json={
             "title": f"{symbol} hit your target",
             "body": f"Current: ${price:.2f} | Target was: ${target:.2f}",
@@ -109,7 +109,7 @@ Home automation is great until you're 200 miles from home and you have no idea i
 ```yaml
 rest_command:
   echobell_alert:
-    url: "https://hook.echobell.one/YOUR_CHANNEL_ID"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     headers:
       Content-Type: "application/json"

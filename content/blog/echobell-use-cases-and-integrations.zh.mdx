@@ -26,7 +26,7 @@ Echobell 就是为那些"有空再看已经太晚了"的时刻而生的。以下
 Echobell 通过 Webhook 接入你的监控系统。健康检查失败时，手机直接响铃——不是那种可以被静音的推送通知，而是像真实来电一样的铃声。
 
 ```bash
-curl -X POST https://hook.echobell.one/你的CHANNEL_ID \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{
     "title": "API 宕机：payment-service",
@@ -69,7 +69,7 @@ Upptime 用户只需在 `.upptimerc.yml` 里加几行：
 ```yaml
 notifications:
   - type: webhook
-    endpoint: https://hook.echobell.one/你的CHANNEL_ID
+    endpoint: https://hook.echobell.one/t/<channel-token>
 ```
 
 这两个集成的好处在于，它们复用你现有的告警规则。不需要重新定义任何东西——只是把 Echobell 加为一个输出端。

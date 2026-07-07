@@ -51,11 +51,11 @@ Intégrate con prácticamente cualquier sistema usando URLs webhook. Cuando se l
 Puedes proporcionar variables a través de parámetros de consulta o cuerpo JSON:
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Produccion&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Produccion&cpu_usage=95
 
 # O
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

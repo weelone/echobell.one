@@ -105,10 +105,10 @@ Echobell は、開発者、DevOps チーム、そして信頼性の高い即時�
 
 ```bash
 # クエリパラメータを使用したwebhook呼び出しの例
-curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=CPU%E4%BD%BF%E7%94%A8%E7%8E%8795%25"
+curl -X GET "https://hook.echobell.one/t/<channel-token>?server=production&status=critical&message=CPU%E4%BD%BF%E7%94%A8%E7%8E%8795%25"
 
 # または JSON ボディを使用
-curl -X POST https://hook.echobell.one/t/your-unique-id \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{"server": "production", "status": "critical", "message": "CPU使用率95%"}'
 ```

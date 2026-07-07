@@ -32,7 +32,7 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 1. 打开 Echobell 应用并导航到您的频道
 2. 点击您的频道查看详情
 3. 在 Triggers 部分找到 **Webhook URL**
-4. 复制 URL，格式类似：`https://hook.echobell.one/t/YOUR_TOKEN`
+4. 复制 URL，格式类似：`https://hook.echobell.one/t/<channel-token>`
 </Step>
 <Step>
 
@@ -43,7 +43,7 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 ```yaml
 rest_command:
   echobell_notify:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     content_type: "application/json"
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
@@ -99,7 +99,7 @@ automation:
 notify:
   - name: echobell
     platform: rest
-    resource: https://hook.echobell.one/t/YOUR_TOKEN
+    resource: https://hook.echobell.one/t/<channel-token>
     method: POST_JSON
     data:
       title: "{{ title }}"

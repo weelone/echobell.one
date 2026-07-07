@@ -62,7 +62,7 @@ Si vous avez déjà un endpoint de santé (comme `/health` ou `/status`), config
 Echobell accepte les payloads webhook avec titre et corps :
 
 ```bash
-curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{
     "title": "API EN PANNE : payment-service",

@@ -51,11 +51,11 @@ Intégrez-vous à pratiquement n'importe quel système en utilisant des URLs web
 Vous pouvez fournir des variables via des paramètres de requête ou un corps JSON :
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 
 # OU
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

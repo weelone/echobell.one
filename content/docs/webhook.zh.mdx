@@ -35,7 +35,7 @@ Echobell webhooks 支持 GET 和 POST 两种请求方法：
 您可以通过查询参数传递变量：
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 ```
 
 ### POST 请求
@@ -43,7 +43,7 @@ GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
 对于 POST 请求，在 JSON 主体中发送变量：
 
 ```http
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {
@@ -61,7 +61,7 @@ Echobell 支持一个为通知添加功能的特殊变量：
 包含外部链接的示例：
 
 ```http
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

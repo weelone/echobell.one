@@ -105,10 +105,10 @@ Sie können Variablen für Ihre Benachrichtigungsvorlagen auf zwei Arten bereits
 
 ```bash
 # Beispiel-Webhook-Aufruf mit Query-Parametern
-curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=CPU-Auslastung%20bei%2095%25"
+curl -X GET "https://hook.echobell.one/t/<channel-token>?server=production&status=critical&message=CPU-Auslastung%20bei%2095%25"
 
 # ODER mit JSON-Body
-curl -X POST https://hook.echobell.one/t/your-unique-id \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{"server": "production", "status": "critical", "message": "CPU-Auslastung bei 95%"}'
 ```

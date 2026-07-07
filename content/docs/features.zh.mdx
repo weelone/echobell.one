@@ -51,11 +51,11 @@ Echobell 的核心是频道 - 您可以为不同目的创建的可定制通知�
 您可以通过查询参数或 JSON 正文提供变量：
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 
 # 或者
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

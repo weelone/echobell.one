@@ -31,8 +31,8 @@ export default async function WebhooksPage({
     baseUrl
   ).toString();
 
-  const getCode = `curl "https://hook.echobell.one/t/YOUR_TOKEN?server=web-01&status=down"`;
-  const postCode = `curl -X POST "https://hook.echobell.one/t/YOUR_TOKEN" \\
+  const getCode = `curl "https://hook.echobell.one/t/<channel-token>?server=web-01&status=down"`;
+  const postCode = `curl -X POST "https://hook.echobell.one/t/<channel-token>" \\
   -H "Content-Type: application/json" \\
   -d '{"server": "web-01", "cpu": 85, "status": "warning"}'`;
 

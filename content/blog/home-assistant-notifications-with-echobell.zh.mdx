@@ -26,7 +26,7 @@ Home Assistant 内置的手机通知会和其他所有通知混在一起。Echob
 ```yaml
 rest_command:
   echobell_home:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     content_type: "application/json"
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
@@ -166,7 +166,7 @@ action:
 
 ```yaml
 # secrets.yaml
-echobell_webhook: "https://hook.echobell.one/t/YOUR_TOKEN"
+echobell_webhook: "https://hook.echobell.one/t/<channel-token>"
 
 # configuration.yaml
 rest_command:

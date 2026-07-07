@@ -87,10 +87,10 @@ Puedes proporcionar variables a tus plantillas de notificación de dos maneras:
 
 ```bash
 # Ejemplo de llamada webhook con parámetros de consulta
-curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=Uso%20de%20CPU%20al%2095%25"
+curl -X GET "https://hook.echobell.one/t/<channel-token>?server=production&status=critical&message=Uso%20de%20CPU%20al%2095%25"
 
 # O con cuerpo JSON
-curl -X POST https://hook.echobell.one/t/your-unique-id \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{"server": "production", "status": "critical", "message": "Uso de CPU al 95%"}'
 ```

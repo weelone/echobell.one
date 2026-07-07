@@ -139,11 +139,11 @@ Cuando se activa con las variables apropiadas, estas plantillas generan notifica
 Activa canales mediante solicitudes HTTP con variables en cadenas de consulta o cuerpos JSON:
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Produccion&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Produccion&cpu_usage=95
 
 # O
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

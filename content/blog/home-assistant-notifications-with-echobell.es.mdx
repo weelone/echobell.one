@@ -26,7 +26,7 @@ Las notificaciones móviles integradas de Home Assistant se mezclan con todo lo 
 ```yaml
 rest_command:
   echobell_home:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     content_type: "application/json"
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
@@ -166,7 +166,7 @@ Usa los secretos de Home Assistant para evitar exponer tu URL de webhook en los 
 
 ```yaml
 # secrets.yaml
-echobell_webhook: "https://hook.echobell.one/t/YOUR_TOKEN"
+echobell_webhook: "https://hook.echobell.one/t/<channel-token>"
 
 # configuration.yaml
 rest_command:

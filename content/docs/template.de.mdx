@@ -60,13 +60,13 @@ Beim Auslösen über Webhook können Sie Variablen bereitstellen durch:
 1. **Query-String-Parameter**:
 
    ```http
-   GET https://hook.echobell.one/t/ihre-kanal-id?betrag=100&status=abgeschlossen
+   GET https://hook.echobell.one/t/<channel-token>?betrag=100&status=abgeschlossen
    ```
 
 2. **JSON-Körper** (für POST-Anfragen):
 
    ```http
-   POST https://hook.echobell.one/t/ihre-kanal-id
+   POST https://hook.echobell.one/t/<channel-token>
    Content-Type: application/json
 
    {

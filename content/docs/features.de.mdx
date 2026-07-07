@@ -51,11 +51,11 @@ Integrieren Sie sich mit praktisch jedem System über Webhook-URLs. Wenn diese U
 Sie können Variablen über Abfrageparameter oder JSON-Body bereitstellen:
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 
 # ODER
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

@@ -35,7 +35,7 @@ Los webhooks de Echobell soportan tanto métodos GET como POST:
 Puedes pasar variables a través de parámetros de consulta:
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Produccion&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Produccion&cpu_usage=95
 ```
 
 ### Petición POST
@@ -43,7 +43,7 @@ GET https://hook.echobell.one/t/xxx?server_name=Produccion&cpu_usage=95
 Para peticiones POST, envía variables en un cuerpo JSON:
 
 ```http
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {
@@ -61,7 +61,7 @@ Echobell soporta una variable especial que añade funcionalidad a tus notificaci
 Ejemplo con enlace externo:
 
 ```http
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

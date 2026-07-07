@@ -32,7 +32,7 @@ Echobell 通过 Webhook 嵌入你现有的监控体系。出了问题，手机�
 最快的接入方式是在健康检查脚本末尾加一条 curl：
 
 ```bash
-curl -X POST https://hook.echobell.one/你的CHANNEL_ID \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{
     "title": "payment-service 已宕机",
@@ -87,7 +87,7 @@ import httpx
 
 def alert_price_hit(symbol: str, price: float, target: float):
     httpx.post(
-        "https://hook.echobell.one/你的CHANNEL_ID",
+        "https://hook.echobell.one/t/<channel-token>",
         json={
             "title": f"{symbol} 触达目标价",
             "body": f"当前价格：${price:.2f} | 目标价：${target:.2f}",
@@ -109,7 +109,7 @@ def alert_price_hit(symbol: str, price: float, target: float):
 ```yaml
 rest_command:
   echobell_alert:
-    url: "https://hook.echobell.one/你的CHANNEL_ID"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     headers:
       Content-Type: "application/json"

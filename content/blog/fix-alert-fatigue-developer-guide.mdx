@@ -65,7 +65,7 @@ In your `alertmanager.yml`:
 receivers:
   - name: echobell-critical
     webhook_configs:
-      - url: https://hook.echobell.one/YOUR_CHANNEL_ID
+      - url: https://hook.echobell.one/t/<channel-token>
         send_resolved: true
 
   - name: slack-warnings
@@ -110,7 +110,7 @@ def lambda_handler(event, context):
     }
 
     req = urllib.request.Request(
-        'https://hook.echobell.one/YOUR_CHANNEL_ID',
+        'https://hook.echobell.one/t/<channel-token>',
         data=json.dumps(payload).encode(),
         headers={'Content-Type': 'application/json'},
         method='POST'

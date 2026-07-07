@@ -106,10 +106,10 @@ You can provide variables to your notification templates in two ways:
 
 ```bash
 # Example webhook call with query parameters
-curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=CPU%20usage%20at%2095%25"
+curl -X GET "https://hook.echobell.one/t/<channel-token>?server=production&status=critical&message=CPU%20usage%20at%2095%25"
 
 # OR with JSON body
-curl -X POST https://hook.echobell.one/t/your-unique-id \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{"server": "production", "status": "critical", "message": "CPU usage at 95%"}'
 ```

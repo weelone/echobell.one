@@ -32,7 +32,7 @@ Echobell はwebhookで既存の監視スタックに接続する。何かまず�
 一番素早い統合は、ヘルスチェックの末尾に curl を一行追加するだけだ：
 
 ```bash
-curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{
     "title": "payment-service がダウン",
@@ -87,7 +87,7 @@ import httpx
 
 def alert_price_hit(symbol: str, price: float, target: float):
     httpx.post(
-        "https://hook.echobell.one/YOUR_CHANNEL_ID",
+        "https://hook.echobell.one/t/<channel-token>",
         json={
             "title": f"{symbol} が目標価格に到達",
             "body": f"現在値：${price:.2f} | 目標：${target:.2f}",
@@ -109,7 +109,7 @@ def alert_price_hit(symbol: str, price: float, target: float):
 ```yaml
 rest_command:
   echobell_alert:
-    url: "https://hook.echobell.one/YOUR_CHANNEL_ID"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     headers:
       Content-Type: "application/json"

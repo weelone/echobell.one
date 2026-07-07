@@ -62,13 +62,13 @@ When triggering via webhook, you can provide variables through:
 1. **Query string parameters**:
 
    ```http
-   GET https://hook.echobell.one/t/your-channel-id?amount=100&status=complete
+   GET https://hook.echobell.one/t/<channel-token>?amount=100&status=complete
    ```
 
 2. **JSON body** (for POST requests):
 
    ```http
-   POST https://hook.echobell.one/t/your-channel-id
+   POST https://hook.echobell.one/t/<channel-token>
    Content-Type: application/json
 
    {

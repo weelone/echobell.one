@@ -45,7 +45,7 @@ Echobell webhooks support both GET and POST methods:
 You can pass variables through query parameters:
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 ```
 
 ### POST Request
@@ -53,7 +53,7 @@ GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
 For POST requests, send variables in a JSON body:
 
 ```http
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {
@@ -71,7 +71,7 @@ Echobell supports a special variable that adds functionality to your notificatio
 Example with external link:
 
 ```http
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {
@@ -283,10 +283,10 @@ Use `curl` to test your webhook directly:
 
 ```bash
 # Test with query parameters
-curl "https://hook.echobell.one/t/YOUR_TOKEN?test=hello&status=working"
+curl "https://hook.echobell.one/t/<channel-token>?test=hello&status=working"
 
 # Test with JSON body
-curl -X POST https://hook.echobell.one/t/YOUR_TOKEN \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{"test": "hello", "status": "working"}'
 ```

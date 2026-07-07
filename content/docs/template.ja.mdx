@@ -60,13 +60,13 @@ Webhook を通じてトリガーする場合、以下の方法で変数を提供
 1. **クエリ文字列パラメータ**：
 
    ```http
-   GET https://hook.echobell.one/t/あなたのチャネルID?金額=100&ステータス=完了
+   GET https://hook.echobell.one/t/<channel-token>?金額=100&ステータス=完了
    ```
 
 2. **JSON ボディ**（POST リクエスト用）：
 
    ```http
-   POST https://hook.echobell.one/t/あなたのチャネルID
+   POST https://hook.echobell.one/t/<channel-token>
    Content-Type: application/json
 
    {

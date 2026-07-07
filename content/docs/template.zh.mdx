@@ -62,13 +62,13 @@ Echobell 模板支持多种表达式，适用于更复杂的场景：
 1. **查询字符串参数**：
 
    ```http
-   GET https://hook.echobell.one/t/token?amount=100&status=active
+   GET https://hook.echobell.one/t/<channel-token>?amount=100&status=active
    ```
 
 2. **JSON 主体**（用于 POST 请求）：
 
    ```http
-   POST https://hook.echobell.one/t/token
+   POST https://hook.echobell.one/t/<channel-token>
    Content-Type: application/json
 
    {

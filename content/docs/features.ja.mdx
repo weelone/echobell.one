@@ -51,11 +51,11 @@ webhook URL を使用してほぼすべてのシステムと統合できます�
 クエリパラメータまたは JSON ボディを通じて変数を提供できます：
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 
 # または
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

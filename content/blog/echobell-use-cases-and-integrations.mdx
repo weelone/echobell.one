@@ -26,7 +26,7 @@ The classic developer use case: you have a production API. You have a monitoring
 Echobell connects to your monitoring stack via webhook. When a health check fails, it rings your phone — not a push notification that can be silenced, but an actual ringing call.
 
 ```bash
-curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{
     "title": "API DOWN: payment-service",
@@ -69,7 +69,7 @@ Upptime users can do the same with a few lines in `.upptimerc.yml`:
 ```yaml
 notifications:
   - type: webhook
-    endpoint: https://hook.echobell.one/YOUR_CHANNEL_ID
+    endpoint: https://hook.echobell.one/t/<channel-token>
 ```
 
 The nice thing about both of these integrations is that they use your existing alert rules. You don't need to redefine anything — you just add Echobell as an output.

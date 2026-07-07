@@ -62,7 +62,7 @@ Echobellは3つの緊急度レベルで通知を配信します：
 Echobellはタイトルとボディを含むWebhookペイロードを受け入れます：
 
 ```bash
-curl -X POST https://hook.echobell.one/YOUR_CHANNEL_ID \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{
     "title": "API停止: payment-service",

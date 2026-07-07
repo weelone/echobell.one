@@ -366,7 +366,7 @@ Grafana の重大度レベルを通知タイプにマッピング：
 1. **Webhook を直接テスト**
 
    ```bash
-   curl -X POST https://hook.echobell.one/t/YOUR_TOKEN \
+   curl -X POST https://hook.echobell.one/t/<channel-token> \
      -H "Content-Type: application/json" \
      -d '{"alertName": "Test", "status": "firing"}'
    ```

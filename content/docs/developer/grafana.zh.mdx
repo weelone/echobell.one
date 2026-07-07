@@ -366,7 +366,7 @@ avg_over_time(cpu_usage[5m]) > 80
 1. **直接测试 webhook**
 
    ```bash
-   curl -X POST https://hook.echobell.one/t/YOUR_TOKEN \
+   curl -X POST https://hook.echobell.one/t/<channel-token> \
      -H "Content-Type: application/json" \
      -d '{"alertName": "Test", "status": "firing"}'
    ```

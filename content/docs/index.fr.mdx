@@ -87,10 +87,10 @@ Vous pouvez fournir des variables à vos modèles de notification de deux maniè
 
 ```bash
 # Exemple d'appel webhook avec paramètres de requête
-curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=Utilisation%20CPU%20à%2095%25"
+curl -X GET "https://hook.echobell.one/t/<channel-token>?server=production&status=critical&message=Utilisation%20CPU%20à%2095%25"
 
 # OU avec corps JSON
-curl -X POST https://hook.echobell.one/t/your-unique-id \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{"server": "production", "status": "critical", "message": "Utilisation CPU à 95%"}'
 ```

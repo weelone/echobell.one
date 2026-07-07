@@ -106,10 +106,10 @@ Echobell 是一款专为开发者、运维团队以及任何需要可靠即时�
 
 ```bash
 # 使用查询参数的 webhook 调用示例
-curl -X GET "https://hook.echobell.one/t/your-unique-id?server=production&status=critical&message=CPU%20usage%20at%2095%25"
+curl -X GET "https://hook.echobell.one/t/<channel-token>?server=production&status=critical&message=CPU%20usage%20at%2095%25"
 
 # 或使用 JSON 主体
-curl -X POST https://hook.echobell.one/t/your-unique-id \
+curl -X POST https://hook.echobell.one/t/<channel-token> \
   -H "Content-Type: application/json" \
   -d '{"server": "production", "status": "critical", "message": "CPU usage at 95%"}'
 ```

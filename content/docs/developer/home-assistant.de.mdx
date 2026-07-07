@@ -32,7 +32,7 @@ Die Webhook-Methode ist der flexibelste Ansatz, der es Ihnen ermöglicht, benutz
 1. Öffnen Sie die Echobell-App und navigieren Sie zu Ihrem Kanal
 2. Tippen Sie auf den Kanal, um die Details anzuzeigen
 3. Finden Sie die **Webhook-URL** im Abschnitt "Triggers"
-4. Kopieren Sie die URL – sie sieht so aus: `https://hook.echobell.one/t/IHR_TOKEN`
+4. Kopieren Sie die URL – sie sieht so aus: `https://hook.echobell.one/t/<channel-token>`
 </Step>
 <Step>
 
@@ -43,7 +43,7 @@ In Home Assistant können Sie Echobell-Benachrichtigungen mit dem Dienst `rest_c
 ```yaml
 rest_command:
   echobell_notify:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     content_type: "application/json"
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
@@ -99,7 +99,7 @@ Fügen Sie Folgendes zu Ihrer `configuration.yaml` hinzu:
 notify:
   - name: echobell
     platform: rest
-    resource: https://hook.echobell.one/t/YOUR_TOKEN
+    resource: https://hook.echobell.one/t/<channel-token>
     method: POST_JSON
     data:
       title: "{{ title }}"

@@ -35,7 +35,7 @@ Echobell の webhook は GET と POST の両方のメソッドをサポートし
 クエリパラメータを通じて変数を渡すことができます：
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 ```
 
 ### POST リクエスト
@@ -43,7 +43,7 @@ GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
 POST リクエストの場合、JSON ボディで変数を送信します：
 
 ```http
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {
@@ -61,7 +61,7 @@ Echobell は通知に機能を追加する特別な変数をサポートして�
 外部リンクの例：
 
 ```http
-POST https://hook.echobell.com/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

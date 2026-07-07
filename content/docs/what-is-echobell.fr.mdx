@@ -139,11 +139,11 @@ Lorsqu'elles sont déclenchées avec les variables appropriées, ces modèles g�
 Déclenchez des canaux via des requêtes HTTP avec des variables dans les chaînes de requête ou les corps JSON :
 
 ```http
-GET https://hook.echobell.one/t/xxx?server_name=Production&cpu_usage=95
+GET https://hook.echobell.one/t/<channel-token>?server_name=Production&cpu_usage=95
 
 # OU
 
-POST https://hook.echobell.one/t/xxx
+POST https://hook.echobell.one/t/<channel-token>
 Content-Type: application/json
 
 {

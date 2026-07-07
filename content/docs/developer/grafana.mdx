@@ -347,7 +347,7 @@ If you're not receiving alerts, work through these diagnostic steps:
 
 1. **Test the webhook directly**
    ```bash
-   curl -X POST https://hook.echobell.one/t/YOUR_TOKEN \
+   curl -X POST https://hook.echobell.one/t/<channel-token> \
      -H "Content-Type: application/json" \
      -d '{"alertName": "Test", "status": "firing"}'
    ```

@@ -32,7 +32,7 @@ Webhook を使用する方法は最も柔軟性が高く、カスタムデータ
 1. Echobell アプリを開き、チャンネルに移動します
 2. チャンネルをタップして詳細を表示します
 3. Triggers セクションにある **Webhook URL** を探します
-4. URL をコピーします。次のようになります：`https://hook.echobell.one/t/YOUR_TOKEN`
+4. URL をコピーします。次のようになります：`https://hook.echobell.one/t/<channel-token>`
 </Step>
 <Step>
 
@@ -43,7 +43,7 @@ Home Assistant では、`rest_command`サービスを使用して Echobell 通�
 ```yaml
 rest_command:
   echobell_notify:
-    url: "https://hook.echobell.one/t/YOUR_TOKEN"
+    url: "https://hook.echobell.one/t/<channel-token>"
     method: POST
     content_type: "application/json"
     payload: '{"title": "{{ title }}", "message": "{{ message }}"}'
@@ -99,7 +99,7 @@ Echobell チャンネルの設定で、Webhook データを表示するように
 notify:
   - name: echobell
     platform: rest
-    resource: https://hook.echobell.one/t/YOUR_TOKEN
+    resource: https://hook.echobell.one/t/<channel-token>
     method: POST_JSON
     data:
       title: "{{ title }}"
