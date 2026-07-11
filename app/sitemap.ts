@@ -12,7 +12,7 @@ const seoLandingPages = [
   "/app-store-connect-review-notifications",
 ] as const;
 
-const SITE_LAST_MODIFIED = new Date("2026-07-07");
+const SITE_LAST_MODIFIED = new Date("2026-07-11");
 
 // Revalidate daily while keeping lastModified tied to source content changes.
 export const revalidate = 86400;

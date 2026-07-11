@@ -1,0 +1,145 @@
+---
+title: "Opsgenie End of Life: Abschaltung 2027 und Alternativen"
+description: "Opsgenie wird am 5. April 2027 abgeschaltet. Erfahren Sie, was ausfällt, wie Atlassians Migration funktioniert und wann eine schlanke Alert-Alternative passt."
+date: 2026-07-11
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Opsgenie
+  - Opsgenie Alternative
+  - On-Call-Alerts
+  - Incident Management
+  - Migration
+---
+
+# Opsgenie End of Life: Abschaltung 2027 und Alternativen
+
+Opsgenie wird am **5. April 2027** abgeschaltet. Danach ist das Produkt nicht mehr erreichbar, Integrationen und REST-APIs funktionieren nicht mehr und nicht migrierte Kundendaten werden gelöscht.
+
+Für die meisten Teams ist Jira Service Management der sicherste offizielle Weg zu einem vollständigen Ersatz. Wer Opsgenie jedoch hauptsächlich nutzt, um Monitoring-Ereignisse in dringende mobile Alerts zu verwandeln, sollte prüfen, ob weiterhin eine komplette Incident-Management-Plattform oder nur eine kleinere Benachrichtigungsschicht nötig ist.
+
+## Termine zum Opsgenie End of Life
+
+| Datum | Änderung |
+| --- | --- |
+| 4. März 2025 | Atlassian kündigt Verkaufs- und Supportende an. |
+| 4. Juni 2025 | Neue Verkäufe, Tarifwechsel und neue Sites enden. |
+| 5. April 2027 | Opsgenie wird abgeschaltet, nicht migrierte Daten werden gelöscht. |
+
+Bestandskunden können Opsgenie bis zur Abschaltung weiter nutzen. Eine Migration in den letzten Wochen erzeugt jedoch unnötiges Risiko. Den aktuellen Zeitplan finden Sie auf der [offiziellen Migrationsseite](https://www.atlassian.com/software/opsgenie/migration) und in Atlassians [Lizenz-FAQ](https://www.atlassian.com/licensing/opsgenie).
+
+## Was funktioniert nach dem 5. April 2027 nicht mehr?
+
+Mit der Abschaltung entfallen:
+
+- Opsgenie-Alerts und On-Call-Workflows
+- Die mobile Opsgenie-App
+- Verbleibende Opsgenie-Integrationen
+- Opsgenie-REST-API-Endpunkte
+- Nicht migrierte Daten und Konfigurationen
+
+Ein Monitoring-System kann einen Ausfall weiterhin erkennen, während die alte Opsgenie-Integration zu einem toten Ziel wird. Atlassian empfiehlt im Leitfaden zur [Opsgenie-Abschaltung](https://support.atlassian.com/opsgenie/docs/what-happens-when-opsgenie-is-turned-off/), zuerst alle Alerting- und On-Call-Workflows zu migrieren.
+
+## Offizieller Ersatz: Jira Service Management
+
+Jira Service Management ist die Standardwahl, wenn Alerts, Bereitschaftspläne, Eskalationsregeln, Incident-Prozesse und historische Daten erhalten bleiben müssen.
+
+Opsgenie-Owner können unter **Settings → Plan your move** den empfohlenen Plan ansehen und die Migration terminieren. Nach Auswahl und Freigabe des Zielprodukts kann Atlassian einen großen Teil der Daten und Konfigurationen automatisch synchronisieren.
+
+Nicht jede Funktion wird unverändert übertragen. Atlassians [Funktionsvergleich](https://support.atlassian.com/opsgenie/docs/feature-changes-and-deprecations-in-jira-service-management/) nennt planabhängige Kontaktmethoden, eingestellte Funktionen, manuell einzurichtende Integrationen und zu ändernde API-Endpunkte.
+
+Wichtig: Das integrierte Tool unterstützt Atlassian-Cloud-Ziele, aber keine direkte Migration zu Jira Service Management Data Center. Diese Einschränkung beschreibt der [offizielle Planungsleitfaden](https://support.atlassian.com/opsgenie/docs/schedule-an-opsgenie-migration/).
+
+## Wann eine schlanke Opsgenie-Alternative sinnvoll ist
+
+Nicht jedes kleine Team nutzt Rotationen, Eskalationsbäume, Incident-Zeitleisten und Analysen. Häufig besteht der tatsächliche Ablauf nur aus drei Schritten:
+
+1. Das Monitoring erkennt ein kritisches Ereignis.
+2. Eine Integration leitet es weiter.
+3. Ein Smartphone alarmiert deutlich genug, damit jemand reagiert.
+
+Echobell ist eine auf diesen letzten Abschnitt spezialisierte Zustellschicht. Webhooks oder E-Mails lösen normale, zeitkritische oder anrufähnliche mobile Benachrichtigungen aus.
+
+Echobell ist **kein vollständiger Eins-zu-eins-Ersatz für Opsgenie**. Erweiterte Bereitschaftsplanung, Eskalationsregeln, Incident Command und Post-Incident-Reporting werden nicht ersetzt. Dafür ist Jira Service Management oder eine andere vollständige Plattform erforderlich.
+
+Echobell kann passen, wenn:
+
+- Das Monitoring bereits entscheidet, welche Ereignisse kritisch sind.
+- Ein kleines, stabiles Team die Bereitschaft teilt.
+- Das Monitoring bleiben und nur die Zustellung aufs Smartphone wechseln soll.
+- Kritische, warnende und informative Ereignisse unterschiedliche Dringlichkeit brauchen.
+- Die Benachrichtigung vor einer größeren Umstellung separat getestet werden soll.
+
+Weitere Details bietet der Vergleich [Echobell vs Opsgenie](/features/comparisons/opsgenie).
+
+## Echobell vor der Abschaltung parallel testen
+
+### 1. Eine kritische Alert-Quelle auswählen
+
+Beginnen Sie mit einem Produktionsdienst mit klarer Verantwortung und berechenbarem Alert-Volumen. Migrieren Sie nicht alle Integrationen gleichzeitig.
+
+### 2. Einen Echobell-Kanal erstellen
+
+Teilen Sie den Kanal mit den zuständigen Personen. Abonnenten wählen das passende Benachrichtigungsverhalten auf ihrem Gerät.
+
+### 3. Ein zweites Webhook-Ziel hinzufügen
+
+Lassen Sie den Opsgenie-Pfad aktiv und ergänzen Sie den Echobell-Webhook im Monitoring:
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Production API is down",
+    "body": "Health check failed in us-east-1",
+    "severity": "critical",
+    "externalLink": "https://status.example.com/incidents/123"
+  }'
+```
+
+Eine echte Kanal-URL gehört nicht in die Versionsverwaltung. Die [Webhook-Dokumentation](/docs/webhook) erklärt Variablen und Vorlagen. Unterstützt die Quelle nur E-Mail, verwenden Sie einen [E-Mail-Trigger](/docs/email-trigger).
+
+### 4. Dringlichkeit bewusst zuordnen
+
+Anrufähnliche Alerts sollten nur Ereignissen vorbehalten sein, die sofortige Reaktion verlangen. Zeitkritische Mitteilungen eignen sich für wichtige Warnungen, normale Pushes für Informationen.
+
+### 5. Beide Pfade in einer echten Bereitschaft ausführen
+
+Vergleichen Sie Zustellzeit, Klarheit, Fehlalarme und Reaktion. Testen Sie neben Ausfällen auch Entwarnungen.
+
+### 6. Nicht ersetzte Anforderungen dokumentieren
+
+Weisen Sie Bereitschaftsplan, Eskalation, Bestätigung, Audit und Reporting klar zu. Unverzichtbare Anforderungen bleiben in einem vollständigen Incident-System.
+
+## Checkliste für die Opsgenie-Migration
+
+- Integrationen, Heartbeats, API-Clients und E-Mail-Integrationen inventarisieren.
+- Benötigte historische Daten exportieren oder migrieren.
+- Pläne, Eskalationen, Benachrichtigungsregeln und Verantwortliche dokumentieren.
+- Manuell zu ersetzende Funktionen und Integrationen identifizieren.
+- Skripte mit `opsgenie.com` oder `opsgenie.net` aktualisieren.
+- Alerts, Entwarnungen, Bestätigungen und Zustellung außerhalb der Arbeitszeit testen.
+- Beide Pfade mindestens eine repräsentative Bereitschaft lang parallel betreiben.
+- Den alten Pfad erst nach Bestätigung durch die Einsatzkräfte entfernen.
+
+## Häufig gestellte Fragen
+
+### Wird Opsgenie wirklich eingestellt?
+
+Ja. Der Verkauf endete am 4. Juni 2025. Support und Produktzugang enden am 5. April 2027.
+
+### Was ersetzt Opsgenie?
+
+Atlassians offizieller Migrationspfad ist Jira Service Management. Die richtige Alternative hängt davon ab, ob vollständiges Incident Management oder nur zuverlässige Alert-Zustellung benötigt wird.
+
+### Kann Echobell Opsgenie vollständig ersetzen?
+
+Nein. Echobell kann in geeigneten Workflows die dringende mobile Zustellung ersetzen, nicht aber Pläne, Eskalationsbäume, Incident-Prozesse oder Reporting.
+
+## Den kleinsten Ersatz wählen, der die Aufgabe erfüllt
+
+Nutzen Sie Jira Service Management, wenn Opsgenie Ihr vollständiges On-Call- und Incident-System ist. Wenn das Monitoring bereits Bewertung und Routing übernimmt und kritische Ereignisse nur schnell die richtigen Smartphones erreichen müssen, kann eine spezialisierte Zustellschicht genügen.
+
+[Echobell im App Store laden](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-opsgenie-end-of-life-de&mt=8) oder [bei Google Play herunterladen](https://play.google.com/store/apps/details?id=one.echobell.echobellandroid) und einen Produktions-Alert testen, solange der Opsgenie-Pfad noch aktiv ist.
+

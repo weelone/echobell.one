@@ -1,0 +1,145 @@
+---
+title: "Opsgenie EOL：2027年の終了日と代替サービス"
+description: "Opsgenieは2027年4月5日に終了します。停止する機能、Atlassian公式の移行先、軽量なアラート配信の代替案を解説します。"
+date: 2026-07-11
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Opsgenie
+  - Opsgenie 代替
+  - オンコールアラート
+  - インシデント管理
+  - 移行
+---
+
+# Opsgenie EOL：2027年の終了日と代替サービス
+
+Opsgenieは **2027年4月5日** に終了します。この日以降、製品にはアクセスできなくなり、連携機能とREST APIは停止し、移行されていない顧客データは削除されます。
+
+多くのチームにとって、Jira Service Managementが最も安全な完全移行先です。一方、Opsgenieを主に「監視イベントを緊急モバイル通知に変えるため」に利用しているなら、インシデント管理プラットフォーム全体が必要か、より小さな通知レイヤーで足りるかを見直す機会でもあります。
+
+## Opsgenieの終了スケジュール
+
+| 日付 | 変更内容 |
+| --- | --- |
+| 2025年3月4日 | AtlassianがOpsgenieの販売・サポート終了を発表。 |
+| 2025年6月4日 | 新規販売を終了。プラン変更や新規サイト追加も停止。 |
+| 2027年4月5日 | Opsgenieを停止。未移行データを削除。 |
+
+既存顧客は終了日まで利用できますが、最後の数週間まで待つのは危険です。最新情報は[公式移行ページ](https://www.atlassian.com/software/opsgenie/migration)と[ライセンスFAQ](https://www.atlassian.com/licensing/opsgenie)で確認してください。
+
+## 2027年4月5日以降に停止するもの
+
+Opsgenieが停止すると、依存している以下の機能や経路が使えなくなります。
+
+- Opsgenieのアラートとオンコールワークフロー
+- Opsgenieモバイルアプリ
+- 残っているOpsgenie連携
+- Opsgenie REST API
+- 移行されていないデータと設定
+
+監視ツールが障害を検知し続けても、古いOpsgenie連携は通知先のない経路になります。Atlassianの[停止後に起きること](https://support.atlassian.com/opsgenie/docs/what-happens-when-opsgenie-is-turned-off/)では、すべてのアラートとオンコールワークフローを先に移行するよう案内しています。
+
+## 公式移行先：Jira Service Management
+
+アラート、スケジュール、エスカレーションポリシー、インシデント対応、履歴データを維持する必要がある場合、Jira Service Managementが標準的な選択です。
+
+Opsgenieのオーナーは **Settings → Plan your move** から推奨プランを確認し、移行日を設定できます。移行先とプランの承認後、多くのデータと設定は自動的に同期されます。
+
+ただし、すべてが同じ形で移るとは限りません。Atlassianの[機能変更・廃止一覧](https://support.atlassian.com/opsgenie/docs/feature-changes-and-deprecations-in-jira-service-management/)で、プラン依存の通知手段、廃止機能、再設定が必要な連携、更新が必要なAPIを確認してください。
+
+また、アプリ内移行ツールが対応するのはAtlassian Cloudのみで、Jira Service Management Data Centerへの直接移行には対応しません。詳細は[移行スケジュールガイド](https://support.atlassian.com/opsgenie/docs/schedule-an-opsgenie-migration/)に記載されています。
+
+## 軽量なOpsgenie代替が向くケース
+
+すべてのチームがローテーション、エスカレーションツリー、インシデントタイムライン、分析を使っているわけではありません。小規模チームでは、実際の用途が次の3段階だけの場合があります。
+
+1. 監視ツールが重大イベントを検知する。
+2. 連携がイベントを転送する。
+3. スマートフォンが確実に知らせ、担当者が対応する。
+
+この使い方なら、プラットフォーム全体を置き換える必要はないかもしれません。EchobellはWebhookまたはメールを受け取り、通常、時間指定、着信形式のモバイル通知を送る配信レイヤーです。
+
+Echobellは **Opsgenieの完全互換製品ではありません**。高度な当番表、エスカレーションポリシー、インシデント指揮、事後レポートは置き換えません。これらが必要なら、Jira Service Managementなどの総合的な製品を選んでください。
+
+Echobellが適するのは、次のような場合です。
+
+- 監視元が重大度をすでに判定している
+- 少人数の固定チームがオンコールを担当する
+- 監視は残し、Webhookからスマートフォンまでの配信だけを変えたい
+- critical、warning、infoで緊急度を分けたい
+- システム全体を変える前に通知経路だけを検証したい
+
+詳しくは[EchobellとOpsgenieの比較](/features/comparisons/opsgenie)をご覧ください。
+
+## 終了前にEchobellを並行テストする方法
+
+### 1. 重要なアラート元を1つ選ぶ
+
+責任者と通知量が明確な本番サービスから始め、一度にすべてを移行しないでください。
+
+### 2. Echobellチャンネルを作成する
+
+サービス用チャンネルを作り、対応者に共有します。購読者は各自の端末で通知方法を選べます。
+
+### 3. 2つ目のWebhook送信先を追加する
+
+Opsgenie経路を残したまま、監視元にEchobellのWebhookを追加します。
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Production API is down",
+    "body": "Health check failed in us-east-1",
+    "severity": "critical",
+    "externalLink": "https://status.example.com/incidents/123"
+  }'
+```
+
+実際のWebhook URLをソース管理にコミットしないでください。[Webhookドキュメント](/docs/webhook)で変数とテンプレートを確認できます。Webhook非対応の監視元では[メールトリガー](/docs/email-trigger)を利用できます。
+
+### 4. 緊急度を慎重に割り当てる
+
+着信形式は即時対応が必要なイベントだけに使い、重要な警告は時間指定通知、情報イベントは通常通知にします。
+
+### 5. 実際のオンコール期間で並行運用する
+
+配信時間、内容の明確さ、誤検知、対応行動を比較します。障害だけでなく復旧通知もテストしてください。
+
+### 6. 置き換えない要件を記録する
+
+当番表、エスカレーション、確認、監査、レポートの担当を明確にします。必須要件は完全なインシデント管理システムに残します。
+
+## Opsgenie移行チェックリスト
+
+- すべての連携、Heartbeat、APIクライアント、メール連携を棚卸しする
+- 必要な履歴データをエクスポートまたは移行する
+- スケジュール、エスカレーション、通知ルール、所有者を記録する
+- 手動置換が必要な廃止機能と連携を特定する
+- `opsgenie.com` / `opsgenie.net` を呼ぶスクリプトを更新する
+- アラート、復旧、確認、時間外通知をテストする
+- 少なくとも代表的なオンコール期間を並行運用する
+- 対応者が新経路を確認してから旧経路を削除する
+
+## よくある質問
+
+### Opsgenieは本当に終了しますか？
+
+はい。新規販売は2025年6月4日に終了し、2027年4月5日にサポートと製品アクセスが終了します。
+
+### Opsgenieの後継は何ですか？
+
+Atlassian公式の移行先はJira Service Managementです。完全なインシデント管理が必要か、確実な通知配信だけでよいかで選択は変わります。
+
+### EchobellはOpsgenieを完全に置き換えますか？
+
+いいえ。適切なワークフローの緊急モバイル通知レイヤーを置き換えますが、スケジュール、エスカレーションツリー、インシデント管理、レポートは置き換えません。
+
+## 実際の仕事を満たす最小の代替を選ぶ
+
+Opsgenieを完全なオンコール・インシデント管理システムとして使うならJira Service Managementを選びましょう。監視側に判定とルーティングがあり、重大イベントを素早くスマートフォンへ届けることが主目的なら、配信に特化した軽量な方法も検討できます。
+
+[App StoreでEchobellを入手](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-opsgenie-end-of-life-ja&mt=8)または[Google Playからダウンロード](https://play.google.com/store/apps/details?id=one.echobell.echobellandroid)して、Opsgenie経路が有効なうちに本番アラートを1つ試してください。
+

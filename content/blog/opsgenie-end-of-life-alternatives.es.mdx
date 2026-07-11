@@ -1,0 +1,145 @@
+---
+title: "Fin de vida de Opsgenie: cierre en 2027 y alternativas"
+description: "Opsgenie cerrará el 5 de abril de 2027. Descubre qué dejará de funcionar, la migración oficial de Atlassian y una alternativa ligera para alertas."
+date: 2026-07-11
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Opsgenie
+  - alternativa a Opsgenie
+  - alertas on-call
+  - gestión de incidentes
+  - migración
+---
+
+# Fin de vida de Opsgenie: cierre en 2027 y alternativas
+
+Opsgenie cerrará el **5 de abril de 2027**. A partir de esa fecha, el producto dejará de estar accesible, sus integraciones y API REST dejarán de funcionar y se eliminarán los datos de clientes que no se hayan migrado.
+
+Para la mayoría de los equipos, Jira Service Management es la vía oficial y más segura para sustituir toda la plataforma. Pero si utilizas Opsgenie sobre todo para convertir eventos de monitorización en alertas móviles urgentes, también conviene decidir si necesitas una plataforma completa de gestión de incidentes o una capa de notificación más sencilla.
+
+## Fechas del fin de vida de Opsgenie
+
+| Fecha | Cambio |
+| --- | --- |
+| 4 de marzo de 2025 | Atlassian anunció el fin de venta y soporte de Opsgenie. |
+| 4 de junio de 2025 | Finalizaron las nuevas ventas, cambios de plan y altas de sitios. |
+| 5 de abril de 2027 | Opsgenie se cierra y se eliminan los datos no migrados. |
+
+Los clientes actuales pueden seguir usando el producto hasta el cierre, pero esperar a las últimas semanas aumenta el riesgo. Consulta la [página oficial de migración](https://www.atlassian.com/software/opsgenie/migration) y las [preguntas de licencia](https://www.atlassian.com/licensing/opsgenie) para comprobar el calendario vigente.
+
+## ¿Qué dejará de funcionar el 5 de abril de 2027?
+
+Cuando Opsgenie se apague, dejarán de estar disponibles:
+
+- Las alertas y flujos on-call de Opsgenie
+- La aplicación móvil de Opsgenie
+- Las integraciones que sigan dependiendo de Opsgenie
+- Los endpoints de su API REST
+- Los datos y configuraciones no migrados
+
+El monitor puede seguir detectando una caída mientras la integración antigua se convierte en un destino muerto. Atlassian recomienda mover primero todos los flujos de alertas y guardias en su guía sobre [qué ocurre al desactivar Opsgenie](https://support.atlassian.com/opsgenie/docs/what-happens-when-opsgenie-is-turned-off/).
+
+## Sustituto oficial: Jira Service Management
+
+Jira Service Management es la opción predeterminada si necesitas conservar alertas, turnos, políticas de escalado, gestión de incidentes y datos históricos.
+
+Los propietarios de Opsgenie pueden abrir **Settings → Plan your move**, revisar el plan recomendado y programar la migración. Tras elegir y aprobar el destino, Atlassian puede sincronizar automáticamente gran parte de los datos y configuraciones.
+
+No todas las funciones se trasladan sin cambios. La [comparativa oficial de funciones](https://support.atlassian.com/opsgenie/docs/feature-changes-and-deprecations-in-jira-service-management/) detalla métodos de contacto dependientes del plan, funciones obsoletas, integraciones que requieren configuración manual y endpoints que hay que actualizar.
+
+Además, la herramienta integrada solo migra a productos Atlassian Cloud, no directamente a Jira Service Management Data Center. Atlassian documenta esta limitación en la [guía de programación de la migración](https://support.atlassian.com/opsgenie/docs/schedule-an-opsgenie-migration/).
+
+## Cuándo encaja una alternativa ligera a Opsgenie
+
+Algunos equipos pequeños no usan rotaciones, árboles de escalado, líneas de tiempo ni analítica. Su flujo real es más sencillo:
+
+1. La herramienta de monitorización detecta un evento crítico.
+2. Una integración reenvía el evento.
+3. Un teléfono avisa con suficiente claridad para que alguien responda.
+
+Echobell es una capa de entrega enfocada en ese último tramo. Recibe webhooks o correos y envía alertas móviles normales, urgentes o con formato de llamada.
+
+Echobell **no sustituye Opsgenie uno a uno**. No reemplaza calendarios avanzados, políticas de escalado, mando de incidentes ni informes posteriores. Si necesitas esas funciones, utiliza Jira Service Management u otra plataforma completa.
+
+Echobell puede encajar si:
+
+- El monitor ya determina qué eventos son críticos.
+- Un grupo pequeño y estable comparte las guardias.
+- Quieres conservar la monitorización y cambiar solo la entrega al móvil.
+- Necesitas distintas urgencias para eventos críticos, avisos e información.
+- Quieres probar la entrega antes de rediseñar el resto del sistema.
+
+Consulta la comparativa [Echobell vs Opsgenie](/features/comparisons/opsgenie) para revisar los límites de cada producto.
+
+## Cómo probar Echobell antes del cierre
+
+### 1. Elige una fuente de alertas crítica
+
+Empieza con un servicio de producción con propietario claro y volumen predecible. No muevas todas las integraciones de una vez.
+
+### 2. Crea un canal de Echobell
+
+Comparte el canal con los responsables. Cada suscriptor puede elegir el comportamiento de la notificación en su dispositivo.
+
+### 3. Añade un segundo destino webhook
+
+Mantén activa la ruta de Opsgenie y añade el webhook del canal de Echobell al monitor:
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Production API is down",
+    "body": "Health check failed in us-east-1",
+    "severity": "critical",
+    "externalLink": "https://status.example.com/incidents/123"
+  }'
+```
+
+No guardes una URL real del canal en el repositorio. La [documentación de webhooks](/docs/webhook) explica variables y plantillas. Si la fuente solo admite correo, utiliza un [disparador por email](/docs/email-trigger).
+
+### 4. Asigna la urgencia con cuidado
+
+Reserva las alertas tipo llamada para eventos que requieren respuesta inmediata. Usa notificaciones urgentes para avisos importantes y normales para información.
+
+### 5. Ejecuta ambas rutas durante una guardia real
+
+Compara tiempo de entrega, claridad, falsos positivos y comportamiento de respuesta. Prueba también las notificaciones de recuperación.
+
+### 6. Documenta lo que Echobell no reemplaza
+
+Asigna responsables para calendarios, escalados, acuses, auditoría e informes. Conserva los requisitos esenciales en un sistema completo de incidentes.
+
+## Lista de comprobación para migrar Opsgenie
+
+- Inventaría integraciones, heartbeats, clientes API y correo.
+- Exporta o migra los datos históricos necesarios.
+- Registra turnos, escalados, reglas y propietarios.
+- Identifica funciones e integraciones que requieren sustitución manual.
+- Actualiza scripts que llamen a `opsgenie.com` o `opsgenie.net`.
+- Prueba alertas, recuperaciones, acuses y entrega fuera de horario.
+- Ejecuta ambas rutas durante al menos una guardia representativa.
+- Retira la ruta antigua solo cuando los responsables validen la nueva.
+
+## Preguntas frecuentes
+
+### ¿Opsgenie va a desaparecer?
+
+Sí. La venta terminó el 4 de junio de 2025 y el acceso al producto finalizará el 5 de abril de 2027.
+
+### ¿Qué sustituye a Opsgenie?
+
+La vía oficial de Atlassian es Jira Service Management. La mejor alternativa depende de si necesitas gestión completa de incidentes o solo entrega fiable de alertas.
+
+### ¿Puede Echobell sustituir totalmente a Opsgenie?
+
+No. Puede sustituir la capa de notificación móvil urgente en flujos adecuados, pero no los turnos, escalados, procesos de incidentes o informes.
+
+## Elige el sustituto mínimo que cubra el trabajo real
+
+Usa Jira Service Management cuando Opsgenie sea tu sistema completo de guardias e incidentes. Si el monitor ya decide y enruta los eventos y solo necesitas llevarlos rápidamente a los teléfonos correctos, considera una capa de entrega especializada.
+
+[Descarga Echobell en App Store](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-opsgenie-end-of-life-es&mt=8) o [consíguelo en Google Play](https://play.google.com/store/apps/details?id=one.echobell.echobellandroid) y prueba una alerta de producción mientras Opsgenie sigue activo.
+

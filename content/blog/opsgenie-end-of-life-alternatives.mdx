@@ -1,0 +1,163 @@
+---
+title: "Opsgenie End of Life: 2027 Shutdown and Alternatives"
+description: "Opsgenie shuts down on April 5, 2027. Learn what stops working, Atlassian's migration path, and a lightweight alert-delivery alternative."
+date: 2026-07-11
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Opsgenie
+  - Opsgenie alternative
+  - on-call alerting
+  - incident management
+  - migration
+---
+
+# Opsgenie End of Life: 2027 Shutdown and Alternatives
+
+Opsgenie will shut down on **April 5, 2027**. After that date, the product will no longer be accessible, its integrations and REST APIs will stop working, and customer data that has not been migrated will be deleted.
+
+For most teams, Atlassian's official path to Jira Service Management is the safest full replacement. But if you use Opsgenie mainly to turn monitoring events into urgent mobile alerts, this is also a useful moment to decide whether you still need a complete incident-management platform—or a smaller notification layer.
+
+This guide explains the deadline, what changes, and how to choose a migration path without leaving a gap in on-call coverage.
+
+## Opsgenie end-of-life dates
+
+| Date | Change |
+| --- | --- |
+| March 4, 2025 | Atlassian announced the end of sale and support for Opsgenie. |
+| June 4, 2025 | New Opsgenie sales ended. Plan upgrades, downgrades, and new sites became unavailable. |
+| April 5, 2027 | Opsgenie shuts down and is no longer accessible. Unmigrated customer data is deleted. |
+
+Existing customers can continue using Opsgenie until the shutdown date, but waiting until the final weeks creates avoidable risk. Atlassian recommends completing the move before April 5, 2027. See the [official Opsgenie migration page](https://www.atlassian.com/software/opsgenie/migration) and [Opsgenie licensing FAQ](https://www.atlassian.com/licensing/opsgenie) for the current timeline.
+
+## What stops working after April 5, 2027?
+
+Once Opsgenie is turned off, teams lose access to the product and any workflows that still depend on it. That includes:
+
+- Opsgenie alerting and on-call workflows
+- The Opsgenie mobile app
+- Remaining Opsgenie integrations
+- Opsgenie REST API endpoints
+- Data and configurations that were not migrated
+
+The cutoff affects more than the web dashboard. A monitor can continue detecting an outage while its old Opsgenie integration silently becomes a dead end. Atlassian's guide to [what happens when Opsgenie is turned off](https://support.atlassian.com/opsgenie/docs/what-happens-when-opsgenie-is-turned-off/) recommends moving all alerting and on-call workflows first.
+
+## The official replacement: Jira Service Management
+
+Jira Service Management is the default choice when you need to preserve Opsgenie's broader operating model: alerts, schedules, escalation policies, incident workflows, and historical data.
+
+Opsgenie owners can open **Settings → Plan your move** to see a recommended Jira Service Management plan and schedule the migration. Atlassian says most Opsgenie data and configurations can be synced automatically after the destination plan is selected and approved.
+
+Do not assume every feature moves unchanged. Atlassian's [feature comparison](https://support.atlassian.com/opsgenie/docs/feature-changes-and-deprecations-in-jira-service-management/) identifies plan-dependent contact methods, deprecated features, integrations that require manual setup, and API endpoints that must be updated.
+
+One important constraint: the in-app migration tool supports Atlassian Cloud destinations, not Jira Service Management Data Center. Teams staying on Data Center need to evaluate another path instead of expecting a direct migration. Atlassian documents the limitation in its [migration scheduling guide](https://support.atlassian.com/opsgenie/docs/schedule-an-opsgenie-migration/).
+
+## When a lightweight Opsgenie alternative makes sense
+
+Not every Opsgenie account uses rotations, escalation trees, incident timelines, and analytics. Some small teams use it for a narrower job:
+
+1. A monitoring tool detects a critical event.
+2. An integration forwards the event.
+3. A phone makes enough noise that somebody responds.
+
+If that describes your setup, replacing the entire platform may add more process than you need. Echobell is a focused delivery layer that accepts webhook or email triggers and sends normal, time-sensitive, or call-style mobile alerts.
+
+Echobell is **not a one-to-one Opsgenie replacement**. It does not replace advanced on-call scheduling, escalation policies, incident command, or post-incident reporting. For those workflows, use Jira Service Management or another full incident-management platform.
+
+Echobell can fit when:
+
+- Your monitoring source already decides which events are critical.
+- A small, stable group shares on-call responsibility.
+- You want direct webhook-to-phone delivery without rebuilding the monitor.
+- You need different urgency levels for critical, warning, and informational events.
+- You want to pilot alert delivery independently before changing the rest of the stack.
+
+For a feature-by-feature decision, see [Echobell vs Opsgenie](/en/features/comparisons/opsgenie).
+
+## How to pilot Echobell before Opsgenie shuts down
+
+The safest migration is a parallel test, not a single cutover at the deadline.
+
+### 1. Choose one critical alert source
+
+Start with a production service that has clear ownership and predictable alert volume. Avoid moving every integration at once.
+
+### 2. Create an Echobell channel
+
+Create a channel for the service and share it with the responders who need the alert. Each subscriber can choose the appropriate notification behavior on their device.
+
+### 3. Add a second webhook destination
+
+Keep the existing Opsgenie path active and add the Echobell channel webhook to the monitoring source. A basic test payload looks like this:
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Production API is down",
+    "body": "Health check failed in us-east-1",
+    "severity": "critical",
+    "externalLink": "https://status.example.com/incidents/123"
+  }'
+```
+
+Use a placeholder token in scripts and secret managers; do not commit a real channel webhook URL to source control. The [webhook documentation](/en/docs/webhook) covers payload variables and templates.
+
+If the source supports email but not webhooks, use an [email trigger](/en/docs/email-trigger) instead.
+
+### 4. Map urgency deliberately
+
+Reserve call-style alerts for events that require an immediate response. Use time-sensitive alerts for important warnings and normal notifications for informational events. This keeps the urgent path credible instead of recreating alert fatigue in a new app.
+
+### 5. Run both paths during real on-call coverage
+
+Compare delivery time, message clarity, false positives, and responder behavior. Test recovery notifications too—not only failures.
+
+### 6. Document what Echobell does not replace
+
+Before removing Opsgenie from that service, assign an owner for any remaining schedule, escalation, acknowledgement, audit, or reporting requirement. If those requirements are essential, keep them in a full incident-management system.
+
+## Opsgenie migration checklist
+
+Use this checklist before the April 5, 2027 shutdown:
+
+- Inventory every inbound integration, heartbeat, API client, and email integration.
+- Export or migrate historical data that your team must retain.
+- Record schedules, escalation policies, notification rules, and ownership.
+- Identify deprecated features and integrations that need manual replacement.
+- Update scripts that call `opsgenie.com` or `opsgenie.net` endpoints.
+- Test alerts, recoveries, acknowledgements, and after-hours delivery.
+- Run old and new paths in parallel for at least one representative on-call cycle.
+- Remove the old path only after responders confirm the replacement works.
+
+## Frequently asked questions
+
+### Is Opsgenie being discontinued?
+
+Yes. New sales ended on June 4, 2025, and Opsgenie reaches end of support on April 5, 2027. Atlassian says the product will then be shut down and become inaccessible.
+
+### What is replacing Opsgenie?
+
+Atlassian's official replacement path is Jira Service Management, where Opsgenie alerting and on-call capabilities are being consolidated. The right alternative depends on whether your team needs full incident management or only reliable alert delivery.
+
+### Can Echobell fully replace Opsgenie?
+
+No. Echobell replaces the urgent mobile notification layer for suitable workflows. It does not reproduce Opsgenie's schedules, escalation trees, incident-management processes, or reporting.
+
+### Can we use Echobell during an Opsgenie migration?
+
+Yes. Point one alert source at both destinations, validate delivery during a real on-call cycle, and keep Opsgenie active until the new path is proven.
+
+### When should we start migrating?
+
+Start the inventory and pilot now. The final migration date depends on your integration count, compliance requirements, and whether you are moving to Jira Service Management or redesigning the alerting stack.
+
+## Choose the smallest replacement that covers the real job
+
+Opsgenie's shutdown creates a firm deadline, but it does not mean every team needs the same replacement.
+
+Choose Jira Service Management when you rely on Opsgenie as a complete on-call and incident-management system. Consider a focused delivery layer when your monitors already contain the routing logic and your main requirement is getting a critical event onto the right phones quickly.
+
+[Download Echobell for iPhone](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-opsgenie-end-of-life-en&mt=8) or [get it on Google Play](https://play.google.com/store/apps/details?id=one.echobell.echobellandroid), then pilot one production alert while your current Opsgenie route is still active.
+
