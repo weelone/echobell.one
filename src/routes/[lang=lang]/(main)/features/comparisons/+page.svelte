@@ -1,6 +1,8 @@
 <script lang="ts">
   import { ArrowRight, CircleCheck, Scale } from "@lucide/svelte";
   import Breadcrumb from "$lib/components/Breadcrumb.svelte";
+  import Logo from "$lib/components/Logo.svelte";
+  import BrandMark from "$lib/components/landing/BrandMark.svelte";
   import JsonLd from "$lib/components/JsonLd.svelte";
   import { featureJsonLd } from "$lib/jsonld";
   import { toAbsoluteUrl } from "$lib/metadata";
@@ -100,8 +102,9 @@
         >
           {t.hero.title}
         </h1>
-        <p class="mt-6 text-xl opacity-60">{t.hero.subtitle}</p>
-        <p class="mt-4 text-lg opacity-50">{t.hero.description}</p>
+        <p class="mx-auto mt-6 max-w-2xl text-lg/8 text-pretty opacity-60">
+          {t.hero.subtitle}
+        </p>
       </div>
     </div>
   </section>
@@ -116,23 +119,33 @@
       </div>
       <div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-2 xl:grid-cols-3">
         {#each t.cards as card (card.slug)}
-          <div class="relative flex">
+          <div class="group relative flex">
             <div
-              class="absolute inset-px rounded-3xl bg-neutral-50 dark:bg-neutral-900/50"
+              class="absolute inset-px rounded-3xl bg-white dark:bg-black"
             ></div>
             <a
               href={localizeUrl(`/features/comparisons/${card.slug}`, lang)}
-              class="group relative flex w-full flex-col overflow-hidden rounded-3xl p-8 transition-all hover:-translate-y-1"
+              class="relative flex w-full flex-col overflow-hidden rounded-3xl p-8"
             >
-              <p
-                class="text-xs font-semibold tracking-wider text-orange-600 uppercase dark:text-orange-400"
+              <div class="flex items-center gap-3">
+                <span
+                  class="flex size-9 items-center justify-center rounded-full bg-orange-50 dark:bg-orange-950/40"
+                >
+                  <Logo class="h-4.5 w-4.5 text-orange-500" />
+                </span>
+                <span
+                  class="text-[10px] font-bold tracking-wider opacity-40 uppercase"
+                >
+                  vs
+                </span>
+                <BrandMark name={card.competitorName} class="size-9 text-sm" />
+              </div>
+              <h3
+                class="mt-4 text-xl leading-snug font-semibold tracking-tight opacity-90"
               >
-                {card.competitorName}
-              </p>
-              <h3 class="mt-2 text-xl leading-snug font-semibold tracking-tight opacity-90">
-                {card.tagline}
+                Echobell vs {card.competitorName}
               </h3>
-              <p class="mt-3 text-sm/6 opacity-60">{card.summary}</p>
+              <p class="mt-2 text-sm/6 opacity-60">{card.tagline}</p>
               <ul class="mt-5 space-y-2 text-sm opacity-70">
                 {#each card.highlights as highlight (highlight)}
                   <li class="flex items-start gap-2">
@@ -153,7 +166,7 @@
               </div>
             </a>
             <div
-              class="pointer-events-none absolute inset-px rounded-3xl ring-1 shadow-sm ring-black/5"
+              class="pointer-events-none absolute inset-px rounded-3xl ring-1 shadow-sm ring-black/5 transition-shadow group-hover:shadow-md dark:ring-white/10"
             ></div>
           </div>
         {/each}
@@ -173,7 +186,7 @@
         {#each t.methodology.items as item (item.title)}
           <div class="relative flex">
             <div
-              class="absolute inset-px rounded-3xl bg-neutral-50 dark:bg-neutral-900/50"
+              class="absolute inset-px rounded-3xl bg-white dark:bg-black"
             ></div>
             <div class="relative w-full rounded-3xl p-6">
               <h3 class="text-lg font-semibold tracking-tight opacity-90">
@@ -182,7 +195,7 @@
               <p class="mt-2 text-sm/6 opacity-60">{item.description}</p>
             </div>
             <div
-              class="pointer-events-none absolute inset-px rounded-3xl ring-1 shadow-sm ring-black/5"
+              class="pointer-events-none absolute inset-px rounded-3xl ring-1 shadow-sm ring-black/5 dark:ring-white/10"
             ></div>
           </div>
         {/each}

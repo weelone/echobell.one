@@ -110,7 +110,7 @@
         <div class="space-y-4">
           {#each t.whenToUse.items as item (item.title)}
             <div
-              class="flex items-start gap-4 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+              class="flex items-start gap-4 rounded-xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black"
             >
               <div
                 class={`flex h-10 w-10 items-center justify-center rounded-lg ${
@@ -156,8 +156,9 @@
     columns={2}
   />
 
-  <section class="bg-neutral-50 dark:bg-neutral-900/50">
+  <section class="bg-neutral-50/70 dark:bg-neutral-900/40">
     <FeatureSteps
+      {lang}
       title={t.howItWorks.title}
       subtitle={t.howItWorks.subtitle}
       steps={t.howItWorks.steps}

@@ -65,6 +65,7 @@
   />
 
   <FeatureSteps
+    {lang}
     title={t.howItWorks.title}
     subtitle={t.howItWorks.subtitle}
     steps={t.howItWorks.steps}
@@ -99,7 +100,7 @@
         <div class="grid gap-4">
           {#each t.variables.items as item (item.variable)}
             <div
-              class="flex items-center gap-4 rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900"
+              class="flex items-center gap-4 rounded-xl bg-white p-4 ring-1 shadow-sm ring-black/5 dark:bg-black"
             >
               <code
                 class="flex-shrink-0 rounded-lg bg-orange-100 px-3 py-1.5 font-mono text-sm text-orange-700 dark:bg-orange-900/30 dark:text-orange-400"
@@ -126,7 +127,7 @@
         {#each t.useCases.items as item, index (item.title)}
           {@const Icon = useCaseIcons[index % useCaseIcons.length]}
           <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+            class="rounded-3xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black"
           >
             <div class="flex items-start gap-4">
               <div

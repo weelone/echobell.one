@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { BellRing, Mail, Smartphone } from "@lucide/svelte";
   import ScenarioLanding from "$lib/components/landing/ScenarioLanding.svelte";
   import { getCopy } from "$lib/landing/app-store-connect-review-notifications";
   import type { Language } from "$lib/i18n";
@@ -17,6 +18,10 @@
   breadcrumb={t.breadcrumb}
   hero={t.hero}
   summary={t.summary}
+  flow={{
+    sources: [{ icon: Mail, label: "App Store Connect" }],
+    outputs: [{ icon: Smartphone }, { icon: BellRing }],
+  }}
   firstSection={{
     title: t.eventsTitle,
     description: t.eventsDescription,

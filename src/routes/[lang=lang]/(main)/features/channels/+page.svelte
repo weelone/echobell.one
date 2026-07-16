@@ -170,7 +170,7 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-3xl">
         <div
-          class="rounded-3xl border border-neutral-200 bg-white p-8 shadow-xl dark:border-neutral-800 dark:bg-neutral-900"
+          class="rounded-3xl bg-white p-8 shadow-xl ring-1 ring-black/5 dark:bg-black"
         >
           <div class="mb-6 flex items-center gap-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500">
@@ -213,12 +213,13 @@
   </section>
 
   <FeatureSteps
+    {lang}
     title={t.sharing.title}
     subtitle={t.sharing.subtitle}
     steps={t.sharing.steps}
   />
 
-  <section class="bg-neutral-50 dark:bg-neutral-900/50">
+  <section class="bg-neutral-50/70 dark:bg-neutral-900/40">
     <FeatureGrid
       title={t.advanced.title}
       subtitle={t.advanced.subtitle}

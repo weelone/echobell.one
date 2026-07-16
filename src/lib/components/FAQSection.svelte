@@ -53,11 +53,11 @@
   <JsonLd data={faqJsonLd(faqs)} />
 
   <div class="mb-10 text-center">
-    <h2 class="mb-3 text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+    <h2 class="mb-3 text-3xl font-semibold tracking-tight opacity-90 sm:text-4xl">
       {title || defaultTitles[lang] || defaultTitles.en}
     </h2>
     {#if description || defaultDescriptions[lang]}
-      <p class="mx-auto max-w-2xl text-lg text-neutral-600 dark:text-neutral-400">
+      <p class="mx-auto max-w-2xl text-lg opacity-60">
         {description || defaultDescriptions[lang] || defaultDescriptions.en}
       </p>
     {/if}
@@ -66,11 +66,11 @@
   <div class="space-y-3">
     {#each faqs as faq, index (faq.question)}
       <div
-        class="overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
+        class="overflow-hidden rounded-2xl bg-white ring-1 shadow-sm ring-black/5 dark:bg-black dark:ring-white/10"
       >
         <button
           onclick={() => toggleItem(index)}
-          class="flex w-full items-center justify-between px-6 py-4 text-left transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-700/50"
+          class="flex w-full items-center justify-between px-6 py-4 text-left transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900"
           aria-expanded={openItems.has(index)}
         >
           <span class="pr-4 font-medium text-neutral-900 dark:text-neutral-100">

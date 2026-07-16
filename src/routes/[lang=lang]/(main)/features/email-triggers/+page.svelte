@@ -83,6 +83,7 @@
   />
 
   <FeatureSteps
+    {lang}
     title={t.howItWorks.title}
     subtitle={t.howItWorks.subtitle}
     steps={t.howItWorks.steps}
@@ -101,7 +102,7 @@
         <div class="grid gap-4 sm:grid-cols-2">
           {#each t.variables.items as item (item.variable)}
             <div
-              class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+              class="rounded-3xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black"
             >
               <code
                 class="inline-block rounded-lg bg-orange-100 px-3 py-1.5 font-mono text-sm text-orange-700 dark:bg-orange-900/30 dark:text-orange-400"
@@ -128,7 +129,7 @@
         {#each t.useCases.items as item (item.title)}
           {@const Icon = iconMap[item.icon] ?? Mail}
           <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+            class="rounded-3xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black"
           >
             <div class="flex items-start gap-4">
               <div
@@ -157,7 +158,7 @@
       </div>
       <div class="mx-auto max-w-2xl">
         <div
-          class="overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-xl dark:border-neutral-800 dark:bg-neutral-900"
+          class="overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-black/5 dark:bg-black"
         >
           <div class="border-b border-neutral-200 p-4 dark:border-neutral-800">
             <div class="space-y-2 text-sm">

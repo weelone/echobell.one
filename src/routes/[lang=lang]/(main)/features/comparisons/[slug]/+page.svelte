@@ -2,8 +2,12 @@
   import { ArrowRight, CircleCheck } from "@lucide/svelte";
   import Breadcrumb from "$lib/components/Breadcrumb.svelte";
   import JsonLd from "$lib/components/JsonLd.svelte";
-  import FeatureHero from "$lib/components/features/FeatureHero.svelte";
-  import { faqJsonLd, featureJsonLd } from "$lib/jsonld";
+  import Logo from "$lib/components/Logo.svelte";
+  import BrandMark from "$lib/components/landing/BrandMark.svelte";
+  import ComparisonHero from "$lib/components/landing/ComparisonHero.svelte";
+  import ComparisonTable from "$lib/components/landing/ComparisonTable.svelte";
+  import FAQSection from "$lib/components/FAQSection.svelte";
+  import { featureJsonLd } from "$lib/jsonld";
   import { toAbsoluteUrl } from "$lib/metadata";
   import { getAppStoreLink, getGooglePlayLink } from "$lib/constants";
   import { localizeUrl, type Language } from "$lib/i18n";
@@ -33,10 +37,7 @@
       breadcrumbFeaturesLabel: string;
       breadcrumbComparisonsLabel: string;
       relatedTitle: string;
-      differenceTitle: string;
       quickTake: string;
-      comparedAgainst: string;
-      benchmarkHelper: string;
       dimension: string;
       continueReading: string;
     }
@@ -45,11 +46,7 @@
       breadcrumbFeaturesLabel: "Features",
       breadcrumbComparisonsLabel: "Comparisons",
       relatedTitle: "Other comparisons",
-      differenceTitle: "Echobell advantage",
       quickTake: "Quick take",
-      comparedAgainst: "Compared against",
-      benchmarkHelper:
-        "Benchmarked from real on-call workflows and alert outcomes.",
       dimension: "Dimension",
       continueReading: "Continue reading",
     },
@@ -57,10 +54,7 @@
       breadcrumbFeaturesLabel: "功能",
       breadcrumbComparisonsLabel: "竞品对比",
       relatedTitle: "其他竞品对比",
-      differenceTitle: "Echobell 的核心优势",
       quickTake: "一句话结论",
-      comparedAgainst: "对比对象",
-      benchmarkHelper: "从实际值班流程与告警落地效率出发。",
       dimension: "维度",
       continueReading: "继续查看",
     },
@@ -68,11 +62,7 @@
       breadcrumbFeaturesLabel: "Funciones",
       breadcrumbComparisonsLabel: "Comparativas",
       relatedTitle: "Otras comparativas",
-      differenceTitle: "Ventaja de Echobell",
       quickTake: "Resumen rápido",
-      comparedAgainst: "Comparado con",
-      benchmarkHelper:
-        "Evaluado a partir de flujos reales de guardia y resultados de alertas.",
       dimension: "Dimensión",
       continueReading: "Seguir leyendo",
     },
@@ -80,11 +70,7 @@
       breadcrumbFeaturesLabel: "Fonctionnalités",
       breadcrumbComparisonsLabel: "Comparaisons",
       relatedTitle: "Autres comparaisons",
-      differenceTitle: "Atout d'Echobell",
       quickTake: "Résumé rapide",
-      comparedAgainst: "Comparé à",
-      benchmarkHelper:
-        "Évalué à partir de véritables workflows d'astreinte et de résultats d'alerte.",
       dimension: "Critère",
       continueReading: "Continuer la lecture",
     },
@@ -92,11 +78,7 @@
       breadcrumbFeaturesLabel: "機能",
       breadcrumbComparisonsLabel: "比較",
       relatedTitle: "他の比較ページ",
-      differenceTitle: "Echobell の強み",
       quickTake: "要点",
-      comparedAgainst: "比較対象",
-      benchmarkHelper:
-        "実際のオンコール運用とアラート結果を基準に比較しています。",
       dimension: "項目",
       continueReading: "続きを読む",
     },
@@ -104,11 +86,7 @@
       breadcrumbFeaturesLabel: "Funktionen",
       breadcrumbComparisonsLabel: "Vergleiche",
       relatedTitle: "Weitere Vergleiche",
-      differenceTitle: "Echobell-Vorteil",
       quickTake: "Kurzfazit",
-      comparedAgainst: "Verglichen mit",
-      benchmarkHelper:
-        "Bewertet anhand realer On-Call-Abläufe und tatsächlicher Alarm-Ergebnisse.",
       dimension: "Kriterium",
       continueReading: "Weiterlesen",
     },
@@ -125,7 +103,6 @@
       url: canonical,
     })}
   />
-  <JsonLd data={faqJsonLd(t.faq.items)} />
 
   <div class="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
     <Breadcrumb
@@ -148,63 +125,67 @@
     />
   </div>
 
-  <FeatureHero
+  <ComparisonHero
     {lang}
     badge={t.hero.badge}
     title={t.hero.title}
     description={t.hero.description}
+    competitorName={t.competitorName}
     primaryCta={t.cta.primary}
     secondaryCta={t.cta.secondary}
     appStoreLink={getAppStoreLink(["features", "comparison", slug, "hero", lang])}
   />
 
-  <section class="py-12">
+  <!-- Quick take -->
+  <section class="pb-4">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <div
-          class="rounded-3xl border border-neutral-200 bg-white p-8 dark:border-neutral-800 dark:bg-neutral-900"
-        >
-          <p
-            class="text-sm font-semibold tracking-wider text-orange-600 uppercase dark:text-orange-400"
-          >
-            {ui.quickTake}
-          </p>
-          <p class="mt-3 text-lg leading-relaxed font-medium">
-            {t.quickSummary}
-          </p>
-          <p class="mt-4 opacity-60">{t.decisionHint}</p>
-        </div>
-        <div
-          class="rounded-3xl border border-orange-200 bg-orange-50 p-8 dark:border-orange-800 dark:bg-orange-950/20"
-        >
-          <p
-            class="text-sm font-semibold tracking-wider text-orange-600 uppercase dark:text-orange-400"
-          >
-            {ui.comparedAgainst}
-          </p>
-          <p class="mt-3 text-2xl font-bold">{t.competitorName}</p>
-          <p class="mt-2 text-sm opacity-70">{ui.benchmarkHelper}</p>
-        </div>
+      <div
+        class="mx-auto max-w-5xl rounded-3xl bg-white p-8 ring-1 shadow-sm ring-black/5 dark:bg-black dark:ring-white/10"
+      >
+        <p class="text-base/7 font-semibold text-orange-600">{ui.quickTake}</p>
+        <p class="mt-3 text-lg/8 font-medium opacity-90">{t.quickSummary}</p>
+        <p class="mt-2 text-base/7 opacity-60">{t.decisionHint}</p>
       </div>
-      <div class="mt-8 grid gap-4 md:grid-cols-3">
+    </div>
+  </section>
+
+  <!-- At a glance: visual mini cards -->
+  <section class="py-12 sm:py-16">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
         {#each t.atAGlance as item (item.label)}
           <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+            class="rounded-3xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black dark:ring-white/10"
           >
-            <h3 class="font-semibold">{item.label}</h3>
-            <div class="mt-4 space-y-3 text-sm">
-              <div>
-                <p class="font-medium text-orange-600 dark:text-orange-400">
+            <h3 class="text-sm font-semibold tracking-tight opacity-80">
+              {item.label}
+            </h3>
+            <div
+              class="mt-4 rounded-xl bg-orange-50/60 p-3.5 dark:bg-orange-950/20"
+            >
+              <div class="flex items-center gap-1.5">
+                <Logo class="h-3.5 w-3.5 flex-none text-orange-500" />
+                <span
+                  class="text-xs font-semibold text-orange-600 dark:text-orange-400"
+                >
                   Echobell
-                </p>
-                <p class="mt-1 opacity-60">{item.echobell}</p>
+                </span>
               </div>
-              <div>
-                <p class="font-medium text-neutral-700 dark:text-neutral-200">
+              <p class="mt-1.5 text-sm/6 opacity-80">{item.echobell}</p>
+            </div>
+            <div
+              class="mt-2 rounded-xl bg-neutral-50 p-3.5 dark:bg-neutral-900/60"
+            >
+              <div class="flex items-center gap-1.5">
+                <BrandMark
+                  name={t.competitorName}
+                  class="h-3.5 w-3.5 flex-none text-[8px]"
+                />
+                <span class="text-xs font-semibold opacity-50">
                   {t.competitorName}
-                </p>
-                <p class="mt-1 opacity-60">{item.competitor}</p>
+                </span>
               </div>
+              <p class="mt-1.5 text-sm/6 opacity-60">{item.competitor}</p>
             </div>
           </div>
         {/each}
@@ -212,7 +193,8 @@
     </div>
   </section>
 
-  <section class="bg-neutral-50/70 py-24 dark:bg-neutral-900/40">
+  <!-- Differences table -->
+  <section class="py-12 sm:py-16">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-3xl text-center">
         <h2 class="text-3xl font-semibold tracking-tight opacity-90 sm:text-4xl">
@@ -220,37 +202,18 @@
         </h2>
         <p class="mt-4 text-lg opacity-60">{t.differences.description}</p>
       </div>
-      <div
-        class="mx-auto mt-12 max-w-6xl overflow-hidden rounded-3xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900"
-      >
-        <div
-          class="grid grid-cols-4 border-b border-neutral-200 text-xs font-semibold tracking-wide text-neutral-500 uppercase dark:border-neutral-800 dark:text-neutral-400"
-        >
-          <div class="px-4 py-3">{ui.dimension}</div>
-          <div class="px-4 py-3">Echobell</div>
-          <div class="px-4 py-3">{t.competitorName}</div>
-          <div class="px-4 py-3">{ui.differenceTitle}</div>
-        </div>
-        {#each t.differences.items as item (item.dimension)}
-          <div
-            class="grid grid-cols-1 gap-3 border-b border-neutral-200 px-4 py-4 last:border-b-0 md:grid-cols-4 dark:border-neutral-800"
-          >
-            <div class="text-sm font-semibold">{item.dimension}</div>
-            <div class="text-sm opacity-60">{item.echobell}</div>
-            <div class="text-sm opacity-60">{item.competitor}</div>
-            <div class="flex items-start gap-2 text-sm opacity-80">
-              <CircleCheck
-                class="mt-0.5 h-4 w-4 flex-shrink-0 text-orange-600 dark:text-orange-400"
-              />
-              <span>{item.advantage}</span>
-            </div>
-          </div>
-        {/each}
+      <div class="mx-auto mt-12 max-w-6xl">
+        <ComparisonTable
+          dimensionLabel={ui.dimension}
+          competitorName={t.competitorName}
+          rows={t.differences.items}
+        />
       </div>
     </div>
   </section>
 
-  <section class="py-24">
+  <!-- Advantages + scenarios -->
+  <section class="py-12 sm:py-16">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-3xl text-center">
         <h2 class="text-3xl font-semibold tracking-tight opacity-90 sm:text-4xl">
@@ -258,20 +221,23 @@
         </h2>
         <p class="mt-4 text-lg opacity-60">{t.advantages.description}</p>
       </div>
-      <div class="mx-auto mt-12 grid max-w-5xl gap-6 sm:grid-cols-3">
+      <div class="mx-auto mt-12 grid max-w-5xl gap-4 sm:grid-cols-3">
         {#each t.advantages.items as item (item.title)}
           <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+            class="rounded-3xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black dark:ring-white/10"
           >
-            <h3 class="text-lg font-semibold">{item.title}</h3>
-            <p class="mt-2 text-sm opacity-60">{item.description}</p>
+            <CircleCheck class="h-6 w-6 text-orange-600 dark:text-orange-400" />
+            <h3 class="mt-4 text-lg font-semibold tracking-tight opacity-90">
+              {item.title}
+            </h3>
+            <p class="mt-2 text-sm/6 opacity-60">{item.description}</p>
           </div>
         {/each}
       </div>
     </div>
   </section>
 
-  <section class="bg-neutral-50/70 py-24 dark:bg-neutral-900/40">
+  <section class="py-12 sm:py-16">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-3xl text-center">
         <h2 class="text-3xl font-semibold tracking-tight opacity-90 sm:text-4xl">
@@ -279,20 +245,23 @@
         </h2>
         <p class="mt-4 text-lg opacity-60">{t.scenarios.description}</p>
       </div>
-      <div class="mx-auto mt-12 grid max-w-5xl gap-6 sm:grid-cols-3">
+      <div class="mx-auto mt-12 grid max-w-5xl gap-4 sm:grid-cols-3">
         {#each t.scenarios.items as item (item.title)}
           <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+            class="rounded-3xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black dark:ring-white/10"
           >
-            <h3 class="text-lg font-semibold">{item.title}</h3>
-            <p class="mt-2 text-sm opacity-60">{item.description}</p>
+            <h3 class="text-lg font-semibold tracking-tight opacity-90">
+              {item.title}
+            </h3>
+            <p class="mt-2 text-sm/6 opacity-60">{item.description}</p>
           </div>
         {/each}
       </div>
     </div>
   </section>
 
-  <section class="py-24">
+  <!-- Migration: timeline -->
+  <section class="py-12 sm:py-16">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-3xl text-center">
         <h2 class="text-3xl font-semibold tracking-tight opacity-90 sm:text-4xl">
@@ -300,56 +269,47 @@
         </h2>
         <p class="mt-4 text-lg opacity-60">{t.migration.description}</p>
       </div>
-      <div class="mx-auto mt-12 max-w-4xl space-y-6">
-        {#each t.migration.steps as step, index (step.title)}
+      <div class="mx-auto mt-12 max-w-3xl">
+        <div class="relative">
           <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
-          >
-            <div class="flex items-start gap-4">
-              <div
-                class="flex h-8 w-8 items-center justify-center rounded-full bg-orange-600 text-sm font-bold text-white"
-              >
-                {index + 1}
+            class="absolute top-2 bottom-2 left-5 w-px bg-neutral-200 dark:bg-neutral-800"
+            aria-hidden="true"
+          ></div>
+          <div class="space-y-10">
+            {#each t.migration.steps as step, index (step.title)}
+              <div class="relative flex gap-5">
+                <div
+                  class="z-10 flex h-10 w-10 flex-none items-center justify-center rounded-full bg-orange-100 text-base font-semibold text-orange-700 dark:bg-orange-900 dark:text-orange-300"
+                >
+                  {index + 1}
+                </div>
+                <div class="flex-1 pt-1.5">
+                  <h3 class="text-lg font-semibold tracking-tight opacity-90">
+                    {step.title}
+                  </h3>
+                  <p class="mt-2 text-base/7 opacity-60">{step.description}</p>
+                </div>
               </div>
-              <div>
-                <h3 class="text-lg font-semibold">{step.title}</h3>
-                <p class="mt-2 text-sm opacity-60">{step.description}</p>
-              </div>
-            </div>
+            {/each}
           </div>
-        {/each}
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-neutral-50/70 py-24 dark:bg-neutral-900/40">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="text-3xl font-semibold tracking-tight opacity-90 sm:text-4xl">
-          {t.faq.title}
-        </h2>
-      </div>
-      <div class="mx-auto mt-12 max-w-4xl space-y-4">
-        {#each t.faq.items as item (item.question)}
-          <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
-          >
-            <h3 class="text-lg font-semibold">{item.question}</h3>
-            <p class="mt-2 text-sm opacity-60">{item.answer}</p>
-          </div>
-        {/each}
-      </div>
-    </div>
-  </section>
+  <FAQSection {lang} title={t.faq.title} items={t.faq.items} />
 
-  <section class="border-t border-neutral-200 py-24 dark:border-neutral-800">
+  <!-- CTA -->
+  <section class="border-t border-neutral-200 py-20 dark:border-neutral-800">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-semibold tracking-tight opacity-90 sm:text-4xl">
           {t.cta.title}
         </h2>
         <p class="mt-4 text-lg opacity-60">{t.cta.description}</p>
-        <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div
+          class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+        >
           <a
             href={getAppStoreLink(["features", "comparison", slug, "cta", lang])}
             target="_blank"
@@ -368,34 +328,38 @@
           </a>
           <a
             href={localizeUrl("/docs", lang)}
-            class="rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold transition-colors hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-600"
+            class="group flex items-center gap-1.5 text-sm font-semibold opacity-90"
           >
             {t.cta.secondary}
+            <ArrowRight
+              class="h-4 w-4 transition-transform group-hover:translate-x-1"
+            />
           </a>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Related comparisons -->
   <section class="border-t border-neutral-200 py-16 dark:border-neutral-800">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <h3 class="mb-6 text-lg font-semibold text-neutral-600 dark:text-neutral-400">
+      <h3 class="mb-6 text-lg font-semibold tracking-tight opacity-80">
         {ui.relatedTitle}
       </h3>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {#each relatedCards as card (card.slug)}
           <a
             href={localizeUrl(`/features/comparisons/${card.slug}`, lang)}
-            class="group rounded-xl border border-neutral-200 bg-white p-4 transition-colors hover:border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700"
+            class="group flex flex-col rounded-2xl bg-white p-5 ring-1 shadow-sm ring-black/5 transition-shadow hover:shadow-md dark:bg-black dark:ring-white/10"
           >
             <p
-              class="text-xs font-semibold tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+              class="text-xs font-semibold tracking-wide text-orange-600 uppercase dark:text-orange-400"
             >
-              {card.competitorName}
+              Echobell vs {card.competitorName}
             </p>
-            <p class="mt-1 font-medium">{card.tagline}</p>
+            <p class="mt-2 text-sm/6 font-medium opacity-80">{card.tagline}</p>
             <div
-              class="mt-4 flex items-center text-sm font-semibold text-orange-600 dark:text-orange-400"
+              class="mt-auto flex items-center pt-4 text-sm font-semibold text-orange-600 dark:text-orange-400"
             >
               {ui.continueReading}
               <ArrowRight

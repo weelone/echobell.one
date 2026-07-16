@@ -64,6 +64,7 @@ export const load: PageServerLoad = async ({ params }) => {
   const { html, toc } = await renderMdx(post.body, {
     lang,
     cacheKey: post.file,
+    stripTitleHeading: true,
   });
 
   const canonical = localizeUrl(`/blog/${params.slug}`, lang);

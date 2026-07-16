@@ -82,7 +82,7 @@
         {@const Icon = config.icon}
         <a
           href={localizeUrl(config.href, lang)}
-          class="group flex items-center gap-4 rounded-xl border border-neutral-200 bg-white p-4 transition-colors hover:border-orange-300 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-orange-700"
+          class="group flex items-center gap-4 rounded-xl bg-white p-4 ring-1 shadow-sm ring-black/5 transition-shadow hover:shadow-md dark:bg-black dark:ring-white/10"
         >
           <div
             class="flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-800"

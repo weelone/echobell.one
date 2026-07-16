@@ -9,15 +9,17 @@
   const lang = $derived(data.lang as Language);
 </script>
 
-<div class="relative isolate px-6 py-24 sm:py-32 lg:px-8">
-  <div class="mx-auto max-w-7xl">
+<div class="relative isolate">
+  <div class="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
     <Breadcrumb {lang} />
+  </div>
+  <div class="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
     <div class="mx-auto max-w-2xl lg:mx-0">
-      <h2
+      <h1
         class="text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl"
       >
         {data.t.title}
-      </h2>
+      </h1>
       <p class="mt-2 text-lg/8 opacity-60">{data.t.description}</p>
     </div>
     <div
@@ -32,7 +34,7 @@
           </div>
           <div class="group relative">
             <h3
-              class="mt-3 text-lg/6 font-semibold opacity-90 group-hover:opacity-60"
+              class="mt-3 text-lg/6 font-semibold opacity-90 transition-colors group-hover:text-orange-600 dark:group-hover:text-orange-400"
             >
               <a href={post.url}>
                 <span class="absolute inset-0"></span>

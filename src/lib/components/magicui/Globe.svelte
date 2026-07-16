@@ -60,13 +60,21 @@
       ],
       width: width * 2,
       height: width * 2,
-      onRender: (state: Record<string, number>) => {
-        if (pointerInteracting === null) phi += 0.005;
-        state.phi = phi + r.current;
-        state.width = width * 2;
-        state.height = width * 2;
-      },
-    } as Parameters<typeof createGlobe>[1]);
+    });
+
+    // cobe 2.x has no internal animation loop: each frame must be pushed
+    // through globe.update(), otherwise only a static first frame renders.
+    let frameId: number;
+    const animate = () => {
+      if (pointerInteracting === null) phi += 0.005;
+      globe.update({
+        phi: phi + r.current,
+        width: width * 2,
+        height: width * 2,
+      });
+      frameId = window.requestAnimationFrame(animate);
+    };
+    frameId = window.requestAnimationFrame(animate);
 
     const opacityTimeoutId = window.setTimeout(() => {
       if (canvas) canvas.style.opacity = "1";
@@ -74,6 +82,7 @@
 
     return () => {
       window.clearTimeout(opacityTimeoutId);
+      window.cancelAnimationFrame(frameId);
       window.removeEventListener("resize", onResize);
       globe.destroy();
     };

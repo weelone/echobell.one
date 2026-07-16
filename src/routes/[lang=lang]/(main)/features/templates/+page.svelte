@@ -118,7 +118,7 @@
       <div class="mx-auto max-w-4xl space-y-8">
         {#each t.variables.examples as example (example.template)}
           <div
-            class="overflow-hidden rounded-3xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900"
+            class="overflow-hidden rounded-3xl bg-white ring-1 shadow-sm ring-black/5 dark:bg-black"
           >
             <div class="border-b border-neutral-200 p-6 dark:border-neutral-800">
               <p class="mb-2 text-sm text-neutral-500">{t.variables.subtitle}</p>
@@ -159,7 +159,7 @@
         <div class="grid gap-4 sm:grid-cols-2">
           {#each t.expressions.items as item (item.expression)}
             <div
-              class="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900"
+              class="rounded-xl bg-white p-4 ring-1 shadow-sm ring-black/5 dark:bg-black"
             >
               <code
                 class="mb-2 block font-mono text-sm text-orange-600 dark:text-orange-400"
@@ -205,7 +205,7 @@
       <div class="mx-auto max-w-4xl">
         <div class="flex flex-col items-center justify-center gap-6 md:flex-row">
           <div
-            class="w-full rounded-xl border border-neutral-200 bg-white p-6 md:w-auto dark:border-neutral-800 dark:bg-neutral-900"
+            class="w-full rounded-xl bg-white p-6 ring-1 shadow-sm ring-black/5 md:w-auto dark:bg-black"
           >
             <p class="mb-2 text-xs tracking-wider text-neutral-500 uppercase">
               {ui.incomingData}

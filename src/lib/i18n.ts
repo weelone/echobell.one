@@ -592,6 +592,7 @@ export const uiDictionary = {
       description:
         "Reliable alerting workflows for on-call response, trading alerts, and support escalation.",
       exploreAll: "Explore all use cases",
+      learnMore: "Learn more",
       items: [
         {
           title: "Incident Response",
@@ -1170,6 +1171,7 @@ export const uiDictionary = {
       title: "为“不能错过告警”的团队而设计",
       description: "围绕值班告警、交易提醒、客服升级等场景提供可靠的工作流。",
       exploreAll: "查看全部场景",
+      learnMore: "了解详情",
       items: [
         {
           title: "故障响应",
@@ -1779,6 +1781,7 @@ export const uiDictionary = {
       description:
         "Flujos de trabajo de alerta fiables para respuesta on-call, alertas de trading y escalado de soporte.",
       exploreAll: "Explorar todos los casos de uso",
+      learnMore: "Saber más",
       items: [
         {
           title: "Respuesta a Incidentes",
@@ -2394,6 +2397,7 @@ export const uiDictionary = {
       description:
         "Flux de travail d'alerte fiables pour la réponse on-call, les alertes de trading et l'escalade du support.",
       exploreAll: "Explorer tous les cas d'utilisation",
+      learnMore: "En savoir plus",
       items: [
         {
           title: "Réponse aux Incidents",
@@ -2980,6 +2984,7 @@ export const uiDictionary = {
       title: "重要な信号を見逃せないチームのために",
       description: "オンコール対応、取引アラート、サポートのエスカレーションのための信頼性の高いアラートワークフロー。",
       exploreAll: "すべての使用例を見る",
+      learnMore: "詳しく見る",
       items: [
         {
           title: "インシデント対応",
@@ -3582,6 +3587,7 @@ export const uiDictionary = {
       description:
         "Zuverlässige Alarmierungsworkflows für On-Call-Reaktion, Trading-Alarme und Support-Eskalation.",
       exploreAll: "Alle Anwendungsfälle erkunden",
+      learnMore: "Mehr erfahren",
       items: [
         {
           title: "Incident Response",

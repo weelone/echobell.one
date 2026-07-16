@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Activity, PhoneCall, Smartphone, Webhook } from "@lucide/svelte";
   import ScenarioLanding from "$lib/components/landing/ScenarioLanding.svelte";
   import { getCopy } from "$lib/landing/server-down-phone-call-alerts";
   import type { Language } from "$lib/i18n";
@@ -17,6 +18,10 @@
   breadcrumb={t.breadcrumb}
   hero={t.hero}
   summary={t.summary}
+  flow={{
+    sources: [{ icon: Activity, label: "Grafana" }, { icon: Webhook }],
+    outputs: [{ icon: PhoneCall }, { icon: Smartphone }],
+  }}
   firstSection={{
     title: t.stackTitle,
     description: t.stackDescription,

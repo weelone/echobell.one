@@ -23,9 +23,11 @@
   const ui = $derived(relatedUi[lang] ?? relatedUi.en);
 </script>
 
-<div class="relative isolate px-6 py-24 sm:py-32 lg:px-8">
-  <div class="mx-auto max-w-3xl">
+<div class="relative isolate">
+  <div class="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
     <Breadcrumb {lang} />
+  </div>
+  <div class="mx-auto max-w-3xl px-6 py-16 sm:py-24 lg:px-8">
     <BreadcrumbJsonLd {lang} />
     <JsonLd
       data={articleJsonLd({
@@ -42,11 +44,11 @@
       <time datetime={data.date} class="text-sm opacity-60">
         {displayDate(new Date(data.date), lang)}
       </time>
-      <h2
+      <h1
         class="mt-2 text-4xl font-semibold tracking-tight text-pretty opacity-90 sm:text-5xl"
       >
         {data.title}
-      </h2>
+      </h1>
       <p class="mt-2 text-lg/8 opacity-60">{data.description}</p>
     </div>
     <article class="py-8">
@@ -93,7 +95,7 @@
           {#each data.related as post (post.url)}
             <a
               href={post.url}
-              class="group flex flex-col rounded-xl border border-neutral-200 bg-white p-5 transition-colors hover:border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700"
+              class="group flex flex-col rounded-2xl bg-white p-5 ring-1 shadow-sm ring-black/5 transition-shadow hover:shadow-md dark:bg-black"
             >
               <time datetime={post.date} class="text-xs opacity-50">
                 {displayDate(new Date(post.date), lang)}

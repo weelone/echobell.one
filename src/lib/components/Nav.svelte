@@ -1,13 +1,25 @@
 <script lang="ts">
-  import { Menu, X } from "@lucide/svelte";
+  import { ChevronRight, Menu, X } from "@lucide/svelte";
+  import { page } from "$app/state";
   import Logo from "./Logo.svelte";
   import NavLinks from "./NavLinks.svelte";
   import ThemeToggle from "./ThemeToggle.svelte";
   import LanguageToggle from "./LanguageToggle.svelte";
+  import { getBreadcrumbItems } from "$lib/breadcrumb";
+  import { breadcrumbState } from "$lib/breadcrumb-state.svelte";
   import { localizeUrl, uiDictionary, type Language } from "$lib/i18n";
 
   let { lang }: { lang: Language } = $props();
   let mobileMenuOpen = $state(false);
+
+  // Breadcrumb trail shown next to the brand; pages can register localized
+  // items via the Breadcrumb component, else it derives from the URL. The
+  // leading "Home" item is dropped — the brand itself links home.
+  const trail = $derived(
+    (
+      breadcrumbState.items ?? getBreadcrumbItems(page.url.pathname, lang)
+    ).slice(1)
+  );
 
   const useCasesLabel: Record<Language, string> = {
     en: "Use Cases",
@@ -30,11 +42,52 @@
     aria-label="Global"
     class="flex items-center justify-between p-6 lg:px-8"
   >
-    <div class="flex lg:flex-1">
-      <a href={localizeUrl("/", lang)} class="-m-1.5 flex gap-4 p-1.5">
+    <div class="flex min-w-0 items-center lg:flex-1">
+      <a
+        href={localizeUrl("/", lang)}
+        class="-m-1.5 flex flex-none items-center gap-3 p-1.5"
+        aria-label="Echobell — Home"
+      >
         <Logo class="h-8 w-8 text-orange-500" />
         <span class="font-gantari text-2xl font-semibold">Echobell</span>
       </a>
+      {#if trail.length > 0}
+        <nav
+          aria-label="Breadcrumb"
+          class="hidden min-w-0 items-center lg:flex"
+        >
+          <span
+            class="mx-4 h-5 w-px flex-none bg-neutral-900/15 dark:bg-white/15"
+            aria-hidden="true"
+          ></span>
+          <ol
+            class="flex min-w-0 items-center gap-1 text-sm text-neutral-500 dark:text-neutral-400"
+          >
+            {#each trail as item, index (item.href)}
+              <li class="flex min-w-0 items-center gap-1">
+                {#if index > 0}
+                  <ChevronRight class="h-3.5 w-3.5 flex-none opacity-50" />
+                {/if}
+                {#if item.isCurrentPage}
+                  <span
+                    class="max-w-48 truncate font-medium text-neutral-800 dark:text-neutral-200"
+                    aria-current="page"
+                  >
+                    {item.label}
+                  </span>
+                {:else}
+                  <a
+                    href={item.href}
+                    class="max-w-48 truncate transition-colors hover:text-orange-600 dark:hover:text-orange-400"
+                  >
+                    {item.label}
+                  </a>
+                {/if}
+              </li>
+            {/each}
+          </ol>
+        </nav>
+      {/if}
     </div>
     <div class="flex md:hidden">
       <button

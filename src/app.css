@@ -152,8 +152,40 @@
 }
 .mdx-step::before {
   content: counter(mdx-step);
-  @apply absolute -left-12 flex size-8 items-center justify-center rounded-full bg-secondary text-sm font-medium text-secondary-foreground;
+  @apply absolute -left-12 flex size-8 items-center justify-center rounded-full bg-orange-100 text-sm font-semibold text-orange-700;
+}
+.dark .mdx-step::before {
+  @apply bg-orange-900/40 text-orange-300;
 }
 .mdx-step > :first-child {
   @apply mt-0;
+}
+
+/* Inline code chips (typography plugin renders backticks by default) */
+.prose :where(code):not(:where(pre code)) {
+  @apply rounded-md bg-neutral-950/5 px-1.5 py-0.5 text-[0.875em] font-medium;
+}
+.dark .prose :where(code):not(:where(pre code)) {
+  @apply bg-white/10;
+}
+.prose :where(code):not(:where(pre code))::before,
+.prose :where(code):not(:where(pre code))::after {
+  content: none;
+}
+
+/* Quieter blockquotes with a brand accent */
+.prose blockquote {
+  @apply border-l-2 border-l-orange-500/60 font-normal not-italic;
+}
+.prose blockquote p:first-of-type::before,
+.prose blockquote p:last-of-type::after {
+  content: none;
+}
+
+/* Tables */
+.prose table {
+  @apply text-sm/6;
+}
+.prose thead th {
+  @apply text-xs font-semibold tracking-wide uppercase opacity-70;
 }

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Mail, PhoneCall, Smartphone, Webhook } from "@lucide/svelte";
   import ScenarioLanding from "$lib/components/landing/ScenarioLanding.svelte";
   import { getCopy } from "$lib/landing/focus-mode-alerts";
   import type { Language } from "$lib/i18n";
@@ -17,6 +18,10 @@
   breadcrumb={t.breadcrumb}
   hero={t.hero}
   summary={t.summary}
+  flow={{
+    sources: [{ icon: Webhook }, { icon: Mail }],
+    outputs: [{ icon: PhoneCall }, { icon: Smartphone }],
+  }}
   firstSection={{
     title: t.urgencyTitle,
     description: t.urgencyDescription,

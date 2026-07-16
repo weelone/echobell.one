@@ -6,6 +6,9 @@
   import JsonLd from "$lib/components/JsonLd.svelte";
   import FeatureHero from "$lib/components/features/FeatureHero.svelte";
   import FAQSection from "$lib/components/FAQSection.svelte";
+  import FlowFigure, {
+    type FlowNode,
+  } from "$lib/components/landing/FlowFigure.svelte";
   import { featureJsonLd, howToJsonLd } from "$lib/jsonld";
   import { toAbsoluteUrl } from "$lib/metadata";
   import { getAppStoreLink, getGooglePlayLink } from "$lib/constants";
@@ -29,6 +32,7 @@
     breadcrumb,
     hero,
     summary,
+    flow,
     firstSection,
     steps,
     thirdSection,
@@ -46,6 +50,7 @@
     breadcrumb: string;
     hero: { badge: string; title: string; description: string };
     summary: { title: string; body: string };
+    flow?: { sources: FlowNode[]; outputs: FlowNode[] };
     firstSection: Section;
     steps: Section;
     thirdSection: Section;
@@ -104,16 +109,29 @@
   <section class="py-12">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div
-        class="rounded-3xl border border-neutral-200 bg-white p-8 dark:border-neutral-800 dark:bg-neutral-900"
+        class="rounded-3xl bg-white p-8 ring-1 shadow-sm ring-black/5 dark:bg-black dark:ring-white/10"
       >
-        <p
-          class="text-sm font-semibold tracking-wide text-orange-600 uppercase dark:text-orange-400"
+        <div
+          class={flow
+            ? "grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr]"
+            : ""}
         >
-          {summary.title}
-        </p>
-        <p class="mt-3 max-w-4xl text-lg text-neutral-700 dark:text-neutral-300">
-          {summary.body}
-        </p>
+          <div>
+            <p class="text-base/7 font-semibold text-orange-600">
+              {summary.title}
+            </p>
+            <p class="mt-3 max-w-4xl text-lg/8 opacity-70">
+              {summary.body}
+            </p>
+          </div>
+          {#if flow}
+            <FlowFigure
+              sources={flow.sources}
+              outputs={flow.outputs}
+              class="rounded-2xl bg-neutral-50/80 py-8 dark:bg-neutral-900/40"
+            />
+          {/if}
+        </div>
       </div>
     </div>
   </section>
@@ -139,7 +157,7 @@
               <p class="mt-3 text-sm/6 opacity-60">{item.description}</p>
             </div>
             <div
-              class="pointer-events-none absolute inset-px rounded-3xl ring-1 shadow-sm ring-black/5"
+              class="pointer-events-none absolute inset-px rounded-3xl ring-1 shadow-sm ring-black/5 dark:ring-white/10"
             ></div>
           </div>
         {/each}
@@ -157,20 +175,30 @@
           <p class="mt-4 text-lg opacity-60">{steps.description}</p>
         {/if}
       </div>
-      <div class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
-        {#each steps.cards as item, index (item.title)}
+      <div class="mx-auto mt-12 max-w-3xl">
+        <div class="relative">
           <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
-          >
-            <div
-              class="flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-sm font-semibold text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
-            >
-              {index + 1}
-            </div>
-            <h3 class="mt-4 text-lg font-semibold">{item.title}</h3>
-            <p class="mt-3 text-sm opacity-60">{item.description}</p>
+            class="absolute top-2 bottom-2 left-5 w-px bg-neutral-200 dark:bg-neutral-800"
+            aria-hidden="true"
+          ></div>
+          <div class="space-y-10">
+            {#each steps.cards as item, index (item.title)}
+              <div class="relative flex gap-5">
+                <div
+                  class="z-10 flex h-10 w-10 flex-none items-center justify-center rounded-full bg-orange-100 text-base font-semibold text-orange-700 dark:bg-orange-900 dark:text-orange-300"
+                >
+                  {index + 1}
+                </div>
+                <div class="flex-1 pt-1.5">
+                  <h3 class="text-lg font-semibold tracking-tight opacity-90">
+                    {item.title}
+                  </h3>
+                  <p class="mt-2 text-base/7 opacity-60">{item.description}</p>
+                </div>
+              </div>
+            {/each}
           </div>
-        {/each}
+        </div>
       </div>
     </div>
   </section>
@@ -188,7 +216,7 @@
       <div class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
         {#each thirdSection.cards as item (item.title)}
           <div
-            class="rounded-3xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+            class="rounded-3xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black dark:ring-white/10"
           >
             <h3 class="text-lg font-semibold">{item.title}</h3>
             <p class="mt-3 text-sm opacity-60">{item.description}</p>
@@ -233,14 +261,16 @@
         </div>
       </div>
       <div
-        class="rounded-3xl border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-800 dark:bg-neutral-900"
+        class="rounded-3xl bg-white p-6 ring-1 shadow-sm ring-black/5 dark:bg-black dark:ring-white/10"
       >
-        <h3 class="text-lg font-semibold">{relatedTitle}</h3>
+        <h3 class="text-lg font-semibold tracking-tight opacity-90">
+          {relatedTitle}
+        </h3>
         <div class="mt-4 space-y-3">
           {#each relatedLinks as item (item.href)}
             <a
               href={localizeUrl(item.href, lang)}
-              class="block rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm font-medium transition-colors hover:border-orange-300 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-orange-700"
+              class="block rounded-xl bg-neutral-50 px-4 py-3 text-sm font-medium ring-1 ring-black/5 transition-colors hover:text-orange-600 dark:bg-neutral-900 dark:ring-white/10 dark:hover:text-orange-400"
             >
               {item.label}
             </a>

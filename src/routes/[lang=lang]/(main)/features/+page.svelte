@@ -243,7 +243,7 @@
           {@const featureT = getFeatureTranslation(key, lang)}
           <div class="relative flex">
             <div
-              class="absolute inset-px rounded-3xl bg-neutral-50 dark:bg-neutral-900/50"
+              class="absolute inset-px rounded-3xl bg-white dark:bg-black"
             ></div>
             <a
               href={localizeUrl(href, lang)}
@@ -291,7 +291,7 @@
           {@const Icon = item.icon}
           <div class="relative flex">
             <div
-              class="absolute inset-px rounded-3xl bg-neutral-50 dark:bg-neutral-900/50"
+              class="absolute inset-px rounded-3xl bg-white dark:bg-black"
             ></div>
             <div class="relative w-full rounded-3xl p-8 text-center">
               <div

@@ -12,9 +12,11 @@
   const appStoreLink = $derived(getAppStoreLink(["subscription", "page", lang]));
 </script>
 
-<div class="relative isolate px-6 pt-14 lg:px-8">
-  <Breadcrumb {lang} />
-  <div class="mx-auto max-w-2xl py-32 sm:py-42 lg:py-52">
+<div class="relative isolate">
+  <div class="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
+    <Breadcrumb {lang} />
+  </div>
+  <div class="mx-auto max-w-2xl px-6 py-24 sm:py-32 lg:py-40 lg:px-8">
     {#if data.channel}
       <div
         class="flex flex-col rounded-lg border bg-white p-4 sm:p-8 dark:bg-neutral-900"

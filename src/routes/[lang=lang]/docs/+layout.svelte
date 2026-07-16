@@ -96,7 +96,7 @@
 
   <div class="mx-auto flex max-w-screen-2xl">
     <aside
-      class={`fixed inset-y-0 top-14 z-30 w-72 shrink-0 overflow-y-auto border-r border-neutral-200 bg-white p-4 lg:sticky lg:top-14 lg:block lg:h-[calc(100vh-3.5rem)] lg:bg-transparent dark:border-neutral-800 dark:bg-neutral-950 ${
+      class={`fixed inset-y-0 top-14 z-30 w-72 shrink-0 overflow-y-auto border-r border-neutral-200 bg-white p-4 lg:sticky lg:top-14 lg:block lg:h-[calc(100vh-3.5rem)] lg:bg-transparent lg:py-6 dark:border-neutral-800 dark:bg-neutral-950 ${
         sidebarOpen ? "block" : "hidden"
       }`}
     >

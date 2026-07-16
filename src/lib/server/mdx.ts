@@ -218,11 +218,35 @@ function stripFumadocsImports(source: string): string {
   );
 }
 
+/** Drop a `# heading` that opens the body: the page header already renders
+ * the title as the document's single h1, so a leading body h1 would duplicate
+ * it both visually and for SEO. */
+function stripLeadingH1(source: string): string {
+  const lines = source.split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (line === "" || /^import\s/.test(line)) continue;
+    if (/^#\s+\S/.test(line)) {
+      lines.splice(i, 1);
+      return lines.join("\n");
+    }
+    break;
+  }
+  return source;
+}
+
 const renderCache = new Map<string, Promise<RenderedMdx>>();
 
 export function renderMdx(
   source: string,
-  options: { lang: Language; cacheKey?: string }
+  options: {
+    lang: Language;
+    cacheKey?: string;
+    /** For pages that render the frontmatter title as their own <h1> (docs,
+     * blog): drop a leading body h1 and demote any remaining body h1 to h2
+     * so the document keeps a single h1. */
+    stripTitleHeading?: boolean;
+  }
 ): Promise<RenderedMdx> {
   const cacheKey = options.cacheKey
     ? `${options.lang}:${options.cacheKey}`
@@ -234,21 +258,27 @@ export function renderMdx(
 
   const promise = (async (): Promise<RenderedMdx> => {
     const toc: TocItem[] = [];
-    const compiled = await compile(stripFumadocsImports(source), {
-      format: "mdx",
-      outputFormat: "function-body",
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [
-        [rehypeHeadingIds, { collect: toc }],
-        [
-          rehypeShiki,
-          {
-            themes: { light: "github-light", dark: "github-dark" },
-            defaultColor: false,
-          },
+    const preprocessed = options.stripTitleHeading
+      ? stripLeadingH1(stripFumadocsImports(source))
+      : stripFumadocsImports(source);
+    const compiled = await compile(
+      preprocessed,
+      {
+        format: "mdx",
+        outputFormat: "function-body",
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [
+          [rehypeHeadingIds, { collect: toc }],
+          [
+            rehypeShiki,
+            {
+              themes: { light: "github-light", dark: "github-dark" },
+              defaultColor: false,
+            },
+          ],
         ],
-      ],
-    });
+      }
+    );
 
     const module = await run(String(compiled), {
       ...jsxRuntime,
@@ -256,8 +286,15 @@ export function renderMdx(
       baseUrl: import.meta.url,
     });
 
+    const components = createComponents(options.lang);
     const element = h(module.default, {
-      components: createComponents(options.lang),
+      components: options.stripTitleHeading
+        ? {
+            ...components,
+            h1: ({ children, ...rest }: Props) =>
+              h("h2" as never, rest, children),
+          }
+        : components,
     });
     return { html: renderToString(element), toc };
   })();

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { cn } from "$lib/utils";
 
   let {
@@ -55,9 +54,12 @@
     pathD = `M ${startX},${startY} Q ${(startX + endX) / 2},${controlY} ${endX},${endY}`;
   }
 
-  onMount(() => {
+  // `container`/`from`/`to` are bind:this refs assigned after this component
+  // mounts, so track them in an effect instead of reading them once in onMount.
+  $effect(() => {
+    if (!container || !from || !to) return;
     const resizeObserver = new ResizeObserver(() => updatePath());
-    if (container) resizeObserver.observe(container);
+    resizeObserver.observe(container);
     updatePath();
     return () => resizeObserver.disconnect();
   });
@@ -100,6 +102,7 @@
         begin={`${delay}s`}
         repeatCount="indefinite"
         calcMode="spline"
+        keyTimes="0;1"
         keySplines="0.16 1 0.3 1"
       />
       <animate
@@ -109,6 +112,7 @@
         begin={`${delay}s`}
         repeatCount="indefinite"
         calcMode="spline"
+        keyTimes="0;1"
         keySplines="0.16 1 0.3 1"
       />
       <stop stop-color={gradientStartColor} stop-opacity="0"></stop>

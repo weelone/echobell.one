@@ -30,6 +30,7 @@ export const load: PageServerLoad = async ({ params }) => {
   const { html, toc } = await renderMdx(page.body, {
     lang,
     cacheKey: page.file,
+    stripTitleHeading: true,
   });
 
   const sequence = getDocsSequence(lang);
