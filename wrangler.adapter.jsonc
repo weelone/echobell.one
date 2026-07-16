@@ -1,0 +1,21 @@
+// Config consumed ONLY by @sveltejs/adapter-cloudflare at build time.
+// The adapter writes its generated worker to `main` below; the real deploy
+// entry (wrangler.jsonc -> src/worker/index.ts) wraps that file to add the
+// /api/og endpoint.
+{
+  "name": "echobell-one",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": ".svelte-kit/cloudflare/_worker.js",
+  "assets": {
+    "directory": ".svelte-kit/cloudflare",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "echobell",
+      "database_id": "42f866b5-2d88-4364-b41c-51669cd88644"
+    }
+  ]
+}

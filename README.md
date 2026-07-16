@@ -25,33 +25,34 @@ Whether it is CI/CD failures, production outages, trading signals, or business e
 
 ## Project structure
 
-- `app/`: Next.js App Router (localized routes in `app/[lang]`)
-- `components/`: Reusable UI
-- `content/`: MDX docs and blog content
-- `lib/`: i18n, utilities, and configuration
+- `src/routes/`: SvelteKit routes (localized routes in `src/routes/[lang=lang]`)
+- `src/lib/components/`: Reusable UI
+- `content/`: MDX docs, blog, and legal content
+- `src/lib/`: i18n, utilities, and configuration
+- `src/worker/`: Cloudflare Worker entry (wraps the SvelteKit worker and adds `/api/og`)
 
 ## Development
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Common commands:
 
 ```bash
-npm run lint
-npm run build
-npm run start
+pnpm run lint
+pnpm run check
+pnpm run build
 ```
 
 ## Deployment
 
-This project deploys with **OpenNext + Cloudflare Workers**:
+This project deploys with **SvelteKit + Cloudflare Workers**:
 
-- Config: `open-next.config.ts`, `wrangler.jsonc`
-- Preview: `npm run preview`
-- Deploy: `npm run deploy`
+- Config: `svelte.config.js`, `wrangler.jsonc` (deploy entry), `wrangler.adapter.jsonc` (adapter output)
+- Preview: `pnpm run preview`
+- Deploy: `pnpm run deploy`
 
 ## AI-Friendly Endpoints
 

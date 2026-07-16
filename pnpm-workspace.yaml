@@ -1,0 +1,8 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
+minimumReleaseAgeExclude:
+  - miniflare@4.20260710.0
+  - svelte-check@4.7.3
+  - wrangler@4.111.0
