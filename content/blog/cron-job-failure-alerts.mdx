@@ -1,0 +1,93 @@
+---
+title: "Cron Job Failure Alerts: Get a Phone Call When a Scheduled Job Dies"
+description: "Cron jobs fail silently. Learn three reliable patterns to detect failed or missed scheduled jobs and get a push notification or phone call within seconds."
+date: 2026-07-16
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - cron jobs
+  - failure alerts
+  - phone call alerts
+  - monitoring
+  - webhook
+---
+
+# Cron Job Failure Alerts: Get a Phone Call When a Scheduled Job Dies
+
+The dangerous thing about a failed cron job is that nothing happens. No error page, no crash, no angry users — just a backup that quietly stopped running three weeks ago, a report that never got sent, or a cleanup script that let a disk fill up until production fell over.
+
+Cron itself has no built-in alerting. If a job exits with an error, cron shrugs. If the whole server is down at the scheduled time, the job simply never runs, and there is nothing left behind to tell you it didn't. That second case is the one most monitoring setups miss.
+
+This guide covers three patterns to catch both kinds of failure, and how to make the alert impossible to miss by escalating it to an actual phone call with [Echobell](/en).
+
+## Pattern 1: Alert on failure with an exit-code hook
+
+The simplest approach: fire a webhook whenever the job exits with a non-zero status.
+
+First, create a channel in Echobell and copy its webhook URL. Then wrap your cron command:
+
+```bash
+0 3 * * * /opt/scripts/backup.sh || curl -s "https://hook.echobell.one/t/<channel-token>?title=Backup+failed&host=$(hostname)"
+```
+
+If `backup.sh` succeeds, nothing happens. If it fails, Echobell delivers an alert to your phone within seconds. Query parameters become [template variables](/en/docs/template), so your notification can say exactly which host and which job failed.
+
+For longer scripts, a trap gives you richer context:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+notify_failure() {
+  curl -s -X POST "https://hook.echobell.one/t/<channel-token>" \
+    -H "Content-Type: application/json" \
+    -d "{\"job\":\"nightly-backup\",\"host\":\"$(hostname)\",\"line\":\"$1\"}"
+}
+trap 'notify_failure $LINENO' ERR
+
+# ... your job logic ...
+```
+
+The limitation: this only works when the script actually runs and fails. If the server is down, cron is misconfigured, or someone commented the line out during a debugging session, no alert ever fires. That is why you also want pattern 2.
+
+## Pattern 2: Dead man's switch for missed runs
+
+A dead man's switch inverts the logic: the job pings a monitor on **success**, and the monitor alerts you when the ping **doesn't** arrive on schedule. This catches every failure mode — errors, hangs, dead servers, and deleted crontab entries alike.
+
+Two popular self-hostable options work well with Echobell:
+
+- **[Healthchecks.io](https://healthchecks.io)** is built exactly for this. Create a check with your cron schedule and a grace period, then add `&& curl -s https://hc-ping.com/YOUR_UUID` to the end of your cron line. When a ping is late, Healthchecks sends a webhook — point it at your Echobell channel to turn a missed backup into a ringing phone.
+- **[Uptime Kuma](/en/docs/developer/uptime-kuma)** includes a "Push" monitor type that works the same way: your job calls a push URL, and Uptime Kuma alerts through its notification integrations when the heartbeat stops arriving.
+
+In both cases the flow is: cron job → success ping → monitor notices silence → webhook to Echobell → push notification or phone call.
+
+## Pattern 3: Time-window checks for jobs that report data
+
+Some jobs are better verified by their output than their exit code. If your nightly ETL should insert rows by 4 a.m., a small verification job can check the row count and call the Echobell webhook when the numbers look wrong.
+
+Echobell's [conditions](/en/docs/conditions) help here: you can send a status webhook after every run and let the channel decide when to notify. A condition like `status != "ok"` keeps successful runs silent, and built-in UTC time variables let you restrict alerts to the window when the job should have finished.
+
+## Making the alert impossible to miss
+
+Detection is only half the problem. A backup failure alert that lands as a silent banner at 3 a.m. is functionally identical to no alert.
+
+Echobell lets each channel choose an urgency level:
+
+- **Normal** — a standard push notification, fine for informational jobs
+- **Time-sensitive** — breaks through iOS Focus Mode, right for jobs someone should look at soon
+- **Calling** — your phone rings like a real phone call until you notice
+
+For jobs where a silent failure costs real money — database backups, billing runs, certificate renewals — set the channel to **Calling**. The difference between "saw it at 3 a.m." and "saw it at 9 a.m." is exactly the difference a [phone call alert](/en/features/call-notifications) makes.
+
+If several people share responsibility for a job, share the channel's subscription link with the team; everyone who subscribes gets the same alert at the same moment.
+
+## Which pattern should you use?
+
+- **Exit-code hook**: five-minute setup, catches explicit failures. Start here.
+- **Dead man's switch**: catches missed and hung runs too. Add it for every job you'd genuinely miss.
+- **Time-window data checks**: for pipelines where "ran successfully but produced garbage" is a real risk.
+
+They compose well: an exit-code hook tells you a job failed and why, while the dead man's switch guarantees you hear about the failures that never got the chance to report themselves.
+
+Set up your first cron alert in a few minutes: [download Echobell](/en), create a channel, and add one `curl` to your crontab. The next time a scheduled job dies at 3 a.m., your phone will ring — and the backup you restore next quarter will exist.

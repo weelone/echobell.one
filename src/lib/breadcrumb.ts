@@ -92,7 +92,8 @@ const breadcrumbLabels: Record<
 export function getBreadcrumbItems(
   pathname: string,
   lang: Language,
-  customItems?: BreadcrumbItem[]
+  customItems?: BreadcrumbItem[],
+  currentLabel?: string
 ): BreadcrumbItem[] {
   const t = breadcrumbLabels[lang] || breadcrumbLabels.en;
 
@@ -139,7 +140,7 @@ export function getBreadcrumbItems(
     }
 
     items.push({
-      label,
+      label: isLast && currentLabel ? currentLabel : label,
       href: localizeUrl(currentPath, lang),
       isCurrentPage: isLast,
     });

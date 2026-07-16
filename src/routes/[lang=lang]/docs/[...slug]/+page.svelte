@@ -1,6 +1,9 @@
 <script lang="ts">
   import { ChevronLeft, ChevronRight } from "@lucide/svelte";
   import DocsToc from "$lib/components/docs/DocsToc.svelte";
+  import BreadcrumbJsonLd from "$lib/components/BreadcrumbJsonLd.svelte";
+  import JsonLd from "$lib/components/JsonLd.svelte";
+  import { techArticleJsonLd } from "$lib/jsonld";
   import { docsUi } from "$lib/components/docs/docs-i18n";
   import type { Language } from "$lib/i18n";
   import type { PageProps } from "./$types";
@@ -9,6 +12,17 @@
 
   const t = $derived(docsUi[data.lang as Language]);
 </script>
+
+<BreadcrumbJsonLd lang={data.lang as Language} />
+<JsonLd
+  data={techArticleJsonLd({
+    title: data.title,
+    description: data.description,
+    url: data.canonical,
+    dateModified: data.lastModified,
+    inLanguage: data.lang,
+  })}
+/>
 
 <div class="mx-auto flex max-w-6xl gap-12 px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
   <article class="min-w-0 max-w-3xl flex-1">

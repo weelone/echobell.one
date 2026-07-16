@@ -19,10 +19,10 @@ tags:
 
 相关文档：
 
-- 什么是 Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- Webhooks 概览 → [/docs/webhook](/en/docs/webhook)
-- 通知类型（普通、时间敏感、来电）→ [/docs/notification](/en/docs/notification)
-- 模板与变量 → [/docs/template](/en/docs/template)
+- 什么是 Echobell → [/docs/what-is-echobell](/zh/docs/what-is-echobell)
+- Webhooks 概览 → [/docs/webhook](/zh/docs/webhook)
+- 通知类型（普通、时间敏感、来电）→ [/docs/notification](/zh/docs/notification)
+- 模板与变量 → [/docs/template](/zh/docs/template)
 
 ## 前提条件
 
@@ -32,16 +32,16 @@ tags:
 ## 第一步——创建 Echobell 频道
 
 1. 打开 Echobell → 创建频道，命名如"TradingView Calls"。
-2. 选择通知类型。紧急告警使用**来电**；不太紧急的使用**时间敏感**或**普通**（参见 [/docs/notification](/en/docs/notification)）。
+2. 选择通知类型。紧急告警使用**来电**；不太紧急的使用**时间敏感**或**普通**（参见 [/docs/notification](/zh/docs/notification)）。
 3. 可选：配置模板，让来电内容包含有用数据。示例：
 
    标题：`{{ticker}} crossed {{price}}`
 
    正文：`Signal: {{action}} at {{price}} on {{ticker}}`
 
-   完整模板参考：[/docs/template](/en/docs/template)
+   完整模板参考：[/docs/template](/zh/docs/template)
 
-4. 从频道设置中复制 Webhook URL，妥善保管。详见：[/docs/webhook](/en/docs/webhook)
+4. 从频道设置中复制 Webhook URL，妥善保管。详见：[/docs/webhook](/zh/docs/webhook)
 
 ## 第二步——配置 TradingView 告警
 
@@ -61,7 +61,7 @@ tags:
 
 注意：
 - 使用 TradingView 内置变量（`{{ticker}}`、`{{close}}` 等）
-- `externalLink` 可选；Echobell 会在通知记录中以可点击链接的形式展示（参见 [/docs/notification](/en/docs/notification)）
+- `externalLink` 可选；Echobell 会在通知记录中以可点击链接的形式展示（参见 [/docs/notification](/zh/docs/notification)）
 
 ## 第三步——测试全流程
 
@@ -82,14 +82,14 @@ tags:
 - `Action: {{action}}.`
 - 加入 `externalLink`，在通知记录中提供一键跳转图表的快捷方式
 
-完整模板文档：[/docs/template](/en/docs/template)
+完整模板文档：[/docs/template](/zh/docs/template)
 
 ## 相关资源
 
-- 自定义系统的 Webhook 告警 → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
-- CI/CD 通知 → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
-- 基础设施监控 → [/blog/grafana-call-notification](/en/blog/grafana-call-notification)
-- Webhooks 功能 → [/features/webhooks](/en/features/webhooks)
-- 来电通知功能 → [/features/call-notifications](/en/features/call-notifications)
+- 自定义系统的 Webhook 告警 → [/blog/get-notified-with-webhook-mcp](/zh/blog/get-notified-with-webhook-mcp)
+- CI/CD 通知 → [/blog/github-actions-notifications](/zh/blog/github-actions-notifications)
+- 基础设施监控 → [/blog/grafana-call-notification](/zh/blog/grafana-call-notification)
+- Webhooks 功能 → [/features/webhooks](/zh/features/webhooks)
+- 来电通知功能 → [/features/call-notifications](/zh/features/call-notifications)
 
 下载 Echobell：https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-tradingview-call-notifications-zh&mt=8 / Google Play: https://play.google.com/store/apps/details?id=one.echobell.echobellandroid

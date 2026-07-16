@@ -19,14 +19,14 @@ Las notificaciones por correo y chat son fáciles de perder durante incidentes. 
 
 Documentación relevante:
 
-- Qué es Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- Tipos de notificación y reintentos → [/docs/notification](/en/docs/notification)
-- Resumen de webhooks → [/docs/webhook](/en/docs/webhook)
-- Referencia de integración con Grafana → [/docs/developer/grafana](/en/docs/developer/grafana)
+- Qué es Echobell → [/docs/what-is-echobell](/es/docs/what-is-echobell)
+- Tipos de notificación y reintentos → [/docs/notification](/es/docs/notification)
+- Resumen de webhooks → [/docs/webhook](/es/docs/webhook)
+- Referencia de integración con Grafana → [/docs/developer/grafana](/es/docs/developer/grafana)
 
 ## Requisitos previos
 
-1. Cuenta de Echobell con un canal activo y URL de webhook (ver [/docs/webhook](/en/docs/webhook))
+1. Cuenta de Echobell con un canal activo y URL de webhook (ver [/docs/webhook](/es/docs/webhook))
 2. Acceso de administrador a tu instancia de Grafana
 3. Al menos una regla de alerta configurada
 
@@ -44,7 +44,7 @@ Establece la URL al webhook de tu canal:
 
 `https://hook.echobell.one/t/<channel-token>`
 
-Cópiala desde la configuración de tu canal en Echobell (detalles en [/docs/webhook](/en/docs/webhook)). Trátala como un secreto y rótala si se filtra.
+Cópiala desde la configuración de tu canal en Echobell (detalles en [/docs/webhook](/es/docs/webhook)). Trátala como un secreto y rótala si se filtra.
 
 ### Paso 3 — Probar la integración
 
@@ -61,7 +61,7 @@ Grafana ahora enrutará las alertas coincidentes a Echobell.
 ## Buenas prácticas
 
 - Reserva las llamadas telefónicas para alertas de alta prioridad; usa chat o correo para severidades menores
-- Configura reintentos y tiempos de espera en Echobell para limitar la fatiga de alertas ([/docs/notification](/en/docs/notification))
+- Configura reintentos y tiempos de espera en Echobell para limitar la fatiga de alertas ([/docs/notification](/es/docs/notification))
 - Configura la escalación a compañeros si la primera llamada no es contestada
 - Usa horas de silencio para evitar interrupciones innecesarias de baja urgencia
 - Comparte el canal con tu equipo de guardia y mantén el registro actualizado
@@ -73,7 +73,7 @@ Grafana ahora enrutará las alertas coincidentes a Echobell.
 - Configura intentos de reintento y rutas de escalación
 - Establece contactos de respaldo para mayor resiliencia
 
-Referencia completa: [/docs/developer/grafana](/en/docs/developer/grafana)
+Referencia completa: [/docs/developer/grafana](/es/docs/developer/grafana)
 
 ## Solución de problemas
 
@@ -84,6 +84,6 @@ Referencia completa: [/docs/developer/grafana](/en/docs/developer/grafana)
 
 ## Relacionados
 
-- Alertas webhook para sistemas personalizados → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
-- Notificaciones de fallos en GitHub Actions → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
-- Documentación para desarrolladores de Grafana → [/docs/developer/grafana](/en/docs/developer/grafana)
+- Alertas webhook para sistemas personalizados → [/blog/get-notified-with-webhook-mcp](/es/blog/get-notified-with-webhook-mcp)
+- Notificaciones de fallos en GitHub Actions → [/blog/github-actions-notifications](/es/blog/github-actions-notifications)
+- Documentación para desarrolladores de Grafana → [/docs/developer/grafana](/es/docs/developer/grafana)

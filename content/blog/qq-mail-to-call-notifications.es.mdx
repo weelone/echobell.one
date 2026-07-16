@@ -17,11 +17,11 @@ Las notificaciones push de QQ Mail son fáciles de perder durante llamadas, trab
 
 Documentación relevante:
 
-- [Configuración de QQ Mail](/en/docs/email-to-call/qq)
-- [Disparador de correo](/en/docs/email-trigger)
-- [Tipos de notificación](/en/docs/notification)
-- [Plantillas y variables](/en/docs/template)
-- [Condiciones](/en/docs/conditions)
+- [Configuración de QQ Mail](/es/docs/email-to-call/qq)
+- [Disparador de correo](/es/docs/email-trigger)
+- [Tipos de notificación](/es/docs/notification)
+- [Plantillas y variables](/es/docs/template)
+- [Condiciones](/es/docs/conditions)
 
 ## Requisitos previos
 
@@ -34,7 +34,7 @@ Documentación relevante:
 2. Configura el tipo de notificación como **Calling**.
 3. Opcionalmente, activa el reintento en la configuración de la app para una entrega más robusta en mensajes críticos.
 
-Ver: [Tipos de notificación](/en/docs/notification)
+Ver: [Tipos de notificación](/es/docs/notification)
 
 ## Paso 2 — Copiar el correo del canal y configurar plantillas
 
@@ -54,7 +54,7 @@ Plantilla de cuerpo:
 From {{from}}. {{text}}
 ```
 
-Referencia de variables: [Plantillas](/en/docs/template)
+Referencia de variables: [Plantillas](/es/docs/template)
 
 ## Paso 3 — Crear reglas de reenvío en QQ Mail
 
@@ -68,7 +68,7 @@ En la configuración de QQ Mail, crea un filtro para mensajes de alta prioridad:
 
 Empieza con una regla estricta. Agrega más después de confirmar que la primera funciona sin generar ruido.
 
-Guía completa específica para QQ: [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
+Guía completa específica para QQ: [/docs/email-to-call/qq](/es/docs/email-to-call/qq)
 
 ## Paso 4 — Agregar condiciones de Echobell (opcional)
 
@@ -92,7 +92,7 @@ Remitente y palabra clave combinados:
 (from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
 ```
 
-Referencia: [Condiciones](/en/docs/conditions)
+Referencia: [Condiciones](/es/docs/conditions)
 
 ## Nota sobre privacidad
 
@@ -119,8 +119,8 @@ Filtra primero en QQ Mail para que solo los correos necesarios lleguen a Echobel
 
 ## Artículos relacionados
 
-- [Guía de correo a notificaciones de llamada](/en/blog/email-to-call-notification) — misma configuración para Gmail, iCloud y Outlook
-- [Documentación del disparador de correo](/en/docs/email-to-call) — referencia completa para todos los proveedores
-- [Cómo superar iOS Focus Mode para alertas críticas](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — elegir entre notificaciones push y alertas de llamada
-- [Condiciones](/en/docs/conditions) — sintaxis de expresiones para filtrar alertas
-- [Plantillas](/en/docs/template) — referencia de variables para disparadores de correo
+- [Guía de correo a notificaciones de llamada](/es/blog/email-to-call-notification) — misma configuración para Gmail, iCloud y Outlook
+- [Documentación del disparador de correo](/es/docs/email-to-call) — referencia completa para todos los proveedores
+- [Cómo superar iOS Focus Mode para alertas críticas](/es/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — elegir entre notificaciones push y alertas de llamada
+- [Condiciones](/es/docs/conditions) — sintaxis de expresiones para filtrar alertas
+- [Plantillas](/es/docs/template) — referencia de variables para disparadores de correo

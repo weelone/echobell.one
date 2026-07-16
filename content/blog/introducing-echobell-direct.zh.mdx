@@ -13,7 +13,7 @@ tags:
   - announcement
 ---
 
-[Echobell Direct](/en/docs/direct) 是一种个人提醒模式，完全跳过频道配置。创建一个 Direct 密钥，获得 Webhook URL，向其 POST `title` + `body`，即可在你的设备上立即收到通知。无需订阅者、无需模板、无需路由配置。
+[Echobell Direct](/zh/docs/direct) 是一种个人提醒模式，完全跳过频道配置。创建一个 Direct 密钥，获得 Webhook URL，向其 POST `title` + `body`，即可在你的设备上立即收到通知。无需订阅者、无需模板、无需路由配置。
 
 本文介绍 Direct 是什么、如何配置，以及何时使用它而非频道模式。
 
@@ -27,7 +27,7 @@ tags:
 - 每次请求自定义标题和正文，而非固定模板
 - 快速配置，无需搭建完整频道
 
-如果需要共享通知、可复用模板或条件投递，请改用[频道 Webhook 模式](/en/docs/webhook)。
+如果需要共享通知、可复用模板或条件投递，请改用[频道 Webhook 模式](/zh/docs/webhook)。
 
 ## 三步完成配置
 
@@ -58,7 +58,7 @@ curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
   }'
 ```
 
-完整字段参考：[Direct API](/en/docs/direct)
+完整字段参考：[Direct API](/zh/docs/direct)
 
 ## 紧急级别
 
@@ -68,13 +68,13 @@ Direct 支持 `notificationType`，可根据事件选择合适的紧急程度：
 - `time-sensitive` — 可穿透专注模式的重要告警
 - `calling` — 关键事件（需要有效的高级订阅；否则回落到 time-sensitive）
 
-完整行为说明请见[通知类型](/en/docs/notification)。
+完整行为说明请见[通知类型](/zh/docs/notification)。
 
 ## 为通知附加上下文
 
 在请求体中加入 `externalLink`，可为通知附上一个 URL——适合直接链接到部署日志、控制台或 Pull Request。
 
-对于 AI 智能体和长时间异步任务，Direct 是任务完成时主动推送通知的最简方案，无需手动轮询。另请参考：[WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp)。
+对于 AI 智能体和长时间异步任务，Direct 是任务完成时主动推送通知的最简方案，无需手动轮询。另请参考：[WebhookMCP + Echobell](/zh/blog/get-notified-with-webhook-mcp)。
 
 ## Direct 与频道对比
 
@@ -85,7 +85,7 @@ Direct 支持 `notificationType`，可根据事件选择合适的紧急程度：
 | 配置时间 | 不到一分钟 | 需要配置频道 |
 | 条件 | 不支持 | 支持 |
 
-当告警需要多人接收，或希望统一格式时，使用频道。[模板文档](/en/docs/template) · [什么是 Echobell](/en/docs/what-is-echobell)
+当告警需要多人接收，或希望统一格式时，使用频道。[模板文档](/zh/docs/template) · [什么是 Echobell](/zh/docs/what-is-echobell)
 
 ## 安全最佳实践
 
@@ -104,12 +104,12 @@ Direct 支持 `notificationType`，可根据事件选择合适的紧急程度：
 
 ---
 
-从 [Direct 指南](/en/docs/direct) 开始。当你的工作流需要协作或模板时，[频道](/en/docs/webhook)是顺理成章的下一步。
+从 [Direct 指南](/zh/docs/direct) 开始。当你的工作流需要协作或模板时，[频道](/zh/docs/webhook)是顺理成章的下一步。
 
 ## 相关
 
-- [Direct API 文档](/en/docs/direct) — 完整字段参考和示例
-- [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp) — 使用 Direct 接收 AI 任务完成通知
-- [如何让关键告警突破 iOS 专注模式](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — 选择合适的通知紧急级别
-- [Zapier Webhook 通知](/en/blog/zapier-webhook-notifications-to-phone) — 面向非开发者的自动化工作流
-- [通知类型](/en/docs/notification) — 普通、时间敏感和来电通知的行为说明
+- [Direct API 文档](/zh/docs/direct) — 完整字段参考和示例
+- [WebhookMCP + Echobell](/zh/blog/get-notified-with-webhook-mcp) — 使用 Direct 接收 AI 任务完成通知
+- [如何让关键告警突破 iOS 专注模式](/zh/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — 选择合适的通知紧急级别
+- [Zapier Webhook 通知](/zh/blog/zapier-webhook-notifications-to-phone) — 面向非开发者的自动化工作流
+- [通知类型](/zh/docs/notification) — 普通、时间敏感和来电通知的行为说明

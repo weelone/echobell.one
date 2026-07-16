@@ -15,11 +15,18 @@
     customItems?: BreadcrumbItem[];
   } = $props();
 
+  const currentLabel = $derived(
+    typeof page.data.breadcrumbLabel === "string"
+      ? page.data.breadcrumbLabel
+      : undefined
+  );
+
   $effect(() => {
     breadcrumbState.items = getBreadcrumbItems(
       page.url.pathname,
       lang,
-      customItems
+      customItems,
+      currentLabel
     );
     return () => {
       breadcrumbState.items = undefined;

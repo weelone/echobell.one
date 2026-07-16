@@ -17,7 +17,7 @@ tags:
 
 Echobells integrierte UTC-Zeitvariablen ermöglichen es, Benachrichtigungen auf bestimmte Zeitfenster zu beschränken – Geschäftszeiten, On-Call-Schichten, Wartungsfenster – direkt in den Channel-Bedingungen. Kein externer Filterlayer erforderlich.
 
-Voraussetzungen: [Bedingungen](/en/docs/conditions), [Templates](/en/docs/template), [Webhook](/en/docs/webhook), [E-Mail-Trigger](/en/docs/email-trigger).
+Voraussetzungen: [Bedingungen](/de/docs/conditions), [Templates](/de/docs/template), [Webhook](/de/docs/webhook), [E-Mail-Trigger](/de/docs/email-trigger).
 
 ## Verfügbare UTC-Variablen
 
@@ -30,7 +30,7 @@ Diese Variablen sind schreibgeschützt, immer verfügbar und in UTC berechnet:
 - `hour` (0–23), `minute` (0–59), `second` (0–59)
 - `date` (YYYY-MM-DD), `time` (HH:mm:ss)
 
-In [Bedingungen](/en/docs/conditions) direkt verwenden (ohne `{{ }}`). In [Templates](/en/docs/template) mit `{{ }}`.
+In [Bedingungen](/de/docs/conditions) direkt verwenden (ohne `{{ }}`). In [Templates](/de/docs/template) mit `{{ }}`.
 
 ## Bedingungsrezepte
 
@@ -83,7 +83,7 @@ Zeitbedingungen lassen sich mit Datenvariablen über Standardoperatoren kombinie
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-Bedingungen sind einfache Ausdrücke – kein `{{ }}`-Wrap. Siehe [Bedingungen → Unterstützte Operatoren](/en/docs/conditions#supported-operators).
+Bedingungen sind einfache Ausdrücke – kein `{{ }}`-Wrap. Siehe [Bedingungen → Unterstützte Operatoren](/de/docs/conditions#supported-operators).
 
 ## Zeitvariablen in Templates verwenden
 
@@ -95,7 +95,7 @@ Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
 Epoch: {{epochSeconds}}
 ```
 
-Mit Daten aus [Webhook](/en/docs/webhook) oder [E-Mail-Trigger](/en/docs/email-trigger) kombinieren:
+Mit Daten aus [Webhook](/de/docs/webhook) oder [E-Mail-Trigger](/de/docs/email-trigger) kombinieren:
 
 ```
 {{service}} {{status}} at {{time}} ({{timezone}})
@@ -109,7 +109,7 @@ Mit Daten aus [Webhook](/en/docs/webhook) oder [E-Mail-Trigger](/en/docs/email-t
 
 ## Nächste Schritte
 
-- Zeitfenster-Bedingung zu einem bestehenden Channel hinzufügen: [Bedingungen](/en/docs/conditions)
-- Benachrichtigungsinhalt mit Variablen anpassen: [Templates](/en/docs/template)
+- Zeitfenster-Bedingung zu einem bestehenden Channel hinzufügen: [Bedingungen](/de/docs/conditions)
+- Benachrichtigungsinhalt mit Variablen anpassen: [Templates](/de/docs/template)
 - Separate Channels für Geschäftszeiten vs. On-Call-Fenster erstellen
 - On-Call-Channels auf Anruf-Benachrichtigungstyp für außerhalb der Geschäftszeiten setzen

@@ -102,6 +102,8 @@ export const load: PageServerLoad = async ({ params }) => {
     },
     typeAlternates: {
       "text/markdown": getRawMarkdownPath(post.url),
+      "application/rss+xml": localizeUrl("/blog/rss.xml", lang),
+      "application/atom+xml": localizeUrl("/blog/atom.xml", lang),
     },
   };
 
@@ -110,6 +112,7 @@ export const load: PageServerLoad = async ({ params }) => {
     meta,
     slug: params.slug,
     title: post.data.title,
+    breadcrumbLabel: post.data.title,
     description: post.data.description,
     author: post.data.author,
     date: publishedTime,

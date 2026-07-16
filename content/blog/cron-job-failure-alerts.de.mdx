@@ -1,0 +1,93 @@
+---
+title: "Cron-Job-Fehleralarme: Ein Anruf, wenn ein geplanter Job stirbt"
+description: "Cron-Jobs scheitern lautlos. Lernen Sie drei zuverlässige Muster, um fehlgeschlagene oder verpasste Jobs zu erkennen und in Sekunden per Push oder Anruf alarmiert zu werden."
+date: 2026-07-16
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Cron-Jobs
+  - Fehleralarme
+  - Telefonanruf-Alarme
+  - Monitoring
+  - Webhook
+---
+
+# Cron-Job-Fehleralarme: Ein Anruf, wenn ein geplanter Job stirbt
+
+Das Gefährliche an einem fehlgeschlagenen Cron-Job ist: Es passiert nichts. Keine Fehlerseite, kein Absturz, keine verärgerten Nutzer — nur ein Backup, das vor drei Wochen stillschweigend aufgehört hat zu laufen, ein Bericht, der nie versendet wurde, oder ein Aufräumskript, das eine Festplatte volllaufen ließ, bis die Produktion zusammenbrach.
+
+Cron selbst hat keinerlei Alarmierung. Beendet sich ein Job mit einem Fehler, zuckt cron mit den Schultern. Ist der Server zum geplanten Zeitpunkt down, läuft der Job schlicht nie — und es bleibt nichts zurück, das Ihnen das verraten würde. Genau diesen zweiten Fall übersehen die meisten Monitoring-Setups.
+
+Dieser Leitfaden zeigt drei Muster, die beide Fehlerarten abfangen, und wie Sie den Alarm mit [Echobell](/de) zu einem echten Telefonanruf eskalieren, den man unmöglich verpassen kann.
+
+## Muster 1: Alarm bei Fehler über den Exit-Code
+
+Der einfachste Ansatz: Ein Webhook wird ausgelöst, sobald der Job mit einem Status ungleich null endet.
+
+Erstellen Sie zuerst einen Channel in Echobell und kopieren Sie dessen Webhook-URL. Dann umhüllen Sie Ihren Cron-Befehl:
+
+```bash
+0 3 * * * /opt/scripts/backup.sh || curl -s "https://hook.echobell.one/t/<channel-token>?title=Backup+failed&host=$(hostname)"
+```
+
+Läuft `backup.sh` erfolgreich, passiert nichts. Schlägt es fehl, liefert Echobell den Alarm innerhalb von Sekunden auf Ihr Telefon. Query-Parameter werden zu [Template-Variablen](/de/docs/template), sodass die Benachrichtigung genau sagen kann, welcher Job auf welchem Host fehlgeschlagen ist.
+
+Bei längeren Skripten liefert ein trap mehr Kontext:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+notify_failure() {
+  curl -s -X POST "https://hook.echobell.one/t/<channel-token>" \
+    -H "Content-Type: application/json" \
+    -d "{\"job\":\"nightly-backup\",\"host\":\"$(hostname)\",\"line\":\"$1\"}"
+}
+trap 'notify_failure $LINENO' ERR
+
+# ... Ihre Job-Logik ...
+```
+
+Die Einschränkung: Das funktioniert nur, wenn das Skript tatsächlich läuft und fehlschlägt. Ist der Server down, cron falsch konfiguriert oder hat jemand die Zeile beim Debuggen auskommentiert, wird nie ein Alarm ausgelöst. Deshalb brauchen Sie auch Muster 2.
+
+## Muster 2: Dead Man's Switch für verpasste Läufe
+
+Ein Dead Man's Switch kehrt die Logik um: Der Job pingt einen Monitor bei **Erfolg**, und der Monitor alarmiert Sie, wenn der Ping **nicht** planmäßig eintrifft. Das fängt jede Fehlerart ab — Fehler, Hänger, tote Server und gelöschte Crontab-Einträge gleichermaßen.
+
+Zwei beliebte, selbst hostbare Werkzeuge arbeiten gut mit Echobell zusammen:
+
+- **[Healthchecks.io](https://healthchecks.io)** ist genau dafür gebaut. Erstellen Sie einen Check mit Ihrem Cron-Zeitplan und einer Kulanzzeit, und hängen Sie `&& curl -s https://hc-ping.com/YOUR_UUID` ans Ende Ihrer Cron-Zeile. Kommt ein Ping zu spät, sendet Healthchecks einen Webhook — richten Sie ihn auf Ihren Echobell-Channel, und ein verpasstes Backup wird zu einem klingelnden Telefon.
+- **[Uptime Kuma](/de/docs/developer/uptime-kuma)** bietet einen „Push"-Monitortyp nach demselben Prinzip: Ihr Job ruft eine Push-URL auf, und Uptime Kuma alarmiert über seine Benachrichtigungsintegrationen, sobald der Heartbeat ausbleibt.
+
+In beiden Fällen lautet der Ablauf: Cron-Job → Erfolgs-Ping → Monitor bemerkt die Stille → Webhook an Echobell → Push-Benachrichtigung oder Anruf.
+
+## Muster 3: Zeitfenster-Prüfungen für Jobs mit Datenausgabe
+
+Manche Jobs prüft man besser über ihre Ausgabe als über den Exit-Code. Soll Ihr nächtliches ETL bis 4 Uhr Zeilen einfügen, kann ein kleiner Prüfjob die Zeilenzahl kontrollieren und den Echobell-Webhook aufrufen, wenn die Zahlen nicht stimmen.
+
+Echobells [Bedingungen](/de/docs/conditions) helfen hier: Senden Sie nach jedem Lauf einen Status-Webhook und lassen Sie den Channel entscheiden, wann benachrichtigt wird. Eine Bedingung wie `status != "ok"` hält erfolgreiche Läufe stumm, und die eingebauten UTC-Zeitvariablen begrenzen Alarme auf das Zeitfenster, in dem der Job fertig sein sollte.
+
+## Den Alarm unmöglich zu verpassen machen
+
+Erkennung ist nur die halbe Miete. Ein Backup-Fehleralarm, der um 3 Uhr morgens als stummes Banner auf dem Sperrbildschirm landet, ist praktisch dasselbe wie kein Alarm.
+
+In Echobell wählt jeder Channel eine Dringlichkeitsstufe:
+
+- **Normal** — eine gewöhnliche Push-Benachrichtigung, gut für informative Jobs
+- **Zeitkritisch** — durchbricht den iOS-Fokusmodus, richtig für Jobs, die bald jemand ansehen sollte
+- **Anruf** — Ihr Telefon klingelt wie bei einem echten Anruf, bis Sie es bemerken
+
+Für Jobs, bei denen ein stilles Scheitern echtes Geld kostet — Datenbank-Backups, Abrechnungsläufe, Zertifikatserneuerungen — stellen Sie den Channel auf **Anruf**. Der Unterschied zwischen „um 3 Uhr gesehen" und „um 9 Uhr gesehen" ist genau der Unterschied, den ein [Telefonanruf-Alarm](/de/features/call-notifications) ausmacht.
+
+Teilen sich mehrere Personen die Verantwortung für einen Job, geben Sie den Abo-Link des Channels ans Team weiter; alle Abonnenten erhalten denselben Alarm im selben Moment.
+
+## Welches Muster sollten Sie verwenden?
+
+- **Exit-Code-Hook**: in fünf Minuten eingerichtet, fängt explizite Fehler. Fangen Sie hier an.
+- **Dead Man's Switch**: fängt auch verpasste und hängende Läufe. Für jeden Job, dessen Ausfall Sie wirklich treffen würde.
+- **Zeitfenster-Datenprüfungen**: für Pipelines, bei denen „lief erfolgreich, lieferte aber Müll" ein reales Risiko ist.
+
+Sie lassen sich gut kombinieren: Der Exit-Code-Hook sagt Ihnen, dass und warum ein Job fehlgeschlagen ist, während der Dead Man's Switch garantiert, dass Sie auch von den Ausfällen erfahren, die sich nie selbst melden konnten.
+
+Richten Sie Ihren ersten Cron-Alarm in wenigen Minuten ein: [Echobell herunterladen](/de), einen Channel erstellen und ein `curl` in die Crontab schreiben. Wenn das nächste Mal ein geplanter Job um 3 Uhr morgens stirbt, klingelt Ihr Telefon — und das Backup, das Sie nächstes Quartal wiederherstellen müssen, existiert wirklich.

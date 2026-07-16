@@ -58,7 +58,7 @@ No toda la actividad en HuggingFace requiere la misma urgencia. Usa canales sepa
 1. **Repos críticos para producción** → canal con tipo de notificación **Urgente (Time-sensitive)** o **Llamada (Calling)**
 2. **Actividad general** → canal con notificación push estándar
 
-Para filtrado condicional (p. ej., solo alertar en eventos `update` para repos específicos), usa las [condiciones de Echobell](/en/docs/conditions):
+Para filtrado condicional (p. ej., solo alertar en eventos `update` para repos específicos), usa las [condiciones de Echobell](/es/docs/conditions):
 
 ```
 event.action == "update" && repo.name.includes("production")
@@ -78,4 +78,4 @@ Para compartir alertas con tu equipo sin que todos configuren webhooks por separ
 - **Haz las plantillas accionables**: incluye suficiente contexto para actuar sin abrir HuggingFace. `{{event.description}}` a menudo contiene detalles útiles.
 - **Controla la fatiga**: si un canal genera más de 10-15 alertas/día, ajusta los filtros de disparadores o agrega condiciones.
 
-Para referencia de configuración de webhook, consulta la [documentación de webhook de Echobell](/en/docs/webhook). Para integraciones relacionadas, consulta [notificaciones de GitHub Actions](/en/blog/github-actions-notifications) y [alertas de Grafana](/en/docs/developer/grafana).
+Para referencia de configuración de webhook, consulta la [documentación de webhook de Echobell](/es/docs/webhook). Para integraciones relacionadas, consulta [notificaciones de GitHub Actions](/es/blog/github-actions-notifications) y [alertas de Grafana](/es/docs/developer/grafana).

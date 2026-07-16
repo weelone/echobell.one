@@ -13,7 +13,7 @@ tags:
   - announcement
 ---
 
-[Echobell Direct](/en/docs/direct) est un mode d'alerte personnel qui court-circuite entièrement la configuration des canaux. Vous créez une clé Direct, obtenez une URL Webhook, et envoyez un `title` + `body` en POST pour recevoir une notification instantanée sur votre appareil. Pas d'abonnés, pas de modèles, pas de configuration de routage.
+[Echobell Direct](/fr/docs/direct) est un mode d'alerte personnel qui court-circuite entièrement la configuration des canaux. Vous créez une clé Direct, obtenez une URL Webhook, et envoyez un `title` + `body` en POST pour recevoir une notification instantanée sur votre appareil. Pas d'abonnés, pas de modèles, pas de configuration de routage.
 
 Ce guide couvre ce qu'est Direct, comment le configurer et quand l'utiliser plutôt que les Canaux.
 
@@ -27,7 +27,7 @@ Utilisez Direct lorsque vous avez besoin de :
 - Titre et corps personnalisés par requête plutôt que des modèles fixes
 - Configuration rapide sans configurer un canal complet
 
-Si vous avez besoin de notifications partagées, de modèles réutilisables ou d'une livraison conditionnelle, utilisez plutôt les [Canaux via Webhooks](/en/docs/webhook).
+Si vous avez besoin de notifications partagées, de modèles réutilisables ou d'une livraison conditionnelle, utilisez plutôt les [Canaux via Webhooks](/fr/docs/webhook).
 
 ## Configuration en 3 étapes
 
@@ -58,7 +58,7 @@ curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
   }'
 ```
 
-Référence complète des champs : [API Direct](/en/docs/direct)
+Référence complète des champs : [API Direct](/fr/docs/direct)
 
 ## Niveaux d'urgence
 
@@ -68,13 +68,13 @@ Direct supporte `notificationType` pour adapter l'urgence à l'événement :
 - `time-sensitive` — alertes importantes qui passent outre le mode Concentration
 - `calling` — incidents critiques (nécessite un abonnement premium actif ; revient à time-sensitive sinon)
 
-Voir [Types de notifications](/en/docs/notification) pour les détails complets.
+Voir [Types de notifications](/fr/docs/notification) pour les détails complets.
 
 ## Ajouter du contexte aux alertes
 
 Incluez `externalLink` dans le corps de la requête pour joindre une URL à la notification — utile pour lier directement vers un log de déploiement, un tableau de bord ou une pull request.
 
-Pour les agents IA et les tâches asynchrones longues, Direct est un moyen simple d'être notifié quand le job se termine plutôt que de surveiller manuellement. Voir aussi : [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp).
+Pour les agents IA et les tâches asynchrones longues, Direct est un moyen simple d'être notifié quand le job se termine plutôt que de surveiller manuellement. Voir aussi : [WebhookMCP + Echobell](/fr/blog/get-notified-with-webhook-mcp).
 
 ## Direct vs Canaux
 
@@ -85,7 +85,7 @@ Pour les agents IA et les tâches asynchrones longues, Direct est un moyen simpl
 | Délai de configuration | Moins d'une minute | Nécessite la configuration du canal |
 | Conditions | Non supportées | Supportées |
 
-Utilisez les Canaux quand les alertes doivent atteindre plusieurs personnes ou quand vous souhaitez un formatage cohérent à travers un service. [Documentation Modèles](/en/docs/template) · [Qu'est-ce qu'Echobell](/en/docs/what-is-echobell)
+Utilisez les Canaux quand les alertes doivent atteindre plusieurs personnes ou quand vous souhaitez un formatage cohérent à travers un service. [Documentation Modèles](/fr/docs/template) · [Qu'est-ce qu'Echobell](/fr/docs/what-is-echobell)
 
 ## Bonnes pratiques de sécurité
 
@@ -104,12 +104,12 @@ Utilisez les Canaux quand les alertes doivent atteindre plusieurs personnes ou q
 
 ---
 
-Commencez avec le [guide Direct](/en/docs/direct). Quand votre workflow nécessite collaboration ou modèles, les [Canaux](/en/docs/webhook) constituent une étape suivante naturelle.
+Commencez avec le [guide Direct](/fr/docs/direct). Quand votre workflow nécessite collaboration ou modèles, les [Canaux](/fr/docs/webhook) constituent une étape suivante naturelle.
 
 ## Articles connexes
 
-- [Documentation de l'API Direct](/en/docs/direct) — référence complète des champs et exemples
-- [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp) — notifications pour les tâches IA avec Direct
-- [Comment contourner iOS Focus Mode pour les alertes critiques](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — choisir le bon niveau d'urgence pour les notifications
-- [Notifications webhook Zapier](/en/blog/zapier-webhook-notifications-to-phone) — workflows d'automatisation pour les non-développeurs
-- [Types de notifications](/en/docs/notification) — comportement des notifications Normal, Time Sensitive et Appel
+- [Documentation de l'API Direct](/fr/docs/direct) — référence complète des champs et exemples
+- [WebhookMCP + Echobell](/fr/blog/get-notified-with-webhook-mcp) — notifications pour les tâches IA avec Direct
+- [Comment contourner iOS Focus Mode pour les alertes critiques](/fr/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — choisir le bon niveau d'urgence pour les notifications
+- [Notifications webhook Zapier](/fr/blog/zapier-webhook-notifications-to-phone) — workflows d'automatisation pour les non-développeurs
+- [Types de notifications](/fr/docs/notification) — comportement des notifications Normal, Time Sensitive et Appel

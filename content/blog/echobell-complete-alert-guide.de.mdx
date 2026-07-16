@@ -166,7 +166,7 @@ Der Kanal-Nachrichtentemplate unterstützt dynamische Variablen, sodass der Aler
 
 Wenn du lang laufende Jobs ausführst — Training Runs, Batch-Processing, KI-Agenten-Aufgaben, ETL-Pipelines — kennst du das Gefühl, einen Fortschrittsbalken zu beobachten oder endlos Terminal-Fenster aufzufrischen. Es geht auch besser.
 
-[Echobell Direct](/en/docs/direct) gibt dir einen persönlichen Webhook ohne vollständige Kanal-Einrichtung. Einfach einen Aufruf ans Ende eines Skripts hängen:
+[Echobell Direct](/de/docs/direct) gibt dir einen persönlichen Webhook ohne vollständige Kanal-Einrichtung. Einfach einen Aufruf ans Ende eines Skripts hängen:
 
 ```python
 import httpx
@@ -185,7 +185,7 @@ def notify_done(job: str, summary: str):
 notify_done("embedding_generation", f"50.000 Dokumente verarbeitet in {elapsed:.1f}s")
 ```
 
-Wenn du über [WebhookMCP](/en/blog/get-notified-with-webhook-mcp) mit Claude oder anderen KI-Agenten arbeitest, kann der Agent selbst die Benachrichtigung auslösen, wenn die Aufgabe abgeschlossen ist. Job starten, woanders weiterarbeiten, Telefon vibriert wenn's fertig ist.
+Wenn du über [WebhookMCP](/de/blog/get-notified-with-webhook-mcp) mit Claude oder anderen KI-Agenten arbeitest, kann der Agent selbst die Benachrichtigung auslösen, wenn die Aufgabe abgeschlossen ist. Job starten, woanders weiterarbeiten, Telefon vibriert wenn's fertig ist.
 
 ---
 
@@ -201,7 +201,7 @@ Eine der wichtigsten Entscheidungen bei jedem Alert-Setup ist, die Dringlichkeit
 
 Der `calling`-Typ erfordert ein Pro-Abonnement — absichtlich so. Er ist für die Dinge, die wirklich nicht warten können. Für die meisten Alerts nimm `time-sensitive`, reserviere `calling` für die wenigen Ereignisse, bei denen verzögertes Handeln echte Konsequenzen hat.
 
-Mit der [Bedingungen](/en/docs/conditions)-Funktion kannst du auf Delivery-Ebene Logik einbauen: zum Beispiel nur außerhalb der Arbeitszeiten anrufen oder nur wenn ein Wert eine Schwelle überschreitet.
+Mit der [Bedingungen](/de/docs/conditions)-Funktion kannst du auf Delivery-Ebene Logik einbauen: zum Beispiel nur außerhalb der Arbeitszeiten anrufen oder nur wenn ein Wert eine Schwelle überschreitet.
 
 ---
 
@@ -225,10 +225,10 @@ Von dort ist die Ausweitung einfach. Die meisten Integrationen dauern unter 15 M
 
 ## Verwandte Themen
 
-- [Echobell Direct — persönliche Webhooks ohne Kanal-Einrichtung](/en/docs/direct)
-- [Zapier-Webhook-Benachrichtigungen auf dem Telefon](/en/blog/zapier-webhook-notifications-to-phone)
-- [Grafana-Anruf-Benachrichtigungen](/en/blog/grafana-call-notification)
-- [TradingView-Telefonanruf-Benachrichtigungen](/en/blog/tradingview-call-notifications)
-- [Home Assistant mit Echobell](/en/blog/home-assistant-notifications-with-echobell)
-- [Automatisierungs-Hub mit n8n und Echobell](/en/blog/n8n-echobell-automation-hub)
-- [WebhookMCP — benachrichtigt werden wenn KI-Tasks fertig sind](/en/blog/get-notified-with-webhook-mcp)
+- [Echobell Direct — persönliche Webhooks ohne Kanal-Einrichtung](/de/docs/direct)
+- [Zapier-Webhook-Benachrichtigungen auf dem Telefon](/de/blog/zapier-webhook-notifications-to-phone)
+- [Grafana-Anruf-Benachrichtigungen](/de/blog/grafana-call-notification)
+- [TradingView-Telefonanruf-Benachrichtigungen](/de/blog/tradingview-call-notifications)
+- [Home Assistant mit Echobell](/de/blog/home-assistant-notifications-with-echobell)
+- [Automatisierungs-Hub mit n8n und Echobell](/de/blog/n8n-echobell-automation-hub)
+- [WebhookMCP — benachrichtigt werden wenn KI-Tasks fertig sind](/de/blog/get-notified-with-webhook-mcp)

@@ -19,14 +19,14 @@ tags:
 
 関連ドキュメント:
 
-- Echobellとは → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- 通知タイプとリトライ → [/docs/notification](/en/docs/notification)
-- Webhookの概要 → [/docs/webhook](/en/docs/webhook)
-- Grafanaインテグレーション → [/docs/developer/grafana](/en/docs/developer/grafana)
+- Echobellとは → [/docs/what-is-echobell](/ja/docs/what-is-echobell)
+- 通知タイプとリトライ → [/docs/notification](/ja/docs/notification)
+- Webhookの概要 → [/docs/webhook](/ja/docs/webhook)
+- Grafanaインテグレーション → [/docs/developer/grafana](/ja/docs/developer/grafana)
 
 ## 前提条件
 
-1. アクティブなチャンネルとWebhook URLを持つEchobellアカウント（[/docs/webhook](/en/docs/webhook)参照）
+1. アクティブなチャンネルとWebhook URLを持つEchobellアカウント（[/docs/webhook](/ja/docs/webhook)参照）
 2. Grafanaインスタンスへの管理者アクセス
 3. 少なくとも1つのアラートルールが設定済み
 
@@ -44,7 +44,7 @@ URLにチャンネルのWebhookを設定します:
 
 `https://hook.echobell.one/t/<channel-token>`
 
-EchobellのチャンネルSettingsからコピーします（詳細: [/docs/webhook](/en/docs/webhook)）。このURLは秘密として扱い、漏洩した場合はローテートしてください。
+EchobellのチャンネルSettingsからコピーします（詳細: [/docs/webhook](/ja/docs/webhook)）。このURLは秘密として扱い、漏洩した場合はローテートしてください。
 
 ### ステップ3 — インテグレーションのテスト
 
@@ -61,7 +61,7 @@ Grafanaはこれで該当アラートをEchobellにルーティングします�
 ## ベストプラクティス
 
 - 電話着信は高優先度アラートに限定し、低い重大度にはチャットやメールを使う
-- アラート疲れを防ぐためにEchobellでリトライとタイムアウトを設定する（[/docs/notification](/en/docs/notification)）
+- アラート疲れを防ぐためにEchobellでリトライとタイムアウトを設定する（[/docs/notification](/ja/docs/notification)）
 - 最初の着信に応答がない場合のチームへのエスカレーションを設定する
 - 低緊急度の深夜通知を防ぐためにサイレント時間を設定する
 - オンコールチームとチャンネルを共有し、当番の担当者を常に最新の状態に保つ
@@ -73,7 +73,7 @@ Grafanaはこれで該当アラートをEchobellにルーティングします�
 - リトライ回数とエスカレーションパスを設定する
 - 信頼性向上のためのバックアップ連絡先を設定する
 
-完全なリファレンス: [/docs/developer/grafana](/en/docs/developer/grafana)
+完全なリファレンス: [/docs/developer/grafana](/ja/docs/developer/grafana)
 
 ## トラブルシューティング
 
@@ -84,6 +84,6 @@ Grafanaはこれで該当アラートをEchobellにルーティングします�
 
 ## 関連リンク
 
-- カスタムシステムへのWebhookアラート → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
-- GitHub Actionsの失敗通知 → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
-- Grafana開発者向けドキュメント → [/docs/developer/grafana](/en/docs/developer/grafana)
+- カスタムシステムへのWebhookアラート → [/blog/get-notified-with-webhook-mcp](/ja/blog/get-notified-with-webhook-mcp)
+- GitHub Actionsの失敗通知 → [/blog/github-actions-notifications](/ja/blog/github-actions-notifications)
+- Grafana開発者向けドキュメント → [/docs/developer/grafana](/ja/docs/developer/grafana)

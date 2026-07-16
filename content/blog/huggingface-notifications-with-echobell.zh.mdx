@@ -58,7 +58,7 @@ HuggingFace 内置了 Webhook 系统，可在模型更新、讨论和 Pull Reque
 1. **生产关键仓库** → 通知类型设置为**时间敏感**或**来电**的频道
 2. **一般活动** → 标准推送通知频道
 
-如需条件过滤（如仅对特定仓库的 `update` 事件告警），使用 [Echobell 条件](/en/docs/conditions)：
+如需条件过滤（如仅对特定仓库的 `update` 事件告警），使用 [Echobell 条件](/zh/docs/conditions)：
 
 ```
 event.action == "update" && repo.name.includes("production")
@@ -78,4 +78,4 @@ event.action == "update" && repo.name.includes("production")
 - **让模板可操作**：包含足够的上下文，无需打开 HuggingFace 就能判断。`{{event.description}}` 通常包含有用的细节。
 - **警惕疲劳**：如果某个频道每天产生超过 10-15 条告警，收紧触发器过滤条件或添加条件。
 
-Webhook 配置参考请见 [Echobell Webhook 文档](/en/docs/webhook)。相关集成请参考 [GitHub Actions 通知](/en/blog/github-actions-notifications) 和 [Grafana 告警](/en/docs/developer/grafana)。
+Webhook 配置参考请见 [Echobell Webhook 文档](/zh/docs/webhook)。相关集成请参考 [GitHub Actions 通知](/zh/blog/github-actions-notifications) 和 [Grafana 告警](/zh/docs/developer/grafana)。

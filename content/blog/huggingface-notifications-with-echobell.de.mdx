@@ -58,7 +58,7 @@ Nicht jede HuggingFace-Aktivität erfordert dieselbe Dringlichkeit. Separate Cha
 1. **Produktionskritische Repositories** → Channel mit Benachrichtigungstyp **Zeitkritisch** oder **Anruf**
 2. **Allgemeine Aktivitäten** → Standard-Push-Benachrichtigungs-Channel
 
-Für bedingte Filterung (z. B. nur bei `update`-Ereignissen für bestimmte Repositories) [Echobell-Bedingungen](/en/docs/conditions) nutzen:
+Für bedingte Filterung (z. B. nur bei `update`-Ereignissen für bestimmte Repositories) [Echobell-Bedingungen](/de/docs/conditions) nutzen:
 
 ```
 event.action == "update" && repo.name.includes("production")
@@ -78,4 +78,4 @@ Um Alarme mit dem Team zu teilen, ohne dass jeder separate Webhooks einrichten m
 - **Actionable Templates**: Genug Kontext einbauen, um ohne Öffnen von HuggingFace handeln zu können. `{{event.description}}` enthält oft nützliche Details.
 - **Auf Fatigue achten**: Generiert ein Channel mehr als 10–15 Alarme pro Tag, Trigger-Filter verschärfen oder Bedingungen hinzufügen.
 
-Webhook-Konfigurationsreferenz: [Echobell-Webhook-Dokumentation](/en/docs/webhook). Verwandte Integrationen: [GitHub Actions-Benachrichtigungen](/en/blog/github-actions-notifications) und [Grafana-Alarme](/en/docs/developer/grafana).
+Webhook-Konfigurationsreferenz: [Echobell-Webhook-Dokumentation](/de/docs/webhook). Verwandte Integrationen: [GitHub Actions-Benachrichtigungen](/de/blog/github-actions-notifications) und [Grafana-Alarme](/de/docs/developer/grafana).

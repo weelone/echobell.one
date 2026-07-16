@@ -17,7 +17,7 @@ tags:
 
 Les variables de temps UTC intégrées d'Echobell vous permettent de restreindre les notifications à des fenêtres temporelles spécifiques — heures ouvrées, plages d'astreinte, fenêtres de maintenance — directement dans les Conditions du canal. Aucune couche de filtrage externe n'est nécessaire.
 
-Prérequis : [Conditions](/en/docs/conditions), [Modèles](/en/docs/template), [Webhook](/en/docs/webhook), [Déclencheurs email](/en/docs/email-trigger).
+Prérequis : [Conditions](/fr/docs/conditions), [Modèles](/fr/docs/template), [Webhook](/fr/docs/webhook), [Déclencheurs email](/fr/docs/email-trigger).
 
 ## Variables UTC disponibles
 
@@ -30,7 +30,7 @@ Ces variables sont en lecture seule, toujours disponibles et calculées en UTC :
 - `hour` (0–23), `minute` (0–59), `second` (0–59)
 - `date` (YYYY-MM-DD), `time` (HH:mm:ss)
 
-Utilisez-les directement dans les [Conditions](/en/docs/conditions) (sans `{{ }}`). Utilisez-les avec `{{ }}` dans les [Modèles](/en/docs/template).
+Utilisez-les directement dans les [Conditions](/fr/docs/conditions) (sans `{{ }}`). Utilisez-les avec `{{ }}` dans les [Modèles](/fr/docs/template).
 
 ## Recettes de conditions
 
@@ -83,7 +83,7 @@ Les conditions temporelles se composent avec des variables de données en utilis
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-Les Conditions sont des expressions simples — ne les entourez pas de `{{ }}`. Voir [Conditions → Opérateurs supportés](/en/docs/conditions#supported-operators).
+Les Conditions sont des expressions simples — ne les entourez pas de `{{ }}`. Voir [Conditions → Opérateurs supportés](/fr/docs/conditions#supported-operators).
 
 ## Utiliser les variables de temps dans les modèles
 
@@ -95,7 +95,7 @@ Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
 Epoch: {{epochSeconds}}
 ```
 
-Combinez avec les données provenant des [Webhooks](/en/docs/webhook) ou des [Déclencheurs email](/en/docs/email-trigger) :
+Combinez avec les données provenant des [Webhooks](/fr/docs/webhook) ou des [Déclencheurs email](/fr/docs/email-trigger) :
 
 ```
 {{service}} {{status}} at {{time}} ({{timezone}})
@@ -109,7 +109,7 @@ Combinez avec les données provenant des [Webhooks](/en/docs/webhook) ou des [D�
 
 ## Prochaines étapes
 
-- Ajoutez une condition de fenêtre temporelle à un canal existant : [Conditions](/en/docs/conditions)
-- Personnalisez le contenu des notifications avec des variables : [Modèles](/en/docs/template)
+- Ajoutez une condition de fenêtre temporelle à un canal existant : [Conditions](/fr/docs/conditions)
+- Personnalisez le contenu des notifications avec des variables : [Modèles](/fr/docs/template)
 - Créez des canaux séparés pour les heures ouvrées et les plages d'astreinte
 - Réglez les canaux d'astreinte sur le type Appel pour l'urgence en dehors des horaires

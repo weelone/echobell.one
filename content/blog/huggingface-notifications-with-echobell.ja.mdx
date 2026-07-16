@@ -58,7 +58,7 @@ HuggingFaceの活動すべてが同じ緊急度を必要とするわけではあ
 1. **本番環境のクリティカルなリポジトリ** → 通知タイプを**タイムセンシティブ**または**着信（Calling）**に設定したチャンネル
 2. **一般的な活動** → 標準プッシュ通知チャンネル
 
-条件付きフィルタリング（特定のリポジトリの`update`イベントのみ通知するなど）には[Echobellの条件](/en/docs/conditions)を使用:
+条件付きフィルタリング（特定のリポジトリの`update`イベントのみ通知するなど）には[Echobellの条件](/ja/docs/conditions)を使用:
 
 ```
 event.action == "update" && repo.name.includes("production")
@@ -78,4 +78,4 @@ event.action == "update" && repo.name.includes("production")
 - **テンプレートをアクション可能に**: HuggingFaceを開かずに対応できる十分なコンテキストを含める。`{{event.description}}`には有用な詳細が含まれることが多い
 - **通知疲れに注意**: チャンネルが1日に10〜15件以上のアラートを生成する場合は、トリガーフィルターを絞るか条件を追加する
 
-Webhook設定のリファレンスは[EchobellのWebhookドキュメント](/en/docs/webhook)を参照してください。関連するインテグレーションについては[GitHub Actions通知](/en/blog/github-actions-notifications)と[Grafanaアラート](/en/docs/developer/grafana)をご覧ください。
+Webhook設定のリファレンスは[EchobellのWebhookドキュメント](/ja/docs/webhook)を参照してください。関連するインテグレーションについては[GitHub Actions通知](/ja/blog/github-actions-notifications)と[Grafanaアラート](/ja/docs/developer/grafana)をご覧ください。

@@ -138,7 +138,7 @@ return null;
 
 ### 智能家居关键事件
 
-通过 n8n 将 Home Assistant 的关键事件（漏水传感器、烟雾探测器、离家时的门窗传感器）转发给 Echobell。详见 [Home Assistant 集成指南](/en/blog/home-assistant-notifications-with-echobell)。
+通过 n8n 将 Home Assistant 的关键事件（漏水传感器、烟雾探测器、离家时的门窗传感器）转发给 Echobell。详见 [Home Assistant 集成指南](/zh/blog/home-assistant-notifications-with-echobell)。
 
 ### RSS/Newsletter 摘要
 
@@ -179,7 +179,7 @@ if (hoursSince > 24) {
 
 ### 用条件减少噪音
 
-Echobell 的[条件](/en/docs/conditions)功能可在投递层进行过滤：
+Echobell 的[条件](/zh/docs/conditions)功能可在投递层进行过滤：
 
 ```
 // Only call during off-hours
@@ -202,4 +202,4 @@ if (new Date().getDay() === 5 && new Date().getHours() === 17) {
 }
 ```
 
-从一个工作流开始，逐步扩展。[Webhook 文档](/en/docs/webhook)涵盖完整的 Echobell API。
+从一个工作流开始，逐步扩展。[Webhook 文档](/zh/docs/webhook)涵盖完整的 Echobell API。

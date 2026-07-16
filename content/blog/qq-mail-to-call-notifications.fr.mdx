@@ -17,11 +17,11 @@ Les notifications push de QQ Mail sont faciles à manquer pendant un appel, en m
 
 Documentation utile :
 
-- [Configuration QQ Mail](/en/docs/email-to-call/qq)
-- [Déclencheur email](/en/docs/email-trigger)
-- [Types de notifications](/en/docs/notification)
-- [Modèles et variables](/en/docs/template)
-- [Conditions](/en/docs/conditions)
+- [Configuration QQ Mail](/fr/docs/email-to-call/qq)
+- [Déclencheur email](/fr/docs/email-trigger)
+- [Types de notifications](/fr/docs/notification)
+- [Modèles et variables](/fr/docs/template)
+- [Conditions](/fr/docs/conditions)
 
 ## Prérequis
 
@@ -34,7 +34,7 @@ Documentation utile :
 2. Réglez le type de notification sur **Appel**.
 3. Activez optionnellement les tentatives automatiques dans les paramètres de l'app pour une livraison plus robuste des messages critiques.
 
-Voir : [Types de notifications](/en/docs/notification)
+Voir : [Types de notifications](/fr/docs/notification)
 
 ## Étape 2 — Copier l'email du canal et configurer les modèles
 
@@ -54,7 +54,7 @@ Modèle de corps :
 From {{from}}. {{text}}
 ```
 
-Référence des variables : [Modèles](/en/docs/template)
+Référence des variables : [Modèles](/fr/docs/template)
 
 ## Étape 3 — Créer des règles de transfert QQ Mail
 
@@ -68,7 +68,7 @@ Dans les paramètres QQ Mail, créez un filtre pour les messages haute priorité
 
 Commencez avec une règle stricte. Ajoutez-en d'autres après avoir confirmé que la première fonctionne sans bruit excessif.
 
-Guide complet spécifique à QQ : [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
+Guide complet spécifique à QQ : [/docs/email-to-call/qq](/fr/docs/email-to-call/qq)
 
 ## Étape 4 — Ajouter des Conditions Echobell (optionnel)
 
@@ -92,7 +92,7 @@ Expéditeur et mot-clé combinés :
 (from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
 ```
 
-Référence : [Conditions](/en/docs/conditions)
+Référence : [Conditions](/fr/docs/conditions)
 
 ## Note sur la confidentialité
 
@@ -119,8 +119,8 @@ Filtrez d'abord dans QQ Mail afin que seuls les emails nécessaires parviennent 
 
 ## Articles connexes
 
-- [Guide email vers notifications d'appel](/en/blog/email-to-call-notification) — même configuration pour Gmail, iCloud et Outlook
-- [Documentation du déclencheur email](/en/docs/email-to-call) — référence complète pour tous les fournisseurs
-- [Comment contourner iOS Focus Mode pour les alertes critiques](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — choisir entre notifications push et alertes par appel
-- [Conditions](/en/docs/conditions) — syntaxe des expressions pour filtrer les alertes
-- [Modèles](/en/docs/template) — référence des variables pour les déclencheurs email
+- [Guide email vers notifications d'appel](/fr/blog/email-to-call-notification) — même configuration pour Gmail, iCloud et Outlook
+- [Documentation du déclencheur email](/fr/docs/email-to-call) — référence complète pour tous les fournisseurs
+- [Comment contourner iOS Focus Mode pour les alertes critiques](/fr/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — choisir entre notifications push et alertes par appel
+- [Conditions](/fr/docs/conditions) — syntaxe des expressions pour filtrer les alertes
+- [Modèles](/fr/docs/template) — référence des variables pour les déclencheurs email

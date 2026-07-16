@@ -166,7 +166,7 @@ Le template de message du canal supporte les variables dynamiques, pour que le c
 
 Si tu fais tourner des jobs longs — entraînements, traitement par lots, tâches d'agents IA, pipelines ETL — tu connais déjà la sensation de regarder une barre de progression ou de rafraîchir des fenêtres de terminal en boucle. Il y a mieux.
 
-[Echobell Direct](/en/docs/direct) te donne un webhook personnel sans avoir à configurer un canal complet. Ajoute un appel à la fin de n'importe quel script :
+[Echobell Direct](/fr/docs/direct) te donne un webhook personnel sans avoir à configurer un canal complet. Ajoute un appel à la fin de n'importe quel script :
 
 ```python
 import httpx
@@ -185,7 +185,7 @@ def notify_done(job: str, summary: str):
 notify_done("embedding_generation", f"50 000 documents traités en {elapsed:.1f}s")
 ```
 
-Si tu travailles avec Claude ou d'autres agents IA via [WebhookMCP](/en/blog/get-notified-with-webhook-mcp), l'agent lui-même peut déclencher la notification quand la tâche est terminée. Tu lances le job, tu fais autre chose, le téléphone vibre quand c'est fini.
+Si tu travailles avec Claude ou d'autres agents IA via [WebhookMCP](/fr/blog/get-notified-with-webhook-mcp), l'agent lui-même peut déclencher la notification quand la tâche est terminée. Tu lances le job, tu fais autre chose, le téléphone vibre quand c'est fini.
 
 ---
 
@@ -201,7 +201,7 @@ L'une des décisions les plus importantes dans tout setup d'alertes, c'est de fa
 
 Le type `calling` nécessite un abonnement Pro — intentionnellement. Il est réservé aux choses qui ne peuvent vraiment pas attendre. Utilise `time-sensitive` pour la plupart des alertes, réserve `calling` pour les rares événements où une réponse tardive a de vraies conséquences.
 
-La fonction [Conditions](/en/docs/conditions) te permet d'ajouter de la logique au niveau de la livraison : par exemple, appeler seulement en dehors des heures de travail, ou alerter seulement quand une valeur dépasse un seuil.
+La fonction [Conditions](/fr/docs/conditions) te permet d'ajouter de la logique au niveau de la livraison : par exemple, appeler seulement en dehors des heures de travail, ou alerter seulement quand une valeur dépasse un seuil.
 
 ---
 
@@ -225,10 +225,10 @@ De là, l'expansion est simple. La plupart des intégrations prennent moins de 1
 
 ## Voir aussi
 
-- [Echobell Direct — webhooks personnels sans configuration de canal](/en/docs/direct)
-- [Notifications Zapier webhook sur téléphone](/en/blog/zapier-webhook-notifications-to-phone)
-- [Notifications d'appel Grafana](/en/blog/grafana-call-notification)
-- [Alertes d'appel TradingView](/en/blog/tradingview-call-notifications)
-- [Notifications Home Assistant avec Echobell](/en/blog/home-assistant-notifications-with-echobell)
-- [Hub d'automatisation avec n8n et Echobell](/en/blog/n8n-echobell-automation-hub)
-- [WebhookMCP — être notifié quand les tâches IA se terminent](/en/blog/get-notified-with-webhook-mcp)
+- [Echobell Direct — webhooks personnels sans configuration de canal](/fr/docs/direct)
+- [Notifications Zapier webhook sur téléphone](/fr/blog/zapier-webhook-notifications-to-phone)
+- [Notifications d'appel Grafana](/fr/blog/grafana-call-notification)
+- [Alertes d'appel TradingView](/fr/blog/tradingview-call-notifications)
+- [Notifications Home Assistant avec Echobell](/fr/blog/home-assistant-notifications-with-echobell)
+- [Hub d'automatisation avec n8n et Echobell](/fr/blog/n8n-echobell-automation-hub)
+- [WebhookMCP — être notifié quand les tâches IA se terminent](/fr/blog/get-notified-with-webhook-mcp)

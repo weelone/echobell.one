@@ -109,14 +109,14 @@ jobs:
 
 **通知タイトル**には「何が、どこで、いつ失敗したか」を含めましょう。`❌ Main Branch CI Failed`や`🚨 Deploy Pipeline Down - Production`のようなパターンを使用します。
 
-**重大度別にチャンネルを分ける。** 通常のCIアラート用の標準チャンネルと、本番環境の失敗用に**着信（Calling）**に設定した第2チャンネルを用意します。ワークフローごとに異なるWebhook URLを使い分けてください。詳細は[着信通知](/en/blog/grafana-call-notification)を参照。
+**重大度別にチャンネルを分ける。** 通常のCIアラート用の標準チャンネルと、本番環境の失敗用に**着信（Calling）**に設定した第2チャンネルを用意します。ワークフローごとに異なるWebhook URLを使い分けてください。詳細は[着信通知](/ja/blog/grafana-call-notification)を参照。
 
-**チームとチャンネルを共有する。** チーム全体で見るべきCI/CDの失敗用チャンネルと、インフラ担当者のみのチャンネルを分けて作成します。Echobellの[共有チャンネル](/en/features/channels)では、チームメンバーが各自の通知設定で購読できるため、全員がWebhookを個別に設定する必要はありません。
+**チームとチャンネルを共有する。** チーム全体で見るべきCI/CDの失敗用チャンネルと、インフラ担当者のみのチャンネルを分けて作成します。Echobellの[共有チャンネル](/ja/features/channels)では、チームメンバーが各自の通知設定で購読できるため、全員がWebhookを個別に設定する必要はありません。
 
 ## 関連リンク
 
-- [Webhookドキュメント](/en/docs/webhook) — WebhookのAPI全リファレンス
-- [テンプレート](/en/docs/template)と[条件](/en/docs/conditions) — 通知内容のカスタマイズとフィルタリング
-- [Grafana着信通知](/en/blog/grafana-call-notification) — 監視システムへの電話着信アラート
-- [WebhookMCP通知](/en/blog/get-notified-with-webhook-mcp) — AIタスク完了アラート
-- 機能ドキュメント: [チャンネル](/en/features/channels)、[Webhook](/en/features/webhooks)、[メールトリガー](/en/features/email-triggers)、[着信通知](/en/features/call-notifications)
+- [Webhookドキュメント](/ja/docs/webhook) — WebhookのAPI全リファレンス
+- [テンプレート](/ja/docs/template)と[条件](/ja/docs/conditions) — 通知内容のカスタマイズとフィルタリング
+- [Grafana着信通知](/ja/blog/grafana-call-notification) — 監視システムへの電話着信アラート
+- [WebhookMCP通知](/ja/blog/get-notified-with-webhook-mcp) — AIタスク完了アラート
+- 機能ドキュメント: [チャンネル](/ja/features/channels)、[Webhook](/ja/features/webhooks)、[メールトリガー](/ja/features/email-triggers)、[着信通知](/ja/features/call-notifications)

@@ -19,10 +19,10 @@ Las notificaciones push estándar son fáciles de perder cuando una operación s
 
 Documentación relevante:
 
-- Qué es Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- Resumen de webhooks → [/docs/webhook](/en/docs/webhook)
-- Tipos de notificación (Normal, Urgente, Llamada) → [/docs/notification](/en/docs/notification)
-- Plantillas y variables → [/docs/template](/en/docs/template)
+- Qué es Echobell → [/docs/what-is-echobell](/es/docs/what-is-echobell)
+- Resumen de webhooks → [/docs/webhook](/es/docs/webhook)
+- Tipos de notificación (Normal, Urgente, Llamada) → [/docs/notification](/es/docs/notification)
+- Plantillas y variables → [/docs/template](/es/docs/template)
 
 ## Requisitos previos
 
@@ -32,16 +32,16 @@ Documentación relevante:
 ## Paso 1 — Crear un canal en Echobell
 
 1. Abre Echobell → Crear Canal. Nómbralo algo como "TradingView Calls".
-2. Configura el tipo de notificación. Para alertas urgentes usa **Calling**; para las menos críticas usa **Time Sensitive** o **Normal** ([/docs/notification](/en/docs/notification)).
+2. Configura el tipo de notificación. Para alertas urgentes usa **Calling**; para las menos críticas usa **Time Sensitive** o **Normal** ([/docs/notification](/es/docs/notification)).
 3. Opcionalmente, configura plantillas para que la llamada lea datos útiles. Ejemplo:
 
    Título: `{{ticker}} crossed {{price}}`
 
    Cuerpo: `Signal: {{action}} at {{price}} on {{ticker}}`
 
-   Referencia completa de plantillas: [/docs/template](/en/docs/template)
+   Referencia completa de plantillas: [/docs/template](/es/docs/template)
 
-4. Copia la URL del Webhook del canal desde la configuración. Mantenla privada. Detalles: [/docs/webhook](/en/docs/webhook)
+4. Copia la URL del Webhook del canal desde la configuración. Mantenla privada. Detalles: [/docs/webhook](/es/docs/webhook)
 
 ## Paso 2 — Configurar la alerta en TradingView
 
@@ -61,7 +61,7 @@ Documentación relevante:
 
 Notas:
 - Usa las variables integradas de TradingView (`{{ticker}}`, `{{close}}`, etc.)
-- `externalLink` es opcional; cuando está presente, Echobell lo muestra como enlace en el registro de la notificación ([/docs/notification](/en/docs/notification))
+- `externalLink` es opcional; cuando está presente, Echobell lo muestra como enlace en el registro de la notificación ([/docs/notification](/es/docs/notification))
 
 ## Paso 3 — Probar el flujo completo
 
@@ -82,14 +82,14 @@ Una plantilla clara hace que la llamada sea inmediatamente accionable:
 - `Action: {{action}}.`
 - Incluye `externalLink` para un acceso rápido al gráfico desde el registro de la notificación
 
-Documentación completa de plantillas: [/docs/template](/en/docs/template)
+Documentación completa de plantillas: [/docs/template](/es/docs/template)
 
 ## Relacionados
 
-- Alertas webhook para sistemas personalizados → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
-- Notificaciones de CI/CD → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
-- Monitoreo de infraestructura → [/blog/grafana-call-notification](/en/blog/grafana-call-notification)
-- Función de webhooks → [/features/webhooks](/en/features/webhooks)
-- Función de notificaciones de llamada → [/features/call-notifications](/en/features/call-notifications)
+- Alertas webhook para sistemas personalizados → [/blog/get-notified-with-webhook-mcp](/es/blog/get-notified-with-webhook-mcp)
+- Notificaciones de CI/CD → [/blog/github-actions-notifications](/es/blog/github-actions-notifications)
+- Monitoreo de infraestructura → [/blog/grafana-call-notification](/es/blog/grafana-call-notification)
+- Función de webhooks → [/features/webhooks](/es/features/webhooks)
+- Función de notificaciones de llamada → [/features/call-notifications](/es/features/call-notifications)
 
 Descarga Echobell: https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-tradingview-call-notifications-es&mt=8 / Google Play: https://play.google.com/store/apps/details?id=one.echobell.echobellandroid

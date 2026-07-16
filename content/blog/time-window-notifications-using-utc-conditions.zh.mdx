@@ -17,7 +17,7 @@ tags:
 
 Echobell 内置的 UTC 时间变量可以让你直接在频道条件中限制通知的时间窗口——工作时间、值班班次、维护窗口——无需外部过滤层。
 
-前提条件：[条件](/en/docs/conditions)、[模板](/en/docs/template)、[Webhook](/en/docs/webhook)、[邮件触发](/en/docs/email-trigger)。
+前提条件：[条件](/zh/docs/conditions)、[模板](/zh/docs/template)、[Webhook](/zh/docs/webhook)、[邮件触发](/zh/docs/email-trigger)。
 
 ## 可用的 UTC 变量
 
@@ -30,7 +30,7 @@ Echobell 内置的 UTC 时间变量可以让你直接在频道条件中限制通
 - `hour`（0–23）、`minute`（0–59）、`second`（0–59）
 - `date`（YYYY-MM-DD）、`time`（HH:mm:ss）
 
-在[条件](/en/docs/conditions)中直接使用（无需 `{{ }}`）。在[模板](/en/docs/template)中用 `{{ }}` 包裹使用。
+在[条件](/zh/docs/conditions)中直接使用（无需 `{{ }}`）。在[模板](/zh/docs/template)中用 `{{ }}` 包裹使用。
 
 ## 条件示例
 
@@ -83,7 +83,7 @@ dayOfMonth == 1 && minute == 0
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-条件是普通表达式——不要用 `{{ }}` 包裹。运算符说明参见[条件 → 支持的运算符](/en/docs/conditions#supported-operators)。
+条件是普通表达式——不要用 `{{ }}` 包裹。运算符说明参见[条件 → 支持的运算符](/zh/docs/conditions#supported-operators)。
 
 ## 在模板中使用时间变量
 
@@ -95,7 +95,7 @@ Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
 Epoch: {{epochSeconds}}
 ```
 
-与来自 [Webhook](/en/docs/webhook) 或[邮件触发](/en/docs/email-trigger)的数据混合使用：
+与来自 [Webhook](/zh/docs/webhook) 或[邮件触发](/zh/docs/email-trigger)的数据混合使用：
 
 ```
 {{service}} {{status}} at {{time}} ({{timezone}})
@@ -109,7 +109,7 @@ Epoch: {{epochSeconds}}
 
 ## 下一步
 
-- 为现有频道添加时间窗口条件：[条件](/en/docs/conditions)
-- 用变量定制通知内容：[模板](/en/docs/template)
+- 为现有频道添加时间窗口条件：[条件](/zh/docs/conditions)
+- 用变量定制通知内容：[模板](/zh/docs/template)
 - 将工作时间频道与值班频道分开
 - 值班频道在非工作时段设置为来电通知类型

@@ -1,0 +1,93 @@
+---
+title: "Alertes d'échec de cron jobs : recevez un appel quand une tâche meurt"
+description: "Les cron jobs échouent en silence. Découvrez trois méthodes fiables pour détecter les tâches planifiées échouées ou manquées et recevoir une notification push ou un appel en quelques secondes."
+date: 2026-07-16
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - cron jobs
+  - alertes d'échec
+  - alertes par appel
+  - monitoring
+  - webhook
+---
+
+# Alertes d'échec de cron jobs : recevez un appel quand une tâche meurt
+
+Ce qui rend l'échec d'un cron job dangereux, c'est qu'il ne se passe rien. Pas de page d'erreur, pas de crash, pas d'utilisateurs mécontents — juste une sauvegarde qui a discrètement cessé de tourner il y a trois semaines, un rapport jamais envoyé, ou un script de nettoyage qui a laissé un disque se remplir jusqu'à faire tomber la production.
+
+Cron n'a aucun mécanisme d'alerte intégré. Si une tâche se termine en erreur, cron hausse les épaules. Si le serveur est hors ligne à l'heure prévue, la tâche ne s'exécute tout simplement jamais, et rien ne subsiste pour vous le signaler. Ce second cas est précisément celui que la plupart des configurations de monitoring ne couvrent pas.
+
+Ce guide présente trois méthodes pour détecter ces deux types de défaillance, et comment rendre l'alerte impossible à manquer en l'escaladant en véritable appel téléphonique avec [Echobell](/fr).
+
+## Méthode 1 : alerter sur échec via le code de sortie
+
+L'approche la plus simple : déclencher un webhook dès que la tâche se termine avec un statut différent de zéro.
+
+Créez d'abord un canal dans Echobell et copiez son URL de webhook. Enveloppez ensuite votre commande cron :
+
+```bash
+0 3 * * * /opt/scripts/backup.sh || curl -s "https://hook.echobell.one/t/<channel-token>?title=Backup+failed&host=$(hostname)"
+```
+
+Si `backup.sh` réussit, rien ne se passe. S'il échoue, Echobell délivre l'alerte sur votre téléphone en quelques secondes. Les paramètres de requête deviennent des [variables de modèle](/fr/docs/template), la notification peut donc indiquer précisément quelle tâche a échoué et sur quel hôte.
+
+Pour les scripts plus longs, un trap fournit davantage de contexte :
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+notify_failure() {
+  curl -s -X POST "https://hook.echobell.one/t/<channel-token>" \
+    -H "Content-Type: application/json" \
+    -d "{\"job\":\"nightly-backup\",\"host\":\"$(hostname)\",\"line\":\"$1\"}"
+}
+trap 'notify_failure $LINENO' ERR
+
+# ... la logique de votre tâche ...
+```
+
+La limite : cela ne fonctionne que si le script s'exécute réellement et échoue. Si le serveur est hors ligne, si cron est mal configuré ou si quelqu'un a commenté la ligne pendant une session de débogage, aucune alerte ne partira jamais. C'est pourquoi il vous faut aussi la méthode 2.
+
+## Méthode 2 : dead man's switch pour les exécutions manquées
+
+Un dead man's switch inverse la logique : la tâche envoie un ping à un moniteur en cas de **succès**, et le moniteur vous alerte quand le ping **n'arrive pas** à l'heure prévue. Cela couvre tous les modes de défaillance — erreurs, blocages, serveurs morts et entrées crontab supprimées.
+
+Deux outils populaires et auto-hébergeables fonctionnent très bien avec Echobell :
+
+- **[Healthchecks.io](https://healthchecks.io)** est conçu exactement pour cela. Créez un check avec votre planning cron et un délai de grâce, puis ajoutez `&& curl -s https://hc-ping.com/YOUR_UUID` à la fin de votre ligne cron. Quand un ping est en retard, Healthchecks envoie un webhook — pointez-le vers votre canal Echobell et une sauvegarde manquée devient un téléphone qui sonne.
+- **[Uptime Kuma](/fr/docs/developer/uptime-kuma)** propose un type de moniteur « Push » fonctionnant sur le même principe : votre tâche appelle une URL de push, et Uptime Kuma alerte via ses intégrations de notification dès que le heartbeat cesse d'arriver.
+
+Dans les deux cas, le flux est : cron job → ping de succès → le moniteur détecte le silence → webhook vers Echobell → notification push ou appel téléphonique.
+
+## Méthode 3 : vérifications par fenêtre horaire pour les tâches produisant des données
+
+Certaines tâches se vérifient mieux par leur résultat que par leur code de sortie. Si votre ETL nocturne doit insérer des lignes avant 4 h du matin, une petite tâche de vérification peut contrôler le nombre de lignes et appeler le webhook Echobell quand les chiffres semblent anormaux.
+
+Les [conditions](/fr/docs/conditions) d'Echobell sont utiles ici : envoyez un webhook de statut après chaque exécution et laissez le canal décider quand notifier. Une condition comme `status != "ok"` garde les exécutions réussies silencieuses, et les variables horaires UTC intégrées permettent de restreindre les alertes à la fenêtre où la tâche aurait dû se terminer.
+
+## Rendre l'alerte impossible à manquer
+
+La détection n'est que la moitié du problème. Une alerte d'échec de sauvegarde qui atterrit en bannière silencieuse à 3 h du matin équivaut fonctionnellement à aucune alerte.
+
+Echobell permet de choisir un niveau d'urgence par canal :
+
+- **Normal** — une notification push standard, adaptée aux tâches informatives
+- **Sensible au temps** — traverse le mode Concentration d'iOS, pour les tâches à examiner rapidement
+- **Appel** — votre téléphone sonne comme un véritable appel jusqu'à ce que vous le remarquiez
+
+Pour les tâches dont l'échec silencieux coûte réellement de l'argent — sauvegardes de bases de données, traitements de facturation, renouvellements de certificats — réglez le canal sur **Appel**. La différence entre « vu à 3 h » et « vu à 9 h », c'est exactement ce qu'apporte une [alerte par appel téléphonique](/fr/features/call-notifications).
+
+Si plusieurs personnes partagent la responsabilité d'une tâche, partagez le lien d'abonnement du canal avec l'équipe ; tous les abonnés reçoivent la même alerte au même instant.
+
+## Quelle méthode choisir ?
+
+- **Hook de code de sortie** : cinq minutes de configuration, capture les échecs explicites. Commencez ici.
+- **Dead man's switch** : capture aussi les exécutions manquées ou bloquées. À ajouter pour chaque tâche qui vous manquerait vraiment.
+- **Vérifications de données par fenêtre horaire** : pour les pipelines où « exécution réussie mais résultat aberrant » est un risque réel.
+
+Elles se combinent bien : le hook de code de sortie vous dit qu'une tâche a échoué et pourquoi, tandis que le dead man's switch garantit que vous entendrez parler des défaillances qui n'ont jamais eu l'occasion de se signaler elles-mêmes.
+
+Configurez votre première alerte cron en quelques minutes : [téléchargez Echobell](/fr), créez un canal et ajoutez un `curl` à votre crontab. La prochaine fois qu'une tâche planifiée mourra à 3 h du matin, votre téléphone sonnera — et la sauvegarde que vous restaurerez le trimestre prochain existera vraiment.

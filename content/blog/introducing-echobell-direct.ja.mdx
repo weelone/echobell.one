@@ -13,7 +13,7 @@ tags:
   - announcement
 ---
 
-[Echobell Direct](/en/docs/direct)はチャンネル設定を完全にスキップできる個人向けアラートモードです。Directキーを作成してWebhook URLを取得し、`title`と`body`をPOSTするだけでデバイスに即時通知が届きます。購読者の管理、テンプレート設定、ルーティング設定は一切不要です。
+[Echobell Direct](/ja/docs/direct)はチャンネル設定を完全にスキップできる個人向けアラートモードです。Directキーを作成してWebhook URLを取得し、`title`と`body`をPOSTするだけでデバイスに即時通知が届きます。購読者の管理、テンプレート設定、ルーティング設定は一切不要です。
 
 このガイドでは、Directとは何か、セットアップ方法、そしてチャンネルの代わりにいつ使うべきかを説明します。
 
@@ -27,7 +27,7 @@ Directを使うべき場面:
 - 固定テンプレートではなくリクエストごとのカスタムタイトルと本文
 - フルチャンネル設定なしの高速セットアップ
 
-共有通知、再利用可能なテンプレート、条件付き配信が必要な場合は、代わりに[Webhookを使ったチャンネル](/en/docs/webhook)を使用してください。
+共有通知、再利用可能なテンプレート、条件付き配信が必要な場合は、代わりに[Webhookを使ったチャンネル](/ja/docs/webhook)を使用してください。
 
 ## 3ステップのセットアップ
 
@@ -58,7 +58,7 @@ curl -X POST https://hook.echobell.one/d/YOUR_KEY_TOKEN \
   }'
 ```
 
-フィールドの全リファレンス: [Direct API](/en/docs/direct)
+フィールドの全リファレンス: [Direct API](/ja/docs/direct)
 
 ## 緊急度レベル
 
@@ -68,13 +68,13 @@ Directはイベントに応じた緊急度を設定できる`notificationType`�
 - `time-sensitive` — 集中モードを突き破る重要なアラート
 - `calling` — 重大なインシデント（アクティブなプレミアム購読が必要。なければtime-sensitiveにフォールバック）
 
-動作の詳細は[通知タイプ](/en/docs/notification)を参照してください。
+動作の詳細は[通知タイプ](/ja/docs/notification)を参照してください。
 
 ## アラートへのコンテキスト追加
 
 リクエスト本文に`externalLink`を含めると、通知にURLを添付できます。デプロイログ、ダッシュボード、プルリクエストへの直接リンクに便利です。
 
-AIエージェントや長時間の非同期タスクには、手動でポーリングする代わりにDirectを使うとジョブ完了時に通知を受け取れます。参照: [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp)
+AIエージェントや長時間の非同期タスクには、手動でポーリングする代わりにDirectを使うとジョブ完了時に通知を受け取れます。参照: [WebhookMCP + Echobell](/ja/blog/get-notified-with-webhook-mcp)
 
 ## DirectとChannelsの比較
 
@@ -85,7 +85,7 @@ AIエージェントや長時間の非同期タスクには、手動でポーリ
 | セットアップ時間 | 1分以内 | チャンネル設定が必要 |
 | 条件 | 非対応 | 対応 |
 
-アラートを複数のユーザーに届ける必要がある場合や、サービス全体で一貫したフォーマットが欲しい場合はチャンネルを使用してください。[テンプレートドキュメント](/en/docs/template) · [Echobellとは](/en/docs/what-is-echobell)
+アラートを複数のユーザーに届ける必要がある場合や、サービス全体で一貫したフォーマットが欲しい場合はチャンネルを使用してください。[テンプレートドキュメント](/ja/docs/template) · [Echobellとは](/ja/docs/what-is-echobell)
 
 ## セキュリティのベストプラクティス
 
@@ -104,12 +104,12 @@ AIエージェントや長時間の非同期タスクには、手動でポーリ
 
 ---
 
-まずは[Directガイド](/en/docs/direct)から始めてください。ワークフローがコラボレーションやテンプレートを必要とするほど成長したら、[チャンネル](/en/docs/webhook)が次の自然なステップです。
+まずは[Directガイド](/ja/docs/direct)から始めてください。ワークフローがコラボレーションやテンプレートを必要とするほど成長したら、[チャンネル](/ja/docs/webhook)が次の自然なステップです。
 
 ## 関連
 
-- [Direct APIドキュメント](/en/docs/direct) — フィールドの全リファレンスと例
-- [WebhookMCP + Echobell](/en/blog/get-notified-with-webhook-mcp) — DirectでAIタスク完了を通知する
-- [重要アラートをiOS Focus Mode越しに届ける方法](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — 適切な通知の緊急度を選ぶ
-- [Zapier Webhook通知](/en/blog/zapier-webhook-notifications-to-phone) — 非開発者向けの自動化ワークフロー
-- [通知タイプ](/en/docs/notification) — 通常、time-sensitive、着信の動作説明
+- [Direct APIドキュメント](/ja/docs/direct) — フィールドの全リファレンスと例
+- [WebhookMCP + Echobell](/ja/blog/get-notified-with-webhook-mcp) — DirectでAIタスク完了を通知する
+- [重要アラートをiOS Focus Mode越しに届ける方法](/ja/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — 適切な通知の緊急度を選ぶ
+- [Zapier Webhook通知](/ja/blog/zapier-webhook-notifications-to-phone) — 非開発者向けの自動化ワークフロー
+- [通知タイプ](/ja/docs/notification) — 通常、time-sensitive、着信の動作説明

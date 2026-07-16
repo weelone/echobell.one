@@ -1,5 +1,9 @@
 <script lang="ts">
   import Breadcrumb from "$lib/components/Breadcrumb.svelte";
+  import JsonLd from "$lib/components/JsonLd.svelte";
+  import { collectionPageJsonLd } from "$lib/jsonld";
+  import { toAbsoluteUrl } from "$lib/metadata";
+  import { localizeUrl } from "$lib/i18n";
   import { displayDate } from "$lib/date";
   import type { Language } from "$lib/i18n";
   import type { PageProps } from "./$types";
@@ -8,6 +12,19 @@
 
   const lang = $derived(data.lang as Language);
 </script>
+
+<JsonLd
+  data={collectionPageJsonLd({
+    title: data.t.title,
+    description: data.t.description,
+    url: toAbsoluteUrl(localizeUrl("/blog", lang)),
+    inLanguage: lang,
+    items: data.posts.map((post) => ({
+      url: toAbsoluteUrl(post.url),
+      name: post.title,
+    })),
+  })}
+/>
 
 <div class="relative isolate">
   <div class="mx-auto max-w-7xl px-6 pt-24 lg:px-8">

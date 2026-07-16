@@ -1,0 +1,93 @@
+---
+title: "Cron 定时任务失败告警：任务挂掉时让手机响铃"
+description: "Cron 任务失败时悄无声息。本文介绍三种可靠模式，检测失败或漏跑的定时任务，并在几秒内收到推送通知或电话告警。"
+date: 2026-07-16
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - Cron 任务
+  - 失败告警
+  - 电话告警
+  - 监控
+  - Webhook
+---
+
+# Cron 定时任务失败告警：任务挂掉时让手机响铃
+
+Cron 任务失败最危险的地方在于：什么都不会发生。没有报错页面、没有崩溃、没有用户投诉——只有一个三周前就悄悄停止运行的备份、一份从未发出的报表，或是一个失效的清理脚本，让磁盘慢慢写满，直到生产环境倒下。
+
+Cron 本身没有任何告警机制。任务报错退出，cron 不闻不问；如果服务器在计划时间点宕机，任务干脆不会运行，而且不会留下任何痕迹告诉你它没跑。后一种情况正是大多数监控方案的盲区。
+
+本文介绍三种可以同时覆盖这两类故障的模式，并说明如何通过 [Echobell](/zh) 把告警升级为真正的电话呼叫，让你不可能错过。
+
+## 模式一：基于退出码的失败告警
+
+最简单的方式：任务以非零状态退出时，触发一个 webhook。
+
+先在 Echobell 中创建一个频道并复制其 webhook URL，然后包装你的 cron 命令：
+
+```bash
+0 3 * * * /opt/scripts/backup.sh || curl -s "https://hook.echobell.one/t/<channel-token>?title=Backup+failed&host=$(hostname)"
+```
+
+`backup.sh` 成功时什么都不会发生；一旦失败，Echobell 会在几秒内把告警推送到你的手机。查询参数会成为[模板变量](/zh/docs/template)，通知内容可以精确说明是哪台主机上的哪个任务失败了。
+
+对于较长的脚本，用 trap 可以带上更丰富的上下文：
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+notify_failure() {
+  curl -s -X POST "https://hook.echobell.one/t/<channel-token>" \
+    -H "Content-Type: application/json" \
+    -d "{\"job\":\"nightly-backup\",\"host\":\"$(hostname)\",\"line\":\"$1\"}"
+}
+trap 'notify_failure $LINENO' ERR
+
+# ... 你的任务逻辑 ...
+```
+
+局限在于：只有脚本真的运行并且失败时才有告警。如果服务器宕机、cron 配置错误，或者有人调试时把这行注释掉了，告警永远不会触发。这就是需要模式二的原因。
+
+## 模式二：Dead Man's Switch 捕捉漏跑
+
+Dead man's switch（失联开关）把逻辑反过来：任务在**成功**时向监控端发送心跳，而监控端在心跳**没有**按时到达时告警。这样可以覆盖所有故障形态——报错、卡死、服务器宕机、crontab 条目被删，一网打尽。
+
+两款流行的可自托管工具都能与 Echobell 很好地配合：
+
+- **[Healthchecks.io](https://healthchecks.io)** 正是为此而生。按你的 cron 计划创建一个检查项并设置宽限期，然后在 cron 行末尾追加 `&& curl -s https://hc-ping.com/YOUR_UUID`。心跳迟到时，Healthchecks 会发送 webhook——把它指向你的 Echobell 频道，漏跑的备份就会变成一通响铃的电话。
+- **[Uptime Kuma](/zh/docs/developer/uptime-kuma)** 提供同样原理的「Push」监控类型：任务调用一个 push URL，心跳停止时 Uptime Kuma 通过其通知集成发出告警。
+
+两种方案的流程都是：cron 任务 → 成功心跳 → 监控端发现失联 → webhook 到 Echobell → 推送通知或电话。
+
+## 模式三：按时间窗口校验产出数据
+
+有些任务更适合校验产出而不是退出码。如果你的夜间 ETL 应该在凌晨 4 点前写入数据，可以用一个小的校验任务检查行数，数字不对时调用 Echobell webhook。
+
+Echobell 的[条件](/zh/docs/conditions)在这里很有用：每次运行后都发送状态 webhook，由频道决定何时通知。类似 `status != "ok"` 的条件可以让成功的运行保持静默，内置的 UTC 时间变量则能把告警限制在任务应当完成的时间窗口内。
+
+## 让告警不可能被错过
+
+发现问题只解决了一半。凌晨 3 点静静躺在锁屏上的备份失败横幅，和没有告警没什么区别。
+
+Echobell 允许每个频道选择紧急级别：
+
+- **普通** —— 标准推送通知，适合信息类任务
+- **时效性** —— 突破 iOS 专注模式，适合需要尽快处理的任务
+- **来电** —— 手机像真正来电一样响铃，直到你注意到
+
+对于静默失败会造成真金白银损失的任务——数据库备份、账单批处理、证书续期——把频道设为**来电**。「凌晨 3 点看到」和「早上 9 点看到」之间的差距，正是[电话告警](/zh/features/call-notifications)的价值所在。
+
+如果一个任务由多人共同负责，把频道的订阅链接分享给团队，所有订阅者会在同一时刻收到同样的告警。
+
+## 该选哪种模式？
+
+- **退出码钩子**：五分钟搞定，捕捉显式失败。从这里开始。
+- **Dead man's switch**：连漏跑和卡死也能捕捉。为每个你真正在意的任务加上它。
+- **时间窗口数据校验**：适合「运行成功但产出是垃圾」确实可能发生的流水线。
+
+三者可以叠加：退出码钩子告诉你任务失败了以及为什么，而 dead man's switch 保证那些来不及上报的故障也逃不掉。
+
+几分钟就能配好第一个 cron 告警：[下载 Echobell](/zh)，创建一个频道，在 crontab 里加一行 `curl`。下次定时任务在凌晨 3 点挂掉时，你的手机会响——而下个季度你要恢复的那份备份，也会真实存在。

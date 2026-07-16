@@ -17,11 +17,11 @@ tags:
 
 関連ドキュメント:
 
-- [QQメールの設定](/en/docs/email-to-call/qq)
-- [メールトリガー](/en/docs/email-trigger)
-- [通知タイプ](/en/docs/notification)
-- [テンプレートと変数](/en/docs/template)
-- [条件](/en/docs/conditions)
+- [QQメールの設定](/ja/docs/email-to-call/qq)
+- [メールトリガー](/ja/docs/email-trigger)
+- [通知タイプ](/ja/docs/notification)
+- [テンプレートと変数](/ja/docs/template)
+- [条件](/ja/docs/conditions)
 
 ## 前提条件
 
@@ -34,7 +34,7 @@ tags:
 2. 通知タイプを**着信（Calling）**に設定
 3. 重要なメッセージに対する配信を強化するため、アプリ設定でリトライを有効にする（任意）
 
-参照: [通知タイプ](/en/docs/notification)
+参照: [通知タイプ](/ja/docs/notification)
 
 ## ステップ2 — チャンネルのメールアドレスをコピーしてテンプレートを設定する
 
@@ -54,7 +54,7 @@ tags:
 From {{from}}. {{text}}
 ```
 
-変数リファレンス: [テンプレート](/en/docs/template)
+変数リファレンス: [テンプレート](/ja/docs/template)
 
 ## ステップ3 — QQメールの転送ルールを作成する
 
@@ -68,7 +68,7 @@ QQメールの設定で高優先度メッセージのフィルターを作成し
 
 まず1つの厳しいルールから始め、ノイズなしに動作することを確認してから追加してください。
 
-QQ固有の詳細なウォークスルー: [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
+QQ固有の詳細なウォークスルー: [/docs/email-to-call/qq](/ja/docs/email-to-call/qq)
 
 ## ステップ4 — Echobellの条件を追加する（任意）
 
@@ -92,7 +92,7 @@ subject.toLowerCase().includes("urgent")
 (from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
 ```
 
-リファレンス: [条件](/en/docs/conditions)
+リファレンス: [条件](/ja/docs/conditions)
 
 ## プライバシーに関する注意
 
@@ -119,8 +119,8 @@ subject.toLowerCase().includes("urgent")
 
 ## 関連
 
-- [メールから着信通知への設定ガイド](/en/blog/email-to-call-notification) — Gmail、iCloud、Outlook向けの同様の設定
-- [メールトリガーのドキュメント](/en/docs/email-to-call) — 全プロバイダーの完全リファレンス
-- [重要アラートをiOS Focus Mode越しに届ける方法](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — プッシュ通知と着信アラートの使い分け
-- [条件](/en/docs/conditions) — アラートをフィルタリングする式の構文
-- [テンプレート](/en/docs/template) — メールトリガーの変数リファレンス
+- [メールから着信通知への設定ガイド](/ja/blog/email-to-call-notification) — Gmail、iCloud、Outlook向けの同様の設定
+- [メールトリガーのドキュメント](/ja/docs/email-to-call) — 全プロバイダーの完全リファレンス
+- [重要アラートをiOS Focus Mode越しに届ける方法](/ja/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — プッシュ通知と着信アラートの使い分け
+- [条件](/ja/docs/conditions) — アラートをフィルタリングする式の構文
+- [テンプレート](/ja/docs/template) — メールトリガーの変数リファレンス

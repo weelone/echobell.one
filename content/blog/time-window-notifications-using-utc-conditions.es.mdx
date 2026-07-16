@@ -17,7 +17,7 @@ tags:
 
 Las variables de tiempo UTC integradas de Echobell te permiten restringir las notificaciones a ventanas de tiempo específicas — horario laboral, turnos de guardia, ventanas de mantenimiento — directamente en las condiciones del canal. Sin necesidad de una capa de filtrado externa.
 
-Requisitos previos: [Condiciones](/en/docs/conditions), [Plantillas](/en/docs/template), [Webhook](/en/docs/webhook), [Disparadores de correo](/en/docs/email-trigger).
+Requisitos previos: [Condiciones](/es/docs/conditions), [Plantillas](/es/docs/template), [Webhook](/es/docs/webhook), [Disparadores de correo](/es/docs/email-trigger).
 
 ## Variables UTC disponibles
 
@@ -30,7 +30,7 @@ Son de solo lectura, siempre disponibles y se calculan en UTC:
 - `hour` (0–23), `minute` (0–59), `second` (0–59)
 - `date` (YYYY-MM-DD), `time` (HH:mm:ss)
 
-Úsalas directamente en [Condiciones](/en/docs/conditions) (sin `{{ }}`). Úsalas con `{{ }}` en [Plantillas](/en/docs/template).
+Úsalas directamente en [Condiciones](/es/docs/conditions) (sin `{{ }}`). Úsalas con `{{ }}` en [Plantillas](/es/docs/template).
 
 ## Recetas de condiciones
 
@@ -83,7 +83,7 @@ Las condiciones de tiempo se combinan con variables de datos usando operadores e
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-Las condiciones son expresiones simples — no las envuelvas en `{{ }}`. Consulta [Condiciones → Operadores admitidos](/en/docs/conditions#supported-operators).
+Las condiciones son expresiones simples — no las envuelvas en `{{ }}`. Consulta [Condiciones → Operadores admitidos](/es/docs/conditions#supported-operators).
 
 ## Usar variables de tiempo en plantillas
 
@@ -95,7 +95,7 @@ Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
 Epoch: {{epochSeconds}}
 ```
 
-Combínalas con datos de [Webhook](/en/docs/webhook) o [Disparadores de correo](/en/docs/email-trigger):
+Combínalas con datos de [Webhook](/es/docs/webhook) o [Disparadores de correo](/es/docs/email-trigger):
 
 ```
 {{service}} {{status}} at {{time}} ({{timezone}})
@@ -109,7 +109,7 @@ Combínalas con datos de [Webhook](/en/docs/webhook) o [Disparadores de correo](
 
 ## Siguientes pasos
 
-- Agrega una condición de ventana de tiempo a un canal existente: [Condiciones](/en/docs/conditions)
-- Personaliza el contenido de las notificaciones con variables: [Plantillas](/en/docs/template)
+- Agrega una condición de ventana de tiempo a un canal existente: [Condiciones](/es/docs/conditions)
+- Personaliza el contenido de las notificaciones con variables: [Plantillas](/es/docs/template)
 - Crea canales separados para horario laboral frente a turnos de guardia
 - Configura los canales de guardia con el tipo de notificación Calling para urgencia fuera de horario

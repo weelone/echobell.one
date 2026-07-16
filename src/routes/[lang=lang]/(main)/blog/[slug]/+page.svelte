@@ -1,7 +1,6 @@
 <script lang="ts">
   import { ArrowRight, ChevronDown } from "@lucide/svelte";
   import Breadcrumb from "$lib/components/Breadcrumb.svelte";
-  import BreadcrumbJsonLd from "$lib/components/BreadcrumbJsonLd.svelte";
   import JsonLd from "$lib/components/JsonLd.svelte";
   import { articleJsonLd } from "$lib/jsonld";
   import { displayDate } from "$lib/date";
@@ -28,7 +27,6 @@
     <Breadcrumb {lang} />
   </div>
   <div class="mx-auto max-w-3xl px-6 py-16 sm:py-24 lg:px-8">
-    <BreadcrumbJsonLd {lang} />
     <JsonLd
       data={articleJsonLd({
         title: data.title,

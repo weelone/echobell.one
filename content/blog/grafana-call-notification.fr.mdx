@@ -19,14 +19,14 @@ Les notifications par email et chat sont faciles à manquer lors d'incidents. Po
 
 Documentation utile :
 
-- Qu'est-ce qu'Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- Types de notifications et tentatives automatiques → [/docs/notification](/en/docs/notification)
-- Présentation des Webhooks → [/docs/webhook](/en/docs/webhook)
-- Référence d'intégration Grafana → [/docs/developer/grafana](/en/docs/developer/grafana)
+- Qu'est-ce qu'Echobell → [/docs/what-is-echobell](/fr/docs/what-is-echobell)
+- Types de notifications et tentatives automatiques → [/docs/notification](/fr/docs/notification)
+- Présentation des Webhooks → [/docs/webhook](/fr/docs/webhook)
+- Référence d'intégration Grafana → [/docs/developer/grafana](/fr/docs/developer/grafana)
 
 ## Prérequis
 
-1. Compte Echobell avec un canal actif et une URL Webhook (voir [/docs/webhook](/en/docs/webhook))
+1. Compte Echobell avec un canal actif et une URL Webhook (voir [/docs/webhook](/fr/docs/webhook))
 2. Accès administrateur à votre instance Grafana
 3. Au moins une règle d'alerte configurée
 
@@ -44,7 +44,7 @@ Définissez l'URL sur le Webhook de votre canal :
 
 `https://hook.echobell.one/t/<channel-token>`
 
-Copiez-la depuis les paramètres du canal dans Echobell (détails sur [/docs/webhook](/en/docs/webhook)). Traitez-la comme un secret et faites une rotation en cas de fuite.
+Copiez-la depuis les paramètres du canal dans Echobell (détails sur [/docs/webhook](/fr/docs/webhook)). Traitez-la comme un secret et faites une rotation en cas de fuite.
 
 ### Étape 3 — Tester l'intégration
 
@@ -61,7 +61,7 @@ Grafana acheminera désormais les alertes correspondantes vers Echobell.
 ## Bonnes pratiques
 
 - Réservez les appels téléphoniques aux alertes haute priorité ; utilisez le chat ou l'email pour les sévérités moindres
-- Configurez les tentatives automatiques et les délais d'expiration dans Echobell pour limiter la fatigue des alertes ([/docs/notification](/en/docs/notification))
+- Configurez les tentatives automatiques et les délais d'expiration dans Echobell pour limiter la fatigue des alertes ([/docs/notification](/fr/docs/notification))
 - Configurez l'escalade vers vos coéquipiers si le premier appel reste sans réponse
 - Utilisez les heures silencieuses pour éviter les réveils intempestifs en dehors des urgences
 - Partagez le canal avec votre équipe d'astreinte et maintenez le roster à jour
@@ -73,7 +73,7 @@ Grafana acheminera désormais les alertes correspondantes vers Echobell.
 - Configurez les tentatives automatiques et les chemins d'escalade
 - Définissez des contacts de secours pour une résilience accrue
 
-Référence complète : [/docs/developer/grafana](/en/docs/developer/grafana)
+Référence complète : [/docs/developer/grafana](/fr/docs/developer/grafana)
 
 ## Résolution des problèmes
 
@@ -84,6 +84,6 @@ Référence complète : [/docs/developer/grafana](/en/docs/developer/grafana)
 
 ## Lectures connexes
 
-- Alertes Webhook pour systèmes personnalisés → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
-- Notifications d'échec GitHub Actions → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
-- Documentation développeur Grafana → [/docs/developer/grafana](/en/docs/developer/grafana)
+- Alertes Webhook pour systèmes personnalisés → [/blog/get-notified-with-webhook-mcp](/fr/blog/get-notified-with-webhook-mcp)
+- Notifications d'échec GitHub Actions → [/blog/github-actions-notifications](/fr/blog/github-actions-notifications)
+- Documentation développeur Grafana → [/docs/developer/grafana](/fr/docs/developer/grafana)

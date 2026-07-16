@@ -138,7 +138,7 @@ return null;
 
 ### スマートホームの重要イベント
 
-n8n経由でHome Assistantの重要イベント（水漏れセンサー、煙感知器、外出中のドア・窓センサー）をEchobellに転送します。詳細は[Home Assistantインテグレーションガイド](/en/blog/home-assistant-notifications-with-echobell)を参照してください。
+n8n経由でHome Assistantの重要イベント（水漏れセンサー、煙感知器、外出中のドア・窓センサー）をEchobellに転送します。詳細は[Home Assistantインテグレーションガイド](/ja/blog/home-assistant-notifications-with-echobell)を参照してください。
 
 ### RSSニュースレターダイジェスト
 
@@ -179,7 +179,7 @@ if (hoursSince > 24) {
 
 ### 条件でノイズを削減する
 
-Echobellの[条件](/en/docs/conditions)機能を使って配信レイヤーでフィルタリング:
+Echobellの[条件](/ja/docs/conditions)機能を使って配信レイヤーでフィルタリング:
 
 ```
 // Only call during off-hours
@@ -202,4 +202,4 @@ if (new Date().getDay() === 5 && new Date().getHours() === 17) {
 }
 ```
 
-まず1つのワークフローから始め、徐々に拡張していきましょう。[Webhookドキュメント](/en/docs/webhook)にはEchobell APIの全リファレンスが記載されています。
+まず1つのワークフローから始め、徐々に拡張していきましょう。[Webhookドキュメント](/ja/docs/webhook)にはEchobell APIの全リファレンスが記載されています。

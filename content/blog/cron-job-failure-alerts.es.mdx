@@ -1,0 +1,93 @@
+---
+title: "Alertas de fallos en cron jobs: recibe una llamada cuando un job muere"
+description: "Los cron jobs fallan en silencio. Aprende tres patrones fiables para detectar jobs fallidos u omitidos y recibir una notificación push o una llamada en segundos."
+date: 2026-07-16
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - cron jobs
+  - alertas de fallos
+  - alertas por llamada
+  - monitorización
+  - webhook
+---
+
+# Alertas de fallos en cron jobs: recibe una llamada cuando un job muere
+
+Lo peligroso de un cron job fallido es que no pasa nada. Sin página de error, sin crash, sin usuarios enfadados: solo un backup que dejó de ejecutarse silenciosamente hace tres semanas, un informe que nunca se envió o un script de limpieza que dejó llenarse un disco hasta tumbar producción.
+
+Cron no tiene ningún sistema de alertas incorporado. Si un job termina con error, cron se encoge de hombros. Si el servidor está caído a la hora programada, el job simplemente nunca se ejecuta, y no queda ningún rastro que te avise de que no corrió. Ese segundo caso es el que la mayoría de las configuraciones de monitorización pasa por alto.
+
+Esta guía cubre tres patrones para detectar ambos tipos de fallo, y cómo hacer que la alerta sea imposible de ignorar escalándola a una llamada telefónica real con [Echobell](/es).
+
+## Patrón 1: alertar del fallo con un hook de código de salida
+
+El enfoque más simple: disparar un webhook cuando el job termina con un estado distinto de cero.
+
+Primero, crea un canal en Echobell y copia su URL de webhook. Después envuelve tu comando de cron:
+
+```bash
+0 3 * * * /opt/scripts/backup.sh || curl -s "https://hook.echobell.one/t/<channel-token>?title=Backup+failed&host=$(hostname)"
+```
+
+Si `backup.sh` tiene éxito, no ocurre nada. Si falla, Echobell entrega la alerta en tu teléfono en segundos. Los parámetros de consulta se convierten en [variables de plantilla](/es/docs/template), así que la notificación puede decir exactamente qué job falló y en qué host.
+
+Para scripts más largos, un trap aporta más contexto:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+notify_failure() {
+  curl -s -X POST "https://hook.echobell.one/t/<channel-token>" \
+    -H "Content-Type: application/json" \
+    -d "{\"job\":\"nightly-backup\",\"host\":\"$(hostname)\",\"line\":\"$1\"}"
+}
+trap 'notify_failure $LINENO' ERR
+
+# ... la lógica de tu job ...
+```
+
+La limitación: esto solo funciona cuando el script realmente se ejecuta y falla. Si el servidor está caído, cron está mal configurado o alguien comentó la línea durante una sesión de depuración, la alerta nunca se dispara. Por eso también necesitas el patrón 2.
+
+## Patrón 2: dead man's switch para ejecuciones omitidas
+
+Un dead man's switch invierte la lógica: el job hace ping a un monitor cuando **tiene éxito**, y el monitor te alerta cuando el ping **no** llega a tiempo. Esto captura todos los modos de fallo: errores, cuelgues, servidores muertos y entradas de crontab borradas por igual.
+
+Dos herramientas populares y auto-hospedables funcionan muy bien con Echobell:
+
+- **[Healthchecks.io](https://healthchecks.io)** está hecha exactamente para esto. Crea un check con tu horario de cron y un período de gracia, y añade `&& curl -s https://hc-ping.com/YOUR_UUID` al final de tu línea de cron. Cuando un ping llega tarde, Healthchecks envía un webhook: apúntalo a tu canal de Echobell y un backup omitido se convierte en un teléfono sonando.
+- **[Uptime Kuma](/es/docs/developer/uptime-kuma)** incluye un tipo de monitor «Push» que funciona igual: tu job llama a una URL de push, y Uptime Kuma alerta a través de sus integraciones de notificación cuando el latido deja de llegar.
+
+En ambos casos el flujo es: cron job → ping de éxito → el monitor detecta el silencio → webhook a Echobell → notificación push o llamada telefónica.
+
+## Patrón 3: comprobaciones por ventana horaria para jobs que producen datos
+
+Algunos jobs se verifican mejor por su salida que por su código de salida. Si tu ETL nocturno debería insertar filas antes de las 4 a.m., un pequeño job de verificación puede comprobar el número de filas y llamar al webhook de Echobell cuando los números no cuadren.
+
+Las [condiciones](/es/docs/conditions) de Echobell ayudan aquí: puedes enviar un webhook de estado tras cada ejecución y dejar que el canal decida cuándo notificar. Una condición como `status != "ok"` mantiene en silencio las ejecuciones correctas, y las variables de tiempo UTC integradas permiten restringir las alertas a la ventana en la que el job debería haber terminado.
+
+## Hacer que la alerta sea imposible de ignorar
+
+Detectar es solo la mitad del problema. Una alerta de backup fallido que aparece como un banner silencioso a las 3 a.m. es funcionalmente idéntica a no tener alerta.
+
+Echobell permite elegir un nivel de urgencia por canal:
+
+- **Normal** — una notificación push estándar, adecuada para jobs informativos
+- **Sensible al tiempo** — atraviesa el modo de concentración de iOS, para jobs que alguien debería mirar pronto
+- **Llamada** — tu teléfono suena como una llamada real hasta que lo notes
+
+Para jobs cuyo fallo silencioso cuesta dinero de verdad — backups de bases de datos, procesos de facturación, renovaciones de certificados — configura el canal en **Llamada**. La diferencia entre «lo vi a las 3 a.m.» y «lo vi a las 9 a.m.» es exactamente la diferencia que marca una [alerta por llamada telefónica](/es/features/call-notifications).
+
+Si varias personas comparten la responsabilidad de un job, comparte el enlace de suscripción del canal con el equipo; todos los suscriptores reciben la misma alerta en el mismo momento.
+
+## ¿Qué patrón deberías usar?
+
+- **Hook de código de salida**: se configura en cinco minutos y captura fallos explícitos. Empieza por aquí.
+- **Dead man's switch**: captura también ejecuciones omitidas y colgadas. Añádelo a cada job que realmente echarías de menos.
+- **Comprobaciones de datos por ventana horaria**: para pipelines donde «se ejecutó bien pero produjo basura» es un riesgo real.
+
+Se combinan bien: el hook de código de salida te dice que un job falló y por qué, mientras que el dead man's switch garantiza que te enteres de los fallos que nunca pudieron informar de sí mismos.
+
+Configura tu primera alerta de cron en unos minutos: [descarga Echobell](/es), crea un canal y añade un `curl` a tu crontab. La próxima vez que un job programado muera a las 3 a.m., tu teléfono sonará — y el backup que restaures el próximo trimestre existirá de verdad.

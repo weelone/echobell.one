@@ -18,10 +18,10 @@ Las notificaciones push estándar son fáciles de perder cuando los mercados se 
 
 Documentación relevante:
 
-- Qué es Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- Resumen de webhooks → [/docs/webhook](/en/docs/webhook)
-- Tipos de notificación (Normal, Urgente, Llamada) → [/docs/notification](/en/docs/notification)
-- Plantillas y variables → [/docs/template](/en/docs/template)
+- Qué es Echobell → [/docs/what-is-echobell](/es/docs/what-is-echobell)
+- Resumen de webhooks → [/docs/webhook](/es/docs/webhook)
+- Tipos de notificación (Normal, Urgente, Llamada) → [/docs/notification](/es/docs/notification)
+- Plantillas y variables → [/docs/template](/es/docs/template)
 
 ## Requisitos previos
 
@@ -31,14 +31,14 @@ Documentación relevante:
 ## 1. Crear un canal en Echobell
 
 1. En Echobell, crea un canal (p. ej. "Stocks: AAPL levels").
-2. Configura el tipo de notificación. Para movimientos de precio urgentes usa **Calling**; de lo contrario, **Time Sensitive** ([/docs/notification](/en/docs/notification)).
+2. Configura el tipo de notificación. Para movimientos de precio urgentes usa **Calling**; de lo contrario, **Time Sensitive** ([/docs/notification](/es/docs/notification)).
 3. Configura las plantillas para que la llamada lea contexto útil:
 
    Título: `{{ticker}} hit {{price}}`
 
    Cuerpo: `Rule: {{rule}} on {{ticker}} at {{price}}`
 
-4. Copia la URL del Webhook del canal y mantenla privada ([/docs/webhook](/en/docs/webhook)).
+4. Copia la URL del Webhook del canal y mantenla privada ([/docs/webhook](/es/docs/webhook)).
 
 ## 2. Configurar la alerta en TradingView
 
@@ -57,7 +57,7 @@ Documentación relevante:
 
 Notas:
 - Mantén las claves JSON simples y que coincidan con las variables de tu plantilla
-- `externalLink` es opcional; Echobell lo muestra como enlace en el registro de la notificación ([/docs/notification](/en/docs/notification))
+- `externalLink` es opcional; Echobell lo muestra como enlace en el registro de la notificación ([/docs/notification](/es/docs/notification))
 
 ## 3. Probar el flujo
 
@@ -69,8 +69,8 @@ Activa la alerta o usa una condición de prueba temporal. Deberías recibir una 
 - Crea canales separados por símbolo o estrategia para controlar el ruido
 - Incluye el marco temporal en tu plantilla si es relevante (p. ej. "cierre de 15m cruzó 150")
 
-Lectura adicional: configuración completa de TradingView → [/blog/tradingview-call-notifications](/en/blog/tradingview-call-notifications)
+Lectura adicional: configuración completa de TradingView → [/blog/tradingview-call-notifications](/es/blog/tradingview-call-notifications)
 
-Funciones: [/features/webhooks](/en/features/webhooks), [/features/call-notifications](/en/features/call-notifications)
+Funciones: [/features/webhooks](/es/features/webhooks), [/features/call-notifications](/es/features/call-notifications)
 
 Descarga Echobell: https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-stock-price-alerts-tradingvi-1ol2k2&mt=8 / Google Play: https://play.google.com/store/apps/details?id=one.echobell.echobellandroid

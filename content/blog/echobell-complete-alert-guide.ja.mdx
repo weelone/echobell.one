@@ -166,7 +166,7 @@ action:
 
 長時間かかるジョブ——学習、バッチ処理、AIエージェントのタスク、ETLパイプライン——を走らせているなら、プログレスバーを眺めたりターミナルを更新し続ける感覚はよくわかるはずだ。もっといい方法がある。
 
-[Echobell Direct](/en/docs/direct) はチャンネルを設定しなくても使えるパーソナルwebhookだ。どんなスクリプトの末尾にも呼び出しを追加できる：
+[Echobell Direct](/ja/docs/direct) はチャンネルを設定しなくても使えるパーソナルwebhookだ。どんなスクリプトの末尾にも呼び出しを追加できる：
 
 ```python
 import httpx
@@ -185,7 +185,7 @@ def notify_done(job: str, summary: str):
 notify_done("embedding_generation", f"50,000件のドキュメントを {elapsed:.1f}s で処理完了")
 ```
 
-[WebhookMCP](/en/blog/get-notified-with-webhook-mcp) 経由でClaudeや他のAIエージェントと作業しているなら、タスクが完了したときにエージェント自身が通知を発火できる。ジョブを起動して別のことをやり、完了したらスマホが振動する。
+[WebhookMCP](/ja/blog/get-notified-with-webhook-mcp) 経由でClaudeや他のAIエージェントと作業しているなら、タスクが完了したときにエージェント自身が通知を発火できる。ジョブを起動して別のことをやり、完了したらスマホが振動する。
 
 ---
 
@@ -201,7 +201,7 @@ notify_done("embedding_generation", f"50,000件のドキュメントを {elapsed
 
 `calling` タイプはProサブスクリプションが必要で、これは意図的な設計だ。本当に待てないことのために取っておく。ほとんどのアラートには `time-sensitive` を使い、`calling` は遅れた対応が実際の結果をもたらす少数のイベントに絞る。
 
-[条件](/en/docs/conditions)機能を使えば、配信レベルでロジックを追加できる。たとえば、勤務時間外のみ電話する、または値がしきい値を超えた場合のみアラートを送るといった設定が可能だ。
+[条件](/ja/docs/conditions)機能を使えば、配信レベルでロジックを追加できる。たとえば、勤務時間外のみ電話する、または値がしきい値を超えた場合のみアラートを送るといった設定が可能だ。
 
 ---
 
@@ -225,10 +225,10 @@ Echobell から価値を引き出す最速の方法は、現在見逃してい�
 
 ## 関連記事
 
-- [Echobell Direct — チャンネル設定なしの個人向けwebhook](/en/docs/direct)
-- [Zapier webhook でスマホに通知](/en/blog/zapier-webhook-notifications-to-phone)
-- [Grafana の電話アラート通知](/en/blog/grafana-call-notification)
-- [TradingView の電話アラート](/en/blog/tradingview-call-notifications)
-- [Home Assistant と Echobell の連携](/en/blog/home-assistant-notifications-with-echobell)
-- [n8n と Echobell で自動化ハブを構築](/en/blog/n8n-echobell-automation-hub)
-- [WebhookMCP — AIタスク完了時に通知を受け取る](/en/blog/get-notified-with-webhook-mcp)
+- [Echobell Direct — チャンネル設定なしの個人向けwebhook](/ja/docs/direct)
+- [Zapier webhook でスマホに通知](/ja/blog/zapier-webhook-notifications-to-phone)
+- [Grafana の電話アラート通知](/ja/blog/grafana-call-notification)
+- [TradingView の電話アラート](/ja/blog/tradingview-call-notifications)
+- [Home Assistant と Echobell の連携](/ja/blog/home-assistant-notifications-with-echobell)
+- [n8n と Echobell で自動化ハブを構築](/ja/blog/n8n-echobell-automation-hub)
+- [WebhookMCP — AIタスク完了時に通知を受け取る](/ja/blog/get-notified-with-webhook-mcp)

@@ -10,8 +10,17 @@
     customItems,
   }: { lang: Language; customItems?: BreadcrumbItem[] } = $props();
 
+  // Deep pages (blog posts, docs) expose their real title via
+  // `breadcrumbLabel` in page data so the trailing crumb doesn't fall back
+  // to a URL-derived label.
+  const currentLabel = $derived(
+    typeof page.data.breadcrumbLabel === "string"
+      ? page.data.breadcrumbLabel
+      : undefined
+  );
+
   const items = $derived(
-    getBreadcrumbItems(page.url.pathname, lang, customItems)
+    getBreadcrumbItems(page.url.pathname, lang, customItems, currentLabel)
   );
 </script>
 

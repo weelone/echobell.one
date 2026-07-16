@@ -174,6 +174,70 @@ export function articleJsonLd(args: {
   };
 }
 
+export function techArticleJsonLd(args: {
+  title: string;
+  description?: string;
+  url: string;
+  dateModified?: string;
+  inLanguage: string;
+}): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": `${args.url}#techarticle`,
+    headline: args.title,
+    ...(args.description && { description: args.description }),
+    url: args.url,
+    inLanguage: args.inLanguage,
+    ...(args.dateModified && { dateModified: args.dateModified }),
+    author: echobellOrganization,
+    publisher: {
+      "@type": "Organization",
+      "@id": ORGANIZATION_ID,
+      name: "Echobell",
+      logo: echobellLogo,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": args.url,
+    },
+    about: {
+      "@type": "SoftwareApplication",
+      "@id": APP_ID,
+      name: "Echobell",
+    },
+  };
+}
+
+export function collectionPageJsonLd(args: {
+  title: string;
+  description?: string;
+  url: string;
+  inLanguage: string;
+  items: Array<{ url: string; name: string }>;
+}): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${args.url}#collection`,
+    name: args.title,
+    ...(args.description && { description: args.description }),
+    url: args.url,
+    inLanguage: args.inLanguage,
+    isPartOf: { "@type": "WebSite", "@id": WEBSITE_ID },
+    publisher: echobellOrganization,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: args.items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        url: item.url,
+      })),
+    },
+  };
+}
+
 export function faqJsonLd(
   faqs: Array<{ question: string; answer: string }>
 ): object {

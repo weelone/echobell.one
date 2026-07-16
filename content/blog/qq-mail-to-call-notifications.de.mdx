@@ -17,11 +17,11 @@ QQ Mail-Push-Benachrichtigungen sind während Anrufen, konzentrierter Arbeit ode
 
 Relevante Dokumentation:
 
-- [QQ Mail-Einrichtung](/en/docs/email-to-call/qq)
-- [E-Mail-Trigger](/en/docs/email-trigger)
-- [Benachrichtigungstypen](/en/docs/notification)
-- [Templates und Variablen](/en/docs/template)
-- [Bedingungen](/en/docs/conditions)
+- [QQ Mail-Einrichtung](/de/docs/email-to-call/qq)
+- [E-Mail-Trigger](/de/docs/email-trigger)
+- [Benachrichtigungstypen](/de/docs/notification)
+- [Templates und Variablen](/de/docs/template)
+- [Bedingungen](/de/docs/conditions)
 
 ## Voraussetzungen
 
@@ -34,7 +34,7 @@ Relevante Dokumentation:
 2. Benachrichtigungstyp auf **Anruf** setzen
 3. Optional Wiederholung in den App-Einstellungen aktivieren, um kritische Nachrichten zuverlässiger zuzustellen
 
-Siehe: [Benachrichtigungstypen](/en/docs/notification)
+Siehe: [Benachrichtigungstypen](/de/docs/notification)
 
 ## Schritt 2 — Channel-E-Mail-Adresse kopieren und Templates konfigurieren
 
@@ -54,7 +54,7 @@ Body-Template:
 From {{from}}. {{text}}
 ```
 
-Variablenreferenz: [Templates](/en/docs/template)
+Variablenreferenz: [Templates](/de/docs/template)
 
 ## Schritt 3 — QQ Mail-Weiterleitungsregeln erstellen
 
@@ -68,7 +68,7 @@ In QQ Mail-Einstellungen einen Filter für hochpriorisierte Nachrichten erstelle
 
 Mit einer strikten Regel beginnen. Weitere hinzufügen, nachdem bestätigt wurde, dass die erste ohne Rauschen funktioniert.
 
-Vollständige QQ-Anleitung: [/docs/email-to-call/qq](/en/docs/email-to-call/qq)
+Vollständige QQ-Anleitung: [/docs/email-to-call/qq](/de/docs/email-to-call/qq)
 
 ## Schritt 4 — Echobell-Bedingungen hinzufügen (optional)
 
@@ -92,7 +92,7 @@ Absender und Schlüsselwort kombiniert:
 (from == "security@company.com" || from == "ops@company.com") && subject.toLowerCase().includes("alert")
 ```
 
-Referenz: [Bedingungen](/en/docs/conditions)
+Referenz: [Bedingungen](/de/docs/conditions)
 
 ## Datenschutzhinweis
 
@@ -119,8 +119,8 @@ Primär in QQ Mail filtern, damit nur notwendige E-Mails Echobell erreichen. Fal
 
 ## Verwandte Artikel
 
-- [Anleitung: E-Mails als Anruf-Benachrichtigungen](/en/blog/email-to-call-notification) — gleiche Einrichtung für Gmail, iCloud und Outlook
-- [E-Mail-Trigger-Dokumentation](/en/docs/email-to-call) — vollständige Referenz für alle Anbieter
-- [Kritische Alerts trotz iOS Focus Mode](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — Auswahl zwischen Push- und Anruf-Benachrichtigungen
-- [Bedingungen](/en/docs/conditions) — Ausdruckssyntax zum Filtern von Alarmen
-- [Templates](/en/docs/template) — Variablenreferenz für E-Mail-Trigger
+- [Anleitung: E-Mails als Anruf-Benachrichtigungen](/de/blog/email-to-call-notification) — gleiche Einrichtung für Gmail, iCloud und Outlook
+- [E-Mail-Trigger-Dokumentation](/de/docs/email-to-call) — vollständige Referenz für alle Anbieter
+- [Kritische Alerts trotz iOS Focus Mode](/de/blog/how-to-bypass-ios-focus-mode-for-critical-alerts) — Auswahl zwischen Push- und Anruf-Benachrichtigungen
+- [Bedingungen](/de/docs/conditions) — Ausdruckssyntax zum Filtern von Alarmen
+- [Templates](/de/docs/template) — Variablenreferenz für E-Mail-Trigger

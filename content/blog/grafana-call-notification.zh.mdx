@@ -19,14 +19,14 @@ tags:
 
 相关文档：
 
-- 什么是 Echobell → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- 通知类型与重试 → [/docs/notification](/en/docs/notification)
-- Webhooks 概览 → [/docs/webhook](/en/docs/webhook)
-- Grafana 集成参考 → [/docs/developer/grafana](/en/docs/developer/grafana)
+- 什么是 Echobell → [/docs/what-is-echobell](/zh/docs/what-is-echobell)
+- 通知类型与重试 → [/docs/notification](/zh/docs/notification)
+- Webhooks 概览 → [/docs/webhook](/zh/docs/webhook)
+- Grafana 集成参考 → [/docs/developer/grafana](/zh/docs/developer/grafana)
 
 ## 前提条件
 
-1. 拥有 Echobell 账户、活跃频道和 Webhook URL（参见 [/docs/webhook](/en/docs/webhook)）
+1. 拥有 Echobell 账户、活跃频道和 Webhook URL（参见 [/docs/webhook](/zh/docs/webhook)）
 2. 具有 Grafana 管理员权限
 3. 已配置至少一条告警规则
 
@@ -44,7 +44,7 @@ tags:
 
 `https://hook.echobell.one/t/<channel-token>`
 
-从 Echobell 频道设置中复制该 URL（详见 [/docs/webhook](/en/docs/webhook)）。请将其视为密钥妥善保管，泄露时及时更换。
+从 Echobell 频道设置中复制该 URL（详见 [/docs/webhook](/zh/docs/webhook)）。请将其视为密钥妥善保管，泄露时及时更换。
 
 ### 第三步——测试集成
 
@@ -61,7 +61,7 @@ Grafana 将把匹配的告警路由到 Echobell。
 ## 最佳实践
 
 - 来电仅用于高优先级告警；低严重程度走聊天或邮件
-- 在 Echobell 中配置重试和超时，控制告警疲劳（参见 [/docs/notification](/en/docs/notification)）
+- 在 Echobell 中配置重试和超时，控制告警疲劳（参见 [/docs/notification](/zh/docs/notification)）
 - 设置升级机制，第一个电话未接时自动通知队友
 - 配置安静时段，避免低紧急度告警在夜间打扰
 - 与值班团队共享频道，保持排班信息最新
@@ -73,7 +73,7 @@ Grafana 将把匹配的告警路由到 Echobell。
 - 配置重试次数和升级路径
 - 设置备用联系人以增强可靠性
 
-完整参考：[/docs/developer/grafana](/en/docs/developer/grafana)
+完整参考：[/docs/developer/grafana](/zh/docs/developer/grafana)
 
 ## 故障排查
 
@@ -84,6 +84,6 @@ Grafana 将把匹配的告警路由到 Echobell。
 
 ## 相关资源
 
-- 自定义系统的 Webhook 告警 → [/blog/get-notified-with-webhook-mcp](/en/blog/get-notified-with-webhook-mcp)
-- GitHub Actions 失败通知 → [/blog/github-actions-notifications](/en/blog/github-actions-notifications)
-- Grafana 开发者文档 → [/docs/developer/grafana](/en/docs/developer/grafana)
+- 自定义系统的 Webhook 告警 → [/blog/get-notified-with-webhook-mcp](/zh/blog/get-notified-with-webhook-mcp)
+- GitHub Actions 失败通知 → [/blog/github-actions-notifications](/zh/blog/github-actions-notifications)
+- Grafana 开发者文档 → [/docs/developer/grafana](/zh/docs/developer/grafana)

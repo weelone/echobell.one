@@ -17,7 +17,7 @@ tags:
 
 Echobellに組み込まれたUTC時刻変数を使えば、チャンネルの条件で直接、通知を特定の時間帯（業務時間、オンコールシフト、メンテナンスウィンドウなど）に限定できます。外部フィルタリングレイヤーは不要です。
 
-前提条件: [条件](/en/docs/conditions)、[テンプレート](/en/docs/template)、[Webhook](/en/docs/webhook)、[メールトリガー](/en/docs/email-trigger)
+前提条件: [条件](/ja/docs/conditions)、[テンプレート](/ja/docs/template)、[Webhook](/ja/docs/webhook)、[メールトリガー](/ja/docs/email-trigger)
 
 ## 利用可能なUTC変数
 
@@ -30,7 +30,7 @@ Echobellに組み込まれたUTC時刻変数を使えば、チャンネルの条
 - `hour`（0〜23）、`minute`（0〜59）、`second`（0〜59）
 - `date`（YYYY-MM-DD）、`time`（HH:mm:ss）
 
-[条件](/en/docs/conditions)では直接使用します（`{{ }}`は不要）。[テンプレート](/en/docs/template)では`{{ }}`付きで使用します。
+[条件](/ja/docs/conditions)では直接使用します（`{{ }}`は不要）。[テンプレート](/ja/docs/template)では`{{ }}`付きで使用します。
 
 ## 条件レシピ
 
@@ -83,7 +83,7 @@ dayOfMonth == 1 && minute == 0
   environment == "production" && dayOfWeek >= 1 && dayOfWeek <= 5
   ```
 
-条件は通常の式です — `{{ }}`で囲まないでください。[条件 → サポートされる演算子](/en/docs/conditions#supported-operators)を参照。
+条件は通常の式です — `{{ }}`で囲まないでください。[条件 → サポートされる演算子](/ja/docs/conditions#supported-operators)を参照。
 
 ## テンプレートでの時刻変数の使用
 
@@ -95,7 +95,7 @@ Today is {{dayOfWeekName}}, {{monthName}} {{dayOfMonth}}, {{year}}
 Epoch: {{epochSeconds}}
 ```
 
-[Webhook](/en/docs/webhook)または[メールトリガー](/en/docs/email-trigger)からのデータと組み合わせる:
+[Webhook](/ja/docs/webhook)または[メールトリガー](/ja/docs/email-trigger)からのデータと組み合わせる:
 
 ```
 {{service}} {{status}} at {{time}} ({{timezone}})
@@ -109,7 +109,7 @@ Epoch: {{epochSeconds}}
 
 ## 次のステップ
 
-- 既存のチャンネルに時間ウィンドウ条件を追加する: [条件](/en/docs/conditions)
-- 変数で通知内容をカスタマイズする: [テンプレート](/en/docs/template)
+- 既存のチャンネルに時間ウィンドウ条件を追加する: [条件](/ja/docs/conditions)
+- 変数で通知内容をカスタマイズする: [テンプレート](/ja/docs/template)
 - 業務時間用とオンコール時間帯用の別々のチャンネルを作成する
 - 時間外の緊急対応のためオンコールチャンネルの通知タイプを着信（Calling）に設定する

@@ -166,7 +166,7 @@ action:
 
 如果你跑长时间任务——模型训练、批量处理、AI 智能体任务、ETL 流水线——你肯定体验过盯着进度条或反复刷终端的感觉。有更好的办法。
 
-[Echobell Direct](/en/docs/direct) 给你一个个人 Webhook，不需要建频道。在任何脚本末尾加上通知：
+[Echobell Direct](/zh/docs/direct) 给你一个个人 Webhook，不需要建频道。在任何脚本末尾加上通知：
 
 ```python
 import httpx
@@ -185,7 +185,7 @@ def notify_done(job: str, summary: str):
 notify_done("embedding_generation", f"已处理 50,000 条文档，耗时 {elapsed:.1f}s")
 ```
 
-如果你通过 [WebhookMCP](/en/blog/get-notified-with-webhook-mcp) 使用 Claude 或其他 AI 智能体，智能体自身可以在任务完成时触发通知。你启动任务，去做别的事，手机震动时任务已经跑完了。
+如果你通过 [WebhookMCP](/zh/blog/get-notified-with-webhook-mcp) 使用 Claude 或其他 AI 智能体，智能体自身可以在任务完成时触发通知。你启动任务，去做别的事，手机震动时任务已经跑完了。
 
 ---
 
@@ -201,7 +201,7 @@ notify_done("embedding_generation", f"已处理 50,000 条文档，耗时 {elaps
 
 `calling` 类型需要 Pro 订阅，这是有意为之——它是留给那些真的不能等的事情的。大多数告警用 `time-sensitive`，把 `calling` 留给少数几个延误响应会有实际后果的事件。
 
-Echobell 还有[条件](/en/docs/conditions)功能，可以在通知投递层加逻辑。比如只在非工作时间触发电话，或者只有数值超过阈值才告警。上游系统过滤能力不足时，在 Echobell 这一层处理也完全没问题。
+Echobell 还有[条件](/zh/docs/conditions)功能，可以在通知投递层加逻辑。比如只在非工作时间触发电话，或者只有数值超过阈值才告警。上游系统过滤能力不足时，在 Echobell 这一层处理也完全没问题。
 
 ---
 
@@ -225,10 +225,10 @@ Echobell 还有[条件](/en/docs/conditions)功能，可以在通知投递层加
 
 ## 相关内容
 
-- [Echobell Direct — 无需频道配置的个人 Webhook](/en/docs/direct)
-- [Zapier Webhook 通知到手机](/en/blog/zapier-webhook-notifications-to-phone)
-- [Grafana 来电通知](/en/blog/grafana-call-notification)
-- [TradingView 来电提醒](/en/blog/tradingview-call-notifications)
-- [Home Assistant 与 Echobell 集成](/en/blog/home-assistant-notifications-with-echobell)
-- [用 n8n 和 Echobell 搭建自动化告警中心](/en/blog/n8n-echobell-automation-hub)
-- [WebhookMCP — AI 任务完成时收到通知](/en/blog/get-notified-with-webhook-mcp)
+- [Echobell Direct — 无需频道配置的个人 Webhook](/zh/docs/direct)
+- [Zapier Webhook 通知到手机](/zh/blog/zapier-webhook-notifications-to-phone)
+- [Grafana 来电通知](/zh/blog/grafana-call-notification)
+- [TradingView 来电提醒](/zh/blog/tradingview-call-notifications)
+- [Home Assistant 与 Echobell 集成](/zh/blog/home-assistant-notifications-with-echobell)
+- [用 n8n 和 Echobell 搭建自动化告警中心](/zh/blog/n8n-echobell-automation-hub)
+- [WebhookMCP — AI 任务完成时收到通知](/zh/blog/get-notified-with-webhook-mcp)

@@ -18,10 +18,10 @@ tags:
 
 関連ドキュメント:
 
-- Echobellとは → [/docs/what-is-echobell](/en/docs/what-is-echobell)
-- Webhookの概要 → [/docs/webhook](/en/docs/webhook)
-- 通知タイプ（通常・タイムセンシティブ・着信）→ [/docs/notification](/en/docs/notification)
-- テンプレートと変数 → [/docs/template](/en/docs/template)
+- Echobellとは → [/docs/what-is-echobell](/ja/docs/what-is-echobell)
+- Webhookの概要 → [/docs/webhook](/ja/docs/webhook)
+- 通知タイプ（通常・タイムセンシティブ・着信）→ [/docs/notification](/ja/docs/notification)
+- テンプレートと変数 → [/docs/template](/ja/docs/template)
 
 ## 前提条件
 
@@ -31,14 +31,14 @@ tags:
 ## 1. Echobellチャンネルの作成
 
 1. Echobellでチャンネルを作成（例：「Stocks: AAPL levels」）
-2. 通知タイプを設定。緊急な価格変動には**着信（Calling）**、そうでなければ**タイムセンシティブ**（[/docs/notification](/en/docs/notification)）
+2. 通知タイプを設定。緊急な価格変動には**着信（Calling）**、そうでなければ**タイムセンシティブ**（[/docs/notification](/ja/docs/notification)）
 3. 着信時に有用なコンテキストを読み上げるようテンプレートを設定:
 
    タイトル: `{{ticker}} hit {{price}}`
 
    本文: `Rule: {{rule}} on {{ticker}} at {{price}}`
 
-4. チャンネルのWebhook URLをコピーして秘密に保管（[/docs/webhook](/en/docs/webhook)）
+4. チャンネルのWebhook URLをコピーして秘密に保管（[/docs/webhook](/ja/docs/webhook)）
 
 ## 2. TradingViewアラートの設定
 
@@ -57,7 +57,7 @@ tags:
 
 注意:
 - JSONのキーはテンプレート変数名と一致するようシンプルに保つ
-- `externalLink`は任意。Echobellがnotification履歴でタップ可能なリンクとして表示（[/docs/notification](/en/docs/notification)）
+- `externalLink`は任意。Echobellがnotification履歴でタップ可能なリンクとして表示（[/docs/notification](/ja/docs/notification)）
 
 ## 3. フローのテスト
 
@@ -69,8 +69,8 @@ tags:
 - ノイズを制御するためシンボルや戦略ごとに別々のチャンネルを作成する
 - 重要な場合はタイムフレームをテンプレートに含める（例：「15m close crossed 150」）
 
-詳細読み物: TradingViewの完全セットアップ → [/blog/tradingview-call-notifications](/en/blog/tradingview-call-notifications)
+詳細読み物: TradingViewの完全セットアップ → [/blog/tradingview-call-notifications](/ja/blog/tradingview-call-notifications)
 
-機能: [/features/webhooks](/en/features/webhooks)、[/features/call-notifications](/en/features/call-notifications)
+機能: [/features/webhooks](/ja/features/webhooks)、[/features/call-notifications](/ja/features/call-notifications)
 
 Echobellのダウンロード: https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-stock-price-alerts-tradingvi-1ol2k6&mt=8 / Google Play: https://play.google.com/store/apps/details?id=one.echobell.echobellandroid

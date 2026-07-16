@@ -14,7 +14,7 @@ const seoLandingPages = [
   "/app-store-connect-review-notifications",
 ] as const;
 
-const SITE_LAST_MODIFIED = new Date("2026-07-11");
+const SITE_LAST_MODIFIED = new Date("2026-07-16");
 
 interface SitemapEntry {
   url: string;
