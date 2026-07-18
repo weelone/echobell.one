@@ -1,0 +1,135 @@
+---
+title: "Cloud Outages Are the New Normal: How to Still Get Alerted"
+description: "AWS CloudFront's July 2026 outage took dashboards and status pages down with it. Build an alert path that still reaches your phone when a cloud provider fails."
+date: 2026-07-18
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - cloud outage
+  - outage alerts
+  - incident response
+  - AWS outage
+  - alert delivery
+---
+
+# Cloud Outages Are the New Normal: How to Still Get Alerted
+
+On July 16, 2026, an AWS CloudFront failure rippled across the internet for three and a half hours and took a long list of unrelated services down with it. If your team found out from a customer email instead of an alert, the problem was not detection. The problem was delivery.
+
+Outages like this are no longer rare events you can treat as exceptions. Analysts now expect them on a regular cadence, which means the useful question has shifted. It is no longer only "How do I know when something breaks?" It is "Will the alert still reach me when the same outage is breaking my dashboard, my status page, and my chat tool at the same time?"
+
+This guide explains what happened, why provider-level outages are becoming routine, and how to build an alert path that survives them.
+
+## What happened in the July 2026 AWS CloudFront outage
+
+On July 16, 2026, AWS CloudFront experienced a disruption from **07:45 to 11:18 UTC**, roughly three hours and 33 minutes. According to the AWS Health Dashboard summary, the root cause was an internal constraint on the fleet managing connections to private VPC origins, which prevented updated network configurations from loading correctly. Only the [VPC Origins](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-vpc-origins.html) feature was affected; other origin types kept working, and AWS advised customers to switch origin types as a workaround while the fix rolled out.
+
+Because CloudFront is a global content delivery network, the blast radius reached far beyond AWS itself. Independent tracking documented cascading impact across identity providers, AI tooling, education platforms, and networking vendors — including Hugging Face, Frontegg, Instructure Canvas, and Blackboard. A single control-plane constraint became a multi-industry incident, as detailed in [IncidentHub's outage analysis](https://blog.incidenthub.cloud/aws-cloudfront-outage-jul-16-2026).
+
+The technical detail matters less than the pattern: one provider stumbled, and hundreds of downstream teams inherited an outage they did not cause and could not fix.
+
+## Why cloud outages are now routine, not exceptional
+
+Provider-level incidents are trending from "surprising" to "expected." Forrester analyst Lee Sustar has forecast [at least two major multiday cloud outages in 2026](https://www.techtarget.com/searchcloudcomputing/feature/Cloud-outages-expected-to-be-the-new-normal-in-2026), and the reasoning is structural: hyperscalers are pouring investment into GPU-centric data centers for AI workloads while older infrastructure ages under the load.
+
+The cost of being slow to respond is well documented. Research by Oxford Economics for Splunk put the price of downtime at roughly **$9,000 per minute** for large enterprises, with the Global 2000 collectively losing an estimated $400 billion a year. Even for a small product, an outage that runs for hours instead of minutes is the difference between a quiet incident and a public one.
+
+You cannot prevent your provider's outages. What you can control is how fast a human on your side finds out — and that comes down to alert delivery, not just monitoring.
+
+## The hidden failure mode: your alerting lives in the cloud too
+
+Here is the trap that catches teams during large outages: the tools you rely on to *tell you* about a problem often depend on the same infrastructure that just failed.
+
+When a major CDN or region degrades, the collateral damage frequently includes:
+
+- **Dashboards** that will not load because their own assets are served through the affected CDN.
+- **Status pages** that lag, cache, or fail to update while everyone refreshes them at once.
+- **Chat-based alerts** in Slack or Teams that arrive late, or that nobody is watching at 3 a.m. anyway.
+- **Email notifications** that queue behind a backlog and land 40 minutes after they mattered.
+
+If every path to your attention runs through the same cloud, an outage can silence your alerts at the exact moment you need them loudest. The fix is not a better dashboard. It is a delivery path that is *independent* of your primary stack and impossible to ignore.
+
+## What out-of-band alerting actually means
+
+Out-of-band alerting is a delivery path that does not share fate with the system it is watching. The goal is simple: even if your app, your monitoring UI, and your usual chat channel are all struggling, one signal still gets through to a real person and demands a response.
+
+A resilient out-of-band path has three properties:
+
+1. **Independent delivery.** It reaches you through a different channel than the one under stress — ideally a push notification or a phone call to a device, not another web dashboard.
+2. **Impossible to miss.** For genuinely critical events, a silent badge is not enough. The alert should ring through Focus Mode or Do Not Disturb the way an actual phone call would.
+3. **Multiple ways to fire.** If one trigger source is down, another can still send the alert. A webhook *and* an email fallback beat a single point of failure.
+
+No vendor can promise it will never have a bad day — honest engineering means assuming any single component can fail. That is exactly why the value is in *independence and redundancy*, not in any one tool being magically immune.
+
+## How to build an independent alert path with Echobell
+
+[Echobell](https://echobell.one) is a focused delivery layer: it turns a webhook or an email into a normal push, a time-sensitive alert, or a [phone call](/en/features/call-notifications) to your phone. It does not replace your monitors — it makes sure their most important findings actually reach you. Here is how to set up a path that holds up during a provider outage.
+
+### 1. Pick only the signals that justify waking someone
+
+Reserve the loudest alerts for events where a delayed response has real cost: your primary product is unreachable, payments are failing, authentication is down. Everything else stays quieter. Being deliberate here is what keeps the critical path credible instead of recreating [alert fatigue](/en/blog/fix-alert-fatigue-developer-guide).
+
+### 2. Create a dedicated channel and set it to Calling
+
+In Echobell, create a channel for your critical incidents and set its notification behavior to **Calling** so a triggered alert rings your phone like a real call. Share the [channel](/en/features/channels) with everyone who shares on-call responsibility; each subscriber controls how it behaves on their own device.
+
+### 3. Trigger it from a source outside the failing system
+
+Point a check that runs *outside* your primary stack at the channel's [webhook](/en/docs/webhook) URL. External uptime monitors such as [Uptime Kuma](/en/docs/developer/uptime-kuma), UptimeRobot, or a synthetic check hosted on different infrastructure are ideal, because they keep watching even when your own region is down. A basic test payload looks like this:
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Site unreachable from external probe",
+    "body": "3 consecutive failed checks against https://status.example.com",
+    "severity": "critical",
+    "externalLink": "https://status.example.com/incidents/latest"
+  }'
+```
+
+Use a placeholder token in scripts and secret managers; never commit a real channel webhook URL to source control.
+
+### 4. Add an email fallback so one broken path is not the end
+
+Webhooks are the primary trigger, but many services can send an email even when their webhook integration is misconfigured or rate-limited. Echobell's [email trigger](/en/docs/email-trigger) gives you a second, independent way to fire the same alert — a cheap insurance policy for the moments that matter most.
+
+### 5. Test it during a real or simulated outage
+
+An untested alert path is a guess. Once a quarter, deliberately fail a health check — or piggyback on your next real incident — and confirm the call actually comes through. Verify recovery notifications too, so an "all clear" is as reliable as the alarm.
+
+## A resilient alerting checklist
+
+Use this to pressure-test your setup before the next provider outage:
+
+- The most critical alert reaches a phone as a call, not just a badge.
+- At least one trigger source runs on infrastructure independent of your app.
+- A second trigger path (for example, email) can fire the same alert if the first fails.
+- Alert content is scannable in seconds: service, symptom, timestamp, and a link.
+- Only genuinely urgent events use the loudest channel.
+- You have tested delivery — including recovery — in the last 90 days.
+
+## Frequently asked questions
+
+### Can any tool guarantee alerts during every cloud outage?
+
+No, and be skeptical of anyone who claims otherwise. Every service runs on infrastructure that can fail. The realistic goal is resilience through independence and redundancy: use a delivery path that does not share fate with the system it watches, and give yourself more than one way to fire the alert.
+
+### What is out-of-band alerting?
+
+It is a notification path that is separate from the system being monitored, so a failure in that system does not also disable your ability to be warned about it. In practice that usually means a push or phone-call alert to a device, triggered by a check running somewhere else.
+
+### How is this different from my existing uptime monitor?
+
+Your monitor detects problems; Echobell delivers the verdict. Most monitoring tools are good at spotting failures and weak at guaranteeing a human notices in time. Pointing your monitor's webhook at a phone-call channel closes that gap. For the API-specific version of this setup, see [getting phone call alerts when your API goes down](/en/blog/phone-call-alerts-api-downtime).
+
+### Do I need to replace my monitoring stack?
+
+No. This is an addition, not a migration. Keep the monitors, dashboards, and incident tooling you already trust, and add an independent delivery layer on top for the handful of events that truly cannot wait. If you are also re-evaluating heavier platforms, our notes on [Opsgenie's end of life](/en/blog/opsgenie-end-of-life-alternatives) cover when a full incident-management suite is still the right call.
+
+## Build the path before you need it
+
+The July 2026 CloudFront outage will not be the last one. Provider incidents are becoming a normal operating condition, and the teams that come through them calmly are the ones who set up an independent, hard-to-ignore alert path *before* the bad morning arrived.
+
+Start small: one critical channel, set to Calling, triggered from outside your primary stack, with an email fallback behind it. [Download Echobell for iPhone](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-cloud-outage-alerts-en&mt=8) or [get it on Google Play](https://play.google.com/store/apps/details?id=one.echobell.echobellandroid), and test the call today — while everything is still working.
