@@ -1,0 +1,14 @@
+{
+  "title": "開発者",
+  "pages": [
+    "index",
+    "github",
+    "grafana",
+    "prometheus",
+    "home-assistant",
+    "app-store-connect",
+    "upptime",
+    "uptime-kuma",
+    "uptimerobot"
+  ]
+}
