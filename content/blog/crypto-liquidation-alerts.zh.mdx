@@ -1,0 +1,129 @@
+---
+title: "加密爆仓预警：在仓位被强平前，先让手机响起来"
+description: "静默推送在深夜的追加保证金通知面前毫无意义。了解如何用 Echobell 把 TradingView 或监控机器人发出的爆仓风险信号变成一通电话——让下跌的保证金率真正把你叫醒。"
+date: 2026-07-24
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - 加密爆仓预警
+  - 追加保证金提醒
+  - 交易提醒
+  - 电话提醒
+  - 加密货币交易
+---
+
+# 加密爆仓预警：在仓位被强平前，先让手机响起来
+
+凌晨三点，一条以静默推送形式送达的爆仓风险提醒毫无价值。如果你在睡觉时保证金率正一路跌向强平线，唯一有意义的提醒是那种像来电一样把手机打响、并且能穿透"勿扰模式"的提醒。本文将手把手教你搭建这样一套机制——用 [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-crypto-liquidation-alerts-zh&mt=8) 把来自 TradingView 或监控服务的爆仓风险信号，转化为一通电话。
+
+爆仓连环清算并不是小概率事件。2025 年 10 月 10 日至 11 日，一场单日衍生品挤压在全市场强制平掉了超过 **190 亿美元**的杠杆仓位——这是加密史上规模最大的清算事件——在特朗普总统宣布对中国进口商品加征 100% 关税后，约 **160 万个**交易账户被清空（[CoinGecko](https://www.coingecko.com/learn/october-10-crypto-crash-explained)、[CoinDesk Research](https://www.coindesk.com/research/market-spotlight-the-19-billion-liquidation-that-shook-crypto)）。其中约 70% 的清算——约 69.3 亿美元——发生在短短 40 分钟内，仅在 UTC 21:15 的那一分钟就蒸发了 32.1 亿美元。纵观整个 2025 年，CoinGlass 统计的清算总额超过 **1500 亿美元**，平均每天 4 亿至 5 亿美元（[Bitcoinist 援引 CoinGlass](https://bitcoinist.com/crypto-liquidations-150-billion-2025-coinglass/)）。
+
+你无法阻止一场连环清算。但如果你在做杠杆交易，你至少可以确保在它发生时自己是清醒的。
+
+## 为什么静默提醒挡不住爆仓风险
+
+**一条爆仓预警必须能打断你，否则它就不算预警。** 标准的手机推送会被 iOS 专注模式、勿扰模式和睡眠计划静音——而这些恰恰是周日深夜闪崩开始时你所处的状态。交易所 App 的推送和邮件提醒会在你的维持保证金一点点耗尽时，堆在那里无人查看。
+
+Echobell 就是为解决这一个问题而生：它把 Webhook 或邮件变成一通电话——一通真正会响铃、会震动的来电，像家人打来的电话那样绕过 iOS 专注模式和勿扰模式（参见[为关键警报绕过 iOS 专注模式](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)）。它不会替你交易，也不会连接你的交易所余额。它是那一层"让提醒无法被睡过去"的送达机制。
+
+## 加密爆仓到底是怎么发生的
+
+**当你的保证金率跌破交易所的维持阈值时，你就会被强平——而不是在价格触及某个整数关口时。** 在币安的组合保证金体系中，账户以统一维持保证金率（uniMMR）来衡量，计算方式为调整后权益除以持仓所需的维持保证金。当该比率跌破 **105%** 时，清算引擎会接管账户并强制卖出资产以偿还负债；一旦开始，就不会停止也不会逆转（[币安：uniMMR](https://www.binance.com/en/support/faq/what-is-the-unified-account-maintenance-margin-ratio-unimmr-and-how-is-it-calculated-4868b2f1aa6c4d08af973328462bb0bd)）。
+
+对于逐仓仓位，同样的道理浓缩成一个**强平价格**：你剩余的保证金不再足以覆盖维持要求的那个价位。币安公布了具体公式，取决于你的开仓价、仓位规模、杠杆和维持保证金率（[币安：如何计算强平价格](https://www.binance.com/en/support/faq/how-to-calculate-margin-liquidation-price-f6b010588e55413aa58b7d63ee0125ed)）。其他交易所采用类似机制，各有其保证金档位。
+
+现实的启示是：**你其实已经知道自己的强平价格，或者能算出来。** 那个数字就是你要预警的触发点——最好留一个缓冲，让电话在你还有时间追加保证金或减仓时响起，而不是在引擎已经开火之后。
+
+## 交易所会在爆仓前给你发 Webhook 吗？
+
+**大多数情况下不会——这正是你要绕开设计的诚实局限。** 主流交易所不会在你的保证金率下降时向任意 URL 发送出站 Webhook。它们只在自己的 App 内和通过邮件通知。所以 Echobell 无法直接订阅你的币安或 Bybit 账户。必须由其他东西来盯着你的仓位并触发 Webhook。你有三种现实可行的信号来源：
+
+1. **价格提醒**：在你的强平价位（或其上方的安全缓冲位）设置，来自支持 Webhook 的行情平台。
+2. **市场监控服务**：本身就支持 Webhook 动作的服务。
+3. **你自己的脚本**：轮询交易所 API 获取你的保证金率。
+
+三条路径殊途同归：一个发往你 Echobell 频道 Webhook URL 的 HTTP 请求，让你的手机响起来。
+
+## 用 Echobell 搭建爆仓电话预警
+
+先创建那个会给你打电话的频道。
+
+### 第一步 —— 创建一个 Calling（来电）频道
+
+下载 Echobell，创建一个新频道，把它的通知类型设为 **Calling（来电）**——这就是让手机响铃而非静默推送的关键。从频道详情里复制该频道的 Webhook URL，形如 `https://hook.echobell.one/t/<channel-token>`。请把它当作机密。再单独保留一个 **Time-Sensitive（时效性）** 或 **Normal（普通）** 频道，用于较为温和的信息类提醒（参见[通知类型](/docs/notification)）。
+
+### 第二步 —— 选择你的触发来源
+
+**方案 A —— TradingView 价格提醒（最简单）。** 在付费的 TradingView 套餐中，打开图表，创建一个条件为"价格向下穿越"你的强平缓冲位的提醒，选择 **Webhook URL** 动作，粘贴你的 Echobell URL。把提醒消息设成 Echobell 可套用模板的 JSON，例如：
+
+```json
+{
+  "title": "⚠️ 爆仓风险：{{ticker}}",
+  "message": "{{ticker}} 在 {{exchange}} 触及 {{price}} —— 保证金缓冲已被击穿"
+}
+```
+
+完整教程：[TradingView 集成](/docs/trader/tradingview)。请注意 Webhook 提醒需要付费的 TradingView 套餐。
+
+**方案 B —— 加密监控服务。** 诸如 [Cryptocurrency Alerting](/docs/trader/cryptocurrency-alerting) 之类的工具会监控价格、成交量和链上事件，并可在条件触发时调用 Webhook。把该 Webhook 指向你的 Echobell 频道，当 BTC 跌破让你仓位陷入风险的价位时，你就会接到电话。
+
+**方案 C —— 你自己的保证金率监控。** 如果你想对真实的保证金率而非替代性价格发出预警，可以运行一个小脚本，轮询交易所 API 获取你账户的维持保证金率，并在它跨过你设定的阈值时（例如 uniMMR 低于 130%，远早于 105% 的强平点）向 Echobell 发送 POST。任何带 HTTP 客户端的语言都行——[Webhook 指南](/docs/webhook)涵盖了负载和模板变量。
+
+### 第三步 —— 测试
+
+手动触发一次提醒——发一个测试 Webhook，或临时把 TradingView 条件设成会立即触发。你的手机应在几秒内响起。开着勿扰模式测一次，确认它能穿透你的专注模式。
+
+## Echobell 能做什么，不能做什么
+
+当涉及真金白银时，把这一点说清楚比宕机的服务器更重要。
+
+**Echobell 能做到：**
+
+- 把 Webhook 或邮件变成响铃电话、时效性提醒或普通推送。
+- 对 Calling 类型的提醒穿透 iOS 专注模式和勿扰模式。
+- 让你共享一个频道，使整个交易团队接到同一通电话，并可在第一个人未响应时重复呼叫。
+
+**Echobell 做不到：**
+
+- 连接你的交易所账户、读取你的余额，或自行知道你真实的保证金率。它只知道触发来源发给它的内容。
+- 追加保证金、平仓或撤单。它是一层提醒机制，不是交易机器人，也不是风控引擎。
+- 替代止损。提醒依赖你的手机、信号和你自己的反应时间；而交易所内的止损或只减仓订单无需你在场即可执行。**请把提醒与交易所内的风控手段配合使用，绝不要用它取而代之。**
+
+如果你的整个风险方案就是"我会收到提醒然后及时补仓"，那你离爆仓只差一块没电的电池。正确的心智模型是：交易所内的止损是你的自动防线，而电话预警是你在机器无法替你决断的时刻的人工兜底。
+
+## 常见问题
+
+### Echobell 能阻止我的仓位被强平吗？
+
+不能。Echobell 负责送达提醒；它无法追加保证金或平仓。只有交易所内的止损、只减仓订单，或你自己的手动操作才能阻止强平。Echobell 的职责是确保你能及时得知、及时行动。
+
+### Echobell 会直接连接币安、Bybit 或 OKX 吗？
+
+不会。Echobell 接收 Webhook 和邮件；它不会登录你的交易所账户。你需要通过一个已经在盯着你仓位的触发来源——TradingView 提醒、监控服务，或你自己的 API 脚本——来把 Webhook 发给 Echobell。
+
+### 我该把预警阈值设成多少？
+
+对高于实际强平价格或维持阈值的缓冲位发出预警，而不是对强平点本身。常见做法是当保证金率接近某个警戒水平时预警（例如币安 uniMMR 约 130%，而强平触发点为 105%），好让你有时间反应。请用交易所公布的公式计算你的强平价格。
+
+### 手机开着勿扰模式，电话打得进来吗？
+
+打得进来。Echobell 的 Calling 通知类型专为穿透 iOS 专注模式和勿扰模式而设计，类似联系人反复来电能被放行的机制。在依赖它之前，先开着勿扰模式测一次。
+
+### 我需要付费的 TradingView 套餐吗？
+
+要用 TradingView 的 Webhook 提醒动作，是的——Webhook 需要付费套餐（Pro/Pro+/Premium）。如果你没有，可以改用支持 Webhook 的监控服务，或你自己的脚本作为触发来源。
+
+### 我的整个交易团队都能收到提醒吗？
+
+可以。把 Echobell 频道共享给队友，所有订阅者都会收到通知。你可以配置重复呼叫，让提醒一直打到有人响应为止。
+
+---
+
+## 相关阅读
+
+- [用 TradingView 与 Echobell 设置股价提醒](/blog/stock-price-alerts-tradingview-echobell)
+- [TradingView 电话通知](/blog/tradingview-call-notifications)
+- [为关键警报绕过 iOS 专注模式](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Cryptocurrency Alerting 集成](/docs/trader/cryptocurrency-alerting)
+- [Webhook 集成指南](/docs/webhook)

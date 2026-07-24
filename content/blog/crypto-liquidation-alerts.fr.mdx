@@ -1,0 +1,129 @@
+---
+title: "Alertes de liquidation crypto : recevez un appel avant que votre position ne soit balayée"
+description: "Une notification push silencieuse ne sert à rien face à un appel de marge en pleine nuit. Découvrez comment router une alerte de risque de liquidation depuis TradingView ou un bot de surveillance vers un appel téléphonique avec Echobell — pour qu'un ratio de marge en chute vous réveille vraiment."
+date: 2026-07-24
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - alertes de liquidation crypto
+  - alertes d'appel de marge
+  - alertes de trading
+  - alertes par appel
+  - trading de cryptomonnaies
+---
+
+# Alertes de liquidation crypto : recevez un appel avant que votre position ne soit balayée
+
+Une alerte de risque de liquidation qui arrive sous forme de notification push silencieuse ne vaut rien à 3 heures du matin. Si votre ratio de marge chute vers le seuil de liquidation pendant votre sommeil, la seule alerte qui compte est celle qui fait sonner votre téléphone comme un appel et qui perce le mode Ne pas déranger. Ce guide vous montre comment construire exactement cela : router un déclencheur de risque de liquidation depuis TradingView ou un service de surveillance vers un appel téléphonique avec [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-crypto-liquidation-alerts-fr&mt=8).
+
+Les cascades de liquidation ne sont pas un risque marginal. Les 10 et 11 octobre 2025, un resserrement des dérivés en une seule journée a clôturé de force plus de **19 milliards de dollars** de positions à effet de levier sur l'ensemble du marché — le plus grand événement de liquidation de l'histoire de la crypto — effaçant environ **1,6 million** de comptes de trading après l'annonce par le président Trump d'un droit de douane de 100 % sur les importations chinoises ([CoinGecko](https://www.coingecko.com/learn/october-10-crypto-crash-explained), [CoinDesk Research](https://www.coindesk.com/research/market-spotlight-the-19-billion-liquidation-that-shook-crypto)). Près de 70 % de ces liquidations — environ 6,93 milliards de dollars — se sont produites dans une seule fenêtre de 40 minutes, avec 3,21 milliards évaporés en une seule minute à 21 h 15 UTC. Sur l'ensemble de 2025, CoinGlass a recensé plus de **150 milliards de dollars** de liquidations, soit une moyenne de 400 à 500 millions chaque jour ([Bitcoinist, citant CoinGlass](https://bitcoinist.com/crypto-liquidations-150-billion-2025-coinglass/)).
+
+Vous ne pouvez pas arrêter une cascade. Mais si vous tradez avec de l'effet de levier, vous pouvez vous assurer d'être éveillé pour y réagir.
+
+## Pourquoi une notification silencieuse ne suffit pas face au risque de liquidation
+
+**Un avertissement de liquidation doit vous interrompre, sinon ce n'est pas un avertissement.** Les notifications push standard sont réduites au silence par les modes de Concentration d'iOS, le mode Ne pas déranger et les horaires de sommeil — exactement les conditions dans lesquelles vous vous trouvez quand un krach éclair démarre un dimanche soir. Les push de l'application de la plateforme et les e-mails s'empilent sans être lus pendant que votre marge de maintenance se vide.
+
+Echobell existe pour résoudre ce seul problème : il transforme un webhook ou un e-mail en appel téléphonique — un vrai appel qui sonne et vibre — qui contourne le mode Concentration et Ne pas déranger d'iOS comme le ferait l'appel d'un proche (voir [contourner le mode Concentration d'iOS pour les alertes critiques](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)). Il ne trade pas à votre place et ne se connecte pas au solde de votre plateforme. C'est la couche de distribution qui rend l'alerte impossible à manquer en dormant.
+
+## Comment une liquidation crypto se produit réellement
+
+**Vous êtes liquidé lorsque votre ratio de marge franchit le seuil de maintenance de votre plateforme, et non lorsque le prix touche un chiffre rond.** Dans le système de Portfolio Margin de Binance, le compte est mesuré par un ratio de marge de maintenance unifié (uniMMR), calculé comme le capital ajusté divisé par la marge de maintenance exigée par vos positions ouvertes. Lorsque ce ratio tombe sous **105 %**, le moteur de liquidation prend le contrôle du compte et vend de force les actifs pour couvrir les dettes ; une fois enclenché, il ne s'arrête ni ne s'inverse ([Binance : uniMMR](https://www.binance.com/en/support/faq/what-is-the-unified-account-maintenance-margin-ratio-unimmr-and-how-is-it-calculated-4868b2f1aa6c4d08af973328462bb0bd)).
+
+Pour une position en marge isolée, la même idée se réduit à un unique **prix de liquidation** : le niveau auquel votre marge restante ne couvre plus l'exigence de maintenance. Binance publie la formule exacte, qui dépend de votre prix d'entrée, de la taille de la position, de l'effet de levier et du taux de marge de maintenance ([Binance : comment calculer le prix de liquidation](https://www.binance.com/en/support/faq/how-to-calculate-margin-liquidation-price-f6b010588e55413aa58b7d63ee0125ed)). D'autres plateformes utilisent des mécaniques comparables avec leurs propres paliers de marge.
+
+L'enseignement pratique : **vous connaissez déjà votre prix de liquidation, ou vous pouvez le calculer.** Ce chiffre est le déclencheur sur lequel vous voulez être alerté — idéalement avec une marge de sécurité, pour que l'appel arrive pendant que vous avez encore le temps d'ajouter de la marge ou de réduire la position, plutôt qu'après que le moteur a déjà tiré.
+
+## Une plateforme peut-elle vous envoyer un webhook avant la liquidation ?
+
+**La plupart du temps, non — et c'est la limite honnête qu'il faut contourner.** Les grandes plateformes n'envoient pas de webhooks sortants vers des URL arbitraires lorsque votre ratio de marge baisse. Elles notifient dans leur propre application et par e-mail. Echobell ne peut donc pas s'abonner directement à votre compte Binance ou Bybit. Quelque chose d'autre doit surveiller votre position et déclencher le webhook. Vous avez trois sources réalistes :
+
+1. **Une alerte de prix** sur votre niveau de liquidation (ou une marge de sécurité au-dessus), depuis une plateforme de graphiques prenant en charge les webhooks.
+2. **Un service de surveillance de marché** qui prend déjà en charge les actions par webhook.
+3. **Votre propre script** interrogeant l'API de la plateforme pour obtenir votre ratio de marge.
+
+Les trois aboutissent de la même façon : une requête HTTP vers l'URL de webhook de votre canal Echobell, qui fait sonner votre téléphone.
+
+## Configurer des alertes de liquidation par appel avec Echobell
+
+D'abord, créez le canal qui vous appellera.
+
+### Étape 1 — Créez un canal de type Calling (appel)
+
+Téléchargez Echobell, créez un nouveau canal et réglez son type de notification sur **Calling (appel)** — c'est ce qui fait sonner le téléphone au lieu de délivrer un push silencieux. Copiez l'URL de webhook du canal depuis ses détails ; elle ressemble à `https://hook.echobell.one/t/<channel-token>`. Traitez-la comme un secret. Gardez un canal distinct **Time-Sensitive (urgent)** ou **Normal** pour les avis informatifs plus doux (voir [types de notification](/docs/notification)).
+
+### Étape 2 — Choisissez votre source de déclenchement
+
+**Option A — Alerte de prix TradingView (la plus simple).** Sur un forfait TradingView payant, ouvrez votre graphique, créez une alerte avec la condition « le prix franchit à la baisse » votre niveau de marge de liquidation, choisissez l'action **Webhook URL** et collez votre URL Echobell. Réglez le message de l'alerte sur un JSON qu'Echobell peut mettre en template, par exemple :
+
+```json
+{
+  "title": "⚠️ Risque de liquidation : {{ticker}}",
+  "message": "{{ticker}} a atteint {{price}} sur {{exchange}} — marge de sécurité franchie"
+}
+```
+
+Guide complet : [intégration TradingView](/docs/trader/tradingview). Notez que les alertes par webhook nécessitent un forfait TradingView payant.
+
+**Option B — Un service de surveillance crypto.** Des outils comme [Cryptocurrency Alerting](/docs/trader/cryptocurrency-alerting) surveillent les prix, le volume et les événements on-chain, et peuvent appeler un webhook lorsqu'une condition se déclenche. Pointez ce webhook vers votre canal Echobell et vous recevrez un appel quand, par exemple, le BTC passe sous le niveau qui met votre position en danger.
+
+**Option C — Votre propre moniteur de ratio de marge.** Si vous voulez être alerté sur le vrai ratio de marge plutôt que sur un prix approché, exécutez un petit script qui interroge l'API de votre plateforme pour obtenir le ratio de marge de maintenance de votre compte et envoie un POST à Echobell lorsqu'il franchit un seuil que vous définissez (par exemple, un uniMMR sous 130 %, bien avant le point de liquidation à 105 %). N'importe quel langage doté d'un client HTTP fonctionne — le [guide des webhooks](/docs/webhook) couvre la charge utile et les variables de template.
+
+### Étape 3 — Testez
+
+Déclenchez l'alerte manuellement : envoyez un webhook de test, ou réglez temporairement une condition TradingView qui se déclenche immédiatement. Votre téléphone devrait sonner en quelques secondes. Confirmez qu'il perce votre mode Concentration en testant avec Ne pas déranger activé.
+
+## Ce qu'Echobell fait et ne fait pas
+
+Être précis là-dessus compte encore plus quand de l'argent est en jeu qu'avec un serveur hors service.
+
+**Echobell fait :**
+
+- Transformer un webhook ou un e-mail en appel téléphonique, alerte urgente ou push normal.
+- Percer le mode Concentration et Ne pas déranger d'iOS pour les alertes de type Calling.
+- Vous laisser partager un canal pour qu'un pupitre de trading entier reçoive le même appel, avec répétition si la première personne ne répond pas.
+
+**Echobell ne fait pas :**
+
+- Se connecter à votre compte de plateforme, lire votre solde ou connaître de lui-même votre ratio de marge réel. Il ne sait que ce que la source de déclenchement lui envoie.
+- Ajouter de la marge, clôturer des positions ou annuler des ordres. C'est une couche d'alerte, pas un bot de trading ni un moteur de gestion du risque.
+- Remplacer un stop-loss. Une alerte dépend de votre téléphone, de votre signal et de votre temps de réaction ; un stop-loss sur la plateforme ou un ordre de réduction seule s'exécute sans vous. **Utilisez les alertes en complément des contrôles de risque de la plateforme, jamais à leur place.**
+
+Si tout votre plan de risque se résume à « je recevrai une alerte et j'ajouterai de la marge à temps », vous êtes à une batterie déchargée de la liquidation. Le bon modèle mental : les stop-loss sur la plateforme sont votre défense automatique, et une alerte par appel est votre filet de sécurité humain pour les moments où une machine ne peut pas décider à votre place.
+
+## FAQ
+
+### Echobell peut-il empêcher la liquidation de ma position ?
+
+Non. Echobell distribue des alertes ; il ne peut ni ajouter de marge ni clôturer une position. Seuls un stop-loss sur la plateforme, un ordre de réduction seule ou votre propre action manuelle peuvent empêcher la liquidation. Le rôle d'Echobell est de faire en sorte que vous l'appreniez à temps pour agir.
+
+### Echobell se connecte-t-il directement à Binance, Bybit ou OKX ?
+
+Non. Echobell reçoit des webhooks et des e-mails ; il ne se connecte pas à votre compte de plateforme. Vous le reliez via une source de déclenchement qui surveille déjà votre position — une alerte TradingView, un service de surveillance ou votre propre script d'API — qui envoie le webhook à Echobell.
+
+### Quel seuil dois-je fixer pour l'alerte ?
+
+Alertez sur une marge de sécurité au-dessus de votre prix de liquidation réel ou du seuil de maintenance, pas sur le point de liquidation lui-même. Une approche courante consiste à alerter lorsque votre ratio de marge approche un niveau d'avertissement (par exemple, un uniMMR Binance autour de 130 %, contre le déclencheur de liquidation à 105 %) afin d'avoir le temps de réagir. Calculez votre prix de liquidation avec la formule publiée par votre plateforme.
+
+### L'appel passera-t-il si mon téléphone est en Ne pas déranger ?
+
+Oui. Le type de notification Calling d'Echobell est conçu pour sonner à travers le mode Concentration et Ne pas déranger d'iOS, de manière semblable à un appel répété d'un contact qui parvient à passer. Testez-le avec Ne pas déranger activé avant de vous y fier.
+
+### Ai-je besoin d'un forfait TradingView payant ?
+
+Pour l'action d'alerte par webhook de TradingView, oui : les webhooks nécessitent un forfait payant (Pro/Pro+/Premium). Si vous n'en avez pas, utilisez comme source de déclenchement un service de surveillance qui prend en charge les webhooks, ou votre propre script.
+
+### Toute mon équipe de trading peut-elle recevoir l'alerte ?
+
+Oui. Partagez le canal Echobell avec vos coéquipiers et tous les abonnés recevront la notification. Vous pouvez configurer la répétition pour que l'alerte continue d'appeler jusqu'à ce que quelqu'un réponde.
+
+---
+
+## À lire aussi
+
+- [Alertes de prix d'actions avec TradingView et Echobell](/blog/stock-price-alerts-tradingview-echobell)
+- [Notifications par appel de TradingView](/blog/tradingview-call-notifications)
+- [Contourner le mode Concentration d'iOS pour les alertes critiques](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Intégration Cryptocurrency Alerting](/docs/trader/cryptocurrency-alerting)
+- [Guide d'intégration des webhooks](/docs/webhook)
