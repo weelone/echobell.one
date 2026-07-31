@@ -1,0 +1,149 @@
+---
+title: "Notificación de incidentes DORA y NIS2: recibe una llamada antes de que se agote el plazo"
+description: "DORA te da 4 horas desde la clasificación. NIS2, 24 horas desde el conocimiento. Ningún reloj se detiene de noche. Así se convierte una alerta de detección en una llamada real con Echobell."
+date: 2026-07-31
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - notificación de incidentes DORA
+  - notificación de incidentes NIS2
+  - plazos regulatorios
+  - alertas por llamada
+  - alertas de guardia
+---
+
+# Notificación de incidentes DORA y NIS2: recibe una llamada antes de que se agote el plazo
+
+Todos los plazos europeos de notificación de incidentes empiezan a contar desde algo que detecta una máquina, y siguen contando mientras tu equipo duerme. Si la alerta que arranca el reloj llega como una notificación push silenciosa a las 02:40 de un domingo, ya has quemado una cuarta parte de tu ventana de notificación DORA antes de que una sola persona la lea. Esta guía muestra cómo poner una llamada telefónica real delante de tu flujo de notificación con [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-dora-nis2-incident-reporting-alerts-es&mt=8), para que el reloj y tu respuesta arranquen casi a la vez.
+
+La magnitud de esto ya está medida, no supuesta. El 3 de junio de 2026, las tres Autoridades Europeas de Supervisión publicaron el primer panorama a escala europea de incidentes graves relacionados con las TIC notificados bajo DORA: **3.383 incidentes graves** en 2025, una media de **0,18 por entidad financiera** sujeta a DORA, y **alrededor de un tercio** con impacto transfronterizo ([EBA](https://www.eba.europa.eu/publications-and-media/press-releases/esas-publish-first-report-dora-major-ict-related-incidents), [ESMA](https://www.esma.europa.eu/press-news/esma-news/esas-publish-first-report-dora-major-ict-related-incidents)). El dato que debería moldear tu sistema de alertas: solo el **10 %** estaba relacionado con ciberseguridad. Los fallos de sistema y los eventos externos fueron los principales impulsores.
+
+Dicho de otro modo: los sucesos que arrancan un reloj regulatorio son abrumadoramente los aburridos. Un despliegue fallido, una dependencia caída, la caída de un proveedor. Exactamente lo que tu monitorización ya detecta a las 3 de la madrugada y entrega a un teléfono en modo No molestar.
+
+## Qué exigen realmente los plazos de notificación
+
+**Tres regímenes, tres disparos de salida distintos, y todos corren en tiempo real.** Esto es lo que dicen los textos vigentes.
+
+| Régimen | Primer plazo | Después | Por último |
+| --- | --- | --- | --- |
+| **DORA** (entidades financieras de la UE) | Notificación inicial en **4 horas** desde la clasificación del incidente como grave, y nunca más tarde de **24 horas** desde que se tuvo conocimiento de él | Informe intermedio como muy tarde **72 horas** después de la notificación inicial | Informe final a más tardar **un mes** después del (último) informe intermedio |
+| **NIS2** (entidades esenciales e importantes de la UE) | Alerta temprana sin demora indebida y en todo caso en **24 horas** desde que se tiene conocimiento del incidente significativo | Notificación del incidente en **72 horas** desde que se tiene conocimiento | Informe final a más tardar **un mes** después de la notificación del incidente |
+| **SEC, apartado 1.05** (cotizadas en EE. UU.) | Formulario 8-K generalmente exigible **cuatro días hábiles** después de determinar que el incidente es material | — | — |
+
+Los plazos de DORA proceden del Reglamento Delegado (UE) 2025/301, la norma técnica de regulación sobre el contenido y los plazos de la notificación de incidentes, publicada el 20 de febrero de 2025 y complementaria del [Reglamento (UE) 2022/2554](https://eur-lex.europa.eu/eli/reg/2022/2554/oj) ([Comisión Europea](https://finance.ec.europa.eu/regulation-and-supervision/financial-services-legislation/implementing-and-delegated-acts/digital-operational-resilience-regulation_en), [texto del artículo 5](https://www.springlex.eu/en/packages/dora/rts-ir-regulation/article-5/)). DORA se aplica desde el 17 de enero de 2025 ([ESMA](https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/digital-operational-resilience-act-dora)).
+
+Los plazos de NIS2 están en el artículo 23, apartado 4, de la [Directiva (UE) 2022/2555](https://eur-lex.europa.eu/eli/dir/2022/2555/oj); los Estados miembros debían transponerla antes del 17 de octubre de 2024 ([Comisión Europea](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)). El plazo de la SEC procede de las normas de divulgación en ciberseguridad adoptadas el 26 de julio de 2023 ([SEC](https://www.sec.gov/newsroom/press-releases/2023-139)).
+
+## Por qué un plazo de notificación es en realidad un problema de despertarse
+
+**Porque ninguno de estos relojes está anclado a tu horario laboral.** DORA mide desde la clasificación y desde que la entidad tiene conocimiento. NIS2 mide desde que la entidad tiene conocimiento. La SEC mide desde una determinación de materialidad. Si un momento concreto cuenta o no como «conocimiento» es un juicio jurídico que hace tu función de cumplimiento, pero nada en estos textos reinicia la cuenta porque la primera persona que vio la alerta estuviera dormida.
+
+Haz la aritmética hacia atrás en la ruta más ajustada de DORA. Tienes 4 horas desde que un incidente se clasifica como grave, y la clasificación no puede ocurrir antes de que alguien lo mire. Si la detección es a las 02:40, nadie acusa recibo hasta las 08:00 y la clasificación consume otros 90 minutos de investigación, presentarás la notificación inicial hacia las 11:00: dentro del límite exterior de 24 horas, pero con más de ocho horas de un techo de 24 gastadas únicamente en dormir. Reduce el hueco de reconocimiento y cada paso posterior gana aire.
+
+Esto no es un argumento para alertar sobre más cosas. Es un argumento para que una clase concreta y estrecha de alertas —las que podrían llegar a ser notificables— sea físicamente imposible de dormir. Todo lo demás debería seguir en silencio. (Si tu equipo ya está desbordado, empieza por [arreglar la fatiga de alertas](/blog/fix-alert-fatigue-developer-guide) antes de añadir un canal más ruidoso.)
+
+## ¿El fin de semana te da tiempo extra?
+
+**Un poco, bajo DORA, y probablemente no a ti.** El Reglamento Delegado (UE) 2025/301 permite a una entidad financiera cuyo plazo caiga en fin de semana o festivo en su Estado miembro presentar hasta el mediodía del siguiente día hábil. Pero el mismo artículo excluye de esa prórroga a las entidades de crédito, las entidades de contrapartida central y los operadores de centros de negociación, así como a las entidades esenciales o importantes bajo NIS2. Las autoridades competentes también pueden retirarla a otras entidades de importancia sistémica ([artículo 5](https://www.springlex.eu/en/packages/dora/rts-ir-regulation/article-5/), [resumen de Advisera](https://advisera.com/cdr-2025-301/time-limits-for-the-initial-notification-and-for-the-intermediate-and-final-reports/)).
+
+Así que las organizaciones con más probabilidades de sufrir un incidente un domingo por la noche son precisamente las que no tienen respiro de fin de semana. El artículo 23 de NIS2 no contiene ninguna prórroga por fin de semana. Planifica asumiendo que el reloj corre el sábado igual que el martes y trata cualquier prórroga que te corresponda como un extra, no como un colchón.
+
+## Cómo poner un teléfono que suena delante de tu flujo de notificación
+
+Echobell hace una sola cosa: convierte un webhook o un correo electrónico en una llamada telefónica —una llamada real que suena y vibra, y que atraviesa el modo Concentración y el No molestar de iOS igual que la llamada de un familiar (ver [cómo saltarse el modo Concentración de iOS para alertas críticas](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)). Se sitúa entre el sistema que detecta el incidente y la persona que tiene que arrancar el reloj.
+
+### Paso 1 — Crea un canal Calling reservado a incidentes notificables
+
+Crea un canal en Echobell y fija su tipo de notificación en **Calling**. Eso es lo que hace sonar el teléfono en vez de entregar un push silencioso ([tipos de notificación](/docs/notification)). Ponle un nombre que no deje dudas —«Incidente notificable — despierta»— y no lo uses para nada más. Copia la URL de webhook del canal desde sus detalles; tiene el formato `https://hook.echobell.one/t/<channel-token>`. Trátala como un secreto.
+
+### Paso 2 — Apunta tu pila de detección a ese webhook
+
+Lo que detecte el incidente envía una petición HTTP a la URL del canal. Echobell tiene guías directas para [Grafana](/docs/developer/grafana), [Prometheus Alertmanager](/docs/developer/prometheus), [Uptime Kuma](/docs/developer/uptime-kuma) y [UptimeRobot](/docs/developer/uptimerobot); cualquier otra cosa capaz de hacer POST de JSON funciona con la [guía de webhooks](/docs/webhook). Un payload útil lleva lo justo para tomar una primera decisión de clasificación sin abrir el portátil:
+
+```json
+{
+  "title": "Candidato a notificable: {{service}}",
+  "message": "{{service}} caído desde {{started_at}} — impacto en clientes: {{client_impact}}",
+  "externalLink": "https://status.internal.example/incident/{{id}}"
+}
+```
+
+La variable `externalLink` se convierte en un enlace clicable en el registro de notificaciones, así que quien atienda la llamada aterriza directamente en el incidente.
+
+### Paso 3 — Usa condiciones para que solo suenen los candidatos plausibles
+
+**Una llamada que salta con cada aviso deja de ser una llamada y se convierte en ruido de fondo.** Las [condiciones](/docs/conditions) de Echobell filtran por valores de variables con lógica AND/OR, así que puedes exigir, por ejemplo, `severity == "critical"` **y** `client_impact == true` antes de que el canal llame a nadie. Envía todo lo que quede por debajo de ese umbral a un canal Time Sensitive o Normal aparte. Tu canal de incidentes notificables debería sonar un puñado de veces al año, no cada semana.
+
+### Paso 4 — Captura los sistemas que solo envían correo
+
+Muchos feeds de estado de proveedores, herramientas antifraude y terceros solo notifican por correo, algo que importa especialmente bajo DORA, donde los fallos del lado del proveedor están claramente dentro del alcance. Cada canal de Echobell puede tener su propia dirección, así que una regla de reenvío convierte esos mensajes en llamadas ([disparadores por correo](/docs/email-trigger), [configuración de correo a llamada](/docs/email-to-call)).
+
+### Paso 5 — Pon en el mismo canal a quien carga con el plazo
+
+Ingeniería encuentra el incidente; cumplimiento, el responsable de guardia o el DPO cargan con el plazo. Comparte el canal y cada suscriptor elige su urgencia: el ingeniero de guardia recibe una llamada mientras un segundo respondedor recibe una alerta con prioridad temporal. Activa **Retry Failed Call** para que una llamada bloqueada por el modo Concentración se reintente.
+
+### Paso 6 — Pruébalo con No molestar activado
+
+Envía un webhook de prueba con No molestar activado en todos los teléfonos que importan, al menos una vez por trimestre. Una ruta de escalado sin probar es una suposición, y las revisiones post-incidente están hechas de suposiciones.
+
+## Lo que Echobell no hace
+
+Ser preciso aquí importa más en un flujo regulado que en ningún otro sitio.
+
+**Echobell sí:** convierte un webhook o un correo en una llamada que suena, una alerta con prioridad temporal o un push normal; atraviesa el modo Concentración y el No molestar de iOS en las alertas Calling; filtra con condiciones y plantillas; entrega la misma alerta a un canal de equipo compartido.
+
+**Echobell no:**
+
+- **Clasifica incidentes.** No tiene opinión sobre si algo es «grave» bajo DORA, «significativo» bajo NIS2 o «material» bajo las normas de la SEC. Son juicios que hacen tus personas contra los criterios de los textos aplicables.
+- **Presenta nada ante nadie.** No envía a una autoridad competente, a un CSIRT ni a la SEC. Lleva a un humano hasta el punto en que puede hacerlo.
+- **Sirve como sistema de registro o GRC.** Estos regímenes exigen documentación, registros y evidencias que una app de alertas no produce. Echobell almacena deliberadamente el contenido y el historial de notificaciones solo en tu dispositivo, y en el servidor únicamente cuentas, canales y suscripciones ([modelo de privacidad](/docs/features)): bueno para la minimización de datos, inútil como pista de auditoría.
+- **Viene con una certificación de cumplimiento.** No lleva adjunta ninguna certificación, informe de auditoría ni SLA contractual. Si lo introduces en un flujo regulado, pásalo por tu propio proceso de riesgo de terceros TIC como cualquier otra herramienta, y mantén un canal que no dependa de él.
+- **Garantiza la entrega.** Una llamada depende de la infraestructura de push, de la red y de un teléfono con batería. Trátalo como la capa que reduce drásticamente el tiempo de reconocimiento, no como un control que puedas exhibir en una auditoría.
+
+El planteamiento honesto: tu obligación regulatoria no cambia según qué aplicación haga sonar tu teléfono. Lo que cambia una llamada es el número de horas entre que una máquina se da cuenta y una persona decide, y bajo un reloj de 4 horas, esas horas son casi todo el presupuesto.
+
+## Preguntas frecuentes
+
+### ¿Usar Echobell nos hace cumplir DORA o NIS2?
+
+No. El cumplimiento depende de tu gobernanza, tu proceso de clasificación, tu documentación y las presentaciones reales ante tu autoridad competente o CSIRT. Echobell solo acorta el hueco entre la detección y el reconocimiento humano. Es una entrada al proceso, no el proceso.
+
+### ¿Cuándo empiezan exactamente las 4 horas de DORA?
+
+En la clasificación. Según el Reglamento Delegado (UE) 2025/301, la notificación inicial vence a las cuatro horas de clasificar un incidente como grave y, en cualquier caso, no más tarde de 24 horas desde que la entidad tuvo conocimiento de él. Son dos restricciones separadas y hay que cumplir ambas, por lo que una decisión de clasificación rápida importa tanto como una alerta rápida.
+
+### ¿La alerta temprana de NIS2 necesita todos los detalles del incidente?
+
+No. El artículo 23, apartado 4, de la Directiva (UE) 2022/2555 hace la alerta temprana de 24 horas deliberadamente provisional: si se sospecha que el incidente responde a actos ilícitos o malintencionados y si podría tener impacto transfronterizo. El panorama completo llega en la notificación de 72 horas, y el análisis de causa raíz en el informe final un mes después.
+
+### Nuestra monitorización ya envía correos al ingeniero de guardia. ¿No basta?
+
+Basta cuando alguien está despierto y mirando. El correo y las notificaciones push estándar quedan silenciados por los modos Concentración, el No molestar y los horarios de sueño: exactamente las condiciones de las noches y fines de semana en que el reloj es menos indulgente. El hueco no está en la detección, sino en el reconocimiento.
+
+### ¿Pueden cumplimiento e ingeniería recibir la misma alerta?
+
+Sí. Comparte el canal y todos los suscriptores reciben el disparo, eligiendo cada uno su tipo de notificación. Una configuración habitual: el ingeniero de guardia se suscribe como Calling y el responsable de cumplimiento de guardia como Calling para el canal de incidentes notificables y Time Sensitive para el resto.
+
+### ¿La llamada atraviesa realmente el No molestar?
+
+El tipo de notificación Calling de Echobell está diseñado para sonar a través del modo Concentración y el No molestar de iOS, y el ajuste Retry Failed Call reintenta las llamadas bloqueadas por Concentración. Verifícalo en el dispositivo real de cada respondedor antes de confiar en ello: los ajustes y versiones del sistema operativo varían.
+
+### ¿Esto es solo para iOS?
+
+No. Echobell está disponible en iOS y en Android a través de Google Play (ver [el anuncio de la versión Android](/blog/echobell-android-release)). El comportamiento de las alertas tipo llamada difiere entre plataformas, así que prueba en los dispositivos que realmente llevan tus respondedores.
+
+### ¿Qué datos deberíamos poner en el payload del webhook?
+
+Los mínimos posibles. Envía un identificador y un enlace en lugar de datos de clientes o detalles del incidente: usa la variable `externalLink` para apuntar a tu registro de incidentes, que vive en un sistema construido para contenerlo. El trabajo de la alerta es despertar a alguien, no informarle a fondo.
+
+---
+
+## Relacionado
+
+- [Las caídas de la nube son la nueva normalidad: cómo seguir recibiendo alertas](/blog/cloud-outage-alerts)
+- [Recibir alertas por llamada cuando tu API se cae](/blog/phone-call-alerts-api-downtime)
+- [Fin de vida de Opsgenie: cierre en 2027 y alternativas](/blog/opsgenie-end-of-life-alternatives)
+- [Cómo saltarse el modo Concentración de iOS para alertas críticas](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Guía de integración de webhooks](/docs/webhook)
+- [Guía de condiciones](/docs/conditions)

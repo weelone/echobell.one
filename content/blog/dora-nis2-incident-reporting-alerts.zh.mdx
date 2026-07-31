@@ -1,0 +1,149 @@
+---
+title: "DORA 与 NIS2 事件报告：在倒计时结束前接到一通电话"
+description: "DORA 从定级起算 4 小时，NIS2 从知悉起算 24 小时，没有一个时钟会在深夜暂停。本文讲清如何用 Echobell 把检测告警变成真正响铃的电话。"
+date: 2026-07-31
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - DORA 事件报告
+  - NIS2 事件报告
+  - 合规时限
+  - 电话告警
+  - 值班告警
+---
+
+# DORA 与 NIS2 事件报告：在倒计时结束前接到一通电话
+
+欧盟所有事件报告时限，都是从机器察觉到的那一刻开始计时的，而且你的团队睡着时它也照走不误。如果启动倒计时的那条告警，是周日凌晨 2:40 的一条静音推送，那么在第一个人看到它之前，你已经烧掉了 DORA 报告窗口的四分之一。本文讲清如何用 [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-dora-nis2-incident-reporting-alerts-zh&mt=8) 在报告流程前面放上一通真正响铃的电话——让倒计时和你的响应几乎同时开始。
+
+这件事的规模现在有了实测数据。2026 年 6 月 3 日，欧盟三大监管局（ESAs）发布了 DORA 下重大 ICT 相关事件的首份全欧概览：2025 年共报告 **3,383 起重大事件**，平均每家适用 DORA 的金融实体 **0.18 起**，其中**约三分之一**具有跨境影响（[EBA](https://www.eba.europa.eu/publications-and-media/press-releases/esas-publish-first-report-dora-major-ict-related-incidents)、[ESMA](https://www.esma.europa.eu/press-news/esma-news/esas-publish-first-report-dora-major-ict-related-incidents)）。真正应该影响你告警设计的细节是：只有 **10%** 与网络安全有关，系统故障和外部事件才是主要成因。
+
+换句话说，启动监管倒计时的事件，绝大多数都是最平淡无奇的那类——一次失败的发布、一个挂掉的依赖、一次供应商中断。也就是你的监控系统本来就会在凌晨三点抓到、然后推送到一台开着「勿扰模式」的手机上的那些东西。
+
+## 这些报告时限到底要求什么
+
+**三套制度、三个不同的起算点——而且全都按真实时间走。**下面是现行文本的规定。
+
+| 制度 | 第一道时限 | 其次 | 最后 |
+| --- | --- | --- | --- |
+| **DORA**（欧盟金融实体） | 在将事件定级为重大后 **4 小时**内提交初始通知，且不得晚于知悉该事件后 **24 小时** | 初始通知后最迟 **72 小时**提交中间报告 | 最后一次中间报告后不晚于 **一个月** 提交最终报告 |
+| **NIS2**（欧盟关键与重要实体） | 在知悉重大事件后不得无故拖延，且无论如何须在 **24 小时**内提交早期预警 | 知悉后 **72 小时**内提交事件通知 | 事件通知后不晚于 **一个月** 提交最终报告 |
+| **SEC 第 1.05 项**（美国上市公司） | 在认定事件具有重大性后，一般须在 **4 个工作日**内提交 8-K 表格 | — | — |
+
+DORA 的时限来自《委员会授权条例 (EU) 2025/301》——关于事件报告内容与时限的监管技术标准，2025 年 2 月 20 日公布，用以补充[《条例 (EU) 2022/2554》](https://eur-lex.europa.eu/eli/reg/2022/2554/oj)（[欧盟委员会](https://finance.ec.europa.eu/regulation-and-supervision/financial-services-legislation/implementing-and-delegated-acts/digital-operational-resilience-regulation_en)、[第 5 条原文](https://www.springlex.eu/en/packages/dora/rts-ir-regulation/article-5/)）。DORA 本身自 2025 年 1 月 17 日起适用（[ESMA](https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/digital-operational-resilience-act-dora)）。
+
+NIS2 的时限见[《指令 (EU) 2022/2555》](https://eur-lex.europa.eu/eli/dir/2022/2555/oj)第 23 条第 4 款；成员国须在 2024 年 10 月 17 日前完成转化（[欧盟委员会](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)）。SEC 的时限来自 2023 年 7 月 26 日通过的网络安全披露规则（[SEC](https://www.sec.gov/newsroom/press-releases/2023-139)）。
+
+## 为什么报告时限本质上是「叫醒」问题
+
+**因为这些时钟没有一个是按你的工作时间锚定的。** DORA 从定级和实体知悉起算，NIS2 从实体知悉起算，SEC 从重大性认定起算。某一时刻是否构成「知悉」，是你的合规部门要做的法律判断——但这些文本里没有任何一条，会因为第一个看到告警的人当时在睡觉而重新计时。
+
+把 DORA 最紧的那条路径倒推一遍。从事件被定级为重大起你只有 4 小时，而定级不可能发生在有人看它之前。假设检测发生在 2:40，直到 8:00 才有人确认，再花 90 分钟调查完成定级，那么初始通知大约在 11:00 提交——仍在 24 小时上限之内，但 24 小时的额度里有八个多小时纯粹花在了睡觉上。把确认延迟压缩掉，后面每一步都能喘口气。
+
+这不是在鼓吹对更多事情发告警。恰恰相反：只有一类范围很窄的告警——那些有可能演变成需上报事件的——应当在物理上无法被睡过去，其余的都该保持安静。（如果你的团队已经被告警淹没，先看[修复告警疲劳](/blog/fix-alert-fatigue-developer-guide)，再考虑加一个更吵的通道。）
+
+## 周末能多给你一点时间吗？
+
+**在 DORA 下能一点点——而且很可能轮不到你。**《授权条例 (EU) 2025/301》允许：若时限落在该实体所在成员国的周末或法定假日，可在下一个工作日中午前提交。但同一条款明确把这项延展排除在信贷机构、中央对手方、交易场所运营者，以及 NIS2 下的关键或重要实体之外；主管当局还可对其他具系统重要性的实体取消该延展（[第 5 条](https://www.springlex.eu/en/packages/dora/rts-ir-regulation/article-5/)、[Advisera 摘要](https://advisera.com/cdr-2025-301/time-limits-for-the-initial-notification-and-for-the-intermediate-and-final-reports/)）。
+
+也就是说，最可能在周日夜里出事的那些机构，恰恰是完全享受不到周末缓冲的。NIS2 第 23 条本身根本没有周末延展。请按「周六和周二一样走」来规划，把你恰好符合条件的延展当成意外之喜，而不是可依赖的余量。
+
+## 如何在报告流程前面放上一通响铃的电话
+
+Echobell 只做一件事：把 webhook 或邮件变成一通电话——一通真正响铃、震动、像家人来电那样冲破 iOS 专注模式与勿扰模式的电话（参见[绕过 iOS 专注模式接收关键告警](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)）。它站在「检测到事件的系统」和「必须启动倒计时的人」之间。
+
+### 第 1 步 —— 建一个只给可上报事件用的 Calling 频道
+
+在 Echobell 中新建频道，把通知类型设为 **Calling**。这正是让手机响铃、而不是收到一条静音推送的关键（[通知类型](/docs/notification)）。给它一个不会被误解的名字——「可上报事件 · 立即叫醒」——并且只用于这一件事。从频道详情复制 webhook URL，形如 `https://hook.echobell.one/t/<channel-token>`，请当作密钥保管。
+
+### 第 2 步 —— 把检测链路指向这个 webhook
+
+无论是什么系统发现了事件，都向该频道 URL 发一个 HTTP 请求。Echobell 提供了 [Grafana](/docs/developer/grafana)、[Prometheus Alertmanager](/docs/developer/prometheus)、[Uptime Kuma](/docs/developer/uptime-kuma) 和 [UptimeRobot](/docs/developer/uptimerobot) 的直接指南；其他任何能 POST JSON 的东西都可参照 [webhook 指南](/docs/webhook)。一个好的载荷，应该让人不用打开电脑就能做出初步定级判断：
+
+```json
+{
+  "title": "可上报候选：{{service}}",
+  "message": "{{service}} 自 {{started_at}} 起中断 —— 是否影响客户：{{client_impact}}",
+  "externalLink": "https://status.internal.example/incident/{{id}}"
+}
+```
+
+`externalLink` 变量会在通知记录中变成可点击链接，接起电话的人可以直接跳到事件页面。
+
+### 第 3 步 —— 用条件筛选，只让真正的候选事件响铃
+
+**一个见到告警就响的电话，很快就不再是电话，而是背景噪音。** Echobell 的[条件](/docs/conditions)支持按变量值配合 AND/OR 逻辑过滤，你可以要求同时满足 `severity == "critical"` **且** `client_impact == true` 才拨号。低于这条线的一律走另一个 Time Sensitive 或 Normal 频道。你的「可上报事件」频道一年响几次就够了，不该每周都响。
+
+### 第 4 步 —— 接住那些只会发邮件的系统
+
+不少供应商状态订阅、反欺诈工具和第三方服务商只用邮件通知——这在 DORA 下尤其要紧，因为供应商侧故障明确在适用范围内。Echobell 每个频道都可以有自己的邮箱地址，一条转发规则就能把这些邮件变成电话（[邮件触发](/docs/email-trigger)、[邮件转电话设置](/docs/email-to-call)）。
+
+### 第 5 步 —— 让扛时限的人也订阅同一个频道
+
+工程团队发现事件，合规、值班负责人或 DPO 才是扛时限的人。把频道共享出去，每位订阅者自选紧急程度：值班工程师收到电话，第二响应人收到时效性通知。同时开启 **Retry Failed Call**，让被专注模式拦下的来电自动重试。
+
+### 第 6 步 —— 开着勿扰模式做一次实测
+
+在每一台要紧的手机上打开勿扰模式，发一条测试 webhook，至少每季度做一次。没测过的升级路径只是一个假设，而事后复盘正是由假设堆成的。
+
+## Echobell 不做什么
+
+在受监管的流程里，把这一点说清楚比在任何地方都重要。
+
+**Echobell 会做的：**把 webhook 或邮件变成响铃电话、时效性通知或普通推送；让 Calling 类告警冲破 iOS 专注模式与勿扰模式；用条件与模板做过滤；把同一条告警发给共享的团队频道。
+
+**Echobell 不会做的：**
+
+- **给事件定级。**它无从判断某件事在 DORA 下是否「重大」、在 NIS2 下是否「显著」、在 SEC 规则下是否「重大」。这些都是你的人依据相关文本的标准做出的判断。
+- **替你向任何机构提交。**它不会向主管当局、CSIRT 或 SEC 提交任何东西，它只负责把人带到能提交的那一步。
+- **充当你的记录留存或 GRC 系统。**这些制度要求文档、登记册和证据，告警应用并不产出这些。Echobell 特意只把通知内容与历史存在你的设备上，服务器上只保留账户、频道和订阅信息（[隐私模型](/docs/features)）——这对数据最小化是好事，但作为审计留痕毫无用处。
+- **附带合规证明。**它没有任何认证、审计报告或合同 SLA。如果你要把它引入受监管的流程，请像对待其他工具一样纳入你自己的 ICT 第三方风险流程，并保留一条不依赖它的通道。
+- **保证送达。**一通电话依赖推送基础设施、网络和有电的手机。请把它当作大幅缩短确认时间的一层，而不是审计时可以指着说的控制措施。
+
+诚实的说法是：无论哪个应用让你的手机响，你的监管义务都不会改变。电话改变的，是从机器察觉到有人做出判断之间的小时数——而在一个 4 小时的时钟下，这些小时就是预算的绝大部分。
+
+## 常见问题
+
+### 用了 Echobell 就算符合 DORA 或 NIS2 了吗？
+
+不算。合规取决于你的治理、定级流程、文档，以及向主管当局或 CSIRT 的实际提交。Echobell 只缩短检测到人工确认之间的间隔。它是流程的一个输入，不是流程本身。
+
+### DORA 的 4 小时到底从什么时候开始算？
+
+从定级开始。依《授权条例 (EU) 2025/301》，初始通知须在事件被定级为重大后 4 小时内提交，且无论如何不得晚于实体知悉该事件后 24 小时。这是两个独立约束，必须同时满足——这也是为什么「快速定级」和「快速告警」同样重要。
+
+### NIS2 的早期预警需要写全部细节吗？
+
+不需要。《指令 (EU) 2022/2555》第 23 条第 4 款把 24 小时的早期预警设计成刻意暂定的：说明事件是否被怀疑由非法或恶意行为造成，以及是否可能产生跨境影响。更完整的情况在 72 小时通知中给出，根因分析则在一个月后的最终报告中。
+
+### 我们的监控已经会给值班工程师发邮件，这还不够吗？
+
+在有人醒着盯着的时候够了。邮件和普通推送会被专注模式、勿扰模式和睡眠计划静音——而这恰恰是夜里和周末、时钟最不留情的那段时间。缺口不在检测，而在确认。
+
+### 合规和工程能收到同一条告警吗？
+
+可以。共享频道后，所有订阅者都会收到触发，各自选择通知类型。常见做法是：值班工程师订阅为 Calling，值班合规负责人对「可上报事件」频道用 Calling、其余用 Time Sensitive。
+
+### 电话真的能穿透勿扰模式吗？
+
+Echobell 的 Calling 通知类型就是为冲破 iOS 专注模式与勿扰模式设计的，Retry Failed Call 设置还会对被专注模式拦下的来电重试。请在每位响应人实际使用的设备上验证后再依赖它——系统设置与版本各不相同。
+
+### 这只适用于 iOS 吗？
+
+不是。Echobell 同时提供 iOS 版和 Google Play 上的 Android 版（见 [Android 版发布公告](/blog/echobell-android-release)）。来电式告警在不同平台上的表现有差异，请在响应人真正携带的设备上测试。
+
+### webhook 载荷里应该放什么数据？
+
+越少越好。发标识符和链接，而不是客户信息或事件细节——用 `externalLink` 变量指向你的事件记录，那才是为承载这些内容而建的系统。告警的任务是把人叫醒，不是把人讲明白。
+
+---
+
+## 相关内容
+
+- [云中断已成常态：如何依然收到告警](/blog/cloud-outage-alerts)
+- [API 宕机时获取电话告警](/blog/phone-call-alerts-api-downtime)
+- [Opsgenie 生命周期终止：2027 年关停与替代方案](/blog/opsgenie-end-of-life-alternatives)
+- [如何绕过 iOS 专注模式接收关键告警](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Webhook 集成指南](/docs/webhook)
+- [条件配置指南](/docs/conditions)

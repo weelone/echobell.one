@@ -1,0 +1,149 @@
+---
+title: "DORA- und NIS2-Meldepflichten: Ein Anruf, bevor die Frist abläuft"
+description: "DORA gibt dir 4 Stunden ab der Einstufung, NIS2 24 Stunden ab Kenntnisnahme. Keine dieser Uhren pausiert nachts. So wird aus einem Monitoring-Alarm mit Echobell ein echter Telefonanruf."
+date: 2026-07-31
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - DORA Meldepflicht
+  - NIS2 Meldepflicht
+  - regulatorische Fristen
+  - Anruf-Benachrichtigungen
+  - Bereitschaftsalarmierung
+---
+
+# DORA- und NIS2-Meldepflichten: Ein Anruf, bevor die Frist abläuft
+
+Jede EU-Meldefrist für Vorfälle beginnt bei etwas, das eine Maschine bemerkt — und läuft weiter, während dein Team schläft. Wenn der Alarm, der die Uhr startet, sonntags um 2:40 Uhr als stille Push-Benachrichtigung eintrifft, hast du bereits ein Viertel deines DORA-Meldefensters verbrannt, bevor ein einziger Mensch ihn gelesen hat. Diese Anleitung zeigt, wie du mit [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-dora-nis2-incident-reporting-alerts-de&mt=8) einen echten klingelnden Anruf vor deinen Meldeprozess schaltest — damit Uhr und Reaktion ungefähr gleichzeitig loslaufen.
+
+Die Größenordnung ist inzwischen gemessen, nicht geschätzt. Am 3. Juni 2026 veröffentlichten die drei Europäischen Aufsichtsbehörden den ersten EU-weiten Überblick über schwerwiegende IKT-bezogene Vorfälle, die unter DORA gemeldet wurden: **3.383 schwerwiegende Vorfälle** im Jahr 2025, im Schnitt **0,18 pro beaufsichtigtem Finanzunternehmen**, davon **rund ein Drittel** mit grenzüberschreitender Wirkung ([EBA](https://www.eba.europa.eu/publications-and-media/press-releases/esas-publish-first-report-dora-major-ict-related-incidents), [ESMA](https://www.esma.europa.eu/press-news/esma-news/esas-publish-first-report-dora-major-ict-related-incidents)). Das Detail, das deine Alarmierung prägen sollte: Nur **10 %** hatten einen Cybersicherheitsbezug. Systemausfälle und externe Ereignisse waren die Haupttreiber.
+
+Anders gesagt: Was eine regulatorische Uhr startet, sind ganz überwiegend die langweiligen Ereignisse. Ein fehlgeschlagenes Deployment, eine tote Abhängigkeit, ein Provider-Ausfall. Genau das, was dein Monitoring ohnehin um 3 Uhr nachts erkennt — und an ein Telefon im Nicht-stören-Modus ausliefert.
+
+## Was die Meldefristen tatsächlich verlangen
+
+**Drei Regime, drei verschiedene Startschüsse — und alle laufen in Echtzeit.** Das sagen die aktuellen Texte.
+
+| Regime | Erste Frist | Danach | Zuletzt |
+| --- | --- | --- | --- |
+| **DORA** (EU-Finanzunternehmen) | Erstmeldung binnen **4 Stunden** nach Einstufung des Vorfalls als schwerwiegend, spätestens **24 Stunden** nach Kenntniserlangung | Zwischenbericht spätestens **72 Stunden** nach der Erstmeldung | Abschlussbericht spätestens **einen Monat** nach dem (letzten) Zwischenbericht |
+| **NIS2** (wesentliche und wichtige EU-Einrichtungen) | Frühwarnung unverzüglich und in jedem Fall binnen **24 Stunden** nach Kenntnis des erheblichen Sicherheitsvorfalls | Meldung des Vorfalls binnen **72 Stunden** nach Kenntniserlangung | Abschlussbericht spätestens **einen Monat** nach der Vorfallmeldung |
+| **SEC Item 1.05** (US-börsennotierte Unternehmen) | Form 8-K in der Regel **vier Geschäftstage** nach Feststellung der Wesentlichkeit fällig | — | — |
+
+Die DORA-Fristen stammen aus der Delegierten Verordnung (EU) 2025/301, dem technischen Regulierungsstandard zu Inhalt und Fristen der Vorfallmeldung, veröffentlicht am 20. Februar 2025 in Ergänzung zur [Verordnung (EU) 2022/2554](https://eur-lex.europa.eu/eli/reg/2022/2554/oj) ([Europäische Kommission](https://finance.ec.europa.eu/regulation-and-supervision/financial-services-legislation/implementing-and-delegated-acts/digital-operational-resilience-regulation_en), [Text zu Artikel 5](https://www.springlex.eu/en/packages/dora/rts-ir-regulation/article-5/)). DORA gilt seit dem 17. Januar 2025 ([ESMA](https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/digital-operational-resilience-act-dora)).
+
+Die NIS2-Fristen stehen in Artikel 23 Absatz 4 der [Richtlinie (EU) 2022/2555](https://eur-lex.europa.eu/eli/dir/2022/2555/oj); die Mitgliedstaaten mussten sie bis zum 17. Oktober 2024 umsetzen ([Europäische Kommission](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)). Die SEC-Frist ergibt sich aus den am 26. Juli 2023 verabschiedeten Offenlegungsregeln zur Cybersicherheit ([SEC](https://www.sec.gov/newsroom/press-releases/2023-139)).
+
+## Warum eine Meldefrist in Wahrheit ein Aufweck-Problem ist
+
+**Weil keine dieser Uhren an deinen Arbeitszeiten hängt.** DORA misst ab der Einstufung und ab Kenntniserlangung des Unternehmens. NIS2 misst ab Kenntniserlangung. Die SEC misst ab der Wesentlichkeitsfeststellung. Ob ein bestimmter Moment als „Kenntnis" gilt, ist eine juristische Bewertung deiner Compliance-Funktion — aber keiner dieser Texte setzt die Zählung zurück, weil die erste Person, die den Alarm sah, gerade schlief.
+
+Rechne den engsten DORA-Pfad rückwärts. Du hast 4 Stunden ab dem Moment, in dem ein Vorfall als schwerwiegend eingestuft wird, und diese Einstufung kann nicht vor dem ersten menschlichen Blick stattfinden. Erkennung um 2:40 Uhr, Bestätigung erst um 8:00 Uhr, dann 90 Minuten Analyse bis zur Einstufung: Die Erstmeldung geht gegen 11:00 Uhr raus — innerhalb der 24-Stunden-Obergrenze, aber mit über acht Stunden eines 24-Stunden-Budgets, die reiner Schlaf waren. Verkürze die Bestätigungslücke, und jeder nachgelagerte Schritt bekommt Luft.
+
+Das ist kein Plädoyer dafür, über mehr Dinge zu alarmieren. Es ist ein Plädoyer dafür, dass genau eine schmale Klasse von Alarmen — jene, die meldepflichtig werden könnten — physisch nicht zu verschlafen ist. Alles andere sollte leise bleiben. (Wenn dein Team ohnehin schon ertrinkt, behebe zuerst die [Alarm-Müdigkeit](/blog/fix-alert-fatigue-developer-guide), bevor du einen lauteren Kanal hinzufügst.)
+
+## Verschafft dir das Wochenende zusätzliche Zeit?
+
+**Ein wenig — unter DORA, und vermutlich nicht dir.** Die Delegierte Verordnung (EU) 2025/301 erlaubt einem Finanzunternehmen, dessen Frist auf ein Wochenende oder einen Feiertag in seinem Mitgliedstaat fällt, bis mittags am nächsten Arbeitstag einzureichen. Derselbe Artikel nimmt Kreditinstitute, zentrale Gegenparteien und Betreiber von Handelsplätzen sowie wesentliche oder wichtige Einrichtungen im Sinne von NIS2 ausdrücklich davon aus. Zuständige Behörden können die Erleichterung auch anderen systemrelevanten Unternehmen entziehen ([Artikel 5](https://www.springlex.eu/en/packages/dora/rts-ir-regulation/article-5/), [Zusammenfassung von Advisera](https://advisera.com/cdr-2025-301/time-limits-for-the-initial-notification-and-for-the-intermediate-and-final-reports/)).
+
+Ausgerechnet die Organisationen mit der höchsten Wahrscheinlichkeit eines Sonntagabend-Vorfalls haben also keine Wochenend-Erleichterung. Artikel 23 NIS2 enthält überhaupt keine Wochenendverlängerung. Plane so, dass die Uhr samstags genauso läuft wie dienstags, und behandle jede Erleichterung, die dir zusteht, als Bonus statt als Puffer.
+
+## So schaltest du ein klingelndes Telefon vor deinen Meldeprozess
+
+Echobell macht genau eine Sache: Es verwandelt einen Webhook oder eine E-Mail in einen Telefonanruf — einen echten, klingelnden und vibrierenden Anruf, der den Fokus- und Nicht-stören-Modus von iOS durchbricht, so wie es der Anruf eines Familienmitglieds täte (siehe [iOS-Fokusmodus für kritische Alarme umgehen](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)). Es sitzt zwischen dem System, das den Vorfall erkennt, und dem Menschen, der die Uhr starten muss.
+
+### Schritt 1 — Lege einen Calling-Kanal nur für meldepflichtige Vorfälle an
+
+Erstelle in Echobell einen Kanal und setze den Benachrichtigungstyp auf **Calling**. Genau das lässt das Telefon klingeln, statt eine stille Push-Nachricht zuzustellen ([Benachrichtigungstypen](/docs/notification)). Gib ihm einen unmissverständlichen Namen — „Meldepflichtiger Vorfall — aufwachen" — und nutze ihn für nichts anderes. Kopiere die Webhook-URL aus den Kanaldetails; sie sieht aus wie `https://hook.echobell.one/t/<channel-token>`. Behandle sie wie ein Geheimnis.
+
+### Schritt 2 — Richte deinen Erkennungs-Stack auf diesen Webhook
+
+Was auch immer den Vorfall bemerkt, schickt eine HTTP-Anfrage an die Kanal-URL. Echobell hat direkte Anleitungen für [Grafana](/docs/developer/grafana), [Prometheus Alertmanager](/docs/developer/prometheus), [Uptime Kuma](/docs/developer/uptime-kuma) und [UptimeRobot](/docs/developer/uptimerobot); alles andere, was JSON per POST senden kann, funktioniert über den [Webhook-Leitfaden](/docs/webhook). Eine brauchbare Nutzlast transportiert genug, um eine erste Einstufungsentscheidung ohne Laptop zu treffen:
+
+```json
+{
+  "title": "Meldekandidat: {{service}}",
+  "message": "{{service}} seit {{started_at}} ausgefallen — Kundenauswirkung: {{client_impact}}",
+  "externalLink": "https://status.internal.example/incident/{{id}}"
+}
+```
+
+Die Variable `externalLink` wird im Benachrichtigungsverlauf zu einem anklickbaren Link — wer den Anruf annimmt, landet direkt beim Vorfall.
+
+### Schritt 3 — Nutze Bedingungen, damit nur plausible Kandidaten klingeln
+
+**Ein Anruf, der bei jeder Warnung auslöst, ist kein Anruf mehr, sondern Hintergrundrauschen.** Die [Bedingungen](/docs/conditions) von Echobell filtern Variablenwerte mit UND/ODER-Logik. Du kannst also verlangen, dass etwa `severity == "critical"` **und** `client_impact == true` erfüllt sind, bevor der Kanal überhaupt jemanden anruft. Alles darunter läuft über einen separaten Time-Sensitive- oder Normal-Kanal. Dein Kanal für meldepflichtige Vorfälle sollte ein paar Mal im Jahr klingeln, nicht wöchentlich.
+
+### Schritt 4 — Fange die Systeme ab, die nur E-Mails senden
+
+Viele Status-Feeds von Anbietern, Betrugserkennungs-Tools und Drittdienstleister benachrichtigen ausschließlich per E-Mail — unter DORA besonders relevant, weil Ausfälle auf Anbieterseite eindeutig in den Anwendungsbereich fallen. Jeder Echobell-Kanal kann eine eigene Adresse haben, sodass eine Weiterleitungsregel aus diesen Nachrichten Anrufe macht ([E-Mail-Trigger](/docs/email-trigger), [E-Mail-zu-Anruf einrichten](/docs/email-to-call)).
+
+### Schritt 5 — Hol die Leute mit ins Boot, die die Frist tragen
+
+Die Technik findet den Vorfall; Compliance, der Bereitschaftsverantwortliche oder der Datenschutzbeauftragte tragen die Frist. Teile den Kanal, und jeder Abonnent wählt seine eigene Dringlichkeit: Die Bereitschaft bekommt einen Anruf, ein zweiter Ansprechpartner eine zeitkritische Benachrichtigung. Aktiviere **Retry Failed Call**, damit ein vom Fokusmodus blockierter Anruf erneut versucht wird.
+
+### Schritt 6 — Teste mit aktiviertem Nicht-stören-Modus
+
+Schicke mindestens einmal pro Quartal einen Test-Webhook, während auf jedem relevanten Telefon der Nicht-stören-Modus aktiv ist. Ein ungetesteter Eskalationspfad ist eine Annahme — und Post-Incident-Reviews bestehen aus Annahmen.
+
+## Was Echobell nicht tut
+
+In einem regulierten Prozess ist Präzision an dieser Stelle wichtiger als irgendwo sonst.
+
+**Echobell tut:** einen Webhook oder eine E-Mail in einen klingelnden Anruf, eine zeitkritische Benachrichtigung oder eine normale Push-Nachricht verwandeln; bei Calling-Alarmen den iOS-Fokus- und Nicht-stören-Modus durchbrechen; mit Bedingungen und Vorlagen filtern; denselben Alarm an einen geteilten Team-Kanal ausliefern.
+
+**Echobell tut nicht:**
+
+- **Vorfälle einstufen.** Es hat keine Meinung dazu, ob etwas „schwerwiegend" im Sinne von DORA, „erheblich" im Sinne von NIS2 oder „wesentlich" im Sinne der SEC-Regeln ist. Das sind Bewertungen, die deine Leute anhand der Kriterien der jeweiligen Texte treffen.
+- **Etwas bei irgendjemandem einreichen.** Es meldet nichts an eine zuständige Behörde, ein CSIRT oder die SEC. Es bringt einen Menschen an den Punkt, an dem er es kann.
+- **Als Aufbewahrungs- oder GRC-System dienen.** Diese Regime verlangen Dokumentation, Register und Nachweise, die eine Alarmierungs-App nicht erzeugt. Echobell speichert Benachrichtigungsinhalte und -verlauf bewusst nur auf deinem Gerät und serverseitig lediglich Konten, Kanäle und Abonnements ([Datenschutzmodell](/docs/features)) — gut für Datenminimierung, nutzlos als Audit-Trail.
+- **Eine Compliance-Bescheinigung mitbringen.** Es gibt weder Zertifizierung noch Prüfbericht noch vertragliches SLA. Wenn du es in einen regulierten Prozess einführst, führe es wie jedes andere Werkzeug durch dein eigenes IKT-Drittparteienrisiko-Verfahren und behalte einen Kanal, der nicht davon abhängt.
+- **Zustellung garantieren.** Ein Anruf hängt von Push-Infrastruktur, Netz und einem geladenen Telefon ab. Betrachte ihn als die Schicht, die die Bestätigungszeit drastisch verkürzt, nicht als Kontrolle, auf die du in einem Audit zeigen kannst.
+
+Ehrlich formuliert: Deine regulatorische Pflicht ändert sich nicht dadurch, welche App dein Telefon klingeln lässt. Was ein Anruf ändert, ist die Zahl der Stunden zwischen dem Moment, in dem eine Maschine etwas bemerkt, und dem Moment, in dem ein Mensch entscheidet — und unter einer 4-Stunden-Uhr sind das die meisten Stunden des Budgets.
+
+## FAQ
+
+### Werden wir durch Echobell DORA- oder NIS2-konform?
+
+Nein. Compliance hängt an eurer Governance, dem Einstufungsprozess, der Dokumentation und den tatsächlichen Meldungen an die zuständige Behörde oder das CSIRT. Echobell verkürzt nur die Lücke zwischen Erkennung und menschlicher Bestätigung. Es ist ein Input für den Prozess, nicht der Prozess.
+
+### Wann genau beginnen die 4 Stunden nach DORA?
+
+Mit der Einstufung. Nach der Delegierten Verordnung (EU) 2025/301 ist die Erstmeldung binnen vier Stunden nach Einstufung eines Vorfalls als schwerwiegend fällig und in jedem Fall spätestens 24 Stunden, nachdem das Unternehmen davon Kenntnis erlangt hat. Das sind zwei getrennte Bedingungen, die beide erfüllt sein müssen — deshalb zählt eine schnelle Einstufungsentscheidung ebenso viel wie ein schneller Alarm.
+
+### Muss die NIS2-Frühwarnung vollständige Details enthalten?
+
+Nein. Artikel 23 Absatz 4 der Richtlinie (EU) 2022/2555 hält die 24-Stunden-Frühwarnung bewusst vorläufig: ob der Vorfall im Verdacht steht, auf rechtswidrige oder böswillige Handlungen zurückzugehen, und ob er grenzüberschreitende Auswirkungen haben könnte. Das vollständigere Bild folgt in der 72-Stunden-Meldung, die Ursachenanalyse im Abschlussbericht einen Monat später.
+
+### Unser Monitoring mailt bereits an die Bereitschaft. Reicht das nicht?
+
+Es reicht, solange jemand wach ist und hinschaut. E-Mails und normale Push-Benachrichtigungen werden von Fokusmodi, dem Nicht-stören-Modus und Schlafplänen stummgeschaltet — genau in den Nächten und an den Wochenenden, in denen die Uhr am wenigsten nachsichtig ist. Die Lücke liegt nicht in der Erkennung, sondern in der Bestätigung.
+
+### Können Compliance und Technik denselben Alarm bekommen?
+
+Ja. Teile den Kanal, und alle Abonnenten erhalten die Auslösung, jeder mit seinem eigenen Benachrichtigungstyp. Ein gängiges Setup: Die Bereitschaft abonniert als Calling, der diensthabende Compliance-Verantwortliche den Kanal für meldepflichtige Vorfälle als Calling und alles Übrige als Time Sensitive.
+
+### Kommt der Anruf wirklich durch den Nicht-stören-Modus?
+
+Der Calling-Benachrichtigungstyp von Echobell ist darauf ausgelegt, den iOS-Fokus- und Nicht-stören-Modus zu durchklingeln, und die Einstellung „Retry Failed Call" wiederholt vom Fokusmodus blockierte Anrufe. Prüfe das auf dem tatsächlichen Gerät jedes Beteiligten, bevor du dich darauf verlässt — Systemeinstellungen und Versionen unterscheiden sich.
+
+### Gilt das nur für iOS?
+
+Nein. Echobell ist für iOS und über Google Play für Android verfügbar (siehe [die Android-Release-Ankündigung](/blog/echobell-android-release)). Das Verhalten anrufartiger Alarme unterscheidet sich zwischen den Plattformen — teste auf den Geräten, die deine Leute tatsächlich bei sich tragen.
+
+### Welche Daten gehören in die Webhook-Nutzlast?
+
+So wenige wie möglich. Sende eine Kennung und einen Link statt Kundendaten oder Vorfalldetails — nutze die Variable `externalLink`, um auf euren Vorfallsdatensatz zu zeigen, der in einem dafür gebauten System liegt. Die Aufgabe des Alarms ist es, jemanden zu wecken, nicht ihn zu briefen.
+
+---
+
+## Weiterlesen
+
+- [Cloud-Ausfälle sind der neue Normalfall: trotzdem alarmiert werden](/blog/cloud-outage-alerts)
+- [Anruf-Alarme, wenn deine API ausfällt](/blog/phone-call-alerts-api-downtime)
+- [Opsgenie-Lebensende: Abschaltung 2027 und Alternativen](/blog/opsgenie-end-of-life-alternatives)
+- [iOS-Fokusmodus für kritische Alarme umgehen](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Webhook-Integrationsleitfaden](/docs/webhook)
+- [Leitfaden zu Bedingungen](/docs/conditions)

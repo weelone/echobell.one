@@ -1,0 +1,149 @@
+---
+title: "DORA and NIS2 Incident Reporting: Get a Phone Call Before the Clock Runs Out"
+description: "DORA gives you 4 hours from classification. NIS2 gives you 24 hours from awareness. Neither clock pauses at night. Here's how to route detection alerts into a ringing phone call with Echobell."
+date: 2026-07-31
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - DORA incident reporting
+  - NIS2 incident reporting
+  - regulatory deadlines
+  - phone call alerts
+  - on-call alerting
+---
+
+# DORA and NIS2 Incident Reporting: Get a Phone Call Before the Clock Runs Out
+
+Every EU incident-reporting deadline starts counting from something a machine notices, and keeps counting while your team sleeps. If the alert that starts the clock arrives as a silent push notification at 02:40 on a Sunday, you have already burned a quarter of your DORA reporting window before a single human reads it. This guide shows you how to put a real ringing phone call in front of your reporting workflow using [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-dora-nis2-incident-reporting-alerts-en&mt=8) — so the clock and your response start at roughly the same time.
+
+The scale of this is now measured, not guessed. On 3 June 2026, the three European Supervisory Authorities published the first EU-wide overview of major ICT-related incidents reported under DORA: **3,383 major incidents** in 2025, an average of **0.18 per financial entity** in scope, with **around one third** having cross-border impact ([EBA](https://www.eba.europa.eu/publications-and-media/press-releases/esas-publish-first-report-dora-major-ict-related-incidents), [ESMA](https://www.esma.europa.eu/press-news/esma-news/esas-publish-first-report-dora-major-ict-related-incidents)). The detail that should shape your alerting: only **10%** were cybersecurity-related. System failures and external events were the main drivers.
+
+In other words, the events that start a regulatory clock are overwhelmingly the boring ones — a failed deployment, a dead dependency, a provider outage. The same things your monitoring already catches at 3 a.m. and delivers to a phone that is on Do Not Disturb.
+
+## What the reporting clocks actually require
+
+**Three regimes, three different starting guns — and all of them run in real time.** Here is what the current texts say.
+
+| Regime | First deadline | Then | Finally |
+| --- | --- | --- | --- |
+| **DORA** (EU financial entities) | Initial notification within **4 hours** of classifying the incident as major, and no later than **24 hours** from becoming aware of it | Intermediate report at the latest **72 hours** after the initial notification | Final report no later than **one month** after the (latest) intermediate report |
+| **NIS2** (EU essential & important entities) | Early warning without undue delay and in any event within **24 hours** of becoming aware of the significant incident | Incident notification within **72 hours** of becoming aware | Final report not later than **one month** after the incident notification |
+| **SEC Item 1.05** (US listed companies) | Form 8-K generally due **four business days** after determining an incident is material | — | — |
+
+DORA's timings come from Commission Delegated Regulation (EU) 2025/301, the regulatory technical standard on incident reporting content and time limits, published 20 February 2025 and supplementing [Regulation (EU) 2022/2554](https://eur-lex.europa.eu/eli/reg/2022/2554/oj) ([European Commission](https://finance.ec.europa.eu/regulation-and-supervision/financial-services-legislation/implementing-and-delegated-acts/digital-operational-resilience-regulation_en), [Article 5 text](https://www.springlex.eu/en/packages/dora/rts-ir-regulation/article-5/)). DORA itself has applied since 17 January 2025 ([ESMA](https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/digital-operational-resilience-act-dora)).
+
+NIS2's timings are in Article 23(4) of [Directive (EU) 2022/2555](https://eur-lex.europa.eu/eli/dir/2022/2555/oj); Member States were required to transpose it by 17 October 2024 ([European Commission](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)). The SEC deadline comes from the cybersecurity disclosure rules adopted 26 July 2023 ([SEC](https://www.sec.gov/newsroom/press-releases/2023-139)).
+
+## Why a reporting deadline is really a wake-up problem
+
+**Because none of these clocks are anchored to your working hours.** DORA measures from classification and from the entity becoming aware. NIS2 measures from the entity becoming aware. The SEC measures from a materiality determination. Whether a given moment counts as "awareness" is a legal judgement your compliance function makes — but nothing in any of these texts restarts the count because the first person to see the alert happened to be asleep.
+
+Work the arithmetic backwards on DORA's tightest path. You have 4 hours from the moment an incident is classified as major, and classification cannot happen before a human looks at it. If detection is at 02:40, nobody acknowledges until 08:00, and classification takes another 90 minutes of investigation, you are submitting an initial notification around 11:00 — inside the 24-hour outer bound, but with more than eight hours of a 24-hour ceiling spent on nothing but sleep. Shrink the acknowledgement gap and every downstream step gets room to breathe.
+
+This is not an argument for alerting on more things. It is an argument for one specific, narrow class of alerts — the ones that could plausibly become reportable — being physically impossible to sleep through. Everything else should stay quiet. (If your team is already drowning, start with [fixing alert fatigue](/en/blog/fix-alert-fatigue-developer-guide) before adding a louder channel.)
+
+## Does the weekend buy you extra time?
+
+**A little, under DORA — and quite possibly not for you.** Delegated Regulation (EU) 2025/301 allows a financial entity whose deadline falls on a weekend day or a bank holiday in its Member State to submit by noon of the next working day. But the same article withholds that extension from credit institutions, central counterparties, and trading venue operators, and from entities that are essential or important under NIS2. Competent authorities may also remove it for other systemically significant entities ([Article 5](https://www.springlex.eu/en/packages/dora/rts-ir-regulation/article-5/), [Advisera summary](https://advisera.com/cdr-2025-301/time-limits-for-the-initial-notification-and-for-the-intermediate-and-final-reports/)).
+
+So the organisations most likely to have a Sunday-night incident are precisely the ones with no weekend relief. NIS2's Article 23 contains no weekend extension at all. Plan for the clock running on Saturday exactly as it runs on Tuesday, then treat any extension you qualify for as a bonus rather than a buffer.
+
+## How to put a ringing phone in front of your reporting workflow
+
+Echobell does one thing: it turns a webhook or an email into a phone call — a real ringing, vibrating call that breaks through iOS Focus Mode and Do Not Disturb, the way a call from a family member would (see [bypassing iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)). It sits between the system that detects the incident and the human who has to start the clock.
+
+### Step 1 — Create a Calling channel reserved for reportable incidents
+
+Create a channel in Echobell and set its notification type to **Calling**. This is what makes the phone ring rather than delivering a silent push ([notification types](/en/docs/notification)). Give it a name that leaves no doubt — "Reportable incident — wake up" — and use it for nothing else. Copy the channel's webhook URL from the channel details; it looks like `https://hook.echobell.one/t/<channel-token>`. Treat it as a secret.
+
+### Step 2 — Point your detection stack at that webhook
+
+Whatever notices the incident sends an HTTP request to the channel URL. Echobell has direct guides for [Grafana](/en/docs/developer/grafana), [Prometheus Alertmanager](/en/docs/developer/prometheus), [Uptime Kuma](/en/docs/developer/uptime-kuma), and [UptimeRobot](/en/docs/developer/uptimerobot); anything else that can POST JSON works through the [webhook guide](/en/docs/webhook). A useful payload carries enough to make a first classification decision without opening a laptop:
+
+```json
+{
+  "title": "Reportable candidate: {{service}}",
+  "message": "{{service}} down since {{started_at}} — client-facing: {{client_impact}}",
+  "externalLink": "https://status.internal.example/incident/{{id}}"
+}
+```
+
+The `externalLink` variable turns into a clickable link in the notification record, so whoever answers the call lands directly on the incident.
+
+### Step 3 — Use conditions so only plausible candidates ring
+
+**A phone call that fires on every warning stops being a phone call and becomes background noise.** Echobell [conditions](/en/docs/conditions) filter on variable values with AND/OR logic, so you can require, for example, `severity == "critical"` **and** `client_impact == true` before the channel calls anyone. Route everything below that bar to a separate Time-Sensitive or Normal channel. Your reportable-incident channel should ring a handful of times a year, not weekly.
+
+### Step 4 — Catch the systems that only send email
+
+Plenty of vendor status feeds, fraud-monitoring tools, and third-party providers notify by email and nothing else — which matters under DORA, where provider-side failures are squarely in scope. Every Echobell channel can have its own address, so a forwarding rule turns those messages into calls ([email triggers](/en/docs/email-trigger), [email-to-call setup](/en/docs/email-to-call)).
+
+### Step 5 — Put the people who own the clock on the same channel
+
+Engineering finds the incident; compliance, the duty officer, or the DPO owns the deadline. Share the channel and each subscriber picks their own urgency, so the on-call engineer gets a call while a second responder gets a time-sensitive alert. Enable **Retry Failed Call** so a call blocked by Focus Mode is attempted again.
+
+### Step 6 — Test it with Do Not Disturb on
+
+Send a test webhook with Do Not Disturb enabled on every phone that matters, at least once a quarter. An untested escalation path is an assumption, and assumptions are what post-incident reviews are made of.
+
+## What Echobell does not do
+
+Being precise here matters more in a regulated workflow than anywhere else.
+
+**Echobell does:** turn a webhook or an email into a ringing call, a time-sensitive alert, or a normal push; break through iOS Focus Mode and Do Not Disturb for Calling alerts; filter with conditions and templates; deliver the same alert to a shared team channel.
+
+**Echobell does not:**
+
+- **Classify incidents.** It has no view on whether something is "major" under DORA, "significant" under NIS2, or "material" under SEC rules. Those are judgement calls made by your people against criteria in the relevant texts.
+- **File anything with anyone.** It does not submit to a competent authority, a CSIRT, or the SEC. It gets a human to the point where they can.
+- **Serve as your record-keeping or GRC system.** These regimes require documentation, registers, and evidence that an alerting app does not produce. Echobell deliberately stores notification content and history only on your device, with just accounts, channels, and subscriptions on the server ([privacy model](/en/docs/features)) — good for data minimisation, useless as an audit trail.
+- **Come with a compliance attestation.** There is no certification, audit report, or contractual SLA attached to it. If you introduce it into a regulated workflow, run it through your own ICT third-party risk process like any other tool, and keep a channel that does not depend on it.
+- **Guarantee delivery.** A call depends on push infrastructure, the network, and a charged phone. Treat it as the layer that dramatically shortens acknowledgement time, not as a control you can point at in an audit.
+
+The honest framing: your regulatory obligation is unchanged by which app rings your phone. What a phone call changes is the number of hours between a machine noticing and a person deciding — and under a 4-hour clock, those hours are most of the budget.
+
+## FAQ
+
+### Does using Echobell make us DORA or NIS2 compliant?
+
+No. Compliance depends on your governance, classification process, documentation, and actual submissions to your competent authority or CSIRT. Echobell only shortens the gap between detection and human acknowledgement. It is one input to a process, not the process.
+
+### When exactly does the DORA 4-hour clock start?
+
+At classification. Under Delegated Regulation (EU) 2025/301, the initial notification is due within four hours of classifying an incident as major, and in any case no later than 24 hours from the moment the entity became aware of it. Those are two separate constraints and you must satisfy both — which is why a fast classification decision matters as much as a fast alert.
+
+### Does the NIS2 early warning need full incident details?
+
+No. Article 23(4) of Directive (EU) 2022/2555 makes the 24-hour early warning deliberately provisional: whether the incident is suspected of being caused by unlawful or malicious acts, and whether it could have cross-border impact. The fuller picture is due in the 72-hour notification, and the root-cause analysis in the final report a month later.
+
+### Our monitoring already emails the on-call engineer. Isn't that enough?
+
+It is enough when someone is awake and looking. Email and standard push notifications are silenced by Focus modes, Do Not Disturb, and sleep schedules — the exact conditions during the nights and weekends when the clock is least forgiving. The gap is not detection, it is acknowledgement.
+
+### Can compliance and engineering get the same alert?
+
+Yes. Share the channel and everyone subscribed receives the trigger, each choosing their own notification type. A common setup: the on-call engineer subscribes as Calling, the duty compliance officer as Calling for the reportable-incident channel and Time-Sensitive for everything else.
+
+### Will the call really get through Do Not Disturb?
+
+Echobell's Calling notification type is designed to ring through iOS Focus Mode and Do Not Disturb, and the Retry Failed Call setting re-attempts calls blocked by Focus Mode. Verify it on each responder's actual device before relying on it — OS settings and versions vary.
+
+### Is this only for iOS?
+
+No. Echobell is available on iOS and on Android via Google Play (see [the Android release announcement](/en/blog/echobell-android-release)). Behaviour of call-style alerts differs between platforms, so test on the devices your responders actually carry.
+
+### What data should we put in the webhook payload?
+
+As little as possible. Send an identifier and a link rather than customer details or incident specifics — use the `externalLink` variable to point at your incident record, which lives in a system built to hold it. The alert's job is to wake someone up, not to brief them.
+
+---
+
+## Related
+
+- [Cloud outages are the new normal: how to still get alerted](/en/blog/cloud-outage-alerts)
+- [Getting phone call alerts when your API goes down](/en/blog/phone-call-alerts-api-downtime)
+- [Opsgenie end of life: 2027 shutdown and alternatives](/en/blog/opsgenie-end-of-life-alternatives)
+- [How to bypass iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Webhook integration guide](/en/docs/webhook)
+- [Conditions guide](/en/docs/conditions)
