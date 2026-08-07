@@ -1,0 +1,214 @@
+---
+title: "Tu agente de IA te está esperando: convierte las aprobaciones en llamadas"
+description: "Los agentes autónomos se detienen y esperan en silencio cuando necesitan a una persona. Nada en el stack de agentes hace sonar tu teléfono. Así se conectan las pausas de aprobación y los fallos con Echobell."
+date: 2026-08-07
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - alertas de agentes de IA
+  - human in the loop
+  - aprobaciones de agentes
+  - notificaciones webhook
+  - alertas por llamada
+---
+
+# Tu agente de IA te está esperando: convierte las aprobaciones en llamadas
+
+Todos los frameworks de agentes autónomos que se han lanzado en 2026 tienen el mismo agujero. El agente trabaja durante horas sin ti, se topa con una acción que no puede ejecutar por su cuenta, se detiene — y entonces no ocurre nada. La ejecución no falla. No reintenta. Se queda en memoria sosteniendo un objeto de estado serializado, esperando a una persona que no tiene ni idea de que la están esperando. Esta guía explica cómo cerrar ese hueco convirtiendo el momento «necesito a un humano» del agente en una llamada que suena de verdad, con [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-ai-agent-human-in-the-loop-alerts-es&mt=8).
+
+El hueco es estructural, no un bug de un producto concreto. La documentación de agentes de OpenAI describe el flujo de aprobación con precisión: cuando una herramienta necesita aprobación, «la ejecución se pausa hasta que la apruebas o la rechazas», el resultado devuelve `interruptions` más un `state` reanudable y, si la revisión puede tardar, se recomienda serializar ese estado, guardarlo y reanudar más tarde ([OpenAI](https://developers.openai.com/api/docs/guides/agents/guardrails-approvals), [guía del Agents SDK](https://openai.github.io/openai-agents-js/guides/human-in-the-loop/)). En ningún punto de ese flujo algo llega a una persona. Avisar a quien aprueba queda enteramente en tus manos.
+
+Mientras tanto, las ejecuciones son cada vez más largas. AWS describe sus agentes frontier como capaces de «operar durante horas o días sin requerir intervención» ([About Amazon](https://www.aboutamazon.com/news/aws/amazon-ai-frontier-agents-autonomous-kiro)). Kiro Crew, lanzado el 4 de agosto de 2026, lo dice sin rodeos: «Lanza una migración y seguirá avanzando por checkpoints y reintentos mientras estás en una reunión o dormido» — señalando a la vez que «las peticiones de herramientas pueden requerir aprobación» ([Kiro](https://kiro.dev/blog/introducing-kiro-crew/)). Las dos mitades son ciertas a la vez. El agente trabaja mientras duermes, y el agente se para mientras duermes.
+
+## ¿Cómo de frecuentes son los incidentes con agentes?
+
+**Lo bastante como para que la mayoría de empresas haya tenido uno, y la mayoría no deje a sus agentes sin supervisión.** En una encuesta a 418 profesionales de TI y seguridad realizada en enero de 2026 por la Cloud Security Alliance y encargada por Token Security, el **65 %** de las organizaciones declaró al menos un incidente relacionado con agentes de IA en el último año: un **61 %** con exposición de datos, un **43 %** con interrupción operativa y un **35 %** con pérdidas económicas ([nota de prensa de CSA](https://cloudsecurityalliance.org/press-releases/2026/04/21/new-cloud-security-alliance-survey-reveals-82-of-enterprises-have-unknown-ai-agents-in-their-environments), [informe](https://cloudsecurityalliance.org/artifacts/autonomous-but-not-controlled-ai-agent-incidents-now-common-in-enterprises)).
+
+Los datos de gobernanza de esa misma encuesta son los que importan para las alertas. Solo un **13 %** ejecuta agentes totalmente autónomos. Un **53 %** deja que actúen solos en tareas de bajo riesgo con revisión humana para acciones de mayor riesgo, y un **24 %** mantiene a una persona en el bucle para la mayoría de las tareas. Un **82 %** había descubierto agentes de IA en la sombra en su entorno durante el último año.
+
+Léelo como un hecho operativo y no como una estadística alarmista: **alrededor de tres cuartas partes de las organizaciones han introducido deliberadamente una pausa en sus agentes.** Cada una de esas pausas es un momento en que una máquina está bloqueada esperando a una persona. Si esa persona se entera a las 09:00 del día siguiente, la capacidad del agente de trabajar de noche no ha valido nada.
+
+## ¿Qué pasa realmente cuando un agente necesita a alguien?
+
+**Espera, en silencio, y todos los frameworks te dejan a ti la notificación.** El mecanismo cambia; el resultado no.
+
+| Stack | Mecanismo | Qué llega a una persona |
+| --- | --- | --- |
+| OpenAI Agents SDK | `needsApproval` en una herramienta pausa la ejecución y devuelve `interruptions` + `state` reanudable | Nada — tu aplicación decide qué hacer con la interrupción |
+| Servidores MCP | `elicitation/create` pregunta al usuario a mitad de una llamada de herramienta y devuelve `accept`, `decline` o `cancel` | La interfaz que dibuje el cliente MCP — en una ejecución sin supervisión, nadie la mira |
+| Claude Code | El hook `Notification` se dispara con matchers como `agent_needs_input` y `agent_completed` | Aquello a lo que conectes el hook |
+| Kiro Crew | Las peticiones de herramientas pueden requerir aprobación; la actividad queda registrada | La vista de actividad, si la abres |
+
+El Model Context Protocol lo deja explícito a nivel de especificación. La elicitation existe precisamente para que un servidor pueda preguntar algo a una persona a mitad de ejecución, y la revisión actual (`2026-07-28`) advierte de que los servidores «**NO DEBERÍAN** asumir que las peticiones de elicitation siempre tendrán éxito» y han de gestionar el rechazo, la cancelación y el fallo del cliente ([especificación MCP](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation)). El protocolo estandariza la pregunta. No estandariza —ni puede— cómo captar la atención de la persona.
+
+Ahí está toda la oportunidad. Cada capa del stack de agentes tiene una pausa bien diseñada. Ninguna tiene un número de teléfono.
+
+## ¿Qué eventos de un agente merecen una llamada?
+
+**Dos, y conviene ser implacable con el resto.** Una llamada es un recurso escaso: gástala solo donde una persona dormida sea de verdad el bloqueo.
+
+1. **Una aprobación bloqueada en una ejecución que no puede continuar sin ella.** El agente está parado, el reloj corre y esperar no lo resuelve. Este es el caso canónico.
+2. **El fallo terminal de una ejecución larga sin supervisión.** Seis horas de migración que murieron en la hora dos son cuatro horas que no vas a recuperar, y preferirías haberlo sabido en la hora dos.
+
+Todo lo demás pertenece a un canal más silencioso. «Tarea completada con éxito» es una notificación normal. «El agente ha consumido el 80 % de su presupuesto» es, como mucho, urgente. «El agente ha arrancado» no es ni una notificación. Los tres [tipos de notificación](/docs/notification) de Echobell —Normal, Urgente y Llamada— existen exactamente para este triaje, y asignar los eventos del agente a cada uno es la decisión de diseño más importante aquí. Si ya luchas contra el volumen de notificaciones, lee [cómo arreglar la fatiga de alertas](/blog/fix-alert-fatigue-developer-guide) antes de añadir un canal que suena.
+
+## Cómo conectar una aprobación de agente con una llamada
+
+Echobell convierte un webhook o un correo en una llamada — una llamada real que suena y vibra, y que atraviesa el Modo Concentración y No Molestar de iOS igual que lo haría la llamada de un familiar (ver [cómo saltarse el Modo Concentración](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)). Se coloca entre el agente que se detiene y la persona que puede reanudarlo.
+
+### Paso 1 — Crea un canal de tipo Llamada para agentes bloqueados
+
+Crea un canal en la app y pon su tipo de notificación en **Llamada**. Ponle un nombre inequívoco como «Agente bloqueado — necesita aprobación» y no lo uses para nada más. Copia la URL del webhook desde los detalles del canal; tiene la forma `https://hook.echobell.one/t/<channel-token>`. Trátala como un secreto: quien la tenga puede hacer sonar tu teléfono ([guía de webhooks](/docs/webhook)).
+
+Configura las plantillas de título y cuerpo con algo accionable desde la pantalla de bloqueo:
+
+```
+Title: Agente bloqueado: {{agent}}
+Body: Esperando {{action}} en {{project}} — desde las {{time}} UTC
+```
+
+`{{time}}` y las demás [variables de tiempo del sistema](/docs/template) están siempre disponibles en UTC sin que tengas que enviarlas.
+
+### Paso 2 — Dispara el webhook desde tu rama de aprobación
+
+En cualquier SDK que devuelva interrupciones, la pausa es una rama normal de tu código. Envía la petición a la URL del canal antes de aparcar la ejecución:
+
+```javascript
+let result = await run(agent, input, { stream: false });
+
+if (result.interruptions?.length) {
+  await fetch(process.env.ECHOBELL_BLOCKED_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      agent: agent.name,
+      action: result.interruptions[0].rawItem.name,
+      project: process.env.PROJECT_NAME,
+      externalLink: `https://ops.example.com/runs/${runId}`,
+    }),
+  });
+  await saveState(runId, result.state); // serializa y reanuda tras la aprobación
+}
+```
+
+La variable especial `externalLink` se convierte en un enlace pulsable en el registro de notificaciones, de modo que quien conteste la llamada aterriza directamente en la ejecución en vez de tener que buscarla.
+
+### Paso 3 — Usa hooks cuando el agente sea una CLI, no una librería
+
+Claude Code expone un hook `Notification` cuyo matcher filtra por tipo de notificación, incluidos `agent_needs_input` y `agent_completed`, y sus handlers pueden ser comandos de shell o peticiones HTTP directas ([referencia de hooks](https://code.claude.com/docs/en/hooks)). Un handler `command` te da control sobre la forma del payload, lo cual importa porque Echobell renderiza las claves JSON que le envíes:
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "agent_needs_input",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '{agent: \"claude-code\", action: .message, project: .cwd}' | curl -sS -X POST -H 'Content-Type: application/json' -d @- \"$ECHOBELL_BLOCKED_URL\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+La entrada del hook llega como JSON por stdin en los handlers `command`, con campos como `session_id`, `cwd`, `hook_event_name` y `permission_mode`. El handler de tipo `http` envía ese mismo JSON directamente a una URL sin ningún script, lo cual resulta tentador — pero también espera que la respuesta sea un documento de salida de hook, y la respuesta de Echobell no lo es. Usa `command` salvo que hayas verificado que `http` se comporta como quieres en tu configuración.
+
+### Paso 4 — Captura los agentes que solo envían correo
+
+Muchas plataformas de agentes, servicios de ejecuciones programadas y herramientas internas informan solo por correo. Cada canal de Echobell puede tener su propia dirección, así que una regla de reenvío convierte esos mensajes en llamadas ([disparadores por email](/docs/email-trigger), [configuración de email a llamada](/docs/email-to-call)). Los disparadores por correo exponen `from`, `to`, `subject`, `text` y `html` como variables de plantilla, de modo que puedes construir una condición sobre el asunto sin parsear nada tú.
+
+### Paso 5 — Añade condiciones para que solo suenen los bloqueos reales
+
+**Un canal que suena con cada evento del agente deja de ser una llamada y se convierte en ruido de fondo.** Las [condiciones](/docs/conditions) de Echobell filtran por valores de variables con la misma sintaxis de expresiones que las plantillas, así que puedes exigir, por ejemplo:
+
+```
+blocking == true && risk == "high"
+```
+
+Manda todo lo que quede por debajo de ese listón a un canal Urgente aparte. Un objetivo útil: el canal de Llamada debería sonar como mucho unas pocas veces por semana. Si suena más, la frontera de autonomía de tu agente está mal trazada y ningún ajuste de notificaciones lo arreglará.
+
+### Paso 6 — Pruébalo con No Molestar activado
+
+Dispara el canal con `curl` mientras No Molestar está activo en el teléfono que va a recibirlo de verdad:
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{"agent":"test","action":"deploy to prod","project":"demo","blocking":true,"risk":"high"}'
+```
+
+Activa **Reintentar llamada fallida** en la app para que una llamada bloqueada por el Modo Concentración se intente de nuevo. Una ruta de escalado sin probar es una suposición.
+
+## ¿No estaremos recreando la fatiga de alertas con una campana más ruidosa?
+
+**Sí, si te saltas el paso 5.** El modo de fallo es real y conviene nombrarlo. Los agentes generan muchos más eventos que los servidores —cada llamada de herramienta, cada checkpoint, cada reintento— y la tentación de enrutarlo todo a algún sitio visible es fuerte.
+
+La disciplina que funciona: una llamada se reserva para eventos en los que el hecho de que una persona esté dormida sea lo único que impide avanzar al agente. Ese conjunto es mucho menor que «cosas importantes que hizo el agente». Si no puedes describir en una frase qué hará esa persona en los noventa segundos siguientes a contestar, no merece una llamada.
+
+También hay un argumento de seguridad para mantener el listón alto. La misma encuesta de CSA encontró que las organizaciones sitúan el riesgo de la acción (**63 %**) y la autorización humana (**53 %**) como sus principales señales de gobernanza. Esas señales solo significan algo si la autorización humana ocurre de verdad y pronto. Una puerta de aprobación que se responde siempre ocho horas tarde entrena a todo el mundo para ensancharla — que es como ese **13 %** de autonomía total se convierte silenciosamente en el valor por defecto por los motivos equivocados.
+
+## Lo que Echobell no hace
+
+Ser preciso aquí importa, porque la infraestructura de agentes atrae exageraciones.
+
+**Echobell sí:** convierte un webhook o un correo en una llamada que suena, una alerta urgente o una notificación normal; filtra con condiciones; renderiza contexto con plantillas; entrega el mismo disparo a un canal de equipo compartido donde cada suscriptor elige su urgencia.
+
+**Echobell no:**
+
+- **Aprueba nada.** No es una interfaz de aprobación y no tiene conexión con el estado de tu agente. Hace sonar tu teléfono; sigues teniendo que abrir un portátil, un panel o una terminal para aprobar o rechazar. No hay «pulse 1 para aprobar».
+- **Reanuda la ejecución.** Serializar y restaurar el estado del agente es tarea de tu framework. Echobell nunca lo toca.
+- **Ofrece políticas de escalado, confirmación de recepción ni rotaciones de guardia.** No existe «si nadie contesta en cinco minutos, llama al siguiente». Llama a los suscriptores de un canal. Si necesitas turnos programados y seguimiento de acuses, necesitas una plataforma de incidentes — mira la [comparativa de alternativas a Opsgenie](/blog/opsgenie-end-of-life-alternatives) para esa categoría.
+- **Asegura tus agentes.** Nada de esto aborda los agentes en la sombra, los permisos de herramientas demasiado amplios ni la falta de procesos de retirada que describe el informe de CSA. Una atención humana más rápida mitiga una respuesta lenta, no una mala arquitectura.
+- **Garantiza la entrega.** Una llamada depende de la infraestructura de push, de la red y de un teléfono con batería. Trátala como la capa que acorta la espera, no como un control del que dependas de forma absoluta.
+
+Dicho con honestidad: la frontera de autonomía de tu agente no cambia según qué app haga sonar tu teléfono. Lo que cambia una llamada es el número de horas entre que el agente se detiene y una persona se da cuenta — y en una ejecución nocturna, esas horas son todo el valor de haberla lanzado de noche.
+
+## Preguntas frecuentes
+
+### ¿Puedo aprobar la acción del agente desde la propia llamada?
+
+No. Echobell entrega una llamada con el contenido de la notificación y un enlace pulsable; no tiene ninguna vía de respuesta interactiva hacia tu agente. El patrón realista es: la llamada te despierta, el `externalLink` te lleva al panel de la ejecución o al endpoint de aprobación, y decides allí. Si necesitas aprobar respondiendo, tendrás que construir ese endpoint tú mismo — Echobell solo cubre la mitad de despertarte.
+
+### ¿Qué eventos del framework deberían disparar el webhook?
+
+Aquellos en los que la ejecución no puede continuar. En el OpenAI Agents SDK, un array `interruptions` no vacío. En MCP, una petición `elicitation/create` que tu cliente no puede responder sin una persona. En Claude Code, el hook `Notification` con el matcher `agent_needs_input`. Los eventos de finalización van a un canal Normal o Urgente, no a uno de Llamada.
+
+### ¿Funciona con agentes headless en CI?
+
+Sí, y es donde más importa, porque nadie está mirando una terminal. Cualquier paso de CI que pueda ejecutar `curl` puede disparar un canal. Envía en la rama de fallo de un trabajo largo, no en cada trabajo, o tu pipeline se convertirá en lo más ruidoso que tienes.
+
+### ¿Y la elicitation de MCP en concreto?
+
+La elicitation está pensada para un cliente con una persona presente que dibuje el diálogo. En una ejecución sin supervisión no hay nadie a quien mostrarlo, y la especificación dice explícitamente a los servidores que gestionen el rechazo y la cancelación en vez de asumir una respuesta. Un patrón razonable es que el wrapper del cliente MCP dispare un webhook de Echobell cuando reciba una petición de elicitation que no pueda responder de forma autónoma, y luego retenga o cancele según tu política.
+
+### ¿Es seguro poner la salida del agente en la notificación?
+
+Envía lo mínimo posible. Prefiere un identificador y un enlace antes que la salida real del agente — usa `externalLink` para apuntar al registro de la ejecución en un sistema construido para guardarlo. Echobell almacena el contenido y el historial de notificaciones solo en tu dispositivo, y en el servidor únicamente cuentas, canales y suscripciones ([modelo de privacidad](/docs/features)), lo cual es bueno para la minimización de datos pero no es razón para enviar más de lo necesario.
+
+### ¿Puede todo mi equipo recibir la misma alerta del agente?
+
+Sí. Comparte el canal y cada suscriptor recibe el disparo, eligiendo su propio tipo de notificación. Una configuración habitual: quien es responsable del agente se suscribe como Llamada y el resto del equipo como Urgente.
+
+### ¿Es solo para iOS?
+
+No. Echobell está disponible en iOS y en Android vía Google Play (ver [el lanzamiento de Android](/blog/echobell-android-release)). El comportamiento de las alertas tipo llamada difiere entre plataformas, así que pruébalo en los dispositivos que realmente llevan las personas de guardia.
+
+### ¿En qué se diferencia esto de la configuración con WebhookMCP?
+
+[WebhookMCP](/blog/get-notified-with-webhook-mcp) da al modelo una herramienta que puede decidir invocar cuando termina una tarea — útil, pero depende de que el agente decida avisarte. El enfoque de este artículo se dispara desde tu propio código o desde un hook del framework, así que funciona incluso cuando el agente está atascado, confundido o ha reventado. Usa ambos: uno para «hecho», otro para «bloqueado».
+
+---
+
+## Relacionado
+
+- [Recibe avisos cuando tus tareas de IA terminen con WebhookMCP](/blog/get-notified-with-webhook-mcp)
+- [Cómo saltarse el Modo Concentración de iOS para alertas críticas](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Arreglar la fatiga de alertas: guía para desarrolladores](/blog/fix-alert-fatigue-developer-guide)
+- [Alertas de fallos en tareas cron](/blog/cron-job-failure-alerts)
+- [Guía de integración de webhooks](/docs/webhook)
+- [Guía de condiciones](/docs/conditions)

@@ -1,0 +1,214 @@
+---
+title: "你的 AI Agent 正在等你：把审批卡点变成一通电话"
+description: "自主 Agent 需要人类时会静静地停住等待，而整个 Agent 技术栈里没有任何东西会让你的手机响起来。本文讲清如何用 Echobell 把审批卡点和失败的长任务变成真正响铃的电话。"
+date: 2026-08-07
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - AI Agent 告警
+  - human in the loop
+  - Agent 审批卡点
+  - Webhook 通知
+  - 电话告警
+---
+
+# 你的 AI Agent 正在等你：把审批卡点变成一通电话
+
+2026 年出现的每一个自主 Agent 框架，都有同一个窟窿。Agent 在没有你的情况下跑了几个小时，撞上一个它无权独自执行的动作，于是暂停——然后就什么也不会发生了。任务没有失败，也不会重试，它就那样在内存里握着一份序列化的状态对象，等着一个根本不知道自己被等待的人。本文讲清如何用 [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-ai-agent-human-in-the-loop-alerts-zh&mt=8) 把 Agent 「我需要人」的那一刻变成一通响铃的电话，来堵上这个窟窿。
+
+这个缺口是结构性的，不是某个产品的 bug。OpenAI 的 Agent 文档把审批流程写得很清楚：当某个工具需要审批时，「运行会暂停，直到你批准或拒绝」，结果会返回 `interruptions` 以及一份可恢复的 `state`；如果审核可能要花些时间，文档建议你把这份状态序列化存下来，之后再恢复（[OpenAI](https://developers.openai.com/api/docs/guides/agents/guardrails-approvals)、[Agents SDK 指南](https://openai.github.io/openai-agents-js/guides/human-in-the-loop/)）。整个流程里，没有任何一步会触达一个人。通知审批人这件事，完全留给了你。
+
+与此同时，任务跑得越来越久。AWS 形容自家的前沿 Agent 能够「连续运行数小时甚至数天而无需干预」（[About Amazon](https://www.aboutamazon.com/news/aws/amazon-ai-frontier-agents-autonomous-kiro)）。2026 年 8 月 4 日发布的 Kiro Crew 说得更直白：「启动一次迁移，它会在你开会或睡觉时继续沿着检查点和重试往前推进」——同时也提到「工具请求可以要求审批」（[Kiro](https://kiro.dev/blog/introducing-kiro-crew/)）。这两句话同时成立：Agent 在你睡觉时干活，Agent 也在你睡觉时停住。
+
+## Agent 相关事故到底有多常见？
+
+**常见到大多数企业都遇到过，而且大多数企业并不敢让 Agent 完全无人监管地跑。** 云安全联盟（CSA）受 Token Security 委托，于 2026 年 1 月对 418 名 IT 与安全专业人士做了一次调研：**65%** 的组织在过去一年中至少发生过一起与 AI Agent 相关的事故，其中 **61%** 涉及数据泄露，**43%** 造成运营中断，**35%** 带来财务损失（[CSA 新闻稿](https://cloudsecurityalliance.org/press-releases/2026/04/21/new-cloud-security-alliance-survey-reveals-82-of-enterprises-have-unknown-ai-agents-in-their-environments)、[报告](https://cloudsecurityalliance.org/artifacts/autonomous-but-not-controlled-ai-agent-incidents-now-common-in-enterprises)）。
+
+同一份调研里，真正影响告警设计的是治理数据。只有 **13%** 让 Agent 完全自主运行；**53%** 只在低风险任务上放手，高风险动作仍需人工复核；**24%** 在大多数任务上都保留人工介入。此外，**82%** 在过去一年中发现过环境里存在「影子 Agent」。
+
+请把这些当成运营事实而非危言耸听：**大约四分之三的组织，是有意在 Agent 里留了一个暂停点的。**每一个暂停点，都是一台机器卡在一个人身上的时刻。如果这个人第二天早上九点才发现，那么 Agent「能通宵干活」这件事就一文不值。
+
+## Agent 需要人的时候，实际会发生什么？
+
+**它会静静地等着，而且每个框架都把通知这件事丢给了你。**机制各不相同，结果完全一样。
+
+| 技术栈 | 机制 | 真正触达人的东西 |
+| --- | --- | --- |
+| OpenAI Agents SDK | 工具上的 `needsApproval` 会暂停运行，返回 `interruptions` 与可恢复的 `state` | 没有——由你的应用决定拿这个中断怎么办 |
+| MCP 服务端 | `elicitation/create` 在工具调用中途向用户提问，返回 `accept`、`decline` 或 `cancel` | MCP 客户端渲染出来的界面——在无人值守的运行里，没人在看 |
+| Claude Code | `Notification` 钩子触发，matcher 取值包括 `agent_needs_input` 和 `agent_completed` | 你自己接到这个钩子上的任何东西 |
+| Kiro Crew | 工具请求可要求审批，活动被记录下来供复核 | Activity 视图——前提是你打开它 |
+
+Model Context Protocol 在规范层面把这点说得很明白。Elicitation 的存在，正是为了让服务端能在运行中途向人提问；当前修订版（`2026-07-28`）明确警告服务端「**不应当**假定 elicitation 请求总会成功」，必须处理拒绝、取消以及客户端失败的情况（[MCP 规范](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation)）。协议标准化了「提问」，但它没有、也无法标准化「让人注意到」。
+
+这就是全部机会所在：Agent 技术栈的每一层都有设计精良的暂停机制，但没有一层有电话号码。
+
+## 哪些 Agent 事件配得上一通电话？
+
+**只有两类，其余的要毫不留情地筛掉。**电话是稀缺资源，只应该花在「一个睡着的人确实就是阻塞点」的地方。
+
+1. **没有审批就无法继续的卡点。** Agent 处于空闲，时间在流逝，再等也不会自己解决。这是最典型的场景。
+2. **长时间无人值守任务的终态失败。** 一次六小时的迁移在第二小时就死了，那就是四个小时的白等——你当然希望在第二小时就知道。
+
+其余的都应该走更安静的通道。「任务成功完成」是普通推送；「Agent 用掉了 80% 预算」最多算时效性通知；「Agent 已启动」根本算不上通知。Echobell 的三种[通知类型](/docs/notification)——普通、时效性、来电——正是为这种分级而存在，把 Agent 事件映射到它们上面，是这里最重要的一个设计决策。如果你已经在跟通知量作斗争，先读[消除告警疲劳](/blog/fix-alert-fatigue-developer-guide)，再来加一个会响铃的通道。
+
+## 如何把 Agent 审批卡点接到电话上
+
+Echobell 把 Webhook 或邮件变成一通电话——一通真正响铃、会震动、能像家人来电那样穿透 iOS 专注模式和勿扰模式的电话（见[绕过 iOS 专注模式](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)）。它站在「会暂停的 Agent」和「能解除暂停的人」之间。
+
+### 第一步 —— 为「被卡住的 Agent」建一个来电通道
+
+在 App 里新建一个频道，把通知类型设为**来电（Calling）**。给它起一个毫不含糊的名字，比如「Agent 卡住 —— 需要审批」，并且只用于这一件事。从频道详情里复制 Webhook URL，形如 `https://hook.echobell.one/t/<channel-token>`。把它当作密钥对待——拿到它的人就能让你的手机响（[Webhook 指南](/docs/webhook)）。
+
+把标题和正文模板写成你在锁屏上就能据以行动的样子：
+
+```
+Title: Agent 卡住：{{agent}}
+Body: 等待 {{action}}（项目 {{project}}）—— 自 {{time}} UTC 起
+```
+
+`{{time}}` 以及其他[系统时间变量](/docs/template)始终以 UTC 提供，不需要你自己传。
+
+### 第二步 —— 在审批分支里发出 Webhook
+
+在任何会返回中断的 SDK 里，这个暂停都只是代码中的一个普通分支。在你把任务挂起之前，先向频道 URL 发一个请求：
+
+```javascript
+let result = await run(agent, input, { stream: false });
+
+if (result.interruptions?.length) {
+  await fetch(process.env.ECHOBELL_BLOCKED_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      agent: agent.name,
+      action: result.interruptions[0].rawItem.name,
+      project: process.env.PROJECT_NAME,
+      externalLink: `https://ops.example.com/runs/${runId}`,
+    }),
+  });
+  await saveState(runId, result.state); // 序列化保存，审批后再恢复
+}
+```
+
+`externalLink` 这个特殊变量会在通知记录里变成一个可点击的链接，接起电话的人可以直接落到那次运行上，而不用自己去翻。
+
+### 第三步 —— 当 Agent 是 CLI 而不是库时，用钩子
+
+Claude Code 提供了 `Notification` 钩子，其 matcher 按通知类型过滤，取值包括 `agent_needs_input` 和 `agent_completed`；钩子处理器可以是 shell 命令，也可以是直接的 HTTP 请求（[钩子文档](https://code.claude.com/docs/en/hooks)）。用 `command` 处理器可以自己控制 payload 的形状，这很重要，因为 Echobell 会把你发过去的 JSON 键原样渲染出来：
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "agent_needs_input",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '{agent: \"claude-code\", action: .message, project: .cwd}' | curl -sS -X POST -H 'Content-Type: application/json' -d @- \"$ECHOBELL_BLOCKED_URL\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+对 `command` 处理器来说，钩子输入是通过 stdin 传入的 JSON，包含 `session_id`、`cwd`、`hook_event_name`、`permission_mode` 等字段。`http` 处理器类型可以把同一份 JSON 直接 POST 到一个 URL，完全不用写脚本，看上去很诱人——但它同时期望响应是一份钩子输出文档，而 Echobell 的响应并不是。除非你在自己的环境里验证过 `http` 的行为符合预期，否则请用 `command`。
+
+### 第四步 —— 接住那些只会发邮件的 Agent
+
+不少 Agent 平台、定时任务服务和内部工具只会用邮件汇报。Echobell 的每个频道都可以有自己的邮箱地址，一条转发规则就能把这些邮件变成电话（[邮件触发](/docs/email-trigger)、[邮件转电话设置](/docs/email-to-call)）。邮件触发会自动提供 `from`、`to`、`subject`、`text`、`html` 作为模板变量，你可以直接基于主题行写条件，不用自己解析任何东西。
+
+### 第五步 —— 用条件确保只有真正的卡点才响铃
+
+**一个对每个 Agent 事件都响铃的通道，就不再是电话，而是背景噪音。** Echobell 的[条件](/docs/conditions)使用与模板相同的表达式语法按变量值过滤，比如可以要求：
+
+```
+blocking == true && risk == "high"
+```
+
+低于这个门槛的一律走另一个「时效性」通道。一个有用的目标是：来电通道每周最多响几次。如果响得更频繁，那说明你的 Agent 自主边界画错了地方，任何通知设置都救不了。
+
+### 第六步 —— 开着勿扰模式测一次
+
+在真正会接收告警的那台手机上打开勿扰模式，然后用 `curl` 触发：
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{"agent":"test","action":"deploy to prod","project":"demo","blocking":true,"risk":"high"}'
+```
+
+在 App 里打开**重试失败来电**，这样被专注模式挡掉的电话会再拨一次。没测过的升级路径只是一个假设。
+
+## 这不就是用更响的铃声重造告警疲劳吗？
+
+**如果你跳过第五步，那确实是。**这个失败模式是真实存在的，值得点名。Agent 产生的事件比服务器多得多——每一次工具调用、每一个检查点、每一次重试——把它们全都推到显眼处的诱惑很强。
+
+真正管用的纪律是：电话只留给「一个人睡着，就是 Agent 无法继续的唯一原因」的那类事件。这个集合远小于「Agent 做过的重要的事」。如果你没法用一句话说清接起电话后的九十秒里那个人要做什么，那它就不配得到一通电话。
+
+保持高门槛还有一个安全层面的理由。同一份 CSA 调研显示，组织把动作风险（**63%**）和人工授权（**53%**）列为主要的治理信号。而这些信号只有在人工授权确实能及时发生时才有意义。一个总是晚八小时才被处理的审批卡点，会训练所有人去放宽这道门——那 **13%** 的完全自主，就会因为错误的理由悄悄变成默认值。
+
+## Echobell 不做什么
+
+在这里把话说准很重要，因为 Agent 基础设施这个领域特别容易被夸大。
+
+**Echobell 会做的：**把 Webhook 或邮件变成响铃电话、时效性告警或普通推送；用条件过滤；用模板渲染上下文；把同一次触发投递到一个共享的团队频道，每个订阅者各自选择紧急程度。
+
+**Echobell 不会做的：**
+
+- **审批任何东西。**它不是审批界面，也不与 Agent 的状态相连。它让你的手机响，你仍然要打开电脑、面板或终端去批准或拒绝。这里没有「按 1 批准」。
+- **恢复运行。**序列化和恢复 Agent 状态是你的框架的工作，Echobell 从不碰它。
+- **提供升级策略、确认签收或值班轮换。**没有「五分钟无人接听就打给下一个人」这种能力。它只会呼叫一个频道的订阅者。如果你需要排班和签收追踪，你需要的是事件管理平台——那一类工具可参考 [Opsgenie 替代方案对比](/blog/opsgenie-end-of-life-alternatives)。
+- **保护你的 Agent。**这里的一切都不解决影子 Agent、过宽的工具权限，或 CSA 报告提到的下线机制缺失。让人更快注意到，是对「响应慢」的缓解，不是对「架构差」的缓解。
+- **保证送达。**一通电话依赖推送基础设施、网络和一部有电的手机。把它当作大幅缩短等待的一层，而不是可以绝对依赖的控制措施。
+
+诚实的说法是：无论哪个 App 让你的手机响，你的 Agent 自主边界都没有改变。电话改变的，是从 Agent 停住到有人发现之间的小时数——而对一次通宵任务来说，这些小时数就是通宵跑它的全部价值。
+
+## 常见问题
+
+### 我能直接在电话里批准 Agent 的动作吗？
+
+不能。Echobell 送达的是一通带有通知内容和可点击链接的电话，它没有回到你的 Agent 的交互通路。现实的模式是：电话把你叫醒，`externalLink` 把你带到运行面板或审批端点，你在那里做决定。如果你需要「回复即批准」，那个端点得你自己建——Echobell 只负责「叫醒」这一半。
+
+### 应该用框架的哪些事件来触发 Webhook？
+
+用那些「不处理就无法继续」的事件。在 OpenAI Agents SDK 里，就是非空的 `interruptions` 数组；在 MCP 里，是你的客户端无法自主回答的 `elicitation/create` 请求；在 Claude Code 里，是带 `agent_needs_input` matcher 的 `Notification` 钩子。完成类事件应该走普通或时效性通道，而不是来电通道。
+
+### 这套办法适用于 CI 里的无头 Agent 吗？
+
+适用，而且那里最需要，因为根本没人盯着终端。任何能执行 `curl` 的 CI 步骤都能触发频道。请只在长任务的失败分支上发送，而不是每个任务都发，否则你的流水线会变成你名下最吵的东西。
+
+### MCP 的 elicitation 具体该怎么处理？
+
+Elicitation 的设计前提是「有一个用户在场的客户端」来渲染提问。在无人值守的运行里，没有人可以渲染给他看，而规范也明确要求服务端处理拒绝与取消，而不是假定会有响应。一个合理的模式是：当 MCP 客户端封装层收到一个自己无法自主回答的 elicitation 请求时，触发 Echobell Webhook，然后按你自己的策略挂起或取消。
+
+### 把 Agent 的输出放进通知安全吗？
+
+尽量少发。优先发标识符和链接，而不是 Agent 的实际输出——用 `externalLink` 指向运行记录，那才是为承载这些内容而建的系统。Echobell 的通知内容与历史只存在你的设备上，服务器只保存账号、频道与订阅关系（[隐私模型](/docs/features)），这有利于数据最小化，但不构成「可以多发一点」的理由。
+
+### 整个团队能收到同一条 Agent 告警吗？
+
+可以。共享频道后，每个订阅者都会收到触发，各自选择自己的通知类型。常见配置是：负责这个 Agent 的工程师订阅为来电，团队其他人订阅为时效性。
+
+### 只支持 iOS 吗？
+
+不是。Echobell 同时提供 iOS 版和通过 Google Play 分发的 Android 版（见 [Android 版发布](/blog/echobell-android-release)）。来电式告警在不同平台上的行为有差异，请在值班的人真正携带的设备上测试。
+
+### 这和 WebhookMCP 那套方案有什么区别？
+
+[WebhookMCP](/blog/get-notified-with-webhook-mcp) 给模型一个工具，让它在任务完成时可以选择调用——这很有用，但它依赖 Agent 主动决定通知你。而本文的做法是从你自己的代码或框架钩子里触发，所以即使 Agent 卡住、迷惑或已经崩溃，它照样有效。两者可以并用：一个管「完成」，一个管「卡住」。
+
+---
+
+## 相关阅读
+
+- [用 WebhookMCP 在 AI 任务完成时收到通知](/blog/get-notified-with-webhook-mcp)
+- [如何让关键告警绕过 iOS 专注模式](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [消除告警疲劳：开发者指南](/blog/fix-alert-fatigue-developer-guide)
+- [定时任务失败告警](/blog/cron-job-failure-alerts)
+- [Webhook 集成指南](/docs/webhook)
+- [条件过滤指南](/docs/conditions)
