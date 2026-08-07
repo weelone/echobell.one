@@ -1,0 +1,214 @@
+---
+title: "Your AI Agent Is Waiting for You: Turn Approval Gates Into Phone Calls"
+description: "Autonomous agents pause and wait silently when they need a human. Nothing in the agent stack rings your phone. Here's how to wire agent approval gates and failed runs into a real call with Echobell."
+date: 2026-08-07
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - AI agent alerts
+  - human in the loop
+  - agent approval gates
+  - webhook notifications
+  - phone call alerts
+---
+
+# Your AI Agent Is Waiting for You: Turn Approval Gates Into Phone Calls
+
+Every autonomous agent framework shipping in 2026 has the same hole in it. The agent runs for hours without you, hits an action it is not allowed to take alone, pauses — and then nothing happens. The run does not fail. It does not retry. It sits in memory holding a serialized state object, waiting for a human who has no idea it is waiting. This guide shows you how to close that gap by turning an agent's "I need a human" moment into a ringing phone call with [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-ai-agent-human-in-the-loop-alerts-en&mt=8).
+
+The gap is structural, not a bug in any one product. OpenAI's agent documentation describes the approval flow precisely: when a tool needs approval, "the run pauses until you approve or reject it," the result returns `interruptions` plus a resumable `state`, and if the review might take time you are told to serialize that state, store it, and resume later ([OpenAI](https://developers.openai.com/api/docs/guides/agents/guardrails-approvals), [Agents SDK guide](https://openai.github.io/openai-agents-js/guides/human-in-the-loop/)). Nowhere in that flow does anything reach a person. Notifying the approver is left entirely to you.
+
+Meanwhile the runs are getting longer. AWS describes its frontier agents as able to "operate for hours or days without requiring intervention" ([About Amazon](https://www.aboutamazon.com/news/aws/amazon-ai-frontier-agents-autonomous-kiro)). Kiro Crew, launched 4 August 2026, puts it plainly: "Kick off a migration and it keeps moving through checkpoints and retries while you are in a meeting or asleep" — while noting that "tool requests can require approval" ([Kiro](https://kiro.dev/blog/introducing-kiro-crew/)). Both halves are true at once. The agent works while you sleep, and the agent stops while you sleep.
+
+## How common are agent incidents, really?
+
+**Common enough that most enterprises have had one, and most do not run agents unsupervised.** In a survey of 418 IT and security professionals conducted in January 2026 by the Cloud Security Alliance and commissioned by Token Security, **65%** of organizations reported at least one AI agent-related incident in the past year — **61%** involving data exposure, **43%** operational disruption, and **35%** financial loss ([CSA press release](https://cloudsecurityalliance.org/press-releases/2026/04/21/new-cloud-security-alliance-survey-reveals-82-of-enterprises-have-unknown-ai-agents-in-their-environments), [report](https://cloudsecurityalliance.org/artifacts/autonomous-but-not-controlled-ai-agent-incidents-now-common-in-enterprises)).
+
+The governance numbers from the same survey are the ones that matter for alerting. Only **13%** run fully autonomous agents. **53%** let agents act autonomously on low-risk tasks with human review for higher-risk actions, and **24%** keep a human in the loop for most tasks. **82%** had discovered shadow AI agents in their environment in the past year.
+
+Read that as an operational fact rather than a scare statistic: **roughly three quarters of organizations have deliberately built a pause into their agents.** Every one of those pauses is a moment where a machine is blocked on a human. If the human finds out at 09:00 the next morning, the agent's ability to work overnight was worth nothing.
+
+## What actually happens when an agent needs a human?
+
+**It waits, silently, and every framework leaves the notification to you.** The mechanism differs; the outcome does not.
+
+| Stack | Mechanism | What reaches a human |
+| --- | --- | --- |
+| OpenAI Agents SDK | `needsApproval` on a tool pauses the run and returns `interruptions` + resumable `state` | Nothing — your application decides what to do with the interruption |
+| MCP servers | `elicitation/create` asks the user for input mid-tool-call, returning `accept`, `decline`, or `cancel` | Whatever UI the MCP client renders — in a headless run, no one is looking at it |
+| Claude Code | `Notification` hook fires with matcher values including `agent_needs_input` and `agent_completed` | Whatever you wire the hook to |
+| Kiro Crew | Tool requests can require approval; activity recorded for review | The Activity view, if you open it |
+
+The Model Context Protocol makes this explicit at the spec level. Elicitation exists precisely so a server can ask a human something mid-run, and the current revision (`2026-07-28`) warns that servers "**SHOULD NOT** assume that elicitation requests will always succeed" and must handle decline, cancel, and client failure ([MCP spec](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation)). The protocol standardizes the question. It does not, and cannot, standardize getting the human's attention.
+
+That is the whole opportunity. Every layer of the agent stack has a well-designed pause. None of them has a phone number.
+
+## Which agent events deserve a phone call?
+
+**Two, and you should be ruthless about the rest.** A phone call is a scarce resource; spend it only where a sleeping human is genuinely the blocker.
+
+1. **A blocked approval on a run that cannot proceed without it.** The agent is idle, the clock is running, and no amount of waiting resolves it. This is the canonical case.
+2. **A terminal failure of a long unattended run.** Six hours of migration that died at hour two is six hours you will not get back, and you would rather know at hour two.
+
+Everything else belongs on a quieter channel. "Task completed successfully" is a normal push. "Agent used 80% of its budget" is time-sensitive at most. "Agent started" is not a notification at all. Echobell's three [notification types](/en/docs/notification) — Normal, Time Sensitive, and Calling — exist for exactly this triage, and mapping agent events onto them is the single most important design decision here. If you are already fighting notification volume, read [fixing alert fatigue](/en/blog/fix-alert-fatigue-developer-guide) before you add a channel that rings.
+
+## How to wire an agent approval gate to a phone call
+
+Echobell turns a webhook or an email into a phone call — a real ringing, vibrating call that breaks through iOS Focus Mode and Do Not Disturb the way a call from a family member would (see [bypassing iOS Focus Mode](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)). It sits between the agent that pauses and the human who can unpause it.
+
+### Step 1 — Create a Calling channel for blocked agents
+
+Create a channel in the app and set its notification type to **Calling**. Name it something unambiguous like "Agent blocked — needs approval" and use it for nothing else. Copy the webhook URL from the channel details; it looks like `https://hook.echobell.one/t/<channel-token>`. Treat it as a secret — anyone holding it can ring your phone ([webhook guide](/en/docs/webhook)).
+
+Set the title and body templates to something you can act on from the lock screen:
+
+```
+Title: Agent blocked: {{agent}}
+Body: Waiting on {{action}} in {{project}} — since {{time}} UTC
+```
+
+`{{time}}` and the other [system time variables](/en/docs/template) are always available in UTC without you sending them.
+
+### Step 2 — Fire the webhook from your approval branch
+
+In any SDK that returns interruptions, the pause is a normal branch in your code. Post to the channel URL before you park the run:
+
+```javascript
+let result = await run(agent, input, { stream: false });
+
+if (result.interruptions?.length) {
+  await fetch(process.env.ECHOBELL_BLOCKED_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      agent: agent.name,
+      action: result.interruptions[0].rawItem.name,
+      project: process.env.PROJECT_NAME,
+      externalLink: `https://ops.example.com/runs/${runId}`,
+    }),
+  });
+  await saveState(runId, result.state); // serialize and resume after approval
+}
+```
+
+The `externalLink` special variable becomes a clickable link in the notification record, so whoever answers the call lands on the run rather than hunting for it.
+
+### Step 3 — Use hooks when the agent is a CLI, not a library
+
+Claude Code exposes a `Notification` hook whose matcher filters on notification type, including `agent_needs_input` and `agent_completed`, and hook handlers can be shell commands or direct HTTP posts ([hooks reference](https://code.claude.com/docs/en/hooks)). A `command` handler gives you control over the payload shape, which matters because Echobell renders whatever JSON keys you send:
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "agent_needs_input",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '{agent: \"claude-code\", action: .message, project: .cwd}' | curl -sS -X POST -H 'Content-Type: application/json' -d @- \"$ECHOBELL_BLOCKED_URL\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Hook input arrives as JSON on stdin for `command` handlers, carrying fields such as `session_id`, `cwd`, `hook_event_name`, and `permission_mode`. The `http` handler type posts that same JSON straight to a URL with no script at all, which is tempting — but it also expects the response to be a hook-output document, and Echobell's response is not one. Use `command` unless you have verified `http` behaves the way you want in your setup.
+
+### Step 4 — Catch the agents that only send email
+
+Plenty of agent platforms, scheduled-run services, and internal tools report by email and nothing else. Every Echobell channel can have its own address, so one forwarding rule turns those messages into calls ([email triggers](/en/docs/email-trigger), [email-to-call setup](/en/docs/email-to-call)). Email triggers expose `from`, `to`, `subject`, `text`, and `html` as template variables, so you can build a condition on the subject line without parsing anything yourself.
+
+### Step 5 — Add conditions so only real blocks ring
+
+**A channel that rings on every agent event stops being a phone call and becomes background noise.** Echobell [conditions](/en/docs/conditions) filter on variable values with the same expression syntax as templates, so you can require, for example:
+
+```
+blocking == true && risk == "high"
+```
+
+Send everything below that bar to a separate Time Sensitive channel. A useful target: the Calling channel should ring a handful of times a week at most. If it rings more, your agent's autonomy boundary is drawn in the wrong place and no notification setting will fix that.
+
+### Step 6 — Test it with Do Not Disturb on
+
+Trigger the channel with `curl` while Do Not Disturb is active on the phone that will actually receive it:
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{"agent":"test","action":"deploy to prod","project":"demo","blocking":true,"risk":"high"}'
+```
+
+Enable **Retry Failed Call** in the app so a call blocked by Focus Mode is attempted again. An untested escalation path is an assumption.
+
+## Won't this just recreate alert fatigue with a louder bell?
+
+**It will, if you skip step 5.** The failure mode is real and worth naming. Agents generate far more events than servers do — every tool call, every checkpoint, every retry — and the temptation to route all of it somewhere visible is strong.
+
+The discipline that works: a phone call is reserved for events where a human being asleep is the only thing standing between the agent and progress. That is a much smaller set than "important things the agent did." If you cannot describe, in one sentence, what the person will do in the ninety seconds after answering, it does not deserve a call.
+
+There is also a security argument for keeping the bar high. The same CSA survey found organizations ranking action risk (**63%**) and human authorization (**53%**) as their primary governance signals. Those signals only mean something if the human authorization actually happens promptly. An approval gate that is routinely answered eight hours late trains everyone to widen the gate — which is how **13%** fully autonomous quietly becomes the default for the wrong reasons.
+
+## What Echobell does not do
+
+Being precise here matters, because agent infrastructure attracts overclaiming.
+
+**Echobell does:** turn a webhook or an email into a ringing call, a time-sensitive alert, or a normal push; filter with conditions; render context with templates; deliver the same trigger to a shared team channel where each subscriber picks their own urgency.
+
+**Echobell does not:**
+
+- **Approve anything.** It is not an approval UI and has no connection to your agent's state. It rings your phone; you still open a laptop, a dashboard, or a terminal to approve or reject. There is no "press 1 to approve."
+- **Resume the run.** Serializing and restoring the agent's state is your framework's job. Echobell never touches it.
+- **Provide escalation policies, acknowledgement, or on-call rotations.** There is no "if nobody answers in five minutes, call the next person." It calls the subscribers of a channel. If you need scheduled rotations and acknowledgement tracking, you need an incident platform — see the [Opsgenie alternatives comparison](/en/blog/opsgenie-end-of-life-alternatives) for that class of tool.
+- **Secure your agents.** Nothing here addresses shadow agents, over-broad tool permissions, or the decommissioning gap the CSA report describes. Faster human attention is a mitigation for slow response, not for bad architecture.
+- **Guarantee delivery.** A call depends on push infrastructure, the network, and a charged phone. Treat it as the layer that shortens the wait, not as a control you can depend on absolutely.
+
+The honest framing: your agent's autonomy boundary is unchanged by which app rings your phone. What a call changes is the number of hours between the agent stopping and a human noticing — and on an overnight run, those hours are the entire value of running it overnight.
+
+## FAQ
+
+### Can I approve an agent action from the phone call itself?
+
+No. Echobell delivers a call with the notification content and a clickable link; it has no interactive response path back to your agent. The realistic pattern is: the call wakes you, the `externalLink` takes you to your run dashboard or approval endpoint, and you decide there. If you need approve-by-reply, you need to build that endpoint yourself — Echobell only handles the waking-up half.
+
+### Which framework events should trigger the webhook?
+
+The ones where the run cannot continue. In the OpenAI Agents SDK, that is a non-empty `interruptions` array. In MCP, an `elicitation/create` request your client cannot answer without a human. In Claude Code, the `Notification` hook with the `agent_needs_input` matcher. Completion events belong on a Normal or Time Sensitive channel, not a Calling one.
+
+### Does this work with headless agents in CI?
+
+Yes, and that is where it matters most, since nobody is watching a terminal. Any CI step that can run `curl` can trigger a channel. Post on the failure branch of a long job rather than on every job, or your pipeline becomes the noisiest thing you own.
+
+### What about MCP elicitation specifically?
+
+Elicitation is designed for a client with a user present to render a prompt. In an unattended run there is no one to render it to, and the spec explicitly tells servers to handle decline and cancel rather than assume a response. A reasonable pattern is for the MCP client wrapper to fire an Echobell webhook when it receives an elicitation request it cannot answer autonomously, then hold or cancel per your own policy.
+
+### Is it safe to put agent output in the notification?
+
+Send as little as possible. Prefer an identifier and a link over the agent's actual output — use `externalLink` to point at the run record in a system built to hold it. Echobell stores notification content and history only on your device, with just accounts, channels, and subscriptions on the server ([privacy model](/en/docs/features)), which is good for data minimisation but is not a reason to send more than you need.
+
+### Can my whole team get the same agent alert?
+
+Yes. Share the channel and every subscriber receives the trigger, each choosing their own notification type. A common setup: the engineer who owns the agent subscribes as Calling, the rest of the team as Time Sensitive.
+
+### Is this only for iOS?
+
+No. Echobell runs on iOS and on Android via Google Play (see [the Android release](/en/blog/echobell-android-release)). Call-style alert behaviour differs between platforms, so test on the devices the people on call actually carry.
+
+### How is this different from the WebhookMCP setup?
+
+[WebhookMCP](/en/blog/get-notified-with-webhook-mcp) gives the model a tool it can choose to call when a task finishes — useful, but it depends on the agent deciding to notify you. The approach here fires from your own code or from a framework hook, so it works even when the agent is stuck, confused, or has crashed. Use both: one for "done," one for "blocked."
+
+---
+
+## Related
+
+- [Get notified when AI tasks complete with WebhookMCP](/en/blog/get-notified-with-webhook-mcp)
+- [How to bypass iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Fixing alert fatigue: a developer's guide](/en/blog/fix-alert-fatigue-developer-guide)
+- [Cron job failure alerts](/en/blog/cron-job-failure-alerts)
+- [Webhook integration guide](/en/docs/webhook)
+- [Conditions guide](/en/docs/conditions)
