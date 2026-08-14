@@ -1,0 +1,178 @@
+---
+title: "Alertas de trading nocturno: el mercado deja de cerrar el 6 de diciembre"
+description: "La renta variable estadounidense pasa a una jornada de 23 horas el 6 de diciembre de 2026, y los derivados cripto de CME cotizan 24/7 desde mayo. Así se convierte una alerta nocturna en una llamada con Echobell, y esto es lo que una alerta más ruidosa sigue sin arreglar."
+date: 2026-08-14
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - alertas de trading nocturno
+  - horario extendido
+  - trading 23/5
+  - alertas de trading
+  - alertas por llamada
+---
+
+# Cuando el mercado deja de cerrar, tus alertas tienen que despertarte
+
+Durante toda la historia de la renta variable estadounidense, la campana de cierre ha sido un control de riesgo que nunca tuviste que configurar. Las posiciones quedaban congeladas por la noche. Un hueco podía hacerte daño en la apertura, pero nada podía moverse en tu contra a las 03:00. El **6 de diciembre de 2026** eso deja de ser cierto, y las alertas que la mayoría de traders tiene montadas —una notificación push silenciosa, un correo, un globo en el icono de una app— se diseñaron para un mercado que cierra. Esta guía explica cómo hacer que las alertas que importan de noche suenen de verdad, usando [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-overnight-trading-alerts-es&mt=8), y es honesta sobre lo que eso resuelve y lo que no.
+
+La fontanería ya está instalada. La National Securities Clearing Corporation de DTCC activó la compensación 24x5 el **29 de junio de 2026**, de domingo 20:00 ET a viernes 20:00 ET, para dar soporte a la negociación nocturna de bolsas y ATS ([DTCC](https://www.dtcc.com/news/2026/june/29/nscc-now-live-with-clearing-hours-extended), [Traders Magazine](https://www.tradersmagazine.com/xtra/dtccs-nscc-extends-clearing-hours-to-24x5/)). Y en derivados el cambio ya ocurrió: los futuros y opciones sobre criptomonedas de CME Group cotizan 24/7 desde el **29 de mayo de 2026**, con más de 7.200 contratos —unos 50 millones de dólares nocionales— negociados durante el primer fin de semana ([CME Group](https://www.cmegroup.com/media-room/press-releases/2026/6/01/cme_group_announceslaunchof247cryptocurrencyfuturesandoptionstra.html)).
+
+## ¿Qué cambia realmente el 6 de diciembre de 2026?
+
+**La renta variable estadounidense gana una sesión nocturna, de modo que el mercado cierra una hora al día en lugar de dieciséis.** La SEC aprobó la propuesta de Nasdaq el **10 de abril de 2026**, cubriendo todas las acciones NMS y determinados productos cotizados ([Troutman Pepper Locke](https://www.troutman.com/insights/nasdaq-23-hour-equity-trading-proposal-approved-by-sec.html), [Alston & Bird](https://www.alston.com/en/insights/publications/2026/05/looking-ahead-to-nasdaqs-extended-trading-hours), [aviso del Federal Register](https://www.federalregister.gov/documents/2026/01/13/2026-00416/self-regulatory-organizations-the-nasdaq-stock-market-llc-notice-of-filing-of-proposed-rule-change)).
+
+| Mercado | En qué se convierte | Cuándo |
+| --- | --- | --- |
+| Nasdaq | Sesión diurna 04:00–20:00 ET, sesión nocturna 21:00–04:00 ET, de domingo noche a jueves noche | Previsto para el 6 de diciembre de 2026 |
+| 24X National Exchange | Primera bolsa 23/5 aprobada por la SEC; añade una sesión nocturna 21:00–04:00 ET a sus sesiones actuales de 04:00–20:00 ET | Implementación prevista el domingo 6 de diciembre de 2026 |
+| DTCC / NSCC | Compensación disponible de domingo 20:00 ET a viernes 20:00 ET | En marcha desde el 29 de junio de 2026 |
+| Futuros y opciones cripto de CME Group | Negociación continua, fines de semana incluidos | En marcha desde el 29 de mayo de 2026 |
+
+La hora de parada entre las 20:00 y las 21:00 ET no es un descanso para los traders. Nasdaq la usa para mantenimiento, pruebas y procesamiento de operaciones corporativas; 24X describe su pausa equivalente como destinada "a garantizar el mantenimiento adecuado del sistema de compensación, el procesamiento operativo y la transición a la siguiente jornada" ([24X](https://equities.24exchange.com/overnight-trading-faqs)).
+
+Entre la aprobación y la realidad quedan dos condiciones, y es honesto decirlo: los planes de datos de renta variable deben confirmar que pueden consolidar y difundir cotizaciones y operaciones durante la sesión nocturna, y Nasdaq debe presentar después otro cambio normativo confirmando que todo está listo. La CEO de Nasdaq, Adena Friedman, ha dicho que "con el lanzamiento previsto para el 6 de diciembre de 2026, nos entusiasma marcar un nuevo estándar sobre cómo operan los mercados regulados" ([Markets Media](https://www.marketsmedia.com/nasdaq-aims-to-debut-23-5-trading-on-6-december-2026/)). La palabra *previsto* está haciendo trabajo real en esa frase. Monta tus alertas de forma que la fecha exacta te dé igual.
+
+## ¿Por qué un mercado de 23 horas rompe las alertas que ya tienes?
+
+**Porque todos tus canales de alerta están ajustados para un mercado en el que no pasa nada mientras duermes.** Esa suposición es lo que hacía aceptables las notificaciones silenciosas.
+
+Piensa qué hace tu configuración actual con una alerta de precio que salta a las 03:00. Un push de TradingView llega a un teléfono en modo No molestar. Un correo espera sin leer hasta la mañana. Un webhook de Discord publica en un canal que nadie mira. Ninguno falla: todos entregan correctamente, a una persona dormida. Antes el mercado estaba cerrado a esa hora, así que daba igual.
+
+El volumen no va a cambiar de un día para otro, y fingir lo contrario sería deshonesto: alrededor del **2%** del volumen de Nasdaq se negocia hoy fuera del horario regular, y la propia Friedman describió la adopción amplia como "un paso natural, pero llevará tiempo lograr mucha penetración" ([Markets Media](https://www.marketsmedia.com/nasdaq-aims-to-debut-23-5-trading-on-6-december-2026/)). El riesgo no es que la sesión nocturna se llene. Es lo contrario: una sesión delgada en la que un solo titular mueve tu posición más de lo que lo haría a mediodía, sin nadie mirando.
+
+## ¿Qué eventos nocturnos merecen de verdad una llamada?
+
+**Muy pocos, y ser implacable aquí es toda la disciplina.** Una llamada a las 03:00 te cuesta sueño real, así que gástala solo donde estar despierto cambia el resultado.
+
+1. **Una posición que cruza un nivel en el que actuarías.** No "el precio se movió", sino una zona de stop, un umbral de margen o un nivel para el que ya has decidido qué hacer. Si no abrirías el portátil, no es una llamada.
+2. **Un disparador de gestión de riesgo con plazo rígido.** El ratio de margen acercándose a la liquidación en un mercado cripto 24/7 es el caso más claro, porque ese reloj no lo controlas tú: consulta [alertas de liquidación cripto](/blog/crypto-liquidation-alerts) para ese montaje concreto.
+3. **Una rotura en tu propia automatización.** Un bot que muere a las 02:00 en un mercado que ya no cierra tiene siete horas para no hacer nada mientras las condiciones cambian.
+
+Todo lo demás —ejecuciones, P&L diario, movimientos de la watchlist, un backtest que termina— pertenece a un canal más tranquilo. Los tres [tipos de notificación](/docs/notification) de Echobell existen exactamente para esta separación: **Normal** para el registro, **Urgente** para lo que quieres ver pronto y **Llamada** para el pequeño conjunto de arriba. Si ya recibes más alertas de las que lees, arregla eso primero con [la guía sobre fatiga de alertas](/blog/fix-alert-fatigue-developer-guide) antes de añadir un canal que suene.
+
+## ¿Cómo enruto una alerta nocturna hacia una llamada?
+
+Echobell convierte un webhook o un correo en una llamada que suena y vibra, y se comporta como la llamada de un familiar, que es la razón por la que atraviesa el modo Concentración y No molestar de iOS (ver [cómo saltar el modo Concentración de iOS](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)).
+
+### Paso 1 — Crea un canal de tipo Llamada que no uses para nada más
+
+En la app, crea un canal y ponle el tipo de notificación **Llamada**. Nómbralo por la decisión, no por el dato: "Nocturno — actuar ya" es mejor que "Alertas". Copia la URL del webhook desde los detalles del canal; tiene la forma `https://hook.echobell.one/t/<channel-token>`. Trátala como un secreto, porque quien la tenga puede hacer sonar tu teléfono ([guía de webhooks](/docs/webhook)).
+
+Escribe plantillas que puedas usar desde la pantalla de bloqueo a las 03:00, medio dormido:
+
+```
+Título: {{ticker}} {{event}} a {{price}}
+Cuerpo: Cruzó {{level}} en la sesión {{session}} — {{time}} UTC
+```
+
+`{{time}}`, `{{hour}}` y las demás [variables de tiempo del sistema](/docs/template) están siempre disponibles en UTC sin que tengas que enviarlas.
+
+### Paso 2 — Apunta tu fuente de alertas al canal
+
+En TradingView, pon la URL del webhook de la alerta como la URL del canal y usa un cuerpo JSON. Cada campo que envíes se convierte en una variable de plantilla:
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "event": "stop level breached",
+  "price": "{{close}}",
+  "level": "182.50",
+  "session": "night",
+  "actionable": true,
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+La variable especial `externalLink` se convierte en un enlace pulsable en el registro de la notificación, así que contestar la llamada te deja a un toque del gráfico. La mecánica de las alertas de TradingView está detallada en [notificaciones por llamada de TradingView](/blog/tradingview-call-notifications) y [alertas de precio de acciones con TradingView](/blog/stock-price-alerts-tradingview-echobell); lo único que cambia para el trading nocturno es qué alertas diriges a un canal de Llamada.
+
+Si tu bróker, exchange o sistema de riesgo solo envía correo, cada canal de Echobell puede tener su propia dirección, así que una sola regla de reenvío convierte esos mensajes en llamadas ([disparadores por correo](/docs/email-trigger)). Los disparadores por correo exponen `from`, `to`, `subject`, `text` y `html` como variables, así que puedes filtrar por asunto sin parsear nada.
+
+### Paso 3 — Acota el canal a la sesión y a los eventos que quieres
+
+**Este es el paso que decide si el canal sigue siendo útil.** Las [condiciones](/docs/conditions) de Echobell evalúan las mismas variables que tus plantillas, así que exige a la vez un evento real y la ventana correcta:
+
+```
+actionable == true && hour >= 2 && hour < 9
+```
+
+La sesión nocturna va de 21:00 a 04:00 ET, es decir de 02:00 a 09:00 UTC mientras EE. UU. está en horario estándar del Este. Las variables de tiempo de Echobell son solo UTC y no siguen el horario de verano estadounidense, así que durante el EDT esa misma sesión es de 01:00 a 08:00 UTC. O amplías la ventana a `hour >= 1 && hour < 9` y aceptas una hora de holgura, o editas la condición dos veces al año. Fingir que esto es automático solo provocaría una alerta perdida en marzo.
+
+Hay más recetas de canales acotados por tiempo en [notificaciones por ventana horaria con condiciones UTC](/blog/time-window-notifications-using-utc-conditions).
+
+### Paso 4 — Pruébalo dormido, no despierto
+
+Dispara el canal con `curl` con No molestar realmente activado, en el teléfono que realmente estará en la mesilla:
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{"ticker":"TEST","event":"stop level breached","price":"182.40","level":"182.50","session":"night","actionable":true}'
+```
+
+Activa **Reintentar llamada fallida** en la app para que una llamada que falla una vez se vuelva a intentar. Una ruta de escalado sin probar es una suposición, y la estarás probando por primera vez la noche en que importa.
+
+## ¿Una alerta más rápida hace seguro el trading nocturno?
+
+**No, y esta es la limitación más importante de este artículo.** Despertarte antes no cambia aquello a lo que te despiertas.
+
+Tanto la SEC como FINRA son explícitas sobre cómo son las sesiones de horario extendido. El boletín para inversores de la SEC enumera falta de liquidez, volatilidad de precios, precios inciertos, mercados no enlazados, anuncios de noticias, horquillas más amplias, reglas distintas de tratamiento de órdenes, la exigencia de órdenes limitadas y los límites temporales de las órdenes ([boletín de la SEC](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-42)). La Regla 2265 de FINRA obliga a sus miembros a comunicar seis de ellos antes de permitir siquiera operar en horario extendido: menor liquidez, mayor volatilidad, cambios de precio, mercados no enlazados, anuncios de noticias y horquillas más amplias ([FINRA](https://www.finra.org/rules-guidance/rulebooks/finra-rules/2265)).
+
+Lee esa lista como una restricción de diseño. Una llamada a las 03:15 te entrega a una sesión con horquillas más amplias y menos profundidad que la habitual, con funcionalidad limitada frente a la diurna; el propio Nasdaq plantea que la negociación nocturna de valores NMS ocurre "con funcionalidad más limitada que durante el día". La sesión de 09:30 a 16:00 sigue fijando los precios de referencia principales. Reaccionar a las 03:15 porque una alerta te despertó no es automáticamente mejor que reaccionar a las 09:30 con un plan, y una orden stop colocada de antemano gana a ambas, porque no exige que estés consciente.
+
+El argumento honesto a favor de las llamadas nocturnas es estrecho: sirve para las situaciones en que no hacer nada hasta la mañana es peor que actuar en un mercado delgado. Ese conjunto existe, y para posiciones apalancadas no es pequeño. Simplemente es mucho más pequeño que "todo lo que mis alertas me cuentan ahora".
+
+## Lo que Echobell no hace
+
+- **No opera.** Ni órdenes, ni stops, ni cierres automáticos. Hace sonar tu teléfono; toda acción sigue siendo tuya, en tu bróker o exchange.
+- **No es una fuente de datos de mercado.** Echobell entrega lo que le manda tu fuente de alertas. La exactitud del precio, la latencia y la etiqueta de sesión son responsabilidad de TradingView, de tu bróker o de tu bot.
+- **No tiene políticas de escalado ni confirmación.** No existe un "si nadie contesta en cinco minutos, llama a otro", ni rotaciones de guardia. Llama a los suscriptores de un canal. Para rotaciones y seguimiento de confirmaciones necesitas una plataforma de incidentes: ver [alternativas a Opsgenie](/blog/opsgenie-end-of-life-alternatives).
+- **No puede garantizar la entrega.** Una llamada depende de la infraestructura de push, de la red y de un teléfono cargado. Trátala como la capa que acorta la distancia entre un evento y tu atención, no como un control sobre el que apostar una posición.
+- **No sigue la hora local.** Todas las variables de tiempo integradas son UTC. Las ventanas de sesión que se desplazan con el horario de verano requieren atención manual dos veces al año.
+
+## Preguntas frecuentes
+
+### ¿El 6 de diciembre de 2026 es seguro?
+
+No. La aprobación de la SEC del 10 de abril de 2026 es real, pero la negociación nocturna todavía exige que los planes de datos de renta variable confirmen que pueden difundir cotizaciones y operaciones durante la sesión nocturna, y una presentación normativa adicional de Nasdaq confirmando que todo está listo. Nasdaq describe el 6 de diciembre como lanzamiento previsto. La respuesta práctica es montar alertas que funcionen cuando quiera que empiece, en vez de esperar a que se fije una fecha.
+
+### Opero cripto, no acciones. ¿Me afecta algo de esto?
+
+El cambio de estructura de mercado afecta a la renta variable estadounidense, pero el problema de alertado ya lo tienen los traders de cripto, y los futuros y opciones cripto regulados de CME cotizan 24/7 desde el 29 de mayo de 2026, así que el mismo problema de sesión continua existe ya dentro de mercados tradicionales. Si llevas apalancamiento, empieza por [alertas de liquidación cripto](/blog/crypto-liquidation-alerts).
+
+### ¿No se convertirá el canal de Llamada en el nuevo ruido?
+
+Se convertirá si te saltas las condiciones. El objetivo realista es un canal que suene unas pocas veces al mes, no cada noche. Si suena más, el umbral está mal: o el nivel que estás alertando no es de verdad un punto de decisión, o deberías usar una orden en el libro en lugar de un humano a las 03:00.
+
+### ¿Puedo tener alertas distintas de día y de noche?
+
+Sí, y es el patrón más limpio: dos canales alimentados por la misma fuente. Dirige las alertas rutinarias a un canal Urgente sin condición horaria, y un segundo canal de Llamada con condición de sesión nocturna y un filtro de contenido mucho más estricto. El mismo payload de webhook puede ir a ambos.
+
+### ¿Y la hora de mantenimiento de 20:00 a 21:00 ET?
+
+En Nasdaq no se negocia nada entonces; la bolsa la usa para mantenimiento, pruebas y operaciones corporativas. Si tu fuente de alertas sigue disparando en esa ventana, está informando de datos obsoletos o de fuera de bolsa, y eso merece una investigación más que una alerta.
+
+### ¿Puede mi equipo recibir la misma alerta nocturna?
+
+Sí. Comparte el canal y cada suscriptor recibe el disparo, eligiendo su propio tipo de notificación. Una mesa puede poner en Llamada a quien esté realmente de guardia y al resto en Urgente, sin duplicar la integración.
+
+### ¿Son privados los datos de mis alertas?
+
+Echobell guarda el contenido y el historial de notificaciones en tu dispositivo, y mantiene en el servidor solo cuentas, canales y suscripciones ([modelo de privacidad](/docs/features)). Aun así, envía lo mínimo: un ticker y un nivel, con `externalLink` apuntando al gráfico o a la posición, en lugar de tu estrategia completa en el cuerpo de una notificación.
+
+### ¿Funciona en Android?
+
+Sí. Echobell está disponible en iOS y en Android a través de Google Play ([lanzamiento en Android](/blog/echobell-android-release)). El comportamiento de las alertas tipo llamada difiere entre plataformas, así que pruébalo en el dispositivo que realmente vaya a estar a tu lado por la noche.
+
+---
+
+## Relacionado
+
+- [Recibe alertas de TradingView como llamadas](/blog/tradingview-call-notifications)
+- [Alertas de precio de acciones con TradingView y Echobell](/blog/stock-price-alerts-tradingview-echobell)
+- [Alertas de liquidación cripto](/blog/crypto-liquidation-alerts)
+- [Notificaciones por ventana horaria con condiciones UTC](/blog/time-window-notifications-using-utc-conditions)
+- [Cómo saltar el modo Concentración de iOS para alertas críticas](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Guía de integración con webhooks](/docs/webhook)
+- [Guía de condiciones](/docs/conditions)
