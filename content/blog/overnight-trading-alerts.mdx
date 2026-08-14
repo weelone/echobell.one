@@ -1,0 +1,178 @@
+---
+title: "Overnight Trading Alerts: The Market Stops Closing on 6 December"
+description: "US equities move to a 23-hour trading day on 6 December 2026, and CME crypto has traded 24/7 since May. Here's how to route overnight price alerts into a phone call with Echobell — and what a louder alert still cannot fix."
+date: 2026-08-14
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - overnight trading alerts
+  - extended hours trading
+  - 23/5 trading
+  - trading alerts
+  - phone call alerts
+---
+
+# When the Market Stops Closing, Your Alerts Have to Wake You Up
+
+For as long as US equities have existed, the closing bell has been a risk control you never had to configure. Positions were frozen overnight. A gap could hurt you at the open, but nothing could move against you at 03:00. On **6 December 2026** that stops being true, and the alerting most traders have set up — a silent push notification, an email, a badge on an app icon — was designed for a market that closes. This guide shows how to make the alerts that matter overnight actually ring, using [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-overnight-trading-alerts-en&mt=8), and is honest about what that does and does not solve.
+
+The plumbing is already in place. DTCC's National Securities Clearing Corporation went live with 24x5 clearing on **29 June 2026**, running from Sunday 20:00 ET to Friday 20:00 ET to support overnight trading from exchanges and ATSs ([DTCC](https://www.dtcc.com/news/2026/june/29/nscc-now-live-with-clearing-hours-extended), [Traders Magazine](https://www.tradersmagazine.com/xtra/dtccs-nscc-extends-clearing-hours-to-24x5/)). And in derivatives the change has already happened: CME Group's cryptocurrency futures and options began trading 24/7 on **29 May 2026**, with more than 7,200 contracts — roughly $50 million notional — traded over the first weekend ([CME Group](https://www.cmegroup.com/media-room/press-releases/2026/6/01/cme_group_announceslaunchof247cryptocurrencyfuturesandoptionstra.html)).
+
+## What actually changes on 6 December 2026?
+
+**US equities gain a Night Session, so the market is closed for one hour a day instead of sixteen.** The SEC approved Nasdaq's proposal on **10 April 2026**, covering all NMS stocks and certain exchange-traded products ([Troutman Pepper Locke](https://www.troutman.com/insights/nasdaq-23-hour-equity-trading-proposal-approved-by-sec.html), [Alston & Bird](https://www.alston.com/en/insights/publications/2026/05/looking-ahead-to-nasdaqs-extended-trading-hours), [Federal Register notice](https://www.federalregister.gov/documents/2026/01/13/2026-00416/self-regulatory-organizations-the-nasdaq-stock-market-llc-notice-of-filing-of-proposed-rule-change)).
+
+| Venue | What it becomes | Timing |
+| --- | --- | --- |
+| Nasdaq | Day Session 04:00–20:00 ET, Night Session 21:00–04:00 ET, Sunday night through Thursday night | Targeted for 6 December 2026 |
+| 24X National Exchange | First SEC-approved 23/5 exchange; adds a 21:00–04:00 ET Overnight Trading Session to its existing 04:00–20:00 ET sessions | Target implementation Sunday 6 December 2026 |
+| DTCC / NSCC | Clearing available Sunday 20:00 ET to Friday 20:00 ET | Live since 29 June 2026 |
+| CME Group crypto futures & options | Continuous trading including weekends | Live since 29 May 2026 |
+
+The one-hour gap between 20:00 and 21:00 ET is not a rest period for traders. Nasdaq uses it for maintenance, testing and corporate action processing; 24X describes its equivalent break as "intended to ensure proper trade clearing system maintenance, operational processing and transition to the next trading day" ([24X](https://equities.24exchange.com/overnight-trading-faqs)).
+
+Two conditions still sit between approval and reality, and it is honest to say so: the Equity Data Plans must confirm they can consolidate and disseminate quote and trade data through the Night Session, and Nasdaq must then file a further rule change confirming readiness. Nasdaq CEO Adena Friedman has said that "with the projected launch on 6 December 2026, we are excited to set a new standard for how regulated markets operate" ([Markets Media](https://www.marketsmedia.com/nasdaq-aims-to-debut-23-5-trading-on-6-december-2026/)). *Projected* is doing real work in that sentence. Build your alerting so it does not care about the exact date.
+
+## Why does a 23-hour market break the alerting you already have?
+
+**Because every alert channel you use was tuned for a market where nothing happens while you sleep.** That assumption is what made silent notifications acceptable.
+
+Consider what your current setup does with a price alert that fires at 03:00. A TradingView push lands on a phone that is in Do Not Disturb. An email sits unread until morning. A Discord webhook posts into a channel nobody is watching. None of these fail — they all deliver correctly, to a person who is asleep. The market used to be closed then, so it did not matter.
+
+Volume will not flip overnight, and pretending otherwise would be dishonest: roughly **2%** of Nasdaq volume currently trades outside regular hours, and Friedman herself described broad adoption as "a natural next step, but it will take time to make a lot of penetration" ([Markets Media](https://www.marketsmedia.com/nasdaq-aims-to-debut-23-5-trading-on-6-december-2026/)). The risk is not that the overnight session becomes busy. The risk is the opposite — a thin session where a single headline moves your position further than it would at midday, with nobody paying attention.
+
+## Which overnight events actually deserve a phone call?
+
+**Very few, and being ruthless here is the whole discipline.** A call at 03:00 costs you real sleep, so spend it only where being awake changes the outcome.
+
+1. **A position crossing a level where you would act.** Not "the price moved," but a stop-loss zone, a margin threshold, or a level at which you have already decided what to do. If you would not open a laptop, it is not a call.
+2. **A risk-management trigger with a hard deadline.** Margin ratio approaching liquidation on a 24/7 crypto venue is the clearest case, since the clock is not yours to control — see [crypto liquidation alerts](/en/blog/crypto-liquidation-alerts) for that setup specifically.
+3. **A break in your own automation.** A trading bot that dies at 02:00 in a market that no longer closes has seven hours to do nothing while conditions change.
+
+Everything else — fills, daily P&L, watchlist moves, a strategy backtest finishing — belongs on a quieter channel. Echobell's three [notification types](/en/docs/notification) exist for exactly this split: **Normal** for the record, **Time Sensitive** for things you want to see soon, and **Calling** for the small set above. If you already receive more alerts than you read, fix that first with [the alert fatigue guide](/en/blog/fix-alert-fatigue-developer-guide) before adding a channel that rings.
+
+## How do I route an overnight alert to a phone call?
+
+Echobell turns a webhook or an email into a ringing, vibrating call that behaves like a call from a family member — which is why it gets through iOS Focus Mode and Do Not Disturb (see [bypassing iOS Focus Mode](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)).
+
+### Step 1 — Create a Calling channel used for nothing else
+
+In the app, create a channel and set its notification type to **Calling**. Name it for the decision, not the data: "Overnight — act now" is better than "Alerts." Copy the webhook URL from the channel details; it looks like `https://hook.echobell.one/t/<channel-token>`. Treat it as a secret, because anyone holding it can ring your phone ([webhook guide](/en/docs/webhook)).
+
+Set templates you can act on from a lock screen at 03:00, half awake:
+
+```
+Title: {{ticker}} {{event}} at {{price}}
+Body: Crossed {{level}} in the {{session}} session — {{time}} UTC
+```
+
+`{{time}}`, `{{hour}}` and the other [system time variables](/en/docs/template) are always available in UTC without you sending them.
+
+### Step 2 — Point your alert source at the channel
+
+In TradingView, set the alert's webhook URL to the channel URL and use a JSON message body. Any field you send becomes a template variable:
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "event": "stop level breached",
+  "price": "{{close}}",
+  "level": "182.50",
+  "session": "night",
+  "actionable": true,
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+The `externalLink` special variable becomes a clickable link in the notification record, so answering the call puts you one tap from the chart. The mechanics of TradingView alerts are covered in detail in [TradingView call notifications](/en/blog/tradingview-call-notifications) and [stock price alerts with TradingView](/en/blog/stock-price-alerts-tradingview-echobell); the only thing that changes for overnight trading is which alerts you point at a Calling channel.
+
+If your broker, exchange or risk system only sends email, every Echobell channel can have its own address, so a single forwarding rule converts those messages into calls ([email triggers](/en/docs/email-trigger)). Email triggers expose `from`, `to`, `subject`, `text` and `html` as variables, so you can filter on a subject line without parsing anything.
+
+### Step 3 — Fence the channel to the session and the events you mean
+
+**This is the step that decides whether the channel stays useful.** Echobell [conditions](/en/docs/conditions) evaluate the same variables your templates use, so require both a real event and the right window:
+
+```
+actionable == true && hour >= 2 && hour < 9
+```
+
+The Night Session runs 21:00–04:00 ET, which is 02:00–09:00 UTC while the US is on Eastern Standard Time. Echobell's time variables are UTC only and do not follow US daylight saving, so during EDT the same session is 01:00–08:00 UTC. Either widen the window to `hour >= 1 && hour < 9` and accept an hour of slack, or edit the condition twice a year. Pretending this is automatic would just cause a missed alert in March.
+
+More recipes for time-fenced channels are in [time-window notifications with UTC conditions](/en/blog/time-window-notifications-using-utc-conditions).
+
+### Step 4 — Test it asleep, not awake
+
+Trigger the channel with `curl` while Do Not Disturb is actually on, on the phone that will actually be on the nightstand:
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{"ticker":"TEST","event":"stop level breached","price":"182.40","level":"182.50","session":"night","actionable":true}'
+```
+
+Enable **Retry Failed Call** in the app so a call that fails once is attempted again. An untested escalation path is an assumption, and you will be testing it for the first time on the night it matters.
+
+## Does a faster alert make overnight trading safe?
+
+**No, and this is the most important limitation in this article.** Waking up faster does not change what you are waking up into.
+
+Both the SEC and FINRA are explicit about what extended-hours sessions look like. The SEC's investor bulletin lists lack of liquidity, price volatility, uncertain prices, unlinked markets, news announcements, larger quote spreads, different order handling rules, the requirement of limit orders, and order time limits ([SEC investor bulletin](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-42)). FINRA Rule 2265 requires members to disclose six of these to customers before allowing extended-hours trading at all: lower liquidity, higher volatility, changing prices, unlinked markets, news announcements, and wider spreads ([FINRA](https://www.finra.org/rules-guidance/rulebooks/finra-rules/2265)).
+
+Read that list as a design constraint. A phone call at 03:15 delivers you into a session with wider spreads and less depth than the one you are used to, on limited functionality compared with the day, and Nasdaq's own framing is that overnight NMS trading happens "with more limited functionality than during the day." The 09:30–16:00 session still sets the primary reference prices. Reacting at 03:15 because an alert woke you is not automatically better than reacting at 09:30 with a plan — and a stop order you placed in advance beats both, because it does not require you to be conscious.
+
+The honest case for overnight call alerts is narrow: it is for the situations where doing nothing until morning is worse than acting in a thin market. That set is real, and for leveraged positions it is not small. It is just much smaller than "everything my alerts currently tell me."
+
+## What Echobell does not do
+
+- **It does not trade.** No orders, no stops, no auto-close. It rings your phone; every action is still yours, in your broker or exchange.
+- **It is not a market data source.** Echobell delivers what your alert source sends it. Price accuracy, latency and session tagging are TradingView's, your broker's, or your bot's responsibility.
+- **It has no escalation policies or acknowledgement.** There is no "if nobody answers in five minutes, call someone else," and no on-call rotation. It calls the subscribers of a channel. For rotations and acknowledgement tracking you need an incident platform — see [Opsgenie alternatives](/en/blog/opsgenie-end-of-life-alternatives).
+- **It cannot guarantee delivery.** A call depends on push infrastructure, the network, and a charged phone. Treat it as the layer that shortens the gap between an event and your attention, not as a control you can bet a position on.
+- **It does not track local time.** All built-in time variables are UTC. Session windows that shift with daylight saving need manual attention twice a year.
+
+## FAQ
+
+### Is 6 December 2026 a certainty?
+
+No. The SEC's approval on 10 April 2026 is real, but overnight trading still requires the Equity Data Plans to confirm they can disseminate quote and trade data through the Night Session, and a further Nasdaq rule filing confirming readiness. Nasdaq describes 6 December as a projected launch. The practical response is to build alerting that works whenever it starts, rather than waiting for a date to be locked.
+
+### I trade crypto, not equities. Does any of this apply?
+
+The market-structure change applies to US equities, but the alerting problem is one crypto traders already have — and CME's regulated crypto futures and options have been trading 24/7 since 29 May 2026, so the same continuous-session problem now exists inside traditional venues too. If you carry leverage, start with [crypto liquidation alerts](/en/blog/crypto-liquidation-alerts).
+
+### Won't a Calling channel just become the new noise?
+
+It will if you skip the conditions. The realistic target is a channel that rings a handful of times a month, not nightly. If it rings more often than that, the threshold is wrong — either the level you are alerting on is not really a decision point, or you should be using a resting order instead of a human at 03:00.
+
+### Can I have different alerts during the day and overnight?
+
+Yes, and this is the cleanest pattern: two channels fed by the same alert source. Point routine alerts at a Time Sensitive channel with no time condition, and a second Calling channel with a Night Session condition and a much stricter content filter. The same webhook payload can go to both.
+
+### What about the 20:00–21:00 ET maintenance hour?
+
+Nothing trades on Nasdaq then; the exchange uses it for maintenance, testing and corporate actions. If your alert source is still firing during that window, it is reporting stale or off-exchange data, and that is worth investigating rather than alerting on.
+
+### Can my team get the same overnight alert?
+
+Yes. Share the channel and every subscriber receives the trigger, each choosing their own notification type. A desk can put the person actually on watch at Calling and everyone else at Time Sensitive, without duplicating the integration.
+
+### Is my alert data private?
+
+Echobell stores notification content and history on your device, keeping only accounts, channels and subscriptions on the server ([privacy model](/en/docs/features)). Even so, send the minimum: a ticker and a level, with `externalLink` pointing at the chart or position, rather than your full strategy in a notification body.
+
+### Does this work on Android?
+
+Yes. Echobell is available on iOS and on Android via Google Play ([Android release](/en/blog/echobell-android-release)). Call-style alert behaviour differs between the platforms, so test on the device that will actually be next to you at night.
+
+---
+
+## Related
+
+- [Get TradingView alerts as phone calls](/en/blog/tradingview-call-notifications)
+- [Stock price alerts with TradingView and Echobell](/en/blog/stock-price-alerts-tradingview-echobell)
+- [Crypto liquidation alerts](/en/blog/crypto-liquidation-alerts)
+- [Time-window notifications with UTC conditions](/en/blog/time-window-notifications-using-utc-conditions)
+- [How to bypass iOS Focus Mode for critical alerts](/en/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Webhook integration guide](/en/docs/webhook)
+- [Conditions guide](/en/docs/conditions)

@@ -1,0 +1,178 @@
+---
+title: "隔夜交易告警：12 月 6 日起，市场不再收盘"
+description: "2026 年 12 月 6 日起美股进入 23 小时交易日，CME 加密衍生品自 5 月起已 24/7 不间断。本文讲清如何用 Echobell 把隔夜行情告警变成一通响铃的电话，以及更响的告警仍然解决不了什么。"
+date: 2026-08-14
+author: Nooc
+authorAvatarLink: /images/avatars/nooc.webp
+authorLink: https://nooc.me
+tags:
+  - 隔夜交易告警
+  - 盘后交易
+  - 23/5 交易
+  - 交易告警
+  - 电话告警
+---
+
+# 当市场不再收盘，你的告警必须能把你叫醒
+
+在美股存在的绝大部分时间里，收盘钟声是一道你从来不需要配置的风控。持仓在夜里被冻结，开盘跳空可能伤到你，但凌晨三点不会有任何东西朝你的反方向走。**2026 年 12 月 6 日**起，这句话不再成立——而大多数交易者手上的告警设置（一条静音推送、一封邮件、图标上的一个小红点）都是为一个会收盘的市场设计的。本文讲清如何用 [Echobell](https://apps.apple.com/app/apple-store/id6743597198?pt=128151925&ct=blog-overnight-trading-alerts-zh&mt=8) 让真正重要的隔夜告警响起来，同时诚实说明这件事解决了什么、又解决不了什么。
+
+底层管道已经铺好。DTCC 旗下的美国全国证券清算公司（NSCC）已于 **2026 年 6 月 29 日**上线 24x5 清算，运行时间为周日 20:00 ET 至周五 20:00 ET，用于支持交易所与 ATS 的隔夜交易（[DTCC](https://www.dtcc.com/news/2026/june/29/nscc-now-live-with-clearing-hours-extended)、[Traders Magazine](https://www.tradersmagazine.com/xtra/dtccs-nscc-extends-clearing-hours-to-24x5/)）。而在衍生品市场，这件事已经发生了：CME Group 的加密货币期货与期权自 **2026 年 5 月 29 日**起 24/7 交易，首个周末成交超过 7,200 手合约，名义规模约 5,000 万美元（[CME Group](https://www.cmegroup.com/media-room/press-releases/2026/6/01/cme_group_announceslaunchof247cryptocurrencyfuturesandoptionstra.html)）。
+
+## 2026 年 12 月 6 日究竟会发生什么变化？
+
+**美股会新增一个夜盘时段，市场每天只休市一小时，而不是十六小时。** SEC 已于 **2026 年 4 月 10 日**批准纳斯达克的方案，覆盖全部 NMS 股票与部分交易所交易产品（[Troutman Pepper Locke](https://www.troutman.com/insights/nasdaq-23-hour-equity-trading-proposal-approved-by-sec.html)、[Alston & Bird](https://www.alston.com/en/insights/publications/2026/05/looking-ahead-to-nasdaqs-extended-trading-hours)、[联邦公报文件](https://www.federalregister.gov/documents/2026/01/13/2026-00416/self-regulatory-organizations-the-nasdaq-stock-market-llc-notice-of-filing-of-proposed-rule-change)）。
+
+| 场所 | 变成什么样 | 时间 |
+| --- | --- | --- |
+| 纳斯达克 | 日盘 04:00–20:00 ET，夜盘 21:00–04:00 ET，周日夜间至周四夜间 | 目标 2026 年 12 月 6 日 |
+| 24X National Exchange | 首家获 SEC 批准的 23/5 交易所；在现有 04:00–20:00 ET 时段外新增 21:00–04:00 ET 隔夜时段 | 目标实施日 2026 年 12 月 6 日（周日） |
+| DTCC / NSCC | 清算时间为周日 20:00 ET 至周五 20:00 ET | 2026 年 6 月 29 日已上线 |
+| CME Group 加密期货与期权 | 连续交易，含周末 | 2026 年 5 月 29 日已上线 |
+
+20:00 至 21:00 ET 之间那一小时空档不是留给交易者休息的。纳斯达克用它来做维护、测试和公司行动处理；24X 对自家对应休市窗口的描述是「为确保交易清算系统维护、运营处理以及向下一交易日的过渡」（[24X](https://equities.24exchange.com/overnight-trading-faqs)）。
+
+从批准到落地之间还有两个条件，把它说清楚才算诚实：股票数据计划方需确认自己能够在夜盘期间整合并分发报价与成交数据，随后纳斯达克还需再提交一份规则变更文件确认各方就绪。纳斯达克 CEO Adena Friedman 的说法是：「预计 2026 年 12 月 6 日上线，我们很兴奋能为受监管市场的运作方式立下新标准」（[Markets Media](https://www.marketsmedia.com/nasdaq-aims-to-debut-23-5-trading-on-6-december-2026/)）。这句话里，「预计」两个字是有分量的。请把你的告警体系搭成不依赖具体日期的样子。
+
+## 为什么 23 小时市场会让你现有的告警失效？
+
+**因为你在用的每一个告警通道，都是按「你睡觉时什么都不会发生」这个前提调好的。** 正是这个前提，让静音通知看起来足够用。
+
+想一想凌晨三点触发的一条价格告警，在你现在的设置里会怎样：TradingView 的推送落在一台开着「勿扰模式」的手机上；邮件躺到早上才被看到；Discord 的 webhook 发进了一个没人盯着的频道。这些通道都没有出故障——它们都正确地把消息投递给了一个正在睡觉的人。以前市场那时候是关着的，所以无所谓。
+
+成交量不会一夜之间翻转，装作会翻转是不诚实的：目前约 **2%** 的纳斯达克成交量发生在常规时段之外，Friedman 本人也把广泛采用描述为「自然的下一步，但要形成较高渗透率还需要时间」（[Markets Media](https://www.marketsmedia.com/nasdaq-aims-to-debut-23-5-trading-on-6-december-2026/)）。风险并不在于夜盘会变得拥挤，恰恰相反——风险在于一个流动性稀薄的时段里，一条新闻就能把你的持仓推得比白天更远，而没有人在看。
+
+## 哪些隔夜事件真的值得一通电话？
+
+**很少，而「够狠」正是这里全部的功夫所在。** 凌晨三点的一通电话要花掉你真实的睡眠，所以只把它花在「醒着能改变结果」的地方。
+
+1. **持仓触及你会采取行动的价位。** 不是「价格动了」，而是止损区间、保证金阈值，或者你早已想好该怎么做的那个位置。如果你不会为它打开电脑，它就不配打电话。
+2. **有硬性时限的风控触发。** 24/7 加密场所上逼近强平的保证金率是最清楚的例子，因为那个时钟不由你控制——具体做法见[加密强平告警](/blog/crypto-liquidation-alerts)。
+3. **你自己的自动化挂了。** 一个在凌晨两点死掉的交易机器人，在一个不再收盘的市场里，会有七小时什么都不做，而行情一直在变。
+
+其余的一切——成交回报、当日盈亏、自选股波动、回测跑完——都属于更安静的通道。Echobell 的三种[通知类型](/docs/notification)正是为这个切分而存在：**普通**用于留档，**时效性**用于「想尽快看到」，**通话**只留给上面那一小撮。如果你现在收到的告警已经多到看不完，先用[告警疲劳指南](/blog/fix-alert-fatigue-developer-guide)把这件事治好，再去加一个会响铃的通道。
+
+## 怎么把一条隔夜告警接到电话上？
+
+Echobell 把 webhook 或邮件变成一通会响铃、会震动的电话——它的行为和家人打来的电话一样，所以能穿透 iOS 专注模式与勿扰模式（见[绕过 iOS 专注模式](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)）。
+
+### 第一步 —— 建一个只做这一件事的「通话」频道
+
+在 App 里新建频道，把通知类型设为**通话**。用「要做的决定」而不是「数据」来命名它：「隔夜——立即处理」比「告警」好得多。从频道详情里复制 webhook 地址，形如 `https://hook.echobell.one/t/<channel-token>`。请把它当作密钥对待，因为任何拿到它的人都能让你的手机响（[Webhook 指南](/docs/webhook)）。
+
+模板要写成凌晨三点半梦半醒时、在锁屏上就能据以行动的样子：
+
+```
+标题：{{ticker}} {{event}} @ {{price}}
+正文：在 {{session}} 时段突破 {{level}} —— {{time}} UTC
+```
+
+`{{time}}`、`{{hour}}` 以及其他[系统时间变量](/docs/template)始终可用，且以 UTC 计算，无需你自己传。
+
+### 第二步 —— 把告警源指向这个频道
+
+在 TradingView 里把告警的 webhook 地址设为频道地址，消息体用 JSON。你发送的每一个字段都会变成一个模板变量：
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "event": "止损位被击穿",
+  "price": "{{close}}",
+  "level": "182.50",
+  "session": "night",
+  "actionable": true,
+  "externalLink": "https://www.tradingview.com/chart/"
+}
+```
+
+特殊变量 `externalLink` 会在通知记录里变成一个可点击的链接，这样接完电话你离图表只有一次点击。TradingView 告警的具体机制在 [TradingView 电话通知](/blog/tradingview-call-notifications)和[用 TradingView 做股价告警](/blog/stock-price-alerts-tradingview-echobell)里已有详解；隔夜交易唯一改变的，是你把哪些告警指向「通话」频道。
+
+如果你的券商、交易所或风控系统只会发邮件，Echobell 的每个频道都可以拥有独立邮箱地址，一条转发规则就能把这些邮件变成电话（[邮件触发](/docs/email-trigger)）。邮件触发会把 `from`、`to`、`subject`、`text`、`html` 暴露为变量，因此你不用解析任何东西就能按主题行过滤。
+
+### 第三步 —— 用条件把频道圈定在时段与事件上
+
+**这一步决定了这个频道最终有没有用。** Echobell [条件](/docs/conditions)使用与模板相同的变量，所以要同时要求「确实是个事件」和「确实在那个窗口里」：
+
+```
+actionable == true && hour >= 2 && hour < 9
+```
+
+夜盘是 21:00–04:00 ET，在美国东部标准时间（EST）下对应 UTC 的 02:00–09:00。Echobell 的时间变量只有 UTC，不跟随美国夏令时，因此在 EDT 期间同一时段是 UTC 01:00–08:00。要么把窗口放宽为 `hour >= 1 && hour < 9`、接受一小时的余量，要么一年手动改两次条件。假装这件事会自动完成，只会换来三月里的一次漏报。
+
+更多时间围栏的写法见[用 UTC 条件做时间窗通知](/blog/time-window-notifications-using-utc-conditions)。
+
+### 第四步 —— 在「睡着的状态」下测试，而不是醒着测
+
+在真正会放在床头的那台手机上、并且真的开着勿扰模式时，用 `curl` 触发一次：
+
+```bash
+curl -X POST https://hook.echobell.one/t/<channel-token> \
+  -H "Content-Type: application/json" \
+  -d '{"ticker":"TEST","event":"stop level breached","price":"182.40","level":"182.50","session":"night","actionable":true}'
+```
+
+在 App 中打开**重试失败呼叫**，让一次失败的来电能被再次尝试。未经测试的升级路径只是一个假设，而你会在它最要紧的那一夜第一次测试它。
+
+## 更快的告警能让隔夜交易变得安全吗？
+
+**不能，而这是全文最重要的一条限制。** 醒得更快，并不改变你醒来后面对的是什么。
+
+SEC 和 FINRA 对盘后时段的样子说得很清楚。SEC 的投资者公告列出的风险包括：流动性不足、价格波动、价格不确定、市场未互联、消息公告、报价价差更大、订单处理规则不同、必须使用限价单，以及订单有效期问题（[SEC 投资者公告](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-42)）。FINRA 规则 2265 要求会员在允许客户进行盘后交易之前，必须向其披露其中六项：流动性更低、波动更高、价格变化、市场未互联、消息公告、价差更宽（[FINRA](https://www.finra.org/rules-guidance/rulebooks/finra-rules/2265)）。
+
+请把这份清单当成设计约束来读。凌晨 3:15 的一通电话，会把你送进一个价差更宽、深度更浅的时段，功能也比白天受限——纳斯达克自己的表述就是隔夜 NMS 交易「功能比白天更为有限」。09:30–16:00 时段仍然是主要参考价格的形成场所。因为被告警叫醒而在 3:15 反应，未必比带着计划在 09:30 反应更好——而一张事先挂好的止损单比这两者都强，因为它不要求你保持清醒。
+
+隔夜电话告警的诚实理由是很窄的：它适用于「拖到早上比在稀薄市场里行动更糟」的那些情形。这个集合确实存在，对带杠杆的持仓来说也不算小。它只是比「我的告警现在告诉我的一切」小得多。
+
+## Echobell 做不到什么
+
+- **它不会交易。** 不下单、不设止损、不自动平仓。它让你的手机响，所有动作仍然由你在券商或交易所里完成。
+- **它不是行情数据源。** Echobell 只投递你的告警源发给它的内容。价格准确性、延迟与时段标记，是 TradingView、你的券商或你的机器人的责任。
+- **它没有升级策略与确认机制。** 没有「五分钟无人接听就呼叫下一个人」，也没有值班轮转。它只呼叫某个频道的订阅者。需要轮班与确认追踪，你需要的是事件管理平台——见 [Opsgenie 替代方案](/blog/opsgenie-end-of-life-alternatives)。
+- **它不能保证送达。** 一通电话依赖推送基础设施、网络和一部有电的手机。请把它当作缩短「事件发生」到「你注意到」之间距离的那一层，而不是可以押上仓位的控制手段。
+- **它不跟踪本地时间。** 所有内置时间变量都是 UTC。随夏令时移动的时段窗口，一年需要人工照看两次。
+
+## 常见问题
+
+### 2026 年 12 月 6 日是板上钉钉的吗？
+
+不是。SEC 在 2026 年 4 月 10 日的批准是真实的，但隔夜交易仍需股票数据计划方确认能在夜盘期间分发报价与成交数据，并需纳斯达克再提交一份确认就绪的规则文件。纳斯达克把 12 月 6 日描述为「预计」上线日。务实的做法是：把告警搭成无论何时开始都能用的样子，而不是等一个被锁定的日期。
+
+### 我做加密，不做美股，这些和我有关系吗？
+
+市场结构的变化针对美股，但告警上的问题加密交易者早就遇到了——而且 CME 受监管的加密期货与期权自 2026 年 5 月 29 日起已 24/7 交易，所以同样的「连续时段」问题现在也出现在传统场所内部。如果你带杠杆，请从[加密强平告警](/blog/crypto-liquidation-alerts)开始。
+
+### 「通话」频道会不会变成新的噪音？
+
+如果你跳过条件那一步，就会。现实的目标是一个每月响几次的频道，而不是每晚都响。如果它比这更频繁，说明阈值定错了——要么你告警的那个价位并不是真正的决策点，要么你应该挂一张挂单，而不是在凌晨三点用一个人。
+
+### 我能让白天和夜里走不同的告警吗？
+
+可以，而且这是最干净的做法：同一个告警源喂两个频道。常规告警指向一个没有时间条件的「时效性」频道；第二个「通话」频道加上夜盘时间条件和严格得多的内容过滤。同一份 webhook 载荷可以同时发给两者。
+
+### 20:00–21:00 ET 的维护窗口怎么处理？
+
+那段时间纳斯达克没有交易，交易所用它做维护、测试和公司行动。如果你的告警源在那个窗口里还在触发，说明它报的是陈旧数据或场外数据，那件事值得去查，而不值得为它告警。
+
+### 团队能收到同一条隔夜告警吗？
+
+可以。共享频道后，每位订阅者都会收到触发，并各自选择自己的通知类型。一个交易台可以让真正值守的人用「通话」，其他人用「时效性」，而无需重复搭建集成。
+
+### 我的告警数据私密吗？
+
+Echobell 把通知内容与历史记录存在你的设备上，服务器只保存账号、频道与订阅关系（[隐私模型](/docs/features)）。即便如此也请只发最少的信息：一个代码和一个价位，再用 `externalLink` 指向图表或持仓，而不是把整套策略写进通知正文。
+
+### 安卓能用吗？
+
+能。Echobell 同时提供 iOS 版与 Google Play 上的安卓版（见[安卓版发布](/blog/echobell-android-release)）。两个平台上电话式告警的行为存在差异，请在真正会放在你身边过夜的那台设备上测试。
+
+---
+
+## 相关阅读
+
+- [用 Echobell 接收 TradingView 电话通知](/blog/tradingview-call-notifications)
+- [用 TradingView 和 Echobell 做股价告警](/blog/stock-price-alerts-tradingview-echobell)
+- [加密强平告警](/blog/crypto-liquidation-alerts)
+- [用 UTC 条件做时间窗通知](/blog/time-window-notifications-using-utc-conditions)
+- [如何绕过 iOS 专注模式接收关键告警](/blog/how-to-bypass-ios-focus-mode-for-critical-alerts)
+- [Webhook 集成指南](/docs/webhook)
+- [条件指南](/docs/conditions)
